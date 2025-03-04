@@ -18,53 +18,29 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>compute.azure.com/v1api20220702 | Azure Service Operator</title>
-<meta name="description" content="compute.azure.com/v1api20220702 Package v1api20220702 contains API Schema definitions for the compute v1api20220702 API group
-Resource Types: APIVersion (string alias) Value Description &#34;2022-07-02&#34;
-ApiErrorBase_STATUS (Appears on:ApiError_STATUS) Api error base.
-Field Description code string Code: The error code.
-message string Message: The error message.
-target string Target: The target of the particular error.
-ApiError_STATUS (Appears on:DiskEncryptionSet_STATUS) Api error.
-Field Description code string Code: The error code.
-details []ApiErrorBase_STATUS Details: The Api error details">
+<meta name="description" content=" APIVersion Value Description &ldquo;2022-07-02&rdquo; DiskEncryptionSet Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/diskEncryptionSet.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}
+Used by: DiskEncryptionSetList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiskEncryptionSet_SpecOptional status DiskEncryptionSet_STATUSOptional DiskEncryptionSet_Spec Property Description Type activeKey The key vault key which is currently used by this disk encryption set. KeyForDiskEncryptionSetOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be. stringOptional encryptionType The type of key used to encrypt the data of the disk. DiskEncryptionSetTypeOptional federatedClientId Multi-tenant application client id to access key vault in a different tenant. Setting the value to &lsquo;None&rsquo; will clear the property. stringOptional federatedClientIdFromConfig Multi-tenant application client id to access key vault in a different tenant. Setting the value to &lsquo;None&rsquo; will clear the property. genruntime.ConfigMapReferenceOptional identity The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used to encrypt disks. EncryptionSetIdentityOptional location Resource location stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure DiskEncryptionSetOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired rotationToLatestKeyVersionEnabled Set this flag to true to enable auto-updating of this disk encryption set to the latest key version. boolOptional tags Resource tags map[string]stringOptional DiskEncryptionSet_STATUS Property Description Type activeKey The key vault key which is currently used by this disk encryption set. KeyForDiskEncryptionSet_STATUSOptional autoKeyRotationError The error that was encountered during auto-key rotation. If an error is present, then auto-key rotation will not be attempted until the error on this disk encryption set is fixed. ApiError_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional encryptionType The type of key used to encrypt the data of the disk. DiskEncryptionSetType_STATUSOptional federatedClientId Multi-tenant application client id to access key vault in a different tenant. Setting the value to &lsquo;None&rsquo; will clear the property. stringOptional id Resource Id stringOptional identity The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used to encrypt disks. EncryptionSetIdentity_STATUSOptional lastKeyRotationTimestamp The time when the active key of this disk encryption set was updated. stringOptional location Resource location stringOptional name Resource name stringOptional previousKeys A readonly collection of key vault keys previously used by this disk encryption set while a key rotation is in progress. It will be empty if there is no ongoing key rotation. KeyForDiskEncryptionSet_STATUS[]Optional provisioningState The disk encryption set provisioning state. stringOptional rotationToLatestKeyVersionEnabled Set this flag to true to enable auto-updating of this disk encryption set to the latest key version. boolOptional tags Resource tags map[string]stringOptional type Resource type stringOptional DiskEncryptionSetList Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/diskEncryptionSet.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/compute/v1api20220702/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="compute.azure.com/v1api20220702">
-  <meta property="og:description" content="compute.azure.com/v1api20220702 Package v1api20220702 contains API Schema definitions for the compute v1api20220702 API group
-Resource Types: APIVersion (string alias) Value Description &#34;2022-07-02&#34;
-ApiErrorBase_STATUS (Appears on:ApiError_STATUS) Api error base.
-Field Description code string Code: The error code.
-message string Message: The error message.
-target string Target: The target of the particular error.
-ApiError_STATUS (Appears on:DiskEncryptionSet_STATUS) Api error.
-Field Description code string Code: The error code.
-details []ApiErrorBase_STATUS Details: The Api error details">
+  <meta property="og:description" content=" APIVersion Value Description “2022-07-02” DiskEncryptionSet Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/diskEncryptionSet.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}
+Used by: DiskEncryptionSetList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiskEncryptionSet_SpecOptional status DiskEncryptionSet_STATUSOptional DiskEncryptionSet_Spec Property Description Type activeKey The key vault key which is currently used by this disk encryption set. KeyForDiskEncryptionSetOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional encryptionType The type of key used to encrypt the data of the disk. DiskEncryptionSetTypeOptional federatedClientId Multi-tenant application client id to access key vault in a different tenant. Setting the value to ‘None’ will clear the property. stringOptional federatedClientIdFromConfig Multi-tenant application client id to access key vault in a different tenant. Setting the value to ‘None’ will clear the property. genruntime.ConfigMapReferenceOptional identity The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used to encrypt disks. EncryptionSetIdentityOptional location Resource location stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure DiskEncryptionSetOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired rotationToLatestKeyVersionEnabled Set this flag to true to enable auto-updating of this disk encryption set to the latest key version. boolOptional tags Resource tags map[string]stringOptional DiskEncryptionSet_STATUS Property Description Type activeKey The key vault key which is currently used by this disk encryption set. KeyForDiskEncryptionSet_STATUSOptional autoKeyRotationError The error that was encountered during auto-key rotation. If an error is present, then auto-key rotation will not be attempted until the error on this disk encryption set is fixed. ApiError_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional encryptionType The type of key used to encrypt the data of the disk. DiskEncryptionSetType_STATUSOptional federatedClientId Multi-tenant application client id to access key vault in a different tenant. Setting the value to ‘None’ will clear the property. stringOptional id Resource Id stringOptional identity The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used to encrypt disks. EncryptionSetIdentity_STATUSOptional lastKeyRotationTimestamp The time when the active key of this disk encryption set was updated. stringOptional location Resource location stringOptional name Resource name stringOptional previousKeys A readonly collection of key vault keys previously used by this disk encryption set while a key rotation is in progress. It will be empty if there is no ongoing key rotation. KeyForDiskEncryptionSet_STATUS[]Optional provisioningState The disk encryption set provisioning state. stringOptional rotationToLatestKeyVersionEnabled Set this flag to true to enable auto-updating of this disk encryption set to the latest key version. boolOptional tags Resource tags map[string]stringOptional type Resource type stringOptional DiskEncryptionSetList Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/diskEncryptionSet.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="reference">
 
   <meta itemprop="name" content="compute.azure.com/v1api20220702">
-  <meta itemprop="description" content="compute.azure.com/v1api20220702 Package v1api20220702 contains API Schema definitions for the compute v1api20220702 API group
-Resource Types: APIVersion (string alias) Value Description &#34;2022-07-02&#34;
-ApiErrorBase_STATUS (Appears on:ApiError_STATUS) Api error base.
-Field Description code string Code: The error code.
-message string Message: The error message.
-target string Target: The target of the particular error.
-ApiError_STATUS (Appears on:DiskEncryptionSet_STATUS) Api error.
-Field Description code string Code: The error code.
-details []ApiErrorBase_STATUS Details: The Api error details">
-  <meta itemprop="wordCount" content="1557">
+  <meta itemprop="description" content=" APIVersion Value Description “2022-07-02” DiskEncryptionSet Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/diskEncryptionSet.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}
+Used by: DiskEncryptionSetList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiskEncryptionSet_SpecOptional status DiskEncryptionSet_STATUSOptional DiskEncryptionSet_Spec Property Description Type activeKey The key vault key which is currently used by this disk encryption set. KeyForDiskEncryptionSetOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional encryptionType The type of key used to encrypt the data of the disk. DiskEncryptionSetTypeOptional federatedClientId Multi-tenant application client id to access key vault in a different tenant. Setting the value to ‘None’ will clear the property. stringOptional federatedClientIdFromConfig Multi-tenant application client id to access key vault in a different tenant. Setting the value to ‘None’ will clear the property. genruntime.ConfigMapReferenceOptional identity The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used to encrypt disks. EncryptionSetIdentityOptional location Resource location stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure DiskEncryptionSetOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired rotationToLatestKeyVersionEnabled Set this flag to true to enable auto-updating of this disk encryption set to the latest key version. boolOptional tags Resource tags map[string]stringOptional DiskEncryptionSet_STATUS Property Description Type activeKey The key vault key which is currently used by this disk encryption set. KeyForDiskEncryptionSet_STATUSOptional autoKeyRotationError The error that was encountered during auto-key rotation. If an error is present, then auto-key rotation will not be attempted until the error on this disk encryption set is fixed. ApiError_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional encryptionType The type of key used to encrypt the data of the disk. DiskEncryptionSetType_STATUSOptional federatedClientId Multi-tenant application client id to access key vault in a different tenant. Setting the value to ‘None’ will clear the property. stringOptional id Resource Id stringOptional identity The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used to encrypt disks. EncryptionSetIdentity_STATUSOptional lastKeyRotationTimestamp The time when the active key of this disk encryption set was updated. stringOptional location Resource location stringOptional name Resource name stringOptional previousKeys A readonly collection of key vault keys previously used by this disk encryption set while a key rotation is in progress. It will be empty if there is no ongoing key rotation. KeyForDiskEncryptionSet_STATUS[]Optional provisioningState The disk encryption set provisioning state. stringOptional rotationToLatestKeyVersionEnabled Set this flag to true to enable auto-updating of this disk encryption set to the latest key version. boolOptional tags Resource tags map[string]stringOptional type Resource type stringOptional DiskEncryptionSetList Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/diskEncryptionSet.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}">
+  <meta itemprop="wordCount" content="1734">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="compute.azure.com/v1api20220702">
-  <meta name="twitter:description" content="compute.azure.com/v1api20220702 Package v1api20220702 contains API Schema definitions for the compute v1api20220702 API group
-Resource Types: APIVersion (string alias) Value Description &#34;2022-07-02&#34;
-ApiErrorBase_STATUS (Appears on:ApiError_STATUS) Api error base.
-Field Description code string Code: The error code.
-message string Message: The error message.
-target string Target: The target of the particular error.
-ApiError_STATUS (Appears on:DiskEncryptionSet_STATUS) Api error.
-Field Description code string Code: The error code.
-details []ApiErrorBase_STATUS Details: The Api error details">
+  <meta name="twitter:description" content=" APIVersion Value Description “2022-07-02” DiskEncryptionSet Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/diskEncryptionSet.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}
+Used by: DiskEncryptionSetList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiskEncryptionSet_SpecOptional status DiskEncryptionSet_STATUSOptional DiskEncryptionSet_Spec Property Description Type activeKey The key vault key which is currently used by this disk encryption set. KeyForDiskEncryptionSetOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional encryptionType The type of key used to encrypt the data of the disk. DiskEncryptionSetTypeOptional federatedClientId Multi-tenant application client id to access key vault in a different tenant. Setting the value to ‘None’ will clear the property. stringOptional federatedClientIdFromConfig Multi-tenant application client id to access key vault in a different tenant. Setting the value to ‘None’ will clear the property. genruntime.ConfigMapReferenceOptional identity The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used to encrypt disks. EncryptionSetIdentityOptional location Resource location stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure DiskEncryptionSetOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired rotationToLatestKeyVersionEnabled Set this flag to true to enable auto-updating of this disk encryption set to the latest key version. boolOptional tags Resource tags map[string]stringOptional DiskEncryptionSet_STATUS Property Description Type activeKey The key vault key which is currently used by this disk encryption set. KeyForDiskEncryptionSet_STATUSOptional autoKeyRotationError The error that was encountered during auto-key rotation. If an error is present, then auto-key rotation will not be attempted until the error on this disk encryption set is fixed. ApiError_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional encryptionType The type of key used to encrypt the data of the disk. DiskEncryptionSetType_STATUSOptional federatedClientId Multi-tenant application client id to access key vault in a different tenant. Setting the value to ‘None’ will clear the property. stringOptional id Resource Id stringOptional identity The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used to encrypt disks. EncryptionSetIdentity_STATUSOptional lastKeyRotationTimestamp The time when the active key of this disk encryption set was updated. stringOptional location Resource location stringOptional name Resource name stringOptional previousKeys A readonly collection of key vault keys previously used by this disk encryption set while a key rotation is in progress. It will be empty if there is no ongoing key rotation. KeyForDiskEncryptionSet_STATUS[]Optional provisioningState The disk encryption set provisioning state. stringOptional rotationToLatestKeyVersionEnabled Set this flag to true to enable auto-updating of this disk encryption set to the latest key version. boolOptional tags Resource tags map[string]stringOptional type Resource type stringOptional DiskEncryptionSetList Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/diskEncryptionSet.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}">
 
 
 
@@ -263,403 +239,403 @@ details []ApiErrorBase_STATUS Details: The Api error details">
   <a href="/azure-service-operator/reference/alertsmanagement/" title="AlertsManagement Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencealertsmanagement"><span class="">AlertsManagement</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencealertsmanagementv1api20210401-li">
-  <a href="/azure-service-operator/reference/alertsmanagement/v1api20210401/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencealertsmanagementv1api20210401"><span class="">alertsmanagement.azure.com/v1api20210401</span></a>
+  <a href="/azure-service-operator/reference/alertsmanagement/v1api20210401/" title="alertsmanagement.azure.com/v1api20210401" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencealertsmanagementv1api20210401"><span class="">v1api20210401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencealertsmanagementv1api20230301-li">
-  <a href="/azure-service-operator/reference/alertsmanagement/v1api20230301/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencealertsmanagementv1api20230301"><span class="">alertsmanagement.azure.com/v1api20230301</span></a>
+  <a href="/azure-service-operator/reference/alertsmanagement/v1api20230301/" title="alertsmanagement.azure.com/v1api20230301" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencealertsmanagementv1api20230301"><span class="">v1api20230301</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceapimanagement-li">
   <a href="/azure-service-operator/reference/apimanagement/" title="ApiManagement Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceapimanagement"><span class="">ApiManagement</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceapimanagementv1api20220801-li">
-  <a href="/azure-service-operator/reference/apimanagement/v1api20220801/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceapimanagementv1api20220801"><span class="">apimanagement.azure.com/v1api20220801</span></a>
+  <a href="/azure-service-operator/reference/apimanagement/v1api20220801/" title="apimanagement.azure.com/v1api20220801" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceapimanagementv1api20220801"><span class="">v1api20220801</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceapimanagementv1api20230501preview-li">
-  <a href="/azure-service-operator/reference/apimanagement/v1api20230501preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceapimanagementv1api20230501preview"><span class="">apimanagement.azure.com/v1api20230501preview</span></a>
+  <a href="/azure-service-operator/reference/apimanagement/v1api20230501preview/" title="apimanagement.azure.com/v1api20230501preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceapimanagementv1api20230501preview"><span class="">v1api20230501preview</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceapp-li">
   <a href="/azure-service-operator/reference/app/" title="App Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceapp"><span class="">App</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceappv1api20240301-li">
-  <a href="/azure-service-operator/reference/app/v1api20240301/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceappv1api20240301"><span class="">app.azure.com/v1api20240301</span></a>
+  <a href="/azure-service-operator/reference/app/v1api20240301/" title="app.azure.com/v1api20240301" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceappv1api20240301"><span class="">v1api20240301</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceappconfiguration-li">
   <a href="/azure-service-operator/reference/appconfiguration/" title="AppConfiguration Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceappconfiguration"><span class="">AppConfiguration</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceappconfigurationv1api20220501-li">
-  <a href="/azure-service-operator/reference/appconfiguration/v1api20220501/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceappconfigurationv1api20220501"><span class="">appconfiguration.azure.com/v1api20220501</span></a>
+  <a href="/azure-service-operator/reference/appconfiguration/v1api20220501/" title="appconfiguration.azure.com/v1api20220501" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceappconfigurationv1api20220501"><span class="">v1api20220501</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceauthorization-li">
   <a href="/azure-service-operator/reference/authorization/" title="Authorization Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceauthorization"><span class="">Authorization</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceauthorizationv1api20200801preview-li">
-  <a href="/azure-service-operator/reference/authorization/v1api20200801preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceauthorizationv1api20200801preview"><span class="">authorization.azure.com/v1api20200801preview</span></a>
+  <a href="/azure-service-operator/reference/authorization/v1api20200801preview/" title="authorization.azure.com/v1api20200801preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceauthorizationv1api20200801preview"><span class="">v1api20200801preview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceauthorizationv1api20220401-li">
-  <a href="/azure-service-operator/reference/authorization/v1api20220401/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceauthorizationv1api20220401"><span class="">authorization.azure.com/v1api20220401</span></a>
+  <a href="/azure-service-operator/reference/authorization/v1api20220401/" title="authorization.azure.com/v1api20220401" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceauthorizationv1api20220401"><span class="">v1api20220401</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencebatch-li">
   <a href="/azure-service-operator/reference/batch/" title="Batch Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencebatch"><span class="">Batch</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencebatchv1api20210101-li">
-  <a href="/azure-service-operator/reference/batch/v1api20210101/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencebatchv1api20210101"><span class="">batch.azure.com/v1api20210101</span></a>
+  <a href="/azure-service-operator/reference/batch/v1api20210101/" title="batch.azure.com/v1api20210101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencebatchv1api20210101"><span class="">v1api20210101</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecache-li">
   <a href="/azure-service-operator/reference/cache/" title="Cache Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecache"><span class="">Cache</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20201201-li">
-  <a href="/azure-service-operator/reference/cache/v1api20201201/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20201201"><span class="">cache.azure.com/v1api20201201</span></a>
+  <a href="/azure-service-operator/reference/cache/v1api20201201/" title="cache.azure.com/v1api20201201" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20201201"><span class="">v1api20201201</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20210301-li">
-  <a href="/azure-service-operator/reference/cache/v1api20210301/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20210301"><span class="">cache.azure.com/v1api20210301</span></a>
+  <a href="/azure-service-operator/reference/cache/v1api20210301/" title="cache.azure.com/v1api20210301" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20210301"><span class="">v1api20210301</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20230401-li">
-  <a href="/azure-service-operator/reference/cache/v1api20230401/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230401"><span class="">cache.azure.com/v1api20230401</span></a>
+  <a href="/azure-service-operator/reference/cache/v1api20230401/" title="cache.azure.com/v1api20230401" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230401"><span class="">v1api20230401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20230701-li">
-  <a href="/azure-service-operator/reference/cache/v1api20230701/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230701"><span class="">cache.azure.com/v1api20230701</span></a>
+  <a href="/azure-service-operator/reference/cache/v1api20230701/" title="cache.azure.com/v1api20230701" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230701"><span class="">v1api20230701</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20230801-li">
-  <a href="/azure-service-operator/reference/cache/v1api20230801/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230801"><span class="">cache.azure.com/v1api20230801</span></a>
+  <a href="/azure-service-operator/reference/cache/v1api20230801/" title="cache.azure.com/v1api20230801" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230801"><span class="">v1api20230801</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecdn-li">
   <a href="/azure-service-operator/reference/cdn/" title="Cdn Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecdn"><span class="">Cdn</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecdnv1api20210601-li">
-  <a href="/azure-service-operator/reference/cdn/v1api20210601/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecdnv1api20210601"><span class="">cdn.azure.com/v1api20210601</span></a>
+  <a href="/azure-service-operator/reference/cdn/v1api20210601/" title="cdn.azure.com/v1api20210601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecdnv1api20210601"><span class="">v1api20210601</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecdnv1api20230501-li">
-  <a href="/azure-service-operator/reference/cdn/v1api20230501/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecdnv1api20230501"><span class="">cdn.azure.com/v1api20230501</span></a>
+  <a href="/azure-service-operator/reference/cdn/v1api20230501/" title="cdn.azure.com/v1api20230501" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecdnv1api20230501"><span class="">v1api20230501</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreferencecompute-li">
   <a href="/azure-service-operator/reference/compute/" title="Compute Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecompute"><span class="">Compute</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencecomputev1api20200930-li">
-  <a href="/azure-service-operator/reference/compute/v1api20200930/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20200930"><span class="">compute.azure.com/v1api20200930</span></a>
+  <a href="/azure-service-operator/reference/compute/v1api20200930/" title="compute.azure.com/v1api20200930" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20200930"><span class="">v1api20200930</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencecomputev1api20201201-li">
-  <a href="/azure-service-operator/reference/compute/v1api20201201/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20201201"><span class="">compute.azure.com/v1api20201201</span></a>
+  <a href="/azure-service-operator/reference/compute/v1api20201201/" title="compute.azure.com/v1api20201201" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20201201"><span class="">v1api20201201</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencecomputev1api20210701-li">
-  <a href="/azure-service-operator/reference/compute/v1api20210701/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20210701"><span class="">compute.azure.com/v1api20210701</span></a>
+  <a href="/azure-service-operator/reference/compute/v1api20210701/" title="compute.azure.com/v1api20210701" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20210701"><span class="">v1api20210701</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencecomputev1api20220301-li">
-  <a href="/azure-service-operator/reference/compute/v1api20220301/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20220301"><span class="">compute.azure.com/v1api20220301</span></a>
+  <a href="/azure-service-operator/reference/compute/v1api20220301/" title="compute.azure.com/v1api20220301" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20220301"><span class="">v1api20220301</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorreferencecomputev1api20220702-li">
-  <a href="/azure-service-operator/reference/compute/v1api20220702/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20220702"><span class="td-sidebar-nav-active-item">compute.azure.com/v1api20220702</span></a>
+  <a href="/azure-service-operator/reference/compute/v1api20220702/" title="compute.azure.com/v1api20220702" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20220702"><span class="td-sidebar-nav-active-item">v1api20220702</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencecomputev1api20240302-li">
-  <a href="/azure-service-operator/reference/compute/v1api20240302/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20240302"><span class="">compute.azure.com/v1api20240302</span></a>
+  <a href="/azure-service-operator/reference/compute/v1api20240302/" title="compute.azure.com/v1api20240302" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20240302"><span class="">v1api20240302</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerinstance-li">
   <a href="/azure-service-operator/reference/containerinstance/" title="ContainerInstance Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerinstance"><span class="">ContainerInstance</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerinstancev1api20211001-li">
-  <a href="/azure-service-operator/reference/containerinstance/v1api20211001/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerinstancev1api20211001"><span class="">containerinstance.azure.com/v1api20211001</span></a>
+  <a href="/azure-service-operator/reference/containerinstance/v1api20211001/" title="containerinstance.azure.com/v1api20211001" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerinstancev1api20211001"><span class="">v1api20211001</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerregistry-li">
   <a href="/azure-service-operator/reference/containerregistry/" title="ContainerRegistry Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerregistry"><span class="">ContainerRegistry</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerregistryv1api20210901-li">
-  <a href="/azure-service-operator/reference/containerregistry/v1api20210901/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerregistryv1api20210901"><span class="">containerregistry.azure.com/v1api20210901</span></a>
+  <a href="/azure-service-operator/reference/containerregistry/v1api20210901/" title="containerregistry.azure.com/v1api20210901" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerregistryv1api20210901"><span class="">v1api20210901</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerregistryv1api20230701-li">
-  <a href="/azure-service-operator/reference/containerregistry/v1api20230701/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerregistryv1api20230701"><span class="">containerregistry.azure.com/v1api20230701</span></a>
+  <a href="/azure-service-operator/reference/containerregistry/v1api20230701/" title="containerregistry.azure.com/v1api20230701" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerregistryv1api20230701"><span class="">v1api20230701</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerservice-li">
   <a href="/azure-service-operator/reference/containerservice/" title="ContainerService Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerservice"><span class="">ContainerService</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20210501-li">
-  <a href="/azure-service-operator/reference/containerservice/v1api20210501/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20210501"><span class="">containerservice.azure.com/v1api20210501</span></a>
+  <a href="/azure-service-operator/reference/containerservice/v1api20210501/" title="containerservice.azure.com/v1api20210501" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20210501"><span class="">v1api20210501</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20230201-li">
-  <a href="/azure-service-operator/reference/containerservice/v1api20230201/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20230201"><span class="">containerservice.azure.com/v1api20230201</span></a>
+  <a href="/azure-service-operator/reference/containerservice/v1api20230201/" title="containerservice.azure.com/v1api20230201" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20230201"><span class="">v1api20230201</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20230315preview-li">
-  <a href="/azure-service-operator/reference/containerservice/v1api20230315preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20230315preview"><span class="">containerservice.azure.com/v1api20230315preview</span></a>
+  <a href="/azure-service-operator/reference/containerservice/v1api20230315preview/" title="containerservice.azure.com/v1api20230315preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20230315preview"><span class="">v1api20230315preview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20231001-li">
-  <a href="/azure-service-operator/reference/containerservice/v1api20231001/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20231001"><span class="">containerservice.azure.com/v1api20231001</span></a>
+  <a href="/azure-service-operator/reference/containerservice/v1api20231001/" title="containerservice.azure.com/v1api20231001" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20231001"><span class="">v1api20231001</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20231102preview-li">
-  <a href="/azure-service-operator/reference/containerservice/v1api20231102preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20231102preview"><span class="">containerservice.azure.com/v1api20231102preview</span></a>
+  <a href="/azure-service-operator/reference/containerservice/v1api20231102preview/" title="containerservice.azure.com/v1api20231102preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20231102preview"><span class="">v1api20231102preview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20240402preview-li">
-  <a href="/azure-service-operator/reference/containerservice/v1api20240402preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20240402preview"><span class="">containerservice.azure.com/v1api20240402preview</span></a>
+  <a href="/azure-service-operator/reference/containerservice/v1api20240402preview/" title="containerservice.azure.com/v1api20240402preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20240402preview"><span class="">v1api20240402preview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20240901-li">
-  <a href="/azure-service-operator/reference/containerservice/v1api20240901/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20240901"><span class="">containerservice.azure.com/v1api20240901</span></a>
+  <a href="/azure-service-operator/reference/containerservice/v1api20240901/" title="containerservice.azure.com/v1api20240901" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20240901"><span class="">v1api20240901</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedatafactory-li">
   <a href="/azure-service-operator/reference/datafactory/" title="DataFactory Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedatafactory"><span class="">DataFactory</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedatafactoryv1api20180601-li">
-  <a href="/azure-service-operator/reference/datafactory/v1api20180601/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedatafactoryv1api20180601"><span class="">datafactory.azure.com/v1api20180601</span></a>
+  <a href="/azure-service-operator/reference/datafactory/v1api20180601/" title="datafactory.azure.com/v1api20180601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedatafactoryv1api20180601"><span class="">v1api20180601</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedataprotection-li">
   <a href="/azure-service-operator/reference/dataprotection/" title="DataProtection Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedataprotection"><span class="">DataProtection</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedataprotectionv1api20230101-li">
-  <a href="/azure-service-operator/reference/dataprotection/v1api20230101/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedataprotectionv1api20230101"><span class="">dataprotection.azure.com/v1api20230101</span></a>
+  <a href="/azure-service-operator/reference/dataprotection/v1api20230101/" title="dataprotection.azure.com/v1api20230101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedataprotectionv1api20230101"><span class="">v1api20230101</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedataprotectionv1api20231101-li">
-  <a href="/azure-service-operator/reference/dataprotection/v1api20231101/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedataprotectionv1api20231101"><span class="">dataprotection.azure.com/v1api20231101</span></a>
+  <a href="/azure-service-operator/reference/dataprotection/v1api20231101/" title="dataprotection.azure.com/v1api20231101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedataprotectionv1api20231101"><span class="">v1api20231101</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbformariadb-li">
   <a href="/azure-service-operator/reference/dbformariadb/" title="DBforMariaDB Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbformariadb"><span class="">DBforMariaDB</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformariadbv1api20180601-li">
-  <a href="/azure-service-operator/reference/dbformariadb/v1api20180601/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformariadbv1api20180601"><span class="">dbformariadb.azure.com/v1api20180601</span></a>
+  <a href="/azure-service-operator/reference/dbformariadb/v1api20180601/" title="dbformariadb.azure.com/v1api20180601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformariadbv1api20180601"><span class="">v1api20180601</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbformysql-li">
   <a href="/azure-service-operator/reference/dbformysql/" title="DBforMySQL Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbformysql"><span class="">DBforMySQL</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformysqlv1-li">
-  <a href="/azure-service-operator/reference/dbformysql/v1/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1"><span class="">dbformysql.azure.com/v1</span></a>
+  <a href="/azure-service-operator/reference/dbformysql/v1/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1"><span class="">dbformysql.azure.com/</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformysqlv1api20210501-li">
-  <a href="/azure-service-operator/reference/dbformysql/v1api20210501/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1api20210501"><span class="">dbformysql.azure.com/v1api20210501</span></a>
+  <a href="/azure-service-operator/reference/dbformysql/v1api20210501/" title="dbformysql.azure.com/v1api20210501" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1api20210501"><span class="">v1api20210501</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformysqlv1api20220101-li">
-  <a href="/azure-service-operator/reference/dbformysql/v1api20220101/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1api20220101"><span class="">dbformysql.azure.com/v1api20220101</span></a>
+  <a href="/azure-service-operator/reference/dbformysql/v1api20220101/" title="dbformysql.azure.com/v1api20220101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1api20220101"><span class="">v1api20220101</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformysqlv1api20230630-li">
-  <a href="/azure-service-operator/reference/dbformysql/v1api20230630/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1api20230630"><span class="">dbformysql.azure.com/v1api20230630</span></a>
+  <a href="/azure-service-operator/reference/dbformysql/v1api20230630/" title="dbformysql.azure.com/v1api20230630" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1api20230630"><span class="">v1api20230630</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformysqlv1api20231230-li">
-  <a href="/azure-service-operator/reference/dbformysql/v1api20231230/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1api20231230"><span class="">dbformysql.azure.com/v1api20231230</span></a>
+  <a href="/azure-service-operator/reference/dbformysql/v1api20231230/" title="dbformysql.azure.com/v1api20231230" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1api20231230"><span class="">v1api20231230</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbforpostgresql-li">
   <a href="/azure-service-operator/reference/dbforpostgresql/" title="DBforPostgreSQL Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbforpostgresql"><span class="">DBforPostgreSQL</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbforpostgresqlv1-li">
-  <a href="/azure-service-operator/reference/dbforpostgresql/v1/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1"><span class="">dbforpostgresql.azure.com/v1</span></a>
+  <a href="/azure-service-operator/reference/dbforpostgresql/v1/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1"><span class="">dbforpostgresql.azure.com/</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbforpostgresqlv1api20210601-li">
-  <a href="/azure-service-operator/reference/dbforpostgresql/v1api20210601/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1api20210601"><span class="">dbforpostgresql.azure.com/v1api20210601</span></a>
+  <a href="/azure-service-operator/reference/dbforpostgresql/v1api20210601/" title="dbforpostgresql.azure.com/v1api20210601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1api20210601"><span class="">v1api20210601</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbforpostgresqlv1api20220120preview-li">
-  <a href="/azure-service-operator/reference/dbforpostgresql/v1api20220120preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1api20220120preview"><span class="">dbforpostgresql.azure.com/v1api20220120preview</span></a>
+  <a href="/azure-service-operator/reference/dbforpostgresql/v1api20220120preview/" title="dbforpostgresql.azure.com/v1api20220120preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1api20220120preview"><span class="">v1api20220120preview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbforpostgresqlv1api20221201-li">
-  <a href="/azure-service-operator/reference/dbforpostgresql/v1api20221201/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1api20221201"><span class="">dbforpostgresql.azure.com/v1api20221201</span></a>
+  <a href="/azure-service-operator/reference/dbforpostgresql/v1api20221201/" title="dbforpostgresql.azure.com/v1api20221201" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1api20221201"><span class="">v1api20221201</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbforpostgresqlv1api20230601preview-li">
-  <a href="/azure-service-operator/reference/dbforpostgresql/v1api20230601preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1api20230601preview"><span class="">dbforpostgresql.azure.com/v1api20230601preview</span></a>
+  <a href="/azure-service-operator/reference/dbforpostgresql/v1api20230601preview/" title="dbforpostgresql.azure.com/v1api20230601preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1api20230601preview"><span class="">v1api20230601preview</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedevices-li">
   <a href="/azure-service-operator/reference/devices/" title="Devices Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedevices"><span class="">Devices</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedevicesv1api20210702-li">
-  <a href="/azure-service-operator/reference/devices/v1api20210702/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedevicesv1api20210702"><span class="">devices.azure.com/v1api20210702</span></a>
+  <a href="/azure-service-operator/reference/devices/v1api20210702/" title="devices.azure.com/v1api20210702" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedevicesv1api20210702"><span class="">v1api20210702</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedocumentdb-li">
   <a href="/azure-service-operator/reference/documentdb/" title="DocumentDB Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedocumentdb"><span class="">DocumentDB</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedocumentdbv1api20210515-li">
-  <a href="/azure-service-operator/reference/documentdb/v1api20210515/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedocumentdbv1api20210515"><span class="">documentdb.azure.com/v1api20210515</span></a>
+  <a href="/azure-service-operator/reference/documentdb/v1api20210515/" title="documentdb.azure.com/v1api20210515" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedocumentdbv1api20210515"><span class="">v1api20210515</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedocumentdbv1api20231115-li">
-  <a href="/azure-service-operator/reference/documentdb/v1api20231115/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedocumentdbv1api20231115"><span class="">documentdb.azure.com/v1api20231115</span></a>
+  <a href="/azure-service-operator/reference/documentdb/v1api20231115/" title="documentdb.azure.com/v1api20231115" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedocumentdbv1api20231115"><span class="">v1api20231115</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedocumentdbv1api20240815-li">
-  <a href="/azure-service-operator/reference/documentdb/v1api20240815/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedocumentdbv1api20240815"><span class="">documentdb.azure.com/v1api20240815</span></a>
+  <a href="/azure-service-operator/reference/documentdb/v1api20240815/" title="documentdb.azure.com/v1api20240815" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedocumentdbv1api20240815"><span class="">v1api20240815</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceeventgrid-li">
   <a href="/azure-service-operator/reference/eventgrid/" title="EventGrid Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceeventgrid"><span class="">EventGrid</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventgridv1api20200601-li">
-  <a href="/azure-service-operator/reference/eventgrid/v1api20200601/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventgridv1api20200601"><span class="">eventgrid.azure.com/v1api20200601</span></a>
+  <a href="/azure-service-operator/reference/eventgrid/v1api20200601/" title="eventgrid.azure.com/v1api20200601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventgridv1api20200601"><span class="">v1api20200601</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceeventhub-li">
   <a href="/azure-service-operator/reference/eventhub/" title="EventHub Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceeventhub"><span class="">EventHub</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventhubv1api20211101-li">
-  <a href="/azure-service-operator/reference/eventhub/v1api20211101/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventhubv1api20211101"><span class="">eventhub.azure.com/v1api20211101</span></a>
+  <a href="/azure-service-operator/reference/eventhub/v1api20211101/" title="eventhub.azure.com/v1api20211101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventhubv1api20211101"><span class="">v1api20211101</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventhubv1api20240101-li">
-  <a href="/azure-service-operator/reference/eventhub/v1api20240101/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventhubv1api20240101"><span class="">eventhub.azure.com/v1api20240101</span></a>
+  <a href="/azure-service-operator/reference/eventhub/v1api20240101/" title="eventhub.azure.com/v1api20240101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventhubv1api20240101"><span class="">v1api20240101</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencenetworkfrontdoor-li">
   <a href="/azure-service-operator/reference/network.frontdoor/" title="Frontdoor Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencenetworkfrontdoor"><span class="">Frontdoor</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkfrontdoorv1api20220501-li">
-  <a href="/azure-service-operator/reference/network.frontdoor/v1api20220501/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkfrontdoorv1api20220501"><span class="">network.frontdoor.azure.com/v1api20220501</span></a>
+  <a href="/azure-service-operator/reference/network.frontdoor/v1api20220501/" title="network.frontdoor.azure.com/v1api20220501" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkfrontdoorv1api20220501"><span class="">v1api20220501</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceinsights-li">
   <a href="/azure-service-operator/reference/insights/" title="Insights Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceinsights"><span class="">Insights</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20180301-li">
-  <a href="/azure-service-operator/reference/insights/v1api20180301/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20180301"><span class="">insights.azure.com/v1api20180301</span></a>
+  <a href="/azure-service-operator/reference/insights/v1api20180301/" title="insights.azure.com/v1api20180301" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20180301"><span class="">v1api20180301</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20180501preview-li">
-  <a href="/azure-service-operator/reference/insights/v1api20180501preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20180501preview"><span class="">insights.azure.com/v1api20180501preview</span></a>
+  <a href="/azure-service-operator/reference/insights/v1api20180501preview/" title="insights.azure.com/v1api20180501preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20180501preview"><span class="">v1api20180501preview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20200202-li">
-  <a href="/azure-service-operator/reference/insights/v1api20200202/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20200202"><span class="">insights.azure.com/v1api20200202</span></a>
+  <a href="/azure-service-operator/reference/insights/v1api20200202/" title="insights.azure.com/v1api20200202" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20200202"><span class="">v1api20200202</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20210501preview-li">
-  <a href="/azure-service-operator/reference/insights/v1api20210501preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20210501preview"><span class="">insights.azure.com/v1api20210501preview</span></a>
+  <a href="/azure-service-operator/reference/insights/v1api20210501preview/" title="insights.azure.com/v1api20210501preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20210501preview"><span class="">v1api20210501preview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20220615-li">
-  <a href="/azure-service-operator/reference/insights/v1api20220615/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20220615"><span class="">insights.azure.com/v1api20220615</span></a>
+  <a href="/azure-service-operator/reference/insights/v1api20220615/" title="insights.azure.com/v1api20220615" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20220615"><span class="">v1api20220615</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20221001-li">
-  <a href="/azure-service-operator/reference/insights/v1api20221001/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20221001"><span class="">insights.azure.com/v1api20221001</span></a>
+  <a href="/azure-service-operator/reference/insights/v1api20221001/" title="insights.azure.com/v1api20221001" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20221001"><span class="">v1api20221001</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20230101-li">
-  <a href="/azure-service-operator/reference/insights/v1api20230101/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20230101"><span class="">insights.azure.com/v1api20230101</span></a>
+  <a href="/azure-service-operator/reference/insights/v1api20230101/" title="insights.azure.com/v1api20230101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20230101"><span class="">v1api20230101</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20240101preview-li">
-  <a href="/azure-service-operator/reference/insights/v1api20240101preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20240101preview"><span class="">insights.azure.com/v1api20240101preview</span></a>
+  <a href="/azure-service-operator/reference/insights/v1api20240101preview/" title="insights.azure.com/v1api20240101preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20240101preview"><span class="">v1api20240101preview</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencekeyvault-li">
   <a href="/azure-service-operator/reference/keyvault/" title="KeyVault Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencekeyvault"><span class="">KeyVault</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencekeyvaultv1api20210401preview-li">
-  <a href="/azure-service-operator/reference/keyvault/v1api20210401preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekeyvaultv1api20210401preview"><span class="">keyvault.azure.com/v1api20210401preview</span></a>
+  <a href="/azure-service-operator/reference/keyvault/v1api20210401preview/" title="keyvault.azure.com/v1api20210401preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekeyvaultv1api20210401preview"><span class="">v1api20210401preview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencekeyvaultv1api20230701-li">
-  <a href="/azure-service-operator/reference/keyvault/v1api20230701/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekeyvaultv1api20230701"><span class="">keyvault.azure.com/v1api20230701</span></a>
+  <a href="/azure-service-operator/reference/keyvault/v1api20230701/" title="keyvault.azure.com/v1api20230701" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekeyvaultv1api20230701"><span class="">v1api20230701</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencekubernetesconfiguration-li">
   <a href="/azure-service-operator/reference/kubernetesconfiguration/" title="KubernetesConfiguration Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencekubernetesconfiguration"><span class="">KubernetesConfiguration</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencekubernetesconfigurationv1api20230501-li">
-  <a href="/azure-service-operator/reference/kubernetesconfiguration/v1api20230501/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekubernetesconfigurationv1api20230501"><span class="">kubernetesconfiguration.azure.com/v1api20230501</span></a>
+  <a href="/azure-service-operator/reference/kubernetesconfiguration/v1api20230501/" title="kubernetesconfiguration.azure.com/v1api20230501" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekubernetesconfigurationv1api20230501"><span class="">v1api20230501</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemachinelearningservices-li">
   <a href="/azure-service-operator/reference/machinelearningservices/" title="MachineLearningServices Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemachinelearningservices"><span class="">MachineLearningServices</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701-li">
-  <a href="/azure-service-operator/reference/machinelearningservices/v1api20210701/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701"><span class="">machinelearningservices.azure.com/v1api20210701</span></a>
+  <a href="/azure-service-operator/reference/machinelearningservices/v1api20210701/" title="machinelearningservices.azure.com/v1api20210701" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701"><span class="">v1api20210701</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401-li">
-  <a href="/azure-service-operator/reference/machinelearningservices/v1api20240401/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401"><span class="">machinelearningservices.azure.com/v1api20240401</span></a>
+  <a href="/azure-service-operator/reference/machinelearningservices/v1api20240401/" title="machinelearningservices.azure.com/v1api20240401" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401"><span class="">v1api20240401</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemanagedidentity-li">
   <a href="/azure-service-operator/reference/managedidentity/" title="ManagedIdentity Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemanagedidentity"><span class="">ManagedIdentity</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemanagedidentityv1api20181130-li">
-  <a href="/azure-service-operator/reference/managedidentity/v1api20181130/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemanagedidentityv1api20181130"><span class="">managedidentity.azure.com/v1api20181130</span></a>
+  <a href="/azure-service-operator/reference/managedidentity/v1api20181130/" title="managedidentity.azure.com/v1api20181130" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemanagedidentityv1api20181130"><span class="">v1api20181130</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemanagedidentityv1api20220131preview-li">
-  <a href="/azure-service-operator/reference/managedidentity/v1api20220131preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemanagedidentityv1api20220131preview"><span class="">managedidentity.azure.com/v1api20220131preview</span></a>
+  <a href="/azure-service-operator/reference/managedidentity/v1api20220131preview/" title="managedidentity.azure.com/v1api20220131preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemanagedidentityv1api20220131preview"><span class="">v1api20220131preview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemanagedidentityv1api20230131-li">
-  <a href="/azure-service-operator/reference/managedidentity/v1api20230131/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemanagedidentityv1api20230131"><span class="">managedidentity.azure.com/v1api20230131</span></a>
+  <a href="/azure-service-operator/reference/managedidentity/v1api20230131/" title="managedidentity.azure.com/v1api20230131" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemanagedidentityv1api20230131"><span class="">v1api20230131</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemonitor-li">
   <a href="/azure-service-operator/reference/monitor/" title="Monitor Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemonitor"><span class="">Monitor</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemonitorv1api20230403-li">
-  <a href="/azure-service-operator/reference/monitor/v1api20230403/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemonitorv1api20230403"><span class="">monitor.azure.com/v1api20230403</span></a>
+  <a href="/azure-service-operator/reference/monitor/v1api20230403/" title="monitor.azure.com/v1api20230403" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemonitorv1api20230403"><span class="">v1api20230403</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencenetwork-li">
   <a href="/azure-service-operator/reference/network/" title="Network Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencenetwork"><span class="">Network</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20180501-li">
-  <a href="/azure-service-operator/reference/network/v1api20180501/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20180501"><span class="">network.azure.com/v1api20180501</span></a>
+  <a href="/azure-service-operator/reference/network/v1api20180501/" title="network.azure.com/v1api20180501" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20180501"><span class="">v1api20180501</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20180901-li">
-  <a href="/azure-service-operator/reference/network/v1api20180901/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20180901"><span class="">network.azure.com/v1api20180901</span></a>
+  <a href="/azure-service-operator/reference/network/v1api20180901/" title="network.azure.com/v1api20180901" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20180901"><span class="">v1api20180901</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20200601-li">
-  <a href="/azure-service-operator/reference/network/v1api20200601/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20200601"><span class="">network.azure.com/v1api20200601</span></a>
+  <a href="/azure-service-operator/reference/network/v1api20200601/" title="network.azure.com/v1api20200601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20200601"><span class="">v1api20200601</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20201101-li">
-  <a href="/azure-service-operator/reference/network/v1api20201101/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20201101"><span class="">network.azure.com/v1api20201101</span></a>
+  <a href="/azure-service-operator/reference/network/v1api20201101/" title="network.azure.com/v1api20201101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20201101"><span class="">v1api20201101</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20220401-li">
-  <a href="/azure-service-operator/reference/network/v1api20220401/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220401"><span class="">network.azure.com/v1api20220401</span></a>
+  <a href="/azure-service-operator/reference/network/v1api20220401/" title="network.azure.com/v1api20220401" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220401"><span class="">v1api20220401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20220701-li">
-  <a href="/azure-service-operator/reference/network/v1api20220701/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220701"><span class="">network.azure.com/v1api20220701</span></a>
+  <a href="/azure-service-operator/reference/network/v1api20220701/" title="network.azure.com/v1api20220701" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220701"><span class="">v1api20220701</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20240101-li">
-  <a href="/azure-service-operator/reference/network/v1api20240101/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20240101"><span class="">network.azure.com/v1api20240101</span></a>
+  <a href="/azure-service-operator/reference/network/v1api20240101/" title="network.azure.com/v1api20240101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20240101"><span class="">v1api20240101</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20240301-li">
-  <a href="/azure-service-operator/reference/network/v1api20240301/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20240301"><span class="">network.azure.com/v1api20240301</span></a>
+  <a href="/azure-service-operator/reference/network/v1api20240301/" title="network.azure.com/v1api20240301" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20240301"><span class="">v1api20240301</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20240601-li">
-  <a href="/azure-service-operator/reference/network/v1api20240601/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20240601"><span class="">network.azure.com/v1api20240601</span></a>
+  <a href="/azure-service-operator/reference/network/v1api20240601/" title="network.azure.com/v1api20240601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20240601"><span class="">v1api20240601</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencenotificationhubs-li">
   <a href="/azure-service-operator/reference/notificationhubs/" title="NotificationHubs Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencenotificationhubs"><span class="">NotificationHubs</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenotificationhubsv1api20230901-li">
-  <a href="/azure-service-operator/reference/notificationhubs/v1api20230901/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenotificationhubsv1api20230901"><span class="">notificationhubs.azure.com/v1api20230901</span></a>
+  <a href="/azure-service-operator/reference/notificationhubs/v1api20230901/" title="notificationhubs.azure.com/v1api20230901" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenotificationhubsv1api20230901"><span class="">v1api20230901</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceoperationalinsights-li">
   <a href="/azure-service-operator/reference/operationalinsights/" title="OperationalInsights Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceoperationalinsights"><span class="">OperationalInsights</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceoperationalinsightsv1api20210601-li">
-  <a href="/azure-service-operator/reference/operationalinsights/v1api20210601/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceoperationalinsightsv1api20210601"><span class="">operationalinsights.azure.com/v1api20210601</span></a>
+  <a href="/azure-service-operator/reference/operationalinsights/v1api20210601/" title="operationalinsights.azure.com/v1api20210601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceoperationalinsightsv1api20210601"><span class="">v1api20210601</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceredhatopenshift-li">
   <a href="/azure-service-operator/reference/redhatopenshift/" title="RedHatOpenShift Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceredhatopenshift"><span class="">RedHatOpenShift</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceredhatopenshiftv1api20231122-li">
-  <a href="/azure-service-operator/reference/redhatopenshift/v1api20231122/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceredhatopenshiftv1api20231122"><span class="">redhatopenshift.azure.com/v1api20231122</span></a>
+  <a href="/azure-service-operator/reference/redhatopenshift/v1api20231122/" title="redhatopenshift.azure.com/v1api20231122" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceredhatopenshiftv1api20231122"><span class="">v1api20231122</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceresources-li">
   <a href="/azure-service-operator/reference/resources/" title="Resources Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceresources"><span class="">Resources</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceresourcesv1api20200601-li">
-  <a href="/azure-service-operator/reference/resources/v1api20200601/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceresourcesv1api20200601"><span class="">resources.azure.com/v1api20200601</span></a>
+  <a href="/azure-service-operator/reference/resources/v1api20200601/" title="resources.azure.com/v1api20200601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceresourcesv1api20200601"><span class="">v1api20200601</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesearch-li">
   <a href="/azure-service-operator/reference/search/" title="Search Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesearch"><span class="">Search</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesearchv1api20220901-li">
-  <a href="/azure-service-operator/reference/search/v1api20220901/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesearchv1api20220901"><span class="">search.azure.com/v1api20220901</span></a>
+  <a href="/azure-service-operator/reference/search/v1api20220901/" title="search.azure.com/v1api20220901" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesearchv1api20220901"><span class="">v1api20220901</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceservicebus-li">
   <a href="/azure-service-operator/reference/servicebus/" title="ServiceBus Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceservicebus"><span class="">ServiceBus</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceservicebusv1api20210101preview-li">
-  <a href="/azure-service-operator/reference/servicebus/v1api20210101preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceservicebusv1api20210101preview"><span class="">servicebus.azure.com/v1api20210101preview</span></a>
+  <a href="/azure-service-operator/reference/servicebus/v1api20210101preview/" title="servicebus.azure.com/v1api20210101preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceservicebusv1api20210101preview"><span class="">v1api20210101preview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceservicebusv1api20211101-li">
-  <a href="/azure-service-operator/reference/servicebus/v1api20211101/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceservicebusv1api20211101"><span class="">servicebus.azure.com/v1api20211101</span></a>
+  <a href="/azure-service-operator/reference/servicebus/v1api20211101/" title="servicebus.azure.com/v1api20211101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceservicebusv1api20211101"><span class="">v1api20211101</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceservicebusv1api20221001preview-li">
-  <a href="/azure-service-operator/reference/servicebus/v1api20221001preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceservicebusv1api20221001preview"><span class="">servicebus.azure.com/v1api20221001preview</span></a>
+  <a href="/azure-service-operator/reference/servicebus/v1api20221001preview/" title="servicebus.azure.com/v1api20221001preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceservicebusv1api20221001preview"><span class="">v1api20221001preview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceservicebusv1api20240101-li">
-  <a href="/azure-service-operator/reference/servicebus/v1api20240101/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceservicebusv1api20240101"><span class="">servicebus.azure.com/v1api20240101</span></a>
+  <a href="/azure-service-operator/reference/servicebus/v1api20240101/" title="servicebus.azure.com/v1api20240101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceservicebusv1api20240101"><span class="">v1api20240101</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesignalrservice-li">
   <a href="/azure-service-operator/reference/signalrservice/" title="SignalRService Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesignalrservice"><span class="">SignalRService</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesignalrservicev1api20211001-li">
-  <a href="/azure-service-operator/reference/signalrservice/v1api20211001/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesignalrservicev1api20211001"><span class="">signalrservice.azure.com/v1api20211001</span></a>
+  <a href="/azure-service-operator/reference/signalrservice/v1api20211001/" title="signalrservice.azure.com/v1api20211001" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesignalrservicev1api20211001"><span class="">v1api20211001</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesignalrservicev1api20240301-li">
-  <a href="/azure-service-operator/reference/signalrservice/v1api20240301/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesignalrservicev1api20240301"><span class="">signalrservice.azure.com/v1api20240301</span></a>
+  <a href="/azure-service-operator/reference/signalrservice/v1api20240301/" title="signalrservice.azure.com/v1api20240301" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesignalrservicev1api20240301"><span class="">v1api20240301</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesql-li">
   <a href="/azure-service-operator/reference/sql/" title="Sql Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesql"><span class="">Sql</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesqlv1-li">
-  <a href="/azure-service-operator/reference/sql/v1/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesqlv1"><span class="">sql.azure.com/v1</span></a>
+  <a href="/azure-service-operator/reference/sql/v1/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesqlv1"><span class="">sql.azure.com/</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesqlv1api20211101-li">
-  <a href="/azure-service-operator/reference/sql/v1api20211101/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesqlv1api20211101"><span class="">sql.azure.com/v1api20211101</span></a>
+  <a href="/azure-service-operator/reference/sql/v1api20211101/" title="sql.azure.com/v1api20211101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesqlv1api20211101"><span class="">v1api20211101</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencestorage-li">
   <a href="/azure-service-operator/reference/storage/" title="Storage Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencestorage"><span class="">Storage</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencestoragev1api20210401-li">
-  <a href="/azure-service-operator/reference/storage/v1api20210401/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev1api20210401"><span class="">storage.azure.com/v1api20210401</span></a>
+  <a href="/azure-service-operator/reference/storage/v1api20210401/" title="storage.azure.com/v1api20210401" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev1api20210401"><span class="">v1api20210401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencestoragev1api20220901-li">
-  <a href="/azure-service-operator/reference/storage/v1api20220901/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev1api20220901"><span class="">storage.azure.com/v1api20220901</span></a>
+  <a href="/azure-service-operator/reference/storage/v1api20220901/" title="storage.azure.com/v1api20220901" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev1api20220901"><span class="">v1api20220901</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencestoragev1api20230101-li">
-  <a href="/azure-service-operator/reference/storage/v1api20230101/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev1api20230101"><span class="">storage.azure.com/v1api20230101</span></a>
+  <a href="/azure-service-operator/reference/storage/v1api20230101/" title="storage.azure.com/v1api20230101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev1api20230101"><span class="">v1api20230101</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesubscription-li">
   <a href="/azure-service-operator/reference/subscription/" title="Subscription Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesubscription"><span class="">Subscription</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesubscriptionv1api20211001-li">
-  <a href="/azure-service-operator/reference/subscription/v1api20211001/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesubscriptionv1api20211001"><span class="">subscription.azure.com/v1api20211001</span></a>
+  <a href="/azure-service-operator/reference/subscription/v1api20211001/" title="subscription.azure.com/v1api20211001" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesubscriptionv1api20211001"><span class="">v1api20211001</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesynapse-li">
   <a href="/azure-service-operator/reference/synapse/" title="Synapse Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesynapse"><span class="">Synapse</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesynapsev1api20210601-li">
-  <a href="/azure-service-operator/reference/synapse/v1api20210601/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesynapsev1api20210601"><span class="">synapse.azure.com/v1api20210601</span></a>
+  <a href="/azure-service-operator/reference/synapse/v1api20210601/" title="synapse.azure.com/v1api20210601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesynapsev1api20210601"><span class="">v1api20210601</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceweb-li">
   <a href="/azure-service-operator/reference/web/" title="Web Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceweb"><span class="">Web</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencewebv1api20220301-li">
-  <a href="/azure-service-operator/reference/web/v1api20220301/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencewebv1api20220301"><span class="">web.azure.com/v1api20220301</span></a>
+  <a href="/azure-service-operator/reference/web/v1api20220301/" title="web.azure.com/v1api20220301" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencewebv1api20220301"><span class="">v1api20220301</span></a>
 </li>
   </ul>
 </li>
@@ -795,7 +771,39 @@ details []ApiErrorBase_STATUS Details: The Api error details">
 
 </div>
 
-            
+            <div class="td-toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#a-idapiversionaapiversion"><a id="APIVersion"></a>APIVersion</a></li>
+    <li><a href="#a-iddiskencryptionsetadiskencryptionset"><a id="DiskEncryptionSet"></a>DiskEncryptionSet</a>
+      <ul>
+        <li><a href="#a-iddiskencryptionset_specadiskencryptionset_spec"><a id="DiskEncryptionSet_Spec"></a>DiskEncryptionSet_Spec</a></li>
+        <li><a href="#a-iddiskencryptionset_statusadiskencryptionset_status"><a id="DiskEncryptionSet_STATUS"></a>DiskEncryptionSet_STATUS</a></li>
+      </ul>
+    </li>
+    <li><a href="#a-iddiskencryptionsetlistadiskencryptionsetlist"><a id="DiskEncryptionSetList"></a>DiskEncryptionSetList</a></li>
+    <li><a href="#a-iddiskencryptionset_specadiskencryptionset_spec-1"><a id="DiskEncryptionSet_Spec"></a>DiskEncryptionSet_Spec</a></li>
+    <li><a href="#a-iddiskencryptionset_statusadiskencryptionset_status-1"><a id="DiskEncryptionSet_STATUS"></a>DiskEncryptionSet_STATUS</a></li>
+    <li><a href="#a-idapierror_statusaapierror_status"><a id="ApiError_STATUS"></a>ApiError_STATUS</a></li>
+    <li><a href="#a-iddiskencryptionsetoperatorspecadiskencryptionsetoperatorspec"><a id="DiskEncryptionSetOperatorSpec"></a>DiskEncryptionSetOperatorSpec</a></li>
+    <li><a href="#a-iddiskencryptionsettypeadiskencryptionsettype"><a id="DiskEncryptionSetType"></a>DiskEncryptionSetType</a></li>
+    <li><a href="#a-iddiskencryptionsettype_statusadiskencryptionsettype_status"><a id="DiskEncryptionSetType_STATUS"></a>DiskEncryptionSetType_STATUS</a></li>
+    <li><a href="#a-idencryptionsetidentityaencryptionsetidentity"><a id="EncryptionSetIdentity"></a>EncryptionSetIdentity</a></li>
+    <li><a href="#a-idencryptionsetidentity_statusaencryptionsetidentity_status"><a id="EncryptionSetIdentity_STATUS"></a>EncryptionSetIdentity_STATUS</a></li>
+    <li><a href="#a-idkeyfordiskencryptionsetakeyfordiskencryptionset"><a id="KeyForDiskEncryptionSet"></a>KeyForDiskEncryptionSet</a></li>
+    <li><a href="#a-idkeyfordiskencryptionset_statusakeyfordiskencryptionset_status"><a id="KeyForDiskEncryptionSet_STATUS"></a>KeyForDiskEncryptionSet_STATUS</a></li>
+    <li><a href="#a-idapierrorbase_statusaapierrorbase_status"><a id="ApiErrorBase_STATUS"></a>ApiErrorBase_STATUS</a></li>
+    <li><a href="#a-idencryptionsetidentity_typeaencryptionsetidentity_type"><a id="EncryptionSetIdentity_Type"></a>EncryptionSetIdentity_Type</a></li>
+    <li><a href="#a-idencryptionsetidentity_type_statusaencryptionsetidentity_type_status"><a id="EncryptionSetIdentity_Type_STATUS"></a>EncryptionSetIdentity_Type_STATUS</a></li>
+    <li><a href="#a-idencryptionsetidentity_userassignedidentities_statusaencryptionsetidentity_userassignedidentities_status"><a id="EncryptionSetIdentity_UserAssignedIdentities_STATUS"></a>EncryptionSetIdentity_UserAssignedIdentities_STATUS</a></li>
+    <li><a href="#a-idinnererror_statusainnererror_status"><a id="InnerError_STATUS"></a>InnerError_STATUS</a></li>
+    <li><a href="#a-idsourcevaultasourcevault"><a id="SourceVault"></a>SourceVault</a></li>
+    <li><a href="#a-idsourcevault_statusasourcevault_status"><a id="SourceVault_STATUS"></a>SourceVault_STATUS</a></li>
+    <li><a href="#a-iduserassignedidentitydetailsauserassignedidentitydetails"><a id="UserAssignedIdentityDetails"></a>UserAssignedIdentityDetails</a></li>
+  </ul>
+</nav>
+      </div>
+    
             
 
           </aside>
@@ -810,7 +818,7 @@ details []ApiErrorBase_STATUS Details: The Api error details">
   <li class="breadcrumb-item">
     <a href="/azure-service-operator/reference/compute/">Compute</a></li>
   <li class="breadcrumb-item active" aria-current="page">
-    compute.azure.com/v1api20220702</li>
+    v1api20220702</li>
   </ol>
 </nav>
             
@@ -820,1247 +828,808 @@ details []ApiErrorBase_STATUS Details: The Api error details">
 	<header class="article-meta">
 		
 </header>
-	<h2 id="compute.azure.com/v1api20220702">compute.azure.com/v1api20220702</h2>
-<div>
-<p>Package v1api20220702 contains API Schema definitions for the compute v1api20220702 API group</p>
-</div>
-Resource Types:
-<ul></ul>
-<h3 id="compute.azure.com/v1api20220702.APIVersion">APIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
+	<hr>
+<h2 id="a-idapiversionaapiversion"><a id="APIVersion"></a>APIVersion</h2>
 <table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2022-07-02&#34;</p></td>
-<td></td>
-</tr></tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">Value</th>
+          <th style="text-align: left">Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">&ldquo;2022-07-02&rdquo;</td>
+          <td style="text-align: left"></td>
+      </tr>
+  </tbody>
 </table>
-<h3 id="compute.azure.com/v1api20220702.ApiErrorBase_STATUS">ApiErrorBase_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20220702.ApiError_STATUS">ApiError_STATUS</a>)
-</p>
-<div>
-<p>Api error base.</p>
-</div>
+<h2 id="a-iddiskencryptionsetadiskencryptionset"><a id="DiskEncryptionSet"></a>DiskEncryptionSet</h2>
+<p>Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/diskEncryptionSet.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}</p>
+<p>Used by: <a href="#DiskEncryptionSetList">DiskEncryptionSetList</a>.</p>
 <table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>code</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Code: The error code.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>message</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Message: The error message.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>target</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Target: The target of the particular error.</p>
-</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">Property</th>
+          <th style="text-align: left">Description</th>
+          <th style="text-align: left">Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta">metav1.ObjectMeta</a></td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">spec</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"><a href="#DiskEncryptionSet_Spec">DiskEncryptionSet_Spec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">status</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"><a href="#DiskEncryptionSet_STATUS">DiskEncryptionSet_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
 </table>
-<h3 id="compute.azure.com/v1api20220702.ApiError_STATUS">ApiError_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20220702.DiskEncryptionSet_STATUS">DiskEncryptionSet_STATUS</a>)
-</p>
-<div>
-<p>Api error.</p>
-</div>
+<h3 id="a-iddiskencryptionset_specadiskencryptionset_spec"><a id="DiskEncryptionSet_Spec"></a>DiskEncryptionSet_Spec</h3>
 <table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>code</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Code: The error code.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>details</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20220702.ApiErrorBase_STATUS">
-[]ApiErrorBase_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Details: The Api error details</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>innererror</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20220702.InnerError_STATUS">
-InnerError_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Innererror: The Api inner error</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>message</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Message: The error message.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>target</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Target: The target of the particular error.</p>
-</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">Property</th>
+          <th style="text-align: left">Description</th>
+          <th style="text-align: left">Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">activeKey</td>
+          <td style="text-align: left">The key vault key which is currently used by this disk encryption set.</td>
+          <td style="text-align: left"><a href="#KeyForDiskEncryptionSet">KeyForDiskEncryptionSet</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">azureName</td>
+          <td style="text-align: left">The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">encryptionType</td>
+          <td style="text-align: left">The type of key used to encrypt the data of the disk.</td>
+          <td style="text-align: left"><a href="#DiskEncryptionSetType">DiskEncryptionSetType</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">federatedClientId</td>
+          <td style="text-align: left">Multi-tenant application client id to access key vault in a different tenant. Setting the value to &lsquo;None&rsquo; will clear the property.</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">federatedClientIdFromConfig</td>
+          <td style="text-align: left">Multi-tenant application client id to access key vault in a different tenant. Setting the value to &lsquo;None&rsquo; will clear the property.</td>
+          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">genruntime.ConfigMapReference</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">identity</td>
+          <td style="text-align: left">The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used to encrypt disks.</td>
+          <td style="text-align: left"><a href="#EncryptionSetIdentity">EncryptionSetIdentity</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">location</td>
+          <td style="text-align: left">Resource location</td>
+          <td style="text-align: left">string<br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">operatorSpec</td>
+          <td style="text-align: left">The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+          <td style="text-align: left"><a href="#DiskEncryptionSetOperatorSpec">DiskEncryptionSetOperatorSpec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">owner</td>
+          <td style="text-align: left">The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
+          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">rotationToLatestKeyVersionEnabled</td>
+          <td style="text-align: left">Set this flag to true to enable auto-updating of this disk encryption set to the latest key version.</td>
+          <td style="text-align: left">bool<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">tags</td>
+          <td style="text-align: left">Resource tags</td>
+          <td style="text-align: left">map[string]string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
 </table>
-<h3 id="compute.azure.com/v1api20220702.DiskEncryptionSet">DiskEncryptionSet
-</h3>
-<div>
-<p>Generator information:
-- Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/diskEncryptionSet.json
-- ARM URI: /&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Compute/&#x200b;diskEncryptionSets/&#x200b;{diskEncryptionSetName}</&#x200b;p>
-</div>
+<h3 id="a-iddiskencryptionset_statusadiskencryptionset_status"><a id="DiskEncryptionSet_STATUS"></a>DiskEncryptionSet_STATUS</h3>
 <table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>metadata</code><br/>
-<em>
-<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
-Kubernetes meta/v1.ObjectMeta
-</a>
-</em>
-</td>
-<td>
-Refer to the Kubernetes API documentation for the fields of the
-<code>metadata</code> field.
-</td>
-</tr>
-<tr>
-<td>
-<code>spec</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20220702.DiskEncryptionSet_Spec">
-DiskEncryptionSet_Spec
-</a>
-</em>
-</td>
-<td>
-<br/>
-<br/>
+  <thead>
+      <tr>
+          <th style="text-align: left">Property</th>
+          <th style="text-align: left">Description</th>
+          <th style="text-align: left">Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">activeKey</td>
+          <td style="text-align: left">The key vault key which is currently used by this disk encryption set.</td>
+          <td style="text-align: left"><a href="#KeyForDiskEncryptionSet_STATUS">KeyForDiskEncryptionSet_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">autoKeyRotationError</td>
+          <td style="text-align: left">The error that was encountered during auto-key rotation. If an error is present, then auto-key rotation will not be attempted until the error on this disk encryption set is fixed.</td>
+          <td style="text-align: left"><a href="#ApiError_STATUS">ApiError_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">conditions</td>
+          <td style="text-align: left">The observed state of the resource</td>
+          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">encryptionType</td>
+          <td style="text-align: left">The type of key used to encrypt the data of the disk.</td>
+          <td style="text-align: left"><a href="#DiskEncryptionSetType_STATUS">DiskEncryptionSetType_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">federatedClientId</td>
+          <td style="text-align: left">Multi-tenant application client id to access key vault in a different tenant. Setting the value to &lsquo;None&rsquo; will clear the property.</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">id</td>
+          <td style="text-align: left">Resource Id</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">identity</td>
+          <td style="text-align: left">The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used to encrypt disks.</td>
+          <td style="text-align: left"><a href="#EncryptionSetIdentity_STATUS">EncryptionSetIdentity_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">lastKeyRotationTimestamp</td>
+          <td style="text-align: left">The time when the active key of this disk encryption set was updated.</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">location</td>
+          <td style="text-align: left">Resource location</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">name</td>
+          <td style="text-align: left">Resource name</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">previousKeys</td>
+          <td style="text-align: left">A readonly collection of key vault keys previously used by this disk encryption set while a key rotation is in progress. It will be empty if there is no ongoing key rotation.</td>
+          <td style="text-align: left"><a href="#KeyForDiskEncryptionSet_STATUS">KeyForDiskEncryptionSet_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">provisioningState</td>
+          <td style="text-align: left">The disk encryption set provisioning state.</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">rotationToLatestKeyVersionEnabled</td>
+          <td style="text-align: left">Set this flag to true to enable auto-updating of this disk encryption set to the latest key version.</td>
+          <td style="text-align: left">bool<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">tags</td>
+          <td style="text-align: left">Resource tags</td>
+          <td style="text-align: left">map[string]string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">type</td>
+          <td style="text-align: left">Resource type</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="a-iddiskencryptionsetlistadiskencryptionsetlist"><a id="DiskEncryptionSetList"></a>DiskEncryptionSetList</h2>
+<p>Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/diskEncryptionSet.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}</p>
 <table>
-<tr>
-<td>
-<code>activeKey</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20220702.KeyForDiskEncryptionSet">
-KeyForDiskEncryptionSet
-</a>
-</em>
-</td>
-<td>
-<p>ActiveKey: The key vault key which is currently used by this disk encryption set.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>encryptionType</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20220702.DiskEncryptionSetType">
-DiskEncryptionSetType
-</a>
-</em>
-</td>
-<td>
-<p>EncryptionType: The type of key used to encrypt the data of the disk.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>federatedClientId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>FederatedClientId: Multi-tenant application client id to access key vault in a different tenant. Setting the value to
-&lsquo;None&rsquo; will clear the property.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>federatedClientIdFromConfig</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">
-genruntime.ConfigMapReference
-</a>
-</em>
-</td>
-<td>
-<p>FederatedClientIdFromConfig: Multi-tenant application client id to access key vault in a different tenant. Setting the
-value to &lsquo;None&rsquo; will clear the property.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>identity</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20220702.EncryptionSetIdentity">
-EncryptionSetIdentity
-</a>
-</em>
-</td>
-<td>
-<p>Identity: The managed identity for the disk encryption set. It should be given permission on the key vault before it can
-be used  to encrypt disks.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: Resource location</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>operatorSpec</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20220702.DiskEncryptionSetOperatorSpec">
-DiskEncryptionSetOperatorSpec
-</a>
-</em>
-</td>
-<td>
-<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
-passed directly to Azure</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a resources.azure.com/ResourceGroup resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>rotationToLatestKeyVersionEnabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>RotationToLatestKeyVersionEnabled: Set this flag to true to enable auto-updating of this disk encryption set to the
-latest key version.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Resource tags</p>
-</td>
-</tr>
+  <thead>
+      <tr>
+          <th style="text-align: left">Property</th>
+          <th style="text-align: left">Description</th>
+          <th style="text-align: left">Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta">metav1.ListMeta</a></td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">items</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"><a href="#DiskEncryptionSet">DiskEncryptionSet[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
 </table>
-</td>
-</tr>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20220702.DiskEncryptionSet_STATUS">
-DiskEncryptionSet_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="compute.azure.com/v1api20220702.DiskEncryptionSetOperatorSpec">DiskEncryptionSetOperatorSpec
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20220702.DiskEncryptionSet_Spec">DiskEncryptionSet_Spec</a>)
-</p>
-<div>
-<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
-</div>
+<h2 id="a-iddiskencryptionset_specadiskencryptionset_spec-1"><a id="DiskEncryptionSet_Spec"></a>DiskEncryptionSet_Spec</h2>
+<p>Used by: <a href="#DiskEncryptionSet">DiskEncryptionSet</a>.</p>
 <table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>configMapExpressions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
-[]genruntime/core.DestinationExpression
-</a>
-</em>
-</td>
-<td>
-<p>ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>secretExpressions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
-[]genruntime/core.DestinationExpression
-</a>
-</em>
-</td>
-<td>
-<p>SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).</p>
-</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">Property</th>
+          <th style="text-align: left">Description</th>
+          <th style="text-align: left">Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">activeKey</td>
+          <td style="text-align: left">The key vault key which is currently used by this disk encryption set.</td>
+          <td style="text-align: left"><a href="#KeyForDiskEncryptionSet">KeyForDiskEncryptionSet</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">azureName</td>
+          <td style="text-align: left">The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">encryptionType</td>
+          <td style="text-align: left">The type of key used to encrypt the data of the disk.</td>
+          <td style="text-align: left"><a href="#DiskEncryptionSetType">DiskEncryptionSetType</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">federatedClientId</td>
+          <td style="text-align: left">Multi-tenant application client id to access key vault in a different tenant. Setting the value to &lsquo;None&rsquo; will clear the property.</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">federatedClientIdFromConfig</td>
+          <td style="text-align: left">Multi-tenant application client id to access key vault in a different tenant. Setting the value to &lsquo;None&rsquo; will clear the property.</td>
+          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">genruntime.ConfigMapReference</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">identity</td>
+          <td style="text-align: left">The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used to encrypt disks.</td>
+          <td style="text-align: left"><a href="#EncryptionSetIdentity">EncryptionSetIdentity</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">location</td>
+          <td style="text-align: left">Resource location</td>
+          <td style="text-align: left">string<br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">operatorSpec</td>
+          <td style="text-align: left">The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+          <td style="text-align: left"><a href="#DiskEncryptionSetOperatorSpec">DiskEncryptionSetOperatorSpec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">owner</td>
+          <td style="text-align: left">The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
+          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">rotationToLatestKeyVersionEnabled</td>
+          <td style="text-align: left">Set this flag to true to enable auto-updating of this disk encryption set to the latest key version.</td>
+          <td style="text-align: left">bool<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">tags</td>
+          <td style="text-align: left">Resource tags</td>
+          <td style="text-align: left">map[string]string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
 </table>
-<h3 id="compute.azure.com/v1api20220702.DiskEncryptionSetType">DiskEncryptionSetType
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20220702.DiskEncryptionSet_Spec">DiskEncryptionSet_Spec</a>)
-</p>
-<div>
-<p>The type of key used to encrypt the data of the disk.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;ConfidentialVmEncryptedWithCustomerKey&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;EncryptionAtRestWithCustomerKey&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;EncryptionAtRestWithPlatformAndCustomerKeys&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="compute.azure.com/v1api20220702.DiskEncryptionSetType_STATUS">DiskEncryptionSetType_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20220702.DiskEncryptionSet_STATUS">DiskEncryptionSet_STATUS</a>)
-</p>
-<div>
-<p>The type of key used to encrypt the data of the disk.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;ConfidentialVmEncryptedWithCustomerKey&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;EncryptionAtRestWithCustomerKey&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;EncryptionAtRestWithPlatformAndCustomerKeys&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="compute.azure.com/v1api20220702.DiskEncryptionSet_STATUS">DiskEncryptionSet_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20220702.DiskEncryptionSet">DiskEncryptionSet</a>)
-</p>
-<div>
+<h2 id="a-iddiskencryptionset_statusadiskencryptionset_status-1"><a id="DiskEncryptionSet_STATUS"></a>DiskEncryptionSet_STATUS</h2>
 <p>disk encryption set resource.</p>
-</div>
+<p>Used by: <a href="#DiskEncryptionSet">DiskEncryptionSet</a>.</p>
 <table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>activeKey</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20220702.KeyForDiskEncryptionSet_STATUS">
-KeyForDiskEncryptionSet_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>ActiveKey: The key vault key which is currently used by this disk encryption set.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>autoKeyRotationError</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20220702.ApiError_STATUS">
-ApiError_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>AutoKeyRotationError: The error that was encountered during auto-key rotation. If an error is present, then auto-key
-rotation will not be attempted until the error on this disk encryption set is fixed.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>conditions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
-[]genruntime/conditions.Condition
-</a>
-</em>
-</td>
-<td>
-<p>Conditions: The observed state of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>encryptionType</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20220702.DiskEncryptionSetType_STATUS">
-DiskEncryptionSetType_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>EncryptionType: The type of key used to encrypt the data of the disk.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>federatedClientId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>FederatedClientId: Multi-tenant application client id to access key vault in a different tenant. Setting the value to
-&lsquo;None&rsquo; will clear the property.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Resource Id</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>identity</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20220702.EncryptionSetIdentity_STATUS">
-EncryptionSetIdentity_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Identity: The managed identity for the disk encryption set. It should be given permission on the key vault before it can
-be used  to encrypt disks.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastKeyRotationTimestamp</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LastKeyRotationTimestamp: The time when the active key of this disk encryption set was updated.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: Resource location</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: Resource name</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>previousKeys</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20220702.KeyForDiskEncryptionSet_STATUS">
-[]KeyForDiskEncryptionSet_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>PreviousKeys: A readonly collection of key vault keys previously used by this disk encryption set while a key rotation
-is in progress. It will be empty if there is no ongoing key rotation.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>provisioningState</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ProvisioningState: The disk encryption set provisioning state.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>rotationToLatestKeyVersionEnabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>RotationToLatestKeyVersionEnabled: Set this flag to true to enable auto-updating of this disk encryption set to the
-latest key version.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Resource tags</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: Resource type</p>
-</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">Property</th>
+          <th style="text-align: left">Description</th>
+          <th style="text-align: left">Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">activeKey</td>
+          <td style="text-align: left">The key vault key which is currently used by this disk encryption set.</td>
+          <td style="text-align: left"><a href="#KeyForDiskEncryptionSet_STATUS">KeyForDiskEncryptionSet_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">autoKeyRotationError</td>
+          <td style="text-align: left">The error that was encountered during auto-key rotation. If an error is present, then auto-key rotation will not be attempted until the error on this disk encryption set is fixed.</td>
+          <td style="text-align: left"><a href="#ApiError_STATUS">ApiError_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">conditions</td>
+          <td style="text-align: left">The observed state of the resource</td>
+          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">encryptionType</td>
+          <td style="text-align: left">The type of key used to encrypt the data of the disk.</td>
+          <td style="text-align: left"><a href="#DiskEncryptionSetType_STATUS">DiskEncryptionSetType_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">federatedClientId</td>
+          <td style="text-align: left">Multi-tenant application client id to access key vault in a different tenant. Setting the value to &lsquo;None&rsquo; will clear the property.</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">id</td>
+          <td style="text-align: left">Resource Id</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">identity</td>
+          <td style="text-align: left">The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used to encrypt disks.</td>
+          <td style="text-align: left"><a href="#EncryptionSetIdentity_STATUS">EncryptionSetIdentity_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">lastKeyRotationTimestamp</td>
+          <td style="text-align: left">The time when the active key of this disk encryption set was updated.</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">location</td>
+          <td style="text-align: left">Resource location</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">name</td>
+          <td style="text-align: left">Resource name</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">previousKeys</td>
+          <td style="text-align: left">A readonly collection of key vault keys previously used by this disk encryption set while a key rotation is in progress. It will be empty if there is no ongoing key rotation.</td>
+          <td style="text-align: left"><a href="#KeyForDiskEncryptionSet_STATUS">KeyForDiskEncryptionSet_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">provisioningState</td>
+          <td style="text-align: left">The disk encryption set provisioning state.</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">rotationToLatestKeyVersionEnabled</td>
+          <td style="text-align: left">Set this flag to true to enable auto-updating of this disk encryption set to the latest key version.</td>
+          <td style="text-align: left">bool<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">tags</td>
+          <td style="text-align: left">Resource tags</td>
+          <td style="text-align: left">map[string]string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">type</td>
+          <td style="text-align: left">Resource type</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
 </table>
-<h3 id="compute.azure.com/v1api20220702.DiskEncryptionSet_Spec">DiskEncryptionSet_Spec
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20220702.DiskEncryptionSet">DiskEncryptionSet</a>)
-</p>
-<div>
-</div>
+<h2 id="a-idapierror_statusaapierror_status"><a id="ApiError_STATUS"></a>ApiError_STATUS</h2>
+<p>Api error.</p>
+<p>Used by: <a href="#DiskEncryptionSet_STATUS">DiskEncryptionSet_STATUS</a>.</p>
 <table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>activeKey</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20220702.KeyForDiskEncryptionSet">
-KeyForDiskEncryptionSet
-</a>
-</em>
-</td>
-<td>
-<p>ActiveKey: The key vault key which is currently used by this disk encryption set.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>encryptionType</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20220702.DiskEncryptionSetType">
-DiskEncryptionSetType
-</a>
-</em>
-</td>
-<td>
-<p>EncryptionType: The type of key used to encrypt the data of the disk.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>federatedClientId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>FederatedClientId: Multi-tenant application client id to access key vault in a different tenant. Setting the value to
-&lsquo;None&rsquo; will clear the property.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>federatedClientIdFromConfig</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">
-genruntime.ConfigMapReference
-</a>
-</em>
-</td>
-<td>
-<p>FederatedClientIdFromConfig: Multi-tenant application client id to access key vault in a different tenant. Setting the
-value to &lsquo;None&rsquo; will clear the property.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>identity</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20220702.EncryptionSetIdentity">
-EncryptionSetIdentity
-</a>
-</em>
-</td>
-<td>
-<p>Identity: The managed identity for the disk encryption set. It should be given permission on the key vault before it can
-be used  to encrypt disks.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: Resource location</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>operatorSpec</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20220702.DiskEncryptionSetOperatorSpec">
-DiskEncryptionSetOperatorSpec
-</a>
-</em>
-</td>
-<td>
-<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
-passed directly to Azure</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a resources.azure.com/ResourceGroup resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>rotationToLatestKeyVersionEnabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>RotationToLatestKeyVersionEnabled: Set this flag to true to enable auto-updating of this disk encryption set to the
-latest key version.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Resource tags</p>
-</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">Property</th>
+          <th style="text-align: left">Description</th>
+          <th style="text-align: left">Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">code</td>
+          <td style="text-align: left">The error code.</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">details</td>
+          <td style="text-align: left">The Api error details</td>
+          <td style="text-align: left"><a href="#ApiErrorBase_STATUS">ApiErrorBase_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">innererror</td>
+          <td style="text-align: left">The Api inner error</td>
+          <td style="text-align: left"><a href="#InnerError_STATUS">InnerError_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">message</td>
+          <td style="text-align: left">The error message.</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">target</td>
+          <td style="text-align: left">The target of the particular error.</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
 </table>
-<h3 id="compute.azure.com/v1api20220702.EncryptionSetIdentity">EncryptionSetIdentity
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20220702.DiskEncryptionSet_Spec">DiskEncryptionSet_Spec</a>)
-</p>
-<div>
-<p>The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used
-to encrypt disks.</p>
-</div>
+<h2 id="a-iddiskencryptionsetoperatorspecadiskencryptionsetoperatorspec"><a id="DiskEncryptionSetOperatorSpec"></a>DiskEncryptionSetOperatorSpec</h2>
+<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
+<p>Used by: <a href="#DiskEncryptionSet_Spec">DiskEncryptionSet_Spec</a>.</p>
 <table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20220702.EncryptionSetIdentity_Type">
-EncryptionSetIdentity_Type
-</a>
-</em>
-</td>
-<td>
-<p>Type: The type of Managed Identity used by the DiskEncryptionSet. Only SystemAssigned is supported for new creations.
-Disk Encryption Sets can be updated with Identity type None during migration of subscription to a new Azure Active
-Directory tenant; it will cause the encrypted resources to lose access to the keys.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>userAssignedIdentities</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20220702.UserAssignedIdentityDetails">
-[]UserAssignedIdentityDetails
-</a>
-</em>
-</td>
-<td>
-<p>UserAssignedIdentities: The list of user identities associated with the disk encryption set. The user identity
-dictionary key references will be ARM resource ids in the form:
-&lsquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.ManagedIdentity/&#x200b;userAssignedIdentities/&#x200b;{identityName}&rsquo;.</&#x200b;p>
-</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">Property</th>
+          <th style="text-align: left">Description</th>
+          <th style="text-align: left">Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">configMapExpressions</td>
+          <td style="text-align: left">configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</td>
+          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">secretExpressions</td>
+          <td style="text-align: left">configures where to place operator written dynamic secrets (created with CEL expressions).</td>
+          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
 </table>
-<h3 id="compute.azure.com/v1api20220702.EncryptionSetIdentity_STATUS">EncryptionSetIdentity_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20220702.DiskEncryptionSet_STATUS">DiskEncryptionSet_STATUS</a>)
-</p>
-<div>
-<p>The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used
-to encrypt disks.</p>
-</div>
+<h2 id="a-iddiskencryptionsettypeadiskencryptionsettype"><a id="DiskEncryptionSetType"></a>DiskEncryptionSetType</h2>
+<p>The type of key used to encrypt the data of the disk.</p>
+<p>Used by: <a href="#DiskEncryptionSet_Spec">DiskEncryptionSet_Spec</a>.</p>
 <table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>principalId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>PrincipalId: The object id of the Managed Identity Resource. This will be sent to the RP from ARM via the
-x-ms-identity-principal-id header in the PUT request if the resource has a systemAssigned(implicit) identity</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tenantId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>TenantId: The tenant id of the Managed Identity Resource. This will be sent to the RP from ARM via the
-x-ms-client-tenant-id header in the PUT request if the resource has a systemAssigned(implicit) identity</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20220702.EncryptionSetIdentity_Type_STATUS">
-EncryptionSetIdentity_Type_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Type: The type of Managed Identity used by the DiskEncryptionSet. Only SystemAssigned is supported for new creations.
-Disk Encryption Sets can be updated with Identity type None during migration of subscription to a new Azure Active
-Directory tenant; it will cause the encrypted resources to lose access to the keys.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>userAssignedIdentities</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20220702.EncryptionSetIdentity_UserAssignedIdentities_STATUS">
-map[string]./api/compute/v1api20220702.EncryptionSetIdentity_UserAssignedIdentities_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>UserAssignedIdentities: The list of user identities associated with the disk encryption set. The user identity
-dictionary key references will be ARM resource ids in the form:
-&lsquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.ManagedIdentity/&#x200b;userAssignedIdentities/&#x200b;{identityName}&rsquo;.</&#x200b;p>
-</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">Value</th>
+          <th style="text-align: left">Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">&ldquo;ConfidentialVmEncryptedWithCustomerKey&rdquo;</td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">&ldquo;EncryptionAtRestWithCustomerKey&rdquo;</td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">&ldquo;EncryptionAtRestWithPlatformAndCustomerKeys&rdquo;</td>
+          <td style="text-align: left"></td>
+      </tr>
+  </tbody>
 </table>
-<h3 id="compute.azure.com/v1api20220702.EncryptionSetIdentity_Type">EncryptionSetIdentity_Type
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20220702.EncryptionSetIdentity">EncryptionSetIdentity</a>)
-</p>
-<div>
-</div>
+<h2 id="a-iddiskencryptionsettype_statusadiskencryptionsettype_status"><a id="DiskEncryptionSetType_STATUS"></a>DiskEncryptionSetType_STATUS</h2>
+<p>The type of key used to encrypt the data of the disk.</p>
+<p>Used by: <a href="#DiskEncryptionSet_STATUS">DiskEncryptionSet_STATUS</a>.</p>
 <table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;None&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;SystemAssigned&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;SystemAssigned, UserAssigned&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;UserAssigned&#34;</p></td>
-<td></td>
-</tr></tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">Value</th>
+          <th style="text-align: left">Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">&ldquo;ConfidentialVmEncryptedWithCustomerKey&rdquo;</td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">&ldquo;EncryptionAtRestWithCustomerKey&rdquo;</td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">&ldquo;EncryptionAtRestWithPlatformAndCustomerKeys&rdquo;</td>
+          <td style="text-align: left"></td>
+      </tr>
+  </tbody>
 </table>
-<h3 id="compute.azure.com/v1api20220702.EncryptionSetIdentity_Type_STATUS">EncryptionSetIdentity_Type_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20220702.EncryptionSetIdentity_STATUS">EncryptionSetIdentity_STATUS</a>)
-</p>
-<div>
-</div>
+<h2 id="a-idencryptionsetidentityaencryptionsetidentity"><a id="EncryptionSetIdentity"></a>EncryptionSetIdentity</h2>
+<p>The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used to encrypt disks.</p>
+<p>Used by: <a href="#DiskEncryptionSet_Spec">DiskEncryptionSet_Spec</a>.</p>
 <table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;None&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;SystemAssigned&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;SystemAssigned, UserAssigned&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;UserAssigned&#34;</p></td>
-<td></td>
-</tr></tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">Property</th>
+          <th style="text-align: left">Description</th>
+          <th style="text-align: left">Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">type</td>
+          <td style="text-align: left">The type of Managed Identity used by the DiskEncryptionSet. Only SystemAssigned is supported for new creations. Disk Encryption Sets can be updated with Identity type None during migration of subscription to a new Azure Active Directory tenant; it will cause the encrypted resources to lose access to the keys.</td>
+          <td style="text-align: left"><a href="#EncryptionSetIdentity_Type">EncryptionSetIdentity_Type</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">userAssignedIdentities</td>
+          <td style="text-align: left">The list of user identities associated with the disk encryption set. The user identity dictionary key references will be ARM resource ids in the form: &lsquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;.</td>
+          <td style="text-align: left"><a href="#UserAssignedIdentityDetails">UserAssignedIdentityDetails[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
 </table>
-<h3 id="compute.azure.com/v1api20220702.EncryptionSetIdentity_UserAssignedIdentities_STATUS">EncryptionSetIdentity_UserAssignedIdentities_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20220702.EncryptionSetIdentity_STATUS">EncryptionSetIdentity_STATUS</a>)
-</p>
-<div>
-</div>
+<h2 id="a-idencryptionsetidentity_statusaencryptionsetidentity_status"><a id="EncryptionSetIdentity_STATUS"></a>EncryptionSetIdentity_STATUS</h2>
+<p>The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used to encrypt disks.</p>
+<p>Used by: <a href="#DiskEncryptionSet_STATUS">DiskEncryptionSet_STATUS</a>.</p>
 <table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>clientId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ClientId: The client id of user assigned identity.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>principalId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>PrincipalId: The principal id of user assigned identity.</p>
-</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">Property</th>
+          <th style="text-align: left">Description</th>
+          <th style="text-align: left">Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">principalId</td>
+          <td style="text-align: left">The object id of the Managed Identity Resource. This will be sent to the RP from ARM via the x-ms-identity-principal-id header in the PUT request if the resource has a systemAssigned(implicit) identity</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">tenantId</td>
+          <td style="text-align: left">The tenant id of the Managed Identity Resource. This will be sent to the RP from ARM via the x-ms-client-tenant-id header in the PUT request if the resource has a systemAssigned(implicit) identity</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">type</td>
+          <td style="text-align: left">The type of Managed Identity used by the DiskEncryptionSet. Only SystemAssigned is supported for new creations. Disk Encryption Sets can be updated with Identity type None during migration of subscription to a new Azure Active Directory tenant; it will cause the encrypted resources to lose access to the keys.</td>
+          <td style="text-align: left"><a href="#EncryptionSetIdentity_Type_STATUS">EncryptionSetIdentity_Type_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">userAssignedIdentities</td>
+          <td style="text-align: left">The list of user identities associated with the disk encryption set. The user identity dictionary key references will be ARM resource ids in the form: &lsquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;.</td>
+          <td style="text-align: left"><a href="#EncryptionSetIdentity_UserAssignedIdentities_STATUS">map[string]EncryptionSetIdentity_UserAssignedIdentities_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
 </table>
-<h3 id="compute.azure.com/v1api20220702.InnerError_STATUS">InnerError_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20220702.ApiError_STATUS">ApiError_STATUS</a>)
-</p>
-<div>
+<h2 id="a-idkeyfordiskencryptionsetakeyfordiskencryptionset"><a id="KeyForDiskEncryptionSet"></a>KeyForDiskEncryptionSet</h2>
+<p>Key Vault Key Url to be used for server side encryption of Managed Disks and Snapshots</p>
+<p>Used by: <a href="#DiskEncryptionSet_Spec">DiskEncryptionSet_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Property</th>
+          <th style="text-align: left">Description</th>
+          <th style="text-align: left">Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">keyUrl</td>
+          <td style="text-align: left">Fully versioned Key Url pointing to a key in KeyVault. Version segment of the Url is required regardless of rotationToLatestKeyVersionEnabled value.</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">keyUrlFromConfig</td>
+          <td style="text-align: left">Fully versioned Key Url pointing to a key in KeyVault. Version segment of the Url is required regardless of rotationToLatestKeyVersionEnabled value.</td>
+          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">genruntime.ConfigMapReference</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">sourceVault</td>
+          <td style="text-align: left">Resource id of the KeyVault containing the key or secret. This property is optional and cannot be used if the KeyVault subscription is not the same as the Disk Encryption Set subscription.</td>
+          <td style="text-align: left"><a href="#SourceVault">SourceVault</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="a-idkeyfordiskencryptionset_statusakeyfordiskencryptionset_status"><a id="KeyForDiskEncryptionSet_STATUS"></a>KeyForDiskEncryptionSet_STATUS</h2>
+<p>Key Vault Key Url to be used for server side encryption of Managed Disks and Snapshots</p>
+<p>Used by: <a href="#DiskEncryptionSet_STATUS">DiskEncryptionSet_STATUS</a>, and <a href="#DiskEncryptionSet_STATUS">DiskEncryptionSet_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Property</th>
+          <th style="text-align: left">Description</th>
+          <th style="text-align: left">Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">keyUrl</td>
+          <td style="text-align: left">Fully versioned Key Url pointing to a key in KeyVault. Version segment of the Url is required regardless of rotationToLatestKeyVersionEnabled value.</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">sourceVault</td>
+          <td style="text-align: left">Resource id of the KeyVault containing the key or secret. This property is optional and cannot be used if the KeyVault subscription is not the same as the Disk Encryption Set subscription.</td>
+          <td style="text-align: left"><a href="#SourceVault_STATUS">SourceVault_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="a-idapierrorbase_statusaapierrorbase_status"><a id="ApiErrorBase_STATUS"></a>ApiErrorBase_STATUS</h2>
+<p>Api error base.</p>
+<p>Used by: <a href="#ApiError_STATUS">ApiError_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Property</th>
+          <th style="text-align: left">Description</th>
+          <th style="text-align: left">Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">code</td>
+          <td style="text-align: left">The error code.</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">message</td>
+          <td style="text-align: left">The error message.</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">target</td>
+          <td style="text-align: left">The target of the particular error.</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="a-idencryptionsetidentity_typeaencryptionsetidentity_type"><a id="EncryptionSetIdentity_Type"></a>EncryptionSetIdentity_Type</h2>
+<p>Used by: <a href="#EncryptionSetIdentity">EncryptionSetIdentity</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Value</th>
+          <th style="text-align: left">Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">&ldquo;None&rdquo;</td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">&ldquo;SystemAssigned&rdquo;</td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">&ldquo;SystemAssigned, UserAssigned&rdquo;</td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">&ldquo;UserAssigned&rdquo;</td>
+          <td style="text-align: left"></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="a-idencryptionsetidentity_type_statusaencryptionsetidentity_type_status"><a id="EncryptionSetIdentity_Type_STATUS"></a>EncryptionSetIdentity_Type_STATUS</h2>
+<p>Used by: <a href="#EncryptionSetIdentity_STATUS">EncryptionSetIdentity_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Value</th>
+          <th style="text-align: left">Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">&ldquo;None&rdquo;</td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">&ldquo;SystemAssigned&rdquo;</td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">&ldquo;SystemAssigned, UserAssigned&rdquo;</td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">&ldquo;UserAssigned&rdquo;</td>
+          <td style="text-align: left"></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="a-idencryptionsetidentity_userassignedidentities_statusaencryptionsetidentity_userassignedidentities_status"><a id="EncryptionSetIdentity_UserAssignedIdentities_STATUS"></a>EncryptionSetIdentity_UserAssignedIdentities_STATUS</h2>
+<p>Used by: <a href="#EncryptionSetIdentity_STATUS">EncryptionSetIdentity_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Property</th>
+          <th style="text-align: left">Description</th>
+          <th style="text-align: left">Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">clientId</td>
+          <td style="text-align: left">The client id of user assigned identity.</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">principalId</td>
+          <td style="text-align: left">The principal id of user assigned identity.</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="a-idinnererror_statusainnererror_status"><a id="InnerError_STATUS"></a>InnerError_STATUS</h2>
 <p>Inner error details.</p>
-</div>
+<p>Used by: <a href="#ApiError_STATUS">ApiError_STATUS</a>.</p>
 <table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>errordetail</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Errordetail: The internal error message or exception dump.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>exceptiontype</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Exceptiontype: The exception type.</p>
-</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">Property</th>
+          <th style="text-align: left">Description</th>
+          <th style="text-align: left">Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">errordetail</td>
+          <td style="text-align: left">The internal error message or exception dump.</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">exceptiontype</td>
+          <td style="text-align: left">The exception type.</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
 </table>
-<h3 id="compute.azure.com/v1api20220702.KeyForDiskEncryptionSet">KeyForDiskEncryptionSet
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20220702.DiskEncryptionSet_Spec">DiskEncryptionSet_Spec</a>)
-</p>
-<div>
-<p>Key Vault Key Url to be used for server side encryption of Managed Disks and Snapshots</p>
-</div>
+<h2 id="a-idsourcevaultasourcevault"><a id="SourceVault"></a>SourceVault</h2>
+<p>The vault id is an Azure Resource Manager Resource id in the form /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.KeyVault/vaults/{vaultName}</p>
+<p>Used by: <a href="#KeyForDiskEncryptionSet">KeyForDiskEncryptionSet</a>.</p>
 <table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>keyUrl</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>KeyUrl: Fully versioned Key Url pointing to a key in KeyVault. Version segment of the Url is required regardless of
-rotationToLatestKeyVersionEnabled value.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>keyUrlFromConfig</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">
-genruntime.ConfigMapReference
-</a>
-</em>
-</td>
-<td>
-<p>KeyUrlFromConfig: Fully versioned Key Url pointing to a key in KeyVault. Version segment of the Url is required
-regardless of rotationToLatestKeyVersionEnabled value.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sourceVault</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20220702.SourceVault">
-SourceVault
-</a>
-</em>
-</td>
-<td>
-<p>SourceVault: Resource id of the KeyVault containing the key or secret. This property is optional and cannot be used if
-the KeyVault subscription is not the same as the Disk Encryption Set subscription.</p>
-</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">Property</th>
+          <th style="text-align: left">Description</th>
+          <th style="text-align: left">Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">reference</td>
+          <td style="text-align: left">Resource Id</td>
+          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
 </table>
-<h3 id="compute.azure.com/v1api20220702.KeyForDiskEncryptionSet_STATUS">KeyForDiskEncryptionSet_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20220702.DiskEncryptionSet_STATUS">DiskEncryptionSet_STATUS</a>)
-</p>
-<div>
-<p>Key Vault Key Url to be used for server side encryption of Managed Disks and Snapshots</p>
-</div>
+<h2 id="a-idsourcevault_statusasourcevault_status"><a id="SourceVault_STATUS"></a>SourceVault_STATUS</h2>
+<p>The vault id is an Azure Resource Manager Resource id in the form /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.KeyVault/vaults/{vaultName}</p>
+<p>Used by: <a href="#KeyForDiskEncryptionSet_STATUS">KeyForDiskEncryptionSet_STATUS</a>.</p>
 <table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>keyUrl</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>KeyUrl: Fully versioned Key Url pointing to a key in KeyVault. Version segment of the Url is required regardless of
-rotationToLatestKeyVersionEnabled value.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sourceVault</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20220702.SourceVault_STATUS">
-SourceVault_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>SourceVault: Resource id of the KeyVault containing the key or secret. This property is optional and cannot be used if
-the KeyVault subscription is not the same as the Disk Encryption Set subscription.</p>
-</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">Property</th>
+          <th style="text-align: left">Description</th>
+          <th style="text-align: left">Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">id</td>
+          <td style="text-align: left">Resource Id</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
 </table>
-<h3 id="compute.azure.com/v1api20220702.SourceVault">SourceVault
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20220702.KeyForDiskEncryptionSet">KeyForDiskEncryptionSet</a>)
-</p>
-<div>
-<p>The vault id is an Azure Resource Manager Resource id in the form
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.KeyVault/&#x200b;vaults/&#x200b;{vaultName}</&#x200b;p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>reference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Reference: Resource Id</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="compute.azure.com/v1api20220702.SourceVault_STATUS">SourceVault_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20220702.KeyForDiskEncryptionSet_STATUS">KeyForDiskEncryptionSet_STATUS</a>)
-</p>
-<div>
-<p>The vault id is an Azure Resource Manager Resource id in the form
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.KeyVault/&#x200b;vaults/&#x200b;{vaultName}</&#x200b;p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Resource Id</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="compute.azure.com/v1api20220702.UserAssignedIdentityDetails">UserAssignedIdentityDetails
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20220702.EncryptionSetIdentity">EncryptionSetIdentity</a>)
-</p>
-<div>
+<h2 id="a-iduserassignedidentitydetailsauserassignedidentitydetails"><a id="UserAssignedIdentityDetails"></a>UserAssignedIdentityDetails</h2>
 <p>Information about the user assigned identity for the resource</p>
-</div>
+<p>Used by: <a href="#EncryptionSetIdentity">EncryptionSetIdentity</a>.</p>
 <table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>reference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">Property</th>
+          <th style="text-align: left">Description</th>
+          <th style="text-align: left">Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">reference</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
 </table>
-<hr/>
 
 	
 </div>

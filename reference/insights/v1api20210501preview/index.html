@@ -18,33 +18,29 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>insights.azure.com/v1api20210501preview | Azure Service Operator</title>
-<meta name="description" content="insights.azure.com/v1api20210501preview Package v1api20210501preview contains API Schema definitions for the insights v1api20210501preview API group
-Resource Types: APIVersion (string alias) Value Description &#34;2021-05-01-preview&#34;
-DiagnosticSetting Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/preview/2021-05-01-preview/diagnosticsSettings_API.json - ARM URI: /{resourceUri}/providers/Microsoft.Insights/diagnosticSettings/{name}
-Field Description metadata Kubernetes meta/v1.ObjectMeta Refer to the Kubernetes API documentation for the fields of the metadata field. spec DiagnosticSetting_Spec azureName string AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.">
+<meta name="description" content=" APIVersion Value Description &ldquo;2021-05-01-preview&rdquo; DiagnosticSetting Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/preview/2021-05-01-preview/diagnosticsSettings_API.json - ARM URI: /{resourceUri}/providers/Microsoft.Insights/diagnosticSettings/{name}
+Used by: DiagnosticSettingList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiagnosticSetting_SpecOptional status DiagnosticSetting_STATUSOptional DiagnosticSetting_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be. stringOptional eventHubAuthorizationRuleReference The resource Id for the event hub authorization rule. genruntime.ResourceReferenceOptional eventHubName The name of the event hub. If none is specified, the default event hub will be selected. stringOptional logAnalyticsDestinationType A string indicating whether the export to Log Analytics should use the default destination type, i.e. AzureDiagnostics, or use a destination type constructed as follows: _. Possible values are: Dedicated and null (null is default.) stringOptional logs The list of logs settings. LogSettings[]Optional marketplacePartnerReference The full ARM resource ID of the Marketplace resource to which you would like to send Diagnostic Logs. genruntime.ResourceReferenceOptional metrics The list of metric settings. MetricSettings[]Optional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure DiagnosticSettingOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an extension resource, which means that any other Azure resource can be its owner. genruntime.ArbitraryOwnerReferenceRequired serviceBusRuleId The service bus rule Id of the diagnostic setting. This is here to maintain backwards compatibility. stringOptional storageAccountReference The resource ID of the storage account to which you would like to send Diagnostic Logs. genruntime.ResourceReferenceOptional workspaceReference The full ARM resource ID of the Log Analytics workspace to which you would like to send Diagnostic Logs. Example: /​subscriptions/​4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/​resourceGroups/​insights-integration/​providers/​Microsoft.OperationalInsights/workspaces/viruela2 genruntime.ResourceReferenceOptional DiagnosticSetting_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional eventHubAuthorizationRuleId The resource Id for the event hub authorization rule. stringOptional eventHubName The name of the event hub. If none is specified, the default event hub will be selected. stringOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional logAnalyticsDestinationType A string indicating whether the export to Log Analytics should use the default destination type, i.e. AzureDiagnostics, or use a destination type constructed as follows: _. Possible values are: Dedicated and null (null is default.) stringOptional logs The list of logs settings. LogSettings_STATUS[]Optional marketplacePartnerId The full ARM resource ID of the Marketplace resource to which you would like to send Diagnostic Logs. stringOptional metrics The list of metric settings. MetricSettings_STATUS[]Optional name The name of the resource stringOptional serviceBusRuleId The service bus rule Id of the diagnostic setting. This is here to maintain backwards compatibility. stringOptional storageAccountId The resource ID of the storage account to which you would like to send Diagnostic Logs. stringOptional systemData The system metadata related to this resource. SystemData_STATUSOptional type The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo; stringOptional workspaceId The full ARM resource ID of the Log Analytics workspace to which you would like to send Diagnostic Logs. Example: /​subscriptions/​4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/​resourceGroups/​insights-integration/​providers/​Microsoft.OperationalInsights/workspaces/viruela2 stringOptional DiagnosticSettingList Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/preview/2021-05-01-preview/diagnosticsSettings_API.json - ARM URI: /{resourceUri}/providers/Microsoft.Insights/diagnosticSettings/{name}">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/insights/v1api20210501preview/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="insights.azure.com/v1api20210501preview">
-  <meta property="og:description" content="insights.azure.com/v1api20210501preview Package v1api20210501preview contains API Schema definitions for the insights v1api20210501preview API group
-Resource Types: APIVersion (string alias) Value Description &#34;2021-05-01-preview&#34;
-DiagnosticSetting Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/preview/2021-05-01-preview/diagnosticsSettings_API.json - ARM URI: /{resourceUri}/providers/Microsoft.Insights/diagnosticSettings/{name}
-Field Description metadata Kubernetes meta/v1.ObjectMeta Refer to the Kubernetes API documentation for the fields of the metadata field. spec DiagnosticSetting_Spec azureName string AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be.">
+  <meta property="og:description" content=" APIVersion Value Description “2021-05-01-preview” DiagnosticSetting Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/preview/2021-05-01-preview/diagnosticsSettings_API.json - ARM URI: /{resourceUri}/providers/Microsoft.Insights/diagnosticSettings/{name}
+Used by: DiagnosticSettingList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiagnosticSetting_SpecOptional status DiagnosticSetting_STATUSOptional DiagnosticSetting_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional eventHubAuthorizationRuleReference The resource Id for the event hub authorization rule. genruntime.ResourceReferenceOptional eventHubName The name of the event hub. If none is specified, the default event hub will be selected. stringOptional logAnalyticsDestinationType A string indicating whether the export to Log Analytics should use the default destination type, i.e. AzureDiagnostics, or use a destination type constructed as follows: _. Possible values are: Dedicated and null (null is default.) stringOptional logs The list of logs settings. LogSettings[]Optional marketplacePartnerReference The full ARM resource ID of the Marketplace resource to which you would like to send Diagnostic Logs. genruntime.ResourceReferenceOptional metrics The list of metric settings. MetricSettings[]Optional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure DiagnosticSettingOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an extension resource, which means that any other Azure resource can be its owner. genruntime.ArbitraryOwnerReferenceRequired serviceBusRuleId The service bus rule Id of the diagnostic setting. This is here to maintain backwards compatibility. stringOptional storageAccountReference The resource ID of the storage account to which you would like to send Diagnostic Logs. genruntime.ResourceReferenceOptional workspaceReference The full ARM resource ID of the Log Analytics workspace to which you would like to send Diagnostic Logs. Example: /​subscriptions/​4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/​resourceGroups/​insights-integration/​providers/​Microsoft.OperationalInsights/workspaces/viruela2 genruntime.ResourceReferenceOptional DiagnosticSetting_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional eventHubAuthorizationRuleId The resource Id for the event hub authorization rule. stringOptional eventHubName The name of the event hub. If none is specified, the default event hub will be selected. stringOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional logAnalyticsDestinationType A string indicating whether the export to Log Analytics should use the default destination type, i.e. AzureDiagnostics, or use a destination type constructed as follows: _. Possible values are: Dedicated and null (null is default.) stringOptional logs The list of logs settings. LogSettings_STATUS[]Optional marketplacePartnerId The full ARM resource ID of the Marketplace resource to which you would like to send Diagnostic Logs. stringOptional metrics The list of metric settings. MetricSettings_STATUS[]Optional name The name of the resource stringOptional serviceBusRuleId The service bus rule Id of the diagnostic setting. This is here to maintain backwards compatibility. stringOptional storageAccountId The resource ID of the storage account to which you would like to send Diagnostic Logs. stringOptional systemData The system metadata related to this resource. SystemData_STATUSOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional workspaceId The full ARM resource ID of the Log Analytics workspace to which you would like to send Diagnostic Logs. Example: /​subscriptions/​4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/​resourceGroups/​insights-integration/​providers/​Microsoft.OperationalInsights/workspaces/viruela2 stringOptional DiagnosticSettingList Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/preview/2021-05-01-preview/diagnosticsSettings_API.json - ARM URI: /{resourceUri}/providers/Microsoft.Insights/diagnosticSettings/{name}">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="reference">
 
   <meta itemprop="name" content="insights.azure.com/v1api20210501preview">
-  <meta itemprop="description" content="insights.azure.com/v1api20210501preview Package v1api20210501preview contains API Schema definitions for the insights v1api20210501preview API group
-Resource Types: APIVersion (string alias) Value Description &#34;2021-05-01-preview&#34;
-DiagnosticSetting Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/preview/2021-05-01-preview/diagnosticsSettings_API.json - ARM URI: /{resourceUri}/providers/Microsoft.Insights/diagnosticSettings/{name}
-Field Description metadata Kubernetes meta/v1.ObjectMeta Refer to the Kubernetes API documentation for the fields of the metadata field. spec DiagnosticSetting_Spec azureName string AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be.">
-  <meta itemprop="wordCount" content="1459">
+  <meta itemprop="description" content=" APIVersion Value Description “2021-05-01-preview” DiagnosticSetting Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/preview/2021-05-01-preview/diagnosticsSettings_API.json - ARM URI: /{resourceUri}/providers/Microsoft.Insights/diagnosticSettings/{name}
+Used by: DiagnosticSettingList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiagnosticSetting_SpecOptional status DiagnosticSetting_STATUSOptional DiagnosticSetting_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional eventHubAuthorizationRuleReference The resource Id for the event hub authorization rule. genruntime.ResourceReferenceOptional eventHubName The name of the event hub. If none is specified, the default event hub will be selected. stringOptional logAnalyticsDestinationType A string indicating whether the export to Log Analytics should use the default destination type, i.e. AzureDiagnostics, or use a destination type constructed as follows: _. Possible values are: Dedicated and null (null is default.) stringOptional logs The list of logs settings. LogSettings[]Optional marketplacePartnerReference The full ARM resource ID of the Marketplace resource to which you would like to send Diagnostic Logs. genruntime.ResourceReferenceOptional metrics The list of metric settings. MetricSettings[]Optional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure DiagnosticSettingOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an extension resource, which means that any other Azure resource can be its owner. genruntime.ArbitraryOwnerReferenceRequired serviceBusRuleId The service bus rule Id of the diagnostic setting. This is here to maintain backwards compatibility. stringOptional storageAccountReference The resource ID of the storage account to which you would like to send Diagnostic Logs. genruntime.ResourceReferenceOptional workspaceReference The full ARM resource ID of the Log Analytics workspace to which you would like to send Diagnostic Logs. Example: /​subscriptions/​4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/​resourceGroups/​insights-integration/​providers/​Microsoft.OperationalInsights/workspaces/viruela2 genruntime.ResourceReferenceOptional DiagnosticSetting_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional eventHubAuthorizationRuleId The resource Id for the event hub authorization rule. stringOptional eventHubName The name of the event hub. If none is specified, the default event hub will be selected. stringOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional logAnalyticsDestinationType A string indicating whether the export to Log Analytics should use the default destination type, i.e. AzureDiagnostics, or use a destination type constructed as follows: _. Possible values are: Dedicated and null (null is default.) stringOptional logs The list of logs settings. LogSettings_STATUS[]Optional marketplacePartnerId The full ARM resource ID of the Marketplace resource to which you would like to send Diagnostic Logs. stringOptional metrics The list of metric settings. MetricSettings_STATUS[]Optional name The name of the resource stringOptional serviceBusRuleId The service bus rule Id of the diagnostic setting. This is here to maintain backwards compatibility. stringOptional storageAccountId The resource ID of the storage account to which you would like to send Diagnostic Logs. stringOptional systemData The system metadata related to this resource. SystemData_STATUSOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional workspaceId The full ARM resource ID of the Log Analytics workspace to which you would like to send Diagnostic Logs. Example: /​subscriptions/​4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/​resourceGroups/​insights-integration/​providers/​Microsoft.OperationalInsights/workspaces/viruela2 stringOptional DiagnosticSettingList Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/preview/2021-05-01-preview/diagnosticsSettings_API.json - ARM URI: /{resourceUri}/providers/Microsoft.Insights/diagnosticSettings/{name}">
+  <meta itemprop="wordCount" content="1619">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="insights.azure.com/v1api20210501preview">
-  <meta name="twitter:description" content="insights.azure.com/v1api20210501preview Package v1api20210501preview contains API Schema definitions for the insights v1api20210501preview API group
-Resource Types: APIVersion (string alias) Value Description &#34;2021-05-01-preview&#34;
-DiagnosticSetting Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/preview/2021-05-01-preview/diagnosticsSettings_API.json - ARM URI: /{resourceUri}/providers/Microsoft.Insights/diagnosticSettings/{name}
-Field Description metadata Kubernetes meta/v1.ObjectMeta Refer to the Kubernetes API documentation for the fields of the metadata field. spec DiagnosticSetting_Spec azureName string AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be.">
+  <meta name="twitter:description" content=" APIVersion Value Description “2021-05-01-preview” DiagnosticSetting Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/preview/2021-05-01-preview/diagnosticsSettings_API.json - ARM URI: /{resourceUri}/providers/Microsoft.Insights/diagnosticSettings/{name}
+Used by: DiagnosticSettingList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiagnosticSetting_SpecOptional status DiagnosticSetting_STATUSOptional DiagnosticSetting_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional eventHubAuthorizationRuleReference The resource Id for the event hub authorization rule. genruntime.ResourceReferenceOptional eventHubName The name of the event hub. If none is specified, the default event hub will be selected. stringOptional logAnalyticsDestinationType A string indicating whether the export to Log Analytics should use the default destination type, i.e. AzureDiagnostics, or use a destination type constructed as follows: _. Possible values are: Dedicated and null (null is default.) stringOptional logs The list of logs settings. LogSettings[]Optional marketplacePartnerReference The full ARM resource ID of the Marketplace resource to which you would like to send Diagnostic Logs. genruntime.ResourceReferenceOptional metrics The list of metric settings. MetricSettings[]Optional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure DiagnosticSettingOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an extension resource, which means that any other Azure resource can be its owner. genruntime.ArbitraryOwnerReferenceRequired serviceBusRuleId The service bus rule Id of the diagnostic setting. This is here to maintain backwards compatibility. stringOptional storageAccountReference The resource ID of the storage account to which you would like to send Diagnostic Logs. genruntime.ResourceReferenceOptional workspaceReference The full ARM resource ID of the Log Analytics workspace to which you would like to send Diagnostic Logs. Example: /​subscriptions/​4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/​resourceGroups/​insights-integration/​providers/​Microsoft.OperationalInsights/workspaces/viruela2 genruntime.ResourceReferenceOptional DiagnosticSetting_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional eventHubAuthorizationRuleId The resource Id for the event hub authorization rule. stringOptional eventHubName The name of the event hub. If none is specified, the default event hub will be selected. stringOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional logAnalyticsDestinationType A string indicating whether the export to Log Analytics should use the default destination type, i.e. AzureDiagnostics, or use a destination type constructed as follows: _. Possible values are: Dedicated and null (null is default.) stringOptional logs The list of logs settings. LogSettings_STATUS[]Optional marketplacePartnerId The full ARM resource ID of the Marketplace resource to which you would like to send Diagnostic Logs. stringOptional metrics The list of metric settings. MetricSettings_STATUS[]Optional name The name of the resource stringOptional serviceBusRuleId The service bus rule Id of the diagnostic setting. This is here to maintain backwards compatibility. stringOptional storageAccountId The resource ID of the storage account to which you would like to send Diagnostic Logs. stringOptional systemData The system metadata related to this resource. SystemData_STATUSOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional workspaceId The full ARM resource ID of the Log Analytics workspace to which you would like to send Diagnostic Logs. Example: /​subscriptions/​4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/​resourceGroups/​insights-integration/​providers/​Microsoft.OperationalInsights/workspaces/viruela2 stringOptional DiagnosticSettingList Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/preview/2021-05-01-preview/diagnosticsSettings_API.json - ARM URI: /{resourceUri}/providers/Microsoft.Insights/diagnosticSettings/{name}">
 
 
 
@@ -243,403 +239,403 @@ Field Description metadata Kubernetes meta/v1.ObjectMeta Refer to the Kubernetes
   <a href="/azure-service-operator/reference/alertsmanagement/" title="AlertsManagement Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencealertsmanagement"><span class="">AlertsManagement</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencealertsmanagementv1api20210401-li">
-  <a href="/azure-service-operator/reference/alertsmanagement/v1api20210401/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencealertsmanagementv1api20210401"><span class="">alertsmanagement.azure.com/v1api20210401</span></a>
+  <a href="/azure-service-operator/reference/alertsmanagement/v1api20210401/" title="alertsmanagement.azure.com/v1api20210401" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencealertsmanagementv1api20210401"><span class="">v1api20210401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencealertsmanagementv1api20230301-li">
-  <a href="/azure-service-operator/reference/alertsmanagement/v1api20230301/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencealertsmanagementv1api20230301"><span class="">alertsmanagement.azure.com/v1api20230301</span></a>
+  <a href="/azure-service-operator/reference/alertsmanagement/v1api20230301/" title="alertsmanagement.azure.com/v1api20230301" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencealertsmanagementv1api20230301"><span class="">v1api20230301</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceapimanagement-li">
   <a href="/azure-service-operator/reference/apimanagement/" title="ApiManagement Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceapimanagement"><span class="">ApiManagement</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceapimanagementv1api20220801-li">
-  <a href="/azure-service-operator/reference/apimanagement/v1api20220801/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceapimanagementv1api20220801"><span class="">apimanagement.azure.com/v1api20220801</span></a>
+  <a href="/azure-service-operator/reference/apimanagement/v1api20220801/" title="apimanagement.azure.com/v1api20220801" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceapimanagementv1api20220801"><span class="">v1api20220801</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceapimanagementv1api20230501preview-li">
-  <a href="/azure-service-operator/reference/apimanagement/v1api20230501preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceapimanagementv1api20230501preview"><span class="">apimanagement.azure.com/v1api20230501preview</span></a>
+  <a href="/azure-service-operator/reference/apimanagement/v1api20230501preview/" title="apimanagement.azure.com/v1api20230501preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceapimanagementv1api20230501preview"><span class="">v1api20230501preview</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceapp-li">
   <a href="/azure-service-operator/reference/app/" title="App Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceapp"><span class="">App</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceappv1api20240301-li">
-  <a href="/azure-service-operator/reference/app/v1api20240301/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceappv1api20240301"><span class="">app.azure.com/v1api20240301</span></a>
+  <a href="/azure-service-operator/reference/app/v1api20240301/" title="app.azure.com/v1api20240301" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceappv1api20240301"><span class="">v1api20240301</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceappconfiguration-li">
   <a href="/azure-service-operator/reference/appconfiguration/" title="AppConfiguration Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceappconfiguration"><span class="">AppConfiguration</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceappconfigurationv1api20220501-li">
-  <a href="/azure-service-operator/reference/appconfiguration/v1api20220501/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceappconfigurationv1api20220501"><span class="">appconfiguration.azure.com/v1api20220501</span></a>
+  <a href="/azure-service-operator/reference/appconfiguration/v1api20220501/" title="appconfiguration.azure.com/v1api20220501" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceappconfigurationv1api20220501"><span class="">v1api20220501</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceauthorization-li">
   <a href="/azure-service-operator/reference/authorization/" title="Authorization Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceauthorization"><span class="">Authorization</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceauthorizationv1api20200801preview-li">
-  <a href="/azure-service-operator/reference/authorization/v1api20200801preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceauthorizationv1api20200801preview"><span class="">authorization.azure.com/v1api20200801preview</span></a>
+  <a href="/azure-service-operator/reference/authorization/v1api20200801preview/" title="authorization.azure.com/v1api20200801preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceauthorizationv1api20200801preview"><span class="">v1api20200801preview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceauthorizationv1api20220401-li">
-  <a href="/azure-service-operator/reference/authorization/v1api20220401/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceauthorizationv1api20220401"><span class="">authorization.azure.com/v1api20220401</span></a>
+  <a href="/azure-service-operator/reference/authorization/v1api20220401/" title="authorization.azure.com/v1api20220401" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceauthorizationv1api20220401"><span class="">v1api20220401</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencebatch-li">
   <a href="/azure-service-operator/reference/batch/" title="Batch Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencebatch"><span class="">Batch</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencebatchv1api20210101-li">
-  <a href="/azure-service-operator/reference/batch/v1api20210101/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencebatchv1api20210101"><span class="">batch.azure.com/v1api20210101</span></a>
+  <a href="/azure-service-operator/reference/batch/v1api20210101/" title="batch.azure.com/v1api20210101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencebatchv1api20210101"><span class="">v1api20210101</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecache-li">
   <a href="/azure-service-operator/reference/cache/" title="Cache Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecache"><span class="">Cache</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20201201-li">
-  <a href="/azure-service-operator/reference/cache/v1api20201201/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20201201"><span class="">cache.azure.com/v1api20201201</span></a>
+  <a href="/azure-service-operator/reference/cache/v1api20201201/" title="cache.azure.com/v1api20201201" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20201201"><span class="">v1api20201201</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20210301-li">
-  <a href="/azure-service-operator/reference/cache/v1api20210301/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20210301"><span class="">cache.azure.com/v1api20210301</span></a>
+  <a href="/azure-service-operator/reference/cache/v1api20210301/" title="cache.azure.com/v1api20210301" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20210301"><span class="">v1api20210301</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20230401-li">
-  <a href="/azure-service-operator/reference/cache/v1api20230401/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230401"><span class="">cache.azure.com/v1api20230401</span></a>
+  <a href="/azure-service-operator/reference/cache/v1api20230401/" title="cache.azure.com/v1api20230401" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230401"><span class="">v1api20230401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20230701-li">
-  <a href="/azure-service-operator/reference/cache/v1api20230701/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230701"><span class="">cache.azure.com/v1api20230701</span></a>
+  <a href="/azure-service-operator/reference/cache/v1api20230701/" title="cache.azure.com/v1api20230701" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230701"><span class="">v1api20230701</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20230801-li">
-  <a href="/azure-service-operator/reference/cache/v1api20230801/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230801"><span class="">cache.azure.com/v1api20230801</span></a>
+  <a href="/azure-service-operator/reference/cache/v1api20230801/" title="cache.azure.com/v1api20230801" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230801"><span class="">v1api20230801</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecdn-li">
   <a href="/azure-service-operator/reference/cdn/" title="Cdn Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecdn"><span class="">Cdn</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecdnv1api20210601-li">
-  <a href="/azure-service-operator/reference/cdn/v1api20210601/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecdnv1api20210601"><span class="">cdn.azure.com/v1api20210601</span></a>
+  <a href="/azure-service-operator/reference/cdn/v1api20210601/" title="cdn.azure.com/v1api20210601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecdnv1api20210601"><span class="">v1api20210601</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecdnv1api20230501-li">
-  <a href="/azure-service-operator/reference/cdn/v1api20230501/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecdnv1api20230501"><span class="">cdn.azure.com/v1api20230501</span></a>
+  <a href="/azure-service-operator/reference/cdn/v1api20230501/" title="cdn.azure.com/v1api20230501" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecdnv1api20230501"><span class="">v1api20230501</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecompute-li">
   <a href="/azure-service-operator/reference/compute/" title="Compute Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecompute"><span class="">Compute</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1api20200930-li">
-  <a href="/azure-service-operator/reference/compute/v1api20200930/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20200930"><span class="">compute.azure.com/v1api20200930</span></a>
+  <a href="/azure-service-operator/reference/compute/v1api20200930/" title="compute.azure.com/v1api20200930" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20200930"><span class="">v1api20200930</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1api20201201-li">
-  <a href="/azure-service-operator/reference/compute/v1api20201201/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20201201"><span class="">compute.azure.com/v1api20201201</span></a>
+  <a href="/azure-service-operator/reference/compute/v1api20201201/" title="compute.azure.com/v1api20201201" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20201201"><span class="">v1api20201201</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1api20210701-li">
-  <a href="/azure-service-operator/reference/compute/v1api20210701/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20210701"><span class="">compute.azure.com/v1api20210701</span></a>
+  <a href="/azure-service-operator/reference/compute/v1api20210701/" title="compute.azure.com/v1api20210701" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20210701"><span class="">v1api20210701</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1api20220301-li">
-  <a href="/azure-service-operator/reference/compute/v1api20220301/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20220301"><span class="">compute.azure.com/v1api20220301</span></a>
+  <a href="/azure-service-operator/reference/compute/v1api20220301/" title="compute.azure.com/v1api20220301" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20220301"><span class="">v1api20220301</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1api20220702-li">
-  <a href="/azure-service-operator/reference/compute/v1api20220702/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20220702"><span class="">compute.azure.com/v1api20220702</span></a>
+  <a href="/azure-service-operator/reference/compute/v1api20220702/" title="compute.azure.com/v1api20220702" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20220702"><span class="">v1api20220702</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1api20240302-li">
-  <a href="/azure-service-operator/reference/compute/v1api20240302/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20240302"><span class="">compute.azure.com/v1api20240302</span></a>
+  <a href="/azure-service-operator/reference/compute/v1api20240302/" title="compute.azure.com/v1api20240302" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20240302"><span class="">v1api20240302</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerinstance-li">
   <a href="/azure-service-operator/reference/containerinstance/" title="ContainerInstance Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerinstance"><span class="">ContainerInstance</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerinstancev1api20211001-li">
-  <a href="/azure-service-operator/reference/containerinstance/v1api20211001/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerinstancev1api20211001"><span class="">containerinstance.azure.com/v1api20211001</span></a>
+  <a href="/azure-service-operator/reference/containerinstance/v1api20211001/" title="containerinstance.azure.com/v1api20211001" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerinstancev1api20211001"><span class="">v1api20211001</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerregistry-li">
   <a href="/azure-service-operator/reference/containerregistry/" title="ContainerRegistry Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerregistry"><span class="">ContainerRegistry</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerregistryv1api20210901-li">
-  <a href="/azure-service-operator/reference/containerregistry/v1api20210901/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerregistryv1api20210901"><span class="">containerregistry.azure.com/v1api20210901</span></a>
+  <a href="/azure-service-operator/reference/containerregistry/v1api20210901/" title="containerregistry.azure.com/v1api20210901" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerregistryv1api20210901"><span class="">v1api20210901</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerregistryv1api20230701-li">
-  <a href="/azure-service-operator/reference/containerregistry/v1api20230701/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerregistryv1api20230701"><span class="">containerregistry.azure.com/v1api20230701</span></a>
+  <a href="/azure-service-operator/reference/containerregistry/v1api20230701/" title="containerregistry.azure.com/v1api20230701" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerregistryv1api20230701"><span class="">v1api20230701</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerservice-li">
   <a href="/azure-service-operator/reference/containerservice/" title="ContainerService Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerservice"><span class="">ContainerService</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20210501-li">
-  <a href="/azure-service-operator/reference/containerservice/v1api20210501/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20210501"><span class="">containerservice.azure.com/v1api20210501</span></a>
+  <a href="/azure-service-operator/reference/containerservice/v1api20210501/" title="containerservice.azure.com/v1api20210501" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20210501"><span class="">v1api20210501</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20230201-li">
-  <a href="/azure-service-operator/reference/containerservice/v1api20230201/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20230201"><span class="">containerservice.azure.com/v1api20230201</span></a>
+  <a href="/azure-service-operator/reference/containerservice/v1api20230201/" title="containerservice.azure.com/v1api20230201" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20230201"><span class="">v1api20230201</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20230315preview-li">
-  <a href="/azure-service-operator/reference/containerservice/v1api20230315preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20230315preview"><span class="">containerservice.azure.com/v1api20230315preview</span></a>
+  <a href="/azure-service-operator/reference/containerservice/v1api20230315preview/" title="containerservice.azure.com/v1api20230315preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20230315preview"><span class="">v1api20230315preview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20231001-li">
-  <a href="/azure-service-operator/reference/containerservice/v1api20231001/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20231001"><span class="">containerservice.azure.com/v1api20231001</span></a>
+  <a href="/azure-service-operator/reference/containerservice/v1api20231001/" title="containerservice.azure.com/v1api20231001" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20231001"><span class="">v1api20231001</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20231102preview-li">
-  <a href="/azure-service-operator/reference/containerservice/v1api20231102preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20231102preview"><span class="">containerservice.azure.com/v1api20231102preview</span></a>
+  <a href="/azure-service-operator/reference/containerservice/v1api20231102preview/" title="containerservice.azure.com/v1api20231102preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20231102preview"><span class="">v1api20231102preview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20240402preview-li">
-  <a href="/azure-service-operator/reference/containerservice/v1api20240402preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20240402preview"><span class="">containerservice.azure.com/v1api20240402preview</span></a>
+  <a href="/azure-service-operator/reference/containerservice/v1api20240402preview/" title="containerservice.azure.com/v1api20240402preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20240402preview"><span class="">v1api20240402preview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20240901-li">
-  <a href="/azure-service-operator/reference/containerservice/v1api20240901/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20240901"><span class="">containerservice.azure.com/v1api20240901</span></a>
+  <a href="/azure-service-operator/reference/containerservice/v1api20240901/" title="containerservice.azure.com/v1api20240901" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20240901"><span class="">v1api20240901</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedatafactory-li">
   <a href="/azure-service-operator/reference/datafactory/" title="DataFactory Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedatafactory"><span class="">DataFactory</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedatafactoryv1api20180601-li">
-  <a href="/azure-service-operator/reference/datafactory/v1api20180601/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedatafactoryv1api20180601"><span class="">datafactory.azure.com/v1api20180601</span></a>
+  <a href="/azure-service-operator/reference/datafactory/v1api20180601/" title="datafactory.azure.com/v1api20180601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedatafactoryv1api20180601"><span class="">v1api20180601</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedataprotection-li">
   <a href="/azure-service-operator/reference/dataprotection/" title="DataProtection Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedataprotection"><span class="">DataProtection</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedataprotectionv1api20230101-li">
-  <a href="/azure-service-operator/reference/dataprotection/v1api20230101/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedataprotectionv1api20230101"><span class="">dataprotection.azure.com/v1api20230101</span></a>
+  <a href="/azure-service-operator/reference/dataprotection/v1api20230101/" title="dataprotection.azure.com/v1api20230101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedataprotectionv1api20230101"><span class="">v1api20230101</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedataprotectionv1api20231101-li">
-  <a href="/azure-service-operator/reference/dataprotection/v1api20231101/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedataprotectionv1api20231101"><span class="">dataprotection.azure.com/v1api20231101</span></a>
+  <a href="/azure-service-operator/reference/dataprotection/v1api20231101/" title="dataprotection.azure.com/v1api20231101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedataprotectionv1api20231101"><span class="">v1api20231101</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbformariadb-li">
   <a href="/azure-service-operator/reference/dbformariadb/" title="DBforMariaDB Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbformariadb"><span class="">DBforMariaDB</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformariadbv1api20180601-li">
-  <a href="/azure-service-operator/reference/dbformariadb/v1api20180601/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformariadbv1api20180601"><span class="">dbformariadb.azure.com/v1api20180601</span></a>
+  <a href="/azure-service-operator/reference/dbformariadb/v1api20180601/" title="dbformariadb.azure.com/v1api20180601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformariadbv1api20180601"><span class="">v1api20180601</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbformysql-li">
   <a href="/azure-service-operator/reference/dbformysql/" title="DBforMySQL Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbformysql"><span class="">DBforMySQL</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformysqlv1-li">
-  <a href="/azure-service-operator/reference/dbformysql/v1/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1"><span class="">dbformysql.azure.com/v1</span></a>
+  <a href="/azure-service-operator/reference/dbformysql/v1/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1"><span class="">dbformysql.azure.com/</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformysqlv1api20210501-li">
-  <a href="/azure-service-operator/reference/dbformysql/v1api20210501/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1api20210501"><span class="">dbformysql.azure.com/v1api20210501</span></a>
+  <a href="/azure-service-operator/reference/dbformysql/v1api20210501/" title="dbformysql.azure.com/v1api20210501" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1api20210501"><span class="">v1api20210501</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformysqlv1api20220101-li">
-  <a href="/azure-service-operator/reference/dbformysql/v1api20220101/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1api20220101"><span class="">dbformysql.azure.com/v1api20220101</span></a>
+  <a href="/azure-service-operator/reference/dbformysql/v1api20220101/" title="dbformysql.azure.com/v1api20220101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1api20220101"><span class="">v1api20220101</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformysqlv1api20230630-li">
-  <a href="/azure-service-operator/reference/dbformysql/v1api20230630/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1api20230630"><span class="">dbformysql.azure.com/v1api20230630</span></a>
+  <a href="/azure-service-operator/reference/dbformysql/v1api20230630/" title="dbformysql.azure.com/v1api20230630" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1api20230630"><span class="">v1api20230630</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformysqlv1api20231230-li">
-  <a href="/azure-service-operator/reference/dbformysql/v1api20231230/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1api20231230"><span class="">dbformysql.azure.com/v1api20231230</span></a>
+  <a href="/azure-service-operator/reference/dbformysql/v1api20231230/" title="dbformysql.azure.com/v1api20231230" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1api20231230"><span class="">v1api20231230</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbforpostgresql-li">
   <a href="/azure-service-operator/reference/dbforpostgresql/" title="DBforPostgreSQL Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbforpostgresql"><span class="">DBforPostgreSQL</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbforpostgresqlv1-li">
-  <a href="/azure-service-operator/reference/dbforpostgresql/v1/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1"><span class="">dbforpostgresql.azure.com/v1</span></a>
+  <a href="/azure-service-operator/reference/dbforpostgresql/v1/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1"><span class="">dbforpostgresql.azure.com/</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbforpostgresqlv1api20210601-li">
-  <a href="/azure-service-operator/reference/dbforpostgresql/v1api20210601/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1api20210601"><span class="">dbforpostgresql.azure.com/v1api20210601</span></a>
+  <a href="/azure-service-operator/reference/dbforpostgresql/v1api20210601/" title="dbforpostgresql.azure.com/v1api20210601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1api20210601"><span class="">v1api20210601</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbforpostgresqlv1api20220120preview-li">
-  <a href="/azure-service-operator/reference/dbforpostgresql/v1api20220120preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1api20220120preview"><span class="">dbforpostgresql.azure.com/v1api20220120preview</span></a>
+  <a href="/azure-service-operator/reference/dbforpostgresql/v1api20220120preview/" title="dbforpostgresql.azure.com/v1api20220120preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1api20220120preview"><span class="">v1api20220120preview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbforpostgresqlv1api20221201-li">
-  <a href="/azure-service-operator/reference/dbforpostgresql/v1api20221201/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1api20221201"><span class="">dbforpostgresql.azure.com/v1api20221201</span></a>
+  <a href="/azure-service-operator/reference/dbforpostgresql/v1api20221201/" title="dbforpostgresql.azure.com/v1api20221201" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1api20221201"><span class="">v1api20221201</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbforpostgresqlv1api20230601preview-li">
-  <a href="/azure-service-operator/reference/dbforpostgresql/v1api20230601preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1api20230601preview"><span class="">dbforpostgresql.azure.com/v1api20230601preview</span></a>
+  <a href="/azure-service-operator/reference/dbforpostgresql/v1api20230601preview/" title="dbforpostgresql.azure.com/v1api20230601preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1api20230601preview"><span class="">v1api20230601preview</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedevices-li">
   <a href="/azure-service-operator/reference/devices/" title="Devices Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedevices"><span class="">Devices</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedevicesv1api20210702-li">
-  <a href="/azure-service-operator/reference/devices/v1api20210702/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedevicesv1api20210702"><span class="">devices.azure.com/v1api20210702</span></a>
+  <a href="/azure-service-operator/reference/devices/v1api20210702/" title="devices.azure.com/v1api20210702" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedevicesv1api20210702"><span class="">v1api20210702</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedocumentdb-li">
   <a href="/azure-service-operator/reference/documentdb/" title="DocumentDB Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedocumentdb"><span class="">DocumentDB</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedocumentdbv1api20210515-li">
-  <a href="/azure-service-operator/reference/documentdb/v1api20210515/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedocumentdbv1api20210515"><span class="">documentdb.azure.com/v1api20210515</span></a>
+  <a href="/azure-service-operator/reference/documentdb/v1api20210515/" title="documentdb.azure.com/v1api20210515" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedocumentdbv1api20210515"><span class="">v1api20210515</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedocumentdbv1api20231115-li">
-  <a href="/azure-service-operator/reference/documentdb/v1api20231115/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedocumentdbv1api20231115"><span class="">documentdb.azure.com/v1api20231115</span></a>
+  <a href="/azure-service-operator/reference/documentdb/v1api20231115/" title="documentdb.azure.com/v1api20231115" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedocumentdbv1api20231115"><span class="">v1api20231115</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedocumentdbv1api20240815-li">
-  <a href="/azure-service-operator/reference/documentdb/v1api20240815/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedocumentdbv1api20240815"><span class="">documentdb.azure.com/v1api20240815</span></a>
+  <a href="/azure-service-operator/reference/documentdb/v1api20240815/" title="documentdb.azure.com/v1api20240815" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedocumentdbv1api20240815"><span class="">v1api20240815</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceeventgrid-li">
   <a href="/azure-service-operator/reference/eventgrid/" title="EventGrid Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceeventgrid"><span class="">EventGrid</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventgridv1api20200601-li">
-  <a href="/azure-service-operator/reference/eventgrid/v1api20200601/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventgridv1api20200601"><span class="">eventgrid.azure.com/v1api20200601</span></a>
+  <a href="/azure-service-operator/reference/eventgrid/v1api20200601/" title="eventgrid.azure.com/v1api20200601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventgridv1api20200601"><span class="">v1api20200601</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceeventhub-li">
   <a href="/azure-service-operator/reference/eventhub/" title="EventHub Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceeventhub"><span class="">EventHub</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventhubv1api20211101-li">
-  <a href="/azure-service-operator/reference/eventhub/v1api20211101/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventhubv1api20211101"><span class="">eventhub.azure.com/v1api20211101</span></a>
+  <a href="/azure-service-operator/reference/eventhub/v1api20211101/" title="eventhub.azure.com/v1api20211101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventhubv1api20211101"><span class="">v1api20211101</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventhubv1api20240101-li">
-  <a href="/azure-service-operator/reference/eventhub/v1api20240101/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventhubv1api20240101"><span class="">eventhub.azure.com/v1api20240101</span></a>
+  <a href="/azure-service-operator/reference/eventhub/v1api20240101/" title="eventhub.azure.com/v1api20240101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventhubv1api20240101"><span class="">v1api20240101</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencenetworkfrontdoor-li">
   <a href="/azure-service-operator/reference/network.frontdoor/" title="Frontdoor Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencenetworkfrontdoor"><span class="">Frontdoor</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkfrontdoorv1api20220501-li">
-  <a href="/azure-service-operator/reference/network.frontdoor/v1api20220501/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkfrontdoorv1api20220501"><span class="">network.frontdoor.azure.com/v1api20220501</span></a>
+  <a href="/azure-service-operator/reference/network.frontdoor/v1api20220501/" title="network.frontdoor.azure.com/v1api20220501" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkfrontdoorv1api20220501"><span class="">v1api20220501</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreferenceinsights-li">
   <a href="/azure-service-operator/reference/insights/" title="Insights Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceinsights"><span class="">Insights</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferenceinsightsv1api20180301-li">
-  <a href="/azure-service-operator/reference/insights/v1api20180301/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20180301"><span class="">insights.azure.com/v1api20180301</span></a>
+  <a href="/azure-service-operator/reference/insights/v1api20180301/" title="insights.azure.com/v1api20180301" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20180301"><span class="">v1api20180301</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferenceinsightsv1api20180501preview-li">
-  <a href="/azure-service-operator/reference/insights/v1api20180501preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20180501preview"><span class="">insights.azure.com/v1api20180501preview</span></a>
+  <a href="/azure-service-operator/reference/insights/v1api20180501preview/" title="insights.azure.com/v1api20180501preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20180501preview"><span class="">v1api20180501preview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferenceinsightsv1api20200202-li">
-  <a href="/azure-service-operator/reference/insights/v1api20200202/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20200202"><span class="">insights.azure.com/v1api20200202</span></a>
+  <a href="/azure-service-operator/reference/insights/v1api20200202/" title="insights.azure.com/v1api20200202" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20200202"><span class="">v1api20200202</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorreferenceinsightsv1api20210501preview-li">
-  <a href="/azure-service-operator/reference/insights/v1api20210501preview/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20210501preview"><span class="td-sidebar-nav-active-item">insights.azure.com/v1api20210501preview</span></a>
+  <a href="/azure-service-operator/reference/insights/v1api20210501preview/" title="insights.azure.com/v1api20210501preview" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20210501preview"><span class="td-sidebar-nav-active-item">v1api20210501preview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferenceinsightsv1api20220615-li">
-  <a href="/azure-service-operator/reference/insights/v1api20220615/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20220615"><span class="">insights.azure.com/v1api20220615</span></a>
+  <a href="/azure-service-operator/reference/insights/v1api20220615/" title="insights.azure.com/v1api20220615" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20220615"><span class="">v1api20220615</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferenceinsightsv1api20221001-li">
-  <a href="/azure-service-operator/reference/insights/v1api20221001/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20221001"><span class="">insights.azure.com/v1api20221001</span></a>
+  <a href="/azure-service-operator/reference/insights/v1api20221001/" title="insights.azure.com/v1api20221001" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20221001"><span class="">v1api20221001</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferenceinsightsv1api20230101-li">
-  <a href="/azure-service-operator/reference/insights/v1api20230101/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20230101"><span class="">insights.azure.com/v1api20230101</span></a>
+  <a href="/azure-service-operator/reference/insights/v1api20230101/" title="insights.azure.com/v1api20230101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20230101"><span class="">v1api20230101</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferenceinsightsv1api20240101preview-li">
-  <a href="/azure-service-operator/reference/insights/v1api20240101preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20240101preview"><span class="">insights.azure.com/v1api20240101preview</span></a>
+  <a href="/azure-service-operator/reference/insights/v1api20240101preview/" title="insights.azure.com/v1api20240101preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20240101preview"><span class="">v1api20240101preview</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencekeyvault-li">
   <a href="/azure-service-operator/reference/keyvault/" title="KeyVault Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencekeyvault"><span class="">KeyVault</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencekeyvaultv1api20210401preview-li">
-  <a href="/azure-service-operator/reference/keyvault/v1api20210401preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekeyvaultv1api20210401preview"><span class="">keyvault.azure.com/v1api20210401preview</span></a>
+  <a href="/azure-service-operator/reference/keyvault/v1api20210401preview/" title="keyvault.azure.com/v1api20210401preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekeyvaultv1api20210401preview"><span class="">v1api20210401preview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencekeyvaultv1api20230701-li">
-  <a href="/azure-service-operator/reference/keyvault/v1api20230701/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekeyvaultv1api20230701"><span class="">keyvault.azure.com/v1api20230701</span></a>
+  <a href="/azure-service-operator/reference/keyvault/v1api20230701/" title="keyvault.azure.com/v1api20230701" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekeyvaultv1api20230701"><span class="">v1api20230701</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencekubernetesconfiguration-li">
   <a href="/azure-service-operator/reference/kubernetesconfiguration/" title="KubernetesConfiguration Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencekubernetesconfiguration"><span class="">KubernetesConfiguration</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencekubernetesconfigurationv1api20230501-li">
-  <a href="/azure-service-operator/reference/kubernetesconfiguration/v1api20230501/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekubernetesconfigurationv1api20230501"><span class="">kubernetesconfiguration.azure.com/v1api20230501</span></a>
+  <a href="/azure-service-operator/reference/kubernetesconfiguration/v1api20230501/" title="kubernetesconfiguration.azure.com/v1api20230501" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekubernetesconfigurationv1api20230501"><span class="">v1api20230501</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemachinelearningservices-li">
   <a href="/azure-service-operator/reference/machinelearningservices/" title="MachineLearningServices Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemachinelearningservices"><span class="">MachineLearningServices</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701-li">
-  <a href="/azure-service-operator/reference/machinelearningservices/v1api20210701/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701"><span class="">machinelearningservices.azure.com/v1api20210701</span></a>
+  <a href="/azure-service-operator/reference/machinelearningservices/v1api20210701/" title="machinelearningservices.azure.com/v1api20210701" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701"><span class="">v1api20210701</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401-li">
-  <a href="/azure-service-operator/reference/machinelearningservices/v1api20240401/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401"><span class="">machinelearningservices.azure.com/v1api20240401</span></a>
+  <a href="/azure-service-operator/reference/machinelearningservices/v1api20240401/" title="machinelearningservices.azure.com/v1api20240401" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401"><span class="">v1api20240401</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemanagedidentity-li">
   <a href="/azure-service-operator/reference/managedidentity/" title="ManagedIdentity Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemanagedidentity"><span class="">ManagedIdentity</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemanagedidentityv1api20181130-li">
-  <a href="/azure-service-operator/reference/managedidentity/v1api20181130/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemanagedidentityv1api20181130"><span class="">managedidentity.azure.com/v1api20181130</span></a>
+  <a href="/azure-service-operator/reference/managedidentity/v1api20181130/" title="managedidentity.azure.com/v1api20181130" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemanagedidentityv1api20181130"><span class="">v1api20181130</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemanagedidentityv1api20220131preview-li">
-  <a href="/azure-service-operator/reference/managedidentity/v1api20220131preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemanagedidentityv1api20220131preview"><span class="">managedidentity.azure.com/v1api20220131preview</span></a>
+  <a href="/azure-service-operator/reference/managedidentity/v1api20220131preview/" title="managedidentity.azure.com/v1api20220131preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemanagedidentityv1api20220131preview"><span class="">v1api20220131preview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemanagedidentityv1api20230131-li">
-  <a href="/azure-service-operator/reference/managedidentity/v1api20230131/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemanagedidentityv1api20230131"><span class="">managedidentity.azure.com/v1api20230131</span></a>
+  <a href="/azure-service-operator/reference/managedidentity/v1api20230131/" title="managedidentity.azure.com/v1api20230131" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemanagedidentityv1api20230131"><span class="">v1api20230131</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemonitor-li">
   <a href="/azure-service-operator/reference/monitor/" title="Monitor Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemonitor"><span class="">Monitor</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemonitorv1api20230403-li">
-  <a href="/azure-service-operator/reference/monitor/v1api20230403/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemonitorv1api20230403"><span class="">monitor.azure.com/v1api20230403</span></a>
+  <a href="/azure-service-operator/reference/monitor/v1api20230403/" title="monitor.azure.com/v1api20230403" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemonitorv1api20230403"><span class="">v1api20230403</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencenetwork-li">
   <a href="/azure-service-operator/reference/network/" title="Network Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencenetwork"><span class="">Network</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20180501-li">
-  <a href="/azure-service-operator/reference/network/v1api20180501/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20180501"><span class="">network.azure.com/v1api20180501</span></a>
+  <a href="/azure-service-operator/reference/network/v1api20180501/" title="network.azure.com/v1api20180501" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20180501"><span class="">v1api20180501</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20180901-li">
-  <a href="/azure-service-operator/reference/network/v1api20180901/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20180901"><span class="">network.azure.com/v1api20180901</span></a>
+  <a href="/azure-service-operator/reference/network/v1api20180901/" title="network.azure.com/v1api20180901" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20180901"><span class="">v1api20180901</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20200601-li">
-  <a href="/azure-service-operator/reference/network/v1api20200601/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20200601"><span class="">network.azure.com/v1api20200601</span></a>
+  <a href="/azure-service-operator/reference/network/v1api20200601/" title="network.azure.com/v1api20200601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20200601"><span class="">v1api20200601</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20201101-li">
-  <a href="/azure-service-operator/reference/network/v1api20201101/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20201101"><span class="">network.azure.com/v1api20201101</span></a>
+  <a href="/azure-service-operator/reference/network/v1api20201101/" title="network.azure.com/v1api20201101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20201101"><span class="">v1api20201101</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20220401-li">
-  <a href="/azure-service-operator/reference/network/v1api20220401/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220401"><span class="">network.azure.com/v1api20220401</span></a>
+  <a href="/azure-service-operator/reference/network/v1api20220401/" title="network.azure.com/v1api20220401" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220401"><span class="">v1api20220401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20220701-li">
-  <a href="/azure-service-operator/reference/network/v1api20220701/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220701"><span class="">network.azure.com/v1api20220701</span></a>
+  <a href="/azure-service-operator/reference/network/v1api20220701/" title="network.azure.com/v1api20220701" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220701"><span class="">v1api20220701</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20240101-li">
-  <a href="/azure-service-operator/reference/network/v1api20240101/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20240101"><span class="">network.azure.com/v1api20240101</span></a>
+  <a href="/azure-service-operator/reference/network/v1api20240101/" title="network.azure.com/v1api20240101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20240101"><span class="">v1api20240101</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20240301-li">
-  <a href="/azure-service-operator/reference/network/v1api20240301/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20240301"><span class="">network.azure.com/v1api20240301</span></a>
+  <a href="/azure-service-operator/reference/network/v1api20240301/" title="network.azure.com/v1api20240301" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20240301"><span class="">v1api20240301</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20240601-li">
-  <a href="/azure-service-operator/reference/network/v1api20240601/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20240601"><span class="">network.azure.com/v1api20240601</span></a>
+  <a href="/azure-service-operator/reference/network/v1api20240601/" title="network.azure.com/v1api20240601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20240601"><span class="">v1api20240601</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencenotificationhubs-li">
   <a href="/azure-service-operator/reference/notificationhubs/" title="NotificationHubs Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencenotificationhubs"><span class="">NotificationHubs</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenotificationhubsv1api20230901-li">
-  <a href="/azure-service-operator/reference/notificationhubs/v1api20230901/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenotificationhubsv1api20230901"><span class="">notificationhubs.azure.com/v1api20230901</span></a>
+  <a href="/azure-service-operator/reference/notificationhubs/v1api20230901/" title="notificationhubs.azure.com/v1api20230901" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenotificationhubsv1api20230901"><span class="">v1api20230901</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceoperationalinsights-li">
   <a href="/azure-service-operator/reference/operationalinsights/" title="OperationalInsights Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceoperationalinsights"><span class="">OperationalInsights</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceoperationalinsightsv1api20210601-li">
-  <a href="/azure-service-operator/reference/operationalinsights/v1api20210601/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceoperationalinsightsv1api20210601"><span class="">operationalinsights.azure.com/v1api20210601</span></a>
+  <a href="/azure-service-operator/reference/operationalinsights/v1api20210601/" title="operationalinsights.azure.com/v1api20210601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceoperationalinsightsv1api20210601"><span class="">v1api20210601</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceredhatopenshift-li">
   <a href="/azure-service-operator/reference/redhatopenshift/" title="RedHatOpenShift Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceredhatopenshift"><span class="">RedHatOpenShift</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceredhatopenshiftv1api20231122-li">
-  <a href="/azure-service-operator/reference/redhatopenshift/v1api20231122/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceredhatopenshiftv1api20231122"><span class="">redhatopenshift.azure.com/v1api20231122</span></a>
+  <a href="/azure-service-operator/reference/redhatopenshift/v1api20231122/" title="redhatopenshift.azure.com/v1api20231122" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceredhatopenshiftv1api20231122"><span class="">v1api20231122</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceresources-li">
   <a href="/azure-service-operator/reference/resources/" title="Resources Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceresources"><span class="">Resources</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceresourcesv1api20200601-li">
-  <a href="/azure-service-operator/reference/resources/v1api20200601/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceresourcesv1api20200601"><span class="">resources.azure.com/v1api20200601</span></a>
+  <a href="/azure-service-operator/reference/resources/v1api20200601/" title="resources.azure.com/v1api20200601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceresourcesv1api20200601"><span class="">v1api20200601</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesearch-li">
   <a href="/azure-service-operator/reference/search/" title="Search Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesearch"><span class="">Search</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesearchv1api20220901-li">
-  <a href="/azure-service-operator/reference/search/v1api20220901/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesearchv1api20220901"><span class="">search.azure.com/v1api20220901</span></a>
+  <a href="/azure-service-operator/reference/search/v1api20220901/" title="search.azure.com/v1api20220901" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesearchv1api20220901"><span class="">v1api20220901</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceservicebus-li">
   <a href="/azure-service-operator/reference/servicebus/" title="ServiceBus Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceservicebus"><span class="">ServiceBus</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceservicebusv1api20210101preview-li">
-  <a href="/azure-service-operator/reference/servicebus/v1api20210101preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceservicebusv1api20210101preview"><span class="">servicebus.azure.com/v1api20210101preview</span></a>
+  <a href="/azure-service-operator/reference/servicebus/v1api20210101preview/" title="servicebus.azure.com/v1api20210101preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceservicebusv1api20210101preview"><span class="">v1api20210101preview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceservicebusv1api20211101-li">
-  <a href="/azure-service-operator/reference/servicebus/v1api20211101/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceservicebusv1api20211101"><span class="">servicebus.azure.com/v1api20211101</span></a>
+  <a href="/azure-service-operator/reference/servicebus/v1api20211101/" title="servicebus.azure.com/v1api20211101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceservicebusv1api20211101"><span class="">v1api20211101</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceservicebusv1api20221001preview-li">
-  <a href="/azure-service-operator/reference/servicebus/v1api20221001preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceservicebusv1api20221001preview"><span class="">servicebus.azure.com/v1api20221001preview</span></a>
+  <a href="/azure-service-operator/reference/servicebus/v1api20221001preview/" title="servicebus.azure.com/v1api20221001preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceservicebusv1api20221001preview"><span class="">v1api20221001preview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceservicebusv1api20240101-li">
-  <a href="/azure-service-operator/reference/servicebus/v1api20240101/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceservicebusv1api20240101"><span class="">servicebus.azure.com/v1api20240101</span></a>
+  <a href="/azure-service-operator/reference/servicebus/v1api20240101/" title="servicebus.azure.com/v1api20240101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceservicebusv1api20240101"><span class="">v1api20240101</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesignalrservice-li">
   <a href="/azure-service-operator/reference/signalrservice/" title="SignalRService Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesignalrservice"><span class="">SignalRService</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesignalrservicev1api20211001-li">
-  <a href="/azure-service-operator/reference/signalrservice/v1api20211001/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesignalrservicev1api20211001"><span class="">signalrservice.azure.com/v1api20211001</span></a>
+  <a href="/azure-service-operator/reference/signalrservice/v1api20211001/" title="signalrservice.azure.com/v1api20211001" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesignalrservicev1api20211001"><span class="">v1api20211001</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesignalrservicev1api20240301-li">
-  <a href="/azure-service-operator/reference/signalrservice/v1api20240301/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesignalrservicev1api20240301"><span class="">signalrservice.azure.com/v1api20240301</span></a>
+  <a href="/azure-service-operator/reference/signalrservice/v1api20240301/" title="signalrservice.azure.com/v1api20240301" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesignalrservicev1api20240301"><span class="">v1api20240301</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesql-li">
   <a href="/azure-service-operator/reference/sql/" title="Sql Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesql"><span class="">Sql</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesqlv1-li">
-  <a href="/azure-service-operator/reference/sql/v1/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesqlv1"><span class="">sql.azure.com/v1</span></a>
+  <a href="/azure-service-operator/reference/sql/v1/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesqlv1"><span class="">sql.azure.com/</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesqlv1api20211101-li">
-  <a href="/azure-service-operator/reference/sql/v1api20211101/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesqlv1api20211101"><span class="">sql.azure.com/v1api20211101</span></a>
+  <a href="/azure-service-operator/reference/sql/v1api20211101/" title="sql.azure.com/v1api20211101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesqlv1api20211101"><span class="">v1api20211101</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencestorage-li">
   <a href="/azure-service-operator/reference/storage/" title="Storage Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencestorage"><span class="">Storage</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencestoragev1api20210401-li">
-  <a href="/azure-service-operator/reference/storage/v1api20210401/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev1api20210401"><span class="">storage.azure.com/v1api20210401</span></a>
+  <a href="/azure-service-operator/reference/storage/v1api20210401/" title="storage.azure.com/v1api20210401" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev1api20210401"><span class="">v1api20210401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencestoragev1api20220901-li">
-  <a href="/azure-service-operator/reference/storage/v1api20220901/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev1api20220901"><span class="">storage.azure.com/v1api20220901</span></a>
+  <a href="/azure-service-operator/reference/storage/v1api20220901/" title="storage.azure.com/v1api20220901" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev1api20220901"><span class="">v1api20220901</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencestoragev1api20230101-li">
-  <a href="/azure-service-operator/reference/storage/v1api20230101/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev1api20230101"><span class="">storage.azure.com/v1api20230101</span></a>
+  <a href="/azure-service-operator/reference/storage/v1api20230101/" title="storage.azure.com/v1api20230101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev1api20230101"><span class="">v1api20230101</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesubscription-li">
   <a href="/azure-service-operator/reference/subscription/" title="Subscription Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesubscription"><span class="">Subscription</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesubscriptionv1api20211001-li">
-  <a href="/azure-service-operator/reference/subscription/v1api20211001/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesubscriptionv1api20211001"><span class="">subscription.azure.com/v1api20211001</span></a>
+  <a href="/azure-service-operator/reference/subscription/v1api20211001/" title="subscription.azure.com/v1api20211001" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesubscriptionv1api20211001"><span class="">v1api20211001</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesynapse-li">
   <a href="/azure-service-operator/reference/synapse/" title="Synapse Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesynapse"><span class="">Synapse</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesynapsev1api20210601-li">
-  <a href="/azure-service-operator/reference/synapse/v1api20210601/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesynapsev1api20210601"><span class="">synapse.azure.com/v1api20210601</span></a>
+  <a href="/azure-service-operator/reference/synapse/v1api20210601/" title="synapse.azure.com/v1api20210601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesynapsev1api20210601"><span class="">v1api20210601</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceweb-li">
   <a href="/azure-service-operator/reference/web/" title="Web Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceweb"><span class="">Web</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencewebv1api20220301-li">
-  <a href="/azure-service-operator/reference/web/v1api20220301/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencewebv1api20220301"><span class="">web.azure.com/v1api20220301</span></a>
+  <a href="/azure-service-operator/reference/web/v1api20220301/" title="web.azure.com/v1api20220301" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencewebv1api20220301"><span class="">v1api20220301</span></a>
 </li>
   </ul>
 </li>
@@ -775,7 +771,33 @@ Field Description metadata Kubernetes meta/v1.ObjectMeta Refer to the Kubernetes
 
 </div>
 
-            
+            <div class="td-toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#a-idapiversionaapiversion"><a id="APIVersion"></a>APIVersion</a></li>
+    <li><a href="#a-iddiagnosticsettingadiagnosticsetting"><a id="DiagnosticSetting"></a>DiagnosticSetting</a>
+      <ul>
+        <li><a href="#a-iddiagnosticsetting_specadiagnosticsetting_spec"><a id="DiagnosticSetting_Spec"></a>DiagnosticSetting_Spec</a></li>
+        <li><a href="#a-iddiagnosticsetting_statusadiagnosticsetting_status"><a id="DiagnosticSetting_STATUS"></a>DiagnosticSetting_STATUS</a></li>
+      </ul>
+    </li>
+    <li><a href="#a-iddiagnosticsettinglistadiagnosticsettinglist"><a id="DiagnosticSettingList"></a>DiagnosticSettingList</a></li>
+    <li><a href="#a-iddiagnosticsetting_specadiagnosticsetting_spec-1"><a id="DiagnosticSetting_Spec"></a>DiagnosticSetting_Spec</a></li>
+    <li><a href="#a-iddiagnosticsetting_statusadiagnosticsetting_status-1"><a id="DiagnosticSetting_STATUS"></a>DiagnosticSetting_STATUS</a></li>
+    <li><a href="#a-iddiagnosticsettingoperatorspecadiagnosticsettingoperatorspec"><a id="DiagnosticSettingOperatorSpec"></a>DiagnosticSettingOperatorSpec</a></li>
+    <li><a href="#a-idlogsettingsalogsettings"><a id="LogSettings"></a>LogSettings</a></li>
+    <li><a href="#a-idlogsettings_statusalogsettings_status"><a id="LogSettings_STATUS"></a>LogSettings_STATUS</a></li>
+    <li><a href="#a-idmetricsettingsametricsettings"><a id="MetricSettings"></a>MetricSettings</a></li>
+    <li><a href="#a-idmetricsettings_statusametricsettings_status"><a id="MetricSettings_STATUS"></a>MetricSettings_STATUS</a></li>
+    <li><a href="#a-idsystemdata_statusasystemdata_status"><a id="SystemData_STATUS"></a>SystemData_STATUS</a></li>
+    <li><a href="#a-idretentionpolicyaretentionpolicy"><a id="RetentionPolicy"></a>RetentionPolicy</a></li>
+    <li><a href="#a-idretentionpolicy_statusaretentionpolicy_status"><a id="RetentionPolicy_STATUS"></a>RetentionPolicy_STATUS</a></li>
+    <li><a href="#a-idsystemdata_createdbytype_statusasystemdata_createdbytype_status"><a id="SystemData_CreatedByType_STATUS"></a>SystemData_CreatedByType_STATUS</a></li>
+    <li><a href="#a-idsystemdata_lastmodifiedbytype_statusasystemdata_lastmodifiedbytype_status"><a id="SystemData_LastModifiedByType_STATUS"></a>SystemData_LastModifiedByType_STATUS</a></li>
+  </ul>
+</nav>
+      </div>
+    
             
 
           </aside>
@@ -790,7 +812,7 @@ Field Description metadata Kubernetes meta/v1.ObjectMeta Refer to the Kubernetes
   <li class="breadcrumb-item">
     <a href="/azure-service-operator/reference/insights/">Insights</a></li>
   <li class="breadcrumb-item active" aria-current="page">
-    insights.azure.com/v1api20210501preview</li>
+    v1api20210501preview</li>
   </ol>
 </nav>
             
@@ -800,1125 +822,702 @@ Field Description metadata Kubernetes meta/v1.ObjectMeta Refer to the Kubernetes
 	<header class="article-meta">
 		
 </header>
-	<h2 id="insights.azure.com/v1api20210501preview">insights.azure.com/v1api20210501preview</h2>
-<div>
-<p>Package v1api20210501preview contains API Schema definitions for the insights v1api20210501preview API group</p>
-</div>
-Resource Types:
-<ul></ul>
-<h3 id="insights.azure.com/v1api20210501preview.APIVersion">APIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
+	<hr>
+<h2 id="a-idapiversionaapiversion"><a id="APIVersion"></a>APIVersion</h2>
 <table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2021-05-01-preview&#34;</p></td>
-<td></td>
-</tr></tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">Value</th>
+          <th style="text-align: left">Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">&ldquo;2021-05-01-preview&rdquo;</td>
+          <td style="text-align: left"></td>
+      </tr>
+  </tbody>
 </table>
-<h3 id="insights.azure.com/v1api20210501preview.DiagnosticSetting">DiagnosticSetting
-</h3>
-<div>
-<p>Generator information:
-- Generated from: /monitor/resource-manager/Microsoft.Insights/preview/2021-05-01-preview/diagnosticsSettings_API.json
-- ARM URI: /{resourceUri}/providers/Microsoft.Insights/diagnosticSettings/{name}</p>
-</div>
+<h2 id="a-iddiagnosticsettingadiagnosticsetting"><a id="DiagnosticSetting"></a>DiagnosticSetting</h2>
+<p>Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/preview/2021-05-01-preview/diagnosticsSettings_API.json - ARM URI: /{resourceUri}/providers/Microsoft.Insights/diagnosticSettings/{name}</p>
+<p>Used by: <a href="#DiagnosticSettingList">DiagnosticSettingList</a>.</p>
 <table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>metadata</code><br/>
-<em>
-<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
-Kubernetes meta/v1.ObjectMeta
-</a>
-</em>
-</td>
-<td>
-Refer to the Kubernetes API documentation for the fields of the
-<code>metadata</code> field.
-</td>
-</tr>
-<tr>
-<td>
-<code>spec</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20210501preview.DiagnosticSetting_Spec">
-DiagnosticSetting_Spec
-</a>
-</em>
-</td>
-<td>
-<br/>
-<br/>
+  <thead>
+      <tr>
+          <th style="text-align: left">Property</th>
+          <th style="text-align: left">Description</th>
+          <th style="text-align: left">Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta">metav1.ObjectMeta</a></td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">spec</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"><a href="#DiagnosticSetting_Spec">DiagnosticSetting_Spec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">status</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"><a href="#DiagnosticSetting_STATUS">DiagnosticSetting_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="a-iddiagnosticsetting_specadiagnosticsetting_spec"><a id="DiagnosticSetting_Spec"></a>DiagnosticSetting_Spec</h3>
 <table>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>eventHubAuthorizationRuleReference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>EventHubAuthorizationRuleReference: The resource Id for the event hub authorization rule.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>eventHubName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>EventHubName: The name of the event hub. If none is specified, the default event hub will be selected.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>logAnalyticsDestinationType</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LogAnalyticsDestinationType: A string indicating whether the export to Log Analytics should use the default destination
-type, i.e. AzureDiagnostics, or use a destination type constructed as follows: <normalized service identity>_<normalized
-category name>. Possible values are: Dedicated and null (null is default.)</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>logs</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20210501preview.LogSettings">
-[]LogSettings
-</a>
-</em>
-</td>
-<td>
-<p>Logs: The list of logs settings.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>marketplacePartnerReference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>MarketplacePartnerReference: The full ARM resource ID of the Marketplace resource to which you would like to send
-Diagnostic Logs.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>metrics</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20210501preview.MetricSettings">
-[]MetricSettings
-</a>
-</em>
-</td>
-<td>
-<p>Metrics: The list of metric settings.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>operatorSpec</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20210501preview.DiagnosticSettingOperatorSpec">
-DiagnosticSettingOperatorSpec
-</a>
-</em>
-</td>
-<td>
-<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
-passed directly to Azure</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ArbitraryOwnerReference">
-genruntime.ArbitraryOwnerReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an
-extension resource, which means that any other Azure resource can be its owner.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>serviceBusRuleId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ServiceBusRuleId: The service bus rule Id of the diagnostic setting. This is here to maintain backwards compatibility.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>storageAccountReference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>StorageAccountReference: The resource ID of the storage account to which you would like to send Diagnostic Logs.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>workspaceReference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>WorkspaceReference: The full ARM resource ID of the Log Analytics workspace to which you would like to send Diagnostic
-Logs. Example:
-/&#x200b;subscriptions/&#x200b;4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/&#x200b;resourceGroups/&#x200b;insights-integration/&#x200b;providers/&#x200b;Microsoft.OperationalInsights/&#x200b;workspaces/&#x200b;viruela2</&#x200b;p>
-</td>
-</tr>
+  <thead>
+      <tr>
+          <th style="text-align: left">Property</th>
+          <th style="text-align: left">Description</th>
+          <th style="text-align: left">Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">azureName</td>
+          <td style="text-align: left">The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">eventHubAuthorizationRuleReference</td>
+          <td style="text-align: left">The resource Id for the event hub authorization rule.</td>
+          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">eventHubName</td>
+          <td style="text-align: left">The name of the event hub. If none is specified, the default event hub will be selected.</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">logAnalyticsDestinationType</td>
+          <td style="text-align: left">A string indicating whether the export to Log Analytics should use the default destination type, i.e. AzureDiagnostics, or use a destination type constructed as follows: <normalized service identity>_<normalized category name>. Possible values are: Dedicated and null (null is default.)</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">logs</td>
+          <td style="text-align: left">The list of logs settings.</td>
+          <td style="text-align: left"><a href="#LogSettings">LogSettings[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">marketplacePartnerReference</td>
+          <td style="text-align: left">The full ARM resource ID of the Marketplace resource to which you would like to send Diagnostic Logs.</td>
+          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">metrics</td>
+          <td style="text-align: left">The list of metric settings.</td>
+          <td style="text-align: left"><a href="#MetricSettings">MetricSettings[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">operatorSpec</td>
+          <td style="text-align: left">The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+          <td style="text-align: left"><a href="#DiagnosticSettingOperatorSpec">DiagnosticSettingOperatorSpec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">owner</td>
+          <td style="text-align: left">The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an extension resource, which means that any other Azure resource can be its owner.</td>
+          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ArbitraryOwnerReference">genruntime.ArbitraryOwnerReference</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">serviceBusRuleId</td>
+          <td style="text-align: left">The service bus rule Id of the diagnostic setting. This is here to maintain backwards compatibility.</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">storageAccountReference</td>
+          <td style="text-align: left">The resource ID of the storage account to which you would like to send Diagnostic Logs.</td>
+          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">workspaceReference</td>
+          <td style="text-align: left">The full ARM resource ID of the Log Analytics workspace to which you would like to send Diagnostic Logs. Example: /​subscriptions/​4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/​resourceGroups/​insights-integration/​providers/​Microsoft.OperationalInsights/workspaces/viruela2</td>
+          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
 </table>
-</td>
-</tr>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20210501preview.DiagnosticSetting_STATUS">
-DiagnosticSetting_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
+<h3 id="a-iddiagnosticsetting_statusadiagnosticsetting_status"><a id="DiagnosticSetting_STATUS"></a>DiagnosticSetting_STATUS</h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Property</th>
+          <th style="text-align: left">Description</th>
+          <th style="text-align: left">Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">conditions</td>
+          <td style="text-align: left">The observed state of the resource</td>
+          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">eventHubAuthorizationRuleId</td>
+          <td style="text-align: left">The resource Id for the event hub authorization rule.</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">eventHubName</td>
+          <td style="text-align: left">The name of the event hub. If none is specified, the default event hub will be selected.</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">id</td>
+          <td style="text-align: left">Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">logAnalyticsDestinationType</td>
+          <td style="text-align: left">A string indicating whether the export to Log Analytics should use the default destination type, i.e. AzureDiagnostics, or use a destination type constructed as follows: <normalized service identity>_<normalized category name>. Possible values are: Dedicated and null (null is default.)</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">logs</td>
+          <td style="text-align: left">The list of logs settings.</td>
+          <td style="text-align: left"><a href="#LogSettings_STATUS">LogSettings_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">marketplacePartnerId</td>
+          <td style="text-align: left">The full ARM resource ID of the Marketplace resource to which you would like to send Diagnostic Logs.</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">metrics</td>
+          <td style="text-align: left">The list of metric settings.</td>
+          <td style="text-align: left"><a href="#MetricSettings_STATUS">MetricSettings_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">name</td>
+          <td style="text-align: left">The name of the resource</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">serviceBusRuleId</td>
+          <td style="text-align: left">The service bus rule Id of the diagnostic setting. This is here to maintain backwards compatibility.</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">storageAccountId</td>
+          <td style="text-align: left">The resource ID of the storage account to which you would like to send Diagnostic Logs.</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">systemData</td>
+          <td style="text-align: left">The system metadata related to this resource.</td>
+          <td style="text-align: left"><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">type</td>
+          <td style="text-align: left">The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">workspaceId</td>
+          <td style="text-align: left">The full ARM resource ID of the Log Analytics workspace to which you would like to send Diagnostic Logs. Example: /​subscriptions/​4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/​resourceGroups/​insights-integration/​providers/​Microsoft.OperationalInsights/workspaces/viruela2</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
 </table>
-<h3 id="insights.azure.com/v1api20210501preview.DiagnosticSettingOperatorSpec">DiagnosticSettingOperatorSpec
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20210501preview.DiagnosticSetting_Spec">DiagnosticSetting_Spec</a>)
-</p>
-<div>
+<h2 id="a-iddiagnosticsettinglistadiagnosticsettinglist"><a id="DiagnosticSettingList"></a>DiagnosticSettingList</h2>
+<p>Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/preview/2021-05-01-preview/diagnosticsSettings_API.json - ARM URI: /{resourceUri}/providers/Microsoft.Insights/diagnosticSettings/{name}</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Property</th>
+          <th style="text-align: left">Description</th>
+          <th style="text-align: left">Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta">metav1.ListMeta</a></td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">items</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"><a href="#DiagnosticSetting">DiagnosticSetting[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="a-iddiagnosticsetting_specadiagnosticsetting_spec-1"><a id="DiagnosticSetting_Spec"></a>DiagnosticSetting_Spec</h2>
+<p>Used by: <a href="#DiagnosticSetting">DiagnosticSetting</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Property</th>
+          <th style="text-align: left">Description</th>
+          <th style="text-align: left">Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">azureName</td>
+          <td style="text-align: left">The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">eventHubAuthorizationRuleReference</td>
+          <td style="text-align: left">The resource Id for the event hub authorization rule.</td>
+          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">eventHubName</td>
+          <td style="text-align: left">The name of the event hub. If none is specified, the default event hub will be selected.</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">logAnalyticsDestinationType</td>
+          <td style="text-align: left">A string indicating whether the export to Log Analytics should use the default destination type, i.e. AzureDiagnostics, or use a destination type constructed as follows: <normalized service identity>_<normalized category name>. Possible values are: Dedicated and null (null is default.)</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">logs</td>
+          <td style="text-align: left">The list of logs settings.</td>
+          <td style="text-align: left"><a href="#LogSettings">LogSettings[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">marketplacePartnerReference</td>
+          <td style="text-align: left">The full ARM resource ID of the Marketplace resource to which you would like to send Diagnostic Logs.</td>
+          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">metrics</td>
+          <td style="text-align: left">The list of metric settings.</td>
+          <td style="text-align: left"><a href="#MetricSettings">MetricSettings[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">operatorSpec</td>
+          <td style="text-align: left">The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+          <td style="text-align: left"><a href="#DiagnosticSettingOperatorSpec">DiagnosticSettingOperatorSpec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">owner</td>
+          <td style="text-align: left">The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an extension resource, which means that any other Azure resource can be its owner.</td>
+          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ArbitraryOwnerReference">genruntime.ArbitraryOwnerReference</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">serviceBusRuleId</td>
+          <td style="text-align: left">The service bus rule Id of the diagnostic setting. This is here to maintain backwards compatibility.</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">storageAccountReference</td>
+          <td style="text-align: left">The resource ID of the storage account to which you would like to send Diagnostic Logs.</td>
+          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">workspaceReference</td>
+          <td style="text-align: left">The full ARM resource ID of the Log Analytics workspace to which you would like to send Diagnostic Logs. Example: /​subscriptions/​4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/​resourceGroups/​insights-integration/​providers/​Microsoft.OperationalInsights/workspaces/viruela2</td>
+          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="a-iddiagnosticsetting_statusadiagnosticsetting_status-1"><a id="DiagnosticSetting_STATUS"></a>DiagnosticSetting_STATUS</h2>
+<p>Used by: <a href="#DiagnosticSetting">DiagnosticSetting</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Property</th>
+          <th style="text-align: left">Description</th>
+          <th style="text-align: left">Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">conditions</td>
+          <td style="text-align: left">The observed state of the resource</td>
+          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">eventHubAuthorizationRuleId</td>
+          <td style="text-align: left">The resource Id for the event hub authorization rule.</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">eventHubName</td>
+          <td style="text-align: left">The name of the event hub. If none is specified, the default event hub will be selected.</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">id</td>
+          <td style="text-align: left">Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">logAnalyticsDestinationType</td>
+          <td style="text-align: left">A string indicating whether the export to Log Analytics should use the default destination type, i.e. AzureDiagnostics, or use a destination type constructed as follows: <normalized service identity>_<normalized category name>. Possible values are: Dedicated and null (null is default.)</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">logs</td>
+          <td style="text-align: left">The list of logs settings.</td>
+          <td style="text-align: left"><a href="#LogSettings_STATUS">LogSettings_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">marketplacePartnerId</td>
+          <td style="text-align: left">The full ARM resource ID of the Marketplace resource to which you would like to send Diagnostic Logs.</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">metrics</td>
+          <td style="text-align: left">The list of metric settings.</td>
+          <td style="text-align: left"><a href="#MetricSettings_STATUS">MetricSettings_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">name</td>
+          <td style="text-align: left">The name of the resource</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">serviceBusRuleId</td>
+          <td style="text-align: left">The service bus rule Id of the diagnostic setting. This is here to maintain backwards compatibility.</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">storageAccountId</td>
+          <td style="text-align: left">The resource ID of the storage account to which you would like to send Diagnostic Logs.</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">systemData</td>
+          <td style="text-align: left">The system metadata related to this resource.</td>
+          <td style="text-align: left"><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">type</td>
+          <td style="text-align: left">The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">workspaceId</td>
+          <td style="text-align: left">The full ARM resource ID of the Log Analytics workspace to which you would like to send Diagnostic Logs. Example: /​subscriptions/​4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/​resourceGroups/​insights-integration/​providers/​Microsoft.OperationalInsights/workspaces/viruela2</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="a-iddiagnosticsettingoperatorspecadiagnosticsettingoperatorspec"><a id="DiagnosticSettingOperatorSpec"></a>DiagnosticSettingOperatorSpec</h2>
 <p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
-</div>
+<p>Used by: <a href="#DiagnosticSetting_Spec">DiagnosticSetting_Spec</a>.</p>
 <table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>configMapExpressions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
-[]genruntime/core.DestinationExpression
-</a>
-</em>
-</td>
-<td>
-<p>ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>secretExpressions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
-[]genruntime/core.DestinationExpression
-</a>
-</em>
-</td>
-<td>
-<p>SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).</p>
-</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">Property</th>
+          <th style="text-align: left">Description</th>
+          <th style="text-align: left">Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">configMapExpressions</td>
+          <td style="text-align: left">configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</td>
+          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">secretExpressions</td>
+          <td style="text-align: left">configures where to place operator written dynamic secrets (created with CEL expressions).</td>
+          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
 </table>
-<h3 id="insights.azure.com/v1api20210501preview.DiagnosticSetting_STATUS">DiagnosticSetting_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20210501preview.DiagnosticSetting">DiagnosticSetting</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>conditions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
-[]genruntime/conditions.Condition
-</a>
-</em>
-</td>
-<td>
-<p>Conditions: The observed state of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>eventHubAuthorizationRuleId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>EventHubAuthorizationRuleId: The resource Id for the event hub authorization rule.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>eventHubName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>EventHubName: The name of the event hub. If none is specified, the default event hub will be selected.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>logAnalyticsDestinationType</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LogAnalyticsDestinationType: A string indicating whether the export to Log Analytics should use the default destination
-type, i.e. AzureDiagnostics, or use a destination type constructed as follows: <normalized service identity>_<normalized
-category name>. Possible values are: Dedicated and null (null is default.)</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>logs</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20210501preview.LogSettings_STATUS">
-[]LogSettings_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Logs: The list of logs settings.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>marketplacePartnerId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>MarketplacePartnerId: The full ARM resource ID of the Marketplace resource to which you would like to send Diagnostic
-Logs.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>metrics</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20210501preview.MetricSettings_STATUS">
-[]MetricSettings_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Metrics: The list of metric settings.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>serviceBusRuleId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ServiceBusRuleId: The service bus rule Id of the diagnostic setting. This is here to maintain backwards compatibility.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>storageAccountId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>StorageAccountId: The resource ID of the storage account to which you would like to send Diagnostic Logs.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>systemData</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20210501preview.SystemData_STATUS">
-SystemData_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>SystemData: The system metadata related to this resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>workspaceId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>WorkspaceId: The full ARM resource ID of the Log Analytics workspace to which you would like to send Diagnostic Logs.
-Example:
-/&#x200b;subscriptions/&#x200b;4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/&#x200b;resourceGroups/&#x200b;insights-integration/&#x200b;providers/&#x200b;Microsoft.OperationalInsights/&#x200b;workspaces/&#x200b;viruela2</&#x200b;p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1api20210501preview.DiagnosticSetting_Spec">DiagnosticSetting_Spec
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20210501preview.DiagnosticSetting">DiagnosticSetting</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>eventHubAuthorizationRuleReference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>EventHubAuthorizationRuleReference: The resource Id for the event hub authorization rule.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>eventHubName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>EventHubName: The name of the event hub. If none is specified, the default event hub will be selected.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>logAnalyticsDestinationType</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LogAnalyticsDestinationType: A string indicating whether the export to Log Analytics should use the default destination
-type, i.e. AzureDiagnostics, or use a destination type constructed as follows: <normalized service identity>_<normalized
-category name>. Possible values are: Dedicated and null (null is default.)</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>logs</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20210501preview.LogSettings">
-[]LogSettings
-</a>
-</em>
-</td>
-<td>
-<p>Logs: The list of logs settings.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>marketplacePartnerReference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>MarketplacePartnerReference: The full ARM resource ID of the Marketplace resource to which you would like to send
-Diagnostic Logs.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>metrics</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20210501preview.MetricSettings">
-[]MetricSettings
-</a>
-</em>
-</td>
-<td>
-<p>Metrics: The list of metric settings.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>operatorSpec</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20210501preview.DiagnosticSettingOperatorSpec">
-DiagnosticSettingOperatorSpec
-</a>
-</em>
-</td>
-<td>
-<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
-passed directly to Azure</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ArbitraryOwnerReference">
-genruntime.ArbitraryOwnerReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an
-extension resource, which means that any other Azure resource can be its owner.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>serviceBusRuleId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ServiceBusRuleId: The service bus rule Id of the diagnostic setting. This is here to maintain backwards compatibility.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>storageAccountReference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>StorageAccountReference: The resource ID of the storage account to which you would like to send Diagnostic Logs.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>workspaceReference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>WorkspaceReference: The full ARM resource ID of the Log Analytics workspace to which you would like to send Diagnostic
-Logs. Example:
-/&#x200b;subscriptions/&#x200b;4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/&#x200b;resourceGroups/&#x200b;insights-integration/&#x200b;providers/&#x200b;Microsoft.OperationalInsights/&#x200b;workspaces/&#x200b;viruela2</&#x200b;p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1api20210501preview.LogSettings">LogSettings
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20210501preview.DiagnosticSetting_Spec">DiagnosticSetting_Spec</a>)
-</p>
-<div>
+<h2 id="a-idlogsettingsalogsettings"><a id="LogSettings"></a>LogSettings</h2>
 <p>Part of MultiTenantDiagnosticSettings. Specifies the settings for a particular log.</p>
-</div>
+<p>Used by: <a href="#DiagnosticSetting_Spec">DiagnosticSetting_Spec</a>.</p>
 <table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>category</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Category: Name of a Diagnostic Log category for a resource type this setting is applied to. To obtain the list of
-Diagnostic Log categories for a resource, first perform a GET diagnostic settings operation.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>categoryGroup</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CategoryGroup: Name of a Diagnostic Log category group for a resource type this setting is applied to. To obtain the
-list of Diagnostic Log categories for a resource, first perform a GET diagnostic settings operation.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>Enabled: a value indicating whether this log is enabled.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>retentionPolicy</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20210501preview.RetentionPolicy">
-RetentionPolicy
-</a>
-</em>
-</td>
-<td>
-<p>RetentionPolicy: the retention policy for this log.</p>
-</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">Property</th>
+          <th style="text-align: left">Description</th>
+          <th style="text-align: left">Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">category</td>
+          <td style="text-align: left">Name of a Diagnostic Log category for a resource type this setting is applied to. To obtain the list of Diagnostic Log categories for a resource, first perform a GET diagnostic settings operation.</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">categoryGroup</td>
+          <td style="text-align: left">Name of a Diagnostic Log category group for a resource type this setting is applied to. To obtain the list of Diagnostic Log categories for a resource, first perform a GET diagnostic settings operation.</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">enabled</td>
+          <td style="text-align: left">a value indicating whether this log is enabled.</td>
+          <td style="text-align: left">bool<br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">retentionPolicy</td>
+          <td style="text-align: left">the retention policy for this log.</td>
+          <td style="text-align: left"><a href="#RetentionPolicy">RetentionPolicy</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
 </table>
-<h3 id="insights.azure.com/v1api20210501preview.LogSettings_STATUS">LogSettings_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20210501preview.DiagnosticSetting_STATUS">DiagnosticSetting_STATUS</a>)
-</p>
-<div>
+<h2 id="a-idlogsettings_statusalogsettings_status"><a id="LogSettings_STATUS"></a>LogSettings_STATUS</h2>
 <p>Part of MultiTenantDiagnosticSettings. Specifies the settings for a particular log.</p>
-</div>
+<p>Used by: <a href="#DiagnosticSetting_STATUS">DiagnosticSetting_STATUS</a>.</p>
 <table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>category</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Category: Name of a Diagnostic Log category for a resource type this setting is applied to. To obtain the list of
-Diagnostic Log categories for a resource, first perform a GET diagnostic settings operation.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>categoryGroup</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CategoryGroup: Name of a Diagnostic Log category group for a resource type this setting is applied to. To obtain the
-list of Diagnostic Log categories for a resource, first perform a GET diagnostic settings operation.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>Enabled: a value indicating whether this log is enabled.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>retentionPolicy</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20210501preview.RetentionPolicy_STATUS">
-RetentionPolicy_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>RetentionPolicy: the retention policy for this log.</p>
-</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">Property</th>
+          <th style="text-align: left">Description</th>
+          <th style="text-align: left">Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">category</td>
+          <td style="text-align: left">Name of a Diagnostic Log category for a resource type this setting is applied to. To obtain the list of Diagnostic Log categories for a resource, first perform a GET diagnostic settings operation.</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">categoryGroup</td>
+          <td style="text-align: left">Name of a Diagnostic Log category group for a resource type this setting is applied to. To obtain the list of Diagnostic Log categories for a resource, first perform a GET diagnostic settings operation.</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">enabled</td>
+          <td style="text-align: left">a value indicating whether this log is enabled.</td>
+          <td style="text-align: left">bool<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">retentionPolicy</td>
+          <td style="text-align: left">the retention policy for this log.</td>
+          <td style="text-align: left"><a href="#RetentionPolicy_STATUS">RetentionPolicy_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
 </table>
-<h3 id="insights.azure.com/v1api20210501preview.MetricSettings">MetricSettings
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20210501preview.DiagnosticSetting_Spec">DiagnosticSetting_Spec</a>)
-</p>
-<div>
+<h2 id="a-idmetricsettingsametricsettings"><a id="MetricSettings"></a>MetricSettings</h2>
 <p>Part of MultiTenantDiagnosticSettings. Specifies the settings for a particular metric.</p>
-</div>
+<p>Used by: <a href="#DiagnosticSetting_Spec">DiagnosticSetting_Spec</a>.</p>
 <table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>category</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Category: Name of a Diagnostic Metric category for a resource type this setting is applied to. To obtain the list of
-Diagnostic metric categories for a resource, first perform a GET diagnostic settings operation.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>Enabled: a value indicating whether this category is enabled.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>retentionPolicy</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20210501preview.RetentionPolicy">
-RetentionPolicy
-</a>
-</em>
-</td>
-<td>
-<p>RetentionPolicy: the retention policy for this category.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>timeGrain</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>TimeGrain: the timegrain of the metric in ISO8601 format.</p>
-</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">Property</th>
+          <th style="text-align: left">Description</th>
+          <th style="text-align: left">Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">category</td>
+          <td style="text-align: left">Name of a Diagnostic Metric category for a resource type this setting is applied to. To obtain the list of Diagnostic metric categories for a resource, first perform a GET diagnostic settings operation.</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">enabled</td>
+          <td style="text-align: left">a value indicating whether this category is enabled.</td>
+          <td style="text-align: left">bool<br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">retentionPolicy</td>
+          <td style="text-align: left">the retention policy for this category.</td>
+          <td style="text-align: left"><a href="#RetentionPolicy">RetentionPolicy</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">timeGrain</td>
+          <td style="text-align: left">the timegrain of the metric in ISO8601 format.</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
 </table>
-<h3 id="insights.azure.com/v1api20210501preview.MetricSettings_STATUS">MetricSettings_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20210501preview.DiagnosticSetting_STATUS">DiagnosticSetting_STATUS</a>)
-</p>
-<div>
+<h2 id="a-idmetricsettings_statusametricsettings_status"><a id="MetricSettings_STATUS"></a>MetricSettings_STATUS</h2>
 <p>Part of MultiTenantDiagnosticSettings. Specifies the settings for a particular metric.</p>
-</div>
+<p>Used by: <a href="#DiagnosticSetting_STATUS">DiagnosticSetting_STATUS</a>.</p>
 <table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>category</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Category: Name of a Diagnostic Metric category for a resource type this setting is applied to. To obtain the list of
-Diagnostic metric categories for a resource, first perform a GET diagnostic settings operation.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>Enabled: a value indicating whether this category is enabled.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>retentionPolicy</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20210501preview.RetentionPolicy_STATUS">
-RetentionPolicy_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>RetentionPolicy: the retention policy for this category.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>timeGrain</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>TimeGrain: the timegrain of the metric in ISO8601 format.</p>
-</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">Property</th>
+          <th style="text-align: left">Description</th>
+          <th style="text-align: left">Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">category</td>
+          <td style="text-align: left">Name of a Diagnostic Metric category for a resource type this setting is applied to. To obtain the list of Diagnostic metric categories for a resource, first perform a GET diagnostic settings operation.</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">enabled</td>
+          <td style="text-align: left">a value indicating whether this category is enabled.</td>
+          <td style="text-align: left">bool<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">retentionPolicy</td>
+          <td style="text-align: left">the retention policy for this category.</td>
+          <td style="text-align: left"><a href="#RetentionPolicy_STATUS">RetentionPolicy_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">timeGrain</td>
+          <td style="text-align: left">the timegrain of the metric in ISO8601 format.</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
 </table>
-<h3 id="insights.azure.com/v1api20210501preview.RetentionPolicy">RetentionPolicy
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20210501preview.LogSettings">LogSettings</a>, <a href="#insights.azure.com/v1api20210501preview.MetricSettings">MetricSettings</a>)
-</p>
-<div>
-<p>Specifies the retention policy for the log.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>days</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>Days: the number of days for the retention in days. A value of 0 will retain the events indefinitely.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>Enabled: a value indicating whether the retention policy is enabled.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1api20210501preview.RetentionPolicy_STATUS">RetentionPolicy_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20210501preview.LogSettings_STATUS">LogSettings_STATUS</a>, <a href="#insights.azure.com/v1api20210501preview.MetricSettings_STATUS">MetricSettings_STATUS</a>)
-</p>
-<div>
-<p>Specifies the retention policy for the log.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>days</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>Days: the number of days for the retention in days. A value of 0 will retain the events indefinitely.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>Enabled: a value indicating whether the retention policy is enabled.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1api20210501preview.SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20210501preview.SystemData_STATUS">SystemData_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Application&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Key&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;User&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="insights.azure.com/v1api20210501preview.SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20210501preview.SystemData_STATUS">SystemData_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Application&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Key&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;User&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="insights.azure.com/v1api20210501preview.SystemData_STATUS">SystemData_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20210501preview.DiagnosticSetting_STATUS">DiagnosticSetting_STATUS</a>)
-</p>
-<div>
+<h2 id="a-idsystemdata_statusasystemdata_status"><a id="SystemData_STATUS"></a>SystemData_STATUS</h2>
 <p>Metadata pertaining to creation and last modification of the resource.</p>
-</div>
+<p>Used by: <a href="#DiagnosticSetting_STATUS">DiagnosticSetting_STATUS</a>.</p>
 <table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>createdAt</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CreatedAt: The timestamp of resource creation (UTC).</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>createdBy</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CreatedBy: The identity that created the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>createdByType</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20210501preview.SystemData_CreatedByType_STATUS">
-SystemData_CreatedByType_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>CreatedByType: The type of identity that created the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastModifiedAt</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LastModifiedAt: The timestamp of resource last modification (UTC)</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastModifiedBy</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LastModifiedBy: The identity that last modified the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastModifiedByType</code><br/>
-<em>
-<a href="#insights.azure.com/v1api20210501preview.SystemData_LastModifiedByType_STATUS">
-SystemData_LastModifiedByType_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>LastModifiedByType: The type of identity that last modified the resource.</p>
-</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">Property</th>
+          <th style="text-align: left">Description</th>
+          <th style="text-align: left">Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">createdAt</td>
+          <td style="text-align: left">The timestamp of resource creation (UTC).</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">createdBy</td>
+          <td style="text-align: left">The identity that created the resource.</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">createdByType</td>
+          <td style="text-align: left">The type of identity that created the resource.</td>
+          <td style="text-align: left"><a href="#SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">lastModifiedAt</td>
+          <td style="text-align: left">The timestamp of resource last modification (UTC)</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">lastModifiedBy</td>
+          <td style="text-align: left">The identity that last modified the resource.</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">lastModifiedByType</td>
+          <td style="text-align: left">The type of identity that last modified the resource.</td>
+          <td style="text-align: left"><a href="#SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
 </table>
-<hr/>
+<h2 id="a-idretentionpolicyaretentionpolicy"><a id="RetentionPolicy"></a>RetentionPolicy</h2>
+<p>Specifies the retention policy for the log.</p>
+<p>Used by: <a href="#LogSettings">LogSettings</a>, and <a href="#MetricSettings">MetricSettings</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Property</th>
+          <th style="text-align: left">Description</th>
+          <th style="text-align: left">Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">days</td>
+          <td style="text-align: left">the number of days for the retention in days. A value of 0 will retain the events indefinitely.</td>
+          <td style="text-align: left">int<br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">enabled</td>
+          <td style="text-align: left">a value indicating whether the retention policy is enabled.</td>
+          <td style="text-align: left">bool<br/><small>Required</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="a-idretentionpolicy_statusaretentionpolicy_status"><a id="RetentionPolicy_STATUS"></a>RetentionPolicy_STATUS</h2>
+<p>Specifies the retention policy for the log.</p>
+<p>Used by: <a href="#LogSettings_STATUS">LogSettings_STATUS</a>, and <a href="#MetricSettings_STATUS">MetricSettings_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Property</th>
+          <th style="text-align: left">Description</th>
+          <th style="text-align: left">Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">days</td>
+          <td style="text-align: left">the number of days for the retention in days. A value of 0 will retain the events indefinitely.</td>
+          <td style="text-align: left">int<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">enabled</td>
+          <td style="text-align: left">a value indicating whether the retention policy is enabled.</td>
+          <td style="text-align: left">bool<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="a-idsystemdata_createdbytype_statusasystemdata_createdbytype_status"><a id="SystemData_CreatedByType_STATUS"></a>SystemData_CreatedByType_STATUS</h2>
+<p>Used by: <a href="#SystemData_STATUS">SystemData_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Value</th>
+          <th style="text-align: left">Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">&ldquo;Application&rdquo;</td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">&ldquo;Key&rdquo;</td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">&ldquo;ManagedIdentity&rdquo;</td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">&ldquo;User&rdquo;</td>
+          <td style="text-align: left"></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="a-idsystemdata_lastmodifiedbytype_statusasystemdata_lastmodifiedbytype_status"><a id="SystemData_LastModifiedByType_STATUS"></a>SystemData_LastModifiedByType_STATUS</h2>
+<p>Used by: <a href="#SystemData_STATUS">SystemData_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Value</th>
+          <th style="text-align: left">Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">&ldquo;Application&rdquo;</td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">&ldquo;Key&rdquo;</td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">&ldquo;ManagedIdentity&rdquo;</td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">&ldquo;User&rdquo;</td>
+          <td style="text-align: left"></td>
+      </tr>
+  </tbody>
+</table>
 
 	
 </div>
