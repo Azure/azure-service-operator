@@ -47,7 +47,7 @@ Format: GUID
 Example: 00000000-0000-0000-0000-000000000000
 Required: True
 Allowed scopes: Global, namespace, or per-resource">
-  <meta itemprop="wordCount" content="1124">
+  <meta itemprop="wordCount" content="1153">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Configuring ASO">
   <meta name="twitter:description" content="Configuration of ASO is done primarily through a secret in the azureserviceoperator-system namespace called aso-controller-settings. This secret contains both details about the (optional) global credential as well as other operator pod options.
@@ -811,6 +811,7 @@ Allowed scopes: Global, namespace, or per-resource">
         <li><a href="#rate_limit_mode">RATE_LIMIT_MODE</a></li>
         <li><a href="#rate_limit_qps">RATE_LIMIT_QPS</a></li>
         <li><a href="#rate_limit_bucket_size">RATE_LIMIT_BUCKET_SIZE</a></li>
+        <li><a href="#default_reconcile_policy">DEFAULT_RECONCILE_POLICY</a></li>
       </ul>
     </li>
   </ul>
@@ -1009,6 +1010,12 @@ This value only has an effect if RATE_LIMIT_MODE is &lsquo;bucket&rsquo;.</p>
 <p>RATE_LIMIT_BUCKET_SIZE is the size of the bucket. This value only has an effect if RATE_LIMIT_MODE is &lsquo;bucket&rsquo;.</p>
 <p><strong>Format:</strong> <code>int</code></p>
 <p><strong>Example:</strong> <code>200</code></p>
+<p><strong>Required</strong>: False</p>
+<p><strong><a href="/azure-service-operator/guide/authentication/#credential-scope">Allowed scopes</a></strong>: Global</p>
+<h3 id="default_reconcile_policy">DEFAULT_RECONCILE_POLICY</h3>
+<p>DEFAULT_RECONCILE_POLICY specify which reconcile strategy to be used by the operator. If not specified, it is set to &lsquo;manage&rsquo;.</p>
+<p><strong>Format:</strong> <code>string</code></p>
+<p><strong>Example:</strong> <code>detach-on-delete</code></p>
 <p><strong>Required</strong>: False</p>
 <p><strong><a href="/azure-service-operator/guide/authentication/#credential-scope">Allowed scopes</a></strong>: Global</p>
 
