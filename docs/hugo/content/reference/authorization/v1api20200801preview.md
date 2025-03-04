@@ -1,683 +1,157 @@
 ---
+
 title: authorization.azure.com/v1api20200801preview
----
-<h2 id="authorization.azure.com/v1api20200801preview">authorization.azure.com/v1api20200801preview</h2>
-<div>
-<p>Package v1api20200801preview contains API Schema definitions for the authorization v1api20200801preview API group</p>
-</div>
-Resource Types:
-<ul></ul>
-<h3 id="authorization.azure.com/v1api20200801preview.APIVersion">APIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2020-08-01-preview&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="authorization.azure.com/v1api20200801preview.RoleAssignment">RoleAssignment
-</h3>
-<div>
-<p>Generator information:
-- Generated from: /authorization/resource-manager/Microsoft.Authorization/preview/2020-08-01-preview/authorization-RoleAssignmentsCalls.json
-- ARM URI: /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>metadata</code><br/>
-<em>
-<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
-Kubernetes meta/v1.ObjectMeta
-</a>
-</em>
-</td>
-<td>
-Refer to the Kubernetes API documentation for the fields of the
-<code>metadata</code> field.
-</td>
-</tr>
-<tr>
-<td>
-<code>spec</code><br/>
-<em>
-<a href="#authorization.azure.com/v1api20200801preview.RoleAssignment_Spec">
-RoleAssignment_Spec
-</a>
-</em>
-</td>
-<td>
-<br/>
-<br/>
-<table>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>condition</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Condition: The conditions on the role assignment. This limits the resources it can be assigned to. e.g.:
-@Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase
-&lsquo;foo_storage_container&rsquo;</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>conditionVersion</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ConditionVersion: Version of the condition. Currently accepted value is &lsquo;2.0&rsquo;</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>delegatedManagedIdentityResourceReference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>DelegatedManagedIdentityResourceReference: Id of the delegated managed identity resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>description</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Description: Description of role assignment</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>operatorSpec</code><br/>
-<em>
-<a href="#authorization.azure.com/v1api20200801preview.RoleAssignmentOperatorSpec">
-RoleAssignmentOperatorSpec
-</a>
-</em>
-</td>
-<td>
-<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
-passed directly to Azure</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ArbitraryOwnerReference">
-genruntime.ArbitraryOwnerReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an
-extension resource, which means that any other Azure resource can be its owner.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>principalId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>PrincipalId: The principal ID.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>principalIdFromConfig</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">
-genruntime.ConfigMapReference
-</a>
-</em>
-</td>
-<td>
-<p>PrincipalIdFromConfig: The principal ID.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>principalType</code><br/>
-<em>
-<a href="#authorization.azure.com/v1api20200801preview.RoleAssignmentProperties_PrincipalType">
-RoleAssignmentProperties_PrincipalType
-</a>
-</em>
-</td>
-<td>
-<p>PrincipalType: The principal type of the assigned principal ID.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>roleDefinitionReference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>RoleDefinitionReference: The role definition ID.</p>
-</td>
-</tr>
-</table>
-</td>
-</tr>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#authorization.azure.com/v1api20200801preview.RoleAssignment_STATUS">
-RoleAssignment_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="authorization.azure.com/v1api20200801preview.RoleAssignmentOperatorSpec">RoleAssignmentOperatorSpec
-</h3>
-<p>
-(<em>Appears on:</em><a href="#authorization.azure.com/v1api20200801preview.RoleAssignment_Spec">RoleAssignment_Spec</a>)
-</p>
-<div>
-<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>configMapExpressions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
-[]genruntime/core.DestinationExpression
-</a>
-</em>
-</td>
-<td>
-<p>ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>namingConvention</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>NamingConvention: The uuid generation technique to use for any role without an explicit AzureName. One of &lsquo;stable&rsquo; or
-&lsquo;random&rsquo;.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>secretExpressions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
-[]genruntime/core.DestinationExpression
-</a>
-</em>
-</td>
-<td>
-<p>SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="authorization.azure.com/v1api20200801preview.RoleAssignmentProperties_PrincipalType">RoleAssignmentProperties_PrincipalType
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#authorization.azure.com/v1api20200801preview.RoleAssignment_Spec">RoleAssignment_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;ForeignGroup&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Group&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;ServicePrincipal&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;User&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="authorization.azure.com/v1api20200801preview.RoleAssignmentProperties_PrincipalType_STATUS">RoleAssignmentProperties_PrincipalType_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#authorization.azure.com/v1api20200801preview.RoleAssignment_STATUS">RoleAssignment_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;ForeignGroup&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Group&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;ServicePrincipal&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;User&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="authorization.azure.com/v1api20200801preview.RoleAssignment_STATUS">RoleAssignment_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#authorization.azure.com/v1api20200801preview.RoleAssignment">RoleAssignment</a>)
-</p>
-<div>
-<p>Role Assignments</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>condition</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Condition: The conditions on the role assignment. This limits the resources it can be assigned to. e.g.:
-@Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase
-&lsquo;foo_storage_container&rsquo;</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>conditionVersion</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ConditionVersion: Version of the condition. Currently accepted value is &lsquo;2.0&rsquo;</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>conditions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
-[]genruntime/conditions.Condition
-</a>
-</em>
-</td>
-<td>
-<p>Conditions: The observed state of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>createdBy</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CreatedBy: Id of the user who created the assignment</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>createdOn</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CreatedOn: Time it was created</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>delegatedManagedIdentityResourceId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>DelegatedManagedIdentityResourceId: Id of the delegated managed identity resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>description</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Description: Description of role assignment</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: The role assignment ID.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The role assignment name.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>principalId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>PrincipalId: The principal ID.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>principalType</code><br/>
-<em>
-<a href="#authorization.azure.com/v1api20200801preview.RoleAssignmentProperties_PrincipalType_STATUS">
-RoleAssignmentProperties_PrincipalType_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>PrincipalType: The principal type of the assigned principal ID.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>roleDefinitionId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>RoleDefinitionId: The role definition ID.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>scope</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Scope: The role assignment scope.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: The role assignment type.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>updatedBy</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>UpdatedBy: Id of the user who updated the assignment</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>updatedOn</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>UpdatedOn: Time it was updated</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="authorization.azure.com/v1api20200801preview.RoleAssignment_Spec">RoleAssignment_Spec
-</h3>
-<p>
-(<em>Appears on:</em><a href="#authorization.azure.com/v1api20200801preview.RoleAssignment">RoleAssignment</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>condition</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Condition: The conditions on the role assignment. This limits the resources it can be assigned to. e.g.:
-@Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase
-&lsquo;foo_storage_container&rsquo;</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>conditionVersion</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ConditionVersion: Version of the condition. Currently accepted value is &lsquo;2.0&rsquo;</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>delegatedManagedIdentityResourceReference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>DelegatedManagedIdentityResourceReference: Id of the delegated managed identity resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>description</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Description: Description of role assignment</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>operatorSpec</code><br/>
-<em>
-<a href="#authorization.azure.com/v1api20200801preview.RoleAssignmentOperatorSpec">
-RoleAssignmentOperatorSpec
-</a>
-</em>
-</td>
-<td>
-<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
-passed directly to Azure</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ArbitraryOwnerReference">
-genruntime.ArbitraryOwnerReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an
-extension resource, which means that any other Azure resource can be its owner.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>principalId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>PrincipalId: The principal ID.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>principalIdFromConfig</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">
-genruntime.ConfigMapReference
-</a>
-</em>
-</td>
-<td>
-<p>PrincipalIdFromConfig: The principal ID.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>principalType</code><br/>
-<em>
-<a href="#authorization.azure.com/v1api20200801preview.RoleAssignmentProperties_PrincipalType">
-RoleAssignmentProperties_PrincipalType
-</a>
-</em>
-</td>
-<td>
-<p>PrincipalType: The principal type of the assigned principal ID.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>roleDefinitionReference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>RoleDefinitionReference: The role definition ID.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<hr/>
+
+linktitle: v1api20200801preview
+-------------------------------
+
+<a id="APIVersion"></a>APIVersion
+---------------------------------
+
+| Value                | Description |
+|----------------------|-------------|
+| "2020-08-01-preview" |             |
+
+<a id="RoleAssignment"></a>RoleAssignment
+-----------------------------------------
+
+Generator information: - Generated from: /authorization/resource-manager/Microsoft.Authorization/preview/2020-08-01-preview/authorization-RoleAssignmentsCalls.json - ARM URI: /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}
+
+Used by: [RoleAssignmentList](#RoleAssignmentList).
+
+| Property                                                                                | Description | Type                                                                        |
+|-----------------------------------------------------------------------------------------|-------------|-----------------------------------------------------------------------------|
+| [metav1.TypeMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta)     |             |                                                                             |
+| [metav1.ObjectMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta) |             |                                                                             |
+| spec                                                                                    |             | [RoleAssignment_Spec](#RoleAssignment_Spec)<br/><small>Optional</small>     |
+| status                                                                                  |             | [RoleAssignment_STATUS](#RoleAssignment_STATUS)<br/><small>Optional</small> |
+
+### <a id="RoleAssignment_Spec"></a>RoleAssignment_Spec
+
+| Property                                  | Description                                                                                                                                                                                                                                                                                                  | Type                                                                                                                                                                   |
+|-------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| azureName                                 | The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn't have to be.                                                                                                                                                                               | string<br/><small>Optional</small>                                                                                                                                     |
+| condition                                 | The conditions on the role assignment. This limits the resources it can be assigned to. e.g.: @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase 'foo_storage_container'                                                                              | string<br/><small>Optional</small>                                                                                                                                     |
+| conditionVersion                          | Version of the condition. Currently accepted value is '2.0'                                                                                                                                                                                                                                                  | string<br/><small>Optional</small>                                                                                                                                     |
+| delegatedManagedIdentityResourceReference | Id of the delegated managed identity resource                                                                                                                                                                                                                                                                | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small>             |
+| description                               | Description of role assignment                                                                                                                                                                                                                                                                               | string<br/><small>Optional</small>                                                                                                                                     |
+| operatorSpec                              | The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure                                                                                                                                                                              | [RoleAssignmentOperatorSpec](#RoleAssignmentOperatorSpec)<br/><small>Optional</small>                                                                                  |
+| owner                                     | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an extension resource, which means that any other Azure resource can be its owner. | [genruntime.ArbitraryOwnerReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ArbitraryOwnerReference)<br/><small>Required</small> |
+| principalId                               | The principal ID.                                                                                                                                                                                                                                                                                            | string<br/><small>Optional</small>                                                                                                                                     |
+| principalIdFromConfig                     | The principal ID.                                                                                                                                                                                                                                                                                            | [genruntime.ConfigMapReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference)<br/><small>Optional</small>           |
+| principalType                             | The principal type of the assigned principal ID.                                                                                                                                                                                                                                                             | [RoleAssignmentProperties_PrincipalType](#RoleAssignmentProperties_PrincipalType)<br/><small>Optional</small>                                                          |
+| roleDefinitionReference                   | The role definition ID.                                                                                                                                                                                                                                                                                      | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Required</small>             |
+
+### <a id="RoleAssignment_STATUS"></a>RoleAssignment_STATUS
+
+| Property                           | Description                                                                                                                                                                                                                     | Type                                                                                                                                                    |
+|------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| condition                          | The conditions on the role assignment. This limits the resources it can be assigned to. e.g.: @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase 'foo_storage_container' | string<br/><small>Optional</small>                                                                                                                      |
+| conditions                         | The observed state of the resource                                                                                                                                                                                              | [conditions.Condition[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition)<br/><small>Optional</small> |
+| conditionVersion                   | Version of the condition. Currently accepted value is '2.0'                                                                                                                                                                     | string<br/><small>Optional</small>                                                                                                                      |
+| createdBy                          | Id of the user who created the assignment                                                                                                                                                                                       | string<br/><small>Optional</small>                                                                                                                      |
+| createdOn                          | Time it was created                                                                                                                                                                                                             | string<br/><small>Optional</small>                                                                                                                      |
+| delegatedManagedIdentityResourceId | Id of the delegated managed identity resource                                                                                                                                                                                   | string<br/><small>Optional</small>                                                                                                                      |
+| description                        | Description of role assignment                                                                                                                                                                                                  | string<br/><small>Optional</small>                                                                                                                      |
+| id                                 | The role assignment ID.                                                                                                                                                                                                         | string<br/><small>Optional</small>                                                                                                                      |
+| name                               | The role assignment name.                                                                                                                                                                                                       | string<br/><small>Optional</small>                                                                                                                      |
+| principalId                        | The principal ID.                                                                                                                                                                                                               | string<br/><small>Optional</small>                                                                                                                      |
+| principalType                      | The principal type of the assigned principal ID.                                                                                                                                                                                | [RoleAssignmentProperties_PrincipalType_STATUS](#RoleAssignmentProperties_PrincipalType_STATUS)<br/><small>Optional</small>                             |
+| roleDefinitionId                   | The role definition ID.                                                                                                                                                                                                         | string<br/><small>Optional</small>                                                                                                                      |
+| scope                              | The role assignment scope.                                                                                                                                                                                                      | string<br/><small>Optional</small>                                                                                                                      |
+| type                               | The role assignment type.                                                                                                                                                                                                       | string<br/><small>Optional</small>                                                                                                                      |
+| updatedBy                          | Id of the user who updated the assignment                                                                                                                                                                                       | string<br/><small>Optional</small>                                                                                                                      |
+| updatedOn                          | Time it was updated                                                                                                                                                                                                             | string<br/><small>Optional</small>                                                                                                                      |
+
+<a id="RoleAssignmentList"></a>RoleAssignmentList
+-------------------------------------------------
+
+Generator information: - Generated from: /authorization/resource-manager/Microsoft.Authorization/preview/2020-08-01-preview/authorization-RoleAssignmentsCalls.json - ARM URI: /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}
+
+| Property                                                                            | Description | Type                                                            |
+|-------------------------------------------------------------------------------------|-------------|-----------------------------------------------------------------|
+| [metav1.TypeMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta) |             |                                                                 |
+| [metav1.ListMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta) |             |                                                                 |
+| items                                                                               |             | [RoleAssignment[]](#RoleAssignment)<br/><small>Optional</small> |
+
+<a id="RoleAssignment_Spec"></a>RoleAssignment_Spec
+---------------------------------------------------
+
+Used by: [RoleAssignment](#RoleAssignment).
+
+| Property                                  | Description                                                                                                                                                                                                                                                                                                  | Type                                                                                                                                                                   |
+|-------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| azureName                                 | The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn't have to be.                                                                                                                                                                               | string<br/><small>Optional</small>                                                                                                                                     |
+| condition                                 | The conditions on the role assignment. This limits the resources it can be assigned to. e.g.: @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase 'foo_storage_container'                                                                              | string<br/><small>Optional</small>                                                                                                                                     |
+| conditionVersion                          | Version of the condition. Currently accepted value is '2.0'                                                                                                                                                                                                                                                  | string<br/><small>Optional</small>                                                                                                                                     |
+| delegatedManagedIdentityResourceReference | Id of the delegated managed identity resource                                                                                                                                                                                                                                                                | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small>             |
+| description                               | Description of role assignment                                                                                                                                                                                                                                                                               | string<br/><small>Optional</small>                                                                                                                                     |
+| operatorSpec                              | The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure                                                                                                                                                                              | [RoleAssignmentOperatorSpec](#RoleAssignmentOperatorSpec)<br/><small>Optional</small>                                                                                  |
+| owner                                     | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an extension resource, which means that any other Azure resource can be its owner. | [genruntime.ArbitraryOwnerReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ArbitraryOwnerReference)<br/><small>Required</small> |
+| principalId                               | The principal ID.                                                                                                                                                                                                                                                                                            | string<br/><small>Optional</small>                                                                                                                                     |
+| principalIdFromConfig                     | The principal ID.                                                                                                                                                                                                                                                                                            | [genruntime.ConfigMapReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference)<br/><small>Optional</small>           |
+| principalType                             | The principal type of the assigned principal ID.                                                                                                                                                                                                                                                             | [RoleAssignmentProperties_PrincipalType](#RoleAssignmentProperties_PrincipalType)<br/><small>Optional</small>                                                          |
+| roleDefinitionReference                   | The role definition ID.                                                                                                                                                                                                                                                                                      | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Required</small>             |
+
+<a id="RoleAssignment_STATUS"></a>RoleAssignment_STATUS
+-------------------------------------------------------
+
+Role Assignments
+
+Used by: [RoleAssignment](#RoleAssignment).
+
+| Property                           | Description                                                                                                                                                                                                                     | Type                                                                                                                                                    |
+|------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| condition                          | The conditions on the role assignment. This limits the resources it can be assigned to. e.g.: @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase 'foo_storage_container' | string<br/><small>Optional</small>                                                                                                                      |
+| conditions                         | The observed state of the resource                                                                                                                                                                                              | [conditions.Condition[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition)<br/><small>Optional</small> |
+| conditionVersion                   | Version of the condition. Currently accepted value is '2.0'                                                                                                                                                                     | string<br/><small>Optional</small>                                                                                                                      |
+| createdBy                          | Id of the user who created the assignment                                                                                                                                                                                       | string<br/><small>Optional</small>                                                                                                                      |
+| createdOn                          | Time it was created                                                                                                                                                                                                             | string<br/><small>Optional</small>                                                                                                                      |
+| delegatedManagedIdentityResourceId | Id of the delegated managed identity resource                                                                                                                                                                                   | string<br/><small>Optional</small>                                                                                                                      |
+| description                        | Description of role assignment                                                                                                                                                                                                  | string<br/><small>Optional</small>                                                                                                                      |
+| id                                 | The role assignment ID.                                                                                                                                                                                                         | string<br/><small>Optional</small>                                                                                                                      |
+| name                               | The role assignment name.                                                                                                                                                                                                       | string<br/><small>Optional</small>                                                                                                                      |
+| principalId                        | The principal ID.                                                                                                                                                                                                               | string<br/><small>Optional</small>                                                                                                                      |
+| principalType                      | The principal type of the assigned principal ID.                                                                                                                                                                                | [RoleAssignmentProperties_PrincipalType_STATUS](#RoleAssignmentProperties_PrincipalType_STATUS)<br/><small>Optional</small>                             |
+| roleDefinitionId                   | The role definition ID.                                                                                                                                                                                                         | string<br/><small>Optional</small>                                                                                                                      |
+| scope                              | The role assignment scope.                                                                                                                                                                                                      | string<br/><small>Optional</small>                                                                                                                      |
+| type                               | The role assignment type.                                                                                                                                                                                                       | string<br/><small>Optional</small>                                                                                                                      |
+| updatedBy                          | Id of the user who updated the assignment                                                                                                                                                                                       | string<br/><small>Optional</small>                                                                                                                      |
+| updatedOn                          | Time it was updated                                                                                                                                                                                                             | string<br/><small>Optional</small>                                                                                                                      |
+
+<a id="RoleAssignmentOperatorSpec"></a>RoleAssignmentOperatorSpec
+-----------------------------------------------------------------
+
+Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+
+Used by: [RoleAssignment_Spec](#RoleAssignment_Spec).
+
+| Property             | Description                                                                                                   | Type                                                                                                                                                                |
+|----------------------|---------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| configMapExpressions | configures where to place operator written dynamic ConfigMaps (created with CEL expressions).                 | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
+| namingConvention     | The uuid generation technique to use for any role without an explicit AzureName. One of 'stable' or 'random'. | string<br/><small>Optional</small>                                                                                                                                  |
+| secretExpressions    | configures where to place operator written dynamic secrets (created with CEL expressions).                    | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
+
+<a id="RoleAssignmentProperties_PrincipalType"></a>RoleAssignmentProperties_PrincipalType
+-----------------------------------------------------------------------------------------
+
+Used by: [RoleAssignment_Spec](#RoleAssignment_Spec).
+
+| Value              | Description |
+|--------------------|-------------|
+| "ForeignGroup"     |             |
+| "Group"            |             |
+| "ServicePrincipal" |             |
+| "User"             |             |
+
+<a id="RoleAssignmentProperties_PrincipalType_STATUS"></a>RoleAssignmentProperties_PrincipalType_STATUS
+-------------------------------------------------------------------------------------------------------
+
+Used by: [RoleAssignment_STATUS](#RoleAssignment_STATUS).
+
+| Value              | Description |
+|--------------------|-------------|
+| "ForeignGroup"     |             |
+| "Group"            |             |
+| "ServicePrincipal" |             |
+| "User"             |             |

@@ -1,5950 +1,1320 @@
 ---
+
 title: servicebus.azure.com/v1api20221001preview
----
-<h2 id="servicebus.azure.com/v1api20221001preview">servicebus.azure.com/v1api20221001preview</h2>
-<div>
-<p>Package v1api20221001preview contains API Schema definitions for the servicebus v1api20221001preview API group</p>
-</div>
-Resource Types:
-<ul></ul>
-<h3 id="servicebus.azure.com/v1api20221001preview.APIVersion">APIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2022-10-01-preview&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.Action">Action
-</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.NamespacesTopicsSubscriptionsRule_Spec">NamespacesTopicsSubscriptionsRule_Spec</a>)
-</p>
-<div>
-<p>Represents the filter actions which are allowed for the transformation of a message that have been matched by a filter
-expression.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>compatibilityLevel</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>CompatibilityLevel: This property is reserved for future use. An integer value showing the compatibility level,
-currently hard-coded to 20.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>requiresPreprocessing</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>RequiresPreprocessing: Value that indicates whether the rule action requires preprocessing.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sqlExpression</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>SqlExpression: SQL expression. e.g. MyProperty=&lsquo;ABC&rsquo;</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.Action_STATUS">Action_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.NamespacesTopicsSubscriptionsRule_STATUS">NamespacesTopicsSubscriptionsRule_STATUS</a>)
-</p>
-<div>
-<p>Represents the filter actions which are allowed for the transformation of a message that have been matched by a filter
-expression.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>compatibilityLevel</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>CompatibilityLevel: This property is reserved for future use. An integer value showing the compatibility level,
-currently hard-coded to 20.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>requiresPreprocessing</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>RequiresPreprocessing: Value that indicates whether the rule action requires preprocessing.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sqlExpression</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>SqlExpression: SQL expression. e.g. MyProperty=&lsquo;ABC&rsquo;</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.CorrelationFilter">CorrelationFilter
-</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.NamespacesTopicsSubscriptionsRule_Spec">NamespacesTopicsSubscriptionsRule_Spec</a>)
-</p>
-<div>
-<p>Represents the correlation filter expression.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>contentType</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ContentType: Content type of the message.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>correlationId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CorrelationId: Identifier of the correlation.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>label</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Label: Application specific label.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>messageId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>MessageId: Identifier of the message.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Properties: dictionary object for custom filters</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>replyTo</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ReplyTo: Address of the queue to reply to.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>replyToSessionId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ReplyToSessionId: Session identifier to reply to.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>requiresPreprocessing</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>RequiresPreprocessing: Value that indicates whether the rule action requires preprocessing.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sessionId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>SessionId: Session identifier.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>to</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>To: Address to send to.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.CorrelationFilter_STATUS">CorrelationFilter_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.NamespacesTopicsSubscriptionsRule_STATUS">NamespacesTopicsSubscriptionsRule_STATUS</a>)
-</p>
-<div>
-<p>Represents the correlation filter expression.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>contentType</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ContentType: Content type of the message.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>correlationId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CorrelationId: Identifier of the correlation.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>label</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Label: Application specific label.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>messageId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>MessageId: Identifier of the message.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Properties: dictionary object for custom filters</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>replyTo</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ReplyTo: Address of the queue to reply to.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>replyToSessionId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ReplyToSessionId: Session identifier to reply to.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>requiresPreprocessing</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>RequiresPreprocessing: Value that indicates whether the rule action requires preprocessing.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sessionId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>SessionId: Session identifier.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>to</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>To: Address to send to.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.Encryption">Encryption
-</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.Namespace_Spec">Namespace_Spec</a>)
-</p>
-<div>
-<p>Properties to configure Encryption</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>keySource</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.Encryption_KeySource">
-Encryption_KeySource
-</a>
-</em>
-</td>
-<td>
-<p>KeySource: Enumerates the possible value of keySource for Encryption</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>keyVaultProperties</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.KeyVaultProperties">
-[]KeyVaultProperties
-</a>
-</em>
-</td>
-<td>
-<p>KeyVaultProperties: Properties of KeyVault</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>requireInfrastructureEncryption</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>RequireInfrastructureEncryption: Enable Infrastructure Encryption (Double Encryption)</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.Encryption_KeySource">Encryption_KeySource
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.Encryption">Encryption</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Microsoft.KeyVault&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.Encryption_KeySource_STATUS">Encryption_KeySource_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.Encryption_STATUS">Encryption_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Microsoft.KeyVault&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.Encryption_STATUS">Encryption_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.Namespace_STATUS">Namespace_STATUS</a>)
-</p>
-<div>
-<p>Properties to configure Encryption</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>keySource</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.Encryption_KeySource_STATUS">
-Encryption_KeySource_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>KeySource: Enumerates the possible value of keySource for Encryption</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>keyVaultProperties</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.KeyVaultProperties_STATUS">
-[]KeyVaultProperties_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>KeyVaultProperties: Properties of KeyVault</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>requireInfrastructureEncryption</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>RequireInfrastructureEncryption: Enable Infrastructure Encryption (Double Encryption)</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.EntityStatus_STATUS">EntityStatus_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.NamespacesQueue_STATUS">NamespacesQueue_STATUS</a>, <a href="#servicebus.azure.com/v1api20221001preview.NamespacesTopic_STATUS">NamespacesTopic_STATUS</a>, <a href="#servicebus.azure.com/v1api20221001preview.NamespacesTopicsSubscription_STATUS">NamespacesTopicsSubscription_STATUS</a>)
-</p>
-<div>
-<p>Entity status.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Active&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Creating&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Deleting&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Disabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;ReceiveDisabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Renaming&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Restoring&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;SendDisabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Unknown&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.FilterType">FilterType
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.NamespacesTopicsSubscriptionsRule_Spec">NamespacesTopicsSubscriptionsRule_Spec</a>)
-</p>
-<div>
-<p>Rule filter types</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;CorrelationFilter&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;SqlFilter&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.FilterType_STATUS">FilterType_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.NamespacesTopicsSubscriptionsRule_STATUS">NamespacesTopicsSubscriptionsRule_STATUS</a>)
-</p>
-<div>
-<p>Rule filter types</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;CorrelationFilter&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;SqlFilter&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.Identity">Identity
-</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.Namespace_Spec">Namespace_Spec</a>)
-</p>
-<div>
-<p>Properties to configure User Assigned Identities for Bring your Own Keys</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.Identity_Type">
-Identity_Type
-</a>
-</em>
-</td>
-<td>
-<p>Type: Type of managed service identity.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>userAssignedIdentities</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.UserAssignedIdentityDetails">
-[]UserAssignedIdentityDetails
-</a>
-</em>
-</td>
-<td>
-<p>UserAssignedIdentities: Properties for User Assigned Identities</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.Identity_STATUS">Identity_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.Namespace_STATUS">Namespace_STATUS</a>)
-</p>
-<div>
-<p>Properties to configure User Assigned Identities for Bring your Own Keys</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>principalId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>PrincipalId: ObjectId from the KeyVault</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tenantId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>TenantId: TenantId from the KeyVault</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.Identity_Type_STATUS">
-Identity_Type_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Type: Type of managed service identity.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>userAssignedIdentities</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.UserAssignedIdentity_STATUS">
-map[string]./api/servicebus/v1api20221001preview.UserAssignedIdentity_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>UserAssignedIdentities: Properties for User Assigned Identities</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.Identity_Type">Identity_Type
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.Identity">Identity</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;None&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;SystemAssigned&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;SystemAssigned, UserAssigned&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;UserAssigned&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.Identity_Type_STATUS">Identity_Type_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.Identity_STATUS">Identity_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;None&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;SystemAssigned&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;SystemAssigned, UserAssigned&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;UserAssigned&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.KeyVaultProperties">KeyVaultProperties
-</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.Encryption">Encryption</a>)
-</p>
-<div>
-<p>Properties to configure keyVault Properties</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>identity</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.UserAssignedIdentityProperties">
-UserAssignedIdentityProperties
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>keyName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>KeyName: Name of the Key from KeyVault</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>keyVaultUri</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>KeyVaultUri: Uri of KeyVault</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>keyVersion</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>KeyVersion: Version of KeyVault</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.KeyVaultProperties_STATUS">KeyVaultProperties_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.Encryption_STATUS">Encryption_STATUS</a>)
-</p>
-<div>
-<p>Properties to configure keyVault Properties</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>identity</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.UserAssignedIdentityProperties_STATUS">
-UserAssignedIdentityProperties_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>keyName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>KeyName: Name of the Key from KeyVault</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>keyVaultUri</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>KeyVaultUri: Uri of KeyVault</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>keyVersion</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>KeyVersion: Version of KeyVault</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.MessageCountDetails_STATUS">MessageCountDetails_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.NamespacesQueue_STATUS">NamespacesQueue_STATUS</a>, <a href="#servicebus.azure.com/v1api20221001preview.NamespacesTopic_STATUS">NamespacesTopic_STATUS</a>, <a href="#servicebus.azure.com/v1api20221001preview.NamespacesTopicsSubscription_STATUS">NamespacesTopicsSubscription_STATUS</a>)
-</p>
-<div>
-<p>Message Count Details.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>activeMessageCount</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>ActiveMessageCount: Number of active messages in the queue, topic, or subscription.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>deadLetterMessageCount</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>DeadLetterMessageCount: Number of messages that are dead lettered.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>scheduledMessageCount</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>ScheduledMessageCount: Number of scheduled messages.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>transferDeadLetterMessageCount</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>TransferDeadLetterMessageCount: Number of messages transferred into dead letters.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>transferMessageCount</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>TransferMessageCount: Number of messages transferred to another queue, topic, or subscription.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.Namespace">Namespace
-</h3>
-<div>
-<p>Generator information:
-- Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/namespace-preview.json
-- ARM URI: /&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.ServiceBus/&#x200b;namespaces/&#x200b;{namespaceName}</&#x200b;p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>metadata</code><br/>
-<em>
-<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
-Kubernetes meta/v1.ObjectMeta
-</a>
-</em>
-</td>
-<td>
-Refer to the Kubernetes API documentation for the fields of the
-<code>metadata</code> field.
-</td>
-</tr>
-<tr>
-<td>
-<code>spec</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.Namespace_Spec">
-Namespace_Spec
-</a>
-</em>
-</td>
-<td>
-<br/>
-<br/>
-<table>
-<tr>
-<td>
-<code>alternateName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AlternateName: Alternate name for namespace</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>disableLocalAuth</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>DisableLocalAuth: This property disables SAS authentication for the Service Bus namespace.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>encryption</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.Encryption">
-Encryption
-</a>
-</em>
-</td>
-<td>
-<p>Encryption: Properties of BYOK Encryption description</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>identity</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.Identity">
-Identity
-</a>
-</em>
-</td>
-<td>
-<p>Identity: Properties of BYOK Identity description</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: The Geo-location where the resource lives</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>minimumTlsVersion</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.SBNamespaceProperties_MinimumTlsVersion">
-SBNamespaceProperties_MinimumTlsVersion
-</a>
-</em>
-</td>
-<td>
-<p>MinimumTlsVersion: The minimum TLS version for the cluster to support, e.g. &lsquo;1.2&rsquo;</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>operatorSpec</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.NamespaceOperatorSpec">
-NamespaceOperatorSpec
-</a>
-</em>
-</td>
-<td>
-<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
-passed directly to Azure</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a resources.azure.com/ResourceGroup resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>premiumMessagingPartitions</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>PremiumMessagingPartitions: The number of partitions of a Service Bus namespace. This property is only applicable to
-Premium SKU namespaces. The default value is 1 and possible values are 1, 2 and 4</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>publicNetworkAccess</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.SBNamespaceProperties_PublicNetworkAccess">
-SBNamespaceProperties_PublicNetworkAccess
-</a>
-</em>
-</td>
-<td>
-<p>PublicNetworkAccess: This determines if traffic is allowed over public network. By default it is enabled.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sku</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.SBSku">
-SBSku
-</a>
-</em>
-</td>
-<td>
-<p>Sku: Properties of SKU</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Resource tags</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>zoneRedundant</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>ZoneRedundant: Enabling this property creates a Premium Service Bus Namespace in regions supported availability zones.</p>
-</td>
-</tr>
-</table>
-</td>
-</tr>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.Namespace_STATUS">
-Namespace_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.NamespaceOperatorSecrets">NamespaceOperatorSecrets
-</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.NamespaceOperatorSpec">NamespaceOperatorSpec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>endpoint</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">
-genruntime.SecretDestination
-</a>
-</em>
-</td>
-<td>
-<p>Endpoint: indicates where the Endpoint secret should be placed. If omitted, the secret will not be retrieved from Azure.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>primaryConnectionString</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">
-genruntime.SecretDestination
-</a>
-</em>
-</td>
-<td>
-<p>PrimaryConnectionString: indicates where the PrimaryConnectionString secret should be placed. If omitted, the secret
-will not be retrieved from Azure.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>primaryKey</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">
-genruntime.SecretDestination
-</a>
-</em>
-</td>
-<td>
-<p>PrimaryKey: indicates where the PrimaryKey secret should be placed. If omitted, the secret will not be retrieved from
-Azure.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>secondaryConnectionString</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">
-genruntime.SecretDestination
-</a>
-</em>
-</td>
-<td>
-<p>SecondaryConnectionString: indicates where the SecondaryConnectionString secret should be placed. If omitted, the secret
-will not be retrieved from Azure.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>secondaryKey</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">
-genruntime.SecretDestination
-</a>
-</em>
-</td>
-<td>
-<p>SecondaryKey: indicates where the SecondaryKey secret should be placed. If omitted, the secret will not be retrieved
-from Azure.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.NamespaceOperatorSpec">NamespaceOperatorSpec
-</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.Namespace_Spec">Namespace_Spec</a>)
-</p>
-<div>
-<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>configMapExpressions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
-[]genruntime/core.DestinationExpression
-</a>
-</em>
-</td>
-<td>
-<p>ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>secretExpressions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
-[]genruntime/core.DestinationExpression
-</a>
-</em>
-</td>
-<td>
-<p>SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>secrets</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.NamespaceOperatorSecrets">
-NamespaceOperatorSecrets
-</a>
-</em>
-</td>
-<td>
-<p>Secrets: configures where to place Azure generated secrets.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.Namespace_STATUS">Namespace_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.Namespace">Namespace</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>alternateName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AlternateName: Alternate name for namespace</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>conditions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
-[]genruntime/conditions.Condition
-</a>
-</em>
-</td>
-<td>
-<p>Conditions: The observed state of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>createdAt</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CreatedAt: The time the namespace was created</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>disableLocalAuth</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>DisableLocalAuth: This property disables SAS authentication for the Service Bus namespace.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>encryption</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.Encryption_STATUS">
-Encryption_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Encryption: Properties of BYOK Encryption description</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Resource Id</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>identity</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.Identity_STATUS">
-Identity_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Identity: Properties of BYOK Identity description</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: The Geo-location where the resource lives</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>metricId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>MetricId: Identifier for Azure Insights metrics</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>minimumTlsVersion</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.SBNamespaceProperties_MinimumTlsVersion_STATUS">
-SBNamespaceProperties_MinimumTlsVersion_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>MinimumTlsVersion: The minimum TLS version for the cluster to support, e.g. &lsquo;1.2&rsquo;</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: Resource name</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>premiumMessagingPartitions</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>PremiumMessagingPartitions: The number of partitions of a Service Bus namespace. This property is only applicable to
-Premium SKU namespaces. The default value is 1 and possible values are 1, 2 and 4</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>privateEndpointConnections</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.PrivateEndpointConnection_STATUS">
-[]PrivateEndpointConnection_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>PrivateEndpointConnections: List of private endpoint connections.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>provisioningState</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ProvisioningState: Provisioning state of the namespace.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>publicNetworkAccess</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.SBNamespaceProperties_PublicNetworkAccess_STATUS">
-SBNamespaceProperties_PublicNetworkAccess_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>PublicNetworkAccess: This determines if traffic is allowed over public network. By default it is enabled.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>serviceBusEndpoint</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ServiceBusEndpoint: Endpoint you can use to perform Service Bus operations.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sku</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.SBSku_STATUS">
-SBSku_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Sku: Properties of SKU</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Status: Status of the namespace.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>systemData</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.SystemData_STATUS">
-SystemData_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>SystemData: The system meta data relating to this resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Resource tags</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: Resource type</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>updatedAt</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>UpdatedAt: The time the namespace was updated.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>zoneRedundant</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>ZoneRedundant: Enabling this property creates a Premium Service Bus Namespace in regions supported availability zones.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.Namespace_Spec">Namespace_Spec
-</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.Namespace">Namespace</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>alternateName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AlternateName: Alternate name for namespace</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>disableLocalAuth</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>DisableLocalAuth: This property disables SAS authentication for the Service Bus namespace.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>encryption</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.Encryption">
-Encryption
-</a>
-</em>
-</td>
-<td>
-<p>Encryption: Properties of BYOK Encryption description</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>identity</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.Identity">
-Identity
-</a>
-</em>
-</td>
-<td>
-<p>Identity: Properties of BYOK Identity description</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: The Geo-location where the resource lives</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>minimumTlsVersion</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.SBNamespaceProperties_MinimumTlsVersion">
-SBNamespaceProperties_MinimumTlsVersion
-</a>
-</em>
-</td>
-<td>
-<p>MinimumTlsVersion: The minimum TLS version for the cluster to support, e.g. &lsquo;1.2&rsquo;</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>operatorSpec</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.NamespaceOperatorSpec">
-NamespaceOperatorSpec
-</a>
-</em>
-</td>
-<td>
-<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
-passed directly to Azure</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a resources.azure.com/ResourceGroup resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>premiumMessagingPartitions</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>PremiumMessagingPartitions: The number of partitions of a Service Bus namespace. This property is only applicable to
-Premium SKU namespaces. The default value is 1 and possible values are 1, 2 and 4</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>publicNetworkAccess</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.SBNamespaceProperties_PublicNetworkAccess">
-SBNamespaceProperties_PublicNetworkAccess
-</a>
-</em>
-</td>
-<td>
-<p>PublicNetworkAccess: This determines if traffic is allowed over public network. By default it is enabled.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sku</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.SBSku">
-SBSku
-</a>
-</em>
-</td>
-<td>
-<p>Sku: Properties of SKU</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Resource tags</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>zoneRedundant</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>ZoneRedundant: Enabling this property creates a Premium Service Bus Namespace in regions supported availability zones.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.NamespacesAuthorizationRule">NamespacesAuthorizationRule
-</h3>
-<div>
-<p>Generator information:
-- Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/AuthorizationRules.json
-- ARM URI: /&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.ServiceBus/&#x200b;namespaces/&#x200b;{namespaceName}/&#x200b;AuthorizationRules/&#x200b;{authorizationRuleName}</&#x200b;p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>metadata</code><br/>
-<em>
-<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
-Kubernetes meta/v1.ObjectMeta
-</a>
-</em>
-</td>
-<td>
-Refer to the Kubernetes API documentation for the fields of the
-<code>metadata</code> field.
-</td>
-</tr>
-<tr>
-<td>
-<code>spec</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.NamespacesAuthorizationRule_Spec">
-NamespacesAuthorizationRule_Spec
-</a>
-</em>
-</td>
-<td>
-<br/>
-<br/>
-<table>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>operatorSpec</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.NamespacesAuthorizationRuleOperatorSpec">
-NamespacesAuthorizationRuleOperatorSpec
-</a>
-</em>
-</td>
-<td>
-<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
-passed directly to Azure</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a servicebus.azure.com/Namespace resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>rights</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.Namespaces_AuthorizationRule_Properties_Rights_Spec">
-[]Namespaces_AuthorizationRule_Properties_Rights_Spec
-</a>
-</em>
-</td>
-<td>
-<p>Rights: The rights associated with the rule.</p>
-</td>
-</tr>
-</table>
-</td>
-</tr>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.NamespacesAuthorizationRule_STATUS">
-NamespacesAuthorizationRule_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.NamespacesAuthorizationRuleOperatorSecrets">NamespacesAuthorizationRuleOperatorSecrets
-</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.NamespacesAuthorizationRuleOperatorSpec">NamespacesAuthorizationRuleOperatorSpec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>primaryConnectionString</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">
-genruntime.SecretDestination
-</a>
-</em>
-</td>
-<td>
-<p>PrimaryConnectionString: indicates where the PrimaryConnectionString secret should be placed. If omitted, the secret
-will not be retrieved from Azure.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>primaryKey</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">
-genruntime.SecretDestination
-</a>
-</em>
-</td>
-<td>
-<p>PrimaryKey: indicates where the PrimaryKey secret should be placed. If omitted, the secret will not be retrieved from
-Azure.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>secondaryConnectionString</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">
-genruntime.SecretDestination
-</a>
-</em>
-</td>
-<td>
-<p>SecondaryConnectionString: indicates where the SecondaryConnectionString secret should be placed. If omitted, the secret
-will not be retrieved from Azure.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>secondaryKey</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">
-genruntime.SecretDestination
-</a>
-</em>
-</td>
-<td>
-<p>SecondaryKey: indicates where the SecondaryKey secret should be placed. If omitted, the secret will not be retrieved
-from Azure.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.NamespacesAuthorizationRuleOperatorSpec">NamespacesAuthorizationRuleOperatorSpec
-</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.NamespacesAuthorizationRule_Spec">NamespacesAuthorizationRule_Spec</a>)
-</p>
-<div>
-<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>configMapExpressions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
-[]genruntime/core.DestinationExpression
-</a>
-</em>
-</td>
-<td>
-<p>ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>secretExpressions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
-[]genruntime/core.DestinationExpression
-</a>
-</em>
-</td>
-<td>
-<p>SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>secrets</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.NamespacesAuthorizationRuleOperatorSecrets">
-NamespacesAuthorizationRuleOperatorSecrets
-</a>
-</em>
-</td>
-<td>
-<p>Secrets: configures where to place Azure generated secrets.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.NamespacesAuthorizationRule_STATUS">NamespacesAuthorizationRule_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.NamespacesAuthorizationRule">NamespacesAuthorizationRule</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>conditions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
-[]genruntime/conditions.Condition
-</a>
-</em>
-</td>
-<td>
-<p>Conditions: The observed state of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: The geo-location where the resource lives</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>rights</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.Namespaces_AuthorizationRule_Properties_Rights_STATUS">
-[]Namespaces_AuthorizationRule_Properties_Rights_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Rights: The rights associated with the rule.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>systemData</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.SystemData_STATUS">
-SystemData_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>SystemData: The system meta data relating to this resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.EventHub/Namespaces&rdquo; or &ldquo;Microsoft.EventHub/Namespaces/EventHubs&rdquo;</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.NamespacesAuthorizationRule_Spec">NamespacesAuthorizationRule_Spec
-</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.NamespacesAuthorizationRule">NamespacesAuthorizationRule</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>operatorSpec</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.NamespacesAuthorizationRuleOperatorSpec">
-NamespacesAuthorizationRuleOperatorSpec
-</a>
-</em>
-</td>
-<td>
-<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
-passed directly to Azure</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a servicebus.azure.com/Namespace resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>rights</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.Namespaces_AuthorizationRule_Properties_Rights_Spec">
-[]Namespaces_AuthorizationRule_Properties_Rights_Spec
-</a>
-</em>
-</td>
-<td>
-<p>Rights: The rights associated with the rule.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.NamespacesQueue">NamespacesQueue
-</h3>
-<div>
-<p>Generator information:
-- Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/Queue.json
-- ARM URI: /&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.ServiceBus/&#x200b;namespaces/&#x200b;{namespaceName}/&#x200b;queues/&#x200b;{queueName}</&#x200b;p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>metadata</code><br/>
-<em>
-<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
-Kubernetes meta/v1.ObjectMeta
-</a>
-</em>
-</td>
-<td>
-Refer to the Kubernetes API documentation for the fields of the
-<code>metadata</code> field.
-</td>
-</tr>
-<tr>
-<td>
-<code>spec</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.NamespacesQueue_Spec">
-NamespacesQueue_Spec
-</a>
-</em>
-</td>
-<td>
-<br/>
-<br/>
-<table>
-<tr>
-<td>
-<code>autoDeleteOnIdle</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AutoDeleteOnIdle: ISO 8061 timeSpan idle interval after which the queue is automatically deleted. The minimum duration
-is 5 minutes.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>deadLetteringOnMessageExpiration</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>DeadLetteringOnMessageExpiration: A value that indicates whether this queue has dead letter support when a message
-expires.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>defaultMessageTimeToLive</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>DefaultMessageTimeToLive: ISO 8601 default message timespan to live value. This is the duration after which the message
-expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not
-set on a message itself.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>duplicateDetectionHistoryTimeWindow</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>DuplicateDetectionHistoryTimeWindow: ISO 8601 timeSpan structure that defines the duration of the duplicate detection
-history. The default value is 10 minutes.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableBatchedOperations</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnableBatchedOperations: Value that indicates whether server-side batched operations are enabled.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableExpress</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnableExpress: A value that indicates whether Express Entities are enabled. An express queue holds a message in memory
-temporarily before writing it to persistent storage.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enablePartitioning</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnablePartitioning: A value that indicates whether the queue is to be partitioned across multiple message brokers.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>forwardDeadLetteredMessagesTo</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ForwardDeadLetteredMessagesTo: Queue/Topic name to forward the Dead Letter message</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>forwardTo</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ForwardTo: Queue/Topic name to forward the messages</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lockDuration</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LockDuration: ISO 8601 timespan duration of a peek-lock; that is, the amount of time that the message is locked for
-other receivers. The maximum value for LockDuration is 5 minutes; the default value is 1 minute.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>maxDeliveryCount</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>MaxDeliveryCount: The maximum delivery count. A message is automatically deadlettered after this number of deliveries.
-default value is 10.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>maxMessageSizeInKilobytes</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>MaxMessageSizeInKilobytes: Maximum size (in KB) of the message payload that can be accepted by the queue. This property
-is only used in Premium today and default is 1024.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>maxSizeInMegabytes</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>MaxSizeInMegabytes: The maximum size of the queue in megabytes, which is the size of memory allocated for the queue.
-Default is 1024.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>operatorSpec</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.NamespacesQueueOperatorSpec">
-NamespacesQueueOperatorSpec
-</a>
-</em>
-</td>
-<td>
-<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
-passed directly to Azure</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a servicebus.azure.com/Namespace resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>requiresDuplicateDetection</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>RequiresDuplicateDetection: A value indicating if this queue requires duplicate detection.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>requiresSession</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>RequiresSession: A value that indicates whether the queue supports the concept of sessions.</p>
-</td>
-</tr>
-</table>
-</td>
-</tr>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.NamespacesQueue_STATUS">
-NamespacesQueue_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.NamespacesQueueOperatorSpec">NamespacesQueueOperatorSpec
-</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.NamespacesQueue_Spec">NamespacesQueue_Spec</a>)
-</p>
-<div>
-<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>configMapExpressions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
-[]genruntime/core.DestinationExpression
-</a>
-</em>
-</td>
-<td>
-<p>ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>secretExpressions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
-[]genruntime/core.DestinationExpression
-</a>
-</em>
-</td>
-<td>
-<p>SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.NamespacesQueue_STATUS">NamespacesQueue_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.NamespacesQueue">NamespacesQueue</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>accessedAt</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AccessedAt: Last time a message was sent, or the last time there was a receive request to this queue.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>autoDeleteOnIdle</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AutoDeleteOnIdle: ISO 8061 timeSpan idle interval after which the queue is automatically deleted. The minimum duration
-is 5 minutes.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>conditions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
-[]genruntime/conditions.Condition
-</a>
-</em>
-</td>
-<td>
-<p>Conditions: The observed state of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>countDetails</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.MessageCountDetails_STATUS">
-MessageCountDetails_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>CountDetails: Message Count Details.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>createdAt</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CreatedAt: The exact time the message was created.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>deadLetteringOnMessageExpiration</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>DeadLetteringOnMessageExpiration: A value that indicates whether this queue has dead letter support when a message
-expires.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>defaultMessageTimeToLive</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>DefaultMessageTimeToLive: ISO 8601 default message timespan to live value. This is the duration after which the message
-expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not
-set on a message itself.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>duplicateDetectionHistoryTimeWindow</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>DuplicateDetectionHistoryTimeWindow: ISO 8601 timeSpan structure that defines the duration of the duplicate detection
-history. The default value is 10 minutes.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableBatchedOperations</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnableBatchedOperations: Value that indicates whether server-side batched operations are enabled.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableExpress</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnableExpress: A value that indicates whether Express Entities are enabled. An express queue holds a message in memory
-temporarily before writing it to persistent storage.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enablePartitioning</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnablePartitioning: A value that indicates whether the queue is to be partitioned across multiple message brokers.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>forwardDeadLetteredMessagesTo</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ForwardDeadLetteredMessagesTo: Queue/Topic name to forward the Dead Letter message</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>forwardTo</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ForwardTo: Queue/Topic name to forward the messages</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: The geo-location where the resource lives</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lockDuration</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LockDuration: ISO 8601 timespan duration of a peek-lock; that is, the amount of time that the message is locked for
-other receivers. The maximum value for LockDuration is 5 minutes; the default value is 1 minute.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>maxDeliveryCount</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>MaxDeliveryCount: The maximum delivery count. A message is automatically deadlettered after this number of deliveries.
-default value is 10.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>maxMessageSizeInKilobytes</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>MaxMessageSizeInKilobytes: Maximum size (in KB) of the message payload that can be accepted by the queue. This property
-is only used in Premium today and default is 1024.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>maxSizeInMegabytes</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>MaxSizeInMegabytes: The maximum size of the queue in megabytes, which is the size of memory allocated for the queue.
-Default is 1024.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>messageCount</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>MessageCount: The number of messages in the queue.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>requiresDuplicateDetection</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>RequiresDuplicateDetection: A value indicating if this queue requires duplicate detection.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>requiresSession</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>RequiresSession: A value that indicates whether the queue supports the concept of sessions.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sizeInBytes</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>SizeInBytes: The size of the queue, in bytes.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.EntityStatus_STATUS">
-EntityStatus_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Status: Enumerates the possible values for the status of a messaging entity.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>systemData</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.SystemData_STATUS">
-SystemData_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>SystemData: The system meta data relating to this resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.EventHub/Namespaces&rdquo; or &ldquo;Microsoft.EventHub/Namespaces/EventHubs&rdquo;</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>updatedAt</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>UpdatedAt: The exact time the message was updated.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.NamespacesQueue_Spec">NamespacesQueue_Spec
-</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.NamespacesQueue">NamespacesQueue</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>autoDeleteOnIdle</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AutoDeleteOnIdle: ISO 8061 timeSpan idle interval after which the queue is automatically deleted. The minimum duration
-is 5 minutes.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>deadLetteringOnMessageExpiration</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>DeadLetteringOnMessageExpiration: A value that indicates whether this queue has dead letter support when a message
-expires.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>defaultMessageTimeToLive</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>DefaultMessageTimeToLive: ISO 8601 default message timespan to live value. This is the duration after which the message
-expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not
-set on a message itself.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>duplicateDetectionHistoryTimeWindow</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>DuplicateDetectionHistoryTimeWindow: ISO 8601 timeSpan structure that defines the duration of the duplicate detection
-history. The default value is 10 minutes.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableBatchedOperations</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnableBatchedOperations: Value that indicates whether server-side batched operations are enabled.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableExpress</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnableExpress: A value that indicates whether Express Entities are enabled. An express queue holds a message in memory
-temporarily before writing it to persistent storage.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enablePartitioning</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnablePartitioning: A value that indicates whether the queue is to be partitioned across multiple message brokers.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>forwardDeadLetteredMessagesTo</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ForwardDeadLetteredMessagesTo: Queue/Topic name to forward the Dead Letter message</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>forwardTo</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ForwardTo: Queue/Topic name to forward the messages</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lockDuration</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LockDuration: ISO 8601 timespan duration of a peek-lock; that is, the amount of time that the message is locked for
-other receivers. The maximum value for LockDuration is 5 minutes; the default value is 1 minute.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>maxDeliveryCount</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>MaxDeliveryCount: The maximum delivery count. A message is automatically deadlettered after this number of deliveries.
-default value is 10.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>maxMessageSizeInKilobytes</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>MaxMessageSizeInKilobytes: Maximum size (in KB) of the message payload that can be accepted by the queue. This property
-is only used in Premium today and default is 1024.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>maxSizeInMegabytes</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>MaxSizeInMegabytes: The maximum size of the queue in megabytes, which is the size of memory allocated for the queue.
-Default is 1024.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>operatorSpec</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.NamespacesQueueOperatorSpec">
-NamespacesQueueOperatorSpec
-</a>
-</em>
-</td>
-<td>
-<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
-passed directly to Azure</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a servicebus.azure.com/Namespace resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>requiresDuplicateDetection</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>RequiresDuplicateDetection: A value indicating if this queue requires duplicate detection.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>requiresSession</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>RequiresSession: A value that indicates whether the queue supports the concept of sessions.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.NamespacesTopic">NamespacesTopic
-</h3>
-<div>
-<p>Generator information:
-- Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/topics.json
-- ARM URI: /&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.ServiceBus/&#x200b;namespaces/&#x200b;{namespaceName}/&#x200b;topics/&#x200b;{topicName}</&#x200b;p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>metadata</code><br/>
-<em>
-<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
-Kubernetes meta/v1.ObjectMeta
-</a>
-</em>
-</td>
-<td>
-Refer to the Kubernetes API documentation for the fields of the
-<code>metadata</code> field.
-</td>
-</tr>
-<tr>
-<td>
-<code>spec</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.NamespacesTopic_Spec">
-NamespacesTopic_Spec
-</a>
-</em>
-</td>
-<td>
-<br/>
-<br/>
-<table>
-<tr>
-<td>
-<code>autoDeleteOnIdle</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AutoDeleteOnIdle: ISO 8601 timespan idle interval after which the topic is automatically deleted. The minimum duration
-is 5 minutes.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>defaultMessageTimeToLive</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>DefaultMessageTimeToLive: ISO 8601 Default message timespan to live value. This is the duration after which the message
-expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not
-set on a message itself.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>duplicateDetectionHistoryTimeWindow</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>DuplicateDetectionHistoryTimeWindow: ISO8601 timespan structure that defines the duration of the duplicate detection
-history. The default value is 10 minutes.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableBatchedOperations</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnableBatchedOperations: Value that indicates whether server-side batched operations are enabled.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableExpress</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnableExpress: Value that indicates whether Express Entities are enabled. An express topic holds a message in memory
-temporarily before writing it to persistent storage.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enablePartitioning</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnablePartitioning: Value that indicates whether the topic to be partitioned across multiple message brokers is enabled.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>maxMessageSizeInKilobytes</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>MaxMessageSizeInKilobytes: Maximum size (in KB) of the message payload that can be accepted by the topic. This property
-is only used in Premium today and default is 1024.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>maxSizeInMegabytes</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>MaxSizeInMegabytes: Maximum size of the topic in megabytes, which is the size of the memory allocated for the topic.
-Default is 1024.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>operatorSpec</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.NamespacesTopicOperatorSpec">
-NamespacesTopicOperatorSpec
-</a>
-</em>
-</td>
-<td>
-<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
-passed directly to Azure</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a servicebus.azure.com/Namespace resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>requiresDuplicateDetection</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>RequiresDuplicateDetection: Value indicating if this topic requires duplicate detection.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>supportOrdering</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>SupportOrdering: Value that indicates whether the topic supports ordering.</p>
-</td>
-</tr>
-</table>
-</td>
-</tr>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.NamespacesTopic_STATUS">
-NamespacesTopic_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.NamespacesTopicOperatorSpec">NamespacesTopicOperatorSpec
-</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.NamespacesTopic_Spec">NamespacesTopic_Spec</a>)
-</p>
-<div>
-<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>configMapExpressions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
-[]genruntime/core.DestinationExpression
-</a>
-</em>
-</td>
-<td>
-<p>ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>secretExpressions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
-[]genruntime/core.DestinationExpression
-</a>
-</em>
-</td>
-<td>
-<p>SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.NamespacesTopic_STATUS">NamespacesTopic_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.NamespacesTopic">NamespacesTopic</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>accessedAt</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AccessedAt: Last time the message was sent, or a request was received, for this topic.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>autoDeleteOnIdle</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AutoDeleteOnIdle: ISO 8601 timespan idle interval after which the topic is automatically deleted. The minimum duration
-is 5 minutes.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>conditions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
-[]genruntime/conditions.Condition
-</a>
-</em>
-</td>
-<td>
-<p>Conditions: The observed state of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>countDetails</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.MessageCountDetails_STATUS">
-MessageCountDetails_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>CountDetails: Message count details</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>createdAt</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CreatedAt: Exact time the message was created.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>defaultMessageTimeToLive</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>DefaultMessageTimeToLive: ISO 8601 Default message timespan to live value. This is the duration after which the message
-expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not
-set on a message itself.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>duplicateDetectionHistoryTimeWindow</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>DuplicateDetectionHistoryTimeWindow: ISO8601 timespan structure that defines the duration of the duplicate detection
-history. The default value is 10 minutes.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableBatchedOperations</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnableBatchedOperations: Value that indicates whether server-side batched operations are enabled.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableExpress</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnableExpress: Value that indicates whether Express Entities are enabled. An express topic holds a message in memory
-temporarily before writing it to persistent storage.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enablePartitioning</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnablePartitioning: Value that indicates whether the topic to be partitioned across multiple message brokers is enabled.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: The geo-location where the resource lives</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>maxMessageSizeInKilobytes</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>MaxMessageSizeInKilobytes: Maximum size (in KB) of the message payload that can be accepted by the topic. This property
-is only used in Premium today and default is 1024.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>maxSizeInMegabytes</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>MaxSizeInMegabytes: Maximum size of the topic in megabytes, which is the size of the memory allocated for the topic.
-Default is 1024.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>requiresDuplicateDetection</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>RequiresDuplicateDetection: Value indicating if this topic requires duplicate detection.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sizeInBytes</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>SizeInBytes: Size of the topic, in bytes.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.EntityStatus_STATUS">
-EntityStatus_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Status: Enumerates the possible values for the status of a messaging entity.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>subscriptionCount</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>SubscriptionCount: Number of subscriptions.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>supportOrdering</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>SupportOrdering: Value that indicates whether the topic supports ordering.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>systemData</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.SystemData_STATUS">
-SystemData_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>SystemData: The system meta data relating to this resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.EventHub/Namespaces&rdquo; or &ldquo;Microsoft.EventHub/Namespaces/EventHubs&rdquo;</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>updatedAt</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>UpdatedAt: The exact time the message was updated.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.NamespacesTopic_Spec">NamespacesTopic_Spec
-</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.NamespacesTopic">NamespacesTopic</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>autoDeleteOnIdle</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AutoDeleteOnIdle: ISO 8601 timespan idle interval after which the topic is automatically deleted. The minimum duration
-is 5 minutes.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>defaultMessageTimeToLive</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>DefaultMessageTimeToLive: ISO 8601 Default message timespan to live value. This is the duration after which the message
-expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not
-set on a message itself.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>duplicateDetectionHistoryTimeWindow</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>DuplicateDetectionHistoryTimeWindow: ISO8601 timespan structure that defines the duration of the duplicate detection
-history. The default value is 10 minutes.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableBatchedOperations</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnableBatchedOperations: Value that indicates whether server-side batched operations are enabled.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableExpress</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnableExpress: Value that indicates whether Express Entities are enabled. An express topic holds a message in memory
-temporarily before writing it to persistent storage.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enablePartitioning</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnablePartitioning: Value that indicates whether the topic to be partitioned across multiple message brokers is enabled.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>maxMessageSizeInKilobytes</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>MaxMessageSizeInKilobytes: Maximum size (in KB) of the message payload that can be accepted by the topic. This property
-is only used in Premium today and default is 1024.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>maxSizeInMegabytes</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>MaxSizeInMegabytes: Maximum size of the topic in megabytes, which is the size of the memory allocated for the topic.
-Default is 1024.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>operatorSpec</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.NamespacesTopicOperatorSpec">
-NamespacesTopicOperatorSpec
-</a>
-</em>
-</td>
-<td>
-<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
-passed directly to Azure</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a servicebus.azure.com/Namespace resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>requiresDuplicateDetection</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>RequiresDuplicateDetection: Value indicating if this topic requires duplicate detection.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>supportOrdering</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>SupportOrdering: Value that indicates whether the topic supports ordering.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.NamespacesTopicsSubscription">NamespacesTopicsSubscription
-</h3>
-<div>
-<p>Generator information:
-- Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/subscriptions.json
-- ARM URI: /&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.ServiceBus/&#x200b;namespaces/&#x200b;{namespaceName}/&#x200b;topics/&#x200b;{topicName}/&#x200b;subscriptions/&#x200b;{subscriptionName}</&#x200b;p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>metadata</code><br/>
-<em>
-<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
-Kubernetes meta/v1.ObjectMeta
-</a>
-</em>
-</td>
-<td>
-Refer to the Kubernetes API documentation for the fields of the
-<code>metadata</code> field.
-</td>
-</tr>
-<tr>
-<td>
-<code>spec</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.NamespacesTopicsSubscription_Spec">
-NamespacesTopicsSubscription_Spec
-</a>
-</em>
-</td>
-<td>
-<br/>
-<br/>
-<table>
-<tr>
-<td>
-<code>autoDeleteOnIdle</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AutoDeleteOnIdle: ISO 8061 timeSpan idle interval after which the topic is automatically deleted. The minimum duration
-is 5 minutes.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>clientAffineProperties</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.SBClientAffineProperties">
-SBClientAffineProperties
-</a>
-</em>
-</td>
-<td>
-<p>ClientAffineProperties: Properties specific to client affine subscriptions.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>deadLetteringOnFilterEvaluationExceptions</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>DeadLetteringOnFilterEvaluationExceptions: Value that indicates whether a subscription has dead letter support on filter
-evaluation exceptions.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>deadLetteringOnMessageExpiration</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>DeadLetteringOnMessageExpiration: Value that indicates whether a subscription has dead letter support when a message
-expires.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>defaultMessageTimeToLive</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>DefaultMessageTimeToLive: ISO 8061 Default message timespan to live value. This is the duration after which the message
-expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not
-set on a message itself.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>duplicateDetectionHistoryTimeWindow</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>DuplicateDetectionHistoryTimeWindow: ISO 8601 timeSpan structure that defines the duration of the duplicate detection
-history. The default value is 10 minutes.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableBatchedOperations</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnableBatchedOperations: Value that indicates whether server-side batched operations are enabled.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>forwardDeadLetteredMessagesTo</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ForwardDeadLetteredMessagesTo: Queue/Topic name to forward the Dead Letter message</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>forwardTo</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ForwardTo: Queue/Topic name to forward the messages</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>isClientAffine</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>IsClientAffine: Value that indicates whether the subscription has an affinity to the client id.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lockDuration</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LockDuration: ISO 8061 lock duration timespan for the subscription. The default value is 1 minute.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>maxDeliveryCount</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>MaxDeliveryCount: Number of maximum deliveries.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>operatorSpec</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.NamespacesTopicsSubscriptionOperatorSpec">
-NamespacesTopicsSubscriptionOperatorSpec
-</a>
-</em>
-</td>
-<td>
-<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
-passed directly to Azure</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a servicebus.azure.com/NamespacesTopic resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>requiresSession</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>RequiresSession: Value indicating if a subscription supports the concept of sessions.</p>
-</td>
-</tr>
-</table>
-</td>
-</tr>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.NamespacesTopicsSubscription_STATUS">
-NamespacesTopicsSubscription_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.NamespacesTopicsSubscriptionOperatorSpec">NamespacesTopicsSubscriptionOperatorSpec
-</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.NamespacesTopicsSubscription_Spec">NamespacesTopicsSubscription_Spec</a>)
-</p>
-<div>
-<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>configMapExpressions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
-[]genruntime/core.DestinationExpression
-</a>
-</em>
-</td>
-<td>
-<p>ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>secretExpressions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
-[]genruntime/core.DestinationExpression
-</a>
-</em>
-</td>
-<td>
-<p>SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.NamespacesTopicsSubscription_STATUS">NamespacesTopicsSubscription_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.NamespacesTopicsSubscription">NamespacesTopicsSubscription</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>accessedAt</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AccessedAt: Last time there was a receive request to this subscription.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>autoDeleteOnIdle</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AutoDeleteOnIdle: ISO 8061 timeSpan idle interval after which the topic is automatically deleted. The minimum duration
-is 5 minutes.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>clientAffineProperties</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.SBClientAffineProperties_STATUS">
-SBClientAffineProperties_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>ClientAffineProperties: Properties specific to client affine subscriptions.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>conditions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
-[]genruntime/conditions.Condition
-</a>
-</em>
-</td>
-<td>
-<p>Conditions: The observed state of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>countDetails</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.MessageCountDetails_STATUS">
-MessageCountDetails_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>CountDetails: Message count details</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>createdAt</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CreatedAt: Exact time the message was created.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>deadLetteringOnFilterEvaluationExceptions</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>DeadLetteringOnFilterEvaluationExceptions: Value that indicates whether a subscription has dead letter support on filter
-evaluation exceptions.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>deadLetteringOnMessageExpiration</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>DeadLetteringOnMessageExpiration: Value that indicates whether a subscription has dead letter support when a message
-expires.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>defaultMessageTimeToLive</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>DefaultMessageTimeToLive: ISO 8061 Default message timespan to live value. This is the duration after which the message
-expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not
-set on a message itself.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>duplicateDetectionHistoryTimeWindow</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>DuplicateDetectionHistoryTimeWindow: ISO 8601 timeSpan structure that defines the duration of the duplicate detection
-history. The default value is 10 minutes.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableBatchedOperations</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnableBatchedOperations: Value that indicates whether server-side batched operations are enabled.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>forwardDeadLetteredMessagesTo</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ForwardDeadLetteredMessagesTo: Queue/Topic name to forward the Dead Letter message</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>forwardTo</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ForwardTo: Queue/Topic name to forward the messages</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>isClientAffine</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>IsClientAffine: Value that indicates whether the subscription has an affinity to the client id.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: The geo-location where the resource lives</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lockDuration</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LockDuration: ISO 8061 lock duration timespan for the subscription. The default value is 1 minute.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>maxDeliveryCount</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>MaxDeliveryCount: Number of maximum deliveries.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>messageCount</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>MessageCount: Number of messages.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>requiresSession</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>RequiresSession: Value indicating if a subscription supports the concept of sessions.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.EntityStatus_STATUS">
-EntityStatus_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Status: Enumerates the possible values for the status of a messaging entity.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>systemData</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.SystemData_STATUS">
-SystemData_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>SystemData: The system meta data relating to this resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.EventHub/Namespaces&rdquo; or &ldquo;Microsoft.EventHub/Namespaces/EventHubs&rdquo;</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>updatedAt</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>UpdatedAt: The exact time the message was updated.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.NamespacesTopicsSubscription_Spec">NamespacesTopicsSubscription_Spec
-</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.NamespacesTopicsSubscription">NamespacesTopicsSubscription</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>autoDeleteOnIdle</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AutoDeleteOnIdle: ISO 8061 timeSpan idle interval after which the topic is automatically deleted. The minimum duration
-is 5 minutes.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>clientAffineProperties</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.SBClientAffineProperties">
-SBClientAffineProperties
-</a>
-</em>
-</td>
-<td>
-<p>ClientAffineProperties: Properties specific to client affine subscriptions.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>deadLetteringOnFilterEvaluationExceptions</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>DeadLetteringOnFilterEvaluationExceptions: Value that indicates whether a subscription has dead letter support on filter
-evaluation exceptions.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>deadLetteringOnMessageExpiration</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>DeadLetteringOnMessageExpiration: Value that indicates whether a subscription has dead letter support when a message
-expires.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>defaultMessageTimeToLive</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>DefaultMessageTimeToLive: ISO 8061 Default message timespan to live value. This is the duration after which the message
-expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not
-set on a message itself.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>duplicateDetectionHistoryTimeWindow</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>DuplicateDetectionHistoryTimeWindow: ISO 8601 timeSpan structure that defines the duration of the duplicate detection
-history. The default value is 10 minutes.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableBatchedOperations</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnableBatchedOperations: Value that indicates whether server-side batched operations are enabled.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>forwardDeadLetteredMessagesTo</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ForwardDeadLetteredMessagesTo: Queue/Topic name to forward the Dead Letter message</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>forwardTo</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ForwardTo: Queue/Topic name to forward the messages</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>isClientAffine</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>IsClientAffine: Value that indicates whether the subscription has an affinity to the client id.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lockDuration</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LockDuration: ISO 8061 lock duration timespan for the subscription. The default value is 1 minute.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>maxDeliveryCount</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>MaxDeliveryCount: Number of maximum deliveries.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>operatorSpec</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.NamespacesTopicsSubscriptionOperatorSpec">
-NamespacesTopicsSubscriptionOperatorSpec
-</a>
-</em>
-</td>
-<td>
-<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
-passed directly to Azure</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a servicebus.azure.com/NamespacesTopic resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>requiresSession</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>RequiresSession: Value indicating if a subscription supports the concept of sessions.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.NamespacesTopicsSubscriptionsRule">NamespacesTopicsSubscriptionsRule
-</h3>
-<div>
-<p>Generator information:
-- Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/Rules.json
-- ARM URI: /&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.ServiceBus/&#x200b;namespaces/&#x200b;{namespaceName}/&#x200b;topics/&#x200b;{topicName}/&#x200b;subscriptions/&#x200b;{subscriptionName}/&#x200b;rules/&#x200b;{ruleName}</&#x200b;p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>metadata</code><br/>
-<em>
-<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
-Kubernetes meta/v1.ObjectMeta
-</a>
-</em>
-</td>
-<td>
-Refer to the Kubernetes API documentation for the fields of the
-<code>metadata</code> field.
-</td>
-</tr>
-<tr>
-<td>
-<code>spec</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.NamespacesTopicsSubscriptionsRule_Spec">
-NamespacesTopicsSubscriptionsRule_Spec
-</a>
-</em>
-</td>
-<td>
-<br/>
-<br/>
-<table>
-<tr>
-<td>
-<code>action</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.Action">
-Action
-</a>
-</em>
-</td>
-<td>
-<p>Action: Represents the filter actions which are allowed for the transformation of a message that have been matched by a
-filter expression.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>correlationFilter</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.CorrelationFilter">
-CorrelationFilter
-</a>
-</em>
-</td>
-<td>
-<p>CorrelationFilter: Properties of correlationFilter</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>filterType</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.FilterType">
-FilterType
-</a>
-</em>
-</td>
-<td>
-<p>FilterType: Filter type that is evaluated against a BrokeredMessage.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>operatorSpec</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.NamespacesTopicsSubscriptionsRuleOperatorSpec">
-NamespacesTopicsSubscriptionsRuleOperatorSpec
-</a>
-</em>
-</td>
-<td>
-<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
-passed directly to Azure</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a servicebus.azure.com/NamespacesTopicsSubscription resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sqlFilter</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.SqlFilter">
-SqlFilter
-</a>
-</em>
-</td>
-<td>
-<p>SqlFilter: Properties of sqlFilter</p>
-</td>
-</tr>
-</table>
-</td>
-</tr>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.NamespacesTopicsSubscriptionsRule_STATUS">
-NamespacesTopicsSubscriptionsRule_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.NamespacesTopicsSubscriptionsRuleOperatorSpec">NamespacesTopicsSubscriptionsRuleOperatorSpec
-</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.NamespacesTopicsSubscriptionsRule_Spec">NamespacesTopicsSubscriptionsRule_Spec</a>)
-</p>
-<div>
-<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>configMapExpressions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
-[]genruntime/core.DestinationExpression
-</a>
-</em>
-</td>
-<td>
-<p>ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>secretExpressions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
-[]genruntime/core.DestinationExpression
-</a>
-</em>
-</td>
-<td>
-<p>SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.NamespacesTopicsSubscriptionsRule_STATUS">NamespacesTopicsSubscriptionsRule_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.NamespacesTopicsSubscriptionsRule">NamespacesTopicsSubscriptionsRule</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>action</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.Action_STATUS">
-Action_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Action: Represents the filter actions which are allowed for the transformation of a message that have been matched by a
-filter expression.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>conditions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
-[]genruntime/conditions.Condition
-</a>
-</em>
-</td>
-<td>
-<p>Conditions: The observed state of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>correlationFilter</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.CorrelationFilter_STATUS">
-CorrelationFilter_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>CorrelationFilter: Properties of correlationFilter</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>filterType</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.FilterType_STATUS">
-FilterType_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>FilterType: Filter type that is evaluated against a BrokeredMessage.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: The geo-location where the resource lives</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sqlFilter</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.SqlFilter_STATUS">
-SqlFilter_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>SqlFilter: Properties of sqlFilter</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>systemData</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.SystemData_STATUS">
-SystemData_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>SystemData: The system meta data relating to this resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.EventHub/Namespaces&rdquo; or &ldquo;Microsoft.EventHub/Namespaces/EventHubs&rdquo;</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.NamespacesTopicsSubscriptionsRule_Spec">NamespacesTopicsSubscriptionsRule_Spec
-</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.NamespacesTopicsSubscriptionsRule">NamespacesTopicsSubscriptionsRule</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>action</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.Action">
-Action
-</a>
-</em>
-</td>
-<td>
-<p>Action: Represents the filter actions which are allowed for the transformation of a message that have been matched by a
-filter expression.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>correlationFilter</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.CorrelationFilter">
-CorrelationFilter
-</a>
-</em>
-</td>
-<td>
-<p>CorrelationFilter: Properties of correlationFilter</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>filterType</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.FilterType">
-FilterType
-</a>
-</em>
-</td>
-<td>
-<p>FilterType: Filter type that is evaluated against a BrokeredMessage.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>operatorSpec</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.NamespacesTopicsSubscriptionsRuleOperatorSpec">
-NamespacesTopicsSubscriptionsRuleOperatorSpec
-</a>
-</em>
-</td>
-<td>
-<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
-passed directly to Azure</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a servicebus.azure.com/NamespacesTopicsSubscription resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sqlFilter</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.SqlFilter">
-SqlFilter
-</a>
-</em>
-</td>
-<td>
-<p>SqlFilter: Properties of sqlFilter</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.Namespaces_AuthorizationRule_Properties_Rights_STATUS">Namespaces_AuthorizationRule_Properties_Rights_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.NamespacesAuthorizationRule_STATUS">NamespacesAuthorizationRule_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Listen&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Manage&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Send&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.Namespaces_AuthorizationRule_Properties_Rights_Spec">Namespaces_AuthorizationRule_Properties_Rights_Spec
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.NamespacesAuthorizationRule_Spec">NamespacesAuthorizationRule_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Listen&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Manage&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Send&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.PrivateEndpointConnection_STATUS">PrivateEndpointConnection_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.Namespace_STATUS">Namespace_STATUS</a>)
-</p>
-<div>
-<p>Properties of the PrivateEndpointConnection.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.SBClientAffineProperties">SBClientAffineProperties
-</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.NamespacesTopicsSubscription_Spec">NamespacesTopicsSubscription_Spec</a>)
-</p>
-<div>
-<p>Properties specific to client affine subscriptions.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>clientId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ClientId: Indicates the Client ID of the application that created the client-affine subscription.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>isDurable</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>IsDurable: For client-affine subscriptions, this value indicates whether the subscription is durable or not.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>isShared</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>IsShared: For client-affine subscriptions, this value indicates whether the subscription is shared or not.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.SBClientAffineProperties_STATUS">SBClientAffineProperties_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.NamespacesTopicsSubscription_STATUS">NamespacesTopicsSubscription_STATUS</a>)
-</p>
-<div>
-<p>Properties specific to client affine subscriptions.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>clientId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ClientId: Indicates the Client ID of the application that created the client-affine subscription.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>isDurable</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>IsDurable: For client-affine subscriptions, this value indicates whether the subscription is durable or not.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>isShared</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>IsShared: For client-affine subscriptions, this value indicates whether the subscription is shared or not.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.SBNamespaceProperties_MinimumTlsVersion">SBNamespaceProperties_MinimumTlsVersion
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.Namespace_Spec">Namespace_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;1.0&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;1.1&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;1.2&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.SBNamespaceProperties_MinimumTlsVersion_STATUS">SBNamespaceProperties_MinimumTlsVersion_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.Namespace_STATUS">Namespace_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;1.0&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;1.1&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;1.2&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.SBNamespaceProperties_PublicNetworkAccess">SBNamespaceProperties_PublicNetworkAccess
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.Namespace_Spec">Namespace_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Enabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;SecuredByPerimeter&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.SBNamespaceProperties_PublicNetworkAccess_STATUS">SBNamespaceProperties_PublicNetworkAccess_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.Namespace_STATUS">Namespace_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Enabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;SecuredByPerimeter&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.SBSku">SBSku
-</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.Namespace_Spec">Namespace_Spec</a>)
-</p>
-<div>
-<p>SKU of the namespace.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>capacity</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>Capacity: Messaging units for your service bus premium namespace. Valid capacities are {1, 2, 4, 8, 16} multiples of
-your properties.premiumMessagingPartitions setting. For example, If properties.premiumMessagingPartitions is 1 then
-possible capacity values are 1, 2, 4, 8, and 16. If properties.premiumMessagingPartitions is 4 then possible capacity
-values are 4, 8, 16, 32 and 64</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.SBSku_Name">
-SBSku_Name
-</a>
-</em>
-</td>
-<td>
-<p>Name: Name of this SKU.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tier</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.SBSku_Tier">
-SBSku_Tier
-</a>
-</em>
-</td>
-<td>
-<p>Tier: The billing tier of this particular SKU.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.SBSku_Name">SBSku_Name
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.SBSku">SBSku</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Basic&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Premium&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Standard&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.SBSku_Name_STATUS">SBSku_Name_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.SBSku_STATUS">SBSku_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Basic&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Premium&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Standard&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.SBSku_STATUS">SBSku_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.Namespace_STATUS">Namespace_STATUS</a>)
-</p>
-<div>
-<p>SKU of the namespace.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>capacity</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>Capacity: Messaging units for your service bus premium namespace. Valid capacities are {1, 2, 4, 8, 16} multiples of
-your properties.premiumMessagingPartitions setting. For example, If properties.premiumMessagingPartitions is 1 then
-possible capacity values are 1, 2, 4, 8, and 16. If properties.premiumMessagingPartitions is 4 then possible capacity
-values are 4, 8, 16, 32 and 64</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.SBSku_Name_STATUS">
-SBSku_Name_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Name: Name of this SKU.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tier</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.SBSku_Tier_STATUS">
-SBSku_Tier_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Tier: The billing tier of this particular SKU.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.SBSku_Tier">SBSku_Tier
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.SBSku">SBSku</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Basic&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Premium&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Standard&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.SBSku_Tier_STATUS">SBSku_Tier_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.SBSku_STATUS">SBSku_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Basic&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Premium&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Standard&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.SqlFilter">SqlFilter
-</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.NamespacesTopicsSubscriptionsRule_Spec">NamespacesTopicsSubscriptionsRule_Spec</a>)
-</p>
-<div>
-<p>Represents a filter which is a composition of an expression and an action that is executed in the pub/sub pipeline.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>compatibilityLevel</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>CompatibilityLevel: This property is reserved for future use. An integer value showing the compatibility level,
-currently hard-coded to 20.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>requiresPreprocessing</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>RequiresPreprocessing: Value that indicates whether the rule action requires preprocessing.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sqlExpression</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>SqlExpression: The SQL expression. e.g. MyProperty=&lsquo;ABC&rsquo;</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.SqlFilter_STATUS">SqlFilter_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.NamespacesTopicsSubscriptionsRule_STATUS">NamespacesTopicsSubscriptionsRule_STATUS</a>)
-</p>
-<div>
-<p>Represents a filter which is a composition of an expression and an action that is executed in the pub/sub pipeline.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>compatibilityLevel</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>CompatibilityLevel: This property is reserved for future use. An integer value showing the compatibility level,
-currently hard-coded to 20.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>requiresPreprocessing</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>RequiresPreprocessing: Value that indicates whether the rule action requires preprocessing.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sqlExpression</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>SqlExpression: The SQL expression. e.g. MyProperty=&lsquo;ABC&rsquo;</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.SystemData_STATUS">SystemData_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Application&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Key&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;User&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.SystemData_STATUS">SystemData_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Application&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Key&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;User&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.SystemData_STATUS">SystemData_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.Namespace_STATUS">Namespace_STATUS</a>, <a href="#servicebus.azure.com/v1api20221001preview.NamespacesAuthorizationRule_STATUS">NamespacesAuthorizationRule_STATUS</a>, <a href="#servicebus.azure.com/v1api20221001preview.NamespacesQueue_STATUS">NamespacesQueue_STATUS</a>, <a href="#servicebus.azure.com/v1api20221001preview.NamespacesTopic_STATUS">NamespacesTopic_STATUS</a>, <a href="#servicebus.azure.com/v1api20221001preview.NamespacesTopicsSubscription_STATUS">NamespacesTopicsSubscription_STATUS</a>, <a href="#servicebus.azure.com/v1api20221001preview.NamespacesTopicsSubscriptionsRule_STATUS">NamespacesTopicsSubscriptionsRule_STATUS</a>)
-</p>
-<div>
-<p>Metadata pertaining to creation and last modification of the resource.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>createdAt</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CreatedAt: The timestamp of resource creation (UTC).</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>createdBy</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CreatedBy: The identity that created the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>createdByType</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.SystemData_CreatedByType_STATUS">
-SystemData_CreatedByType_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>CreatedByType: The type of identity that created the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastModifiedAt</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LastModifiedAt: The type of identity that last modified the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastModifiedBy</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LastModifiedBy: The identity that last modified the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastModifiedByType</code><br/>
-<em>
-<a href="#servicebus.azure.com/v1api20221001preview.SystemData_LastModifiedByType_STATUS">
-SystemData_LastModifiedByType_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>LastModifiedByType: The type of identity that last modified the resource.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.UserAssignedIdentityDetails">UserAssignedIdentityDetails
-</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.Identity">Identity</a>)
-</p>
-<div>
-<p>Information about the user assigned identity for the resource</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>reference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.UserAssignedIdentityProperties">UserAssignedIdentityProperties
-</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.KeyVaultProperties">KeyVaultProperties</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>userAssignedIdentityReference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>UserAssignedIdentityReference: ARM ID of user Identity selected for encryption</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.UserAssignedIdentityProperties_STATUS">UserAssignedIdentityProperties_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.KeyVaultProperties_STATUS">KeyVaultProperties_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>userAssignedIdentity</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>UserAssignedIdentity: ARM ID of user Identity selected for encryption</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="servicebus.azure.com/v1api20221001preview.UserAssignedIdentity_STATUS">UserAssignedIdentity_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20221001preview.Identity_STATUS">Identity_STATUS</a>)
-</p>
-<div>
-<p>Recognized Dictionary value.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>clientId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ClientId: Client Id of user assigned identity</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>principalId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>PrincipalId: Principal Id of user assigned identity</p>
-</td>
-</tr>
-</tbody>
-</table>
-<hr/>
+
+linktitle: v1api20221001preview
+-------------------------------
+
+<a id="APIVersion"></a>APIVersion
+---------------------------------
+
+| Value                | Description |
+|----------------------|-------------|
+| "2022-10-01-preview" |             |
+
+<a id="Namespace"></a>Namespace
+-------------------------------
+
+Generator information: - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/namespace-preview.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ServiceBus/namespaces/{namespaceName}
+
+Used by: [NamespaceList](#NamespaceList).
+
+| Property                                                                                | Description | Type                                                              |
+|-----------------------------------------------------------------------------------------|-------------|-------------------------------------------------------------------|
+| [metav1.TypeMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta)     |             |                                                                   |
+| [metav1.ObjectMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta) |             |                                                                   |
+| spec                                                                                    |             | [Namespace_Spec](#Namespace_Spec)<br/><small>Optional</small>     |
+| status                                                                                  |             | [Namespace_STATUS](#Namespace_STATUS)<br/><small>Optional</small> |
+
+### <a id="Namespace_Spec"></a>Namespace_Spec
+
+| Property                   | Description                                                                                                                                                                                                                                                                                  | Type                                                                                                                                                                 |
+|----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| alternateName              | Alternate name for namespace                                                                                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                                   |
+| azureName                  | The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn't have to be.                                                                                                                                                               | string<br/><small>Optional</small>                                                                                                                                   |
+| disableLocalAuth           | This property disables SAS authentication for the Service Bus namespace.                                                                                                                                                                                                                     | bool<br/><small>Optional</small>                                                                                                                                     |
+| encryption                 | Properties of BYOK Encryption description                                                                                                                                                                                                                                                    | [Encryption](#Encryption)<br/><small>Optional</small>                                                                                                                |
+| identity                   | Properties of BYOK Identity description                                                                                                                                                                                                                                                      | [Identity](#Identity)<br/><small>Optional</small>                                                                                                                    |
+| location                   | The Geo-location where the resource lives                                                                                                                                                                                                                                                    | string<br/><small>Required</small>                                                                                                                                   |
+| minimumTlsVersion          | The minimum TLS version for the cluster to support, e.g. '1.2'                                                                                                                                                                                                                               | [SBNamespaceProperties_MinimumTlsVersion](#SBNamespaceProperties_MinimumTlsVersion)<br/><small>Optional</small>                                                      |
+| operatorSpec               | The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure                                                                                                                                                              | [NamespaceOperatorSpec](#NamespaceOperatorSpec)<br/><small>Optional</small>                                                                                          |
+| owner                      | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
+| premiumMessagingPartitions | The number of partitions of a Service Bus namespace. This property is only applicable to Premium SKU namespaces. The default value is 1 and possible values are 1, 2 and 4                                                                                                                   | int<br/><small>Optional</small>                                                                                                                                      |
+| publicNetworkAccess        | This determines if traffic is allowed over public network. By default it is enabled.                                                                                                                                                                                                         | [SBNamespaceProperties_PublicNetworkAccess](#SBNamespaceProperties_PublicNetworkAccess)<br/><small>Optional</small>                                                  |
+| sku                        | Properties of SKU                                                                                                                                                                                                                                                                            | [SBSku](#SBSku)<br/><small>Optional</small>                                                                                                                          |
+| tags                       | Resource tags                                                                                                                                                                                                                                                                                | map[string]string<br/><small>Optional</small>                                                                                                                        |
+| zoneRedundant              | Enabling this property creates a Premium Service Bus Namespace in regions supported availability zones.                                                                                                                                                                                      | bool<br/><small>Optional</small>                                                                                                                                     |
+
+### <a id="Namespace_STATUS"></a>Namespace_STATUS
+
+| Property                   | Description                                                                                                                                                                | Type                                                                                                                                                    |
+|----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| alternateName              | Alternate name for namespace                                                                                                                                               | string<br/><small>Optional</small>                                                                                                                      |
+| conditions                 | The observed state of the resource                                                                                                                                         | [conditions.Condition[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition)<br/><small>Optional</small> |
+| createdAt                  | The time the namespace was created                                                                                                                                         | string<br/><small>Optional</small>                                                                                                                      |
+| disableLocalAuth           | This property disables SAS authentication for the Service Bus namespace.                                                                                                   | bool<br/><small>Optional</small>                                                                                                                        |
+| encryption                 | Properties of BYOK Encryption description                                                                                                                                  | [Encryption_STATUS](#Encryption_STATUS)<br/><small>Optional</small>                                                                                     |
+| id                         | Resource Id                                                                                                                                                                | string<br/><small>Optional</small>                                                                                                                      |
+| identity                   | Properties of BYOK Identity description                                                                                                                                    | [Identity_STATUS](#Identity_STATUS)<br/><small>Optional</small>                                                                                         |
+| location                   | The Geo-location where the resource lives                                                                                                                                  | string<br/><small>Optional</small>                                                                                                                      |
+| metricId                   | Identifier for Azure Insights metrics                                                                                                                                      | string<br/><small>Optional</small>                                                                                                                      |
+| minimumTlsVersion          | The minimum TLS version for the cluster to support, e.g. '1.2'                                                                                                             | [SBNamespaceProperties_MinimumTlsVersion_STATUS](#SBNamespaceProperties_MinimumTlsVersion_STATUS)<br/><small>Optional</small>                           |
+| name                       | Resource name                                                                                                                                                              | string<br/><small>Optional</small>                                                                                                                      |
+| premiumMessagingPartitions | The number of partitions of a Service Bus namespace. This property is only applicable to Premium SKU namespaces. The default value is 1 and possible values are 1, 2 and 4 | int<br/><small>Optional</small>                                                                                                                         |
+| privateEndpointConnections | List of private endpoint connections.                                                                                                                                      | [PrivateEndpointConnection_STATUS[]](#PrivateEndpointConnection_STATUS)<br/><small>Optional</small>                                                     |
+| provisioningState          | Provisioning state of the namespace.                                                                                                                                       | string<br/><small>Optional</small>                                                                                                                      |
+| publicNetworkAccess        | This determines if traffic is allowed over public network. By default it is enabled.                                                                                       | [SBNamespaceProperties_PublicNetworkAccess_STATUS](#SBNamespaceProperties_PublicNetworkAccess_STATUS)<br/><small>Optional</small>                       |
+| serviceBusEndpoint         | Endpoint you can use to perform Service Bus operations.                                                                                                                    | string<br/><small>Optional</small>                                                                                                                      |
+| sku                        | Properties of SKU                                                                                                                                                          | [SBSku_STATUS](#SBSku_STATUS)<br/><small>Optional</small>                                                                                               |
+| status                     | Status of the namespace.                                                                                                                                                   | string<br/><small>Optional</small>                                                                                                                      |
+| systemData                 | The system meta data relating to this resource.                                                                                                                            | [SystemData_STATUS](#SystemData_STATUS)<br/><small>Optional</small>                                                                                     |
+| tags                       | Resource tags                                                                                                                                                              | map[string]string<br/><small>Optional</small>                                                                                                           |
+| type                       | Resource type                                                                                                                                                              | string<br/><small>Optional</small>                                                                                                                      |
+| updatedAt                  | The time the namespace was updated.                                                                                                                                        | string<br/><small>Optional</small>                                                                                                                      |
+| zoneRedundant              | Enabling this property creates a Premium Service Bus Namespace in regions supported availability zones.                                                                    | bool<br/><small>Optional</small>                                                                                                                        |
+
+<a id="NamespaceList"></a>NamespaceList
+---------------------------------------
+
+Generator information: - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/namespace-preview.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ServiceBus/namespaces/{namespaceName}
+
+| Property                                                                            | Description | Type                                                  |
+|-------------------------------------------------------------------------------------|-------------|-------------------------------------------------------|
+| [metav1.TypeMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta) |             |                                                       |
+| [metav1.ListMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta) |             |                                                       |
+| items                                                                               |             | [Namespace[]](#Namespace)<br/><small>Optional</small> |
+
+<a id="NamespacesAuthorizationRule"></a>NamespacesAuthorizationRule
+-------------------------------------------------------------------
+
+Generator information: - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/AuthorizationRules.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ServiceBus/namespaces/{namespaceName}/AuthorizationRules/{authorizationRuleName}
+
+Used by: [NamespacesAuthorizationRuleList](#NamespacesAuthorizationRuleList).
+
+| Property                                                                                | Description | Type                                                                                                  |
+|-----------------------------------------------------------------------------------------|-------------|-------------------------------------------------------------------------------------------------------|
+| [metav1.TypeMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta)     |             |                                                                                                       |
+| [metav1.ObjectMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta) |             |                                                                                                       |
+| spec                                                                                    |             | [NamespacesAuthorizationRule_Spec](#NamespacesAuthorizationRule_Spec)<br/><small>Optional</small>     |
+| status                                                                                  |             | [NamespacesAuthorizationRule_STATUS](#NamespacesAuthorizationRule_STATUS)<br/><small>Optional</small> |
+
+### <a id="NamespacesAuthorizationRule_Spec"></a>NamespacesAuthorizationRule_Spec
+
+| Property     | Description                                                                                                                                                                                                                                                                               | Type                                                                                                                                                                 |
+|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| azureName    | The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn't have to be.                                                                                                                                                            | string<br/><small>Optional</small>                                                                                                                                   |
+| operatorSpec | The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure                                                                                                                                                           | [NamespacesAuthorizationRuleOperatorSpec](#NamespacesAuthorizationRuleOperatorSpec)<br/><small>Optional</small>                                                      |
+| owner        | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a servicebus.azure.com/Namespace resource | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
+| rights       | The rights associated with the rule.                                                                                                                                                                                                                                                      | [Namespaces_AuthorizationRule_Properties_Rights_Spec[]](#Namespaces_AuthorizationRule_Properties_Rights_Spec)<br/><small>Required</small>                            |
+
+### <a id="NamespacesAuthorizationRule_STATUS"></a>NamespacesAuthorizationRule_STATUS
+
+| Property   | Description                                                                                                                                                                                                                                                                                                               | Type                                                                                                                                                    |
+|------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| conditions | The observed state of the resource                                                                                                                                                                                                                                                                                        | [conditions.Condition[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition)<br/><small>Optional</small> |
+| id         | Fully qualified resource ID for the resource. Ex - /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;{resourceProviderNamespace}/&ZeroWidthSpace;{resourceType}/&ZeroWidthSpace;{resourceName} | string<br/><small>Optional</small>                                                                                                                      |
+| location   | The geo-location where the resource lives                                                                                                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                      |
+| name       | The name of the resource                                                                                                                                                                                                                                                                                                  | string<br/><small>Optional</small>                                                                                                                      |
+| rights     | The rights associated with the rule.                                                                                                                                                                                                                                                                                      | [Namespaces_AuthorizationRule_Properties_Rights_STATUS[]](#Namespaces_AuthorizationRule_Properties_Rights_STATUS)<br/><small>Optional</small>           |
+| systemData | The system meta data relating to this resource.                                                                                                                                                                                                                                                                           | [SystemData_STATUS](#SystemData_STATUS)<br/><small>Optional</small>                                                                                     |
+| type       | The type of the resource. E.g. "Microsoft.EventHub/Namespaces" or "Microsoft.EventHub/Namespaces/EventHubs"                                                                                                                                                                                                               | string<br/><small>Optional</small>                                                                                                                      |
+
+<a id="NamespacesAuthorizationRuleList"></a>NamespacesAuthorizationRuleList
+---------------------------------------------------------------------------
+
+Generator information: - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/AuthorizationRules.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ServiceBus/namespaces/{namespaceName}/AuthorizationRules/{authorizationRuleName}
+
+| Property                                                                            | Description | Type                                                                                      |
+|-------------------------------------------------------------------------------------|-------------|-------------------------------------------------------------------------------------------|
+| [metav1.TypeMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta) |             |                                                                                           |
+| [metav1.ListMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta) |             |                                                                                           |
+| items                                                                               |             | [NamespacesAuthorizationRule[]](#NamespacesAuthorizationRule)<br/><small>Optional</small> |
+
+<a id="NamespacesQueue"></a>NamespacesQueue
+-------------------------------------------
+
+Generator information: - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/Queue.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ServiceBus/namespaces/{namespaceName}/queues/{queueName}
+
+Used by: [NamespacesQueueList](#NamespacesQueueList).
+
+| Property                                                                                | Description | Type                                                                          |
+|-----------------------------------------------------------------------------------------|-------------|-------------------------------------------------------------------------------|
+| [metav1.TypeMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta)     |             |                                                                               |
+| [metav1.ObjectMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta) |             |                                                                               |
+| spec                                                                                    |             | [NamespacesQueue_Spec](#NamespacesQueue_Spec)<br/><small>Optional</small>     |
+| status                                                                                  |             | [NamespacesQueue_STATUS](#NamespacesQueue_STATUS)<br/><small>Optional</small> |
+
+### <a id="NamespacesQueue_Spec"></a>NamespacesQueue_Spec
+
+| Property                            | Description                                                                                                                                                                                                                                                                               | Type                                                                                                                                                                 |
+|-------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| autoDeleteOnIdle                    | ISO 8061 timeSpan idle interval after which the queue is automatically deleted. The minimum duration is 5 minutes.                                                                                                                                                                        | string<br/><small>Optional</small>                                                                                                                                   |
+| azureName                           | The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn't have to be.                                                                                                                                                            | string<br/><small>Optional</small>                                                                                                                                   |
+| deadLetteringOnMessageExpiration    | A value that indicates whether this queue has dead letter support when a message expires.                                                                                                                                                                                                 | bool<br/><small>Optional</small>                                                                                                                                     |
+| defaultMessageTimeToLive            | ISO 8601 default message timespan to live value. This is the duration after which the message expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not set on a message itself.                                              | string<br/><small>Optional</small>                                                                                                                                   |
+| duplicateDetectionHistoryTimeWindow | ISO 8601 timeSpan structure that defines the duration of the duplicate detection history. The default value is 10 minutes.                                                                                                                                                                | string<br/><small>Optional</small>                                                                                                                                   |
+| enableBatchedOperations             | Value that indicates whether server-side batched operations are enabled.                                                                                                                                                                                                                  | bool<br/><small>Optional</small>                                                                                                                                     |
+| enableExpress                       | A value that indicates whether Express Entities are enabled. An express queue holds a message in memory temporarily before writing it to persistent storage.                                                                                                                              | bool<br/><small>Optional</small>                                                                                                                                     |
+| enablePartitioning                  | A value that indicates whether the queue is to be partitioned across multiple message brokers.                                                                                                                                                                                            | bool<br/><small>Optional</small>                                                                                                                                     |
+| forwardDeadLetteredMessagesTo       | Queue/Topic name to forward the Dead Letter message                                                                                                                                                                                                                                       | string<br/><small>Optional</small>                                                                                                                                   |
+| forwardTo                           | Queue/Topic name to forward the messages                                                                                                                                                                                                                                                  | string<br/><small>Optional</small>                                                                                                                                   |
+| lockDuration                        | ISO 8601 timespan duration of a peek-lock; that is, the amount of time that the message is locked for other receivers. The maximum value for LockDuration is 5 minutes; the default value is 1 minute.                                                                                    | string<br/><small>Optional</small>                                                                                                                                   |
+| maxDeliveryCount                    | The maximum delivery count. A message is automatically deadlettered after this number of deliveries. default value is 10.                                                                                                                                                                 | int<br/><small>Optional</small>                                                                                                                                      |
+| maxMessageSizeInKilobytes           | Maximum size (in KB) of the message payload that can be accepted by the queue. This property is only used in Premium today and default is 1024.                                                                                                                                           | int<br/><small>Optional</small>                                                                                                                                      |
+| maxSizeInMegabytes                  | The maximum size of the queue in megabytes, which is the size of memory allocated for the queue. Default is 1024.                                                                                                                                                                         | int<br/><small>Optional</small>                                                                                                                                      |
+| operatorSpec                        | The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure                                                                                                                                                           | [NamespacesQueueOperatorSpec](#NamespacesQueueOperatorSpec)<br/><small>Optional</small>                                                                              |
+| owner                               | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a servicebus.azure.com/Namespace resource | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
+| requiresDuplicateDetection          | A value indicating if this queue requires duplicate detection.                                                                                                                                                                                                                            | bool<br/><small>Optional</small>                                                                                                                                     |
+| requiresSession                     | A value that indicates whether the queue supports the concept of sessions.                                                                                                                                                                                                                | bool<br/><small>Optional</small>                                                                                                                                     |
+
+### <a id="NamespacesQueue_STATUS"></a>NamespacesQueue_STATUS
+
+| Property                            | Description                                                                                                                                                                                                                                                                                                               | Type                                                                                                                                                    |
+|-------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| accessedAt                          | Last time a message was sent, or the last time there was a receive request to this queue.                                                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                      |
+| autoDeleteOnIdle                    | ISO 8061 timeSpan idle interval after which the queue is automatically deleted. The minimum duration is 5 minutes.                                                                                                                                                                                                        | string<br/><small>Optional</small>                                                                                                                      |
+| conditions                          | The observed state of the resource                                                                                                                                                                                                                                                                                        | [conditions.Condition[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition)<br/><small>Optional</small> |
+| countDetails                        | Message Count Details.                                                                                                                                                                                                                                                                                                    | [MessageCountDetails_STATUS](#MessageCountDetails_STATUS)<br/><small>Optional</small>                                                                   |
+| createdAt                           | The exact time the message was created.                                                                                                                                                                                                                                                                                   | string<br/><small>Optional</small>                                                                                                                      |
+| deadLetteringOnMessageExpiration    | A value that indicates whether this queue has dead letter support when a message expires.                                                                                                                                                                                                                                 | bool<br/><small>Optional</small>                                                                                                                        |
+| defaultMessageTimeToLive            | ISO 8601 default message timespan to live value. This is the duration after which the message expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not set on a message itself.                                                                              | string<br/><small>Optional</small>                                                                                                                      |
+| duplicateDetectionHistoryTimeWindow | ISO 8601 timeSpan structure that defines the duration of the duplicate detection history. The default value is 10 minutes.                                                                                                                                                                                                | string<br/><small>Optional</small>                                                                                                                      |
+| enableBatchedOperations             | Value that indicates whether server-side batched operations are enabled.                                                                                                                                                                                                                                                  | bool<br/><small>Optional</small>                                                                                                                        |
+| enableExpress                       | A value that indicates whether Express Entities are enabled. An express queue holds a message in memory temporarily before writing it to persistent storage.                                                                                                                                                              | bool<br/><small>Optional</small>                                                                                                                        |
+| enablePartitioning                  | A value that indicates whether the queue is to be partitioned across multiple message brokers.                                                                                                                                                                                                                            | bool<br/><small>Optional</small>                                                                                                                        |
+| forwardDeadLetteredMessagesTo       | Queue/Topic name to forward the Dead Letter message                                                                                                                                                                                                                                                                       | string<br/><small>Optional</small>                                                                                                                      |
+| forwardTo                           | Queue/Topic name to forward the messages                                                                                                                                                                                                                                                                                  | string<br/><small>Optional</small>                                                                                                                      |
+| id                                  | Fully qualified resource ID for the resource. Ex - /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;{resourceProviderNamespace}/&ZeroWidthSpace;{resourceType}/&ZeroWidthSpace;{resourceName} | string<br/><small>Optional</small>                                                                                                                      |
+| location                            | The geo-location where the resource lives                                                                                                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                      |
+| lockDuration                        | ISO 8601 timespan duration of a peek-lock; that is, the amount of time that the message is locked for other receivers. The maximum value for LockDuration is 5 minutes; the default value is 1 minute.                                                                                                                    | string<br/><small>Optional</small>                                                                                                                      |
+| maxDeliveryCount                    | The maximum delivery count. A message is automatically deadlettered after this number of deliveries. default value is 10.                                                                                                                                                                                                 | int<br/><small>Optional</small>                                                                                                                         |
+| maxMessageSizeInKilobytes           | Maximum size (in KB) of the message payload that can be accepted by the queue. This property is only used in Premium today and default is 1024.                                                                                                                                                                           | int<br/><small>Optional</small>                                                                                                                         |
+| maxSizeInMegabytes                  | The maximum size of the queue in megabytes, which is the size of memory allocated for the queue. Default is 1024.                                                                                                                                                                                                         | int<br/><small>Optional</small>                                                                                                                         |
+| messageCount                        | The number of messages in the queue.                                                                                                                                                                                                                                                                                      | int<br/><small>Optional</small>                                                                                                                         |
+| name                                | The name of the resource                                                                                                                                                                                                                                                                                                  | string<br/><small>Optional</small>                                                                                                                      |
+| requiresDuplicateDetection          | A value indicating if this queue requires duplicate detection.                                                                                                                                                                                                                                                            | bool<br/><small>Optional</small>                                                                                                                        |
+| requiresSession                     | A value that indicates whether the queue supports the concept of sessions.                                                                                                                                                                                                                                                | bool<br/><small>Optional</small>                                                                                                                        |
+| sizeInBytes                         | The size of the queue, in bytes.                                                                                                                                                                                                                                                                                          | int<br/><small>Optional</small>                                                                                                                         |
+| status                              | Enumerates the possible values for the status of a messaging entity.                                                                                                                                                                                                                                                      | [EntityStatus_STATUS](#EntityStatus_STATUS)<br/><small>Optional</small>                                                                                 |
+| systemData                          | The system meta data relating to this resource.                                                                                                                                                                                                                                                                           | [SystemData_STATUS](#SystemData_STATUS)<br/><small>Optional</small>                                                                                     |
+| type                                | The type of the resource. E.g. "Microsoft.EventHub/Namespaces" or "Microsoft.EventHub/Namespaces/EventHubs"                                                                                                                                                                                                               | string<br/><small>Optional</small>                                                                                                                      |
+| updatedAt                           | The exact time the message was updated.                                                                                                                                                                                                                                                                                   | string<br/><small>Optional</small>                                                                                                                      |
+
+<a id="NamespacesQueueList"></a>NamespacesQueueList
+---------------------------------------------------
+
+Generator information: - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/Queue.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ServiceBus/namespaces/{namespaceName}/queues/{queueName}
+
+| Property                                                                            | Description | Type                                                              |
+|-------------------------------------------------------------------------------------|-------------|-------------------------------------------------------------------|
+| [metav1.TypeMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta) |             |                                                                   |
+| [metav1.ListMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta) |             |                                                                   |
+| items                                                                               |             | [NamespacesQueue[]](#NamespacesQueue)<br/><small>Optional</small> |
+
+<a id="NamespacesTopic"></a>NamespacesTopic
+-------------------------------------------
+
+Generator information: - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/topics.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}
+
+Used by: [NamespacesTopicList](#NamespacesTopicList).
+
+| Property                                                                                | Description | Type                                                                          |
+|-----------------------------------------------------------------------------------------|-------------|-------------------------------------------------------------------------------|
+| [metav1.TypeMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta)     |             |                                                                               |
+| [metav1.ObjectMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta) |             |                                                                               |
+| spec                                                                                    |             | [NamespacesTopic_Spec](#NamespacesTopic_Spec)<br/><small>Optional</small>     |
+| status                                                                                  |             | [NamespacesTopic_STATUS](#NamespacesTopic_STATUS)<br/><small>Optional</small> |
+
+### <a id="NamespacesTopic_Spec"></a>NamespacesTopic_Spec
+
+| Property                            | Description                                                                                                                                                                                                                                                                               | Type                                                                                                                                                                 |
+|-------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| autoDeleteOnIdle                    | ISO 8601 timespan idle interval after which the topic is automatically deleted. The minimum duration is 5 minutes.                                                                                                                                                                        | string<br/><small>Optional</small>                                                                                                                                   |
+| azureName                           | The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn't have to be.                                                                                                                                                            | string<br/><small>Optional</small>                                                                                                                                   |
+| defaultMessageTimeToLive            | ISO 8601 Default message timespan to live value. This is the duration after which the message expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not set on a message itself.                                              | string<br/><small>Optional</small>                                                                                                                                   |
+| duplicateDetectionHistoryTimeWindow | ISO8601 timespan structure that defines the duration of the duplicate detection history. The default value is 10 minutes.                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                                   |
+| enableBatchedOperations             | Value that indicates whether server-side batched operations are enabled.                                                                                                                                                                                                                  | bool<br/><small>Optional</small>                                                                                                                                     |
+| enableExpress                       | Value that indicates whether Express Entities are enabled. An express topic holds a message in memory temporarily before writing it to persistent storage.                                                                                                                                | bool<br/><small>Optional</small>                                                                                                                                     |
+| enablePartitioning                  | Value that indicates whether the topic to be partitioned across multiple message brokers is enabled.                                                                                                                                                                                      | bool<br/><small>Optional</small>                                                                                                                                     |
+| maxMessageSizeInKilobytes           | Maximum size (in KB) of the message payload that can be accepted by the topic. This property is only used in Premium today and default is 1024.                                                                                                                                           | int<br/><small>Optional</small>                                                                                                                                      |
+| maxSizeInMegabytes                  | Maximum size of the topic in megabytes, which is the size of the memory allocated for the topic. Default is 1024.                                                                                                                                                                         | int<br/><small>Optional</small>                                                                                                                                      |
+| operatorSpec                        | The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure                                                                                                                                                           | [NamespacesTopicOperatorSpec](#NamespacesTopicOperatorSpec)<br/><small>Optional</small>                                                                              |
+| owner                               | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a servicebus.azure.com/Namespace resource | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
+| requiresDuplicateDetection          | Value indicating if this topic requires duplicate detection.                                                                                                                                                                                                                              | bool<br/><small>Optional</small>                                                                                                                                     |
+| supportOrdering                     | Value that indicates whether the topic supports ordering.                                                                                                                                                                                                                                 | bool<br/><small>Optional</small>                                                                                                                                     |
+
+### <a id="NamespacesTopic_STATUS"></a>NamespacesTopic_STATUS
+
+| Property                            | Description                                                                                                                                                                                                                                                                                                               | Type                                                                                                                                                    |
+|-------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| accessedAt                          | Last time the message was sent, or a request was received, for this topic.                                                                                                                                                                                                                                                | string<br/><small>Optional</small>                                                                                                                      |
+| autoDeleteOnIdle                    | ISO 8601 timespan idle interval after which the topic is automatically deleted. The minimum duration is 5 minutes.                                                                                                                                                                                                        | string<br/><small>Optional</small>                                                                                                                      |
+| conditions                          | The observed state of the resource                                                                                                                                                                                                                                                                                        | [conditions.Condition[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition)<br/><small>Optional</small> |
+| countDetails                        | Message count details                                                                                                                                                                                                                                                                                                     | [MessageCountDetails_STATUS](#MessageCountDetails_STATUS)<br/><small>Optional</small>                                                                   |
+| createdAt                           | Exact time the message was created.                                                                                                                                                                                                                                                                                       | string<br/><small>Optional</small>                                                                                                                      |
+| defaultMessageTimeToLive            | ISO 8601 Default message timespan to live value. This is the duration after which the message expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not set on a message itself.                                                                              | string<br/><small>Optional</small>                                                                                                                      |
+| duplicateDetectionHistoryTimeWindow | ISO8601 timespan structure that defines the duration of the duplicate detection history. The default value is 10 minutes.                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                      |
+| enableBatchedOperations             | Value that indicates whether server-side batched operations are enabled.                                                                                                                                                                                                                                                  | bool<br/><small>Optional</small>                                                                                                                        |
+| enableExpress                       | Value that indicates whether Express Entities are enabled. An express topic holds a message in memory temporarily before writing it to persistent storage.                                                                                                                                                                | bool<br/><small>Optional</small>                                                                                                                        |
+| enablePartitioning                  | Value that indicates whether the topic to be partitioned across multiple message brokers is enabled.                                                                                                                                                                                                                      | bool<br/><small>Optional</small>                                                                                                                        |
+| id                                  | Fully qualified resource ID for the resource. Ex - /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;{resourceProviderNamespace}/&ZeroWidthSpace;{resourceType}/&ZeroWidthSpace;{resourceName} | string<br/><small>Optional</small>                                                                                                                      |
+| location                            | The geo-location where the resource lives                                                                                                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                      |
+| maxMessageSizeInKilobytes           | Maximum size (in KB) of the message payload that can be accepted by the topic. This property is only used in Premium today and default is 1024.                                                                                                                                                                           | int<br/><small>Optional</small>                                                                                                                         |
+| maxSizeInMegabytes                  | Maximum size of the topic in megabytes, which is the size of the memory allocated for the topic. Default is 1024.                                                                                                                                                                                                         | int<br/><small>Optional</small>                                                                                                                         |
+| name                                | The name of the resource                                                                                                                                                                                                                                                                                                  | string<br/><small>Optional</small>                                                                                                                      |
+| requiresDuplicateDetection          | Value indicating if this topic requires duplicate detection.                                                                                                                                                                                                                                                              | bool<br/><small>Optional</small>                                                                                                                        |
+| sizeInBytes                         | Size of the topic, in bytes.                                                                                                                                                                                                                                                                                              | int<br/><small>Optional</small>                                                                                                                         |
+| status                              | Enumerates the possible values for the status of a messaging entity.                                                                                                                                                                                                                                                      | [EntityStatus_STATUS](#EntityStatus_STATUS)<br/><small>Optional</small>                                                                                 |
+| subscriptionCount                   | Number of subscriptions.                                                                                                                                                                                                                                                                                                  | int<br/><small>Optional</small>                                                                                                                         |
+| supportOrdering                     | Value that indicates whether the topic supports ordering.                                                                                                                                                                                                                                                                 | bool<br/><small>Optional</small>                                                                                                                        |
+| systemData                          | The system meta data relating to this resource.                                                                                                                                                                                                                                                                           | [SystemData_STATUS](#SystemData_STATUS)<br/><small>Optional</small>                                                                                     |
+| type                                | The type of the resource. E.g. "Microsoft.EventHub/Namespaces" or "Microsoft.EventHub/Namespaces/EventHubs"                                                                                                                                                                                                               | string<br/><small>Optional</small>                                                                                                                      |
+| updatedAt                           | The exact time the message was updated.                                                                                                                                                                                                                                                                                   | string<br/><small>Optional</small>                                                                                                                      |
+
+<a id="NamespacesTopicList"></a>NamespacesTopicList
+---------------------------------------------------
+
+Generator information: - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/topics.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}
+
+| Property                                                                            | Description | Type                                                              |
+|-------------------------------------------------------------------------------------|-------------|-------------------------------------------------------------------|
+| [metav1.TypeMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta) |             |                                                                   |
+| [metav1.ListMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta) |             |                                                                   |
+| items                                                                               |             | [NamespacesTopic[]](#NamespacesTopic)<br/><small>Optional</small> |
+
+<a id="NamespacesTopicsSubscription"></a>NamespacesTopicsSubscription
+---------------------------------------------------------------------
+
+Generator information: - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/subscriptions.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionName}
+
+Used by: [NamespacesTopicsSubscriptionList](#NamespacesTopicsSubscriptionList).
+
+| Property                                                                                | Description | Type                                                                                                    |
+|-----------------------------------------------------------------------------------------|-------------|---------------------------------------------------------------------------------------------------------|
+| [metav1.TypeMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta)     |             |                                                                                                         |
+| [metav1.ObjectMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta) |             |                                                                                                         |
+| spec                                                                                    |             | [NamespacesTopicsSubscription_Spec](#NamespacesTopicsSubscription_Spec)<br/><small>Optional</small>     |
+| status                                                                                  |             | [NamespacesTopicsSubscription_STATUS](#NamespacesTopicsSubscription_STATUS)<br/><small>Optional</small> |
+
+### <a id="NamespacesTopicsSubscription_Spec"></a>NamespacesTopicsSubscription_Spec
+
+| Property                                  | Description                                                                                                                                                                                                                                                                                     | Type                                                                                                                                                                 |
+|-------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| autoDeleteOnIdle                          | ISO 8061 timeSpan idle interval after which the topic is automatically deleted. The minimum duration is 5 minutes.                                                                                                                                                                              | string<br/><small>Optional</small>                                                                                                                                   |
+| azureName                                 | The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn't have to be.                                                                                                                                                                  | string<br/><small>Optional</small>                                                                                                                                   |
+| clientAffineProperties                    | Properties specific to client affine subscriptions.                                                                                                                                                                                                                                             | [SBClientAffineProperties](#SBClientAffineProperties)<br/><small>Optional</small>                                                                                    |
+| deadLetteringOnFilterEvaluationExceptions | Value that indicates whether a subscription has dead letter support on filter evaluation exceptions.                                                                                                                                                                                            | bool<br/><small>Optional</small>                                                                                                                                     |
+| deadLetteringOnMessageExpiration          | Value that indicates whether a subscription has dead letter support when a message expires.                                                                                                                                                                                                     | bool<br/><small>Optional</small>                                                                                                                                     |
+| defaultMessageTimeToLive                  | ISO 8061 Default message timespan to live value. This is the duration after which the message expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not set on a message itself.                                                    | string<br/><small>Optional</small>                                                                                                                                   |
+| duplicateDetectionHistoryTimeWindow       | ISO 8601 timeSpan structure that defines the duration of the duplicate detection history. The default value is 10 minutes.                                                                                                                                                                      | string<br/><small>Optional</small>                                                                                                                                   |
+| enableBatchedOperations                   | Value that indicates whether server-side batched operations are enabled.                                                                                                                                                                                                                        | bool<br/><small>Optional</small>                                                                                                                                     |
+| forwardDeadLetteredMessagesTo             | Queue/Topic name to forward the Dead Letter message                                                                                                                                                                                                                                             | string<br/><small>Optional</small>                                                                                                                                   |
+| forwardTo                                 | Queue/Topic name to forward the messages                                                                                                                                                                                                                                                        | string<br/><small>Optional</small>                                                                                                                                   |
+| isClientAffine                            | Value that indicates whether the subscription has an affinity to the client id.                                                                                                                                                                                                                 | bool<br/><small>Optional</small>                                                                                                                                     |
+| lockDuration                              | ISO 8061 lock duration timespan for the subscription. The default value is 1 minute.                                                                                                                                                                                                            | string<br/><small>Optional</small>                                                                                                                                   |
+| maxDeliveryCount                          | Number of maximum deliveries.                                                                                                                                                                                                                                                                   | int<br/><small>Optional</small>                                                                                                                                      |
+| operatorSpec                              | The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure                                                                                                                                                                 | [NamespacesTopicsSubscriptionOperatorSpec](#NamespacesTopicsSubscriptionOperatorSpec)<br/><small>Optional</small>                                                    |
+| owner                                     | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a servicebus.azure.com/NamespacesTopic resource | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
+| requiresSession                           | Value indicating if a subscription supports the concept of sessions.                                                                                                                                                                                                                            | bool<br/><small>Optional</small>                                                                                                                                     |
+
+### <a id="NamespacesTopicsSubscription_STATUS"></a>NamespacesTopicsSubscription_STATUS
+
+| Property                                  | Description                                                                                                                                                                                                                                                                                                               | Type                                                                                                                                                    |
+|-------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| accessedAt                                | Last time there was a receive request to this subscription.                                                                                                                                                                                                                                                               | string<br/><small>Optional</small>                                                                                                                      |
+| autoDeleteOnIdle                          | ISO 8061 timeSpan idle interval after which the topic is automatically deleted. The minimum duration is 5 minutes.                                                                                                                                                                                                        | string<br/><small>Optional</small>                                                                                                                      |
+| clientAffineProperties                    | Properties specific to client affine subscriptions.                                                                                                                                                                                                                                                                       | [SBClientAffineProperties_STATUS](#SBClientAffineProperties_STATUS)<br/><small>Optional</small>                                                         |
+| conditions                                | The observed state of the resource                                                                                                                                                                                                                                                                                        | [conditions.Condition[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition)<br/><small>Optional</small> |
+| countDetails                              | Message count details                                                                                                                                                                                                                                                                                                     | [MessageCountDetails_STATUS](#MessageCountDetails_STATUS)<br/><small>Optional</small>                                                                   |
+| createdAt                                 | Exact time the message was created.                                                                                                                                                                                                                                                                                       | string<br/><small>Optional</small>                                                                                                                      |
+| deadLetteringOnFilterEvaluationExceptions | Value that indicates whether a subscription has dead letter support on filter evaluation exceptions.                                                                                                                                                                                                                      | bool<br/><small>Optional</small>                                                                                                                        |
+| deadLetteringOnMessageExpiration          | Value that indicates whether a subscription has dead letter support when a message expires.                                                                                                                                                                                                                               | bool<br/><small>Optional</small>                                                                                                                        |
+| defaultMessageTimeToLive                  | ISO 8061 Default message timespan to live value. This is the duration after which the message expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not set on a message itself.                                                                              | string<br/><small>Optional</small>                                                                                                                      |
+| duplicateDetectionHistoryTimeWindow       | ISO 8601 timeSpan structure that defines the duration of the duplicate detection history. The default value is 10 minutes.                                                                                                                                                                                                | string<br/><small>Optional</small>                                                                                                                      |
+| enableBatchedOperations                   | Value that indicates whether server-side batched operations are enabled.                                                                                                                                                                                                                                                  | bool<br/><small>Optional</small>                                                                                                                        |
+| forwardDeadLetteredMessagesTo             | Queue/Topic name to forward the Dead Letter message                                                                                                                                                                                                                                                                       | string<br/><small>Optional</small>                                                                                                                      |
+| forwardTo                                 | Queue/Topic name to forward the messages                                                                                                                                                                                                                                                                                  | string<br/><small>Optional</small>                                                                                                                      |
+| id                                        | Fully qualified resource ID for the resource. Ex - /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;{resourceProviderNamespace}/&ZeroWidthSpace;{resourceType}/&ZeroWidthSpace;{resourceName} | string<br/><small>Optional</small>                                                                                                                      |
+| isClientAffine                            | Value that indicates whether the subscription has an affinity to the client id.                                                                                                                                                                                                                                           | bool<br/><small>Optional</small>                                                                                                                        |
+| location                                  | The geo-location where the resource lives                                                                                                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                      |
+| lockDuration                              | ISO 8061 lock duration timespan for the subscription. The default value is 1 minute.                                                                                                                                                                                                                                      | string<br/><small>Optional</small>                                                                                                                      |
+| maxDeliveryCount                          | Number of maximum deliveries.                                                                                                                                                                                                                                                                                             | int<br/><small>Optional</small>                                                                                                                         |
+| messageCount                              | Number of messages.                                                                                                                                                                                                                                                                                                       | int<br/><small>Optional</small>                                                                                                                         |
+| name                                      | The name of the resource                                                                                                                                                                                                                                                                                                  | string<br/><small>Optional</small>                                                                                                                      |
+| requiresSession                           | Value indicating if a subscription supports the concept of sessions.                                                                                                                                                                                                                                                      | bool<br/><small>Optional</small>                                                                                                                        |
+| status                                    | Enumerates the possible values for the status of a messaging entity.                                                                                                                                                                                                                                                      | [EntityStatus_STATUS](#EntityStatus_STATUS)<br/><small>Optional</small>                                                                                 |
+| systemData                                | The system meta data relating to this resource.                                                                                                                                                                                                                                                                           | [SystemData_STATUS](#SystemData_STATUS)<br/><small>Optional</small>                                                                                     |
+| type                                      | The type of the resource. E.g. "Microsoft.EventHub/Namespaces" or "Microsoft.EventHub/Namespaces/EventHubs"                                                                                                                                                                                                               | string<br/><small>Optional</small>                                                                                                                      |
+| updatedAt                                 | The exact time the message was updated.                                                                                                                                                                                                                                                                                   | string<br/><small>Optional</small>                                                                                                                      |
+
+<a id="NamespacesTopicsSubscriptionList"></a>NamespacesTopicsSubscriptionList
+-----------------------------------------------------------------------------
+
+Generator information: - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/subscriptions.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionName}
+
+| Property                                                                            | Description | Type                                                                                        |
+|-------------------------------------------------------------------------------------|-------------|---------------------------------------------------------------------------------------------|
+| [metav1.TypeMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta) |             |                                                                                             |
+| [metav1.ListMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta) |             |                                                                                             |
+| items                                                                               |             | [NamespacesTopicsSubscription[]](#NamespacesTopicsSubscription)<br/><small>Optional</small> |
+
+<a id="NamespacesTopicsSubscriptionsRule"></a>NamespacesTopicsSubscriptionsRule
+-------------------------------------------------------------------------------
+
+Generator information: - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/Rules.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionName}/&ZeroWidthSpace;rules/&ZeroWidthSpace;{ruleName}
+
+Used by: [NamespacesTopicsSubscriptionsRuleList](#NamespacesTopicsSubscriptionsRuleList).
+
+| Property                                                                                | Description | Type                                                                                                              |
+|-----------------------------------------------------------------------------------------|-------------|-------------------------------------------------------------------------------------------------------------------|
+| [metav1.TypeMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta)     |             |                                                                                                                   |
+| [metav1.ObjectMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta) |             |                                                                                                                   |
+| spec                                                                                    |             | [NamespacesTopicsSubscriptionsRule_Spec](#NamespacesTopicsSubscriptionsRule_Spec)<br/><small>Optional</small>     |
+| status                                                                                  |             | [NamespacesTopicsSubscriptionsRule_STATUS](#NamespacesTopicsSubscriptionsRule_STATUS)<br/><small>Optional</small> |
+
+### <a id="NamespacesTopicsSubscriptionsRule_Spec"></a>NamespacesTopicsSubscriptionsRule_Spec
+
+| Property          | Description                                                                                                                                                                                                                                                                                                  | Type                                                                                                                                                                 |
+|-------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| action            | Represents the filter actions which are allowed for the transformation of a message that have been matched by a filter expression.                                                                                                                                                                           | [Action](#Action)<br/><small>Optional</small>                                                                                                                        |
+| azureName         | The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn't have to be.                                                                                                                                                                               | string<br/><small>Optional</small>                                                                                                                                   |
+| correlationFilter | Properties of correlationFilter                                                                                                                                                                                                                                                                              | [CorrelationFilter](#CorrelationFilter)<br/><small>Optional</small>                                                                                                  |
+| filterType        | Filter type that is evaluated against a BrokeredMessage.                                                                                                                                                                                                                                                     | [FilterType](#FilterType)<br/><small>Optional</small>                                                                                                                |
+| operatorSpec      | The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure                                                                                                                                                                              | [NamespacesTopicsSubscriptionsRuleOperatorSpec](#NamespacesTopicsSubscriptionsRuleOperatorSpec)<br/><small>Optional</small>                                          |
+| owner             | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a servicebus.azure.com/NamespacesTopicsSubscription resource | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
+| sqlFilter         | Properties of sqlFilter                                                                                                                                                                                                                                                                                      | [SqlFilter](#SqlFilter)<br/><small>Optional</small>                                                                                                                  |
+
+### <a id="NamespacesTopicsSubscriptionsRule_STATUS"></a>NamespacesTopicsSubscriptionsRule_STATUS
+
+| Property          | Description                                                                                                                                                                                                                                                                                                               | Type                                                                                                                                                    |
+|-------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| action            | Represents the filter actions which are allowed for the transformation of a message that have been matched by a filter expression.                                                                                                                                                                                        | [Action_STATUS](#Action_STATUS)<br/><small>Optional</small>                                                                                             |
+| conditions        | The observed state of the resource                                                                                                                                                                                                                                                                                        | [conditions.Condition[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition)<br/><small>Optional</small> |
+| correlationFilter | Properties of correlationFilter                                                                                                                                                                                                                                                                                           | [CorrelationFilter_STATUS](#CorrelationFilter_STATUS)<br/><small>Optional</small>                                                                       |
+| filterType        | Filter type that is evaluated against a BrokeredMessage.                                                                                                                                                                                                                                                                  | [FilterType_STATUS](#FilterType_STATUS)<br/><small>Optional</small>                                                                                     |
+| id                | Fully qualified resource ID for the resource. Ex - /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;{resourceProviderNamespace}/&ZeroWidthSpace;{resourceType}/&ZeroWidthSpace;{resourceName} | string<br/><small>Optional</small>                                                                                                                      |
+| location          | The geo-location where the resource lives                                                                                                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                      |
+| name              | The name of the resource                                                                                                                                                                                                                                                                                                  | string<br/><small>Optional</small>                                                                                                                      |
+| sqlFilter         | Properties of sqlFilter                                                                                                                                                                                                                                                                                                   | [SqlFilter_STATUS](#SqlFilter_STATUS)<br/><small>Optional</small>                                                                                       |
+| systemData        | The system meta data relating to this resource.                                                                                                                                                                                                                                                                           | [SystemData_STATUS](#SystemData_STATUS)<br/><small>Optional</small>                                                                                     |
+| type              | The type of the resource. E.g. "Microsoft.EventHub/Namespaces" or "Microsoft.EventHub/Namespaces/EventHubs"                                                                                                                                                                                                               | string<br/><small>Optional</small>                                                                                                                      |
+
+<a id="NamespacesTopicsSubscriptionsRuleList"></a>NamespacesTopicsSubscriptionsRuleList
+---------------------------------------------------------------------------------------
+
+Generator information: - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/Rules.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionName}/&ZeroWidthSpace;rules/&ZeroWidthSpace;{ruleName}
+
+| Property                                                                            | Description | Type                                                                                                  |
+|-------------------------------------------------------------------------------------|-------------|-------------------------------------------------------------------------------------------------------|
+| [metav1.TypeMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta) |             |                                                                                                       |
+| [metav1.ListMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta) |             |                                                                                                       |
+| items                                                                               |             | [NamespacesTopicsSubscriptionsRule[]](#NamespacesTopicsSubscriptionsRule)<br/><small>Optional</small> |
+
+<a id="Namespace_Spec"></a>Namespace_Spec
+-----------------------------------------
+
+Used by: [Namespace](#Namespace).
+
+| Property                   | Description                                                                                                                                                                                                                                                                                  | Type                                                                                                                                                                 |
+|----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| alternateName              | Alternate name for namespace                                                                                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                                   |
+| azureName                  | The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn't have to be.                                                                                                                                                               | string<br/><small>Optional</small>                                                                                                                                   |
+| disableLocalAuth           | This property disables SAS authentication for the Service Bus namespace.                                                                                                                                                                                                                     | bool<br/><small>Optional</small>                                                                                                                                     |
+| encryption                 | Properties of BYOK Encryption description                                                                                                                                                                                                                                                    | [Encryption](#Encryption)<br/><small>Optional</small>                                                                                                                |
+| identity                   | Properties of BYOK Identity description                                                                                                                                                                                                                                                      | [Identity](#Identity)<br/><small>Optional</small>                                                                                                                    |
+| location                   | The Geo-location where the resource lives                                                                                                                                                                                                                                                    | string<br/><small>Required</small>                                                                                                                                   |
+| minimumTlsVersion          | The minimum TLS version for the cluster to support, e.g. '1.2'                                                                                                                                                                                                                               | [SBNamespaceProperties_MinimumTlsVersion](#SBNamespaceProperties_MinimumTlsVersion)<br/><small>Optional</small>                                                      |
+| operatorSpec               | The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure                                                                                                                                                              | [NamespaceOperatorSpec](#NamespaceOperatorSpec)<br/><small>Optional</small>                                                                                          |
+| owner                      | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
+| premiumMessagingPartitions | The number of partitions of a Service Bus namespace. This property is only applicable to Premium SKU namespaces. The default value is 1 and possible values are 1, 2 and 4                                                                                                                   | int<br/><small>Optional</small>                                                                                                                                      |
+| publicNetworkAccess        | This determines if traffic is allowed over public network. By default it is enabled.                                                                                                                                                                                                         | [SBNamespaceProperties_PublicNetworkAccess](#SBNamespaceProperties_PublicNetworkAccess)<br/><small>Optional</small>                                                  |
+| sku                        | Properties of SKU                                                                                                                                                                                                                                                                            | [SBSku](#SBSku)<br/><small>Optional</small>                                                                                                                          |
+| tags                       | Resource tags                                                                                                                                                                                                                                                                                | map[string]string<br/><small>Optional</small>                                                                                                                        |
+| zoneRedundant              | Enabling this property creates a Premium Service Bus Namespace in regions supported availability zones.                                                                                                                                                                                      | bool<br/><small>Optional</small>                                                                                                                                     |
+
+<a id="Namespace_STATUS"></a>Namespace_STATUS
+---------------------------------------------
+
+Used by: [Namespace](#Namespace).
+
+| Property                   | Description                                                                                                                                                                | Type                                                                                                                                                    |
+|----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| alternateName              | Alternate name for namespace                                                                                                                                               | string<br/><small>Optional</small>                                                                                                                      |
+| conditions                 | The observed state of the resource                                                                                                                                         | [conditions.Condition[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition)<br/><small>Optional</small> |
+| createdAt                  | The time the namespace was created                                                                                                                                         | string<br/><small>Optional</small>                                                                                                                      |
+| disableLocalAuth           | This property disables SAS authentication for the Service Bus namespace.                                                                                                   | bool<br/><small>Optional</small>                                                                                                                        |
+| encryption                 | Properties of BYOK Encryption description                                                                                                                                  | [Encryption_STATUS](#Encryption_STATUS)<br/><small>Optional</small>                                                                                     |
+| id                         | Resource Id                                                                                                                                                                | string<br/><small>Optional</small>                                                                                                                      |
+| identity                   | Properties of BYOK Identity description                                                                                                                                    | [Identity_STATUS](#Identity_STATUS)<br/><small>Optional</small>                                                                                         |
+| location                   | The Geo-location where the resource lives                                                                                                                                  | string<br/><small>Optional</small>                                                                                                                      |
+| metricId                   | Identifier for Azure Insights metrics                                                                                                                                      | string<br/><small>Optional</small>                                                                                                                      |
+| minimumTlsVersion          | The minimum TLS version for the cluster to support, e.g. '1.2'                                                                                                             | [SBNamespaceProperties_MinimumTlsVersion_STATUS](#SBNamespaceProperties_MinimumTlsVersion_STATUS)<br/><small>Optional</small>                           |
+| name                       | Resource name                                                                                                                                                              | string<br/><small>Optional</small>                                                                                                                      |
+| premiumMessagingPartitions | The number of partitions of a Service Bus namespace. This property is only applicable to Premium SKU namespaces. The default value is 1 and possible values are 1, 2 and 4 | int<br/><small>Optional</small>                                                                                                                         |
+| privateEndpointConnections | List of private endpoint connections.                                                                                                                                      | [PrivateEndpointConnection_STATUS[]](#PrivateEndpointConnection_STATUS)<br/><small>Optional</small>                                                     |
+| provisioningState          | Provisioning state of the namespace.                                                                                                                                       | string<br/><small>Optional</small>                                                                                                                      |
+| publicNetworkAccess        | This determines if traffic is allowed over public network. By default it is enabled.                                                                                       | [SBNamespaceProperties_PublicNetworkAccess_STATUS](#SBNamespaceProperties_PublicNetworkAccess_STATUS)<br/><small>Optional</small>                       |
+| serviceBusEndpoint         | Endpoint you can use to perform Service Bus operations.                                                                                                                    | string<br/><small>Optional</small>                                                                                                                      |
+| sku                        | Properties of SKU                                                                                                                                                          | [SBSku_STATUS](#SBSku_STATUS)<br/><small>Optional</small>                                                                                               |
+| status                     | Status of the namespace.                                                                                                                                                   | string<br/><small>Optional</small>                                                                                                                      |
+| systemData                 | The system meta data relating to this resource.                                                                                                                            | [SystemData_STATUS](#SystemData_STATUS)<br/><small>Optional</small>                                                                                     |
+| tags                       | Resource tags                                                                                                                                                              | map[string]string<br/><small>Optional</small>                                                                                                           |
+| type                       | Resource type                                                                                                                                                              | string<br/><small>Optional</small>                                                                                                                      |
+| updatedAt                  | The time the namespace was updated.                                                                                                                                        | string<br/><small>Optional</small>                                                                                                                      |
+| zoneRedundant              | Enabling this property creates a Premium Service Bus Namespace in regions supported availability zones.                                                                    | bool<br/><small>Optional</small>                                                                                                                        |
+
+<a id="NamespacesAuthorizationRule_Spec"></a>NamespacesAuthorizationRule_Spec
+-----------------------------------------------------------------------------
+
+Used by: [NamespacesAuthorizationRule](#NamespacesAuthorizationRule).
+
+| Property     | Description                                                                                                                                                                                                                                                                               | Type                                                                                                                                                                 |
+|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| azureName    | The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn't have to be.                                                                                                                                                            | string<br/><small>Optional</small>                                                                                                                                   |
+| operatorSpec | The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure                                                                                                                                                           | [NamespacesAuthorizationRuleOperatorSpec](#NamespacesAuthorizationRuleOperatorSpec)<br/><small>Optional</small>                                                      |
+| owner        | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a servicebus.azure.com/Namespace resource | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
+| rights       | The rights associated with the rule.                                                                                                                                                                                                                                                      | [Namespaces_AuthorizationRule_Properties_Rights_Spec[]](#Namespaces_AuthorizationRule_Properties_Rights_Spec)<br/><small>Required</small>                            |
+
+<a id="NamespacesAuthorizationRule_STATUS"></a>NamespacesAuthorizationRule_STATUS
+---------------------------------------------------------------------------------
+
+Used by: [NamespacesAuthorizationRule](#NamespacesAuthorizationRule).
+
+| Property   | Description                                                                                                                                                                                                                                                                                                               | Type                                                                                                                                                    |
+|------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| conditions | The observed state of the resource                                                                                                                                                                                                                                                                                        | [conditions.Condition[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition)<br/><small>Optional</small> |
+| id         | Fully qualified resource ID for the resource. Ex - /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;{resourceProviderNamespace}/&ZeroWidthSpace;{resourceType}/&ZeroWidthSpace;{resourceName} | string<br/><small>Optional</small>                                                                                                                      |
+| location   | The geo-location where the resource lives                                                                                                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                      |
+| name       | The name of the resource                                                                                                                                                                                                                                                                                                  | string<br/><small>Optional</small>                                                                                                                      |
+| rights     | The rights associated with the rule.                                                                                                                                                                                                                                                                                      | [Namespaces_AuthorizationRule_Properties_Rights_STATUS[]](#Namespaces_AuthorizationRule_Properties_Rights_STATUS)<br/><small>Optional</small>           |
+| systemData | The system meta data relating to this resource.                                                                                                                                                                                                                                                                           | [SystemData_STATUS](#SystemData_STATUS)<br/><small>Optional</small>                                                                                     |
+| type       | The type of the resource. E.g. "Microsoft.EventHub/Namespaces" or "Microsoft.EventHub/Namespaces/EventHubs"                                                                                                                                                                                                               | string<br/><small>Optional</small>                                                                                                                      |
+
+<a id="NamespacesQueue_Spec"></a>NamespacesQueue_Spec
+-----------------------------------------------------
+
+Used by: [NamespacesQueue](#NamespacesQueue).
+
+| Property                            | Description                                                                                                                                                                                                                                                                               | Type                                                                                                                                                                 |
+|-------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| autoDeleteOnIdle                    | ISO 8061 timeSpan idle interval after which the queue is automatically deleted. The minimum duration is 5 minutes.                                                                                                                                                                        | string<br/><small>Optional</small>                                                                                                                                   |
+| azureName                           | The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn't have to be.                                                                                                                                                            | string<br/><small>Optional</small>                                                                                                                                   |
+| deadLetteringOnMessageExpiration    | A value that indicates whether this queue has dead letter support when a message expires.                                                                                                                                                                                                 | bool<br/><small>Optional</small>                                                                                                                                     |
+| defaultMessageTimeToLive            | ISO 8601 default message timespan to live value. This is the duration after which the message expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not set on a message itself.                                              | string<br/><small>Optional</small>                                                                                                                                   |
+| duplicateDetectionHistoryTimeWindow | ISO 8601 timeSpan structure that defines the duration of the duplicate detection history. The default value is 10 minutes.                                                                                                                                                                | string<br/><small>Optional</small>                                                                                                                                   |
+| enableBatchedOperations             | Value that indicates whether server-side batched operations are enabled.                                                                                                                                                                                                                  | bool<br/><small>Optional</small>                                                                                                                                     |
+| enableExpress                       | A value that indicates whether Express Entities are enabled. An express queue holds a message in memory temporarily before writing it to persistent storage.                                                                                                                              | bool<br/><small>Optional</small>                                                                                                                                     |
+| enablePartitioning                  | A value that indicates whether the queue is to be partitioned across multiple message brokers.                                                                                                                                                                                            | bool<br/><small>Optional</small>                                                                                                                                     |
+| forwardDeadLetteredMessagesTo       | Queue/Topic name to forward the Dead Letter message                                                                                                                                                                                                                                       | string<br/><small>Optional</small>                                                                                                                                   |
+| forwardTo                           | Queue/Topic name to forward the messages                                                                                                                                                                                                                                                  | string<br/><small>Optional</small>                                                                                                                                   |
+| lockDuration                        | ISO 8601 timespan duration of a peek-lock; that is, the amount of time that the message is locked for other receivers. The maximum value for LockDuration is 5 minutes; the default value is 1 minute.                                                                                    | string<br/><small>Optional</small>                                                                                                                                   |
+| maxDeliveryCount                    | The maximum delivery count. A message is automatically deadlettered after this number of deliveries. default value is 10.                                                                                                                                                                 | int<br/><small>Optional</small>                                                                                                                                      |
+| maxMessageSizeInKilobytes           | Maximum size (in KB) of the message payload that can be accepted by the queue. This property is only used in Premium today and default is 1024.                                                                                                                                           | int<br/><small>Optional</small>                                                                                                                                      |
+| maxSizeInMegabytes                  | The maximum size of the queue in megabytes, which is the size of memory allocated for the queue. Default is 1024.                                                                                                                                                                         | int<br/><small>Optional</small>                                                                                                                                      |
+| operatorSpec                        | The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure                                                                                                                                                           | [NamespacesQueueOperatorSpec](#NamespacesQueueOperatorSpec)<br/><small>Optional</small>                                                                              |
+| owner                               | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a servicebus.azure.com/Namespace resource | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
+| requiresDuplicateDetection          | A value indicating if this queue requires duplicate detection.                                                                                                                                                                                                                            | bool<br/><small>Optional</small>                                                                                                                                     |
+| requiresSession                     | A value that indicates whether the queue supports the concept of sessions.                                                                                                                                                                                                                | bool<br/><small>Optional</small>                                                                                                                                     |
+
+<a id="NamespacesQueue_STATUS"></a>NamespacesQueue_STATUS
+---------------------------------------------------------
+
+Used by: [NamespacesQueue](#NamespacesQueue).
+
+| Property                            | Description                                                                                                                                                                                                                                                                                                               | Type                                                                                                                                                    |
+|-------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| accessedAt                          | Last time a message was sent, or the last time there was a receive request to this queue.                                                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                      |
+| autoDeleteOnIdle                    | ISO 8061 timeSpan idle interval after which the queue is automatically deleted. The minimum duration is 5 minutes.                                                                                                                                                                                                        | string<br/><small>Optional</small>                                                                                                                      |
+| conditions                          | The observed state of the resource                                                                                                                                                                                                                                                                                        | [conditions.Condition[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition)<br/><small>Optional</small> |
+| countDetails                        | Message Count Details.                                                                                                                                                                                                                                                                                                    | [MessageCountDetails_STATUS](#MessageCountDetails_STATUS)<br/><small>Optional</small>                                                                   |
+| createdAt                           | The exact time the message was created.                                                                                                                                                                                                                                                                                   | string<br/><small>Optional</small>                                                                                                                      |
+| deadLetteringOnMessageExpiration    | A value that indicates whether this queue has dead letter support when a message expires.                                                                                                                                                                                                                                 | bool<br/><small>Optional</small>                                                                                                                        |
+| defaultMessageTimeToLive            | ISO 8601 default message timespan to live value. This is the duration after which the message expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not set on a message itself.                                                                              | string<br/><small>Optional</small>                                                                                                                      |
+| duplicateDetectionHistoryTimeWindow | ISO 8601 timeSpan structure that defines the duration of the duplicate detection history. The default value is 10 minutes.                                                                                                                                                                                                | string<br/><small>Optional</small>                                                                                                                      |
+| enableBatchedOperations             | Value that indicates whether server-side batched operations are enabled.                                                                                                                                                                                                                                                  | bool<br/><small>Optional</small>                                                                                                                        |
+| enableExpress                       | A value that indicates whether Express Entities are enabled. An express queue holds a message in memory temporarily before writing it to persistent storage.                                                                                                                                                              | bool<br/><small>Optional</small>                                                                                                                        |
+| enablePartitioning                  | A value that indicates whether the queue is to be partitioned across multiple message brokers.                                                                                                                                                                                                                            | bool<br/><small>Optional</small>                                                                                                                        |
+| forwardDeadLetteredMessagesTo       | Queue/Topic name to forward the Dead Letter message                                                                                                                                                                                                                                                                       | string<br/><small>Optional</small>                                                                                                                      |
+| forwardTo                           | Queue/Topic name to forward the messages                                                                                                                                                                                                                                                                                  | string<br/><small>Optional</small>                                                                                                                      |
+| id                                  | Fully qualified resource ID for the resource. Ex - /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;{resourceProviderNamespace}/&ZeroWidthSpace;{resourceType}/&ZeroWidthSpace;{resourceName} | string<br/><small>Optional</small>                                                                                                                      |
+| location                            | The geo-location where the resource lives                                                                                                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                      |
+| lockDuration                        | ISO 8601 timespan duration of a peek-lock; that is, the amount of time that the message is locked for other receivers. The maximum value for LockDuration is 5 minutes; the default value is 1 minute.                                                                                                                    | string<br/><small>Optional</small>                                                                                                                      |
+| maxDeliveryCount                    | The maximum delivery count. A message is automatically deadlettered after this number of deliveries. default value is 10.                                                                                                                                                                                                 | int<br/><small>Optional</small>                                                                                                                         |
+| maxMessageSizeInKilobytes           | Maximum size (in KB) of the message payload that can be accepted by the queue. This property is only used in Premium today and default is 1024.                                                                                                                                                                           | int<br/><small>Optional</small>                                                                                                                         |
+| maxSizeInMegabytes                  | The maximum size of the queue in megabytes, which is the size of memory allocated for the queue. Default is 1024.                                                                                                                                                                                                         | int<br/><small>Optional</small>                                                                                                                         |
+| messageCount                        | The number of messages in the queue.                                                                                                                                                                                                                                                                                      | int<br/><small>Optional</small>                                                                                                                         |
+| name                                | The name of the resource                                                                                                                                                                                                                                                                                                  | string<br/><small>Optional</small>                                                                                                                      |
+| requiresDuplicateDetection          | A value indicating if this queue requires duplicate detection.                                                                                                                                                                                                                                                            | bool<br/><small>Optional</small>                                                                                                                        |
+| requiresSession                     | A value that indicates whether the queue supports the concept of sessions.                                                                                                                                                                                                                                                | bool<br/><small>Optional</small>                                                                                                                        |
+| sizeInBytes                         | The size of the queue, in bytes.                                                                                                                                                                                                                                                                                          | int<br/><small>Optional</small>                                                                                                                         |
+| status                              | Enumerates the possible values for the status of a messaging entity.                                                                                                                                                                                                                                                      | [EntityStatus_STATUS](#EntityStatus_STATUS)<br/><small>Optional</small>                                                                                 |
+| systemData                          | The system meta data relating to this resource.                                                                                                                                                                                                                                                                           | [SystemData_STATUS](#SystemData_STATUS)<br/><small>Optional</small>                                                                                     |
+| type                                | The type of the resource. E.g. "Microsoft.EventHub/Namespaces" or "Microsoft.EventHub/Namespaces/EventHubs"                                                                                                                                                                                                               | string<br/><small>Optional</small>                                                                                                                      |
+| updatedAt                           | The exact time the message was updated.                                                                                                                                                                                                                                                                                   | string<br/><small>Optional</small>                                                                                                                      |
+
+<a id="NamespacesTopic_Spec"></a>NamespacesTopic_Spec
+-----------------------------------------------------
+
+Used by: [NamespacesTopic](#NamespacesTopic).
+
+| Property                            | Description                                                                                                                                                                                                                                                                               | Type                                                                                                                                                                 |
+|-------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| autoDeleteOnIdle                    | ISO 8601 timespan idle interval after which the topic is automatically deleted. The minimum duration is 5 minutes.                                                                                                                                                                        | string<br/><small>Optional</small>                                                                                                                                   |
+| azureName                           | The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn't have to be.                                                                                                                                                            | string<br/><small>Optional</small>                                                                                                                                   |
+| defaultMessageTimeToLive            | ISO 8601 Default message timespan to live value. This is the duration after which the message expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not set on a message itself.                                              | string<br/><small>Optional</small>                                                                                                                                   |
+| duplicateDetectionHistoryTimeWindow | ISO8601 timespan structure that defines the duration of the duplicate detection history. The default value is 10 minutes.                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                                   |
+| enableBatchedOperations             | Value that indicates whether server-side batched operations are enabled.                                                                                                                                                                                                                  | bool<br/><small>Optional</small>                                                                                                                                     |
+| enableExpress                       | Value that indicates whether Express Entities are enabled. An express topic holds a message in memory temporarily before writing it to persistent storage.                                                                                                                                | bool<br/><small>Optional</small>                                                                                                                                     |
+| enablePartitioning                  | Value that indicates whether the topic to be partitioned across multiple message brokers is enabled.                                                                                                                                                                                      | bool<br/><small>Optional</small>                                                                                                                                     |
+| maxMessageSizeInKilobytes           | Maximum size (in KB) of the message payload that can be accepted by the topic. This property is only used in Premium today and default is 1024.                                                                                                                                           | int<br/><small>Optional</small>                                                                                                                                      |
+| maxSizeInMegabytes                  | Maximum size of the topic in megabytes, which is the size of the memory allocated for the topic. Default is 1024.                                                                                                                                                                         | int<br/><small>Optional</small>                                                                                                                                      |
+| operatorSpec                        | The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure                                                                                                                                                           | [NamespacesTopicOperatorSpec](#NamespacesTopicOperatorSpec)<br/><small>Optional</small>                                                                              |
+| owner                               | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a servicebus.azure.com/Namespace resource | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
+| requiresDuplicateDetection          | Value indicating if this topic requires duplicate detection.                                                                                                                                                                                                                              | bool<br/><small>Optional</small>                                                                                                                                     |
+| supportOrdering                     | Value that indicates whether the topic supports ordering.                                                                                                                                                                                                                                 | bool<br/><small>Optional</small>                                                                                                                                     |
+
+<a id="NamespacesTopic_STATUS"></a>NamespacesTopic_STATUS
+---------------------------------------------------------
+
+Used by: [NamespacesTopic](#NamespacesTopic).
+
+| Property                            | Description                                                                                                                                                                                                                                                                                                               | Type                                                                                                                                                    |
+|-------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| accessedAt                          | Last time the message was sent, or a request was received, for this topic.                                                                                                                                                                                                                                                | string<br/><small>Optional</small>                                                                                                                      |
+| autoDeleteOnIdle                    | ISO 8601 timespan idle interval after which the topic is automatically deleted. The minimum duration is 5 minutes.                                                                                                                                                                                                        | string<br/><small>Optional</small>                                                                                                                      |
+| conditions                          | The observed state of the resource                                                                                                                                                                                                                                                                                        | [conditions.Condition[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition)<br/><small>Optional</small> |
+| countDetails                        | Message count details                                                                                                                                                                                                                                                                                                     | [MessageCountDetails_STATUS](#MessageCountDetails_STATUS)<br/><small>Optional</small>                                                                   |
+| createdAt                           | Exact time the message was created.                                                                                                                                                                                                                                                                                       | string<br/><small>Optional</small>                                                                                                                      |
+| defaultMessageTimeToLive            | ISO 8601 Default message timespan to live value. This is the duration after which the message expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not set on a message itself.                                                                              | string<br/><small>Optional</small>                                                                                                                      |
+| duplicateDetectionHistoryTimeWindow | ISO8601 timespan structure that defines the duration of the duplicate detection history. The default value is 10 minutes.                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                      |
+| enableBatchedOperations             | Value that indicates whether server-side batched operations are enabled.                                                                                                                                                                                                                                                  | bool<br/><small>Optional</small>                                                                                                                        |
+| enableExpress                       | Value that indicates whether Express Entities are enabled. An express topic holds a message in memory temporarily before writing it to persistent storage.                                                                                                                                                                | bool<br/><small>Optional</small>                                                                                                                        |
+| enablePartitioning                  | Value that indicates whether the topic to be partitioned across multiple message brokers is enabled.                                                                                                                                                                                                                      | bool<br/><small>Optional</small>                                                                                                                        |
+| id                                  | Fully qualified resource ID for the resource. Ex - /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;{resourceProviderNamespace}/&ZeroWidthSpace;{resourceType}/&ZeroWidthSpace;{resourceName} | string<br/><small>Optional</small>                                                                                                                      |
+| location                            | The geo-location where the resource lives                                                                                                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                      |
+| maxMessageSizeInKilobytes           | Maximum size (in KB) of the message payload that can be accepted by the topic. This property is only used in Premium today and default is 1024.                                                                                                                                                                           | int<br/><small>Optional</small>                                                                                                                         |
+| maxSizeInMegabytes                  | Maximum size of the topic in megabytes, which is the size of the memory allocated for the topic. Default is 1024.                                                                                                                                                                                                         | int<br/><small>Optional</small>                                                                                                                         |
+| name                                | The name of the resource                                                                                                                                                                                                                                                                                                  | string<br/><small>Optional</small>                                                                                                                      |
+| requiresDuplicateDetection          | Value indicating if this topic requires duplicate detection.                                                                                                                                                                                                                                                              | bool<br/><small>Optional</small>                                                                                                                        |
+| sizeInBytes                         | Size of the topic, in bytes.                                                                                                                                                                                                                                                                                              | int<br/><small>Optional</small>                                                                                                                         |
+| status                              | Enumerates the possible values for the status of a messaging entity.                                                                                                                                                                                                                                                      | [EntityStatus_STATUS](#EntityStatus_STATUS)<br/><small>Optional</small>                                                                                 |
+| subscriptionCount                   | Number of subscriptions.                                                                                                                                                                                                                                                                                                  | int<br/><small>Optional</small>                                                                                                                         |
+| supportOrdering                     | Value that indicates whether the topic supports ordering.                                                                                                                                                                                                                                                                 | bool<br/><small>Optional</small>                                                                                                                        |
+| systemData                          | The system meta data relating to this resource.                                                                                                                                                                                                                                                                           | [SystemData_STATUS](#SystemData_STATUS)<br/><small>Optional</small>                                                                                     |
+| type                                | The type of the resource. E.g. "Microsoft.EventHub/Namespaces" or "Microsoft.EventHub/Namespaces/EventHubs"                                                                                                                                                                                                               | string<br/><small>Optional</small>                                                                                                                      |
+| updatedAt                           | The exact time the message was updated.                                                                                                                                                                                                                                                                                   | string<br/><small>Optional</small>                                                                                                                      |
+
+<a id="NamespacesTopicsSubscription_Spec"></a>NamespacesTopicsSubscription_Spec
+-------------------------------------------------------------------------------
+
+Used by: [NamespacesTopicsSubscription](#NamespacesTopicsSubscription).
+
+| Property                                  | Description                                                                                                                                                                                                                                                                                     | Type                                                                                                                                                                 |
+|-------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| autoDeleteOnIdle                          | ISO 8061 timeSpan idle interval after which the topic is automatically deleted. The minimum duration is 5 minutes.                                                                                                                                                                              | string<br/><small>Optional</small>                                                                                                                                   |
+| azureName                                 | The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn't have to be.                                                                                                                                                                  | string<br/><small>Optional</small>                                                                                                                                   |
+| clientAffineProperties                    | Properties specific to client affine subscriptions.                                                                                                                                                                                                                                             | [SBClientAffineProperties](#SBClientAffineProperties)<br/><small>Optional</small>                                                                                    |
+| deadLetteringOnFilterEvaluationExceptions | Value that indicates whether a subscription has dead letter support on filter evaluation exceptions.                                                                                                                                                                                            | bool<br/><small>Optional</small>                                                                                                                                     |
+| deadLetteringOnMessageExpiration          | Value that indicates whether a subscription has dead letter support when a message expires.                                                                                                                                                                                                     | bool<br/><small>Optional</small>                                                                                                                                     |
+| defaultMessageTimeToLive                  | ISO 8061 Default message timespan to live value. This is the duration after which the message expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not set on a message itself.                                                    | string<br/><small>Optional</small>                                                                                                                                   |
+| duplicateDetectionHistoryTimeWindow       | ISO 8601 timeSpan structure that defines the duration of the duplicate detection history. The default value is 10 minutes.                                                                                                                                                                      | string<br/><small>Optional</small>                                                                                                                                   |
+| enableBatchedOperations                   | Value that indicates whether server-side batched operations are enabled.                                                                                                                                                                                                                        | bool<br/><small>Optional</small>                                                                                                                                     |
+| forwardDeadLetteredMessagesTo             | Queue/Topic name to forward the Dead Letter message                                                                                                                                                                                                                                             | string<br/><small>Optional</small>                                                                                                                                   |
+| forwardTo                                 | Queue/Topic name to forward the messages                                                                                                                                                                                                                                                        | string<br/><small>Optional</small>                                                                                                                                   |
+| isClientAffine                            | Value that indicates whether the subscription has an affinity to the client id.                                                                                                                                                                                                                 | bool<br/><small>Optional</small>                                                                                                                                     |
+| lockDuration                              | ISO 8061 lock duration timespan for the subscription. The default value is 1 minute.                                                                                                                                                                                                            | string<br/><small>Optional</small>                                                                                                                                   |
+| maxDeliveryCount                          | Number of maximum deliveries.                                                                                                                                                                                                                                                                   | int<br/><small>Optional</small>                                                                                                                                      |
+| operatorSpec                              | The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure                                                                                                                                                                 | [NamespacesTopicsSubscriptionOperatorSpec](#NamespacesTopicsSubscriptionOperatorSpec)<br/><small>Optional</small>                                                    |
+| owner                                     | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a servicebus.azure.com/NamespacesTopic resource | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
+| requiresSession                           | Value indicating if a subscription supports the concept of sessions.                                                                                                                                                                                                                            | bool<br/><small>Optional</small>                                                                                                                                     |
+
+<a id="NamespacesTopicsSubscription_STATUS"></a>NamespacesTopicsSubscription_STATUS
+-----------------------------------------------------------------------------------
+
+Used by: [NamespacesTopicsSubscription](#NamespacesTopicsSubscription).
+
+| Property                                  | Description                                                                                                                                                                                                                                                                                                               | Type                                                                                                                                                    |
+|-------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| accessedAt                                | Last time there was a receive request to this subscription.                                                                                                                                                                                                                                                               | string<br/><small>Optional</small>                                                                                                                      |
+| autoDeleteOnIdle                          | ISO 8061 timeSpan idle interval after which the topic is automatically deleted. The minimum duration is 5 minutes.                                                                                                                                                                                                        | string<br/><small>Optional</small>                                                                                                                      |
+| clientAffineProperties                    | Properties specific to client affine subscriptions.                                                                                                                                                                                                                                                                       | [SBClientAffineProperties_STATUS](#SBClientAffineProperties_STATUS)<br/><small>Optional</small>                                                         |
+| conditions                                | The observed state of the resource                                                                                                                                                                                                                                                                                        | [conditions.Condition[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition)<br/><small>Optional</small> |
+| countDetails                              | Message count details                                                                                                                                                                                                                                                                                                     | [MessageCountDetails_STATUS](#MessageCountDetails_STATUS)<br/><small>Optional</small>                                                                   |
+| createdAt                                 | Exact time the message was created.                                                                                                                                                                                                                                                                                       | string<br/><small>Optional</small>                                                                                                                      |
+| deadLetteringOnFilterEvaluationExceptions | Value that indicates whether a subscription has dead letter support on filter evaluation exceptions.                                                                                                                                                                                                                      | bool<br/><small>Optional</small>                                                                                                                        |
+| deadLetteringOnMessageExpiration          | Value that indicates whether a subscription has dead letter support when a message expires.                                                                                                                                                                                                                               | bool<br/><small>Optional</small>                                                                                                                        |
+| defaultMessageTimeToLive                  | ISO 8061 Default message timespan to live value. This is the duration after which the message expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not set on a message itself.                                                                              | string<br/><small>Optional</small>                                                                                                                      |
+| duplicateDetectionHistoryTimeWindow       | ISO 8601 timeSpan structure that defines the duration of the duplicate detection history. The default value is 10 minutes.                                                                                                                                                                                                | string<br/><small>Optional</small>                                                                                                                      |
+| enableBatchedOperations                   | Value that indicates whether server-side batched operations are enabled.                                                                                                                                                                                                                                                  | bool<br/><small>Optional</small>                                                                                                                        |
+| forwardDeadLetteredMessagesTo             | Queue/Topic name to forward the Dead Letter message                                                                                                                                                                                                                                                                       | string<br/><small>Optional</small>                                                                                                                      |
+| forwardTo                                 | Queue/Topic name to forward the messages                                                                                                                                                                                                                                                                                  | string<br/><small>Optional</small>                                                                                                                      |
+| id                                        | Fully qualified resource ID for the resource. Ex - /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;{resourceProviderNamespace}/&ZeroWidthSpace;{resourceType}/&ZeroWidthSpace;{resourceName} | string<br/><small>Optional</small>                                                                                                                      |
+| isClientAffine                            | Value that indicates whether the subscription has an affinity to the client id.                                                                                                                                                                                                                                           | bool<br/><small>Optional</small>                                                                                                                        |
+| location                                  | The geo-location where the resource lives                                                                                                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                      |
+| lockDuration                              | ISO 8061 lock duration timespan for the subscription. The default value is 1 minute.                                                                                                                                                                                                                                      | string<br/><small>Optional</small>                                                                                                                      |
+| maxDeliveryCount                          | Number of maximum deliveries.                                                                                                                                                                                                                                                                                             | int<br/><small>Optional</small>                                                                                                                         |
+| messageCount                              | Number of messages.                                                                                                                                                                                                                                                                                                       | int<br/><small>Optional</small>                                                                                                                         |
+| name                                      | The name of the resource                                                                                                                                                                                                                                                                                                  | string<br/><small>Optional</small>                                                                                                                      |
+| requiresSession                           | Value indicating if a subscription supports the concept of sessions.                                                                                                                                                                                                                                                      | bool<br/><small>Optional</small>                                                                                                                        |
+| status                                    | Enumerates the possible values for the status of a messaging entity.                                                                                                                                                                                                                                                      | [EntityStatus_STATUS](#EntityStatus_STATUS)<br/><small>Optional</small>                                                                                 |
+| systemData                                | The system meta data relating to this resource.                                                                                                                                                                                                                                                                           | [SystemData_STATUS](#SystemData_STATUS)<br/><small>Optional</small>                                                                                     |
+| type                                      | The type of the resource. E.g. "Microsoft.EventHub/Namespaces" or "Microsoft.EventHub/Namespaces/EventHubs"                                                                                                                                                                                                               | string<br/><small>Optional</small>                                                                                                                      |
+| updatedAt                                 | The exact time the message was updated.                                                                                                                                                                                                                                                                                   | string<br/><small>Optional</small>                                                                                                                      |
+
+<a id="NamespacesTopicsSubscriptionsRule_Spec"></a>NamespacesTopicsSubscriptionsRule_Spec
+-----------------------------------------------------------------------------------------
+
+Used by: [NamespacesTopicsSubscriptionsRule](#NamespacesTopicsSubscriptionsRule).
+
+| Property          | Description                                                                                                                                                                                                                                                                                                  | Type                                                                                                                                                                 |
+|-------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| action            | Represents the filter actions which are allowed for the transformation of a message that have been matched by a filter expression.                                                                                                                                                                           | [Action](#Action)<br/><small>Optional</small>                                                                                                                        |
+| azureName         | The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn't have to be.                                                                                                                                                                               | string<br/><small>Optional</small>                                                                                                                                   |
+| correlationFilter | Properties of correlationFilter                                                                                                                                                                                                                                                                              | [CorrelationFilter](#CorrelationFilter)<br/><small>Optional</small>                                                                                                  |
+| filterType        | Filter type that is evaluated against a BrokeredMessage.                                                                                                                                                                                                                                                     | [FilterType](#FilterType)<br/><small>Optional</small>                                                                                                                |
+| operatorSpec      | The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure                                                                                                                                                                              | [NamespacesTopicsSubscriptionsRuleOperatorSpec](#NamespacesTopicsSubscriptionsRuleOperatorSpec)<br/><small>Optional</small>                                          |
+| owner             | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a servicebus.azure.com/NamespacesTopicsSubscription resource | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
+| sqlFilter         | Properties of sqlFilter                                                                                                                                                                                                                                                                                      | [SqlFilter](#SqlFilter)<br/><small>Optional</small>                                                                                                                  |
+
+<a id="NamespacesTopicsSubscriptionsRule_STATUS"></a>NamespacesTopicsSubscriptionsRule_STATUS
+---------------------------------------------------------------------------------------------
+
+Used by: [NamespacesTopicsSubscriptionsRule](#NamespacesTopicsSubscriptionsRule).
+
+| Property          | Description                                                                                                                                                                                                                                                                                                               | Type                                                                                                                                                    |
+|-------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| action            | Represents the filter actions which are allowed for the transformation of a message that have been matched by a filter expression.                                                                                                                                                                                        | [Action_STATUS](#Action_STATUS)<br/><small>Optional</small>                                                                                             |
+| conditions        | The observed state of the resource                                                                                                                                                                                                                                                                                        | [conditions.Condition[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition)<br/><small>Optional</small> |
+| correlationFilter | Properties of correlationFilter                                                                                                                                                                                                                                                                                           | [CorrelationFilter_STATUS](#CorrelationFilter_STATUS)<br/><small>Optional</small>                                                                       |
+| filterType        | Filter type that is evaluated against a BrokeredMessage.                                                                                                                                                                                                                                                                  | [FilterType_STATUS](#FilterType_STATUS)<br/><small>Optional</small>                                                                                     |
+| id                | Fully qualified resource ID for the resource. Ex - /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;{resourceProviderNamespace}/&ZeroWidthSpace;{resourceType}/&ZeroWidthSpace;{resourceName} | string<br/><small>Optional</small>                                                                                                                      |
+| location          | The geo-location where the resource lives                                                                                                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                      |
+| name              | The name of the resource                                                                                                                                                                                                                                                                                                  | string<br/><small>Optional</small>                                                                                                                      |
+| sqlFilter         | Properties of sqlFilter                                                                                                                                                                                                                                                                                                   | [SqlFilter_STATUS](#SqlFilter_STATUS)<br/><small>Optional</small>                                                                                       |
+| systemData        | The system meta data relating to this resource.                                                                                                                                                                                                                                                                           | [SystemData_STATUS](#SystemData_STATUS)<br/><small>Optional</small>                                                                                     |
+| type              | The type of the resource. E.g. "Microsoft.EventHub/Namespaces" or "Microsoft.EventHub/Namespaces/EventHubs"                                                                                                                                                                                                               | string<br/><small>Optional</small>                                                                                                                      |
+
+<a id="Action"></a>Action
+-------------------------
+
+Represents the filter actions which are allowed for the transformation of a message that have been matched by a filter expression.
+
+Used by: [NamespacesTopicsSubscriptionsRule_Spec](#NamespacesTopicsSubscriptionsRule_Spec).
+
+| Property              | Description                                                                                                             | Type                               |
+|-----------------------|-------------------------------------------------------------------------------------------------------------------------|------------------------------------|
+| compatibilityLevel    | This property is reserved for future use. An integer value showing the compatibility level, currently hard-coded to 20. | int<br/><small>Optional</small>    |
+| requiresPreprocessing | Value that indicates whether the rule action requires preprocessing.                                                    | bool<br/><small>Optional</small>   |
+| sqlExpression         | SQL expression. e.g. MyProperty='ABC'                                                                                   | string<br/><small>Optional</small> |
+
+<a id="Action_STATUS"></a>Action_STATUS
+---------------------------------------
+
+Represents the filter actions which are allowed for the transformation of a message that have been matched by a filter expression.
+
+Used by: [NamespacesTopicsSubscriptionsRule_STATUS](#NamespacesTopicsSubscriptionsRule_STATUS).
+
+| Property              | Description                                                                                                             | Type                               |
+|-----------------------|-------------------------------------------------------------------------------------------------------------------------|------------------------------------|
+| compatibilityLevel    | This property is reserved for future use. An integer value showing the compatibility level, currently hard-coded to 20. | int<br/><small>Optional</small>    |
+| requiresPreprocessing | Value that indicates whether the rule action requires preprocessing.                                                    | bool<br/><small>Optional</small>   |
+| sqlExpression         | SQL expression. e.g. MyProperty='ABC'                                                                                   | string<br/><small>Optional</small> |
+
+<a id="CorrelationFilter"></a>CorrelationFilter
+-----------------------------------------------
+
+Represents the correlation filter expression.
+
+Used by: [NamespacesTopicsSubscriptionsRule_Spec](#NamespacesTopicsSubscriptionsRule_Spec).
+
+| Property              | Description                                                          | Type                                          |
+|-----------------------|----------------------------------------------------------------------|-----------------------------------------------|
+| contentType           | Content type of the message.                                         | string<br/><small>Optional</small>            |
+| correlationId         | Identifier of the correlation.                                       | string<br/><small>Optional</small>            |
+| label                 | Application specific label.                                          | string<br/><small>Optional</small>            |
+| messageId             | Identifier of the message.                                           | string<br/><small>Optional</small>            |
+| properties            | dictionary object for custom filters                                 | map[string]string<br/><small>Optional</small> |
+| replyTo               | Address of the queue to reply to.                                    | string<br/><small>Optional</small>            |
+| replyToSessionId      | Session identifier to reply to.                                      | string<br/><small>Optional</small>            |
+| requiresPreprocessing | Value that indicates whether the rule action requires preprocessing. | bool<br/><small>Optional</small>              |
+| sessionId             | Session identifier.                                                  | string<br/><small>Optional</small>            |
+| to                    | Address to send to.                                                  | string<br/><small>Optional</small>            |
+
+<a id="CorrelationFilter_STATUS"></a>CorrelationFilter_STATUS
+-------------------------------------------------------------
+
+Represents the correlation filter expression.
+
+Used by: [NamespacesTopicsSubscriptionsRule_STATUS](#NamespacesTopicsSubscriptionsRule_STATUS).
+
+| Property              | Description                                                          | Type                                          |
+|-----------------------|----------------------------------------------------------------------|-----------------------------------------------|
+| contentType           | Content type of the message.                                         | string<br/><small>Optional</small>            |
+| correlationId         | Identifier of the correlation.                                       | string<br/><small>Optional</small>            |
+| label                 | Application specific label.                                          | string<br/><small>Optional</small>            |
+| messageId             | Identifier of the message.                                           | string<br/><small>Optional</small>            |
+| properties            | dictionary object for custom filters                                 | map[string]string<br/><small>Optional</small> |
+| replyTo               | Address of the queue to reply to.                                    | string<br/><small>Optional</small>            |
+| replyToSessionId      | Session identifier to reply to.                                      | string<br/><small>Optional</small>            |
+| requiresPreprocessing | Value that indicates whether the rule action requires preprocessing. | bool<br/><small>Optional</small>              |
+| sessionId             | Session identifier.                                                  | string<br/><small>Optional</small>            |
+| to                    | Address to send to.                                                  | string<br/><small>Optional</small>            |
+
+<a id="Encryption"></a>Encryption
+---------------------------------
+
+Properties to configure Encryption
+
+Used by: [Namespace_Spec](#Namespace_Spec).
+
+| Property                        | Description                                               | Type                                                                      |
+|---------------------------------|-----------------------------------------------------------|---------------------------------------------------------------------------|
+| keySource                       | Enumerates the possible value of keySource for Encryption | [Encryption_KeySource](#Encryption_KeySource)<br/><small>Optional</small> |
+| keyVaultProperties              | Properties of KeyVault                                    | [KeyVaultProperties[]](#KeyVaultProperties)<br/><small>Optional</small>   |
+| requireInfrastructureEncryption | Enable Infrastructure Encryption (Double Encryption)      | bool<br/><small>Optional</small>                                          |
+
+<a id="Encryption_STATUS"></a>Encryption_STATUS
+-----------------------------------------------
+
+Properties to configure Encryption
+
+Used by: [Namespace_STATUS](#Namespace_STATUS).
+
+| Property                        | Description                                               | Type                                                                                    |
+|---------------------------------|-----------------------------------------------------------|-----------------------------------------------------------------------------------------|
+| keySource                       | Enumerates the possible value of keySource for Encryption | [Encryption_KeySource_STATUS](#Encryption_KeySource_STATUS)<br/><small>Optional</small> |
+| keyVaultProperties              | Properties of KeyVault                                    | [KeyVaultProperties_STATUS[]](#KeyVaultProperties_STATUS)<br/><small>Optional</small>   |
+| requireInfrastructureEncryption | Enable Infrastructure Encryption (Double Encryption)      | bool<br/><small>Optional</small>                                                        |
+
+<a id="EntityStatus_STATUS"></a>EntityStatus_STATUS
+---------------------------------------------------
+
+Entity status.
+
+Used by: [NamespacesQueue_STATUS](#NamespacesQueue_STATUS), [NamespacesTopic_STATUS](#NamespacesTopic_STATUS), and [NamespacesTopicsSubscription_STATUS](#NamespacesTopicsSubscription_STATUS).
+
+| Value             | Description |
+|-------------------|-------------|
+| "Active"          |             |
+| "Creating"        |             |
+| "Deleting"        |             |
+| "Disabled"        |             |
+| "ReceiveDisabled" |             |
+| "Renaming"        |             |
+| "Restoring"       |             |
+| "SendDisabled"    |             |
+| "Unknown"         |             |
+
+<a id="FilterType"></a>FilterType
+---------------------------------
+
+Rule filter types
+
+Used by: [NamespacesTopicsSubscriptionsRule_Spec](#NamespacesTopicsSubscriptionsRule_Spec).
+
+| Value               | Description |
+|---------------------|-------------|
+| "CorrelationFilter" |             |
+| "SqlFilter"         |             |
+
+<a id="FilterType_STATUS"></a>FilterType_STATUS
+-----------------------------------------------
+
+Rule filter types
+
+Used by: [NamespacesTopicsSubscriptionsRule_STATUS](#NamespacesTopicsSubscriptionsRule_STATUS).
+
+| Value               | Description |
+|---------------------|-------------|
+| "CorrelationFilter" |             |
+| "SqlFilter"         |             |
+
+<a id="Identity"></a>Identity
+-----------------------------
+
+Properties to configure User Assigned Identities for Bring your Own Keys
+
+Used by: [Namespace_Spec](#Namespace_Spec).
+
+| Property               | Description                             | Type                                                                                      |
+|------------------------|-----------------------------------------|-------------------------------------------------------------------------------------------|
+| type                   | Type of managed service identity.       | [Identity_Type](#Identity_Type)<br/><small>Optional</small>                               |
+| userAssignedIdentities | Properties for User Assigned Identities | [UserAssignedIdentityDetails[]](#UserAssignedIdentityDetails)<br/><small>Optional</small> |
+
+<a id="Identity_STATUS"></a>Identity_STATUS
+-------------------------------------------
+
+Properties to configure User Assigned Identities for Bring your Own Keys
+
+Used by: [Namespace_STATUS](#Namespace_STATUS).
+
+| Property               | Description                             | Type                                                                                               |
+|------------------------|-----------------------------------------|----------------------------------------------------------------------------------------------------|
+| principalId            | ObjectId from the KeyVault              | string<br/><small>Optional</small>                                                                 |
+| tenantId               | TenantId from the KeyVault              | string<br/><small>Optional</small>                                                                 |
+| type                   | Type of managed service identity.       | [Identity_Type_STATUS](#Identity_Type_STATUS)<br/><small>Optional</small>                          |
+| userAssignedIdentities | Properties for User Assigned Identities | [map[string]UserAssignedIdentity_STATUS](#UserAssignedIdentity_STATUS)<br/><small>Optional</small> |
+
+<a id="MessageCountDetails_STATUS"></a>MessageCountDetails_STATUS
+-----------------------------------------------------------------
+
+Message Count Details.
+
+Used by: [NamespacesQueue_STATUS](#NamespacesQueue_STATUS), [NamespacesTopic_STATUS](#NamespacesTopic_STATUS), and [NamespacesTopicsSubscription_STATUS](#NamespacesTopicsSubscription_STATUS).
+
+| Property                       | Description                                                              | Type                            |
+|--------------------------------|--------------------------------------------------------------------------|---------------------------------|
+| activeMessageCount             | Number of active messages in the queue, topic, or subscription.          | int<br/><small>Optional</small> |
+| deadLetterMessageCount         | Number of messages that are dead lettered.                               | int<br/><small>Optional</small> |
+| scheduledMessageCount          | Number of scheduled messages.                                            | int<br/><small>Optional</small> |
+| transferDeadLetterMessageCount | Number of messages transferred into dead letters.                        | int<br/><small>Optional</small> |
+| transferMessageCount           | Number of messages transferred to another queue, topic, or subscription. | int<br/><small>Optional</small> |
+
+<a id="NamespaceOperatorSpec"></a>NamespaceOperatorSpec
+-------------------------------------------------------
+
+Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+
+Used by: [Namespace_Spec](#Namespace_Spec).
+
+| Property             | Description                                                                                   | Type                                                                                                                                                                |
+|----------------------|-----------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| configMapExpressions | configures where to place operator written dynamic ConfigMaps (created with CEL expressions). | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
+| secretExpressions    | configures where to place operator written dynamic secrets (created with CEL expressions).    | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
+| secrets              | configures where to place Azure generated secrets.                                            | [NamespaceOperatorSecrets](#NamespaceOperatorSecrets)<br/><small>Optional</small>                                                                                   |
+
+<a id="Namespaces_AuthorizationRule_Properties_Rights_Spec"></a>Namespaces_AuthorizationRule_Properties_Rights_Spec
+-------------------------------------------------------------------------------------------------------------------
+
+Used by: [NamespacesAuthorizationRule_Spec](#NamespacesAuthorizationRule_Spec).
+
+| Value    | Description |
+|----------|-------------|
+| "Listen" |             |
+| "Manage" |             |
+| "Send"   |             |
+
+<a id="Namespaces_AuthorizationRule_Properties_Rights_STATUS"></a>Namespaces_AuthorizationRule_Properties_Rights_STATUS
+-----------------------------------------------------------------------------------------------------------------------
+
+Used by: [NamespacesAuthorizationRule_STATUS](#NamespacesAuthorizationRule_STATUS).
+
+| Value    | Description |
+|----------|-------------|
+| "Listen" |             |
+| "Manage" |             |
+| "Send"   |             |
+
+<a id="NamespacesAuthorizationRuleOperatorSpec"></a>NamespacesAuthorizationRuleOperatorSpec
+-------------------------------------------------------------------------------------------
+
+Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+
+Used by: [NamespacesAuthorizationRule_Spec](#NamespacesAuthorizationRule_Spec).
+
+| Property             | Description                                                                                   | Type                                                                                                                                                                |
+|----------------------|-----------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| configMapExpressions | configures where to place operator written dynamic ConfigMaps (created with CEL expressions). | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
+| secretExpressions    | configures where to place operator written dynamic secrets (created with CEL expressions).    | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
+| secrets              | configures where to place Azure generated secrets.                                            | [NamespacesAuthorizationRuleOperatorSecrets](#NamespacesAuthorizationRuleOperatorSecrets)<br/><small>Optional</small>                                               |
+
+<a id="NamespacesQueueOperatorSpec"></a>NamespacesQueueOperatorSpec
+-------------------------------------------------------------------
+
+Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+
+Used by: [NamespacesQueue_Spec](#NamespacesQueue_Spec).
+
+| Property             | Description                                                                                   | Type                                                                                                                                                                |
+|----------------------|-----------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| configMapExpressions | configures where to place operator written dynamic ConfigMaps (created with CEL expressions). | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
+| secretExpressions    | configures where to place operator written dynamic secrets (created with CEL expressions).    | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
+
+<a id="NamespacesTopicOperatorSpec"></a>NamespacesTopicOperatorSpec
+-------------------------------------------------------------------
+
+Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+
+Used by: [NamespacesTopic_Spec](#NamespacesTopic_Spec).
+
+| Property             | Description                                                                                   | Type                                                                                                                                                                |
+|----------------------|-----------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| configMapExpressions | configures where to place operator written dynamic ConfigMaps (created with CEL expressions). | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
+| secretExpressions    | configures where to place operator written dynamic secrets (created with CEL expressions).    | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
+
+<a id="NamespacesTopicsSubscriptionOperatorSpec"></a>NamespacesTopicsSubscriptionOperatorSpec
+---------------------------------------------------------------------------------------------
+
+Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+
+Used by: [NamespacesTopicsSubscription_Spec](#NamespacesTopicsSubscription_Spec).
+
+| Property             | Description                                                                                   | Type                                                                                                                                                                |
+|----------------------|-----------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| configMapExpressions | configures where to place operator written dynamic ConfigMaps (created with CEL expressions). | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
+| secretExpressions    | configures where to place operator written dynamic secrets (created with CEL expressions).    | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
+
+<a id="NamespacesTopicsSubscriptionsRuleOperatorSpec"></a>NamespacesTopicsSubscriptionsRuleOperatorSpec
+-------------------------------------------------------------------------------------------------------
+
+Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+
+Used by: [NamespacesTopicsSubscriptionsRule_Spec](#NamespacesTopicsSubscriptionsRule_Spec).
+
+| Property             | Description                                                                                   | Type                                                                                                                                                                |
+|----------------------|-----------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| configMapExpressions | configures where to place operator written dynamic ConfigMaps (created with CEL expressions). | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
+| secretExpressions    | configures where to place operator written dynamic secrets (created with CEL expressions).    | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
+
+<a id="PrivateEndpointConnection_STATUS"></a>PrivateEndpointConnection_STATUS
+-----------------------------------------------------------------------------
+
+Properties of the PrivateEndpointConnection.
+
+Used by: [Namespace_STATUS](#Namespace_STATUS).
+
+| Property | Description                                                                                                                                                                                                                                                                                                               | Type                               |
+|----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------|
+| id       | Fully qualified resource ID for the resource. Ex - /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;{resourceProviderNamespace}/&ZeroWidthSpace;{resourceType}/&ZeroWidthSpace;{resourceName} | string<br/><small>Optional</small> |
+
+<a id="SBClientAffineProperties"></a>SBClientAffineProperties
+-------------------------------------------------------------
+
+Properties specific to client affine subscriptions.
+
+Used by: [NamespacesTopicsSubscription_Spec](#NamespacesTopicsSubscription_Spec).
+
+| Property  | Description                                                                                       | Type                               |
+|-----------|---------------------------------------------------------------------------------------------------|------------------------------------|
+| clientId  | Indicates the Client ID of the application that created the client-affine subscription.           | string<br/><small>Optional</small> |
+| isDurable | For client-affine subscriptions, this value indicates whether the subscription is durable or not. | bool<br/><small>Optional</small>   |
+| isShared  | For client-affine subscriptions, this value indicates whether the subscription is shared or not.  | bool<br/><small>Optional</small>   |
+
+<a id="SBClientAffineProperties_STATUS"></a>SBClientAffineProperties_STATUS
+---------------------------------------------------------------------------
+
+Properties specific to client affine subscriptions.
+
+Used by: [NamespacesTopicsSubscription_STATUS](#NamespacesTopicsSubscription_STATUS).
+
+| Property  | Description                                                                                       | Type                               |
+|-----------|---------------------------------------------------------------------------------------------------|------------------------------------|
+| clientId  | Indicates the Client ID of the application that created the client-affine subscription.           | string<br/><small>Optional</small> |
+| isDurable | For client-affine subscriptions, this value indicates whether the subscription is durable or not. | bool<br/><small>Optional</small>   |
+| isShared  | For client-affine subscriptions, this value indicates whether the subscription is shared or not.  | bool<br/><small>Optional</small>   |
+
+<a id="SBNamespaceProperties_MinimumTlsVersion"></a>SBNamespaceProperties_MinimumTlsVersion
+-------------------------------------------------------------------------------------------
+
+Used by: [Namespace_Spec](#Namespace_Spec).
+
+| Value | Description |
+|-------|-------------|
+| "1.0" |             |
+| "1.1" |             |
+| "1.2" |             |
+
+<a id="SBNamespaceProperties_MinimumTlsVersion_STATUS"></a>SBNamespaceProperties_MinimumTlsVersion_STATUS
+---------------------------------------------------------------------------------------------------------
+
+Used by: [Namespace_STATUS](#Namespace_STATUS).
+
+| Value | Description |
+|-------|-------------|
+| "1.0" |             |
+| "1.1" |             |
+| "1.2" |             |
+
+<a id="SBNamespaceProperties_PublicNetworkAccess"></a>SBNamespaceProperties_PublicNetworkAccess
+-----------------------------------------------------------------------------------------------
+
+Used by: [Namespace_Spec](#Namespace_Spec).
+
+| Value                | Description |
+|----------------------|-------------|
+| "Disabled"           |             |
+| "Enabled"            |             |
+| "SecuredByPerimeter" |             |
+
+<a id="SBNamespaceProperties_PublicNetworkAccess_STATUS"></a>SBNamespaceProperties_PublicNetworkAccess_STATUS
+-------------------------------------------------------------------------------------------------------------
+
+Used by: [Namespace_STATUS](#Namespace_STATUS).
+
+| Value                | Description |
+|----------------------|-------------|
+| "Disabled"           |             |
+| "Enabled"            |             |
+| "SecuredByPerimeter" |             |
+
+<a id="SBSku"></a>SBSku
+-----------------------
+
+SKU of the namespace.
+
+Used by: [Namespace_Spec](#Namespace_Spec).
+
+| Property | Description                                                                                                                                                                                                                                                                                                                                                                         | Type                                                  |
+|----------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------|
+| capacity | Messaging units for your service bus premium namespace. Valid capacities are {1, 2, 4, 8, 16} multiples of your properties.premiumMessagingPartitions setting. For example, If properties.premiumMessagingPartitions is 1 then possible capacity values are 1, 2, 4, 8, and 16. If properties.premiumMessagingPartitions is 4 then possible capacity values are 4, 8, 16, 32 and 64 | int<br/><small>Optional</small>                       |
+| name     | Name of this SKU.                                                                                                                                                                                                                                                                                                                                                                   | [SBSku_Name](#SBSku_Name)<br/><small>Required</small> |
+| tier     | The billing tier of this particular SKU.                                                                                                                                                                                                                                                                                                                                            | [SBSku_Tier](#SBSku_Tier)<br/><small>Optional</small> |
+
+<a id="SBSku_STATUS"></a>SBSku_STATUS
+-------------------------------------
+
+SKU of the namespace.
+
+Used by: [Namespace_STATUS](#Namespace_STATUS).
+
+| Property | Description                                                                                                                                                                                                                                                                                                                                                                         | Type                                                                |
+|----------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------|
+| capacity | Messaging units for your service bus premium namespace. Valid capacities are {1, 2, 4, 8, 16} multiples of your properties.premiumMessagingPartitions setting. For example, If properties.premiumMessagingPartitions is 1 then possible capacity values are 1, 2, 4, 8, and 16. If properties.premiumMessagingPartitions is 4 then possible capacity values are 4, 8, 16, 32 and 64 | int<br/><small>Optional</small>                                     |
+| name     | Name of this SKU.                                                                                                                                                                                                                                                                                                                                                                   | [SBSku_Name_STATUS](#SBSku_Name_STATUS)<br/><small>Optional</small> |
+| tier     | The billing tier of this particular SKU.                                                                                                                                                                                                                                                                                                                                            | [SBSku_Tier_STATUS](#SBSku_Tier_STATUS)<br/><small>Optional</small> |
+
+<a id="SqlFilter"></a>SqlFilter
+-------------------------------
+
+Represents a filter which is a composition of an expression and an action that is executed in the pub/sub pipeline.
+
+Used by: [NamespacesTopicsSubscriptionsRule_Spec](#NamespacesTopicsSubscriptionsRule_Spec).
+
+| Property              | Description                                                                                                             | Type                               |
+|-----------------------|-------------------------------------------------------------------------------------------------------------------------|------------------------------------|
+| compatibilityLevel    | This property is reserved for future use. An integer value showing the compatibility level, currently hard-coded to 20. | int<br/><small>Optional</small>    |
+| requiresPreprocessing | Value that indicates whether the rule action requires preprocessing.                                                    | bool<br/><small>Optional</small>   |
+| sqlExpression         | The SQL expression. e.g. MyProperty='ABC'                                                                               | string<br/><small>Optional</small> |
+
+<a id="SqlFilter_STATUS"></a>SqlFilter_STATUS
+---------------------------------------------
+
+Represents a filter which is a composition of an expression and an action that is executed in the pub/sub pipeline.
+
+Used by: [NamespacesTopicsSubscriptionsRule_STATUS](#NamespacesTopicsSubscriptionsRule_STATUS).
+
+| Property              | Description                                                                                                             | Type                               |
+|-----------------------|-------------------------------------------------------------------------------------------------------------------------|------------------------------------|
+| compatibilityLevel    | This property is reserved for future use. An integer value showing the compatibility level, currently hard-coded to 20. | int<br/><small>Optional</small>    |
+| requiresPreprocessing | Value that indicates whether the rule action requires preprocessing.                                                    | bool<br/><small>Optional</small>   |
+| sqlExpression         | The SQL expression. e.g. MyProperty='ABC'                                                                               | string<br/><small>Optional</small> |
+
+<a id="SystemData_STATUS"></a>SystemData_STATUS
+-----------------------------------------------
+
+Metadata pertaining to creation and last modification of the resource.
+
+Used by: [Namespace_STATUS](#Namespace_STATUS), [NamespacesAuthorizationRule_STATUS](#NamespacesAuthorizationRule_STATUS), [NamespacesQueue_STATUS](#NamespacesQueue_STATUS), [NamespacesTopic_STATUS](#NamespacesTopic_STATUS), [NamespacesTopicsSubscription_STATUS](#NamespacesTopicsSubscription_STATUS), and [NamespacesTopicsSubscriptionsRule_STATUS](#NamespacesTopicsSubscriptionsRule_STATUS).
+
+| Property           | Description                                           | Type                                                                                                      |
+|--------------------|-------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|
+| createdAt          | The timestamp of resource creation (UTC).             | string<br/><small>Optional</small>                                                                        |
+| createdBy          | The identity that created the resource.               | string<br/><small>Optional</small>                                                                        |
+| createdByType      | The type of identity that created the resource.       | [SystemData_CreatedByType_STATUS](#SystemData_CreatedByType_STATUS)<br/><small>Optional</small>           |
+| lastModifiedAt     | The type of identity that last modified the resource. | string<br/><small>Optional</small>                                                                        |
+| lastModifiedBy     | The identity that last modified the resource.         | string<br/><small>Optional</small>                                                                        |
+| lastModifiedByType | The type of identity that last modified the resource. | [SystemData_LastModifiedByType_STATUS](#SystemData_LastModifiedByType_STATUS)<br/><small>Optional</small> |
+
+<a id="Encryption_KeySource"></a>Encryption_KeySource
+-----------------------------------------------------
+
+Used by: [Encryption](#Encryption).
+
+| Value                | Description |
+|----------------------|-------------|
+| "Microsoft.KeyVault" |             |
+
+<a id="Encryption_KeySource_STATUS"></a>Encryption_KeySource_STATUS
+-------------------------------------------------------------------
+
+Used by: [Encryption_STATUS](#Encryption_STATUS).
+
+| Value                | Description |
+|----------------------|-------------|
+| "Microsoft.KeyVault" |             |
+
+<a id="Identity_Type"></a>Identity_Type
+---------------------------------------
+
+Used by: [Identity](#Identity).
+
+| Value                          | Description |
+|--------------------------------|-------------|
+| "None"                         |             |
+| "SystemAssigned"               |             |
+| "SystemAssigned, UserAssigned" |             |
+| "UserAssigned"                 |             |
+
+<a id="Identity_Type_STATUS"></a>Identity_Type_STATUS
+-----------------------------------------------------
+
+Used by: [Identity_STATUS](#Identity_STATUS).
+
+| Value                          | Description |
+|--------------------------------|-------------|
+| "None"                         |             |
+| "SystemAssigned"               |             |
+| "SystemAssigned, UserAssigned" |             |
+| "UserAssigned"                 |             |
+
+<a id="KeyVaultProperties"></a>KeyVaultProperties
+-------------------------------------------------
+
+Properties to configure keyVault Properties
+
+Used by: [Encryption](#Encryption).
+
+| Property    | Description                   | Type                                                                                          |
+|-------------|-------------------------------|-----------------------------------------------------------------------------------------------|
+| identity    |                               | [UserAssignedIdentityProperties](#UserAssignedIdentityProperties)<br/><small>Optional</small> |
+| keyName     | Name of the Key from KeyVault | string<br/><small>Optional</small>                                                            |
+| keyVaultUri | Uri of KeyVault               | string<br/><small>Optional</small>                                                            |
+| keyVersion  | Version of KeyVault           | string<br/><small>Optional</small>                                                            |
+
+<a id="KeyVaultProperties_STATUS"></a>KeyVaultProperties_STATUS
+---------------------------------------------------------------
+
+Properties to configure keyVault Properties
+
+Used by: [Encryption_STATUS](#Encryption_STATUS).
+
+| Property    | Description                   | Type                                                                                                        |
+|-------------|-------------------------------|-------------------------------------------------------------------------------------------------------------|
+| identity    |                               | [UserAssignedIdentityProperties_STATUS](#UserAssignedIdentityProperties_STATUS)<br/><small>Optional</small> |
+| keyName     | Name of the Key from KeyVault | string<br/><small>Optional</small>                                                                          |
+| keyVaultUri | Uri of KeyVault               | string<br/><small>Optional</small>                                                                          |
+| keyVersion  | Version of KeyVault           | string<br/><small>Optional</small>                                                                          |
+
+<a id="NamespaceOperatorSecrets"></a>NamespaceOperatorSecrets
+-------------------------------------------------------------
+
+Used by: [NamespaceOperatorSpec](#NamespaceOperatorSpec).
+
+| Property                  | Description                                                                                                                     | Type                                                                                                                                                       |
+|---------------------------|---------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| endpoint                  | indicates where the Endpoint secret should be placed. If omitted, the secret will not be retrieved from Azure.                  | [genruntime.SecretDestination](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination)<br/><small>Optional</small> |
+| primaryConnectionString   | indicates where the PrimaryConnectionString secret should be placed. If omitted, the secret will not be retrieved from Azure.   | [genruntime.SecretDestination](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination)<br/><small>Optional</small> |
+| primaryKey                | indicates where the PrimaryKey secret should be placed. If omitted, the secret will not be retrieved from Azure.                | [genruntime.SecretDestination](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination)<br/><small>Optional</small> |
+| secondaryConnectionString | indicates where the SecondaryConnectionString secret should be placed. If omitted, the secret will not be retrieved from Azure. | [genruntime.SecretDestination](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination)<br/><small>Optional</small> |
+| secondaryKey              | indicates where the SecondaryKey secret should be placed. If omitted, the secret will not be retrieved from Azure.              | [genruntime.SecretDestination](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination)<br/><small>Optional</small> |
+
+<a id="NamespacesAuthorizationRuleOperatorSecrets"></a>NamespacesAuthorizationRuleOperatorSecrets
+-------------------------------------------------------------------------------------------------
+
+Used by: [NamespacesAuthorizationRuleOperatorSpec](#NamespacesAuthorizationRuleOperatorSpec).
+
+| Property                  | Description                                                                                                                     | Type                                                                                                                                                       |
+|---------------------------|---------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| primaryConnectionString   | indicates where the PrimaryConnectionString secret should be placed. If omitted, the secret will not be retrieved from Azure.   | [genruntime.SecretDestination](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination)<br/><small>Optional</small> |
+| primaryKey                | indicates where the PrimaryKey secret should be placed. If omitted, the secret will not be retrieved from Azure.                | [genruntime.SecretDestination](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination)<br/><small>Optional</small> |
+| secondaryConnectionString | indicates where the SecondaryConnectionString secret should be placed. If omitted, the secret will not be retrieved from Azure. | [genruntime.SecretDestination](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination)<br/><small>Optional</small> |
+| secondaryKey              | indicates where the SecondaryKey secret should be placed. If omitted, the secret will not be retrieved from Azure.              | [genruntime.SecretDestination](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination)<br/><small>Optional</small> |
+
+<a id="SBSku_Name"></a>SBSku_Name
+---------------------------------
+
+Used by: [SBSku](#SBSku).
+
+| Value      | Description |
+|------------|-------------|
+| "Basic"    |             |
+| "Premium"  |             |
+| "Standard" |             |
+
+<a id="SBSku_Name_STATUS"></a>SBSku_Name_STATUS
+-----------------------------------------------
+
+Used by: [SBSku_STATUS](#SBSku_STATUS).
+
+| Value      | Description |
+|------------|-------------|
+| "Basic"    |             |
+| "Premium"  |             |
+| "Standard" |             |
+
+<a id="SBSku_Tier"></a>SBSku_Tier
+---------------------------------
+
+Used by: [SBSku](#SBSku).
+
+| Value      | Description |
+|------------|-------------|
+| "Basic"    |             |
+| "Premium"  |             |
+| "Standard" |             |
+
+<a id="SBSku_Tier_STATUS"></a>SBSku_Tier_STATUS
+-----------------------------------------------
+
+Used by: [SBSku_STATUS](#SBSku_STATUS).
+
+| Value      | Description |
+|------------|-------------|
+| "Basic"    |             |
+| "Premium"  |             |
+| "Standard" |             |
+
+<a id="SystemData_CreatedByType_STATUS"></a>SystemData_CreatedByType_STATUS
+---------------------------------------------------------------------------
+
+Used by: [SystemData_STATUS](#SystemData_STATUS).
+
+| Value             | Description |
+|-------------------|-------------|
+| "Application"     |             |
+| "Key"             |             |
+| "ManagedIdentity" |             |
+| "User"            |             |
+
+<a id="SystemData_LastModifiedByType_STATUS"></a>SystemData_LastModifiedByType_STATUS
+-------------------------------------------------------------------------------------
+
+Used by: [SystemData_STATUS](#SystemData_STATUS).
+
+| Value             | Description |
+|-------------------|-------------|
+| "Application"     |             |
+| "Key"             |             |
+| "ManagedIdentity" |             |
+| "User"            |             |
+
+<a id="UserAssignedIdentity_STATUS"></a>UserAssignedIdentity_STATUS
+-------------------------------------------------------------------
+
+Recognized Dictionary value.
+
+Used by: [Identity_STATUS](#Identity_STATUS).
+
+| Property    | Description                            | Type                               |
+|-------------|----------------------------------------|------------------------------------|
+| clientId    | Client Id of user assigned identity    | string<br/><small>Optional</small> |
+| principalId | Principal Id of user assigned identity | string<br/><small>Optional</small> |
+
+<a id="UserAssignedIdentityDetails"></a>UserAssignedIdentityDetails
+-------------------------------------------------------------------
+
+Information about the user assigned identity for the resource
+
+Used by: [Identity](#Identity).
+
+| Property  | Description | Type                                                                                                                                                       |
+|-----------|-------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| reference |             | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small> |
+
+<a id="UserAssignedIdentityProperties"></a>UserAssignedIdentityProperties
+-------------------------------------------------------------------------
+
+Used by: [KeyVaultProperties](#KeyVaultProperties).
+
+| Property                      | Description                                     | Type                                                                                                                                                       |
+|-------------------------------|-------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| userAssignedIdentityReference | ARM ID of user Identity selected for encryption | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small> |
+
+<a id="UserAssignedIdentityProperties_STATUS"></a>UserAssignedIdentityProperties_STATUS
+---------------------------------------------------------------------------------------
+
+Used by: [KeyVaultProperties_STATUS](#KeyVaultProperties_STATUS).
+
+| Property             | Description                                     | Type                               |
+|----------------------|-------------------------------------------------|------------------------------------|
+| userAssignedIdentity | ARM ID of user Identity selected for encryption | string<br/><small>Optional</small> |

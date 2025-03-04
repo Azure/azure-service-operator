@@ -1,0 +1,11 @@
+{{ define "values" -}}
+{{- with . | asEnum -}}
+{{- if .Values }}
+| Value        | Description                 |
+|------------- | --------------------------- |
+{{ range .Values -}}
+| {{ .Value }} | {{ .Description | unwrap }} |
+{{ end -}}
+{{- end -}}
+{{- end -}}
+{{- end -}}

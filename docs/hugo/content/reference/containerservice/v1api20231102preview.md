@@ -1,16620 +1,3718 @@
 ---
+
 title: containerservice.azure.com/v1api20231102preview
----
-<h2 id="containerservice.azure.com/v1api20231102preview">containerservice.azure.com/v1api20231102preview</h2>
-<div>
-<p>Package v1api20231102preview contains API Schema definitions for the containerservice v1api20231102preview API group</p>
-</div>
-Resource Types:
-<ul></ul>
-<h3 id="containerservice.azure.com/v1api20231102preview.APIVersion">APIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2023-11-02-preview&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.AgentPoolArtifactStreamingProfile">AgentPoolArtifactStreamingProfile
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.AgentPoolArtifactStreamingProfile_STATUS">AgentPoolArtifactStreamingProfile_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.AgentPoolGPUProfile">AgentPoolGPUProfile
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>installGPUDriver</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.AgentPoolGPUProfile_STATUS">AgentPoolGPUProfile_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>installGPUDriver</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.AgentPoolMode">AgentPoolMode
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;System&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;User&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.AgentPoolMode_STATUS">AgentPoolMode_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;System&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;User&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.AgentPoolNetworkProfile">AgentPoolNetworkProfile
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>allowedHostPorts</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.PortRange">
-[]PortRange
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>applicationSecurityGroupsReferences</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-[]genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>nodePublicIPTags</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.IPTag">
-[]IPTag
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.AgentPoolNetworkProfile_STATUS">AgentPoolNetworkProfile_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>allowedHostPorts</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.PortRange_STATUS">
-[]PortRange_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>applicationSecurityGroups</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>nodePublicIPTags</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.IPTag_STATUS">
-[]IPTag_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.AgentPoolSSHAccess">AgentPoolSSHAccess
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.AgentPoolSecurityProfile">AgentPoolSecurityProfile</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;LocalUser&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.AgentPoolSSHAccess_STATUS">AgentPoolSSHAccess_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.AgentPoolSecurityProfile_STATUS">AgentPoolSecurityProfile_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;LocalUser&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.AgentPoolSecurityProfile">AgentPoolSecurityProfile
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enableSecureBoot</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableVTPM</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>sshAccess</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.AgentPoolSSHAccess">
-AgentPoolSSHAccess
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.AgentPoolSecurityProfile_STATUS">AgentPoolSecurityProfile_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enableSecureBoot</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableVTPM</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>sshAccess</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.AgentPoolSSHAccess_STATUS">
-AgentPoolSSHAccess_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.AgentPoolType">AgentPoolType
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;AvailabilitySet&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;VirtualMachineScaleSets&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;VirtualMachines&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.AgentPoolType_STATUS">AgentPoolType_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;AvailabilitySet&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;VirtualMachineScaleSets&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;VirtualMachines&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.AgentPoolUpgradeSettings">AgentPoolUpgradeSettings
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>drainTimeoutInMinutes</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>maxSurge</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>nodeSoakDurationInMinutes</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.AgentPoolUpgradeSettings_STATUS">AgentPoolUpgradeSettings_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>drainTimeoutInMinutes</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>maxSurge</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>nodeSoakDurationInMinutes</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.AgentPoolWindowsProfile">AgentPoolWindowsProfile
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>disableOutboundNat</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.AgentPoolWindowsProfile_STATUS">AgentPoolWindowsProfile_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>disableOutboundNat</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.AzureKeyVaultKms">AzureKeyVaultKms
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfile">ManagedClusterSecurityProfile</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>keyId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>keyVaultNetworkAccess</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.AzureKeyVaultKms_KeyVaultNetworkAccess">
-AzureKeyVaultKms_KeyVaultNetworkAccess
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>keyVaultResourceReference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.AzureKeyVaultKms_KeyVaultNetworkAccess">AzureKeyVaultKms_KeyVaultNetworkAccess
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.AzureKeyVaultKms">AzureKeyVaultKms</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Private&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Public&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.AzureKeyVaultKms_KeyVaultNetworkAccess_STATUS">AzureKeyVaultKms_KeyVaultNetworkAccess_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.AzureKeyVaultKms_STATUS">AzureKeyVaultKms_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Private&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Public&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.AzureKeyVaultKms_STATUS">AzureKeyVaultKms_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfile_STATUS">ManagedClusterSecurityProfile_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>keyId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>keyVaultNetworkAccess</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.AzureKeyVaultKms_KeyVaultNetworkAccess_STATUS">
-AzureKeyVaultKms_KeyVaultNetworkAccess_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>keyVaultResourceId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ClusterUpgradeSettings">ClusterUpgradeSettings
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>overrideSettings</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.UpgradeOverrideSettings">
-UpgradeOverrideSettings
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ClusterUpgradeSettings_STATUS">ClusterUpgradeSettings_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>overrideSettings</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.UpgradeOverrideSettings_STATUS">
-UpgradeOverrideSettings_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ContainerServiceLinuxProfile">ContainerServiceLinuxProfile
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>adminUsername</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>ssh</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceSshConfiguration">
-ContainerServiceSshConfiguration
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ContainerServiceLinuxProfile_STATUS">ContainerServiceLinuxProfile_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>adminUsername</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>ssh</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceSshConfiguration_STATUS">
-ContainerServiceSshConfiguration_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile">ContainerServiceNetworkProfile
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>dnsServiceIP</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>ipFamilies</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.IpFamily">
-[]IpFamily
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>kubeProxyConfig</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile_KubeProxyConfig">
-ContainerServiceNetworkProfile_KubeProxyConfig
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>loadBalancerProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterLoadBalancerProfile">
-ManagedClusterLoadBalancerProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>loadBalancerSku</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.LoadBalancerSku">
-LoadBalancerSku
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>monitoring</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.NetworkMonitoring">
-NetworkMonitoring
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>natGatewayProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterNATGatewayProfile">
-ManagedClusterNATGatewayProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>networkDataplane</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.NetworkDataplane">
-NetworkDataplane
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>networkMode</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.NetworkMode">
-NetworkMode
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>networkPlugin</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.NetworkPlugin">
-NetworkPlugin
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>networkPluginMode</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.NetworkPluginMode">
-NetworkPluginMode
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>networkPolicy</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.NetworkPolicy">
-NetworkPolicy
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>outboundType</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile_OutboundType">
-ContainerServiceNetworkProfile_OutboundType
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>podCidr</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>podCidrs</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>serviceCidr</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>serviceCidrs</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile_KubeProxyConfig">ContainerServiceNetworkProfile_KubeProxyConfig
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile">ContainerServiceNetworkProfile</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>ipvsConfig</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig">
-ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>mode</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile_KubeProxyConfig_Mode">
-ContainerServiceNetworkProfile_KubeProxyConfig_Mode
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig">ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile_KubeProxyConfig">ContainerServiceNetworkProfile_KubeProxyConfig</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>scheduler</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_Scheduler">
-ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_Scheduler
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>tcpFinTimeoutSeconds</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>tcpTimeoutSeconds</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>udpTimeoutSeconds</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS">ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile_KubeProxyConfig_STATUS">ContainerServiceNetworkProfile_KubeProxyConfig_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>scheduler</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_Scheduler_STATUS">
-ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_Scheduler_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>tcpFinTimeoutSeconds</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>tcpTimeoutSeconds</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>udpTimeoutSeconds</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_Scheduler">ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_Scheduler
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig">ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;LeastConnection&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;RoundRobin&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_Scheduler_STATUS">ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_Scheduler_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS">ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;LeastConnection&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;RoundRobin&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile_KubeProxyConfig_Mode">ContainerServiceNetworkProfile_KubeProxyConfig_Mode
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile_KubeProxyConfig">ContainerServiceNetworkProfile_KubeProxyConfig</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;IPTABLES&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;IPVS&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile_KubeProxyConfig_Mode_STATUS">ContainerServiceNetworkProfile_KubeProxyConfig_Mode_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile_KubeProxyConfig_STATUS">ContainerServiceNetworkProfile_KubeProxyConfig_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;IPTABLES&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;IPVS&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile_KubeProxyConfig_STATUS">ContainerServiceNetworkProfile_KubeProxyConfig_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile_STATUS">ContainerServiceNetworkProfile_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>ipvsConfig</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS">
-ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>mode</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile_KubeProxyConfig_Mode_STATUS">
-ContainerServiceNetworkProfile_KubeProxyConfig_Mode_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile_OutboundType">ContainerServiceNetworkProfile_OutboundType
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile">ContainerServiceNetworkProfile</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;loadBalancer&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;managedNATGateway&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;userAssignedNATGateway&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;userDefinedRouting&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile_OutboundType_STATUS">ContainerServiceNetworkProfile_OutboundType_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile_STATUS">ContainerServiceNetworkProfile_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;loadBalancer&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;managedNATGateway&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;userAssignedNATGateway&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;userDefinedRouting&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile_STATUS">ContainerServiceNetworkProfile_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>dnsServiceIP</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>ipFamilies</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.IpFamily_STATUS">
-[]IpFamily_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>kubeProxyConfig</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile_KubeProxyConfig_STATUS">
-ContainerServiceNetworkProfile_KubeProxyConfig_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>loadBalancerProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterLoadBalancerProfile_STATUS">
-ManagedClusterLoadBalancerProfile_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>loadBalancerSku</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.LoadBalancerSku_STATUS">
-LoadBalancerSku_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>monitoring</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.NetworkMonitoring_STATUS">
-NetworkMonitoring_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>natGatewayProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterNATGatewayProfile_STATUS">
-ManagedClusterNATGatewayProfile_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>networkDataplane</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.NetworkDataplane_STATUS">
-NetworkDataplane_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>networkMode</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.NetworkMode_STATUS">
-NetworkMode_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>networkPlugin</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.NetworkPlugin_STATUS">
-NetworkPlugin_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>networkPluginMode</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.NetworkPluginMode_STATUS">
-NetworkPluginMode_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>networkPolicy</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.NetworkPolicy_STATUS">
-NetworkPolicy_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>outboundType</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile_OutboundType_STATUS">
-ContainerServiceNetworkProfile_OutboundType_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>podCidr</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>podCidrs</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>serviceCidr</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>serviceCidrs</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ContainerServiceOSDisk">ContainerServiceOSDisk
-(<code>int</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
-</p>
-<div>
-</div>
-<h3 id="containerservice.azure.com/v1api20231102preview.ContainerServiceSshConfiguration">ContainerServiceSshConfiguration
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceLinuxProfile">ContainerServiceLinuxProfile</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>publicKeys</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceSshPublicKey">
-[]ContainerServiceSshPublicKey
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ContainerServiceSshConfiguration_STATUS">ContainerServiceSshConfiguration_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceLinuxProfile_STATUS">ContainerServiceLinuxProfile_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>publicKeys</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceSshPublicKey_STATUS">
-[]ContainerServiceSshPublicKey_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ContainerServiceSshPublicKey">ContainerServiceSshPublicKey
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceSshConfiguration">ContainerServiceSshConfiguration</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>keyData</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ContainerServiceSshPublicKey_STATUS">ContainerServiceSshPublicKey_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceSshConfiguration_STATUS">ContainerServiceSshConfiguration_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>keyData</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.CreationData">CreationData
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>sourceResourceReference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.CreationData_STATUS">CreationData_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>sourceResourceId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.DelegatedResource">DelegatedResource
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterIdentity">ManagedClusterIdentity</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>referralResource</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>resourceReference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>tenantId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.DelegatedResource_STATUS">DelegatedResource_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterIdentity_STATUS">ManagedClusterIdentity_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>referralResource</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>resourceId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>tenantId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.Expander">Expander
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterProperties_AutoScalerProfile">ManagedClusterProperties_AutoScalerProfile</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;least-waste&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;most-pods&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;priority&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;random&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.Expander_STATUS">Expander_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterProperties_AutoScalerProfile_STATUS">ManagedClusterProperties_AutoScalerProfile_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;least-waste&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;most-pods&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;priority&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;random&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ExtendedLocation">ExtendedLocation
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ExtendedLocationType">
-ExtendedLocationType
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ExtendedLocationType">ExtendedLocationType
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ExtendedLocation">ExtendedLocation</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;EdgeZone&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ExtendedLocationType_STATUS">ExtendedLocationType_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ExtendedLocation_STATUS">ExtendedLocation_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;EdgeZone&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ExtendedLocation_STATUS">ExtendedLocation_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ExtendedLocationType_STATUS">
-ExtendedLocationType_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.GPUInstanceProfile">GPUInstanceProfile
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;MIG1g&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;MIG2g&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;MIG3g&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;MIG4g&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;MIG7g&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.GPUInstanceProfile_STATUS">GPUInstanceProfile_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;MIG1g&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;MIG2g&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;MIG3g&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;MIG4g&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;MIG7g&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.IPTag">IPTag
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.AgentPoolNetworkProfile">AgentPoolNetworkProfile</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>ipTagType</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>tag</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.IPTag_STATUS">IPTag_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.AgentPoolNetworkProfile_STATUS">AgentPoolNetworkProfile_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>ipTagType</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>tag</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.IpFamily">IpFamily
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile">ContainerServiceNetworkProfile</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;IPv4&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;IPv6&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.IpFamily_STATUS">IpFamily_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile_STATUS">ContainerServiceNetworkProfile_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;IPv4&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;IPv6&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.IstioCertificateAuthority">IstioCertificateAuthority
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.IstioServiceMesh">IstioServiceMesh</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>plugin</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.IstioPluginCertificateAuthority">
-IstioPluginCertificateAuthority
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.IstioCertificateAuthority_STATUS">IstioCertificateAuthority_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.IstioServiceMesh_STATUS">IstioServiceMesh_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>plugin</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.IstioPluginCertificateAuthority_STATUS">
-IstioPluginCertificateAuthority_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.IstioComponents">IstioComponents
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.IstioServiceMesh">IstioServiceMesh</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>egressGateways</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.IstioEgressGateway">
-[]IstioEgressGateway
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>ingressGateways</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.IstioIngressGateway">
-[]IstioIngressGateway
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.IstioComponents_STATUS">IstioComponents_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.IstioServiceMesh_STATUS">IstioServiceMesh_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>egressGateways</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.IstioEgressGateway_STATUS">
-[]IstioEgressGateway_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>ingressGateways</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.IstioIngressGateway_STATUS">
-[]IstioIngressGateway_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.IstioEgressGateway">IstioEgressGateway
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.IstioComponents">IstioComponents</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>nodeSelector</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.IstioEgressGateway_STATUS">IstioEgressGateway_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.IstioComponents_STATUS">IstioComponents_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>nodeSelector</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.IstioIngressGateway">IstioIngressGateway
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.IstioComponents">IstioComponents</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>mode</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.IstioIngressGateway_Mode">
-IstioIngressGateway_Mode
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.IstioIngressGateway_Mode">IstioIngressGateway_Mode
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.IstioIngressGateway">IstioIngressGateway</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;External&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Internal&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.IstioIngressGateway_Mode_STATUS">IstioIngressGateway_Mode_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.IstioIngressGateway_STATUS">IstioIngressGateway_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;External&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Internal&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.IstioIngressGateway_STATUS">IstioIngressGateway_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.IstioComponents_STATUS">IstioComponents_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>mode</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.IstioIngressGateway_Mode_STATUS">
-IstioIngressGateway_Mode_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.IstioPluginCertificateAuthority">IstioPluginCertificateAuthority
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.IstioCertificateAuthority">IstioCertificateAuthority</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>certChainObjectName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>certObjectName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>keyObjectName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>keyVaultReference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>rootCertObjectName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.IstioPluginCertificateAuthority_STATUS">IstioPluginCertificateAuthority_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.IstioCertificateAuthority_STATUS">IstioCertificateAuthority_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>certChainObjectName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>certObjectName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>keyObjectName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>keyVaultId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>rootCertObjectName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.IstioServiceMesh">IstioServiceMesh
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ServiceMeshProfile">ServiceMeshProfile</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>certificateAuthority</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.IstioCertificateAuthority">
-IstioCertificateAuthority
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>components</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.IstioComponents">
-IstioComponents
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>revisions</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.IstioServiceMesh_STATUS">IstioServiceMesh_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ServiceMeshProfile_STATUS">ServiceMeshProfile_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>certificateAuthority</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.IstioCertificateAuthority_STATUS">
-IstioCertificateAuthority_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>components</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.IstioComponents_STATUS">
-IstioComponents_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>revisions</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.KubeletConfig">KubeletConfig
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>allowedUnsafeSysctls</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>containerLogMaxFiles</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>containerLogMaxSizeMB</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>cpuCfsQuota</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>cpuCfsQuotaPeriod</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>cpuManagerPolicy</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>failSwapOn</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>imageGcHighThreshold</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>imageGcLowThreshold</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>podMaxPids</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>topologyManagerPolicy</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.KubeletConfig_STATUS">KubeletConfig_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>allowedUnsafeSysctls</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>containerLogMaxFiles</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>containerLogMaxSizeMB</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>cpuCfsQuota</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>cpuCfsQuotaPeriod</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>cpuManagerPolicy</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>failSwapOn</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>imageGcHighThreshold</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>imageGcLowThreshold</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>podMaxPids</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>topologyManagerPolicy</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.KubeletDiskType">KubeletDiskType
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;OS&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Temporary&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.KubeletDiskType_STATUS">KubeletDiskType_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;OS&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Temporary&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.KubernetesSupportPlan">KubernetesSupportPlan
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;AKSLongTermSupport&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;KubernetesOfficial&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.KubernetesSupportPlan_STATUS">KubernetesSupportPlan_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;AKSLongTermSupport&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;KubernetesOfficial&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.LinuxOSConfig">LinuxOSConfig
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>swapFileSizeMB</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>sysctls</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.SysctlConfig">
-SysctlConfig
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>transparentHugePageDefrag</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>transparentHugePageEnabled</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.LinuxOSConfig_STATUS">LinuxOSConfig_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>swapFileSizeMB</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>sysctls</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.SysctlConfig_STATUS">
-SysctlConfig_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>transparentHugePageDefrag</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>transparentHugePageEnabled</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.LoadBalancerSku">LoadBalancerSku
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile">ContainerServiceNetworkProfile</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;basic&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;standard&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.LoadBalancerSku_STATUS">LoadBalancerSku_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile_STATUS">ContainerServiceNetworkProfile_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;basic&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;standard&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedCluster">ManagedCluster
-</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>metadata</code><br/>
-<em>
-<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
-Kubernetes meta/v1.ObjectMeta
-</a>
-</em>
-</td>
-<td>
-Refer to the Kubernetes API documentation for the fields of the
-<code>metadata</code> field.
-</td>
-</tr>
-<tr>
-<td>
-<code>spec</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">
-ManagedCluster_Spec
-</a>
-</em>
-</td>
-<td>
-<br/>
-<br/>
-<table>
-<tr>
-<td>
-<code>aadProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAADProfile">
-ManagedClusterAADProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>addonProfiles</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAddonProfile">
-map[string]./api/containerservice/v1api20231102preview.ManagedClusterAddonProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>agentPoolProfiles</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">
-[]ManagedClusterAgentPoolProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>aiToolchainOperatorProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAIToolchainOperatorProfile">
-ManagedClusterAIToolchainOperatorProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>apiServerAccessProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAPIServerAccessProfile">
-ManagedClusterAPIServerAccessProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>autoScalerProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterProperties_AutoScalerProfile">
-ManagedClusterProperties_AutoScalerProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>autoUpgradeProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAutoUpgradeProfile">
-ManagedClusterAutoUpgradeProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>azureMonitorProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfile">
-ManagedClusterAzureMonitorProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>creationData</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.CreationData">
-CreationData
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>disableLocalAccounts</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>diskEncryptionSetReference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>dnsPrefix</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableNamespaceResources</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>enablePodSecurityPolicy</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableRBAC</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>extendedLocation</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ExtendedLocation">
-ExtendedLocation
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>fqdnSubdomain</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>httpProxyConfig</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterHTTPProxyConfig">
-ManagedClusterHTTPProxyConfig
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>identity</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterIdentity">
-ManagedClusterIdentity
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>identityProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.UserAssignedIdentity">
-map[string]./api/containerservice/v1api20231102preview.UserAssignedIdentity
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>ingressProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterIngressProfile">
-ManagedClusterIngressProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>kubernetesVersion</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>linuxProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceLinuxProfile">
-ContainerServiceLinuxProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>metricsProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterMetricsProfile">
-ManagedClusterMetricsProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>networkProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile">
-ContainerServiceNetworkProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>nodeProvisioningProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterNodeProvisioningProfile">
-ManagedClusterNodeProvisioningProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>nodeResourceGroup</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>nodeResourceGroupProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterNodeResourceGroupProfile">
-ManagedClusterNodeResourceGroupProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>oidcIssuerProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterOIDCIssuerProfile">
-ManagedClusterOIDCIssuerProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>operatorSpec</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterOperatorSpec">
-ManagedClusterOperatorSpec
-</a>
-</em>
-</td>
-<td>
-<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
-passed directly to Azure</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a resources.azure.com/ResourceGroup resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>podIdentityProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterPodIdentityProfile">
-ManagedClusterPodIdentityProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>privateLinkResources</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.PrivateLinkResource">
-[]PrivateLinkResource
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>publicNetworkAccess</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterProperties_PublicNetworkAccess">
-ManagedClusterProperties_PublicNetworkAccess
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>safeguardsProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.SafeguardsProfile">
-SafeguardsProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>securityProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfile">
-ManagedClusterSecurityProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>serviceMeshProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ServiceMeshProfile">
-ServiceMeshProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>servicePrincipalProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterServicePrincipalProfile">
-ManagedClusterServicePrincipalProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>sku</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSKU">
-ManagedClusterSKU
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>storageProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterStorageProfile">
-ManagedClusterStorageProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>supportPlan</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.KubernetesSupportPlan">
-KubernetesSupportPlan
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>upgradeSettings</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ClusterUpgradeSettings">
-ClusterUpgradeSettings
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>windowsProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterWindowsProfile">
-ManagedClusterWindowsProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>workloadAutoScalerProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterWorkloadAutoScalerProfile">
-ManagedClusterWorkloadAutoScalerProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</table>
-</td>
-</tr>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">
-ManagedCluster_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterAADProfile">ManagedClusterAADProfile
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>adminGroupObjectIDs</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>clientAppID</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableAzureRBAC</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>managed</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>serverAppID</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>serverAppSecret</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>tenantID</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterAADProfile_STATUS">ManagedClusterAADProfile_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>adminGroupObjectIDs</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>clientAppID</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableAzureRBAC</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>managed</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>serverAppID</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>serverAppSecret</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>tenantID</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterAIToolchainOperatorProfile">ManagedClusterAIToolchainOperatorProfile
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterAIToolchainOperatorProfile_STATUS">ManagedClusterAIToolchainOperatorProfile_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterAPIServerAccessProfile">ManagedClusterAPIServerAccessProfile
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>authorizedIPRanges</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>disableRunCommand</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>enablePrivateCluster</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>enablePrivateClusterPublicFQDN</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableVnetIntegration</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>privateDNSZone</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>subnetId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterAPIServerAccessProfile_STATUS">ManagedClusterAPIServerAccessProfile_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>authorizedIPRanges</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>disableRunCommand</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>enablePrivateCluster</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>enablePrivateClusterPublicFQDN</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableVnetIntegration</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>privateDNSZone</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>subnetId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterAddonProfile">ManagedClusterAddonProfile
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>config</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterAddonProfile_STATUS">ManagedClusterAddonProfile_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>config</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>identity</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.UserAssignedIdentity_STATUS">
-UserAssignedIdentity_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>artifactStreamingProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.AgentPoolArtifactStreamingProfile">
-AgentPoolArtifactStreamingProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>availabilityZones</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>capacityReservationGroupReference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>count</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>creationData</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.CreationData">
-CreationData
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableAutoScaling</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableCustomCATrust</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableEncryptionAtHost</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableFIPS</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableNodePublicIP</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableUltraSSD</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>gpuInstanceProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.GPUInstanceProfile">
-GPUInstanceProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>gpuProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.AgentPoolGPUProfile">
-AgentPoolGPUProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>hostGroupReference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>kubeletConfig</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.KubeletConfig">
-KubeletConfig
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>kubeletDiskType</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.KubeletDiskType">
-KubeletDiskType
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>linuxOSConfig</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.LinuxOSConfig">
-LinuxOSConfig
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>maxCount</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>maxPods</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>messageOfTheDay</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>minCount</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>mode</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.AgentPoolMode">
-AgentPoolMode
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>networkProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.AgentPoolNetworkProfile">
-AgentPoolNetworkProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>nodeInitializationTaints</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>nodeLabels</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>nodePublicIPPrefixReference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>nodeTaints</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>orchestratorVersion</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>osDiskSizeGB</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceOSDisk">
-ContainerServiceOSDisk
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>osDiskType</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.OSDiskType">
-OSDiskType
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>osSKU</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.OSSKU">
-OSSKU
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>osType</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.OSType">
-OSType
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>podSubnetReference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>powerState</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.PowerState">
-PowerState
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>proximityPlacementGroupReference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>scaleDownMode</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ScaleDownMode">
-ScaleDownMode
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>scaleSetEvictionPolicy</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ScaleSetEvictionPolicy">
-ScaleSetEvictionPolicy
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>scaleSetPriority</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ScaleSetPriority">
-ScaleSetPriority
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>securityProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.AgentPoolSecurityProfile">
-AgentPoolSecurityProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>spotMaxPrice</code><br/>
-<em>
-float64
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.AgentPoolType">
-AgentPoolType
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>upgradeSettings</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.AgentPoolUpgradeSettings">
-AgentPoolUpgradeSettings
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>virtualMachineNodesStatus</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.VirtualMachineNodes">
-[]VirtualMachineNodes
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>virtualMachinesProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.VirtualMachinesProfile">
-VirtualMachinesProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>vmSize</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>vnetSubnetReference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>windowsProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.AgentPoolWindowsProfile">
-AgentPoolWindowsProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>workloadRuntime</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.WorkloadRuntime">
-WorkloadRuntime
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>artifactStreamingProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.AgentPoolArtifactStreamingProfile_STATUS">
-AgentPoolArtifactStreamingProfile_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>availabilityZones</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>capacityReservationGroupID</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>count</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>creationData</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.CreationData_STATUS">
-CreationData_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>currentOrchestratorVersion</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableAutoScaling</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableCustomCATrust</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableEncryptionAtHost</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableFIPS</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableNodePublicIP</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableUltraSSD</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>gpuInstanceProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.GPUInstanceProfile_STATUS">
-GPUInstanceProfile_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>gpuProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.AgentPoolGPUProfile_STATUS">
-AgentPoolGPUProfile_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>hostGroupID</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>kubeletConfig</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.KubeletConfig_STATUS">
-KubeletConfig_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>kubeletDiskType</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.KubeletDiskType_STATUS">
-KubeletDiskType_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>linuxOSConfig</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.LinuxOSConfig_STATUS">
-LinuxOSConfig_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>maxCount</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>maxPods</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>messageOfTheDay</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>minCount</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>mode</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.AgentPoolMode_STATUS">
-AgentPoolMode_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>networkProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.AgentPoolNetworkProfile_STATUS">
-AgentPoolNetworkProfile_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>nodeImageVersion</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>nodeInitializationTaints</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>nodeLabels</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>nodePublicIPPrefixID</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>nodeTaints</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>orchestratorVersion</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>osDiskSizeGB</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>osDiskType</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.OSDiskType_STATUS">
-OSDiskType_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>osSKU</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.OSSKU_STATUS">
-OSSKU_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>osType</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.OSType_STATUS">
-OSType_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>podSubnetID</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>powerState</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.PowerState_STATUS">
-PowerState_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>provisioningState</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>proximityPlacementGroupID</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>scaleDownMode</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ScaleDownMode_STATUS">
-ScaleDownMode_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>scaleSetEvictionPolicy</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ScaleSetEvictionPolicy_STATUS">
-ScaleSetEvictionPolicy_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>scaleSetPriority</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ScaleSetPriority_STATUS">
-ScaleSetPriority_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>securityProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.AgentPoolSecurityProfile_STATUS">
-AgentPoolSecurityProfile_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>spotMaxPrice</code><br/>
-<em>
-float64
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.AgentPoolType_STATUS">
-AgentPoolType_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>upgradeSettings</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.AgentPoolUpgradeSettings_STATUS">
-AgentPoolUpgradeSettings_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>virtualMachineNodesStatus</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.VirtualMachineNodes_STATUS">
-[]VirtualMachineNodes_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>virtualMachinesProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.VirtualMachinesProfile_STATUS">
-VirtualMachinesProfile_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>vmSize</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>vnetSubnetID</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>windowsProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.AgentPoolWindowsProfile_STATUS">
-AgentPoolWindowsProfile_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>workloadRuntime</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.WorkloadRuntime_STATUS">
-WorkloadRuntime_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterAutoUpgradeProfile">ManagedClusterAutoUpgradeProfile
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>nodeOSUpgradeChannel</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel">
-ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>upgradeChannel</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAutoUpgradeProfile_UpgradeChannel">
-ManagedClusterAutoUpgradeProfile_UpgradeChannel
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel">ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAutoUpgradeProfile">ManagedClusterAutoUpgradeProfile</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;NodeImage&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;None&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;SecurityPatch&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Unmanaged&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel_STATUS">ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAutoUpgradeProfile_STATUS">ManagedClusterAutoUpgradeProfile_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;NodeImage&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;None&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;SecurityPatch&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Unmanaged&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterAutoUpgradeProfile_STATUS">ManagedClusterAutoUpgradeProfile_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>nodeOSUpgradeChannel</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel_STATUS">
-ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>upgradeChannel</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS">
-ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterAutoUpgradeProfile_UpgradeChannel">ManagedClusterAutoUpgradeProfile_UpgradeChannel
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAutoUpgradeProfile">ManagedClusterAutoUpgradeProfile</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;node-image&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;none&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;patch&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;rapid&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;stable&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS">ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAutoUpgradeProfile_STATUS">ManagedClusterAutoUpgradeProfile_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;node-image&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;none&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;patch&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;rapid&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;stable&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfile">ManagedClusterAzureMonitorProfile
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>logs</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfileLogs">
-ManagedClusterAzureMonitorProfileLogs
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>metrics</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfileMetrics">
-ManagedClusterAzureMonitorProfileMetrics
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfileAppMonitoring">ManagedClusterAzureMonitorProfileAppMonitoring
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfileLogs">ManagedClusterAzureMonitorProfileLogs</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics">ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfileMetrics">ManagedClusterAzureMonitorProfileMetrics</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics_STATUS">ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfileMetrics_STATUS">ManagedClusterAzureMonitorProfileMetrics_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfileAppMonitoring_STATUS">ManagedClusterAzureMonitorProfileAppMonitoring_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfileLogs_STATUS">ManagedClusterAzureMonitorProfileLogs_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfileContainerInsights">ManagedClusterAzureMonitorProfileContainerInsights
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfileLogs">ManagedClusterAzureMonitorProfileLogs</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>logAnalyticsWorkspaceResourceReference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>windowsHostLogs</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfileWindowsHostLogs">
-ManagedClusterAzureMonitorProfileWindowsHostLogs
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfileContainerInsights_STATUS">ManagedClusterAzureMonitorProfileContainerInsights_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfileLogs_STATUS">ManagedClusterAzureMonitorProfileLogs_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>logAnalyticsWorkspaceResourceId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>windowsHostLogs</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfileWindowsHostLogs_STATUS">
-ManagedClusterAzureMonitorProfileWindowsHostLogs_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfileKubeStateMetrics">ManagedClusterAzureMonitorProfileKubeStateMetrics
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfileMetrics">ManagedClusterAzureMonitorProfileMetrics</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>metricAnnotationsAllowList</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>metricLabelsAllowlist</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS">ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfileMetrics_STATUS">ManagedClusterAzureMonitorProfileMetrics_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>metricAnnotationsAllowList</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>metricLabelsAllowlist</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfileLogs">ManagedClusterAzureMonitorProfileLogs
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfile">ManagedClusterAzureMonitorProfile</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>appMonitoring</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfileAppMonitoring">
-ManagedClusterAzureMonitorProfileAppMonitoring
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>containerInsights</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfileContainerInsights">
-ManagedClusterAzureMonitorProfileContainerInsights
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfileLogs_STATUS">ManagedClusterAzureMonitorProfileLogs_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfile_STATUS">ManagedClusterAzureMonitorProfile_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>appMonitoring</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfileAppMonitoring_STATUS">
-ManagedClusterAzureMonitorProfileAppMonitoring_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>containerInsights</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfileContainerInsights_STATUS">
-ManagedClusterAzureMonitorProfileContainerInsights_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfileMetrics">ManagedClusterAzureMonitorProfileMetrics
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfile">ManagedClusterAzureMonitorProfile</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>appMonitoringOpenTelemetryMetrics</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics">
-ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>kubeStateMetrics</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfileKubeStateMetrics">
-ManagedClusterAzureMonitorProfileKubeStateMetrics
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfileMetrics_STATUS">ManagedClusterAzureMonitorProfileMetrics_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfile_STATUS">ManagedClusterAzureMonitorProfile_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>appMonitoringOpenTelemetryMetrics</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics_STATUS">
-ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>kubeStateMetrics</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS">
-ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfileWindowsHostLogs">ManagedClusterAzureMonitorProfileWindowsHostLogs
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfileContainerInsights">ManagedClusterAzureMonitorProfileContainerInsights</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfileWindowsHostLogs_STATUS">ManagedClusterAzureMonitorProfileWindowsHostLogs_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfileContainerInsights_STATUS">ManagedClusterAzureMonitorProfileContainerInsights_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfile_STATUS">ManagedClusterAzureMonitorProfile_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>logs</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfileLogs_STATUS">
-ManagedClusterAzureMonitorProfileLogs_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>metrics</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfileMetrics_STATUS">
-ManagedClusterAzureMonitorProfileMetrics_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterCostAnalysis">ManagedClusterCostAnalysis
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterMetricsProfile">ManagedClusterMetricsProfile</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterCostAnalysis_STATUS">ManagedClusterCostAnalysis_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterMetricsProfile_STATUS">ManagedClusterMetricsProfile_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterHTTPProxyConfig">ManagedClusterHTTPProxyConfig
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>httpProxy</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>httpsProxy</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>noProxy</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>trustedCa</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterHTTPProxyConfig_STATUS">ManagedClusterHTTPProxyConfig_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>effectiveNoProxy</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>httpProxy</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>httpsProxy</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>noProxy</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>trustedCa</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterIdentity">ManagedClusterIdentity
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>delegatedResources</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.DelegatedResource">
-map[string]./api/containerservice/v1api20231102preview.DelegatedResource
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterIdentity_Type">
-ManagedClusterIdentity_Type
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>userAssignedIdentities</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.UserAssignedIdentityDetails">
-[]UserAssignedIdentityDetails
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterIdentity_STATUS">ManagedClusterIdentity_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>delegatedResources</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.DelegatedResource_STATUS">
-map[string]./api/containerservice/v1api20231102preview.DelegatedResource_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>principalId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>tenantId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterIdentity_Type_STATUS">
-ManagedClusterIdentity_Type_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>userAssignedIdentities</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterIdentity_UserAssignedIdentities_STATUS">
-map[string]./api/containerservice/v1api20231102preview.ManagedClusterIdentity_UserAssignedIdentities_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterIdentity_Type">ManagedClusterIdentity_Type
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterIdentity">ManagedClusterIdentity</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;None&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;SystemAssigned&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;UserAssigned&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterIdentity_Type_STATUS">ManagedClusterIdentity_Type_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterIdentity_STATUS">ManagedClusterIdentity_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;None&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;SystemAssigned&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;UserAssigned&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterIdentity_UserAssignedIdentities_STATUS">ManagedClusterIdentity_UserAssignedIdentities_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterIdentity_STATUS">ManagedClusterIdentity_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>clientId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>principalId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterIngressProfile">ManagedClusterIngressProfile
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>webAppRouting</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterIngressProfileWebAppRouting">
-ManagedClusterIngressProfileWebAppRouting
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterIngressProfileWebAppRouting">ManagedClusterIngressProfileWebAppRouting
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterIngressProfile">ManagedClusterIngressProfile</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>dnsZoneResourceReferences</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-[]genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterIngressProfileWebAppRouting_STATUS">ManagedClusterIngressProfileWebAppRouting_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterIngressProfile_STATUS">ManagedClusterIngressProfile_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>dnsZoneResourceIds</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>identity</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.UserAssignedIdentity_STATUS">
-UserAssignedIdentity_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterIngressProfile_STATUS">ManagedClusterIngressProfile_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>webAppRouting</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterIngressProfileWebAppRouting_STATUS">
-ManagedClusterIngressProfileWebAppRouting_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterLoadBalancerProfile">ManagedClusterLoadBalancerProfile
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile">ContainerServiceNetworkProfile</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>allocatedOutboundPorts</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>backendPoolType</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterLoadBalancerProfile_BackendPoolType">
-ManagedClusterLoadBalancerProfile_BackendPoolType
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>effectiveOutboundIPs</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ResourceReference">
-[]ResourceReference
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableMultipleStandardLoadBalancers</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>idleTimeoutInMinutes</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>managedOutboundIPs</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterLoadBalancerProfile_ManagedOutboundIPs">
-ManagedClusterLoadBalancerProfile_ManagedOutboundIPs
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>outboundIPPrefixes</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterLoadBalancerProfile_OutboundIPPrefixes">
-ManagedClusterLoadBalancerProfile_OutboundIPPrefixes
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>outboundIPs</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterLoadBalancerProfile_OutboundIPs">
-ManagedClusterLoadBalancerProfile_OutboundIPs
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterLoadBalancerProfile_BackendPoolType">ManagedClusterLoadBalancerProfile_BackendPoolType
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterLoadBalancerProfile">ManagedClusterLoadBalancerProfile</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;NodeIP&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;NodeIPConfiguration&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterLoadBalancerProfile_BackendPoolType_STATUS">ManagedClusterLoadBalancerProfile_BackendPoolType_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterLoadBalancerProfile_STATUS">ManagedClusterLoadBalancerProfile_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;NodeIP&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;NodeIPConfiguration&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterLoadBalancerProfile_ManagedOutboundIPs">ManagedClusterLoadBalancerProfile_ManagedOutboundIPs
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterLoadBalancerProfile">ManagedClusterLoadBalancerProfile</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>count</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>countIPv6</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS">ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterLoadBalancerProfile_STATUS">ManagedClusterLoadBalancerProfile_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>count</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>countIPv6</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterLoadBalancerProfile_OutboundIPPrefixes">ManagedClusterLoadBalancerProfile_OutboundIPPrefixes
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterLoadBalancerProfile">ManagedClusterLoadBalancerProfile</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>publicIPPrefixes</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ResourceReference">
-[]ResourceReference
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS">ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterLoadBalancerProfile_STATUS">ManagedClusterLoadBalancerProfile_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>publicIPPrefixes</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ResourceReference_STATUS">
-[]ResourceReference_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterLoadBalancerProfile_OutboundIPs">ManagedClusterLoadBalancerProfile_OutboundIPs
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterLoadBalancerProfile">ManagedClusterLoadBalancerProfile</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>publicIPs</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ResourceReference">
-[]ResourceReference
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS">ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterLoadBalancerProfile_STATUS">ManagedClusterLoadBalancerProfile_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>publicIPs</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ResourceReference_STATUS">
-[]ResourceReference_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterLoadBalancerProfile_STATUS">ManagedClusterLoadBalancerProfile_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile_STATUS">ContainerServiceNetworkProfile_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>allocatedOutboundPorts</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>backendPoolType</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterLoadBalancerProfile_BackendPoolType_STATUS">
-ManagedClusterLoadBalancerProfile_BackendPoolType_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>effectiveOutboundIPs</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ResourceReference_STATUS">
-[]ResourceReference_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableMultipleStandardLoadBalancers</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>idleTimeoutInMinutes</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>managedOutboundIPs</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS">
-ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>outboundIPPrefixes</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS">
-ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>outboundIPs</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS">
-ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterManagedOutboundIPProfile">ManagedClusterManagedOutboundIPProfile
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterNATGatewayProfile">ManagedClusterNATGatewayProfile</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>count</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterManagedOutboundIPProfile_STATUS">ManagedClusterManagedOutboundIPProfile_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterNATGatewayProfile_STATUS">ManagedClusterNATGatewayProfile_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>count</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterMetricsProfile">ManagedClusterMetricsProfile
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>costAnalysis</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterCostAnalysis">
-ManagedClusterCostAnalysis
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterMetricsProfile_STATUS">ManagedClusterMetricsProfile_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>costAnalysis</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterCostAnalysis_STATUS">
-ManagedClusterCostAnalysis_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterNATGatewayProfile">ManagedClusterNATGatewayProfile
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile">ContainerServiceNetworkProfile</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>effectiveOutboundIPs</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ResourceReference">
-[]ResourceReference
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>idleTimeoutInMinutes</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>managedOutboundIPProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterManagedOutboundIPProfile">
-ManagedClusterManagedOutboundIPProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterNATGatewayProfile_STATUS">ManagedClusterNATGatewayProfile_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile_STATUS">ContainerServiceNetworkProfile_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>effectiveOutboundIPs</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ResourceReference_STATUS">
-[]ResourceReference_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>idleTimeoutInMinutes</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>managedOutboundIPProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterManagedOutboundIPProfile_STATUS">
-ManagedClusterManagedOutboundIPProfile_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterNodeProvisioningProfile">ManagedClusterNodeProvisioningProfile
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>mode</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterNodeProvisioningProfile_Mode">
-ManagedClusterNodeProvisioningProfile_Mode
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterNodeProvisioningProfile_Mode">ManagedClusterNodeProvisioningProfile_Mode
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterNodeProvisioningProfile">ManagedClusterNodeProvisioningProfile</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Auto&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Manual&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterNodeProvisioningProfile_Mode_STATUS">ManagedClusterNodeProvisioningProfile_Mode_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterNodeProvisioningProfile_STATUS">ManagedClusterNodeProvisioningProfile_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Auto&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Manual&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterNodeProvisioningProfile_STATUS">ManagedClusterNodeProvisioningProfile_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>mode</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterNodeProvisioningProfile_Mode_STATUS">
-ManagedClusterNodeProvisioningProfile_Mode_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterNodeResourceGroupProfile">ManagedClusterNodeResourceGroupProfile
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>restrictionLevel</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterNodeResourceGroupProfile_RestrictionLevel">
-ManagedClusterNodeResourceGroupProfile_RestrictionLevel
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterNodeResourceGroupProfile_RestrictionLevel">ManagedClusterNodeResourceGroupProfile_RestrictionLevel
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterNodeResourceGroupProfile">ManagedClusterNodeResourceGroupProfile</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;ReadOnly&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Unrestricted&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterNodeResourceGroupProfile_RestrictionLevel_STATUS">ManagedClusterNodeResourceGroupProfile_RestrictionLevel_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterNodeResourceGroupProfile_STATUS">ManagedClusterNodeResourceGroupProfile_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;ReadOnly&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Unrestricted&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterNodeResourceGroupProfile_STATUS">ManagedClusterNodeResourceGroupProfile_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>restrictionLevel</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterNodeResourceGroupProfile_RestrictionLevel_STATUS">
-ManagedClusterNodeResourceGroupProfile_RestrictionLevel_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterOIDCIssuerProfile">ManagedClusterOIDCIssuerProfile
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterOIDCIssuerProfile_STATUS">ManagedClusterOIDCIssuerProfile_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>issuerURL</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterOperatorConfigMaps">ManagedClusterOperatorConfigMaps
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterOperatorSpec">ManagedClusterOperatorSpec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>oidcIssuerProfile</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapDestination">
-genruntime.ConfigMapDestination
-</a>
-</em>
-</td>
-<td>
-<p>OIDCIssuerProfile: indicates where the OIDCIssuerProfile config map should be placed. If omitted, no config map will be
-created.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterOperatorSecrets">ManagedClusterOperatorSecrets
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterOperatorSpec">ManagedClusterOperatorSpec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>adminCredentials</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">
-genruntime.SecretDestination
-</a>
-</em>
-</td>
-<td>
-<p>AdminCredentials: indicates where the AdminCredentials secret should be placed. If omitted, the secret will not be
-retrieved from Azure.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>userCredentials</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">
-genruntime.SecretDestination
-</a>
-</em>
-</td>
-<td>
-<p>UserCredentials: indicates where the UserCredentials secret should be placed. If omitted, the secret will not be
-retrieved from Azure.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterOperatorSpec">ManagedClusterOperatorSpec
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
-</p>
-<div>
-<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>configMapExpressions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
-[]genruntime/core.DestinationExpression
-</a>
-</em>
-</td>
-<td>
-<p>ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>configMaps</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterOperatorConfigMaps">
-ManagedClusterOperatorConfigMaps
-</a>
-</em>
-</td>
-<td>
-<p>ConfigMaps: configures where to place operator written ConfigMaps.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>secretExpressions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
-[]genruntime/core.DestinationExpression
-</a>
-</em>
-</td>
-<td>
-<p>SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>secrets</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterOperatorSecrets">
-ManagedClusterOperatorSecrets
-</a>
-</em>
-</td>
-<td>
-<p>Secrets: configures where to place Azure generated secrets.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterPodIdentity">ManagedClusterPodIdentity
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterPodIdentityProfile">ManagedClusterPodIdentityProfile</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>bindingSelector</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>identity</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.UserAssignedIdentity">
-UserAssignedIdentity
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>namespace</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterPodIdentityException">ManagedClusterPodIdentityException
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterPodIdentityProfile">ManagedClusterPodIdentityProfile</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>namespace</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>podLabels</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterPodIdentityException_STATUS">ManagedClusterPodIdentityException_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterPodIdentityProfile_STATUS">ManagedClusterPodIdentityProfile_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>namespace</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>podLabels</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterPodIdentityProfile">ManagedClusterPodIdentityProfile
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>allowNetworkPluginKubenet</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>userAssignedIdentities</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterPodIdentity">
-[]ManagedClusterPodIdentity
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>userAssignedIdentityExceptions</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterPodIdentityException">
-[]ManagedClusterPodIdentityException
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterPodIdentityProfile_STATUS">ManagedClusterPodIdentityProfile_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>allowNetworkPluginKubenet</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>userAssignedIdentities</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterPodIdentity_STATUS">
-[]ManagedClusterPodIdentity_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>userAssignedIdentityExceptions</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterPodIdentityException_STATUS">
-[]ManagedClusterPodIdentityException_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterPodIdentityProvisioningErrorBody_STATUS">ManagedClusterPodIdentityProvisioningErrorBody_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterPodIdentityProvisioningError_STATUS">ManagedClusterPodIdentityProvisioningError_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>code</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>details</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled">
-[]ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>message</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>target</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled">ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterPodIdentityProvisioningErrorBody_STATUS">ManagedClusterPodIdentityProvisioningErrorBody_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>code</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>message</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>target</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterPodIdentityProvisioningError_STATUS">ManagedClusterPodIdentityProvisioningError_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterPodIdentity_ProvisioningInfo_STATUS">ManagedClusterPodIdentity_ProvisioningInfo_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>error</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterPodIdentityProvisioningErrorBody_STATUS">
-ManagedClusterPodIdentityProvisioningErrorBody_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterPodIdentity_ProvisioningInfo_STATUS">ManagedClusterPodIdentity_ProvisioningInfo_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterPodIdentity_STATUS">ManagedClusterPodIdentity_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>error</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterPodIdentityProvisioningError_STATUS">
-ManagedClusterPodIdentityProvisioningError_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterPodIdentity_ProvisioningState_STATUS">ManagedClusterPodIdentity_ProvisioningState_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterPodIdentity_STATUS">ManagedClusterPodIdentity_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Assigned&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Canceled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Deleting&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Failed&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Succeeded&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Updating&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterPodIdentity_STATUS">ManagedClusterPodIdentity_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterPodIdentityProfile_STATUS">ManagedClusterPodIdentityProfile_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>bindingSelector</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>identity</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.UserAssignedIdentity_STATUS">
-UserAssignedIdentity_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>namespace</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>provisioningInfo</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterPodIdentity_ProvisioningInfo_STATUS">
-ManagedClusterPodIdentity_ProvisioningInfo_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>provisioningState</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterPodIdentity_ProvisioningState_STATUS">
-ManagedClusterPodIdentity_ProvisioningState_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterProperties_AutoScalerProfile">ManagedClusterProperties_AutoScalerProfile
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>balance-similar-node-groups</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>daemonset-eviction-for-empty-nodes</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>daemonset-eviction-for-occupied-nodes</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>expander</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.Expander">
-Expander
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>ignore-daemonsets-utilization</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>max-empty-bulk-delete</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>max-graceful-termination-sec</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>max-node-provision-time</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>max-total-unready-percentage</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>new-pod-scale-up-delay</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>ok-total-unready-count</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>scale-down-delay-after-add</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>scale-down-delay-after-delete</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>scale-down-delay-after-failure</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>scale-down-unneeded-time</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>scale-down-unready-time</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>scale-down-utilization-threshold</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>scan-interval</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>skip-nodes-with-local-storage</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>skip-nodes-with-system-pods</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterProperties_AutoScalerProfile_STATUS">ManagedClusterProperties_AutoScalerProfile_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>balance-similar-node-groups</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>daemonset-eviction-for-empty-nodes</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>daemonset-eviction-for-occupied-nodes</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>expander</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.Expander_STATUS">
-Expander_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>ignore-daemonsets-utilization</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>max-empty-bulk-delete</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>max-graceful-termination-sec</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>max-node-provision-time</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>max-total-unready-percentage</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>new-pod-scale-up-delay</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>ok-total-unready-count</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>scale-down-delay-after-add</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>scale-down-delay-after-delete</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>scale-down-delay-after-failure</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>scale-down-unneeded-time</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>scale-down-unready-time</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>scale-down-utilization-threshold</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>scan-interval</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>skip-nodes-with-local-storage</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>skip-nodes-with-system-pods</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterProperties_PublicNetworkAccess">ManagedClusterProperties_PublicNetworkAccess
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Enabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;SecuredByPerimeter&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterProperties_PublicNetworkAccess_STATUS">ManagedClusterProperties_PublicNetworkAccess_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Enabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;SecuredByPerimeter&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterSKU">ManagedClusterSKU
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSKU_Name">
-ManagedClusterSKU_Name
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>tier</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSKU_Tier">
-ManagedClusterSKU_Tier
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterSKU_Name">ManagedClusterSKU_Name
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSKU">ManagedClusterSKU</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Base&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterSKU_Name_STATUS">ManagedClusterSKU_Name_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSKU_STATUS">ManagedClusterSKU_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Base&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterSKU_STATUS">ManagedClusterSKU_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSKU_Name_STATUS">
-ManagedClusterSKU_Name_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>tier</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSKU_Tier_STATUS">
-ManagedClusterSKU_Tier_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterSKU_Tier">ManagedClusterSKU_Tier
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSKU">ManagedClusterSKU</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Free&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Premium&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Standard&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterSKU_Tier_STATUS">ManagedClusterSKU_Tier_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSKU_STATUS">ManagedClusterSKU_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Free&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Premium&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Standard&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfile">ManagedClusterSecurityProfile
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>azureKeyVaultKms</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.AzureKeyVaultKms">
-AzureKeyVaultKms
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>customCATrustCertificates</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfileCustomCATrustCertificates">
-ManagedClusterSecurityProfileCustomCATrustCertificates
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>defender</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfileDefender">
-ManagedClusterSecurityProfileDefender
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>imageCleaner</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfileImageCleaner">
-ManagedClusterSecurityProfileImageCleaner
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>imageIntegrity</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfileImageIntegrity">
-ManagedClusterSecurityProfileImageIntegrity
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>nodeRestriction</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfileNodeRestriction">
-ManagedClusterSecurityProfileNodeRestriction
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>workloadIdentity</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfileWorkloadIdentity">
-ManagedClusterSecurityProfileWorkloadIdentity
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfileCustomCATrustCertificates">ManagedClusterSecurityProfileCustomCATrustCertificates
-(<code>[]string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfile">ManagedClusterSecurityProfile</a>)
-</p>
-<div>
-</div>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfileDefender">ManagedClusterSecurityProfileDefender
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfile">ManagedClusterSecurityProfile</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>logAnalyticsWorkspaceResourceReference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>securityMonitoring</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfileDefenderSecurityMonitoring">
-ManagedClusterSecurityProfileDefenderSecurityMonitoring
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfileDefenderSecurityMonitoring">ManagedClusterSecurityProfileDefenderSecurityMonitoring
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfileDefender">ManagedClusterSecurityProfileDefender</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS">ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfileDefender_STATUS">ManagedClusterSecurityProfileDefender_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfileDefender_STATUS">ManagedClusterSecurityProfileDefender_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfile_STATUS">ManagedClusterSecurityProfile_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>logAnalyticsWorkspaceResourceId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>securityMonitoring</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS">
-ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfileImageCleaner">ManagedClusterSecurityProfileImageCleaner
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfile">ManagedClusterSecurityProfile</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>intervalHours</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfileImageCleaner_STATUS">ManagedClusterSecurityProfileImageCleaner_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfile_STATUS">ManagedClusterSecurityProfile_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>intervalHours</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfileImageIntegrity">ManagedClusterSecurityProfileImageIntegrity
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfile">ManagedClusterSecurityProfile</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfileImageIntegrity_STATUS">ManagedClusterSecurityProfileImageIntegrity_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfile_STATUS">ManagedClusterSecurityProfile_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfileNodeRestriction">ManagedClusterSecurityProfileNodeRestriction
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfile">ManagedClusterSecurityProfile</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfileNodeRestriction_STATUS">ManagedClusterSecurityProfileNodeRestriction_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfile_STATUS">ManagedClusterSecurityProfile_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfileWorkloadIdentity">ManagedClusterSecurityProfileWorkloadIdentity
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfile">ManagedClusterSecurityProfile</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfileWorkloadIdentity_STATUS">ManagedClusterSecurityProfileWorkloadIdentity_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfile_STATUS">ManagedClusterSecurityProfile_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfile_STATUS">ManagedClusterSecurityProfile_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>azureKeyVaultKms</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.AzureKeyVaultKms_STATUS">
-AzureKeyVaultKms_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>customCATrustCertificates</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>defender</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfileDefender_STATUS">
-ManagedClusterSecurityProfileDefender_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>imageCleaner</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfileImageCleaner_STATUS">
-ManagedClusterSecurityProfileImageCleaner_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>imageIntegrity</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfileImageIntegrity_STATUS">
-ManagedClusterSecurityProfileImageIntegrity_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>nodeRestriction</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfileNodeRestriction_STATUS">
-ManagedClusterSecurityProfileNodeRestriction_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>workloadIdentity</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfileWorkloadIdentity_STATUS">
-ManagedClusterSecurityProfileWorkloadIdentity_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterServicePrincipalProfile">ManagedClusterServicePrincipalProfile
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>clientId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>secret</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference">
-genruntime.SecretReference
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterServicePrincipalProfile_STATUS">ManagedClusterServicePrincipalProfile_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>clientId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterStorageProfile">ManagedClusterStorageProfile
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>blobCSIDriver</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterStorageProfileBlobCSIDriver">
-ManagedClusterStorageProfileBlobCSIDriver
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>diskCSIDriver</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterStorageProfileDiskCSIDriver">
-ManagedClusterStorageProfileDiskCSIDriver
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>fileCSIDriver</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterStorageProfileFileCSIDriver">
-ManagedClusterStorageProfileFileCSIDriver
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>snapshotController</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterStorageProfileSnapshotController">
-ManagedClusterStorageProfileSnapshotController
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterStorageProfileBlobCSIDriver">ManagedClusterStorageProfileBlobCSIDriver
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterStorageProfile">ManagedClusterStorageProfile</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterStorageProfileBlobCSIDriver_STATUS">ManagedClusterStorageProfileBlobCSIDriver_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterStorageProfile_STATUS">ManagedClusterStorageProfile_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterStorageProfileDiskCSIDriver">ManagedClusterStorageProfileDiskCSIDriver
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterStorageProfile">ManagedClusterStorageProfile</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>version</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterStorageProfileDiskCSIDriver_STATUS">ManagedClusterStorageProfileDiskCSIDriver_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterStorageProfile_STATUS">ManagedClusterStorageProfile_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>version</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterStorageProfileFileCSIDriver">ManagedClusterStorageProfileFileCSIDriver
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterStorageProfile">ManagedClusterStorageProfile</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterStorageProfileFileCSIDriver_STATUS">ManagedClusterStorageProfileFileCSIDriver_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterStorageProfile_STATUS">ManagedClusterStorageProfile_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterStorageProfileSnapshotController">ManagedClusterStorageProfileSnapshotController
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterStorageProfile">ManagedClusterStorageProfile</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterStorageProfileSnapshotController_STATUS">ManagedClusterStorageProfileSnapshotController_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterStorageProfile_STATUS">ManagedClusterStorageProfile_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterStorageProfile_STATUS">ManagedClusterStorageProfile_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>blobCSIDriver</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterStorageProfileBlobCSIDriver_STATUS">
-ManagedClusterStorageProfileBlobCSIDriver_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>diskCSIDriver</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterStorageProfileDiskCSIDriver_STATUS">
-ManagedClusterStorageProfileDiskCSIDriver_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>fileCSIDriver</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterStorageProfileFileCSIDriver_STATUS">
-ManagedClusterStorageProfileFileCSIDriver_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>snapshotController</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterStorageProfileSnapshotController_STATUS">
-ManagedClusterStorageProfileSnapshotController_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterWindowsProfile">ManagedClusterWindowsProfile
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>adminPassword</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference">
-genruntime.SecretReference
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>adminUsername</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableCSIProxy</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>gmsaProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.WindowsGmsaProfile">
-WindowsGmsaProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>licenseType</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterWindowsProfile_LicenseType">
-ManagedClusterWindowsProfile_LicenseType
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterWindowsProfile_LicenseType">ManagedClusterWindowsProfile_LicenseType
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterWindowsProfile">ManagedClusterWindowsProfile</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;None&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Windows_Server&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterWindowsProfile_LicenseType_STATUS">ManagedClusterWindowsProfile_LicenseType_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterWindowsProfile_STATUS">ManagedClusterWindowsProfile_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;None&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Windows_Server&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterWindowsProfile_STATUS">ManagedClusterWindowsProfile_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>adminUsername</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableCSIProxy</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>gmsaProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.WindowsGmsaProfile_STATUS">
-WindowsGmsaProfile_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>licenseType</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterWindowsProfile_LicenseType_STATUS">
-ManagedClusterWindowsProfile_LicenseType_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterWorkloadAutoScalerProfile">ManagedClusterWorkloadAutoScalerProfile
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>keda</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterWorkloadAutoScalerProfileKeda">
-ManagedClusterWorkloadAutoScalerProfileKeda
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>verticalPodAutoscaler</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler">
-ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterWorkloadAutoScalerProfileKeda">ManagedClusterWorkloadAutoScalerProfileKeda
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterWorkloadAutoScalerProfile">ManagedClusterWorkloadAutoScalerProfile</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterWorkloadAutoScalerProfileKeda_STATUS">ManagedClusterWorkloadAutoScalerProfileKeda_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterWorkloadAutoScalerProfile_STATUS">ManagedClusterWorkloadAutoScalerProfile_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler">ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterWorkloadAutoScalerProfile">ManagedClusterWorkloadAutoScalerProfile</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>addonAutoscaling</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_AddonAutoscaling">
-ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_AddonAutoscaling
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_AddonAutoscaling">ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_AddonAutoscaling
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler">ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Enabled&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_AddonAutoscaling_STATUS">ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_AddonAutoscaling_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS">ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Enabled&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS">ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterWorkloadAutoScalerProfile_STATUS">ManagedClusterWorkloadAutoScalerProfile_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>addonAutoscaling</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_AddonAutoscaling_STATUS">
-ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_AddonAutoscaling_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClusterWorkloadAutoScalerProfile_STATUS">ManagedClusterWorkloadAutoScalerProfile_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>keda</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterWorkloadAutoScalerProfileKeda_STATUS">
-ManagedClusterWorkloadAutoScalerProfileKeda_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>verticalPodAutoscaler</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS">
-ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster">ManagedCluster</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>aadProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAADProfile_STATUS">
-ManagedClusterAADProfile_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>addonProfiles</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAddonProfile_STATUS">
-map[string]./api/containerservice/v1api20231102preview.ManagedClusterAddonProfile_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>agentPoolProfiles</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">
-[]ManagedClusterAgentPoolProfile_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>aiToolchainOperatorProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAIToolchainOperatorProfile_STATUS">
-ManagedClusterAIToolchainOperatorProfile_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>apiServerAccessProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAPIServerAccessProfile_STATUS">
-ManagedClusterAPIServerAccessProfile_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>autoScalerProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterProperties_AutoScalerProfile_STATUS">
-ManagedClusterProperties_AutoScalerProfile_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>autoUpgradeProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAutoUpgradeProfile_STATUS">
-ManagedClusterAutoUpgradeProfile_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>azureMonitorProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfile_STATUS">
-ManagedClusterAzureMonitorProfile_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>azurePortalFQDN</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>conditions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
-[]genruntime/conditions.Condition
-</a>
-</em>
-</td>
-<td>
-<p>Conditions: The observed state of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>creationData</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.CreationData_STATUS">
-CreationData_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>currentKubernetesVersion</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>disableLocalAccounts</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>diskEncryptionSetID</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>dnsPrefix</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableNamespaceResources</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>enablePodSecurityPolicy</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableRBAC</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>extendedLocation</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ExtendedLocation_STATUS">
-ExtendedLocation_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>fqdn</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>fqdnSubdomain</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>httpProxyConfig</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterHTTPProxyConfig_STATUS">
-ManagedClusterHTTPProxyConfig_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>identity</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterIdentity_STATUS">
-ManagedClusterIdentity_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>identityProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.UserAssignedIdentity_STATUS">
-map[string]./api/containerservice/v1api20231102preview.UserAssignedIdentity_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>ingressProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterIngressProfile_STATUS">
-ManagedClusterIngressProfile_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>kubernetesVersion</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>linuxProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceLinuxProfile_STATUS">
-ContainerServiceLinuxProfile_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>maxAgentPools</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>metricsProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterMetricsProfile_STATUS">
-ManagedClusterMetricsProfile_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>networkProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile_STATUS">
-ContainerServiceNetworkProfile_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>nodeProvisioningProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterNodeProvisioningProfile_STATUS">
-ManagedClusterNodeProvisioningProfile_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>nodeResourceGroup</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>nodeResourceGroupProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterNodeResourceGroupProfile_STATUS">
-ManagedClusterNodeResourceGroupProfile_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>oidcIssuerProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterOIDCIssuerProfile_STATUS">
-ManagedClusterOIDCIssuerProfile_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>podIdentityProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterPodIdentityProfile_STATUS">
-ManagedClusterPodIdentityProfile_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>powerState</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.PowerState_STATUS">
-PowerState_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>privateFQDN</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>privateLinkResources</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.PrivateLinkResource_STATUS">
-[]PrivateLinkResource_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>provisioningState</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>publicNetworkAccess</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterProperties_PublicNetworkAccess_STATUS">
-ManagedClusterProperties_PublicNetworkAccess_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>resourceUID</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>safeguardsProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.SafeguardsProfile_STATUS">
-SafeguardsProfile_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>securityProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfile_STATUS">
-ManagedClusterSecurityProfile_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>serviceMeshProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ServiceMeshProfile_STATUS">
-ServiceMeshProfile_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>servicePrincipalProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterServicePrincipalProfile_STATUS">
-ManagedClusterServicePrincipalProfile_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>sku</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSKU_STATUS">
-ManagedClusterSKU_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>storageProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterStorageProfile_STATUS">
-ManagedClusterStorageProfile_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>supportPlan</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.KubernetesSupportPlan_STATUS">
-KubernetesSupportPlan_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>systemData</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.SystemData_STATUS">
-SystemData_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>upgradeSettings</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ClusterUpgradeSettings_STATUS">
-ClusterUpgradeSettings_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>windowsProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterWindowsProfile_STATUS">
-ManagedClusterWindowsProfile_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>workloadAutoScalerProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterWorkloadAutoScalerProfile_STATUS">
-ManagedClusterWorkloadAutoScalerProfile_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster">ManagedCluster</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>aadProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAADProfile">
-ManagedClusterAADProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>addonProfiles</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAddonProfile">
-map[string]./api/containerservice/v1api20231102preview.ManagedClusterAddonProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>agentPoolProfiles</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">
-[]ManagedClusterAgentPoolProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>aiToolchainOperatorProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAIToolchainOperatorProfile">
-ManagedClusterAIToolchainOperatorProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>apiServerAccessProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAPIServerAccessProfile">
-ManagedClusterAPIServerAccessProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>autoScalerProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterProperties_AutoScalerProfile">
-ManagedClusterProperties_AutoScalerProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>autoUpgradeProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAutoUpgradeProfile">
-ManagedClusterAutoUpgradeProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>azureMonitorProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAzureMonitorProfile">
-ManagedClusterAzureMonitorProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>creationData</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.CreationData">
-CreationData
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>disableLocalAccounts</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>diskEncryptionSetReference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>dnsPrefix</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableNamespaceResources</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>enablePodSecurityPolicy</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableRBAC</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>extendedLocation</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ExtendedLocation">
-ExtendedLocation
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>fqdnSubdomain</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>httpProxyConfig</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterHTTPProxyConfig">
-ManagedClusterHTTPProxyConfig
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>identity</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterIdentity">
-ManagedClusterIdentity
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>identityProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.UserAssignedIdentity">
-map[string]./api/containerservice/v1api20231102preview.UserAssignedIdentity
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>ingressProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterIngressProfile">
-ManagedClusterIngressProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>kubernetesVersion</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>linuxProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceLinuxProfile">
-ContainerServiceLinuxProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>metricsProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterMetricsProfile">
-ManagedClusterMetricsProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>networkProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile">
-ContainerServiceNetworkProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>nodeProvisioningProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterNodeProvisioningProfile">
-ManagedClusterNodeProvisioningProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>nodeResourceGroup</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>nodeResourceGroupProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterNodeResourceGroupProfile">
-ManagedClusterNodeResourceGroupProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>oidcIssuerProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterOIDCIssuerProfile">
-ManagedClusterOIDCIssuerProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>operatorSpec</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterOperatorSpec">
-ManagedClusterOperatorSpec
-</a>
-</em>
-</td>
-<td>
-<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
-passed directly to Azure</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a resources.azure.com/ResourceGroup resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>podIdentityProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterPodIdentityProfile">
-ManagedClusterPodIdentityProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>privateLinkResources</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.PrivateLinkResource">
-[]PrivateLinkResource
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>publicNetworkAccess</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterProperties_PublicNetworkAccess">
-ManagedClusterProperties_PublicNetworkAccess
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>safeguardsProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.SafeguardsProfile">
-SafeguardsProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>securityProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSecurityProfile">
-ManagedClusterSecurityProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>serviceMeshProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ServiceMeshProfile">
-ServiceMeshProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>servicePrincipalProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterServicePrincipalProfile">
-ManagedClusterServicePrincipalProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>sku</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterSKU">
-ManagedClusterSKU
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>storageProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterStorageProfile">
-ManagedClusterStorageProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>supportPlan</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.KubernetesSupportPlan">
-KubernetesSupportPlan
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>upgradeSettings</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ClusterUpgradeSettings">
-ClusterUpgradeSettings
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>windowsProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterWindowsProfile">
-ManagedClusterWindowsProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>workloadAutoScalerProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterWorkloadAutoScalerProfile">
-ManagedClusterWorkloadAutoScalerProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool">ManagedClustersAgentPool
-</h3>
-<div>
-<p>Generator information:
-- Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-11-02-preview/managedClusters.json
-- ARM URI: /&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.ContainerService/&#x200b;managedClusters/&#x200b;{resourceName}/&#x200b;agentPools/&#x200b;{agentPoolName}</&#x200b;p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>metadata</code><br/>
-<em>
-<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
-Kubernetes meta/v1.ObjectMeta
-</a>
-</em>
-</td>
-<td>
-Refer to the Kubernetes API documentation for the fields of the
-<code>metadata</code> field.
-</td>
-</tr>
-<tr>
-<td>
-<code>spec</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">
-ManagedClustersAgentPool_Spec
-</a>
-</em>
-</td>
-<td>
-<br/>
-<br/>
-<table>
-<tr>
-<td>
-<code>artifactStreamingProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.AgentPoolArtifactStreamingProfile">
-AgentPoolArtifactStreamingProfile
-</a>
-</em>
-</td>
-<td>
-<p>ArtifactStreamingProfile: Configuration for using artifact streaming on AKS.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>availabilityZones</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-<p>AvailabilityZones: The list of Availability zones to use for nodes. This can only be specified if the AgentPoolType
-property is &lsquo;VirtualMachineScaleSets&rsquo;.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>capacityReservationGroupReference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>CapacityReservationGroupReference: AKS will associate the specified agent pool with the Capacity Reservation Group.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>count</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>Count: Number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to 1000 (inclusive)
-for user pools and in the range of 1 to 1000 (inclusive) for system pools. The default value is 1.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>creationData</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.CreationData">
-CreationData
-</a>
-</em>
-</td>
-<td>
-<p>CreationData: CreationData to be used to specify the source Snapshot ID if the node pool will be created/upgraded using
-a snapshot.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableAutoScaling</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnableAutoScaling: Whether to enable auto-scaler</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableCustomCATrust</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnableCustomCATrust: When set to true, AKS adds a label to the node indicating that the feature is enabled and deploys a
-daemonset along with host services to sync custom certificate authorities from user-provided list of base64 encoded
-certificates into node trust stores. Defaults to false.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableEncryptionAtHost</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnableEncryptionAtHost: This is only supported on certain VM sizes and in certain Azure regions. For more information,
-see: <a href="https://docs.microsoft.com/azure/aks/enable-host-encryption">https://docs.microsoft.com/azure/aks/enable-host-encryption</a></p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableFIPS</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnableFIPS: See <a href="https://docs.microsoft.com/azure/aks/use-multiple-node-pools#add-a-fips-enabled-node-pool-preview">Add a FIPS-enabled node
-pool</a> for more
-details.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableNodePublicIP</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnableNodePublicIP: Some scenarios may require nodes in a node pool to receive their own dedicated public IP addresses.
-A common scenario is for gaming workloads, where a console needs to make a direct connection to a cloud virtual machine
-to minimize hops. For more information see <a href="https://docs.microsoft.com/azure/aks/use-multiple-node-pools#assign-a-public-ip-per-node-for-your-node-pools">assigning a public IP per
-node</a>. The
-default is false.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableUltraSSD</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnableUltraSSD: Whether to enable UltraSSD</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>gpuInstanceProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.GPUInstanceProfile">
-GPUInstanceProfile
-</a>
-</em>
-</td>
-<td>
-<p>GpuInstanceProfile: GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>gpuProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.AgentPoolGPUProfile">
-AgentPoolGPUProfile
-</a>
-</em>
-</td>
-<td>
-<p>GpuProfile: The GPU settings of an agent pool.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>hostGroupReference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>HostGroupReference: This is of the form:
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Compute/&#x200b;hostGroups/&#x200b;{hostGroupName}.
-For more information see <a href="https://docs.microsoft.com/azure/virtual-machines/dedicated-hosts">Azure dedicated hosts</a>.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>kubeletConfig</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.KubeletConfig">
-KubeletConfig
-</a>
-</em>
-</td>
-<td>
-<p>KubeletConfig: The Kubelet configuration on the agent pool nodes.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>kubeletDiskType</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.KubeletDiskType">
-KubeletDiskType
-</a>
-</em>
-</td>
-<td>
-<p>KubeletDiskType: Determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral
-storage.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>linuxOSConfig</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.LinuxOSConfig">
-LinuxOSConfig
-</a>
-</em>
-</td>
-<td>
-<p>LinuxOSConfig: The OS configuration of Linux agent nodes.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>maxCount</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>MaxCount: The maximum number of nodes for auto-scaling</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>maxPods</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>MaxPods: The maximum number of pods that can run on a node.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>messageOfTheDay</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>MessageOfTheDay: A base64-encoded string which will be written to /etc/motd after decoding. This allows customization of
-the message of the day for Linux nodes. It must not be specified for Windows nodes. It must be a static string (i.e.,
-will be printed raw and not be executed as a script).</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>minCount</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>MinCount: The minimum number of nodes for auto-scaling</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>mode</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.AgentPoolMode">
-AgentPoolMode
-</a>
-</em>
-</td>
-<td>
-<p>Mode: A cluster must have at least one &lsquo;System&rsquo; Agent Pool at all times. For additional information on agent pool
-restrictions  and best practices, see: <a href="https://docs.microsoft.com/azure/aks/use-system-pools">https://docs.microsoft.com/azure/aks/use-system-pools</a></p>
-</td>
-</tr>
-<tr>
-<td>
-<code>networkProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.AgentPoolNetworkProfile">
-AgentPoolNetworkProfile
-</a>
-</em>
-</td>
-<td>
-<p>NetworkProfile: Network-related settings of an agent pool.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>nodeInitializationTaints</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-<p>NodeInitializationTaints: These taints will not be reconciled by AKS and can be removed with a kubectl call. This field
-can be modified after node pool is created, but nodes will not be recreated with new taints until another operation that
-requires recreation (e.g. node image upgrade) happens. These taints allow for required configuration to run before the
-node is ready to accept workloads, for example &lsquo;key1=value1:NoSchedule&rsquo; that then can be removed with <code>kubectl taint
-nodes node1 key1=value1:NoSchedule-</code></p>
-</td>
-</tr>
-<tr>
-<td>
-<code>nodeLabels</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>NodeLabels: The node labels to be persisted across all nodes in agent pool.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>nodePublicIPPrefixReference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>NodePublicIPPrefixReference: This is of the form:
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;publicIPPrefixes/&#x200b;{publicIPPrefixName}</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>nodeTaints</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-<p>NodeTaints: The taints added to new nodes during node pool create and scale. For example, key=value:NoSchedule.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>operatorSpec</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPoolOperatorSpec">
-ManagedClustersAgentPoolOperatorSpec
-</a>
-</em>
-</td>
-<td>
-<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
-passed directly to Azure</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>orchestratorVersion</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>OrchestratorVersion: Both patch version <major.minor.patch> and <major.minor> are supported. When <major.minor> is
-specified, the latest supported patch version is chosen automatically. Updating the agent pool with the same
-<major.minor> once it has been created will not trigger an upgrade, even if a newer patch version is available. As a
-best practice, you should upgrade all node pools in an AKS cluster to the same Kubernetes version. The node pool version
-must have the same major version as the control plane. The node pool minor version must be within two minor versions of
-the control plane version. The node pool version cannot be greater than the control plane version. For more information
-see <a href="https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool">upgrading a node pool</a>.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>osDiskSizeGB</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceOSDisk">
-ContainerServiceOSDisk
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>osDiskType</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.OSDiskType">
-OSDiskType
-</a>
-</em>
-</td>
-<td>
-<p>OsDiskType: The default is &lsquo;Ephemeral&rsquo; if the VM supports it and has a cache disk larger than the requested
-OSDiskSizeGB. Otherwise,  defaults to &lsquo;Managed&rsquo;. May not be changed after creation. For more information see <a href="https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os">Ephemeral
-OS</a>.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>osSKU</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.OSSKU">
-OSSKU
-</a>
-</em>
-</td>
-<td>
-<p>OsSKU: Specifies the OS SKU used by the agent pool. If not specified, the default is Ubuntu if OSType=Linux or
-Windows2019 if  OSType=Windows. And the default Windows OSSKU will be changed to Windows2022 after Windows2019 is
-deprecated.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>osType</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.OSType">
-OSType
-</a>
-</em>
-</td>
-<td>
-<p>OsType: The operating system type. The default is Linux.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a containerservice.azure.com/ManagedCluster resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>podSubnetReference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>PodSubnetReference: If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details).
-This is of the form:
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;virtualNetworks/&#x200b;{virtualNetworkName}/&#x200b;subnets/&#x200b;{subnetName}</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>powerState</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.PowerState">
-PowerState
-</a>
-</em>
-</td>
-<td>
-<p>PowerState: When an Agent Pool is first created it is initially Running. The Agent Pool can be stopped by setting this
-field to Stopped. A stopped Agent Pool stops all of its VMs and does not accrue billing charges. An Agent Pool can only
-be stopped if it is Running and provisioning state is Succeeded</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>proximityPlacementGroupReference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>ProximityPlacementGroupReference: The ID for Proximity Placement Group.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>scaleDownMode</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ScaleDownMode">
-ScaleDownMode
-</a>
-</em>
-</td>
-<td>
-<p>ScaleDownMode: This also effects the cluster autoscaler behavior. If not specified, it defaults to Delete.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>scaleSetEvictionPolicy</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ScaleSetEvictionPolicy">
-ScaleSetEvictionPolicy
-</a>
-</em>
-</td>
-<td>
-<p>ScaleSetEvictionPolicy: This cannot be specified unless the scaleSetPriority is &lsquo;Spot&rsquo;. If not specified, the default is
-&lsquo;Delete&rsquo;.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>scaleSetPriority</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ScaleSetPriority">
-ScaleSetPriority
-</a>
-</em>
-</td>
-<td>
-<p>ScaleSetPriority: The Virtual Machine Scale Set priority. If not specified, the default is &lsquo;Regular&rsquo;.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>securityProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.AgentPoolSecurityProfile">
-AgentPoolSecurityProfile
-</a>
-</em>
-</td>
-<td>
-<p>SecurityProfile: The security settings of an agent pool.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>spotMaxPrice</code><br/>
-<em>
-float64
-</em>
-</td>
-<td>
-<p>SpotMaxPrice: Possible values are any decimal value greater than zero or -1 which indicates the willingness to pay any
-on-demand price. For more details on spot pricing, see <a href="https://docs.microsoft.com/azure/virtual-machines/spot-vms#pricing">spot VMs
-pricing</a></p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: The tags to be persisted on the agent pool virtual machine scale set.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.AgentPoolType">
-AgentPoolType
-</a>
-</em>
-</td>
-<td>
-<p>Type: The type of Agent Pool.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>upgradeSettings</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.AgentPoolUpgradeSettings">
-AgentPoolUpgradeSettings
-</a>
-</em>
-</td>
-<td>
-<p>UpgradeSettings: Settings for upgrading the agentpool</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>virtualMachineNodesStatus</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.VirtualMachineNodes">
-[]VirtualMachineNodes
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>virtualMachinesProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.VirtualMachinesProfile">
-VirtualMachinesProfile
-</a>
-</em>
-</td>
-<td>
-<p>VirtualMachinesProfile: Specifications on VirtualMachines agent pool.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>vmSize</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>VmSize: VM size availability varies by region. If a node contains insufficient compute resources (memory, cpu, etc) pods
-might fail to run correctly. For more details on restricted VM sizes, see:
-<a href="https://docs.microsoft.com/azure/aks/quotas-skus-regions">https://docs.microsoft.com/azure/aks/quotas-skus-regions</a></p>
-</td>
-</tr>
-<tr>
-<td>
-<code>vnetSubnetReference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>VnetSubnetReference: If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is
-specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form:
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;virtualNetworks/&#x200b;{virtualNetworkName}/&#x200b;subnets/&#x200b;{subnetName}</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>windowsProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.AgentPoolWindowsProfile">
-AgentPoolWindowsProfile
-</a>
-</em>
-</td>
-<td>
-<p>WindowsProfile: The Windows agent pool&rsquo;s specific profile.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>workloadRuntime</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.WorkloadRuntime">
-WorkloadRuntime
-</a>
-</em>
-</td>
-<td>
-<p>WorkloadRuntime: Determines the type of workload a node can run.</p>
-</td>
-</tr>
-</table>
-</td>
-</tr>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_STATUS">
-ManagedClustersAgentPool_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPoolOperatorSpec">ManagedClustersAgentPoolOperatorSpec
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
-</p>
-<div>
-<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>configMapExpressions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
-[]genruntime/core.DestinationExpression
-</a>
-</em>
-</td>
-<td>
-<p>ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>secretExpressions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
-[]genruntime/core.DestinationExpression
-</a>
-</em>
-</td>
-<td>
-<p>SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool">ManagedClustersAgentPool</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>artifactStreamingProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.AgentPoolArtifactStreamingProfile_STATUS">
-AgentPoolArtifactStreamingProfile_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>ArtifactStreamingProfile: Configuration for using artifact streaming on AKS.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>availabilityZones</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-<p>AvailabilityZones: The list of Availability zones to use for nodes. This can only be specified if the AgentPoolType
-property is &lsquo;VirtualMachineScaleSets&rsquo;.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>capacityReservationGroupID</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CapacityReservationGroupID: AKS will associate the specified agent pool with the Capacity Reservation Group.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>conditions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
-[]genruntime/conditions.Condition
-</a>
-</em>
-</td>
-<td>
-<p>Conditions: The observed state of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>count</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>Count: Number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to 1000 (inclusive)
-for user pools and in the range of 1 to 1000 (inclusive) for system pools. The default value is 1.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>creationData</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.CreationData_STATUS">
-CreationData_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>CreationData: CreationData to be used to specify the source Snapshot ID if the node pool will be created/upgraded using
-a snapshot.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>currentOrchestratorVersion</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CurrentOrchestratorVersion: If orchestratorVersion was a fully specified version <major.minor.patch>, this field will be
-exactly equal to it. If orchestratorVersion was <major.minor>, this field will contain the full <major.minor.patch>
-version being used.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableAutoScaling</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnableAutoScaling: Whether to enable auto-scaler</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableCustomCATrust</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnableCustomCATrust: When set to true, AKS adds a label to the node indicating that the feature is enabled and deploys a
-daemonset along with host services to sync custom certificate authorities from user-provided list of base64 encoded
-certificates into node trust stores. Defaults to false.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableEncryptionAtHost</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnableEncryptionAtHost: This is only supported on certain VM sizes and in certain Azure regions. For more information,
-see: <a href="https://docs.microsoft.com/azure/aks/enable-host-encryption">https://docs.microsoft.com/azure/aks/enable-host-encryption</a></p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableFIPS</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnableFIPS: See <a href="https://docs.microsoft.com/azure/aks/use-multiple-node-pools#add-a-fips-enabled-node-pool-preview">Add a FIPS-enabled node
-pool</a> for more
-details.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableNodePublicIP</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnableNodePublicIP: Some scenarios may require nodes in a node pool to receive their own dedicated public IP addresses.
-A common scenario is for gaming workloads, where a console needs to make a direct connection to a cloud virtual machine
-to minimize hops. For more information see <a href="https://docs.microsoft.com/azure/aks/use-multiple-node-pools#assign-a-public-ip-per-node-for-your-node-pools">assigning a public IP per
-node</a>. The
-default is false.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableUltraSSD</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnableUltraSSD: Whether to enable UltraSSD</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>gpuInstanceProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.GPUInstanceProfile_STATUS">
-GPUInstanceProfile_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>GpuInstanceProfile: GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>gpuProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.AgentPoolGPUProfile_STATUS">
-AgentPoolGPUProfile_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>GpuProfile: The GPU settings of an agent pool.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>hostGroupID</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>HostGroupID: This is of the form:
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Compute/&#x200b;hostGroups/&#x200b;{hostGroupName}.
-For more information see <a href="https://docs.microsoft.com/azure/virtual-machines/dedicated-hosts">Azure dedicated hosts</a>.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Resource ID.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>kubeletConfig</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.KubeletConfig_STATUS">
-KubeletConfig_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>KubeletConfig: The Kubelet configuration on the agent pool nodes.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>kubeletDiskType</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.KubeletDiskType_STATUS">
-KubeletDiskType_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>KubeletDiskType: Determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral
-storage.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>linuxOSConfig</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.LinuxOSConfig_STATUS">
-LinuxOSConfig_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>LinuxOSConfig: The OS configuration of Linux agent nodes.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>maxCount</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>MaxCount: The maximum number of nodes for auto-scaling</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>maxPods</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>MaxPods: The maximum number of pods that can run on a node.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>messageOfTheDay</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>MessageOfTheDay: A base64-encoded string which will be written to /etc/motd after decoding. This allows customization of
-the message of the day for Linux nodes. It must not be specified for Windows nodes. It must be a static string (i.e.,
-will be printed raw and not be executed as a script).</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>minCount</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>MinCount: The minimum number of nodes for auto-scaling</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>mode</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.AgentPoolMode_STATUS">
-AgentPoolMode_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Mode: A cluster must have at least one &lsquo;System&rsquo; Agent Pool at all times. For additional information on agent pool
-restrictions  and best practices, see: <a href="https://docs.microsoft.com/azure/aks/use-system-pools">https://docs.microsoft.com/azure/aks/use-system-pools</a></p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>networkProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.AgentPoolNetworkProfile_STATUS">
-AgentPoolNetworkProfile_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>NetworkProfile: Network-related settings of an agent pool.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>nodeImageVersion</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>NodeImageVersion: The version of node image</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>nodeInitializationTaints</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-<p>NodeInitializationTaints: These taints will not be reconciled by AKS and can be removed with a kubectl call. This field
-can be modified after node pool is created, but nodes will not be recreated with new taints until another operation that
-requires recreation (e.g. node image upgrade) happens. These taints allow for required configuration to run before the
-node is ready to accept workloads, for example &lsquo;key1=value1:NoSchedule&rsquo; that then can be removed with <code>kubectl taint
-nodes node1 key1=value1:NoSchedule-</code></p>
-</td>
-</tr>
-<tr>
-<td>
-<code>nodeLabels</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>NodeLabels: The node labels to be persisted across all nodes in agent pool.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>nodePublicIPPrefixID</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>NodePublicIPPrefixID: This is of the form:
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;publicIPPrefixes/&#x200b;{publicIPPrefixName}</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>nodeTaints</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-<p>NodeTaints: The taints added to new nodes during node pool create and scale. For example, key=value:NoSchedule.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>orchestratorVersion</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>OrchestratorVersion: Both patch version <major.minor.patch> and <major.minor> are supported. When <major.minor> is
-specified, the latest supported patch version is chosen automatically. Updating the agent pool with the same
-<major.minor> once it has been created will not trigger an upgrade, even if a newer patch version is available. As a
-best practice, you should upgrade all node pools in an AKS cluster to the same Kubernetes version. The node pool version
-must have the same major version as the control plane. The node pool minor version must be within two minor versions of
-the control plane version. The node pool version cannot be greater than the control plane version. For more information
-see <a href="https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool">upgrading a node pool</a>.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>osDiskSizeGB</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>osDiskType</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.OSDiskType_STATUS">
-OSDiskType_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>OsDiskType: The default is &lsquo;Ephemeral&rsquo; if the VM supports it and has a cache disk larger than the requested
-OSDiskSizeGB. Otherwise,  defaults to &lsquo;Managed&rsquo;. May not be changed after creation. For more information see <a href="https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os">Ephemeral
-OS</a>.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>osSKU</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.OSSKU_STATUS">
-OSSKU_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>OsSKU: Specifies the OS SKU used by the agent pool. If not specified, the default is Ubuntu if OSType=Linux or
-Windows2019 if  OSType=Windows. And the default Windows OSSKU will be changed to Windows2022 after Windows2019 is
-deprecated.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>osType</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.OSType_STATUS">
-OSType_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>OsType: The operating system type. The default is Linux.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>podSubnetID</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>PodSubnetID: If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is
-of the form:
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;virtualNetworks/&#x200b;{virtualNetworkName}/&#x200b;subnets/&#x200b;{subnetName}</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>powerState</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.PowerState_STATUS">
-PowerState_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>PowerState: When an Agent Pool is first created it is initially Running. The Agent Pool can be stopped by setting this
-field to Stopped. A stopped Agent Pool stops all of its VMs and does not accrue billing charges. An Agent Pool can only
-be stopped if it is Running and provisioning state is Succeeded</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties_type</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.AgentPoolType_STATUS">
-AgentPoolType_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>PropertiesType: The type of Agent Pool.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>provisioningState</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ProvisioningState: The current deployment or provisioning state.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>proximityPlacementGroupID</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ProximityPlacementGroupID: The ID for Proximity Placement Group.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>scaleDownMode</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ScaleDownMode_STATUS">
-ScaleDownMode_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>ScaleDownMode: This also effects the cluster autoscaler behavior. If not specified, it defaults to Delete.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>scaleSetEvictionPolicy</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ScaleSetEvictionPolicy_STATUS">
-ScaleSetEvictionPolicy_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>ScaleSetEvictionPolicy: This cannot be specified unless the scaleSetPriority is &lsquo;Spot&rsquo;. If not specified, the default is
-&lsquo;Delete&rsquo;.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>scaleSetPriority</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ScaleSetPriority_STATUS">
-ScaleSetPriority_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>ScaleSetPriority: The Virtual Machine Scale Set priority. If not specified, the default is &lsquo;Regular&rsquo;.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>securityProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.AgentPoolSecurityProfile_STATUS">
-AgentPoolSecurityProfile_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>SecurityProfile: The security settings of an agent pool.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>spotMaxPrice</code><br/>
-<em>
-float64
-</em>
-</td>
-<td>
-<p>SpotMaxPrice: Possible values are any decimal value greater than zero or -1 which indicates the willingness to pay any
-on-demand price. For more details on spot pricing, see <a href="https://docs.microsoft.com/azure/virtual-machines/spot-vms#pricing">spot VMs
-pricing</a></p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: The tags to be persisted on the agent pool virtual machine scale set.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: Resource type</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>upgradeSettings</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.AgentPoolUpgradeSettings_STATUS">
-AgentPoolUpgradeSettings_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>UpgradeSettings: Settings for upgrading the agentpool</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>virtualMachineNodesStatus</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.VirtualMachineNodes_STATUS">
-[]VirtualMachineNodes_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>virtualMachinesProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.VirtualMachinesProfile_STATUS">
-VirtualMachinesProfile_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>VirtualMachinesProfile: Specifications on VirtualMachines agent pool.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>vmSize</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>VmSize: VM size availability varies by region. If a node contains insufficient compute resources (memory, cpu, etc) pods
-might fail to run correctly. For more details on restricted VM sizes, see:
-<a href="https://docs.microsoft.com/azure/aks/quotas-skus-regions">https://docs.microsoft.com/azure/aks/quotas-skus-regions</a></p>
-</td>
-</tr>
-<tr>
-<td>
-<code>vnetSubnetID</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>VnetSubnetID: If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified,
-this applies to nodes and pods, otherwise it applies to just nodes. This is of the form:
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;virtualNetworks/&#x200b;{virtualNetworkName}/&#x200b;subnets/&#x200b;{subnetName}</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>windowsProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.AgentPoolWindowsProfile_STATUS">
-AgentPoolWindowsProfile_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>WindowsProfile: The Windows agent pool&rsquo;s specific profile.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>workloadRuntime</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.WorkloadRuntime_STATUS">
-WorkloadRuntime_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>WorkloadRuntime: Determines the type of workload a node can run.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool">ManagedClustersAgentPool</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>artifactStreamingProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.AgentPoolArtifactStreamingProfile">
-AgentPoolArtifactStreamingProfile
-</a>
-</em>
-</td>
-<td>
-<p>ArtifactStreamingProfile: Configuration for using artifact streaming on AKS.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>availabilityZones</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-<p>AvailabilityZones: The list of Availability zones to use for nodes. This can only be specified if the AgentPoolType
-property is &lsquo;VirtualMachineScaleSets&rsquo;.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>capacityReservationGroupReference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>CapacityReservationGroupReference: AKS will associate the specified agent pool with the Capacity Reservation Group.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>count</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>Count: Number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to 1000 (inclusive)
-for user pools and in the range of 1 to 1000 (inclusive) for system pools. The default value is 1.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>creationData</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.CreationData">
-CreationData
-</a>
-</em>
-</td>
-<td>
-<p>CreationData: CreationData to be used to specify the source Snapshot ID if the node pool will be created/upgraded using
-a snapshot.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableAutoScaling</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnableAutoScaling: Whether to enable auto-scaler</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableCustomCATrust</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnableCustomCATrust: When set to true, AKS adds a label to the node indicating that the feature is enabled and deploys a
-daemonset along with host services to sync custom certificate authorities from user-provided list of base64 encoded
-certificates into node trust stores. Defaults to false.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableEncryptionAtHost</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnableEncryptionAtHost: This is only supported on certain VM sizes and in certain Azure regions. For more information,
-see: <a href="https://docs.microsoft.com/azure/aks/enable-host-encryption">https://docs.microsoft.com/azure/aks/enable-host-encryption</a></p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableFIPS</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnableFIPS: See <a href="https://docs.microsoft.com/azure/aks/use-multiple-node-pools#add-a-fips-enabled-node-pool-preview">Add a FIPS-enabled node
-pool</a> for more
-details.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableNodePublicIP</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnableNodePublicIP: Some scenarios may require nodes in a node pool to receive their own dedicated public IP addresses.
-A common scenario is for gaming workloads, where a console needs to make a direct connection to a cloud virtual machine
-to minimize hops. For more information see <a href="https://docs.microsoft.com/azure/aks/use-multiple-node-pools#assign-a-public-ip-per-node-for-your-node-pools">assigning a public IP per
-node</a>. The
-default is false.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableUltraSSD</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnableUltraSSD: Whether to enable UltraSSD</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>gpuInstanceProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.GPUInstanceProfile">
-GPUInstanceProfile
-</a>
-</em>
-</td>
-<td>
-<p>GpuInstanceProfile: GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>gpuProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.AgentPoolGPUProfile">
-AgentPoolGPUProfile
-</a>
-</em>
-</td>
-<td>
-<p>GpuProfile: The GPU settings of an agent pool.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>hostGroupReference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>HostGroupReference: This is of the form:
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Compute/&#x200b;hostGroups/&#x200b;{hostGroupName}.
-For more information see <a href="https://docs.microsoft.com/azure/virtual-machines/dedicated-hosts">Azure dedicated hosts</a>.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>kubeletConfig</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.KubeletConfig">
-KubeletConfig
-</a>
-</em>
-</td>
-<td>
-<p>KubeletConfig: The Kubelet configuration on the agent pool nodes.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>kubeletDiskType</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.KubeletDiskType">
-KubeletDiskType
-</a>
-</em>
-</td>
-<td>
-<p>KubeletDiskType: Determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral
-storage.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>linuxOSConfig</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.LinuxOSConfig">
-LinuxOSConfig
-</a>
-</em>
-</td>
-<td>
-<p>LinuxOSConfig: The OS configuration of Linux agent nodes.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>maxCount</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>MaxCount: The maximum number of nodes for auto-scaling</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>maxPods</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>MaxPods: The maximum number of pods that can run on a node.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>messageOfTheDay</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>MessageOfTheDay: A base64-encoded string which will be written to /etc/motd after decoding. This allows customization of
-the message of the day for Linux nodes. It must not be specified for Windows nodes. It must be a static string (i.e.,
-will be printed raw and not be executed as a script).</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>minCount</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>MinCount: The minimum number of nodes for auto-scaling</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>mode</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.AgentPoolMode">
-AgentPoolMode
-</a>
-</em>
-</td>
-<td>
-<p>Mode: A cluster must have at least one &lsquo;System&rsquo; Agent Pool at all times. For additional information on agent pool
-restrictions  and best practices, see: <a href="https://docs.microsoft.com/azure/aks/use-system-pools">https://docs.microsoft.com/azure/aks/use-system-pools</a></p>
-</td>
-</tr>
-<tr>
-<td>
-<code>networkProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.AgentPoolNetworkProfile">
-AgentPoolNetworkProfile
-</a>
-</em>
-</td>
-<td>
-<p>NetworkProfile: Network-related settings of an agent pool.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>nodeInitializationTaints</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-<p>NodeInitializationTaints: These taints will not be reconciled by AKS and can be removed with a kubectl call. This field
-can be modified after node pool is created, but nodes will not be recreated with new taints until another operation that
-requires recreation (e.g. node image upgrade) happens. These taints allow for required configuration to run before the
-node is ready to accept workloads, for example &lsquo;key1=value1:NoSchedule&rsquo; that then can be removed with <code>kubectl taint
-nodes node1 key1=value1:NoSchedule-</code></p>
-</td>
-</tr>
-<tr>
-<td>
-<code>nodeLabels</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>NodeLabels: The node labels to be persisted across all nodes in agent pool.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>nodePublicIPPrefixReference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>NodePublicIPPrefixReference: This is of the form:
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;publicIPPrefixes/&#x200b;{publicIPPrefixName}</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>nodeTaints</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-<p>NodeTaints: The taints added to new nodes during node pool create and scale. For example, key=value:NoSchedule.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>operatorSpec</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPoolOperatorSpec">
-ManagedClustersAgentPoolOperatorSpec
-</a>
-</em>
-</td>
-<td>
-<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
-passed directly to Azure</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>orchestratorVersion</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>OrchestratorVersion: Both patch version <major.minor.patch> and <major.minor> are supported. When <major.minor> is
-specified, the latest supported patch version is chosen automatically. Updating the agent pool with the same
-<major.minor> once it has been created will not trigger an upgrade, even if a newer patch version is available. As a
-best practice, you should upgrade all node pools in an AKS cluster to the same Kubernetes version. The node pool version
-must have the same major version as the control plane. The node pool minor version must be within two minor versions of
-the control plane version. The node pool version cannot be greater than the control plane version. For more information
-see <a href="https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool">upgrading a node pool</a>.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>osDiskSizeGB</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceOSDisk">
-ContainerServiceOSDisk
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>osDiskType</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.OSDiskType">
-OSDiskType
-</a>
-</em>
-</td>
-<td>
-<p>OsDiskType: The default is &lsquo;Ephemeral&rsquo; if the VM supports it and has a cache disk larger than the requested
-OSDiskSizeGB. Otherwise,  defaults to &lsquo;Managed&rsquo;. May not be changed after creation. For more information see <a href="https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os">Ephemeral
-OS</a>.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>osSKU</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.OSSKU">
-OSSKU
-</a>
-</em>
-</td>
-<td>
-<p>OsSKU: Specifies the OS SKU used by the agent pool. If not specified, the default is Ubuntu if OSType=Linux or
-Windows2019 if  OSType=Windows. And the default Windows OSSKU will be changed to Windows2022 after Windows2019 is
-deprecated.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>osType</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.OSType">
-OSType
-</a>
-</em>
-</td>
-<td>
-<p>OsType: The operating system type. The default is Linux.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a containerservice.azure.com/ManagedCluster resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>podSubnetReference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>PodSubnetReference: If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details).
-This is of the form:
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;virtualNetworks/&#x200b;{virtualNetworkName}/&#x200b;subnets/&#x200b;{subnetName}</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>powerState</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.PowerState">
-PowerState
-</a>
-</em>
-</td>
-<td>
-<p>PowerState: When an Agent Pool is first created it is initially Running. The Agent Pool can be stopped by setting this
-field to Stopped. A stopped Agent Pool stops all of its VMs and does not accrue billing charges. An Agent Pool can only
-be stopped if it is Running and provisioning state is Succeeded</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>proximityPlacementGroupReference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>ProximityPlacementGroupReference: The ID for Proximity Placement Group.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>scaleDownMode</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ScaleDownMode">
-ScaleDownMode
-</a>
-</em>
-</td>
-<td>
-<p>ScaleDownMode: This also effects the cluster autoscaler behavior. If not specified, it defaults to Delete.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>scaleSetEvictionPolicy</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ScaleSetEvictionPolicy">
-ScaleSetEvictionPolicy
-</a>
-</em>
-</td>
-<td>
-<p>ScaleSetEvictionPolicy: This cannot be specified unless the scaleSetPriority is &lsquo;Spot&rsquo;. If not specified, the default is
-&lsquo;Delete&rsquo;.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>scaleSetPriority</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ScaleSetPriority">
-ScaleSetPriority
-</a>
-</em>
-</td>
-<td>
-<p>ScaleSetPriority: The Virtual Machine Scale Set priority. If not specified, the default is &lsquo;Regular&rsquo;.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>securityProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.AgentPoolSecurityProfile">
-AgentPoolSecurityProfile
-</a>
-</em>
-</td>
-<td>
-<p>SecurityProfile: The security settings of an agent pool.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>spotMaxPrice</code><br/>
-<em>
-float64
-</em>
-</td>
-<td>
-<p>SpotMaxPrice: Possible values are any decimal value greater than zero or -1 which indicates the willingness to pay any
-on-demand price. For more details on spot pricing, see <a href="https://docs.microsoft.com/azure/virtual-machines/spot-vms#pricing">spot VMs
-pricing</a></p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: The tags to be persisted on the agent pool virtual machine scale set.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.AgentPoolType">
-AgentPoolType
-</a>
-</em>
-</td>
-<td>
-<p>Type: The type of Agent Pool.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>upgradeSettings</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.AgentPoolUpgradeSettings">
-AgentPoolUpgradeSettings
-</a>
-</em>
-</td>
-<td>
-<p>UpgradeSettings: Settings for upgrading the agentpool</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>virtualMachineNodesStatus</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.VirtualMachineNodes">
-[]VirtualMachineNodes
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>virtualMachinesProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.VirtualMachinesProfile">
-VirtualMachinesProfile
-</a>
-</em>
-</td>
-<td>
-<p>VirtualMachinesProfile: Specifications on VirtualMachines agent pool.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>vmSize</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>VmSize: VM size availability varies by region. If a node contains insufficient compute resources (memory, cpu, etc) pods
-might fail to run correctly. For more details on restricted VM sizes, see:
-<a href="https://docs.microsoft.com/azure/aks/quotas-skus-regions">https://docs.microsoft.com/azure/aks/quotas-skus-regions</a></p>
-</td>
-</tr>
-<tr>
-<td>
-<code>vnetSubnetReference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>VnetSubnetReference: If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is
-specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form:
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;virtualNetworks/&#x200b;{virtualNetworkName}/&#x200b;subnets/&#x200b;{subnetName}</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>windowsProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.AgentPoolWindowsProfile">
-AgentPoolWindowsProfile
-</a>
-</em>
-</td>
-<td>
-<p>WindowsProfile: The Windows agent pool&rsquo;s specific profile.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>workloadRuntime</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.WorkloadRuntime">
-WorkloadRuntime
-</a>
-</em>
-</td>
-<td>
-<p>WorkloadRuntime: Determines the type of workload a node can run.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManualScaleProfile">ManualScaleProfile
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ScaleProfile">ScaleProfile</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>count</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>sizes</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ManualScaleProfile_STATUS">ManualScaleProfile_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ScaleProfile_STATUS">ScaleProfile_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>count</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>sizes</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.NetworkDataplane">NetworkDataplane
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile">ContainerServiceNetworkProfile</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;azure&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;cilium&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.NetworkDataplane_STATUS">NetworkDataplane_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile_STATUS">ContainerServiceNetworkProfile_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;azure&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;cilium&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.NetworkMode">NetworkMode
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile">ContainerServiceNetworkProfile</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;bridge&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;transparent&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.NetworkMode_STATUS">NetworkMode_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile_STATUS">ContainerServiceNetworkProfile_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;bridge&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;transparent&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.NetworkMonitoring">NetworkMonitoring
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile">ContainerServiceNetworkProfile</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.NetworkMonitoring_STATUS">NetworkMonitoring_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile_STATUS">ContainerServiceNetworkProfile_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.NetworkPlugin">NetworkPlugin
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile">ContainerServiceNetworkProfile</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;azure&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;kubenet&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;none&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.NetworkPluginMode">NetworkPluginMode
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile">ContainerServiceNetworkProfile</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;overlay&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.NetworkPluginMode_STATUS">NetworkPluginMode_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile_STATUS">ContainerServiceNetworkProfile_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;overlay&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.NetworkPlugin_STATUS">NetworkPlugin_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile_STATUS">ContainerServiceNetworkProfile_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;azure&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;kubenet&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;none&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.NetworkPolicy">NetworkPolicy
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile">ContainerServiceNetworkProfile</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;azure&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;calico&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;cilium&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;none&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.NetworkPolicy_STATUS">NetworkPolicy_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ContainerServiceNetworkProfile_STATUS">ContainerServiceNetworkProfile_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;azure&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;calico&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;cilium&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;none&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.OSDiskType">OSDiskType
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Ephemeral&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Managed&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.OSDiskType_STATUS">OSDiskType_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Ephemeral&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Managed&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.OSSKU">OSSKU
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;AzureLinux&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;CBLMariner&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Mariner&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Ubuntu&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Windows2019&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Windows2022&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;WindowsAnnual&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.OSSKU_STATUS">OSSKU_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;AzureLinux&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;CBLMariner&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Mariner&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Ubuntu&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Windows2019&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Windows2022&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;WindowsAnnual&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.OSType">OSType
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Linux&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Windows&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.OSType_STATUS">OSType_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Linux&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Windows&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.PortRange">PortRange
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.AgentPoolNetworkProfile">AgentPoolNetworkProfile</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>portEnd</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>portStart</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>protocol</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.PortRange_Protocol">
-PortRange_Protocol
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.PortRange_Protocol">PortRange_Protocol
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.PortRange">PortRange</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;TCP&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;UDP&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.PortRange_Protocol_STATUS">PortRange_Protocol_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.PortRange_STATUS">PortRange_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;TCP&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;UDP&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.PortRange_STATUS">PortRange_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.AgentPoolNetworkProfile_STATUS">AgentPoolNetworkProfile_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>portEnd</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>portStart</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>protocol</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.PortRange_Protocol_STATUS">
-PortRange_Protocol_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.PowerState">PowerState
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>code</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.PowerState_Code">
-PowerState_Code
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.PowerState_Code">PowerState_Code
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.PowerState">PowerState</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Running&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Stopped&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.PowerState_Code_STATUS">PowerState_Code_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.PowerState_STATUS">PowerState_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Running&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Stopped&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.PowerState_STATUS">PowerState_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>code</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.PowerState_Code_STATUS">
-PowerState_Code_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.PrivateLinkResource">PrivateLinkResource
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>groupId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>reference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>requiredMembers</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.PrivateLinkResource_STATUS">PrivateLinkResource_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>groupId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>privateLinkServiceID</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>requiredMembers</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ResourceReference">ResourceReference
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterLoadBalancerProfile">ManagedClusterLoadBalancerProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterLoadBalancerProfile_OutboundIPPrefixes">ManagedClusterLoadBalancerProfile_OutboundIPPrefixes</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterLoadBalancerProfile_OutboundIPs">ManagedClusterLoadBalancerProfile_OutboundIPs</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterNATGatewayProfile">ManagedClusterNATGatewayProfile</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>reference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ResourceReference_STATUS">ResourceReference_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS">ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS">ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterLoadBalancerProfile_STATUS">ManagedClusterLoadBalancerProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterNATGatewayProfile_STATUS">ManagedClusterNATGatewayProfile_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.SafeguardsProfile">SafeguardsProfile
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>excludedNamespaces</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>level</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.SafeguardsProfile_Level">
-SafeguardsProfile_Level
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>version</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.SafeguardsProfile_Level">SafeguardsProfile_Level
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.SafeguardsProfile">SafeguardsProfile</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Enforcement&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Off&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Warning&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.SafeguardsProfile_Level_STATUS">SafeguardsProfile_Level_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.SafeguardsProfile_STATUS">SafeguardsProfile_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Enforcement&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Off&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Warning&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.SafeguardsProfile_STATUS">SafeguardsProfile_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>excludedNamespaces</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>level</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.SafeguardsProfile_Level_STATUS">
-SafeguardsProfile_Level_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>systemExcludedNamespaces</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>version</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ScaleDownMode">ScaleDownMode
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Deallocate&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Delete&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ScaleDownMode_STATUS">ScaleDownMode_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Deallocate&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Delete&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ScaleProfile">ScaleProfile
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.VirtualMachinesProfile">VirtualMachinesProfile</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>manual</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManualScaleProfile">
-[]ManualScaleProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ScaleProfile_STATUS">ScaleProfile_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.VirtualMachinesProfile_STATUS">VirtualMachinesProfile_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>manual</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ManualScaleProfile_STATUS">
-[]ManualScaleProfile_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ScaleSetEvictionPolicy">ScaleSetEvictionPolicy
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Deallocate&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Delete&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ScaleSetEvictionPolicy_STATUS">ScaleSetEvictionPolicy_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Deallocate&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Delete&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ScaleSetPriority">ScaleSetPriority
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Regular&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Spot&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ScaleSetPriority_STATUS">ScaleSetPriority_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Regular&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Spot&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ServiceMeshProfile">ServiceMeshProfile
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>istio</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.IstioServiceMesh">
-IstioServiceMesh
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>mode</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ServiceMeshProfile_Mode">
-ServiceMeshProfile_Mode
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ServiceMeshProfile_Mode">ServiceMeshProfile_Mode
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ServiceMeshProfile">ServiceMeshProfile</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Istio&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ServiceMeshProfile_Mode_STATUS">ServiceMeshProfile_Mode_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ServiceMeshProfile_STATUS">ServiceMeshProfile_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Istio&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.ServiceMeshProfile_STATUS">ServiceMeshProfile_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>istio</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.IstioServiceMesh_STATUS">
-IstioServiceMesh_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>mode</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ServiceMeshProfile_Mode_STATUS">
-ServiceMeshProfile_Mode_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.SysctlConfig">SysctlConfig
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.LinuxOSConfig">LinuxOSConfig</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>fsAioMaxNr</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>fsFileMax</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>fsInotifyMaxUserWatches</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>fsNrOpen</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>kernelThreadsMax</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>netCoreNetdevMaxBacklog</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>netCoreOptmemMax</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>netCoreRmemDefault</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>netCoreRmemMax</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>netCoreSomaxconn</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>netCoreWmemDefault</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>netCoreWmemMax</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>netIpv4IpLocalPortRange</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>netIpv4NeighDefaultGcThresh1</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>netIpv4NeighDefaultGcThresh2</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>netIpv4NeighDefaultGcThresh3</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>netIpv4TcpFinTimeout</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>netIpv4TcpKeepaliveProbes</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>netIpv4TcpKeepaliveTime</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>netIpv4TcpMaxSynBacklog</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>netIpv4TcpMaxTwBuckets</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>netIpv4TcpTwReuse</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>netIpv4TcpkeepaliveIntvl</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>netNetfilterNfConntrackBuckets</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>netNetfilterNfConntrackMax</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>vmMaxMapCount</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>vmSwappiness</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>vmVfsCachePressure</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.SysctlConfig_STATUS">SysctlConfig_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.LinuxOSConfig_STATUS">LinuxOSConfig_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>fsAioMaxNr</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>fsFileMax</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>fsInotifyMaxUserWatches</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>fsNrOpen</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>kernelThreadsMax</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>netCoreNetdevMaxBacklog</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>netCoreOptmemMax</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>netCoreRmemDefault</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>netCoreRmemMax</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>netCoreSomaxconn</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>netCoreWmemDefault</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>netCoreWmemMax</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>netIpv4IpLocalPortRange</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>netIpv4NeighDefaultGcThresh1</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>netIpv4NeighDefaultGcThresh2</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>netIpv4NeighDefaultGcThresh3</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>netIpv4TcpFinTimeout</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>netIpv4TcpKeepaliveProbes</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>netIpv4TcpKeepaliveTime</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>netIpv4TcpMaxSynBacklog</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>netIpv4TcpMaxTwBuckets</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>netIpv4TcpTwReuse</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>netIpv4TcpkeepaliveIntvl</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>netNetfilterNfConntrackBuckets</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>netNetfilterNfConntrackMax</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>vmMaxMapCount</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>vmSwappiness</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>vmVfsCachePressure</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.SystemData_STATUS">SystemData_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Application&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Key&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;User&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.SystemData_STATUS">SystemData_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Application&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Key&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;User&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.SystemData_STATUS">SystemData_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>createdAt</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>createdBy</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>createdByType</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.SystemData_CreatedByType_STATUS">
-SystemData_CreatedByType_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastModifiedAt</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastModifiedBy</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastModifiedByType</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.SystemData_LastModifiedByType_STATUS">
-SystemData_LastModifiedByType_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.UpgradeOverrideSettings">UpgradeOverrideSettings
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ClusterUpgradeSettings">ClusterUpgradeSettings</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>forceUpgrade</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>until</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.UpgradeOverrideSettings_STATUS">UpgradeOverrideSettings_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ClusterUpgradeSettings_STATUS">ClusterUpgradeSettings_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>forceUpgrade</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>until</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.UserAssignedIdentity">UserAssignedIdentity
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterPodIdentity">ManagedClusterPodIdentity</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_Spec">ManagedCluster_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>clientId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>objectId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>resourceReference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.UserAssignedIdentityDetails">UserAssignedIdentityDetails
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterIdentity">ManagedClusterIdentity</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>reference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.UserAssignedIdentity_STATUS">UserAssignedIdentity_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAddonProfile_STATUS">ManagedClusterAddonProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterIngressProfileWebAppRouting_STATUS">ManagedClusterIngressProfileWebAppRouting_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterPodIdentity_STATUS">ManagedClusterPodIdentity_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>clientId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>objectId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>resourceId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.VirtualMachineNodes">VirtualMachineNodes
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>count</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>size</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.VirtualMachineNodes_STATUS">VirtualMachineNodes_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>count</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>size</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.VirtualMachinesProfile">VirtualMachinesProfile
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>scale</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ScaleProfile">
-ScaleProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.VirtualMachinesProfile_STATUS">VirtualMachinesProfile_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>scale</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20231102preview.ScaleProfile_STATUS">
-ScaleProfile_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.WindowsGmsaProfile">WindowsGmsaProfile
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterWindowsProfile">ManagedClusterWindowsProfile</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>dnsServer</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>rootDomainName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.WindowsGmsaProfile_STATUS">WindowsGmsaProfile_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterWindowsProfile_STATUS">ManagedClusterWindowsProfile_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>dnsServer</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>rootDomainName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.WorkloadRuntime">WorkloadRuntime
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;KataMshvVmIsolation&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;OCIContainer&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;WasmWasi&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20231102preview.WorkloadRuntime_STATUS">WorkloadRuntime_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20231102preview.ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, <a href="#containerservice.azure.com/v1api20231102preview.ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;KataMshvVmIsolation&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;OCIContainer&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;WasmWasi&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<hr/>
+
+linktitle: v1api20231102preview
+-------------------------------
+
+<a id="APIVersion"></a>APIVersion
+---------------------------------
+
+| Value                | Description |
+|----------------------|-------------|
+| "2023-11-02-preview" |             |
+
+<a id="ManagedCluster"></a>ManagedCluster
+-----------------------------------------
+
+Used by: [ManagedClusterList](#ManagedClusterList).
+
+| Property                                                                                | Description | Type                                                                        |
+|-----------------------------------------------------------------------------------------|-------------|-----------------------------------------------------------------------------|
+| [metav1.TypeMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta)     |             |                                                                             |
+| [metav1.ObjectMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta) |             |                                                                             |
+| spec                                                                                    |             | [ManagedCluster_Spec](#ManagedCluster_Spec)<br/><small>Optional</small>     |
+| status                                                                                  |             | [ManagedCluster_STATUS](#ManagedCluster_STATUS)<br/><small>Optional</small> |
+
+### <a id="ManagedCluster_Spec"></a>ManagedCluster_Spec
+
+| Property                   | Description                                                                                                                                                                                                                                                                                  | Type                                                                                                                                                                 |
+|----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| aadProfile                 |                                                                                                                                                                                                                                                                                              | [ManagedClusterAADProfile](#ManagedClusterAADProfile)<br/><small>Optional</small>                                                                                    |
+| addonProfiles              |                                                                                                                                                                                                                                                                                              | [map[string]ManagedClusterAddonProfile](#ManagedClusterAddonProfile)<br/><small>Optional</small>                                                                     |
+| agentPoolProfiles          |                                                                                                                                                                                                                                                                                              | [ManagedClusterAgentPoolProfile[]](#ManagedClusterAgentPoolProfile)<br/><small>Optional</small>                                                                      |
+| aiToolchainOperatorProfile |                                                                                                                                                                                                                                                                                              | [ManagedClusterAIToolchainOperatorProfile](#ManagedClusterAIToolchainOperatorProfile)<br/><small>Optional</small>                                                    |
+| apiServerAccessProfile     |                                                                                                                                                                                                                                                                                              | [ManagedClusterAPIServerAccessProfile](#ManagedClusterAPIServerAccessProfile)<br/><small>Optional</small>                                                            |
+| autoScalerProfile          |                                                                                                                                                                                                                                                                                              | [ManagedClusterProperties_AutoScalerProfile](#ManagedClusterProperties_AutoScalerProfile)<br/><small>Optional</small>                                                |
+| autoUpgradeProfile         |                                                                                                                                                                                                                                                                                              | [ManagedClusterAutoUpgradeProfile](#ManagedClusterAutoUpgradeProfile)<br/><small>Optional</small>                                                                    |
+| azureMonitorProfile        |                                                                                                                                                                                                                                                                                              | [ManagedClusterAzureMonitorProfile](#ManagedClusterAzureMonitorProfile)<br/><small>Optional</small>                                                                  |
+| azureName                  | The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn't have to be.                                                                                                                                                               | string<br/><small>Optional</small>                                                                                                                                   |
+| creationData               |                                                                                                                                                                                                                                                                                              | [CreationData](#CreationData)<br/><small>Optional</small>                                                                                                            |
+| disableLocalAccounts       |                                                                                                                                                                                                                                                                                              | bool<br/><small>Optional</small>                                                                                                                                     |
+| diskEncryptionSetReference |                                                                                                                                                                                                                                                                                              | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small>           |
+| dnsPrefix                  |                                                                                                                                                                                                                                                                                              | string<br/><small>Optional</small>                                                                                                                                   |
+| enableNamespaceResources   |                                                                                                                                                                                                                                                                                              | bool<br/><small>Optional</small>                                                                                                                                     |
+| enablePodSecurityPolicy    |                                                                                                                                                                                                                                                                                              | bool<br/><small>Optional</small>                                                                                                                                     |
+| enableRBAC                 |                                                                                                                                                                                                                                                                                              | bool<br/><small>Optional</small>                                                                                                                                     |
+| extendedLocation           |                                                                                                                                                                                                                                                                                              | [ExtendedLocation](#ExtendedLocation)<br/><small>Optional</small>                                                                                                    |
+| fqdnSubdomain              |                                                                                                                                                                                                                                                                                              | string<br/><small>Optional</small>                                                                                                                                   |
+| httpProxyConfig            |                                                                                                                                                                                                                                                                                              | [ManagedClusterHTTPProxyConfig](#ManagedClusterHTTPProxyConfig)<br/><small>Optional</small>                                                                          |
+| identity                   |                                                                                                                                                                                                                                                                                              | [ManagedClusterIdentity](#ManagedClusterIdentity)<br/><small>Optional</small>                                                                                        |
+| identityProfile            |                                                                                                                                                                                                                                                                                              | [map[string]UserAssignedIdentity](#UserAssignedIdentity)<br/><small>Optional</small>                                                                                 |
+| ingressProfile             |                                                                                                                                                                                                                                                                                              | [ManagedClusterIngressProfile](#ManagedClusterIngressProfile)<br/><small>Optional</small>                                                                            |
+| kubernetesVersion          |                                                                                                                                                                                                                                                                                              | string<br/><small>Optional</small>                                                                                                                                   |
+| linuxProfile               |                                                                                                                                                                                                                                                                                              | [ContainerServiceLinuxProfile](#ContainerServiceLinuxProfile)<br/><small>Optional</small>                                                                            |
+| location                   |                                                                                                                                                                                                                                                                                              | string<br/><small>Required</small>                                                                                                                                   |
+| metricsProfile             |                                                                                                                                                                                                                                                                                              | [ManagedClusterMetricsProfile](#ManagedClusterMetricsProfile)<br/><small>Optional</small>                                                                            |
+| networkProfile             |                                                                                                                                                                                                                                                                                              | [ContainerServiceNetworkProfile](#ContainerServiceNetworkProfile)<br/><small>Optional</small>                                                                        |
+| nodeProvisioningProfile    |                                                                                                                                                                                                                                                                                              | [ManagedClusterNodeProvisioningProfile](#ManagedClusterNodeProvisioningProfile)<br/><small>Optional</small>                                                          |
+| nodeResourceGroup          |                                                                                                                                                                                                                                                                                              | string<br/><small>Optional</small>                                                                                                                                   |
+| nodeResourceGroupProfile   |                                                                                                                                                                                                                                                                                              | [ManagedClusterNodeResourceGroupProfile](#ManagedClusterNodeResourceGroupProfile)<br/><small>Optional</small>                                                        |
+| oidcIssuerProfile          |                                                                                                                                                                                                                                                                                              | [ManagedClusterOIDCIssuerProfile](#ManagedClusterOIDCIssuerProfile)<br/><small>Optional</small>                                                                      |
+| operatorSpec               | The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure                                                                                                                                                              | [ManagedClusterOperatorSpec](#ManagedClusterOperatorSpec)<br/><small>Optional</small>                                                                                |
+| owner                      | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
+| podIdentityProfile         |                                                                                                                                                                                                                                                                                              | [ManagedClusterPodIdentityProfile](#ManagedClusterPodIdentityProfile)<br/><small>Optional</small>                                                                    |
+| privateLinkResources       |                                                                                                                                                                                                                                                                                              | [PrivateLinkResource[]](#PrivateLinkResource)<br/><small>Optional</small>                                                                                            |
+| publicNetworkAccess        |                                                                                                                                                                                                                                                                                              | [ManagedClusterProperties_PublicNetworkAccess](#ManagedClusterProperties_PublicNetworkAccess)<br/><small>Optional</small>                                            |
+| safeguardsProfile          |                                                                                                                                                                                                                                                                                              | [SafeguardsProfile](#SafeguardsProfile)<br/><small>Optional</small>                                                                                                  |
+| securityProfile            |                                                                                                                                                                                                                                                                                              | [ManagedClusterSecurityProfile](#ManagedClusterSecurityProfile)<br/><small>Optional</small>                                                                          |
+| serviceMeshProfile         |                                                                                                                                                                                                                                                                                              | [ServiceMeshProfile](#ServiceMeshProfile)<br/><small>Optional</small>                                                                                                |
+| servicePrincipalProfile    |                                                                                                                                                                                                                                                                                              | [ManagedClusterServicePrincipalProfile](#ManagedClusterServicePrincipalProfile)<br/><small>Optional</small>                                                          |
+| sku                        |                                                                                                                                                                                                                                                                                              | [ManagedClusterSKU](#ManagedClusterSKU)<br/><small>Optional</small>                                                                                                  |
+| storageProfile             |                                                                                                                                                                                                                                                                                              | [ManagedClusterStorageProfile](#ManagedClusterStorageProfile)<br/><small>Optional</small>                                                                            |
+| supportPlan                |                                                                                                                                                                                                                                                                                              | [KubernetesSupportPlan](#KubernetesSupportPlan)<br/><small>Optional</small>                                                                                          |
+| tags                       |                                                                                                                                                                                                                                                                                              | map[string]string<br/><small>Optional</small>                                                                                                                        |
+| upgradeSettings            |                                                                                                                                                                                                                                                                                              | [ClusterUpgradeSettings](#ClusterUpgradeSettings)<br/><small>Optional</small>                                                                                        |
+| windowsProfile             |                                                                                                                                                                                                                                                                                              | [ManagedClusterWindowsProfile](#ManagedClusterWindowsProfile)<br/><small>Optional</small>                                                                            |
+| workloadAutoScalerProfile  |                                                                                                                                                                                                                                                                                              | [ManagedClusterWorkloadAutoScalerProfile](#ManagedClusterWorkloadAutoScalerProfile)<br/><small>Optional</small>                                                      |
+
+### <a id="ManagedCluster_STATUS"></a>ManagedCluster_STATUS
+
+| Property                   | Description                        | Type                                                                                                                                                    |
+|----------------------------|------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| aadProfile                 |                                    | [ManagedClusterAADProfile_STATUS](#ManagedClusterAADProfile_STATUS)<br/><small>Optional</small>                                                         |
+| addonProfiles              |                                    | [map[string]ManagedClusterAddonProfile_STATUS](#ManagedClusterAddonProfile_STATUS)<br/><small>Optional</small>                                          |
+| agentPoolProfiles          |                                    | [ManagedClusterAgentPoolProfile_STATUS[]](#ManagedClusterAgentPoolProfile_STATUS)<br/><small>Optional</small>                                           |
+| aiToolchainOperatorProfile |                                    | [ManagedClusterAIToolchainOperatorProfile_STATUS](#ManagedClusterAIToolchainOperatorProfile_STATUS)<br/><small>Optional</small>                         |
+| apiServerAccessProfile     |                                    | [ManagedClusterAPIServerAccessProfile_STATUS](#ManagedClusterAPIServerAccessProfile_STATUS)<br/><small>Optional</small>                                 |
+| autoScalerProfile          |                                    | [ManagedClusterProperties_AutoScalerProfile_STATUS](#ManagedClusterProperties_AutoScalerProfile_STATUS)<br/><small>Optional</small>                     |
+| autoUpgradeProfile         |                                    | [ManagedClusterAutoUpgradeProfile_STATUS](#ManagedClusterAutoUpgradeProfile_STATUS)<br/><small>Optional</small>                                         |
+| azureMonitorProfile        |                                    | [ManagedClusterAzureMonitorProfile_STATUS](#ManagedClusterAzureMonitorProfile_STATUS)<br/><small>Optional</small>                                       |
+| azurePortalFQDN            |                                    | string<br/><small>Optional</small>                                                                                                                      |
+| conditions                 | The observed state of the resource | [conditions.Condition[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition)<br/><small>Optional</small> |
+| creationData               |                                    | [CreationData_STATUS](#CreationData_STATUS)<br/><small>Optional</small>                                                                                 |
+| currentKubernetesVersion   |                                    | string<br/><small>Optional</small>                                                                                                                      |
+| disableLocalAccounts       |                                    | bool<br/><small>Optional</small>                                                                                                                        |
+| diskEncryptionSetID        |                                    | string<br/><small>Optional</small>                                                                                                                      |
+| dnsPrefix                  |                                    | string<br/><small>Optional</small>                                                                                                                      |
+| enableNamespaceResources   |                                    | bool<br/><small>Optional</small>                                                                                                                        |
+| enablePodSecurityPolicy    |                                    | bool<br/><small>Optional</small>                                                                                                                        |
+| enableRBAC                 |                                    | bool<br/><small>Optional</small>                                                                                                                        |
+| extendedLocation           |                                    | [ExtendedLocation_STATUS](#ExtendedLocation_STATUS)<br/><small>Optional</small>                                                                         |
+| fqdn                       |                                    | string<br/><small>Optional</small>                                                                                                                      |
+| fqdnSubdomain              |                                    | string<br/><small>Optional</small>                                                                                                                      |
+| httpProxyConfig            |                                    | [ManagedClusterHTTPProxyConfig_STATUS](#ManagedClusterHTTPProxyConfig_STATUS)<br/><small>Optional</small>                                               |
+| id                         |                                    | string<br/><small>Optional</small>                                                                                                                      |
+| identity                   |                                    | [ManagedClusterIdentity_STATUS](#ManagedClusterIdentity_STATUS)<br/><small>Optional</small>                                                             |
+| identityProfile            |                                    | [map[string]UserAssignedIdentity_STATUS](#UserAssignedIdentity_STATUS)<br/><small>Optional</small>                                                      |
+| ingressProfile             |                                    | [ManagedClusterIngressProfile_STATUS](#ManagedClusterIngressProfile_STATUS)<br/><small>Optional</small>                                                 |
+| kubernetesVersion          |                                    | string<br/><small>Optional</small>                                                                                                                      |
+| linuxProfile               |                                    | [ContainerServiceLinuxProfile_STATUS](#ContainerServiceLinuxProfile_STATUS)<br/><small>Optional</small>                                                 |
+| location                   |                                    | string<br/><small>Optional</small>                                                                                                                      |
+| maxAgentPools              |                                    | int<br/><small>Optional</small>                                                                                                                         |
+| metricsProfile             |                                    | [ManagedClusterMetricsProfile_STATUS](#ManagedClusterMetricsProfile_STATUS)<br/><small>Optional</small>                                                 |
+| name                       |                                    | string<br/><small>Optional</small>                                                                                                                      |
+| networkProfile             |                                    | [ContainerServiceNetworkProfile_STATUS](#ContainerServiceNetworkProfile_STATUS)<br/><small>Optional</small>                                             |
+| nodeProvisioningProfile    |                                    | [ManagedClusterNodeProvisioningProfile_STATUS](#ManagedClusterNodeProvisioningProfile_STATUS)<br/><small>Optional</small>                               |
+| nodeResourceGroup          |                                    | string<br/><small>Optional</small>                                                                                                                      |
+| nodeResourceGroupProfile   |                                    | [ManagedClusterNodeResourceGroupProfile_STATUS](#ManagedClusterNodeResourceGroupProfile_STATUS)<br/><small>Optional</small>                             |
+| oidcIssuerProfile          |                                    | [ManagedClusterOIDCIssuerProfile_STATUS](#ManagedClusterOIDCIssuerProfile_STATUS)<br/><small>Optional</small>                                           |
+| podIdentityProfile         |                                    | [ManagedClusterPodIdentityProfile_STATUS](#ManagedClusterPodIdentityProfile_STATUS)<br/><small>Optional</small>                                         |
+| powerState                 |                                    | [PowerState_STATUS](#PowerState_STATUS)<br/><small>Optional</small>                                                                                     |
+| privateFQDN                |                                    | string<br/><small>Optional</small>                                                                                                                      |
+| privateLinkResources       |                                    | [PrivateLinkResource_STATUS[]](#PrivateLinkResource_STATUS)<br/><small>Optional</small>                                                                 |
+| provisioningState          |                                    | string<br/><small>Optional</small>                                                                                                                      |
+| publicNetworkAccess        |                                    | [ManagedClusterProperties_PublicNetworkAccess_STATUS](#ManagedClusterProperties_PublicNetworkAccess_STATUS)<br/><small>Optional</small>                 |
+| resourceUID                |                                    | string<br/><small>Optional</small>                                                                                                                      |
+| safeguardsProfile          |                                    | [SafeguardsProfile_STATUS](#SafeguardsProfile_STATUS)<br/><small>Optional</small>                                                                       |
+| securityProfile            |                                    | [ManagedClusterSecurityProfile_STATUS](#ManagedClusterSecurityProfile_STATUS)<br/><small>Optional</small>                                               |
+| serviceMeshProfile         |                                    | [ServiceMeshProfile_STATUS](#ServiceMeshProfile_STATUS)<br/><small>Optional</small>                                                                     |
+| servicePrincipalProfile    |                                    | [ManagedClusterServicePrincipalProfile_STATUS](#ManagedClusterServicePrincipalProfile_STATUS)<br/><small>Optional</small>                               |
+| sku                        |                                    | [ManagedClusterSKU_STATUS](#ManagedClusterSKU_STATUS)<br/><small>Optional</small>                                                                       |
+| storageProfile             |                                    | [ManagedClusterStorageProfile_STATUS](#ManagedClusterStorageProfile_STATUS)<br/><small>Optional</small>                                                 |
+| supportPlan                |                                    | [KubernetesSupportPlan_STATUS](#KubernetesSupportPlan_STATUS)<br/><small>Optional</small>                                                               |
+| systemData                 |                                    | [SystemData_STATUS](#SystemData_STATUS)<br/><small>Optional</small>                                                                                     |
+| tags                       |                                    | map[string]string<br/><small>Optional</small>                                                                                                           |
+| type                       |                                    | string<br/><small>Optional</small>                                                                                                                      |
+| upgradeSettings            |                                    | [ClusterUpgradeSettings_STATUS](#ClusterUpgradeSettings_STATUS)<br/><small>Optional</small>                                                             |
+| windowsProfile             |                                    | [ManagedClusterWindowsProfile_STATUS](#ManagedClusterWindowsProfile_STATUS)<br/><small>Optional</small>                                                 |
+| workloadAutoScalerProfile  |                                    | [ManagedClusterWorkloadAutoScalerProfile_STATUS](#ManagedClusterWorkloadAutoScalerProfile_STATUS)<br/><small>Optional</small>                           |
+
+<a id="ManagedClusterList"></a>ManagedClusterList
+-------------------------------------------------
+
+| Property                                                                            | Description | Type                                                            |
+|-------------------------------------------------------------------------------------|-------------|-----------------------------------------------------------------|
+| [metav1.TypeMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta) |             |                                                                 |
+| [metav1.ListMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta) |             |                                                                 |
+| items                                                                               |             | [ManagedCluster[]](#ManagedCluster)<br/><small>Optional</small> |
+
+<a id="ManagedClustersAgentPool"></a>ManagedClustersAgentPool
+-------------------------------------------------------------
+
+Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-11-02-preview/managedClusters.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}
+
+Used by: [ManagedClustersAgentPoolList](#ManagedClustersAgentPoolList).
+
+| Property                                                                                | Description | Type                                                                                            |
+|-----------------------------------------------------------------------------------------|-------------|-------------------------------------------------------------------------------------------------|
+| [metav1.TypeMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta)     |             |                                                                                                 |
+| [metav1.ObjectMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta) |             |                                                                                                 |
+| spec                                                                                    |             | [ManagedClustersAgentPool_Spec](#ManagedClustersAgentPool_Spec)<br/><small>Optional</small>     |
+| status                                                                                  |             | [ManagedClustersAgentPool_STATUS](#ManagedClustersAgentPool_STATUS)<br/><small>Optional</small> |
+
+### <a id="ManagedClustersAgentPool_Spec"></a>ManagedClustersAgentPool_Spec
+
+| Property                          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Type                                                                                                                                                                 |
+|-----------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| artifactStreamingProfile          | Configuration for using artifact streaming on AKS.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | [AgentPoolArtifactStreamingProfile](#AgentPoolArtifactStreamingProfile)<br/><small>Optional</small>                                                                  |
+| availabilityZones                 | The list of Availability zones to use for nodes. This can only be specified if the AgentPoolType property is 'VirtualMachineScaleSets'.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | string[]<br/><small>Optional</small>                                                                                                                                 |
+| azureName                         | The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn't have to be.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | string<br/><small>Optional</small>                                                                                                                                   |
+| capacityReservationGroupReference | AKS will associate the specified agent pool with the Capacity Reservation Group.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small>           |
+| count                             | Number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to 1000 (inclusive) for user pools and in the range of 1 to 1000 (inclusive) for system pools. The default value is 1.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | int<br/><small>Optional</small>                                                                                                                                      |
+| creationData                      | CreationData to be used to specify the source Snapshot ID if the node pool will be created/upgraded using a snapshot.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | [CreationData](#CreationData)<br/><small>Optional</small>                                                                                                            |
+| enableAutoScaling                 | Whether to enable auto-scaler                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | bool<br/><small>Optional</small>                                                                                                                                     |
+| enableCustomCATrust               | When set to true, AKS adds a label to the node indicating that the feature is enabled and deploys a daemonset along with host services to sync custom certificate authorities from user-provided list of base64 encoded certificates into node trust stores. Defaults to false.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | bool<br/><small>Optional</small>                                                                                                                                     |
+| enableEncryptionAtHost            | This is only supported on certain VM sizes and in certain Azure regions. For more information, see: https://docs.microsoft.com/azure/aks/enable-host-encryption                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | bool<br/><small>Optional</small>                                                                                                                                     |
+| enableFIPS                        | See [Add a FIPS-enabled node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#add-a-fips-enabled-node-pool-preview) for more details.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | bool<br/><small>Optional</small>                                                                                                                                     |
+| enableNodePublicIP                | Some scenarios may require nodes in a node pool to receive their own dedicated public IP addresses. A common scenario is for gaming workloads, where a console needs to make a direct connection to a cloud virtual machine to minimize hops. For more information see [assigning a public IP per node](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#assign-a-public-ip-per-node-for-your-node-pools). The default is false.                                                                                                                                                                                                                                                                                                                                                                            | bool<br/><small>Optional</small>                                                                                                                                     |
+| enableUltraSSD                    | Whether to enable UltraSSD                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | bool<br/><small>Optional</small>                                                                                                                                     |
+| gpuInstanceProfile                | GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | [GPUInstanceProfile](#GPUInstanceProfile)<br/><small>Optional</small>                                                                                                |
+| gpuProfile                        | The GPU settings of an agent pool.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | [AgentPoolGPUProfile](#AgentPoolGPUProfile)<br/><small>Optional</small>                                                                                              |
+| hostGroupReference                | This is of the form: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.Compute/hostGroups/{hostGroupName}. For more information see [Azure dedicated hosts](https://docs.microsoft.com/azure/virtual-machines/dedicated-hosts).                                                                                                                                                                                                                                                                                                                                                                                                                                                    | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small>           |
+| kubeletConfig                     | The Kubelet configuration on the agent pool nodes.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | [KubeletConfig](#KubeletConfig)<br/><small>Optional</small>                                                                                                          |
+| kubeletDiskType                   | Determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral storage.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | [KubeletDiskType](#KubeletDiskType)<br/><small>Optional</small>                                                                                                      |
+| linuxOSConfig                     | The OS configuration of Linux agent nodes.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | [LinuxOSConfig](#LinuxOSConfig)<br/><small>Optional</small>                                                                                                          |
+| maxCount                          | The maximum number of nodes for auto-scaling                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | int<br/><small>Optional</small>                                                                                                                                      |
+| maxPods                           | The maximum number of pods that can run on a node.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | int<br/><small>Optional</small>                                                                                                                                      |
+| messageOfTheDay                   | A base64-encoded string which will be written to /etc/motd after decoding. This allows customization of the message of the day for Linux nodes. It must not be specified for Windows nodes. It must be a static string (i.e., will be printed raw and not be executed as a script).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | string<br/><small>Optional</small>                                                                                                                                   |
+| minCount                          | The minimum number of nodes for auto-scaling                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | int<br/><small>Optional</small>                                                                                                                                      |
+| mode                              | A cluster must have at least one 'System' Agent Pool at all times. For additional information on agent pool restrictions and best practices, see: https://docs.microsoft.com/azure/aks/use-system-pools                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | [AgentPoolMode](#AgentPoolMode)<br/><small>Optional</small>                                                                                                          |
+| networkProfile                    | Network-related settings of an agent pool.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | [AgentPoolNetworkProfile](#AgentPoolNetworkProfile)<br/><small>Optional</small>                                                                                      |
+| nodeInitializationTaints          | These taints will not be reconciled by AKS and can be removed with a kubectl call. This field can be modified after node pool is created, but nodes will not be recreated with new taints until another operation that requires recreation (e.g. node image upgrade) happens. These taints allow for required configuration to run before the node is ready to accept workloads, for example 'key1=value1:NoSchedule' that then can be removed with `kubectl taint nodes node1 key1=value1:NoSchedule-`                                                                                                                                                                                                                                                                                                                 | string[]<br/><small>Optional</small>                                                                                                                                 |
+| nodeLabels                        | The node labels to be persisted across all nodes in agent pool.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | map[string]string<br/><small>Optional</small>                                                                                                                        |
+| nodePublicIPPrefixReference       | This is of the form: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.Network/publicIPPrefixes/{publicIPPrefixName}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small>           |
+| nodeTaints                        | The taints added to new nodes during node pool create and scale. For example, key=value:NoSchedule.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | string[]<br/><small>Optional</small>                                                                                                                                 |
+| operatorSpec                      | The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | [ManagedClustersAgentPoolOperatorSpec](#ManagedClustersAgentPoolOperatorSpec)<br/><small>Optional</small>                                                            |
+| orchestratorVersion               | Both patch version <major.minor.patch> and <major.minor> are supported. When <major.minor> is specified, the latest supported patch version is chosen automatically. Updating the agent pool with the same <major.minor> once it has been created will not trigger an upgrade, even if a newer patch version is available. As a best practice, you should upgrade all node pools in an AKS cluster to the same Kubernetes version. The node pool version must have the same major version as the control plane. The node pool minor version must be within two minor versions of the control plane version. The node pool version cannot be greater than the control plane version. For more information see [upgrading a node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool). | string<br/><small>Optional</small>                                                                                                                                   |
+| osDiskSizeGB                      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | [ContainerServiceOSDisk](#ContainerServiceOSDisk)<br/><small>Optional</small>                                                                                        |
+| osDiskType                        | The default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral OS](https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | [OSDiskType](#OSDiskType)<br/><small>Optional</small>                                                                                                                |
+| osSKU                             | Specifies the OS SKU used by the agent pool. If not specified, the default is Ubuntu if OSType=Linux or Windows2019 if OSType=Windows. And the default Windows OSSKU will be changed to Windows2022 after Windows2019 is deprecated.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | [OSSKU](#OSSKU)<br/><small>Optional</small>                                                                                                                          |
+| osType                            | The operating system type. The default is Linux.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | [OSType](#OSType)<br/><small>Optional</small>                                                                                                                        |
+| owner                             | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a containerservice.azure.com/ManagedCluster resource                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
+| podSubnetReference                | If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of the form: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}                                                                                                                                                                                                                                                                                                                                                                                                                                       | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small>           |
+| powerState                        | When an Agent Pool is first created it is initially Running. The Agent Pool can be stopped by setting this field to Stopped. A stopped Agent Pool stops all of its VMs and does not accrue billing charges. An Agent Pool can only be stopped if it is Running and provisioning state is Succeeded                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | [PowerState](#PowerState)<br/><small>Optional</small>                                                                                                                |
+| proximityPlacementGroupReference  | The ID for Proximity Placement Group.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small>           |
+| scaleDownMode                     | This also effects the cluster autoscaler behavior. If not specified, it defaults to Delete.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | [ScaleDownMode](#ScaleDownMode)<br/><small>Optional</small>                                                                                                          |
+| scaleSetEvictionPolicy            | This cannot be specified unless the scaleSetPriority is 'Spot'. If not specified, the default is 'Delete'.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | [ScaleSetEvictionPolicy](#ScaleSetEvictionPolicy)<br/><small>Optional</small>                                                                                        |
+| scaleSetPriority                  | The Virtual Machine Scale Set priority. If not specified, the default is 'Regular'.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | [ScaleSetPriority](#ScaleSetPriority)<br/><small>Optional</small>                                                                                                    |
+| securityProfile                   | The security settings of an agent pool.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | [AgentPoolSecurityProfile](#AgentPoolSecurityProfile)<br/><small>Optional</small>                                                                                    |
+| spotMaxPrice                      | Possible values are any decimal value greater than zero or -1 which indicates the willingness to pay any on-demand price. For more details on spot pricing, see [spot VMs pricing](https://docs.microsoft.com/azure/virtual-machines/spot-vms#pricing)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | float64<br/><small>Optional</small>                                                                                                                                  |
+| tags                              | The tags to be persisted on the agent pool virtual machine scale set.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | map[string]string<br/><small>Optional</small>                                                                                                                        |
+| type                              | The type of Agent Pool.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | [AgentPoolType](#AgentPoolType)<br/><small>Optional</small>                                                                                                          |
+| upgradeSettings                   | Settings for upgrading the agentpool                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | [AgentPoolUpgradeSettings](#AgentPoolUpgradeSettings)<br/><small>Optional</small>                                                                                    |
+| virtualMachineNodesStatus         |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | [VirtualMachineNodes[]](#VirtualMachineNodes)<br/><small>Optional</small>                                                                                            |
+| virtualMachinesProfile            | Specifications on VirtualMachines agent pool.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | [VirtualMachinesProfile](#VirtualMachinesProfile)<br/><small>Optional</small>                                                                                        |
+| vmSize                            | VM size availability varies by region. If a node contains insufficient compute resources (memory, cpu, etc) pods might fail to run correctly. For more details on restricted VM sizes, see: https://docs.microsoft.com/azure/aks/quotas-skus-regions                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | string<br/><small>Optional</small>                                                                                                                                   |
+| vnetSubnetReference               | If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}                                                                                                                                                                                                                                                                                                                                                               | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small>           |
+| windowsProfile                    | The Windows agent pool's specific profile.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | [AgentPoolWindowsProfile](#AgentPoolWindowsProfile)<br/><small>Optional</small>                                                                                      |
+| workloadRuntime                   | Determines the type of workload a node can run.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | [WorkloadRuntime](#WorkloadRuntime)<br/><small>Optional</small>                                                                                                      |
+
+### <a id="ManagedClustersAgentPool_STATUS"></a>ManagedClustersAgentPool_STATUS
+
+| Property                   | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Type                                                                                                                                                    |
+|----------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| artifactStreamingProfile   | Configuration for using artifact streaming on AKS.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | [AgentPoolArtifactStreamingProfile_STATUS](#AgentPoolArtifactStreamingProfile_STATUS)<br/><small>Optional</small>                                       |
+| availabilityZones          | The list of Availability zones to use for nodes. This can only be specified if the AgentPoolType property is 'VirtualMachineScaleSets'.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | string[]<br/><small>Optional</small>                                                                                                                    |
+| capacityReservationGroupID | AKS will associate the specified agent pool with the Capacity Reservation Group.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | string<br/><small>Optional</small>                                                                                                                      |
+| conditions                 | The observed state of the resource                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | [conditions.Condition[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition)<br/><small>Optional</small> |
+| count                      | Number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to 1000 (inclusive) for user pools and in the range of 1 to 1000 (inclusive) for system pools. The default value is 1.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | int<br/><small>Optional</small>                                                                                                                         |
+| creationData               | CreationData to be used to specify the source Snapshot ID if the node pool will be created/upgraded using a snapshot.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | [CreationData_STATUS](#CreationData_STATUS)<br/><small>Optional</small>                                                                                 |
+| currentOrchestratorVersion | If orchestratorVersion was a fully specified version <major.minor.patch>, this field will be exactly equal to it. If orchestratorVersion was <major.minor>, this field will contain the full <major.minor.patch> version being used.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | string<br/><small>Optional</small>                                                                                                                      |
+| enableAutoScaling          | Whether to enable auto-scaler                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | bool<br/><small>Optional</small>                                                                                                                        |
+| enableCustomCATrust        | When set to true, AKS adds a label to the node indicating that the feature is enabled and deploys a daemonset along with host services to sync custom certificate authorities from user-provided list of base64 encoded certificates into node trust stores. Defaults to false.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | bool<br/><small>Optional</small>                                                                                                                        |
+| enableEncryptionAtHost     | This is only supported on certain VM sizes and in certain Azure regions. For more information, see: https://docs.microsoft.com/azure/aks/enable-host-encryption                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | bool<br/><small>Optional</small>                                                                                                                        |
+| enableFIPS                 | See [Add a FIPS-enabled node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#add-a-fips-enabled-node-pool-preview) for more details.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | bool<br/><small>Optional</small>                                                                                                                        |
+| enableNodePublicIP         | Some scenarios may require nodes in a node pool to receive their own dedicated public IP addresses. A common scenario is for gaming workloads, where a console needs to make a direct connection to a cloud virtual machine to minimize hops. For more information see [assigning a public IP per node](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#assign-a-public-ip-per-node-for-your-node-pools). The default is false.                                                                                                                                                                                                                                                                                                                                                                            | bool<br/><small>Optional</small>                                                                                                                        |
+| enableUltraSSD             | Whether to enable UltraSSD                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | bool<br/><small>Optional</small>                                                                                                                        |
+| gpuInstanceProfile         | GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | [GPUInstanceProfile_STATUS](#GPUInstanceProfile_STATUS)<br/><small>Optional</small>                                                                     |
+| gpuProfile                 | The GPU settings of an agent pool.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | [AgentPoolGPUProfile_STATUS](#AgentPoolGPUProfile_STATUS)<br/><small>Optional</small>                                                                   |
+| hostGroupID                | This is of the form: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.Compute/hostGroups/{hostGroupName}. For more information see [Azure dedicated hosts](https://docs.microsoft.com/azure/virtual-machines/dedicated-hosts).                                                                                                                                                                                                                                                                                                                                                                                                                                                    | string<br/><small>Optional</small>                                                                                                                      |
+| id                         | Resource ID.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | string<br/><small>Optional</small>                                                                                                                      |
+| kubeletConfig              | The Kubelet configuration on the agent pool nodes.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | [KubeletConfig_STATUS](#KubeletConfig_STATUS)<br/><small>Optional</small>                                                                               |
+| kubeletDiskType            | Determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral storage.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | [KubeletDiskType_STATUS](#KubeletDiskType_STATUS)<br/><small>Optional</small>                                                                           |
+| linuxOSConfig              | The OS configuration of Linux agent nodes.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | [LinuxOSConfig_STATUS](#LinuxOSConfig_STATUS)<br/><small>Optional</small>                                                                               |
+| maxCount                   | The maximum number of nodes for auto-scaling                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | int<br/><small>Optional</small>                                                                                                                         |
+| maxPods                    | The maximum number of pods that can run on a node.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | int<br/><small>Optional</small>                                                                                                                         |
+| messageOfTheDay            | A base64-encoded string which will be written to /etc/motd after decoding. This allows customization of the message of the day for Linux nodes. It must not be specified for Windows nodes. It must be a static string (i.e., will be printed raw and not be executed as a script).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | string<br/><small>Optional</small>                                                                                                                      |
+| minCount                   | The minimum number of nodes for auto-scaling                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | int<br/><small>Optional</small>                                                                                                                         |
+| mode                       | A cluster must have at least one 'System' Agent Pool at all times. For additional information on agent pool restrictions and best practices, see: https://docs.microsoft.com/azure/aks/use-system-pools                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | [AgentPoolMode_STATUS](#AgentPoolMode_STATUS)<br/><small>Optional</small>                                                                               |
+| name                       | The name of the resource that is unique within a resource group. This name can be used to access the resource.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | string<br/><small>Optional</small>                                                                                                                      |
+| networkProfile             | Network-related settings of an agent pool.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | [AgentPoolNetworkProfile_STATUS](#AgentPoolNetworkProfile_STATUS)<br/><small>Optional</small>                                                           |
+| nodeImageVersion           | The version of node image                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | string<br/><small>Optional</small>                                                                                                                      |
+| nodeInitializationTaints   | These taints will not be reconciled by AKS and can be removed with a kubectl call. This field can be modified after node pool is created, but nodes will not be recreated with new taints until another operation that requires recreation (e.g. node image upgrade) happens. These taints allow for required configuration to run before the node is ready to accept workloads, for example 'key1=value1:NoSchedule' that then can be removed with `kubectl taint nodes node1 key1=value1:NoSchedule-`                                                                                                                                                                                                                                                                                                                 | string[]<br/><small>Optional</small>                                                                                                                    |
+| nodeLabels                 | The node labels to be persisted across all nodes in agent pool.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | map[string]string<br/><small>Optional</small>                                                                                                           |
+| nodePublicIPPrefixID       | This is of the form: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.Network/publicIPPrefixes/{publicIPPrefixName}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | string<br/><small>Optional</small>                                                                                                                      |
+| nodeTaints                 | The taints added to new nodes during node pool create and scale. For example, key=value:NoSchedule.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | string[]<br/><small>Optional</small>                                                                                                                    |
+| orchestratorVersion        | Both patch version <major.minor.patch> and <major.minor> are supported. When <major.minor> is specified, the latest supported patch version is chosen automatically. Updating the agent pool with the same <major.minor> once it has been created will not trigger an upgrade, even if a newer patch version is available. As a best practice, you should upgrade all node pools in an AKS cluster to the same Kubernetes version. The node pool version must have the same major version as the control plane. The node pool minor version must be within two minor versions of the control plane version. The node pool version cannot be greater than the control plane version. For more information see [upgrading a node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool). | string<br/><small>Optional</small>                                                                                                                      |
+| osDiskSizeGB               |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | int<br/><small>Optional</small>                                                                                                                         |
+| osDiskType                 | The default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral OS](https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | [OSDiskType_STATUS](#OSDiskType_STATUS)<br/><small>Optional</small>                                                                                     |
+| osSKU                      | Specifies the OS SKU used by the agent pool. If not specified, the default is Ubuntu if OSType=Linux or Windows2019 if OSType=Windows. And the default Windows OSSKU will be changed to Windows2022 after Windows2019 is deprecated.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | [OSSKU_STATUS](#OSSKU_STATUS)<br/><small>Optional</small>                                                                                               |
+| osType                     | The operating system type. The default is Linux.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | [OSType_STATUS](#OSType_STATUS)<br/><small>Optional</small>                                                                                             |
+| podSubnetID                | If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of the form: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}                                                                                                                                                                                                                                                                                                                                                                                                                                       | string<br/><small>Optional</small>                                                                                                                      |
+| powerState                 | When an Agent Pool is first created it is initially Running. The Agent Pool can be stopped by setting this field to Stopped. A stopped Agent Pool stops all of its VMs and does not accrue billing charges. An Agent Pool can only be stopped if it is Running and provisioning state is Succeeded                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | [PowerState_STATUS](#PowerState_STATUS)<br/><small>Optional</small>                                                                                     |
+| properties_type            | The type of Agent Pool.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | [AgentPoolType_STATUS](#AgentPoolType_STATUS)<br/><small>Optional</small>                                                                               |
+| provisioningState          | The current deployment or provisioning state.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | string<br/><small>Optional</small>                                                                                                                      |
+| proximityPlacementGroupID  | The ID for Proximity Placement Group.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | string<br/><small>Optional</small>                                                                                                                      |
+| scaleDownMode              | This also effects the cluster autoscaler behavior. If not specified, it defaults to Delete.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | [ScaleDownMode_STATUS](#ScaleDownMode_STATUS)<br/><small>Optional</small>                                                                               |
+| scaleSetEvictionPolicy     | This cannot be specified unless the scaleSetPriority is 'Spot'. If not specified, the default is 'Delete'.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | [ScaleSetEvictionPolicy_STATUS](#ScaleSetEvictionPolicy_STATUS)<br/><small>Optional</small>                                                             |
+| scaleSetPriority           | The Virtual Machine Scale Set priority. If not specified, the default is 'Regular'.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | [ScaleSetPriority_STATUS](#ScaleSetPriority_STATUS)<br/><small>Optional</small>                                                                         |
+| securityProfile            | The security settings of an agent pool.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | [AgentPoolSecurityProfile_STATUS](#AgentPoolSecurityProfile_STATUS)<br/><small>Optional</small>                                                         |
+| spotMaxPrice               | Possible values are any decimal value greater than zero or -1 which indicates the willingness to pay any on-demand price. For more details on spot pricing, see [spot VMs pricing](https://docs.microsoft.com/azure/virtual-machines/spot-vms#pricing)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | float64<br/><small>Optional</small>                                                                                                                     |
+| tags                       | The tags to be persisted on the agent pool virtual machine scale set.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | map[string]string<br/><small>Optional</small>                                                                                                           |
+| type                       | Resource type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | string<br/><small>Optional</small>                                                                                                                      |
+| upgradeSettings            | Settings for upgrading the agentpool                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | [AgentPoolUpgradeSettings_STATUS](#AgentPoolUpgradeSettings_STATUS)<br/><small>Optional</small>                                                         |
+| virtualMachineNodesStatus  |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | [VirtualMachineNodes_STATUS[]](#VirtualMachineNodes_STATUS)<br/><small>Optional</small>                                                                 |
+| virtualMachinesProfile     | Specifications on VirtualMachines agent pool.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | [VirtualMachinesProfile_STATUS](#VirtualMachinesProfile_STATUS)<br/><small>Optional</small>                                                             |
+| vmSize                     | VM size availability varies by region. If a node contains insufficient compute resources (memory, cpu, etc) pods might fail to run correctly. For more details on restricted VM sizes, see: https://docs.microsoft.com/azure/aks/quotas-skus-regions                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | string<br/><small>Optional</small>                                                                                                                      |
+| vnetSubnetID               | If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}                                                                                                                                                                                                                                                                                                                                                               | string<br/><small>Optional</small>                                                                                                                      |
+| windowsProfile             | The Windows agent pool's specific profile.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | [AgentPoolWindowsProfile_STATUS](#AgentPoolWindowsProfile_STATUS)<br/><small>Optional</small>                                                           |
+| workloadRuntime            | Determines the type of workload a node can run.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | [WorkloadRuntime_STATUS](#WorkloadRuntime_STATUS)<br/><small>Optional</small>                                                                           |
+
+<a id="ManagedClustersAgentPoolList"></a>ManagedClustersAgentPoolList
+---------------------------------------------------------------------
+
+Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-11-02-preview/managedClusters.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}
+
+| Property                                                                            | Description | Type                                                                                |
+|-------------------------------------------------------------------------------------|-------------|-------------------------------------------------------------------------------------|
+| [metav1.TypeMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta) |             |                                                                                     |
+| [metav1.ListMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta) |             |                                                                                     |
+| items                                                                               |             | [ManagedClustersAgentPool[]](#ManagedClustersAgentPool)<br/><small>Optional</small> |
+
+<a id="ManagedCluster_Spec"></a>ManagedCluster_Spec
+---------------------------------------------------
+
+Used by: [ManagedCluster](#ManagedCluster).
+
+| Property                   | Description                                                                                                                                                                                                                                                                                  | Type                                                                                                                                                                 |
+|----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| aadProfile                 |                                                                                                                                                                                                                                                                                              | [ManagedClusterAADProfile](#ManagedClusterAADProfile)<br/><small>Optional</small>                                                                                    |
+| addonProfiles              |                                                                                                                                                                                                                                                                                              | [map[string]ManagedClusterAddonProfile](#ManagedClusterAddonProfile)<br/><small>Optional</small>                                                                     |
+| agentPoolProfiles          |                                                                                                                                                                                                                                                                                              | [ManagedClusterAgentPoolProfile[]](#ManagedClusterAgentPoolProfile)<br/><small>Optional</small>                                                                      |
+| aiToolchainOperatorProfile |                                                                                                                                                                                                                                                                                              | [ManagedClusterAIToolchainOperatorProfile](#ManagedClusterAIToolchainOperatorProfile)<br/><small>Optional</small>                                                    |
+| apiServerAccessProfile     |                                                                                                                                                                                                                                                                                              | [ManagedClusterAPIServerAccessProfile](#ManagedClusterAPIServerAccessProfile)<br/><small>Optional</small>                                                            |
+| autoScalerProfile          |                                                                                                                                                                                                                                                                                              | [ManagedClusterProperties_AutoScalerProfile](#ManagedClusterProperties_AutoScalerProfile)<br/><small>Optional</small>                                                |
+| autoUpgradeProfile         |                                                                                                                                                                                                                                                                                              | [ManagedClusterAutoUpgradeProfile](#ManagedClusterAutoUpgradeProfile)<br/><small>Optional</small>                                                                    |
+| azureMonitorProfile        |                                                                                                                                                                                                                                                                                              | [ManagedClusterAzureMonitorProfile](#ManagedClusterAzureMonitorProfile)<br/><small>Optional</small>                                                                  |
+| azureName                  | The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn't have to be.                                                                                                                                                               | string<br/><small>Optional</small>                                                                                                                                   |
+| creationData               |                                                                                                                                                                                                                                                                                              | [CreationData](#CreationData)<br/><small>Optional</small>                                                                                                            |
+| disableLocalAccounts       |                                                                                                                                                                                                                                                                                              | bool<br/><small>Optional</small>                                                                                                                                     |
+| diskEncryptionSetReference |                                                                                                                                                                                                                                                                                              | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small>           |
+| dnsPrefix                  |                                                                                                                                                                                                                                                                                              | string<br/><small>Optional</small>                                                                                                                                   |
+| enableNamespaceResources   |                                                                                                                                                                                                                                                                                              | bool<br/><small>Optional</small>                                                                                                                                     |
+| enablePodSecurityPolicy    |                                                                                                                                                                                                                                                                                              | bool<br/><small>Optional</small>                                                                                                                                     |
+| enableRBAC                 |                                                                                                                                                                                                                                                                                              | bool<br/><small>Optional</small>                                                                                                                                     |
+| extendedLocation           |                                                                                                                                                                                                                                                                                              | [ExtendedLocation](#ExtendedLocation)<br/><small>Optional</small>                                                                                                    |
+| fqdnSubdomain              |                                                                                                                                                                                                                                                                                              | string<br/><small>Optional</small>                                                                                                                                   |
+| httpProxyConfig            |                                                                                                                                                                                                                                                                                              | [ManagedClusterHTTPProxyConfig](#ManagedClusterHTTPProxyConfig)<br/><small>Optional</small>                                                                          |
+| identity                   |                                                                                                                                                                                                                                                                                              | [ManagedClusterIdentity](#ManagedClusterIdentity)<br/><small>Optional</small>                                                                                        |
+| identityProfile            |                                                                                                                                                                                                                                                                                              | [map[string]UserAssignedIdentity](#UserAssignedIdentity)<br/><small>Optional</small>                                                                                 |
+| ingressProfile             |                                                                                                                                                                                                                                                                                              | [ManagedClusterIngressProfile](#ManagedClusterIngressProfile)<br/><small>Optional</small>                                                                            |
+| kubernetesVersion          |                                                                                                                                                                                                                                                                                              | string<br/><small>Optional</small>                                                                                                                                   |
+| linuxProfile               |                                                                                                                                                                                                                                                                                              | [ContainerServiceLinuxProfile](#ContainerServiceLinuxProfile)<br/><small>Optional</small>                                                                            |
+| location                   |                                                                                                                                                                                                                                                                                              | string<br/><small>Required</small>                                                                                                                                   |
+| metricsProfile             |                                                                                                                                                                                                                                                                                              | [ManagedClusterMetricsProfile](#ManagedClusterMetricsProfile)<br/><small>Optional</small>                                                                            |
+| networkProfile             |                                                                                                                                                                                                                                                                                              | [ContainerServiceNetworkProfile](#ContainerServiceNetworkProfile)<br/><small>Optional</small>                                                                        |
+| nodeProvisioningProfile    |                                                                                                                                                                                                                                                                                              | [ManagedClusterNodeProvisioningProfile](#ManagedClusterNodeProvisioningProfile)<br/><small>Optional</small>                                                          |
+| nodeResourceGroup          |                                                                                                                                                                                                                                                                                              | string<br/><small>Optional</small>                                                                                                                                   |
+| nodeResourceGroupProfile   |                                                                                                                                                                                                                                                                                              | [ManagedClusterNodeResourceGroupProfile](#ManagedClusterNodeResourceGroupProfile)<br/><small>Optional</small>                                                        |
+| oidcIssuerProfile          |                                                                                                                                                                                                                                                                                              | [ManagedClusterOIDCIssuerProfile](#ManagedClusterOIDCIssuerProfile)<br/><small>Optional</small>                                                                      |
+| operatorSpec               | The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure                                                                                                                                                              | [ManagedClusterOperatorSpec](#ManagedClusterOperatorSpec)<br/><small>Optional</small>                                                                                |
+| owner                      | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
+| podIdentityProfile         |                                                                                                                                                                                                                                                                                              | [ManagedClusterPodIdentityProfile](#ManagedClusterPodIdentityProfile)<br/><small>Optional</small>                                                                    |
+| privateLinkResources       |                                                                                                                                                                                                                                                                                              | [PrivateLinkResource[]](#PrivateLinkResource)<br/><small>Optional</small>                                                                                            |
+| publicNetworkAccess        |                                                                                                                                                                                                                                                                                              | [ManagedClusterProperties_PublicNetworkAccess](#ManagedClusterProperties_PublicNetworkAccess)<br/><small>Optional</small>                                            |
+| safeguardsProfile          |                                                                                                                                                                                                                                                                                              | [SafeguardsProfile](#SafeguardsProfile)<br/><small>Optional</small>                                                                                                  |
+| securityProfile            |                                                                                                                                                                                                                                                                                              | [ManagedClusterSecurityProfile](#ManagedClusterSecurityProfile)<br/><small>Optional</small>                                                                          |
+| serviceMeshProfile         |                                                                                                                                                                                                                                                                                              | [ServiceMeshProfile](#ServiceMeshProfile)<br/><small>Optional</small>                                                                                                |
+| servicePrincipalProfile    |                                                                                                                                                                                                                                                                                              | [ManagedClusterServicePrincipalProfile](#ManagedClusterServicePrincipalProfile)<br/><small>Optional</small>                                                          |
+| sku                        |                                                                                                                                                                                                                                                                                              | [ManagedClusterSKU](#ManagedClusterSKU)<br/><small>Optional</small>                                                                                                  |
+| storageProfile             |                                                                                                                                                                                                                                                                                              | [ManagedClusterStorageProfile](#ManagedClusterStorageProfile)<br/><small>Optional</small>                                                                            |
+| supportPlan                |                                                                                                                                                                                                                                                                                              | [KubernetesSupportPlan](#KubernetesSupportPlan)<br/><small>Optional</small>                                                                                          |
+| tags                       |                                                                                                                                                                                                                                                                                              | map[string]string<br/><small>Optional</small>                                                                                                                        |
+| upgradeSettings            |                                                                                                                                                                                                                                                                                              | [ClusterUpgradeSettings](#ClusterUpgradeSettings)<br/><small>Optional</small>                                                                                        |
+| windowsProfile             |                                                                                                                                                                                                                                                                                              | [ManagedClusterWindowsProfile](#ManagedClusterWindowsProfile)<br/><small>Optional</small>                                                                            |
+| workloadAutoScalerProfile  |                                                                                                                                                                                                                                                                                              | [ManagedClusterWorkloadAutoScalerProfile](#ManagedClusterWorkloadAutoScalerProfile)<br/><small>Optional</small>                                                      |
+
+<a id="ManagedCluster_STATUS"></a>ManagedCluster_STATUS
+-------------------------------------------------------
+
+Used by: [ManagedCluster](#ManagedCluster).
+
+| Property                   | Description                        | Type                                                                                                                                                    |
+|----------------------------|------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| aadProfile                 |                                    | [ManagedClusterAADProfile_STATUS](#ManagedClusterAADProfile_STATUS)<br/><small>Optional</small>                                                         |
+| addonProfiles              |                                    | [map[string]ManagedClusterAddonProfile_STATUS](#ManagedClusterAddonProfile_STATUS)<br/><small>Optional</small>                                          |
+| agentPoolProfiles          |                                    | [ManagedClusterAgentPoolProfile_STATUS[]](#ManagedClusterAgentPoolProfile_STATUS)<br/><small>Optional</small>                                           |
+| aiToolchainOperatorProfile |                                    | [ManagedClusterAIToolchainOperatorProfile_STATUS](#ManagedClusterAIToolchainOperatorProfile_STATUS)<br/><small>Optional</small>                         |
+| apiServerAccessProfile     |                                    | [ManagedClusterAPIServerAccessProfile_STATUS](#ManagedClusterAPIServerAccessProfile_STATUS)<br/><small>Optional</small>                                 |
+| autoScalerProfile          |                                    | [ManagedClusterProperties_AutoScalerProfile_STATUS](#ManagedClusterProperties_AutoScalerProfile_STATUS)<br/><small>Optional</small>                     |
+| autoUpgradeProfile         |                                    | [ManagedClusterAutoUpgradeProfile_STATUS](#ManagedClusterAutoUpgradeProfile_STATUS)<br/><small>Optional</small>                                         |
+| azureMonitorProfile        |                                    | [ManagedClusterAzureMonitorProfile_STATUS](#ManagedClusterAzureMonitorProfile_STATUS)<br/><small>Optional</small>                                       |
+| azurePortalFQDN            |                                    | string<br/><small>Optional</small>                                                                                                                      |
+| conditions                 | The observed state of the resource | [conditions.Condition[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition)<br/><small>Optional</small> |
+| creationData               |                                    | [CreationData_STATUS](#CreationData_STATUS)<br/><small>Optional</small>                                                                                 |
+| currentKubernetesVersion   |                                    | string<br/><small>Optional</small>                                                                                                                      |
+| disableLocalAccounts       |                                    | bool<br/><small>Optional</small>                                                                                                                        |
+| diskEncryptionSetID        |                                    | string<br/><small>Optional</small>                                                                                                                      |
+| dnsPrefix                  |                                    | string<br/><small>Optional</small>                                                                                                                      |
+| enableNamespaceResources   |                                    | bool<br/><small>Optional</small>                                                                                                                        |
+| enablePodSecurityPolicy    |                                    | bool<br/><small>Optional</small>                                                                                                                        |
+| enableRBAC                 |                                    | bool<br/><small>Optional</small>                                                                                                                        |
+| extendedLocation           |                                    | [ExtendedLocation_STATUS](#ExtendedLocation_STATUS)<br/><small>Optional</small>                                                                         |
+| fqdn                       |                                    | string<br/><small>Optional</small>                                                                                                                      |
+| fqdnSubdomain              |                                    | string<br/><small>Optional</small>                                                                                                                      |
+| httpProxyConfig            |                                    | [ManagedClusterHTTPProxyConfig_STATUS](#ManagedClusterHTTPProxyConfig_STATUS)<br/><small>Optional</small>                                               |
+| id                         |                                    | string<br/><small>Optional</small>                                                                                                                      |
+| identity                   |                                    | [ManagedClusterIdentity_STATUS](#ManagedClusterIdentity_STATUS)<br/><small>Optional</small>                                                             |
+| identityProfile            |                                    | [map[string]UserAssignedIdentity_STATUS](#UserAssignedIdentity_STATUS)<br/><small>Optional</small>                                                      |
+| ingressProfile             |                                    | [ManagedClusterIngressProfile_STATUS](#ManagedClusterIngressProfile_STATUS)<br/><small>Optional</small>                                                 |
+| kubernetesVersion          |                                    | string<br/><small>Optional</small>                                                                                                                      |
+| linuxProfile               |                                    | [ContainerServiceLinuxProfile_STATUS](#ContainerServiceLinuxProfile_STATUS)<br/><small>Optional</small>                                                 |
+| location                   |                                    | string<br/><small>Optional</small>                                                                                                                      |
+| maxAgentPools              |                                    | int<br/><small>Optional</small>                                                                                                                         |
+| metricsProfile             |                                    | [ManagedClusterMetricsProfile_STATUS](#ManagedClusterMetricsProfile_STATUS)<br/><small>Optional</small>                                                 |
+| name                       |                                    | string<br/><small>Optional</small>                                                                                                                      |
+| networkProfile             |                                    | [ContainerServiceNetworkProfile_STATUS](#ContainerServiceNetworkProfile_STATUS)<br/><small>Optional</small>                                             |
+| nodeProvisioningProfile    |                                    | [ManagedClusterNodeProvisioningProfile_STATUS](#ManagedClusterNodeProvisioningProfile_STATUS)<br/><small>Optional</small>                               |
+| nodeResourceGroup          |                                    | string<br/><small>Optional</small>                                                                                                                      |
+| nodeResourceGroupProfile   |                                    | [ManagedClusterNodeResourceGroupProfile_STATUS](#ManagedClusterNodeResourceGroupProfile_STATUS)<br/><small>Optional</small>                             |
+| oidcIssuerProfile          |                                    | [ManagedClusterOIDCIssuerProfile_STATUS](#ManagedClusterOIDCIssuerProfile_STATUS)<br/><small>Optional</small>                                           |
+| podIdentityProfile         |                                    | [ManagedClusterPodIdentityProfile_STATUS](#ManagedClusterPodIdentityProfile_STATUS)<br/><small>Optional</small>                                         |
+| powerState                 |                                    | [PowerState_STATUS](#PowerState_STATUS)<br/><small>Optional</small>                                                                                     |
+| privateFQDN                |                                    | string<br/><small>Optional</small>                                                                                                                      |
+| privateLinkResources       |                                    | [PrivateLinkResource_STATUS[]](#PrivateLinkResource_STATUS)<br/><small>Optional</small>                                                                 |
+| provisioningState          |                                    | string<br/><small>Optional</small>                                                                                                                      |
+| publicNetworkAccess        |                                    | [ManagedClusterProperties_PublicNetworkAccess_STATUS](#ManagedClusterProperties_PublicNetworkAccess_STATUS)<br/><small>Optional</small>                 |
+| resourceUID                |                                    | string<br/><small>Optional</small>                                                                                                                      |
+| safeguardsProfile          |                                    | [SafeguardsProfile_STATUS](#SafeguardsProfile_STATUS)<br/><small>Optional</small>                                                                       |
+| securityProfile            |                                    | [ManagedClusterSecurityProfile_STATUS](#ManagedClusterSecurityProfile_STATUS)<br/><small>Optional</small>                                               |
+| serviceMeshProfile         |                                    | [ServiceMeshProfile_STATUS](#ServiceMeshProfile_STATUS)<br/><small>Optional</small>                                                                     |
+| servicePrincipalProfile    |                                    | [ManagedClusterServicePrincipalProfile_STATUS](#ManagedClusterServicePrincipalProfile_STATUS)<br/><small>Optional</small>                               |
+| sku                        |                                    | [ManagedClusterSKU_STATUS](#ManagedClusterSKU_STATUS)<br/><small>Optional</small>                                                                       |
+| storageProfile             |                                    | [ManagedClusterStorageProfile_STATUS](#ManagedClusterStorageProfile_STATUS)<br/><small>Optional</small>                                                 |
+| supportPlan                |                                    | [KubernetesSupportPlan_STATUS](#KubernetesSupportPlan_STATUS)<br/><small>Optional</small>                                                               |
+| systemData                 |                                    | [SystemData_STATUS](#SystemData_STATUS)<br/><small>Optional</small>                                                                                     |
+| tags                       |                                    | map[string]string<br/><small>Optional</small>                                                                                                           |
+| type                       |                                    | string<br/><small>Optional</small>                                                                                                                      |
+| upgradeSettings            |                                    | [ClusterUpgradeSettings_STATUS](#ClusterUpgradeSettings_STATUS)<br/><small>Optional</small>                                                             |
+| windowsProfile             |                                    | [ManagedClusterWindowsProfile_STATUS](#ManagedClusterWindowsProfile_STATUS)<br/><small>Optional</small>                                                 |
+| workloadAutoScalerProfile  |                                    | [ManagedClusterWorkloadAutoScalerProfile_STATUS](#ManagedClusterWorkloadAutoScalerProfile_STATUS)<br/><small>Optional</small>                           |
+
+<a id="ManagedClustersAgentPool_Spec"></a>ManagedClustersAgentPool_Spec
+-----------------------------------------------------------------------
+
+Used by: [ManagedClustersAgentPool](#ManagedClustersAgentPool).
+
+| Property                          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Type                                                                                                                                                                 |
+|-----------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| artifactStreamingProfile          | Configuration for using artifact streaming on AKS.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | [AgentPoolArtifactStreamingProfile](#AgentPoolArtifactStreamingProfile)<br/><small>Optional</small>                                                                  |
+| availabilityZones                 | The list of Availability zones to use for nodes. This can only be specified if the AgentPoolType property is 'VirtualMachineScaleSets'.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | string[]<br/><small>Optional</small>                                                                                                                                 |
+| azureName                         | The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn't have to be.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | string<br/><small>Optional</small>                                                                                                                                   |
+| capacityReservationGroupReference | AKS will associate the specified agent pool with the Capacity Reservation Group.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small>           |
+| count                             | Number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to 1000 (inclusive) for user pools and in the range of 1 to 1000 (inclusive) for system pools. The default value is 1.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | int<br/><small>Optional</small>                                                                                                                                      |
+| creationData                      | CreationData to be used to specify the source Snapshot ID if the node pool will be created/upgraded using a snapshot.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | [CreationData](#CreationData)<br/><small>Optional</small>                                                                                                            |
+| enableAutoScaling                 | Whether to enable auto-scaler                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | bool<br/><small>Optional</small>                                                                                                                                     |
+| enableCustomCATrust               | When set to true, AKS adds a label to the node indicating that the feature is enabled and deploys a daemonset along with host services to sync custom certificate authorities from user-provided list of base64 encoded certificates into node trust stores. Defaults to false.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | bool<br/><small>Optional</small>                                                                                                                                     |
+| enableEncryptionAtHost            | This is only supported on certain VM sizes and in certain Azure regions. For more information, see: https://docs.microsoft.com/azure/aks/enable-host-encryption                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | bool<br/><small>Optional</small>                                                                                                                                     |
+| enableFIPS                        | See [Add a FIPS-enabled node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#add-a-fips-enabled-node-pool-preview) for more details.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | bool<br/><small>Optional</small>                                                                                                                                     |
+| enableNodePublicIP                | Some scenarios may require nodes in a node pool to receive their own dedicated public IP addresses. A common scenario is for gaming workloads, where a console needs to make a direct connection to a cloud virtual machine to minimize hops. For more information see [assigning a public IP per node](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#assign-a-public-ip-per-node-for-your-node-pools). The default is false.                                                                                                                                                                                                                                                                                                                                                                            | bool<br/><small>Optional</small>                                                                                                                                     |
+| enableUltraSSD                    | Whether to enable UltraSSD                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | bool<br/><small>Optional</small>                                                                                                                                     |
+| gpuInstanceProfile                | GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | [GPUInstanceProfile](#GPUInstanceProfile)<br/><small>Optional</small>                                                                                                |
+| gpuProfile                        | The GPU settings of an agent pool.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | [AgentPoolGPUProfile](#AgentPoolGPUProfile)<br/><small>Optional</small>                                                                                              |
+| hostGroupReference                | This is of the form: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.Compute/hostGroups/{hostGroupName}. For more information see [Azure dedicated hosts](https://docs.microsoft.com/azure/virtual-machines/dedicated-hosts).                                                                                                                                                                                                                                                                                                                                                                                                                                                    | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small>           |
+| kubeletConfig                     | The Kubelet configuration on the agent pool nodes.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | [KubeletConfig](#KubeletConfig)<br/><small>Optional</small>                                                                                                          |
+| kubeletDiskType                   | Determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral storage.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | [KubeletDiskType](#KubeletDiskType)<br/><small>Optional</small>                                                                                                      |
+| linuxOSConfig                     | The OS configuration of Linux agent nodes.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | [LinuxOSConfig](#LinuxOSConfig)<br/><small>Optional</small>                                                                                                          |
+| maxCount                          | The maximum number of nodes for auto-scaling                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | int<br/><small>Optional</small>                                                                                                                                      |
+| maxPods                           | The maximum number of pods that can run on a node.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | int<br/><small>Optional</small>                                                                                                                                      |
+| messageOfTheDay                   | A base64-encoded string which will be written to /etc/motd after decoding. This allows customization of the message of the day for Linux nodes. It must not be specified for Windows nodes. It must be a static string (i.e., will be printed raw and not be executed as a script).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | string<br/><small>Optional</small>                                                                                                                                   |
+| minCount                          | The minimum number of nodes for auto-scaling                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | int<br/><small>Optional</small>                                                                                                                                      |
+| mode                              | A cluster must have at least one 'System' Agent Pool at all times. For additional information on agent pool restrictions and best practices, see: https://docs.microsoft.com/azure/aks/use-system-pools                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | [AgentPoolMode](#AgentPoolMode)<br/><small>Optional</small>                                                                                                          |
+| networkProfile                    | Network-related settings of an agent pool.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | [AgentPoolNetworkProfile](#AgentPoolNetworkProfile)<br/><small>Optional</small>                                                                                      |
+| nodeInitializationTaints          | These taints will not be reconciled by AKS and can be removed with a kubectl call. This field can be modified after node pool is created, but nodes will not be recreated with new taints until another operation that requires recreation (e.g. node image upgrade) happens. These taints allow for required configuration to run before the node is ready to accept workloads, for example 'key1=value1:NoSchedule' that then can be removed with `kubectl taint nodes node1 key1=value1:NoSchedule-`                                                                                                                                                                                                                                                                                                                 | string[]<br/><small>Optional</small>                                                                                                                                 |
+| nodeLabels                        | The node labels to be persisted across all nodes in agent pool.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | map[string]string<br/><small>Optional</small>                                                                                                                        |
+| nodePublicIPPrefixReference       | This is of the form: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.Network/publicIPPrefixes/{publicIPPrefixName}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small>           |
+| nodeTaints                        | The taints added to new nodes during node pool create and scale. For example, key=value:NoSchedule.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | string[]<br/><small>Optional</small>                                                                                                                                 |
+| operatorSpec                      | The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | [ManagedClustersAgentPoolOperatorSpec](#ManagedClustersAgentPoolOperatorSpec)<br/><small>Optional</small>                                                            |
+| orchestratorVersion               | Both patch version <major.minor.patch> and <major.minor> are supported. When <major.minor> is specified, the latest supported patch version is chosen automatically. Updating the agent pool with the same <major.minor> once it has been created will not trigger an upgrade, even if a newer patch version is available. As a best practice, you should upgrade all node pools in an AKS cluster to the same Kubernetes version. The node pool version must have the same major version as the control plane. The node pool minor version must be within two minor versions of the control plane version. The node pool version cannot be greater than the control plane version. For more information see [upgrading a node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool). | string<br/><small>Optional</small>                                                                                                                                   |
+| osDiskSizeGB                      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | [ContainerServiceOSDisk](#ContainerServiceOSDisk)<br/><small>Optional</small>                                                                                        |
+| osDiskType                        | The default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral OS](https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | [OSDiskType](#OSDiskType)<br/><small>Optional</small>                                                                                                                |
+| osSKU                             | Specifies the OS SKU used by the agent pool. If not specified, the default is Ubuntu if OSType=Linux or Windows2019 if OSType=Windows. And the default Windows OSSKU will be changed to Windows2022 after Windows2019 is deprecated.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | [OSSKU](#OSSKU)<br/><small>Optional</small>                                                                                                                          |
+| osType                            | The operating system type. The default is Linux.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | [OSType](#OSType)<br/><small>Optional</small>                                                                                                                        |
+| owner                             | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a containerservice.azure.com/ManagedCluster resource                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
+| podSubnetReference                | If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of the form: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}                                                                                                                                                                                                                                                                                                                                                                                                                                       | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small>           |
+| powerState                        | When an Agent Pool is first created it is initially Running. The Agent Pool can be stopped by setting this field to Stopped. A stopped Agent Pool stops all of its VMs and does not accrue billing charges. An Agent Pool can only be stopped if it is Running and provisioning state is Succeeded                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | [PowerState](#PowerState)<br/><small>Optional</small>                                                                                                                |
+| proximityPlacementGroupReference  | The ID for Proximity Placement Group.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small>           |
+| scaleDownMode                     | This also effects the cluster autoscaler behavior. If not specified, it defaults to Delete.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | [ScaleDownMode](#ScaleDownMode)<br/><small>Optional</small>                                                                                                          |
+| scaleSetEvictionPolicy            | This cannot be specified unless the scaleSetPriority is 'Spot'. If not specified, the default is 'Delete'.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | [ScaleSetEvictionPolicy](#ScaleSetEvictionPolicy)<br/><small>Optional</small>                                                                                        |
+| scaleSetPriority                  | The Virtual Machine Scale Set priority. If not specified, the default is 'Regular'.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | [ScaleSetPriority](#ScaleSetPriority)<br/><small>Optional</small>                                                                                                    |
+| securityProfile                   | The security settings of an agent pool.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | [AgentPoolSecurityProfile](#AgentPoolSecurityProfile)<br/><small>Optional</small>                                                                                    |
+| spotMaxPrice                      | Possible values are any decimal value greater than zero or -1 which indicates the willingness to pay any on-demand price. For more details on spot pricing, see [spot VMs pricing](https://docs.microsoft.com/azure/virtual-machines/spot-vms#pricing)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | float64<br/><small>Optional</small>                                                                                                                                  |
+| tags                              | The tags to be persisted on the agent pool virtual machine scale set.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | map[string]string<br/><small>Optional</small>                                                                                                                        |
+| type                              | The type of Agent Pool.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | [AgentPoolType](#AgentPoolType)<br/><small>Optional</small>                                                                                                          |
+| upgradeSettings                   | Settings for upgrading the agentpool                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | [AgentPoolUpgradeSettings](#AgentPoolUpgradeSettings)<br/><small>Optional</small>                                                                                    |
+| virtualMachineNodesStatus         |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | [VirtualMachineNodes[]](#VirtualMachineNodes)<br/><small>Optional</small>                                                                                            |
+| virtualMachinesProfile            | Specifications on VirtualMachines agent pool.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | [VirtualMachinesProfile](#VirtualMachinesProfile)<br/><small>Optional</small>                                                                                        |
+| vmSize                            | VM size availability varies by region. If a node contains insufficient compute resources (memory, cpu, etc) pods might fail to run correctly. For more details on restricted VM sizes, see: https://docs.microsoft.com/azure/aks/quotas-skus-regions                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | string<br/><small>Optional</small>                                                                                                                                   |
+| vnetSubnetReference               | If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}                                                                                                                                                                                                                                                                                                                                                               | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small>           |
+| windowsProfile                    | The Windows agent pool's specific profile.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | [AgentPoolWindowsProfile](#AgentPoolWindowsProfile)<br/><small>Optional</small>                                                                                      |
+| workloadRuntime                   | Determines the type of workload a node can run.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | [WorkloadRuntime](#WorkloadRuntime)<br/><small>Optional</small>                                                                                                      |
+
+<a id="ManagedClustersAgentPool_STATUS"></a>ManagedClustersAgentPool_STATUS
+---------------------------------------------------------------------------
+
+Used by: [ManagedClustersAgentPool](#ManagedClustersAgentPool).
+
+| Property                   | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Type                                                                                                                                                    |
+|----------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| artifactStreamingProfile   | Configuration for using artifact streaming on AKS.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | [AgentPoolArtifactStreamingProfile_STATUS](#AgentPoolArtifactStreamingProfile_STATUS)<br/><small>Optional</small>                                       |
+| availabilityZones          | The list of Availability zones to use for nodes. This can only be specified if the AgentPoolType property is 'VirtualMachineScaleSets'.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | string[]<br/><small>Optional</small>                                                                                                                    |
+| capacityReservationGroupID | AKS will associate the specified agent pool with the Capacity Reservation Group.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | string<br/><small>Optional</small>                                                                                                                      |
+| conditions                 | The observed state of the resource                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | [conditions.Condition[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition)<br/><small>Optional</small> |
+| count                      | Number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to 1000 (inclusive) for user pools and in the range of 1 to 1000 (inclusive) for system pools. The default value is 1.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | int<br/><small>Optional</small>                                                                                                                         |
+| creationData               | CreationData to be used to specify the source Snapshot ID if the node pool will be created/upgraded using a snapshot.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | [CreationData_STATUS](#CreationData_STATUS)<br/><small>Optional</small>                                                                                 |
+| currentOrchestratorVersion | If orchestratorVersion was a fully specified version <major.minor.patch>, this field will be exactly equal to it. If orchestratorVersion was <major.minor>, this field will contain the full <major.minor.patch> version being used.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | string<br/><small>Optional</small>                                                                                                                      |
+| enableAutoScaling          | Whether to enable auto-scaler                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | bool<br/><small>Optional</small>                                                                                                                        |
+| enableCustomCATrust        | When set to true, AKS adds a label to the node indicating that the feature is enabled and deploys a daemonset along with host services to sync custom certificate authorities from user-provided list of base64 encoded certificates into node trust stores. Defaults to false.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | bool<br/><small>Optional</small>                                                                                                                        |
+| enableEncryptionAtHost     | This is only supported on certain VM sizes and in certain Azure regions. For more information, see: https://docs.microsoft.com/azure/aks/enable-host-encryption                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | bool<br/><small>Optional</small>                                                                                                                        |
+| enableFIPS                 | See [Add a FIPS-enabled node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#add-a-fips-enabled-node-pool-preview) for more details.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | bool<br/><small>Optional</small>                                                                                                                        |
+| enableNodePublicIP         | Some scenarios may require nodes in a node pool to receive their own dedicated public IP addresses. A common scenario is for gaming workloads, where a console needs to make a direct connection to a cloud virtual machine to minimize hops. For more information see [assigning a public IP per node](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#assign-a-public-ip-per-node-for-your-node-pools). The default is false.                                                                                                                                                                                                                                                                                                                                                                            | bool<br/><small>Optional</small>                                                                                                                        |
+| enableUltraSSD             | Whether to enable UltraSSD                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | bool<br/><small>Optional</small>                                                                                                                        |
+| gpuInstanceProfile         | GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | [GPUInstanceProfile_STATUS](#GPUInstanceProfile_STATUS)<br/><small>Optional</small>                                                                     |
+| gpuProfile                 | The GPU settings of an agent pool.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | [AgentPoolGPUProfile_STATUS](#AgentPoolGPUProfile_STATUS)<br/><small>Optional</small>                                                                   |
+| hostGroupID                | This is of the form: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.Compute/hostGroups/{hostGroupName}. For more information see [Azure dedicated hosts](https://docs.microsoft.com/azure/virtual-machines/dedicated-hosts).                                                                                                                                                                                                                                                                                                                                                                                                                                                    | string<br/><small>Optional</small>                                                                                                                      |
+| id                         | Resource ID.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | string<br/><small>Optional</small>                                                                                                                      |
+| kubeletConfig              | The Kubelet configuration on the agent pool nodes.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | [KubeletConfig_STATUS](#KubeletConfig_STATUS)<br/><small>Optional</small>                                                                               |
+| kubeletDiskType            | Determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral storage.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | [KubeletDiskType_STATUS](#KubeletDiskType_STATUS)<br/><small>Optional</small>                                                                           |
+| linuxOSConfig              | The OS configuration of Linux agent nodes.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | [LinuxOSConfig_STATUS](#LinuxOSConfig_STATUS)<br/><small>Optional</small>                                                                               |
+| maxCount                   | The maximum number of nodes for auto-scaling                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | int<br/><small>Optional</small>                                                                                                                         |
+| maxPods                    | The maximum number of pods that can run on a node.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | int<br/><small>Optional</small>                                                                                                                         |
+| messageOfTheDay            | A base64-encoded string which will be written to /etc/motd after decoding. This allows customization of the message of the day for Linux nodes. It must not be specified for Windows nodes. It must be a static string (i.e., will be printed raw and not be executed as a script).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | string<br/><small>Optional</small>                                                                                                                      |
+| minCount                   | The minimum number of nodes for auto-scaling                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | int<br/><small>Optional</small>                                                                                                                         |
+| mode                       | A cluster must have at least one 'System' Agent Pool at all times. For additional information on agent pool restrictions and best practices, see: https://docs.microsoft.com/azure/aks/use-system-pools                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | [AgentPoolMode_STATUS](#AgentPoolMode_STATUS)<br/><small>Optional</small>                                                                               |
+| name                       | The name of the resource that is unique within a resource group. This name can be used to access the resource.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | string<br/><small>Optional</small>                                                                                                                      |
+| networkProfile             | Network-related settings of an agent pool.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | [AgentPoolNetworkProfile_STATUS](#AgentPoolNetworkProfile_STATUS)<br/><small>Optional</small>                                                           |
+| nodeImageVersion           | The version of node image                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | string<br/><small>Optional</small>                                                                                                                      |
+| nodeInitializationTaints   | These taints will not be reconciled by AKS and can be removed with a kubectl call. This field can be modified after node pool is created, but nodes will not be recreated with new taints until another operation that requires recreation (e.g. node image upgrade) happens. These taints allow for required configuration to run before the node is ready to accept workloads, for example 'key1=value1:NoSchedule' that then can be removed with `kubectl taint nodes node1 key1=value1:NoSchedule-`                                                                                                                                                                                                                                                                                                                 | string[]<br/><small>Optional</small>                                                                                                                    |
+| nodeLabels                 | The node labels to be persisted across all nodes in agent pool.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | map[string]string<br/><small>Optional</small>                                                                                                           |
+| nodePublicIPPrefixID       | This is of the form: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.Network/publicIPPrefixes/{publicIPPrefixName}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | string<br/><small>Optional</small>                                                                                                                      |
+| nodeTaints                 | The taints added to new nodes during node pool create and scale. For example, key=value:NoSchedule.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | string[]<br/><small>Optional</small>                                                                                                                    |
+| orchestratorVersion        | Both patch version <major.minor.patch> and <major.minor> are supported. When <major.minor> is specified, the latest supported patch version is chosen automatically. Updating the agent pool with the same <major.minor> once it has been created will not trigger an upgrade, even if a newer patch version is available. As a best practice, you should upgrade all node pools in an AKS cluster to the same Kubernetes version. The node pool version must have the same major version as the control plane. The node pool minor version must be within two minor versions of the control plane version. The node pool version cannot be greater than the control plane version. For more information see [upgrading a node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool). | string<br/><small>Optional</small>                                                                                                                      |
+| osDiskSizeGB               |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | int<br/><small>Optional</small>                                                                                                                         |
+| osDiskType                 | The default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral OS](https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | [OSDiskType_STATUS](#OSDiskType_STATUS)<br/><small>Optional</small>                                                                                     |
+| osSKU                      | Specifies the OS SKU used by the agent pool. If not specified, the default is Ubuntu if OSType=Linux or Windows2019 if OSType=Windows. And the default Windows OSSKU will be changed to Windows2022 after Windows2019 is deprecated.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | [OSSKU_STATUS](#OSSKU_STATUS)<br/><small>Optional</small>                                                                                               |
+| osType                     | The operating system type. The default is Linux.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | [OSType_STATUS](#OSType_STATUS)<br/><small>Optional</small>                                                                                             |
+| podSubnetID                | If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of the form: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}                                                                                                                                                                                                                                                                                                                                                                                                                                       | string<br/><small>Optional</small>                                                                                                                      |
+| powerState                 | When an Agent Pool is first created it is initially Running. The Agent Pool can be stopped by setting this field to Stopped. A stopped Agent Pool stops all of its VMs and does not accrue billing charges. An Agent Pool can only be stopped if it is Running and provisioning state is Succeeded                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | [PowerState_STATUS](#PowerState_STATUS)<br/><small>Optional</small>                                                                                     |
+| properties_type            | The type of Agent Pool.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | [AgentPoolType_STATUS](#AgentPoolType_STATUS)<br/><small>Optional</small>                                                                               |
+| provisioningState          | The current deployment or provisioning state.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | string<br/><small>Optional</small>                                                                                                                      |
+| proximityPlacementGroupID  | The ID for Proximity Placement Group.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | string<br/><small>Optional</small>                                                                                                                      |
+| scaleDownMode              | This also effects the cluster autoscaler behavior. If not specified, it defaults to Delete.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | [ScaleDownMode_STATUS](#ScaleDownMode_STATUS)<br/><small>Optional</small>                                                                               |
+| scaleSetEvictionPolicy     | This cannot be specified unless the scaleSetPriority is 'Spot'. If not specified, the default is 'Delete'.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | [ScaleSetEvictionPolicy_STATUS](#ScaleSetEvictionPolicy_STATUS)<br/><small>Optional</small>                                                             |
+| scaleSetPriority           | The Virtual Machine Scale Set priority. If not specified, the default is 'Regular'.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | [ScaleSetPriority_STATUS](#ScaleSetPriority_STATUS)<br/><small>Optional</small>                                                                         |
+| securityProfile            | The security settings of an agent pool.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | [AgentPoolSecurityProfile_STATUS](#AgentPoolSecurityProfile_STATUS)<br/><small>Optional</small>                                                         |
+| spotMaxPrice               | Possible values are any decimal value greater than zero or -1 which indicates the willingness to pay any on-demand price. For more details on spot pricing, see [spot VMs pricing](https://docs.microsoft.com/azure/virtual-machines/spot-vms#pricing)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | float64<br/><small>Optional</small>                                                                                                                     |
+| tags                       | The tags to be persisted on the agent pool virtual machine scale set.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | map[string]string<br/><small>Optional</small>                                                                                                           |
+| type                       | Resource type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | string<br/><small>Optional</small>                                                                                                                      |
+| upgradeSettings            | Settings for upgrading the agentpool                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | [AgentPoolUpgradeSettings_STATUS](#AgentPoolUpgradeSettings_STATUS)<br/><small>Optional</small>                                                         |
+| virtualMachineNodesStatus  |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | [VirtualMachineNodes_STATUS[]](#VirtualMachineNodes_STATUS)<br/><small>Optional</small>                                                                 |
+| virtualMachinesProfile     | Specifications on VirtualMachines agent pool.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | [VirtualMachinesProfile_STATUS](#VirtualMachinesProfile_STATUS)<br/><small>Optional</small>                                                             |
+| vmSize                     | VM size availability varies by region. If a node contains insufficient compute resources (memory, cpu, etc) pods might fail to run correctly. For more details on restricted VM sizes, see: https://docs.microsoft.com/azure/aks/quotas-skus-regions                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | string<br/><small>Optional</small>                                                                                                                      |
+| vnetSubnetID               | If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}                                                                                                                                                                                                                                                                                                                                                               | string<br/><small>Optional</small>                                                                                                                      |
+| windowsProfile             | The Windows agent pool's specific profile.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | [AgentPoolWindowsProfile_STATUS](#AgentPoolWindowsProfile_STATUS)<br/><small>Optional</small>                                                           |
+| workloadRuntime            | Determines the type of workload a node can run.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | [WorkloadRuntime_STATUS](#WorkloadRuntime_STATUS)<br/><small>Optional</small>                                                                           |
+
+<a id="AgentPoolArtifactStreamingProfile"></a>AgentPoolArtifactStreamingProfile
+-------------------------------------------------------------------------------
+
+Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec](#ManagedClustersAgentPool_Spec).
+
+| Property | Description | Type                             |
+|----------|-------------|----------------------------------|
+| enabled  |             | bool<br/><small>Optional</small> |
+
+<a id="AgentPoolArtifactStreamingProfile_STATUS"></a>AgentPoolArtifactStreamingProfile_STATUS
+---------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS](#ManagedClustersAgentPool_STATUS).
+
+| Property | Description | Type                             |
+|----------|-------------|----------------------------------|
+| enabled  |             | bool<br/><small>Optional</small> |
+
+<a id="AgentPoolGPUProfile"></a>AgentPoolGPUProfile
+---------------------------------------------------
+
+Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec](#ManagedClustersAgentPool_Spec).
+
+| Property         | Description | Type                             |
+|------------------|-------------|----------------------------------|
+| installGPUDriver |             | bool<br/><small>Optional</small> |
+
+<a id="AgentPoolGPUProfile_STATUS"></a>AgentPoolGPUProfile_STATUS
+-----------------------------------------------------------------
+
+Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS](#ManagedClustersAgentPool_STATUS).
+
+| Property         | Description | Type                             |
+|------------------|-------------|----------------------------------|
+| installGPUDriver |             | bool<br/><small>Optional</small> |
+
+<a id="AgentPoolMode"></a>AgentPoolMode
+---------------------------------------
+
+Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec](#ManagedClustersAgentPool_Spec).
+
+| Value    | Description |
+|----------|-------------|
+| "System" |             |
+| "User"   |             |
+
+<a id="AgentPoolMode_STATUS"></a>AgentPoolMode_STATUS
+-----------------------------------------------------
+
+Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS](#ManagedClustersAgentPool_STATUS).
+
+| Value    | Description |
+|----------|-------------|
+| "System" |             |
+| "User"   |             |
+
+<a id="AgentPoolNetworkProfile"></a>AgentPoolNetworkProfile
+-----------------------------------------------------------
+
+Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec](#ManagedClustersAgentPool_Spec).
+
+| Property                            | Description | Type                                                                                                                                                         |
+|-------------------------------------|-------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| allowedHostPorts                    |             | [PortRange[]](#PortRange)<br/><small>Optional</small>                                                                                                        |
+| applicationSecurityGroupsReferences |             | [genruntime.ResourceReference[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small> |
+| nodePublicIPTags                    |             | [IPTag[]](#IPTag)<br/><small>Optional</small>                                                                                                                |
+
+<a id="AgentPoolNetworkProfile_STATUS"></a>AgentPoolNetworkProfile_STATUS
+-------------------------------------------------------------------------
+
+Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS](#ManagedClustersAgentPool_STATUS).
+
+| Property                  | Description | Type                                                                |
+|---------------------------|-------------|---------------------------------------------------------------------|
+| allowedHostPorts          |             | [PortRange_STATUS[]](#PortRange_STATUS)<br/><small>Optional</small> |
+| applicationSecurityGroups |             | string[]<br/><small>Optional</small>                                |
+| nodePublicIPTags          |             | [IPTag_STATUS[]](#IPTag_STATUS)<br/><small>Optional</small>         |
+
+<a id="AgentPoolSecurityProfile"></a>AgentPoolSecurityProfile
+-------------------------------------------------------------
+
+Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec](#ManagedClustersAgentPool_Spec).
+
+| Property         | Description | Type                                                                  |
+|------------------|-------------|-----------------------------------------------------------------------|
+| enableSecureBoot |             | bool<br/><small>Optional</small>                                      |
+| enableVTPM       |             | bool<br/><small>Optional</small>                                      |
+| sshAccess        |             | [AgentPoolSSHAccess](#AgentPoolSSHAccess)<br/><small>Optional</small> |
+
+<a id="AgentPoolSecurityProfile_STATUS"></a>AgentPoolSecurityProfile_STATUS
+---------------------------------------------------------------------------
+
+Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS](#ManagedClustersAgentPool_STATUS).
+
+| Property         | Description | Type                                                                                |
+|------------------|-------------|-------------------------------------------------------------------------------------|
+| enableSecureBoot |             | bool<br/><small>Optional</small>                                                    |
+| enableVTPM       |             | bool<br/><small>Optional</small>                                                    |
+| sshAccess        |             | [AgentPoolSSHAccess_STATUS](#AgentPoolSSHAccess_STATUS)<br/><small>Optional</small> |
+
+<a id="AgentPoolType"></a>AgentPoolType
+---------------------------------------
+
+Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec](#ManagedClustersAgentPool_Spec).
+
+| Value                     | Description |
+|---------------------------|-------------|
+| "AvailabilitySet"         |             |
+| "VirtualMachineScaleSets" |             |
+| "VirtualMachines"         |             |
+
+<a id="AgentPoolType_STATUS"></a>AgentPoolType_STATUS
+-----------------------------------------------------
+
+Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS](#ManagedClustersAgentPool_STATUS).
+
+| Value                     | Description |
+|---------------------------|-------------|
+| "AvailabilitySet"         |             |
+| "VirtualMachineScaleSets" |             |
+| "VirtualMachines"         |             |
+
+<a id="AgentPoolUpgradeSettings"></a>AgentPoolUpgradeSettings
+-------------------------------------------------------------
+
+Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec](#ManagedClustersAgentPool_Spec).
+
+| Property                  | Description | Type                               |
+|---------------------------|-------------|------------------------------------|
+| drainTimeoutInMinutes     |             | int<br/><small>Optional</small>    |
+| maxSurge                  |             | string<br/><small>Optional</small> |
+| nodeSoakDurationInMinutes |             | int<br/><small>Optional</small>    |
+
+<a id="AgentPoolUpgradeSettings_STATUS"></a>AgentPoolUpgradeSettings_STATUS
+---------------------------------------------------------------------------
+
+Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS](#ManagedClustersAgentPool_STATUS).
+
+| Property                  | Description | Type                               |
+|---------------------------|-------------|------------------------------------|
+| drainTimeoutInMinutes     |             | int<br/><small>Optional</small>    |
+| maxSurge                  |             | string<br/><small>Optional</small> |
+| nodeSoakDurationInMinutes |             | int<br/><small>Optional</small>    |
+
+<a id="AgentPoolWindowsProfile"></a>AgentPoolWindowsProfile
+-----------------------------------------------------------
+
+Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec](#ManagedClustersAgentPool_Spec).
+
+| Property           | Description | Type                             |
+|--------------------|-------------|----------------------------------|
+| disableOutboundNat |             | bool<br/><small>Optional</small> |
+
+<a id="AgentPoolWindowsProfile_STATUS"></a>AgentPoolWindowsProfile_STATUS
+-------------------------------------------------------------------------
+
+Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS](#ManagedClustersAgentPool_STATUS).
+
+| Property           | Description | Type                             |
+|--------------------|-------------|----------------------------------|
+| disableOutboundNat |             | bool<br/><small>Optional</small> |
+
+<a id="ClusterUpgradeSettings"></a>ClusterUpgradeSettings
+---------------------------------------------------------
+
+Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
+
+| Property         | Description | Type                                                                            |
+|------------------|-------------|---------------------------------------------------------------------------------|
+| overrideSettings |             | [UpgradeOverrideSettings](#UpgradeOverrideSettings)<br/><small>Optional</small> |
+
+<a id="ClusterUpgradeSettings_STATUS"></a>ClusterUpgradeSettings_STATUS
+-----------------------------------------------------------------------
+
+Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
+
+| Property         | Description | Type                                                                                          |
+|------------------|-------------|-----------------------------------------------------------------------------------------------|
+| overrideSettings |             | [UpgradeOverrideSettings_STATUS](#UpgradeOverrideSettings_STATUS)<br/><small>Optional</small> |
+
+<a id="ContainerServiceLinuxProfile"></a>ContainerServiceLinuxProfile
+---------------------------------------------------------------------
+
+Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
+
+| Property      | Description | Type                                                                                              |
+|---------------|-------------|---------------------------------------------------------------------------------------------------|
+| adminUsername |             | string<br/><small>Required</small>                                                                |
+| ssh           |             | [ContainerServiceSshConfiguration](#ContainerServiceSshConfiguration)<br/><small>Required</small> |
+
+<a id="ContainerServiceLinuxProfile_STATUS"></a>ContainerServiceLinuxProfile_STATUS
+-----------------------------------------------------------------------------------
+
+Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
+
+| Property      | Description | Type                                                                                                            |
+|---------------|-------------|-----------------------------------------------------------------------------------------------------------------|
+| adminUsername |             | string<br/><small>Optional</small>                                                                              |
+| ssh           |             | [ContainerServiceSshConfiguration_STATUS](#ContainerServiceSshConfiguration_STATUS)<br/><small>Optional</small> |
+
+<a id="ContainerServiceNetworkProfile"></a>ContainerServiceNetworkProfile
+-------------------------------------------------------------------------
+
+Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
+
+| Property            | Description | Type                                                                                                                          |
+|---------------------|-------------|-------------------------------------------------------------------------------------------------------------------------------|
+| dnsServiceIP        |             | string<br/><small>Optional</small>                                                                                            |
+| ipFamilies          |             | [IpFamily[]](#IpFamily)<br/><small>Optional</small>                                                                           |
+| kubeProxyConfig     |             | [ContainerServiceNetworkProfile_KubeProxyConfig](#ContainerServiceNetworkProfile_KubeProxyConfig)<br/><small>Optional</small> |
+| loadBalancerProfile |             | [ManagedClusterLoadBalancerProfile](#ManagedClusterLoadBalancerProfile)<br/><small>Optional</small>                           |
+| loadBalancerSku     |             | [LoadBalancerSku](#LoadBalancerSku)<br/><small>Optional</small>                                                               |
+| monitoring          |             | [NetworkMonitoring](#NetworkMonitoring)<br/><small>Optional</small>                                                           |
+| natGatewayProfile   |             | [ManagedClusterNATGatewayProfile](#ManagedClusterNATGatewayProfile)<br/><small>Optional</small>                               |
+| networkDataplane    |             | [NetworkDataplane](#NetworkDataplane)<br/><small>Optional</small>                                                             |
+| networkMode         |             | [NetworkMode](#NetworkMode)<br/><small>Optional</small>                                                                       |
+| networkPlugin       |             | [NetworkPlugin](#NetworkPlugin)<br/><small>Optional</small>                                                                   |
+| networkPluginMode   |             | [NetworkPluginMode](#NetworkPluginMode)<br/><small>Optional</small>                                                           |
+| networkPolicy       |             | [NetworkPolicy](#NetworkPolicy)<br/><small>Optional</small>                                                                   |
+| outboundType        |             | [ContainerServiceNetworkProfile_OutboundType](#ContainerServiceNetworkProfile_OutboundType)<br/><small>Optional</small>       |
+| podCidr             |             | string<br/><small>Optional</small>                                                                                            |
+| podCidrs            |             | string[]<br/><small>Optional</small>                                                                                          |
+| serviceCidr         |             | string<br/><small>Optional</small>                                                                                            |
+| serviceCidrs        |             | string[]<br/><small>Optional</small>                                                                                          |
+
+<a id="ContainerServiceNetworkProfile_STATUS"></a>ContainerServiceNetworkProfile_STATUS
+---------------------------------------------------------------------------------------
+
+Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
+
+| Property            | Description | Type                                                                                                                                        |
+|---------------------|-------------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| dnsServiceIP        |             | string<br/><small>Optional</small>                                                                                                          |
+| ipFamilies          |             | [IpFamily_STATUS[]](#IpFamily_STATUS)<br/><small>Optional</small>                                                                           |
+| kubeProxyConfig     |             | [ContainerServiceNetworkProfile_KubeProxyConfig_STATUS](#ContainerServiceNetworkProfile_KubeProxyConfig_STATUS)<br/><small>Optional</small> |
+| loadBalancerProfile |             | [ManagedClusterLoadBalancerProfile_STATUS](#ManagedClusterLoadBalancerProfile_STATUS)<br/><small>Optional</small>                           |
+| loadBalancerSku     |             | [LoadBalancerSku_STATUS](#LoadBalancerSku_STATUS)<br/><small>Optional</small>                                                               |
+| monitoring          |             | [NetworkMonitoring_STATUS](#NetworkMonitoring_STATUS)<br/><small>Optional</small>                                                           |
+| natGatewayProfile   |             | [ManagedClusterNATGatewayProfile_STATUS](#ManagedClusterNATGatewayProfile_STATUS)<br/><small>Optional</small>                               |
+| networkDataplane    |             | [NetworkDataplane_STATUS](#NetworkDataplane_STATUS)<br/><small>Optional</small>                                                             |
+| networkMode         |             | [NetworkMode_STATUS](#NetworkMode_STATUS)<br/><small>Optional</small>                                                                       |
+| networkPlugin       |             | [NetworkPlugin_STATUS](#NetworkPlugin_STATUS)<br/><small>Optional</small>                                                                   |
+| networkPluginMode   |             | [NetworkPluginMode_STATUS](#NetworkPluginMode_STATUS)<br/><small>Optional</small>                                                           |
+| networkPolicy       |             | [NetworkPolicy_STATUS](#NetworkPolicy_STATUS)<br/><small>Optional</small>                                                                   |
+| outboundType        |             | [ContainerServiceNetworkProfile_OutboundType_STATUS](#ContainerServiceNetworkProfile_OutboundType_STATUS)<br/><small>Optional</small>       |
+| podCidr             |             | string<br/><small>Optional</small>                                                                                                          |
+| podCidrs            |             | string[]<br/><small>Optional</small>                                                                                                        |
+| serviceCidr         |             | string<br/><small>Optional</small>                                                                                                          |
+| serviceCidrs        |             | string[]<br/><small>Optional</small>                                                                                                        |
+
+<a id="ContainerServiceOSDisk"></a>ContainerServiceOSDisk
+---------------------------------------------------------
+
+Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec](#ManagedClustersAgentPool_Spec).
+
+<a id="CreationData"></a>CreationData
+-------------------------------------
+
+Used by: [ManagedCluster_Spec](#ManagedCluster_Spec), [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec](#ManagedClustersAgentPool_Spec).
+
+| Property                | Description | Type                                                                                                                                                       |
+|-------------------------|-------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| sourceResourceReference |             | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small> |
+
+<a id="CreationData_STATUS"></a>CreationData_STATUS
+---------------------------------------------------
+
+Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS), [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS](#ManagedClustersAgentPool_STATUS).
+
+| Property         | Description | Type                               |
+|------------------|-------------|------------------------------------|
+| sourceResourceId |             | string<br/><small>Optional</small> |
+
+<a id="ExtendedLocation"></a>ExtendedLocation
+---------------------------------------------
+
+Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
+
+| Property | Description | Type                                                                      |
+|----------|-------------|---------------------------------------------------------------------------|
+| name     |             | string<br/><small>Optional</small>                                        |
+| type     |             | [ExtendedLocationType](#ExtendedLocationType)<br/><small>Optional</small> |
+
+<a id="ExtendedLocation_STATUS"></a>ExtendedLocation_STATUS
+-----------------------------------------------------------
+
+Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
+
+| Property | Description | Type                                                                                    |
+|----------|-------------|-----------------------------------------------------------------------------------------|
+| name     |             | string<br/><small>Optional</small>                                                      |
+| type     |             | [ExtendedLocationType_STATUS](#ExtendedLocationType_STATUS)<br/><small>Optional</small> |
+
+<a id="GPUInstanceProfile"></a>GPUInstanceProfile
+-------------------------------------------------
+
+Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec](#ManagedClustersAgentPool_Spec).
+
+| Value   | Description |
+|---------|-------------|
+| "MIG1g" |             |
+| "MIG2g" |             |
+| "MIG3g" |             |
+| "MIG4g" |             |
+| "MIG7g" |             |
+
+<a id="GPUInstanceProfile_STATUS"></a>GPUInstanceProfile_STATUS
+---------------------------------------------------------------
+
+Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS](#ManagedClustersAgentPool_STATUS).
+
+| Value   | Description |
+|---------|-------------|
+| "MIG1g" |             |
+| "MIG2g" |             |
+| "MIG3g" |             |
+| "MIG4g" |             |
+| "MIG7g" |             |
+
+<a id="KubeletConfig"></a>KubeletConfig
+---------------------------------------
+
+Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec](#ManagedClustersAgentPool_Spec).
+
+| Property              | Description | Type                                 |
+|-----------------------|-------------|--------------------------------------|
+| allowedUnsafeSysctls  |             | string[]<br/><small>Optional</small> |
+| containerLogMaxFiles  |             | int<br/><small>Optional</small>      |
+| containerLogMaxSizeMB |             | int<br/><small>Optional</small>      |
+| cpuCfsQuota           |             | bool<br/><small>Optional</small>     |
+| cpuCfsQuotaPeriod     |             | string<br/><small>Optional</small>   |
+| cpuManagerPolicy      |             | string<br/><small>Optional</small>   |
+| failSwapOn            |             | bool<br/><small>Optional</small>     |
+| imageGcHighThreshold  |             | int<br/><small>Optional</small>      |
+| imageGcLowThreshold   |             | int<br/><small>Optional</small>      |
+| podMaxPids            |             | int<br/><small>Optional</small>      |
+| topologyManagerPolicy |             | string<br/><small>Optional</small>   |
+
+<a id="KubeletConfig_STATUS"></a>KubeletConfig_STATUS
+-----------------------------------------------------
+
+Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS](#ManagedClustersAgentPool_STATUS).
+
+| Property              | Description | Type                                 |
+|-----------------------|-------------|--------------------------------------|
+| allowedUnsafeSysctls  |             | string[]<br/><small>Optional</small> |
+| containerLogMaxFiles  |             | int<br/><small>Optional</small>      |
+| containerLogMaxSizeMB |             | int<br/><small>Optional</small>      |
+| cpuCfsQuota           |             | bool<br/><small>Optional</small>     |
+| cpuCfsQuotaPeriod     |             | string<br/><small>Optional</small>   |
+| cpuManagerPolicy      |             | string<br/><small>Optional</small>   |
+| failSwapOn            |             | bool<br/><small>Optional</small>     |
+| imageGcHighThreshold  |             | int<br/><small>Optional</small>      |
+| imageGcLowThreshold   |             | int<br/><small>Optional</small>      |
+| podMaxPids            |             | int<br/><small>Optional</small>      |
+| topologyManagerPolicy |             | string<br/><small>Optional</small>   |
+
+<a id="KubeletDiskType"></a>KubeletDiskType
+-------------------------------------------
+
+Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec](#ManagedClustersAgentPool_Spec).
+
+| Value       | Description |
+|-------------|-------------|
+| "OS"        |             |
+| "Temporary" |             |
+
+<a id="KubeletDiskType_STATUS"></a>KubeletDiskType_STATUS
+---------------------------------------------------------
+
+Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS](#ManagedClustersAgentPool_STATUS).
+
+| Value       | Description |
+|-------------|-------------|
+| "OS"        |             |
+| "Temporary" |             |
+
+<a id="KubernetesSupportPlan"></a>KubernetesSupportPlan
+-------------------------------------------------------
+
+Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
+
+| Value                | Description |
+|----------------------|-------------|
+| "AKSLongTermSupport" |             |
+| "KubernetesOfficial" |             |
+
+<a id="KubernetesSupportPlan_STATUS"></a>KubernetesSupportPlan_STATUS
+---------------------------------------------------------------------
+
+Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
+
+| Value                | Description |
+|----------------------|-------------|
+| "AKSLongTermSupport" |             |
+| "KubernetesOfficial" |             |
+
+<a id="LinuxOSConfig"></a>LinuxOSConfig
+---------------------------------------
+
+Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec](#ManagedClustersAgentPool_Spec).
+
+| Property                   | Description | Type                                                      |
+|----------------------------|-------------|-----------------------------------------------------------|
+| swapFileSizeMB             |             | int<br/><small>Optional</small>                           |
+| sysctls                    |             | [SysctlConfig](#SysctlConfig)<br/><small>Optional</small> |
+| transparentHugePageDefrag  |             | string<br/><small>Optional</small>                        |
+| transparentHugePageEnabled |             | string<br/><small>Optional</small>                        |
+
+<a id="LinuxOSConfig_STATUS"></a>LinuxOSConfig_STATUS
+-----------------------------------------------------
+
+Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS](#ManagedClustersAgentPool_STATUS).
+
+| Property                   | Description | Type                                                                    |
+|----------------------------|-------------|-------------------------------------------------------------------------|
+| swapFileSizeMB             |             | int<br/><small>Optional</small>                                         |
+| sysctls                    |             | [SysctlConfig_STATUS](#SysctlConfig_STATUS)<br/><small>Optional</small> |
+| transparentHugePageDefrag  |             | string<br/><small>Optional</small>                                      |
+| transparentHugePageEnabled |             | string<br/><small>Optional</small>                                      |
+
+<a id="ManagedClusterAADProfile"></a>ManagedClusterAADProfile
+-------------------------------------------------------------
+
+Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
+
+| Property            | Description | Type                                 |
+|---------------------|-------------|--------------------------------------|
+| adminGroupObjectIDs |             | string[]<br/><small>Optional</small> |
+| clientAppID         |             | string<br/><small>Optional</small>   |
+| enableAzureRBAC     |             | bool<br/><small>Optional</small>     |
+| managed             |             | bool<br/><small>Optional</small>     |
+| serverAppID         |             | string<br/><small>Optional</small>   |
+| serverAppSecret     |             | string<br/><small>Optional</small>   |
+| tenantID            |             | string<br/><small>Optional</small>   |
+
+<a id="ManagedClusterAADProfile_STATUS"></a>ManagedClusterAADProfile_STATUS
+---------------------------------------------------------------------------
+
+Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
+
+| Property            | Description | Type                                 |
+|---------------------|-------------|--------------------------------------|
+| adminGroupObjectIDs |             | string[]<br/><small>Optional</small> |
+| clientAppID         |             | string<br/><small>Optional</small>   |
+| enableAzureRBAC     |             | bool<br/><small>Optional</small>     |
+| managed             |             | bool<br/><small>Optional</small>     |
+| serverAppID         |             | string<br/><small>Optional</small>   |
+| serverAppSecret     |             | string<br/><small>Optional</small>   |
+| tenantID            |             | string<br/><small>Optional</small>   |
+
+<a id="ManagedClusterAddonProfile"></a>ManagedClusterAddonProfile
+-----------------------------------------------------------------
+
+Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
+
+| Property | Description | Type                                          |
+|----------|-------------|-----------------------------------------------|
+| config   |             | map[string]string<br/><small>Optional</small> |
+| enabled  |             | bool<br/><small>Required</small>              |
+
+<a id="ManagedClusterAddonProfile_STATUS"></a>ManagedClusterAddonProfile_STATUS
+-------------------------------------------------------------------------------
+
+Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
+
+| Property | Description | Type                                                                                    |
+|----------|-------------|-----------------------------------------------------------------------------------------|
+| config   |             | map[string]string<br/><small>Optional</small>                                           |
+| enabled  |             | bool<br/><small>Optional</small>                                                        |
+| identity |             | [UserAssignedIdentity_STATUS](#UserAssignedIdentity_STATUS)<br/><small>Optional</small> |
+
+<a id="ManagedClusterAgentPoolProfile"></a>ManagedClusterAgentPoolProfile
+-------------------------------------------------------------------------
+
+Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
+
+| Property                          | Description | Type                                                                                                                                                       |
+|-----------------------------------|-------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| artifactStreamingProfile          |             | [AgentPoolArtifactStreamingProfile](#AgentPoolArtifactStreamingProfile)<br/><small>Optional</small>                                                        |
+| availabilityZones                 |             | string[]<br/><small>Optional</small>                                                                                                                       |
+| capacityReservationGroupReference |             | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small> |
+| count                             |             | int<br/><small>Optional</small>                                                                                                                            |
+| creationData                      |             | [CreationData](#CreationData)<br/><small>Optional</small>                                                                                                  |
+| enableAutoScaling                 |             | bool<br/><small>Optional</small>                                                                                                                           |
+| enableCustomCATrust               |             | bool<br/><small>Optional</small>                                                                                                                           |
+| enableEncryptionAtHost            |             | bool<br/><small>Optional</small>                                                                                                                           |
+| enableFIPS                        |             | bool<br/><small>Optional</small>                                                                                                                           |
+| enableNodePublicIP                |             | bool<br/><small>Optional</small>                                                                                                                           |
+| enableUltraSSD                    |             | bool<br/><small>Optional</small>                                                                                                                           |
+| gpuInstanceProfile                |             | [GPUInstanceProfile](#GPUInstanceProfile)<br/><small>Optional</small>                                                                                      |
+| gpuProfile                        |             | [AgentPoolGPUProfile](#AgentPoolGPUProfile)<br/><small>Optional</small>                                                                                    |
+| hostGroupReference                |             | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small> |
+| kubeletConfig                     |             | [KubeletConfig](#KubeletConfig)<br/><small>Optional</small>                                                                                                |
+| kubeletDiskType                   |             | [KubeletDiskType](#KubeletDiskType)<br/><small>Optional</small>                                                                                            |
+| linuxOSConfig                     |             | [LinuxOSConfig](#LinuxOSConfig)<br/><small>Optional</small>                                                                                                |
+| maxCount                          |             | int<br/><small>Optional</small>                                                                                                                            |
+| maxPods                           |             | int<br/><small>Optional</small>                                                                                                                            |
+| messageOfTheDay                   |             | string<br/><small>Optional</small>                                                                                                                         |
+| minCount                          |             | int<br/><small>Optional</small>                                                                                                                            |
+| mode                              |             | [AgentPoolMode](#AgentPoolMode)<br/><small>Optional</small>                                                                                                |
+| name                              |             | string<br/><small>Required</small>                                                                                                                         |
+| networkProfile                    |             | [AgentPoolNetworkProfile](#AgentPoolNetworkProfile)<br/><small>Optional</small>                                                                            |
+| nodeInitializationTaints          |             | string[]<br/><small>Optional</small>                                                                                                                       |
+| nodeLabels                        |             | map[string]string<br/><small>Optional</small>                                                                                                              |
+| nodePublicIPPrefixReference       |             | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small> |
+| nodeTaints                        |             | string[]<br/><small>Optional</small>                                                                                                                       |
+| orchestratorVersion               |             | string<br/><small>Optional</small>                                                                                                                         |
+| osDiskSizeGB                      |             | [ContainerServiceOSDisk](#ContainerServiceOSDisk)<br/><small>Optional</small>                                                                              |
+| osDiskType                        |             | [OSDiskType](#OSDiskType)<br/><small>Optional</small>                                                                                                      |
+| osSKU                             |             | [OSSKU](#OSSKU)<br/><small>Optional</small>                                                                                                                |
+| osType                            |             | [OSType](#OSType)<br/><small>Optional</small>                                                                                                              |
+| podSubnetReference                |             | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small> |
+| powerState                        |             | [PowerState](#PowerState)<br/><small>Optional</small>                                                                                                      |
+| proximityPlacementGroupReference  |             | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small> |
+| scaleDownMode                     |             | [ScaleDownMode](#ScaleDownMode)<br/><small>Optional</small>                                                                                                |
+| scaleSetEvictionPolicy            |             | [ScaleSetEvictionPolicy](#ScaleSetEvictionPolicy)<br/><small>Optional</small>                                                                              |
+| scaleSetPriority                  |             | [ScaleSetPriority](#ScaleSetPriority)<br/><small>Optional</small>                                                                                          |
+| securityProfile                   |             | [AgentPoolSecurityProfile](#AgentPoolSecurityProfile)<br/><small>Optional</small>                                                                          |
+| spotMaxPrice                      |             | float64<br/><small>Optional</small>                                                                                                                        |
+| tags                              |             | map[string]string<br/><small>Optional</small>                                                                                                              |
+| type                              |             | [AgentPoolType](#AgentPoolType)<br/><small>Optional</small>                                                                                                |
+| upgradeSettings                   |             | [AgentPoolUpgradeSettings](#AgentPoolUpgradeSettings)<br/><small>Optional</small>                                                                          |
+| virtualMachineNodesStatus         |             | [VirtualMachineNodes[]](#VirtualMachineNodes)<br/><small>Optional</small>                                                                                  |
+| virtualMachinesProfile            |             | [VirtualMachinesProfile](#VirtualMachinesProfile)<br/><small>Optional</small>                                                                              |
+| vmSize                            |             | string<br/><small>Optional</small>                                                                                                                         |
+| vnetSubnetReference               |             | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small> |
+| windowsProfile                    |             | [AgentPoolWindowsProfile](#AgentPoolWindowsProfile)<br/><small>Optional</small>                                                                            |
+| workloadRuntime                   |             | [WorkloadRuntime](#WorkloadRuntime)<br/><small>Optional</small>                                                                                            |
+
+<a id="ManagedClusterAgentPoolProfile_STATUS"></a>ManagedClusterAgentPoolProfile_STATUS
+---------------------------------------------------------------------------------------
+
+Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
+
+| Property                   | Description | Type                                                                                                              |
+|----------------------------|-------------|-------------------------------------------------------------------------------------------------------------------|
+| artifactStreamingProfile   |             | [AgentPoolArtifactStreamingProfile_STATUS](#AgentPoolArtifactStreamingProfile_STATUS)<br/><small>Optional</small> |
+| availabilityZones          |             | string[]<br/><small>Optional</small>                                                                              |
+| capacityReservationGroupID |             | string<br/><small>Optional</small>                                                                                |
+| count                      |             | int<br/><small>Optional</small>                                                                                   |
+| creationData               |             | [CreationData_STATUS](#CreationData_STATUS)<br/><small>Optional</small>                                           |
+| currentOrchestratorVersion |             | string<br/><small>Optional</small>                                                                                |
+| enableAutoScaling          |             | bool<br/><small>Optional</small>                                                                                  |
+| enableCustomCATrust        |             | bool<br/><small>Optional</small>                                                                                  |
+| enableEncryptionAtHost     |             | bool<br/><small>Optional</small>                                                                                  |
+| enableFIPS                 |             | bool<br/><small>Optional</small>                                                                                  |
+| enableNodePublicIP         |             | bool<br/><small>Optional</small>                                                                                  |
+| enableUltraSSD             |             | bool<br/><small>Optional</small>                                                                                  |
+| gpuInstanceProfile         |             | [GPUInstanceProfile_STATUS](#GPUInstanceProfile_STATUS)<br/><small>Optional</small>                               |
+| gpuProfile                 |             | [AgentPoolGPUProfile_STATUS](#AgentPoolGPUProfile_STATUS)<br/><small>Optional</small>                             |
+| hostGroupID                |             | string<br/><small>Optional</small>                                                                                |
+| kubeletConfig              |             | [KubeletConfig_STATUS](#KubeletConfig_STATUS)<br/><small>Optional</small>                                         |
+| kubeletDiskType            |             | [KubeletDiskType_STATUS](#KubeletDiskType_STATUS)<br/><small>Optional</small>                                     |
+| linuxOSConfig              |             | [LinuxOSConfig_STATUS](#LinuxOSConfig_STATUS)<br/><small>Optional</small>                                         |
+| maxCount                   |             | int<br/><small>Optional</small>                                                                                   |
+| maxPods                    |             | int<br/><small>Optional</small>                                                                                   |
+| messageOfTheDay            |             | string<br/><small>Optional</small>                                                                                |
+| minCount                   |             | int<br/><small>Optional</small>                                                                                   |
+| mode                       |             | [AgentPoolMode_STATUS](#AgentPoolMode_STATUS)<br/><small>Optional</small>                                         |
+| name                       |             | string<br/><small>Optional</small>                                                                                |
+| networkProfile             |             | [AgentPoolNetworkProfile_STATUS](#AgentPoolNetworkProfile_STATUS)<br/><small>Optional</small>                     |
+| nodeImageVersion           |             | string<br/><small>Optional</small>                                                                                |
+| nodeInitializationTaints   |             | string[]<br/><small>Optional</small>                                                                              |
+| nodeLabels                 |             | map[string]string<br/><small>Optional</small>                                                                     |
+| nodePublicIPPrefixID       |             | string<br/><small>Optional</small>                                                                                |
+| nodeTaints                 |             | string[]<br/><small>Optional</small>                                                                              |
+| orchestratorVersion        |             | string<br/><small>Optional</small>                                                                                |
+| osDiskSizeGB               |             | int<br/><small>Optional</small>                                                                                   |
+| osDiskType                 |             | [OSDiskType_STATUS](#OSDiskType_STATUS)<br/><small>Optional</small>                                               |
+| osSKU                      |             | [OSSKU_STATUS](#OSSKU_STATUS)<br/><small>Optional</small>                                                         |
+| osType                     |             | [OSType_STATUS](#OSType_STATUS)<br/><small>Optional</small>                                                       |
+| podSubnetID                |             | string<br/><small>Optional</small>                                                                                |
+| powerState                 |             | [PowerState_STATUS](#PowerState_STATUS)<br/><small>Optional</small>                                               |
+| provisioningState          |             | string<br/><small>Optional</small>                                                                                |
+| proximityPlacementGroupID  |             | string<br/><small>Optional</small>                                                                                |
+| scaleDownMode              |             | [ScaleDownMode_STATUS](#ScaleDownMode_STATUS)<br/><small>Optional</small>                                         |
+| scaleSetEvictionPolicy     |             | [ScaleSetEvictionPolicy_STATUS](#ScaleSetEvictionPolicy_STATUS)<br/><small>Optional</small>                       |
+| scaleSetPriority           |             | [ScaleSetPriority_STATUS](#ScaleSetPriority_STATUS)<br/><small>Optional</small>                                   |
+| securityProfile            |             | [AgentPoolSecurityProfile_STATUS](#AgentPoolSecurityProfile_STATUS)<br/><small>Optional</small>                   |
+| spotMaxPrice               |             | float64<br/><small>Optional</small>                                                                               |
+| tags                       |             | map[string]string<br/><small>Optional</small>                                                                     |
+| type                       |             | [AgentPoolType_STATUS](#AgentPoolType_STATUS)<br/><small>Optional</small>                                         |
+| upgradeSettings            |             | [AgentPoolUpgradeSettings_STATUS](#AgentPoolUpgradeSettings_STATUS)<br/><small>Optional</small>                   |
+| virtualMachineNodesStatus  |             | [VirtualMachineNodes_STATUS[]](#VirtualMachineNodes_STATUS)<br/><small>Optional</small>                           |
+| virtualMachinesProfile     |             | [VirtualMachinesProfile_STATUS](#VirtualMachinesProfile_STATUS)<br/><small>Optional</small>                       |
+| vmSize                     |             | string<br/><small>Optional</small>                                                                                |
+| vnetSubnetID               |             | string<br/><small>Optional</small>                                                                                |
+| windowsProfile             |             | [AgentPoolWindowsProfile_STATUS](#AgentPoolWindowsProfile_STATUS)<br/><small>Optional</small>                     |
+| workloadRuntime            |             | [WorkloadRuntime_STATUS](#WorkloadRuntime_STATUS)<br/><small>Optional</small>                                     |
+
+<a id="ManagedClusterAIToolchainOperatorProfile"></a>ManagedClusterAIToolchainOperatorProfile
+---------------------------------------------------------------------------------------------
+
+Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
+
+| Property | Description | Type                             |
+|----------|-------------|----------------------------------|
+| enabled  |             | bool<br/><small>Optional</small> |
+
+<a id="ManagedClusterAIToolchainOperatorProfile_STATUS"></a>ManagedClusterAIToolchainOperatorProfile_STATUS
+-----------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
+
+| Property | Description | Type                             |
+|----------|-------------|----------------------------------|
+| enabled  |             | bool<br/><small>Optional</small> |
+
+<a id="ManagedClusterAPIServerAccessProfile"></a>ManagedClusterAPIServerAccessProfile
+-------------------------------------------------------------------------------------
+
+Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
+
+| Property                       | Description | Type                                 |
+|--------------------------------|-------------|--------------------------------------|
+| authorizedIPRanges             |             | string[]<br/><small>Optional</small> |
+| disableRunCommand              |             | bool<br/><small>Optional</small>     |
+| enablePrivateCluster           |             | bool<br/><small>Optional</small>     |
+| enablePrivateClusterPublicFQDN |             | bool<br/><small>Optional</small>     |
+| enableVnetIntegration          |             | bool<br/><small>Optional</small>     |
+| privateDNSZone                 |             | string<br/><small>Optional</small>   |
+| subnetId                       |             | string<br/><small>Optional</small>   |
+
+<a id="ManagedClusterAPIServerAccessProfile_STATUS"></a>ManagedClusterAPIServerAccessProfile_STATUS
+---------------------------------------------------------------------------------------------------
+
+Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
+
+| Property                       | Description | Type                                 |
+|--------------------------------|-------------|--------------------------------------|
+| authorizedIPRanges             |             | string[]<br/><small>Optional</small> |
+| disableRunCommand              |             | bool<br/><small>Optional</small>     |
+| enablePrivateCluster           |             | bool<br/><small>Optional</small>     |
+| enablePrivateClusterPublicFQDN |             | bool<br/><small>Optional</small>     |
+| enableVnetIntegration          |             | bool<br/><small>Optional</small>     |
+| privateDNSZone                 |             | string<br/><small>Optional</small>   |
+| subnetId                       |             | string<br/><small>Optional</small>   |
+
+<a id="ManagedClusterAutoUpgradeProfile"></a>ManagedClusterAutoUpgradeProfile
+-----------------------------------------------------------------------------
+
+Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
+
+| Property             | Description | Type                                                                                                                                        |
+|----------------------|-------------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| nodeOSUpgradeChannel |             | [ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel](#ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel)<br/><small>Optional</small> |
+| upgradeChannel       |             | [ManagedClusterAutoUpgradeProfile_UpgradeChannel](#ManagedClusterAutoUpgradeProfile_UpgradeChannel)<br/><small>Optional</small>             |
+
+<a id="ManagedClusterAutoUpgradeProfile_STATUS"></a>ManagedClusterAutoUpgradeProfile_STATUS
+-------------------------------------------------------------------------------------------
+
+Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
+
+| Property             | Description | Type                                                                                                                                                      |
+|----------------------|-------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| nodeOSUpgradeChannel |             | [ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel_STATUS](#ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel_STATUS)<br/><small>Optional</small> |
+| upgradeChannel       |             | [ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS](#ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS)<br/><small>Optional</small>             |
+
+<a id="ManagedClusterAzureMonitorProfile"></a>ManagedClusterAzureMonitorProfile
+-------------------------------------------------------------------------------
+
+Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
+
+| Property | Description | Type                                                                                                              |
+|----------|-------------|-------------------------------------------------------------------------------------------------------------------|
+| logs     |             | [ManagedClusterAzureMonitorProfileLogs](#ManagedClusterAzureMonitorProfileLogs)<br/><small>Optional</small>       |
+| metrics  |             | [ManagedClusterAzureMonitorProfileMetrics](#ManagedClusterAzureMonitorProfileMetrics)<br/><small>Optional</small> |
+
+<a id="ManagedClusterAzureMonitorProfile_STATUS"></a>ManagedClusterAzureMonitorProfile_STATUS
+---------------------------------------------------------------------------------------------
+
+Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
+
+| Property | Description | Type                                                                                                                            |
+|----------|-------------|---------------------------------------------------------------------------------------------------------------------------------|
+| logs     |             | [ManagedClusterAzureMonitorProfileLogs_STATUS](#ManagedClusterAzureMonitorProfileLogs_STATUS)<br/><small>Optional</small>       |
+| metrics  |             | [ManagedClusterAzureMonitorProfileMetrics_STATUS](#ManagedClusterAzureMonitorProfileMetrics_STATUS)<br/><small>Optional</small> |
+
+<a id="ManagedClusterHTTPProxyConfig"></a>ManagedClusterHTTPProxyConfig
+-----------------------------------------------------------------------
+
+Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
+
+| Property   | Description | Type                                 |
+|------------|-------------|--------------------------------------|
+| httpProxy  |             | string<br/><small>Optional</small>   |
+| httpsProxy |             | string<br/><small>Optional</small>   |
+| noProxy    |             | string[]<br/><small>Optional</small> |
+| trustedCa  |             | string<br/><small>Optional</small>   |
+
+<a id="ManagedClusterHTTPProxyConfig_STATUS"></a>ManagedClusterHTTPProxyConfig_STATUS
+-------------------------------------------------------------------------------------
+
+Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
+
+| Property         | Description | Type                                 |
+|------------------|-------------|--------------------------------------|
+| effectiveNoProxy |             | string[]<br/><small>Optional</small> |
+| httpProxy        |             | string<br/><small>Optional</small>   |
+| httpsProxy       |             | string<br/><small>Optional</small>   |
+| noProxy          |             | string[]<br/><small>Optional</small> |
+| trustedCa        |             | string<br/><small>Optional</small>   |
+
+<a id="ManagedClusterIdentity"></a>ManagedClusterIdentity
+---------------------------------------------------------
+
+Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
+
+| Property               | Description | Type                                                                                      |
+|------------------------|-------------|-------------------------------------------------------------------------------------------|
+| delegatedResources     |             | [map[string]DelegatedResource](#DelegatedResource)<br/><small>Optional</small>            |
+| type                   |             | [ManagedClusterIdentity_Type](#ManagedClusterIdentity_Type)<br/><small>Optional</small>   |
+| userAssignedIdentities |             | [UserAssignedIdentityDetails[]](#UserAssignedIdentityDetails)<br/><small>Optional</small> |
+
+<a id="ManagedClusterIdentity_STATUS"></a>ManagedClusterIdentity_STATUS
+-----------------------------------------------------------------------
+
+Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
+
+| Property               | Description | Type                                                                                                                                                 |
+|------------------------|-------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+| delegatedResources     |             | [map[string]DelegatedResource_STATUS](#DelegatedResource_STATUS)<br/><small>Optional</small>                                                         |
+| principalId            |             | string<br/><small>Optional</small>                                                                                                                   |
+| tenantId               |             | string<br/><small>Optional</small>                                                                                                                   |
+| type                   |             | [ManagedClusterIdentity_Type_STATUS](#ManagedClusterIdentity_Type_STATUS)<br/><small>Optional</small>                                                |
+| userAssignedIdentities |             | [map[string]ManagedClusterIdentity_UserAssignedIdentities_STATUS](#ManagedClusterIdentity_UserAssignedIdentities_STATUS)<br/><small>Optional</small> |
+
+<a id="ManagedClusterIngressProfile"></a>ManagedClusterIngressProfile
+---------------------------------------------------------------------
+
+Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
+
+| Property      | Description | Type                                                                                                                |
+|---------------|-------------|---------------------------------------------------------------------------------------------------------------------|
+| webAppRouting |             | [ManagedClusterIngressProfileWebAppRouting](#ManagedClusterIngressProfileWebAppRouting)<br/><small>Optional</small> |
+
+<a id="ManagedClusterIngressProfile_STATUS"></a>ManagedClusterIngressProfile_STATUS
+-----------------------------------------------------------------------------------
+
+Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
+
+| Property      | Description | Type                                                                                                                              |
+|---------------|-------------|-----------------------------------------------------------------------------------------------------------------------------------|
+| webAppRouting |             | [ManagedClusterIngressProfileWebAppRouting_STATUS](#ManagedClusterIngressProfileWebAppRouting_STATUS)<br/><small>Optional</small> |
+
+<a id="ManagedClusterMetricsProfile"></a>ManagedClusterMetricsProfile
+---------------------------------------------------------------------
+
+Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
+
+| Property     | Description | Type                                                                                  |
+|--------------|-------------|---------------------------------------------------------------------------------------|
+| costAnalysis |             | [ManagedClusterCostAnalysis](#ManagedClusterCostAnalysis)<br/><small>Optional</small> |
+
+<a id="ManagedClusterMetricsProfile_STATUS"></a>ManagedClusterMetricsProfile_STATUS
+-----------------------------------------------------------------------------------
+
+Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
+
+| Property     | Description | Type                                                                                                |
+|--------------|-------------|-----------------------------------------------------------------------------------------------------|
+| costAnalysis |             | [ManagedClusterCostAnalysis_STATUS](#ManagedClusterCostAnalysis_STATUS)<br/><small>Optional</small> |
+
+<a id="ManagedClusterNodeProvisioningProfile"></a>ManagedClusterNodeProvisioningProfile
+---------------------------------------------------------------------------------------
+
+Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
+
+| Property | Description | Type                                                                                                                  |
+|----------|-------------|-----------------------------------------------------------------------------------------------------------------------|
+| mode     |             | [ManagedClusterNodeProvisioningProfile_Mode](#ManagedClusterNodeProvisioningProfile_Mode)<br/><small>Optional</small> |
+
+<a id="ManagedClusterNodeProvisioningProfile_STATUS"></a>ManagedClusterNodeProvisioningProfile_STATUS
+-----------------------------------------------------------------------------------------------------
+
+Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
+
+| Property | Description | Type                                                                                                                                |
+|----------|-------------|-------------------------------------------------------------------------------------------------------------------------------------|
+| mode     |             | [ManagedClusterNodeProvisioningProfile_Mode_STATUS](#ManagedClusterNodeProvisioningProfile_Mode_STATUS)<br/><small>Optional</small> |
+
+<a id="ManagedClusterNodeResourceGroupProfile"></a>ManagedClusterNodeResourceGroupProfile
+-----------------------------------------------------------------------------------------
+
+Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
+
+| Property         | Description | Type                                                                                                                                            |
+|------------------|-------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
+| restrictionLevel |             | [ManagedClusterNodeResourceGroupProfile_RestrictionLevel](#ManagedClusterNodeResourceGroupProfile_RestrictionLevel)<br/><small>Optional</small> |
+
+<a id="ManagedClusterNodeResourceGroupProfile_STATUS"></a>ManagedClusterNodeResourceGroupProfile_STATUS
+-------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
+
+| Property         | Description | Type                                                                                                                                                          |
+|------------------|-------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| restrictionLevel |             | [ManagedClusterNodeResourceGroupProfile_RestrictionLevel_STATUS](#ManagedClusterNodeResourceGroupProfile_RestrictionLevel_STATUS)<br/><small>Optional</small> |
+
+<a id="ManagedClusterOIDCIssuerProfile"></a>ManagedClusterOIDCIssuerProfile
+---------------------------------------------------------------------------
+
+Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
+
+| Property | Description | Type                             |
+|----------|-------------|----------------------------------|
+| enabled  |             | bool<br/><small>Optional</small> |
+
+<a id="ManagedClusterOIDCIssuerProfile_STATUS"></a>ManagedClusterOIDCIssuerProfile_STATUS
+-----------------------------------------------------------------------------------------
+
+Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
+
+| Property  | Description | Type                               |
+|-----------|-------------|------------------------------------|
+| enabled   |             | bool<br/><small>Optional</small>   |
+| issuerURL |             | string<br/><small>Optional</small> |
+
+<a id="ManagedClusterOperatorSpec"></a>ManagedClusterOperatorSpec
+-----------------------------------------------------------------
+
+Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+
+Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
+
+| Property             | Description                                                                                   | Type                                                                                                                                                                |
+|----------------------|-----------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| configMapExpressions | configures where to place operator written dynamic ConfigMaps (created with CEL expressions). | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
+| configMaps           | configures where to place operator written ConfigMaps.                                        | [ManagedClusterOperatorConfigMaps](#ManagedClusterOperatorConfigMaps)<br/><small>Optional</small>                                                                   |
+| secretExpressions    | configures where to place operator written dynamic secrets (created with CEL expressions).    | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
+| secrets              | configures where to place Azure generated secrets.                                            | [ManagedClusterOperatorSecrets](#ManagedClusterOperatorSecrets)<br/><small>Optional</small>                                                                         |
+
+<a id="ManagedClusterPodIdentityProfile"></a>ManagedClusterPodIdentityProfile
+-----------------------------------------------------------------------------
+
+Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
+
+| Property                       | Description | Type                                                                                                    |
+|--------------------------------|-------------|---------------------------------------------------------------------------------------------------------|
+| allowNetworkPluginKubenet      |             | bool<br/><small>Optional</small>                                                                        |
+| enabled                        |             | bool<br/><small>Optional</small>                                                                        |
+| userAssignedIdentities         |             | [ManagedClusterPodIdentity[]](#ManagedClusterPodIdentity)<br/><small>Optional</small>                   |
+| userAssignedIdentityExceptions |             | [ManagedClusterPodIdentityException[]](#ManagedClusterPodIdentityException)<br/><small>Optional</small> |
+
+<a id="ManagedClusterPodIdentityProfile_STATUS"></a>ManagedClusterPodIdentityProfile_STATUS
+-------------------------------------------------------------------------------------------
+
+Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
+
+| Property                       | Description | Type                                                                                                                  |
+|--------------------------------|-------------|-----------------------------------------------------------------------------------------------------------------------|
+| allowNetworkPluginKubenet      |             | bool<br/><small>Optional</small>                                                                                      |
+| enabled                        |             | bool<br/><small>Optional</small>                                                                                      |
+| userAssignedIdentities         |             | [ManagedClusterPodIdentity_STATUS[]](#ManagedClusterPodIdentity_STATUS)<br/><small>Optional</small>                   |
+| userAssignedIdentityExceptions |             | [ManagedClusterPodIdentityException_STATUS[]](#ManagedClusterPodIdentityException_STATUS)<br/><small>Optional</small> |
+
+<a id="ManagedClusterProperties_AutoScalerProfile"></a>ManagedClusterProperties_AutoScalerProfile
+-------------------------------------------------------------------------------------------------
+
+Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
+
+| Property                              | Description | Type                                              |
+|---------------------------------------|-------------|---------------------------------------------------|
+| balance-similar-node-groups           |             | string<br/><small>Optional</small>                |
+| daemonset-eviction-for-empty-nodes    |             | bool<br/><small>Optional</small>                  |
+| daemonset-eviction-for-occupied-nodes |             | bool<br/><small>Optional</small>                  |
+| expander                              |             | [Expander](#Expander)<br/><small>Optional</small> |
+| ignore-daemonsets-utilization         |             | bool<br/><small>Optional</small>                  |
+| max-empty-bulk-delete                 |             | string<br/><small>Optional</small>                |
+| max-graceful-termination-sec          |             | string<br/><small>Optional</small>                |
+| max-node-provision-time               |             | string<br/><small>Optional</small>                |
+| max-total-unready-percentage          |             | string<br/><small>Optional</small>                |
+| new-pod-scale-up-delay                |             | string<br/><small>Optional</small>                |
+| ok-total-unready-count                |             | string<br/><small>Optional</small>                |
+| scale-down-delay-after-add            |             | string<br/><small>Optional</small>                |
+| scale-down-delay-after-delete         |             | string<br/><small>Optional</small>                |
+| scale-down-delay-after-failure        |             | string<br/><small>Optional</small>                |
+| scale-down-unneeded-time              |             | string<br/><small>Optional</small>                |
+| scale-down-unready-time               |             | string<br/><small>Optional</small>                |
+| scale-down-utilization-threshold      |             | string<br/><small>Optional</small>                |
+| scan-interval                         |             | string<br/><small>Optional</small>                |
+| skip-nodes-with-local-storage         |             | string<br/><small>Optional</small>                |
+| skip-nodes-with-system-pods           |             | string<br/><small>Optional</small>                |
+
+<a id="ManagedClusterProperties_AutoScalerProfile_STATUS"></a>ManagedClusterProperties_AutoScalerProfile_STATUS
+---------------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
+
+| Property                              | Description | Type                                                            |
+|---------------------------------------|-------------|-----------------------------------------------------------------|
+| balance-similar-node-groups           |             | string<br/><small>Optional</small>                              |
+| daemonset-eviction-for-empty-nodes    |             | bool<br/><small>Optional</small>                                |
+| daemonset-eviction-for-occupied-nodes |             | bool<br/><small>Optional</small>                                |
+| expander                              |             | [Expander_STATUS](#Expander_STATUS)<br/><small>Optional</small> |
+| ignore-daemonsets-utilization         |             | bool<br/><small>Optional</small>                                |
+| max-empty-bulk-delete                 |             | string<br/><small>Optional</small>                              |
+| max-graceful-termination-sec          |             | string<br/><small>Optional</small>                              |
+| max-node-provision-time               |             | string<br/><small>Optional</small>                              |
+| max-total-unready-percentage          |             | string<br/><small>Optional</small>                              |
+| new-pod-scale-up-delay                |             | string<br/><small>Optional</small>                              |
+| ok-total-unready-count                |             | string<br/><small>Optional</small>                              |
+| scale-down-delay-after-add            |             | string<br/><small>Optional</small>                              |
+| scale-down-delay-after-delete         |             | string<br/><small>Optional</small>                              |
+| scale-down-delay-after-failure        |             | string<br/><small>Optional</small>                              |
+| scale-down-unneeded-time              |             | string<br/><small>Optional</small>                              |
+| scale-down-unready-time               |             | string<br/><small>Optional</small>                              |
+| scale-down-utilization-threshold      |             | string<br/><small>Optional</small>                              |
+| scan-interval                         |             | string<br/><small>Optional</small>                              |
+| skip-nodes-with-local-storage         |             | string<br/><small>Optional</small>                              |
+| skip-nodes-with-system-pods           |             | string<br/><small>Optional</small>                              |
+
+<a id="ManagedClusterProperties_PublicNetworkAccess"></a>ManagedClusterProperties_PublicNetworkAccess
+-----------------------------------------------------------------------------------------------------
+
+Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
+
+| Value                | Description |
+|----------------------|-------------|
+| "Disabled"           |             |
+| "Enabled"            |             |
+| "SecuredByPerimeter" |             |
+
+<a id="ManagedClusterProperties_PublicNetworkAccess_STATUS"></a>ManagedClusterProperties_PublicNetworkAccess_STATUS
+-------------------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
+
+| Value                | Description |
+|----------------------|-------------|
+| "Disabled"           |             |
+| "Enabled"            |             |
+| "SecuredByPerimeter" |             |
+
+<a id="ManagedClustersAgentPoolOperatorSpec"></a>ManagedClustersAgentPoolOperatorSpec
+-------------------------------------------------------------------------------------
+
+Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+
+Used by: [ManagedClustersAgentPool_Spec](#ManagedClustersAgentPool_Spec).
+
+| Property             | Description                                                                                   | Type                                                                                                                                                                |
+|----------------------|-----------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| configMapExpressions | configures where to place operator written dynamic ConfigMaps (created with CEL expressions). | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
+| secretExpressions    | configures where to place operator written dynamic secrets (created with CEL expressions).    | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
+
+<a id="ManagedClusterSecurityProfile"></a>ManagedClusterSecurityProfile
+-----------------------------------------------------------------------
+
+Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
+
+| Property                  | Description | Type                                                                                                                        |
+|---------------------------|-------------|-----------------------------------------------------------------------------------------------------------------------------|
+| azureKeyVaultKms          |             | [AzureKeyVaultKms](#AzureKeyVaultKms)<br/><small>Optional</small>                                                           |
+| customCATrustCertificates |             | ManagedClusterSecurityProfileCustomCATrustCertificates<br/><small>Optional</small>                                          |
+| defender                  |             | [ManagedClusterSecurityProfileDefender](#ManagedClusterSecurityProfileDefender)<br/><small>Optional</small>                 |
+| imageCleaner              |             | [ManagedClusterSecurityProfileImageCleaner](#ManagedClusterSecurityProfileImageCleaner)<br/><small>Optional</small>         |
+| imageIntegrity            |             | [ManagedClusterSecurityProfileImageIntegrity](#ManagedClusterSecurityProfileImageIntegrity)<br/><small>Optional</small>     |
+| nodeRestriction           |             | [ManagedClusterSecurityProfileNodeRestriction](#ManagedClusterSecurityProfileNodeRestriction)<br/><small>Optional</small>   |
+| workloadIdentity          |             | [ManagedClusterSecurityProfileWorkloadIdentity](#ManagedClusterSecurityProfileWorkloadIdentity)<br/><small>Optional</small> |
+
+<a id="ManagedClusterSecurityProfile_STATUS"></a>ManagedClusterSecurityProfile_STATUS
+-------------------------------------------------------------------------------------
+
+Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
+
+| Property                  | Description | Type                                                                                                                                      |
+|---------------------------|-------------|-------------------------------------------------------------------------------------------------------------------------------------------|
+| azureKeyVaultKms          |             | [AzureKeyVaultKms_STATUS](#AzureKeyVaultKms_STATUS)<br/><small>Optional</small>                                                           |
+| customCATrustCertificates |             | string[]<br/><small>Optional</small>                                                                                                      |
+| defender                  |             | [ManagedClusterSecurityProfileDefender_STATUS](#ManagedClusterSecurityProfileDefender_STATUS)<br/><small>Optional</small>                 |
+| imageCleaner              |             | [ManagedClusterSecurityProfileImageCleaner_STATUS](#ManagedClusterSecurityProfileImageCleaner_STATUS)<br/><small>Optional</small>         |
+| imageIntegrity            |             | [ManagedClusterSecurityProfileImageIntegrity_STATUS](#ManagedClusterSecurityProfileImageIntegrity_STATUS)<br/><small>Optional</small>     |
+| nodeRestriction           |             | [ManagedClusterSecurityProfileNodeRestriction_STATUS](#ManagedClusterSecurityProfileNodeRestriction_STATUS)<br/><small>Optional</small>   |
+| workloadIdentity          |             | [ManagedClusterSecurityProfileWorkloadIdentity_STATUS](#ManagedClusterSecurityProfileWorkloadIdentity_STATUS)<br/><small>Optional</small> |
+
+<a id="ManagedClusterServicePrincipalProfile"></a>ManagedClusterServicePrincipalProfile
+---------------------------------------------------------------------------------------
+
+Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
+
+| Property | Description | Type                                                                                                                                                   |
+|----------|-------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
+| clientId |             | string<br/><small>Required</small>                                                                                                                     |
+| secret   |             | [genruntime.SecretReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference)<br/><small>Optional</small> |
+
+<a id="ManagedClusterServicePrincipalProfile_STATUS"></a>ManagedClusterServicePrincipalProfile_STATUS
+-----------------------------------------------------------------------------------------------------
+
+Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
+
+| Property | Description | Type                               |
+|----------|-------------|------------------------------------|
+| clientId |             | string<br/><small>Optional</small> |
+
+<a id="ManagedClusterSKU"></a>ManagedClusterSKU
+-----------------------------------------------
+
+Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
+
+| Property | Description | Type                                                                          |
+|----------|-------------|-------------------------------------------------------------------------------|
+| name     |             | [ManagedClusterSKU_Name](#ManagedClusterSKU_Name)<br/><small>Optional</small> |
+| tier     |             | [ManagedClusterSKU_Tier](#ManagedClusterSKU_Tier)<br/><small>Optional</small> |
+
+<a id="ManagedClusterSKU_STATUS"></a>ManagedClusterSKU_STATUS
+-------------------------------------------------------------
+
+Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
+
+| Property | Description | Type                                                                                        |
+|----------|-------------|---------------------------------------------------------------------------------------------|
+| name     |             | [ManagedClusterSKU_Name_STATUS](#ManagedClusterSKU_Name_STATUS)<br/><small>Optional</small> |
+| tier     |             | [ManagedClusterSKU_Tier_STATUS](#ManagedClusterSKU_Tier_STATUS)<br/><small>Optional</small> |
+
+<a id="ManagedClusterStorageProfile"></a>ManagedClusterStorageProfile
+---------------------------------------------------------------------
+
+Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
+
+| Property           | Description | Type                                                                                                                          |
+|--------------------|-------------|-------------------------------------------------------------------------------------------------------------------------------|
+| blobCSIDriver      |             | [ManagedClusterStorageProfileBlobCSIDriver](#ManagedClusterStorageProfileBlobCSIDriver)<br/><small>Optional</small>           |
+| diskCSIDriver      |             | [ManagedClusterStorageProfileDiskCSIDriver](#ManagedClusterStorageProfileDiskCSIDriver)<br/><small>Optional</small>           |
+| fileCSIDriver      |             | [ManagedClusterStorageProfileFileCSIDriver](#ManagedClusterStorageProfileFileCSIDriver)<br/><small>Optional</small>           |
+| snapshotController |             | [ManagedClusterStorageProfileSnapshotController](#ManagedClusterStorageProfileSnapshotController)<br/><small>Optional</small> |
+
+<a id="ManagedClusterStorageProfile_STATUS"></a>ManagedClusterStorageProfile_STATUS
+-----------------------------------------------------------------------------------
+
+Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
+
+| Property           | Description | Type                                                                                                                                        |
+|--------------------|-------------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| blobCSIDriver      |             | [ManagedClusterStorageProfileBlobCSIDriver_STATUS](#ManagedClusterStorageProfileBlobCSIDriver_STATUS)<br/><small>Optional</small>           |
+| diskCSIDriver      |             | [ManagedClusterStorageProfileDiskCSIDriver_STATUS](#ManagedClusterStorageProfileDiskCSIDriver_STATUS)<br/><small>Optional</small>           |
+| fileCSIDriver      |             | [ManagedClusterStorageProfileFileCSIDriver_STATUS](#ManagedClusterStorageProfileFileCSIDriver_STATUS)<br/><small>Optional</small>           |
+| snapshotController |             | [ManagedClusterStorageProfileSnapshotController_STATUS](#ManagedClusterStorageProfileSnapshotController_STATUS)<br/><small>Optional</small> |
+
+<a id="ManagedClusterWindowsProfile"></a>ManagedClusterWindowsProfile
+---------------------------------------------------------------------
+
+Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
+
+| Property       | Description | Type                                                                                                                                                   |
+|----------------|-------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
+| adminPassword  |             | [genruntime.SecretReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference)<br/><small>Optional</small> |
+| adminUsername  |             | string<br/><small>Required</small>                                                                                                                     |
+| enableCSIProxy |             | bool<br/><small>Optional</small>                                                                                                                       |
+| gmsaProfile    |             | [WindowsGmsaProfile](#WindowsGmsaProfile)<br/><small>Optional</small>                                                                                  |
+| licenseType    |             | [ManagedClusterWindowsProfile_LicenseType](#ManagedClusterWindowsProfile_LicenseType)<br/><small>Optional</small>                                      |
+
+<a id="ManagedClusterWindowsProfile_STATUS"></a>ManagedClusterWindowsProfile_STATUS
+-----------------------------------------------------------------------------------
+
+Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
+
+| Property       | Description | Type                                                                                                                            |
+|----------------|-------------|---------------------------------------------------------------------------------------------------------------------------------|
+| adminUsername  |             | string<br/><small>Optional</small>                                                                                              |
+| enableCSIProxy |             | bool<br/><small>Optional</small>                                                                                                |
+| gmsaProfile    |             | [WindowsGmsaProfile_STATUS](#WindowsGmsaProfile_STATUS)<br/><small>Optional</small>                                             |
+| licenseType    |             | [ManagedClusterWindowsProfile_LicenseType_STATUS](#ManagedClusterWindowsProfile_LicenseType_STATUS)<br/><small>Optional</small> |
+
+<a id="ManagedClusterWorkloadAutoScalerProfile"></a>ManagedClusterWorkloadAutoScalerProfile
+-------------------------------------------------------------------------------------------
+
+Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
+
+| Property              | Description | Type                                                                                                                                                      |
+|-----------------------|-------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| keda                  |             | [ManagedClusterWorkloadAutoScalerProfileKeda](#ManagedClusterWorkloadAutoScalerProfileKeda)<br/><small>Optional</small>                                   |
+| verticalPodAutoscaler |             | [ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler](#ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler)<br/><small>Optional</small> |
+
+<a id="ManagedClusterWorkloadAutoScalerProfile_STATUS"></a>ManagedClusterWorkloadAutoScalerProfile_STATUS
+---------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
+
+| Property              | Description | Type                                                                                                                                                                    |
+|-----------------------|-------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| keda                  |             | [ManagedClusterWorkloadAutoScalerProfileKeda_STATUS](#ManagedClusterWorkloadAutoScalerProfileKeda_STATUS)<br/><small>Optional</small>                                   |
+| verticalPodAutoscaler |             | [ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS](#ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS)<br/><small>Optional</small> |
+
+<a id="OSDiskType"></a>OSDiskType
+---------------------------------
+
+Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec](#ManagedClustersAgentPool_Spec).
+
+| Value       | Description |
+|-------------|-------------|
+| "Ephemeral" |             |
+| "Managed"   |             |
+
+<a id="OSDiskType_STATUS"></a>OSDiskType_STATUS
+-----------------------------------------------
+
+Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS](#ManagedClustersAgentPool_STATUS).
+
+| Value       | Description |
+|-------------|-------------|
+| "Ephemeral" |             |
+| "Managed"   |             |
+
+<a id="OSSKU"></a>OSSKU
+-----------------------
+
+Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec](#ManagedClustersAgentPool_Spec).
+
+| Value           | Description |
+|-----------------|-------------|
+| "AzureLinux"    |             |
+| "CBLMariner"    |             |
+| "Mariner"       |             |
+| "Ubuntu"        |             |
+| "Windows2019"   |             |
+| "Windows2022"   |             |
+| "WindowsAnnual" |             |
+
+<a id="OSSKU_STATUS"></a>OSSKU_STATUS
+-------------------------------------
+
+Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS](#ManagedClustersAgentPool_STATUS).
+
+| Value           | Description |
+|-----------------|-------------|
+| "AzureLinux"    |             |
+| "CBLMariner"    |             |
+| "Mariner"       |             |
+| "Ubuntu"        |             |
+| "Windows2019"   |             |
+| "Windows2022"   |             |
+| "WindowsAnnual" |             |
+
+<a id="OSType"></a>OSType
+-------------------------
+
+Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec](#ManagedClustersAgentPool_Spec).
+
+| Value     | Description |
+|-----------|-------------|
+| "Linux"   |             |
+| "Windows" |             |
+
+<a id="OSType_STATUS"></a>OSType_STATUS
+---------------------------------------
+
+Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS](#ManagedClustersAgentPool_STATUS).
+
+| Value     | Description |
+|-----------|-------------|
+| "Linux"   |             |
+| "Windows" |             |
+
+<a id="PowerState"></a>PowerState
+---------------------------------
+
+Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec](#ManagedClustersAgentPool_Spec).
+
+| Property | Description | Type                                                            |
+|----------|-------------|-----------------------------------------------------------------|
+| code     |             | [PowerState_Code](#PowerState_Code)<br/><small>Optional</small> |
+
+<a id="PowerState_STATUS"></a>PowerState_STATUS
+-----------------------------------------------
+
+Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS), [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS](#ManagedClustersAgentPool_STATUS).
+
+| Property | Description | Type                                                                          |
+|----------|-------------|-------------------------------------------------------------------------------|
+| code     |             | [PowerState_Code_STATUS](#PowerState_Code_STATUS)<br/><small>Optional</small> |
+
+<a id="PrivateLinkResource"></a>PrivateLinkResource
+---------------------------------------------------
+
+Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
+
+| Property        | Description | Type                                                                                                                                                       |
+|-----------------|-------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| groupId         |             | string<br/><small>Optional</small>                                                                                                                         |
+| name            |             | string<br/><small>Optional</small>                                                                                                                         |
+| reference       |             | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small> |
+| requiredMembers |             | string[]<br/><small>Optional</small>                                                                                                                       |
+| type            |             | string<br/><small>Optional</small>                                                                                                                         |
+
+<a id="PrivateLinkResource_STATUS"></a>PrivateLinkResource_STATUS
+-----------------------------------------------------------------
+
+Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
+
+| Property             | Description | Type                                 |
+|----------------------|-------------|--------------------------------------|
+| groupId              |             | string<br/><small>Optional</small>   |
+| id                   |             | string<br/><small>Optional</small>   |
+| name                 |             | string<br/><small>Optional</small>   |
+| privateLinkServiceID |             | string<br/><small>Optional</small>   |
+| requiredMembers      |             | string[]<br/><small>Optional</small> |
+| type                 |             | string<br/><small>Optional</small>   |
+
+<a id="SafeguardsProfile"></a>SafeguardsProfile
+-----------------------------------------------
+
+Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
+
+| Property           | Description | Type                                                                            |
+|--------------------|-------------|---------------------------------------------------------------------------------|
+| excludedNamespaces |             | string[]<br/><small>Optional</small>                                            |
+| level              |             | [SafeguardsProfile_Level](#SafeguardsProfile_Level)<br/><small>Required</small> |
+| version            |             | string<br/><small>Optional</small>                                              |
+
+<a id="SafeguardsProfile_STATUS"></a>SafeguardsProfile_STATUS
+-------------------------------------------------------------
+
+Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
+
+| Property                 | Description | Type                                                                                          |
+|--------------------------|-------------|-----------------------------------------------------------------------------------------------|
+| excludedNamespaces       |             | string[]<br/><small>Optional</small>                                                          |
+| level                    |             | [SafeguardsProfile_Level_STATUS](#SafeguardsProfile_Level_STATUS)<br/><small>Optional</small> |
+| systemExcludedNamespaces |             | string[]<br/><small>Optional</small>                                                          |
+| version                  |             | string<br/><small>Optional</small>                                                            |
+
+<a id="ScaleDownMode"></a>ScaleDownMode
+---------------------------------------
+
+Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec](#ManagedClustersAgentPool_Spec).
+
+| Value        | Description |
+|--------------|-------------|
+| "Deallocate" |             |
+| "Delete"     |             |
+
+<a id="ScaleDownMode_STATUS"></a>ScaleDownMode_STATUS
+-----------------------------------------------------
+
+Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS](#ManagedClustersAgentPool_STATUS).
+
+| Value        | Description |
+|--------------|-------------|
+| "Deallocate" |             |
+| "Delete"     |             |
+
+<a id="ScaleSetEvictionPolicy"></a>ScaleSetEvictionPolicy
+---------------------------------------------------------
+
+Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec](#ManagedClustersAgentPool_Spec).
+
+| Value        | Description |
+|--------------|-------------|
+| "Deallocate" |             |
+| "Delete"     |             |
+
+<a id="ScaleSetEvictionPolicy_STATUS"></a>ScaleSetEvictionPolicy_STATUS
+-----------------------------------------------------------------------
+
+Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS](#ManagedClustersAgentPool_STATUS).
+
+| Value        | Description |
+|--------------|-------------|
+| "Deallocate" |             |
+| "Delete"     |             |
+
+<a id="ScaleSetPriority"></a>ScaleSetPriority
+---------------------------------------------
+
+Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec](#ManagedClustersAgentPool_Spec).
+
+| Value     | Description |
+|-----------|-------------|
+| "Regular" |             |
+| "Spot"    |             |
+
+<a id="ScaleSetPriority_STATUS"></a>ScaleSetPriority_STATUS
+-----------------------------------------------------------
+
+Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS](#ManagedClustersAgentPool_STATUS).
+
+| Value     | Description |
+|-----------|-------------|
+| "Regular" |             |
+| "Spot"    |             |
+
+<a id="ServiceMeshProfile"></a>ServiceMeshProfile
+-------------------------------------------------
+
+Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
+
+| Property | Description | Type                                                                            |
+|----------|-------------|---------------------------------------------------------------------------------|
+| istio    |             | [IstioServiceMesh](#IstioServiceMesh)<br/><small>Optional</small>               |
+| mode     |             | [ServiceMeshProfile_Mode](#ServiceMeshProfile_Mode)<br/><small>Required</small> |
+
+<a id="ServiceMeshProfile_STATUS"></a>ServiceMeshProfile_STATUS
+---------------------------------------------------------------
+
+Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
+
+| Property | Description | Type                                                                                          |
+|----------|-------------|-----------------------------------------------------------------------------------------------|
+| istio    |             | [IstioServiceMesh_STATUS](#IstioServiceMesh_STATUS)<br/><small>Optional</small>               |
+| mode     |             | [ServiceMeshProfile_Mode_STATUS](#ServiceMeshProfile_Mode_STATUS)<br/><small>Optional</small> |
+
+<a id="SystemData_STATUS"></a>SystemData_STATUS
+-----------------------------------------------
+
+Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
+
+| Property           | Description | Type                                                                                                      |
+|--------------------|-------------|-----------------------------------------------------------------------------------------------------------|
+| createdAt          |             | string<br/><small>Optional</small>                                                                        |
+| createdBy          |             | string<br/><small>Optional</small>                                                                        |
+| createdByType      |             | [SystemData_CreatedByType_STATUS](#SystemData_CreatedByType_STATUS)<br/><small>Optional</small>           |
+| lastModifiedAt     |             | string<br/><small>Optional</small>                                                                        |
+| lastModifiedBy     |             | string<br/><small>Optional</small>                                                                        |
+| lastModifiedByType |             | [SystemData_LastModifiedByType_STATUS](#SystemData_LastModifiedByType_STATUS)<br/><small>Optional</small> |
+
+<a id="UserAssignedIdentity"></a>UserAssignedIdentity
+-----------------------------------------------------
+
+Used by: [ManagedCluster_Spec](#ManagedCluster_Spec), and [ManagedClusterPodIdentity](#ManagedClusterPodIdentity).
+
+| Property          | Description | Type                                                                                                                                                       |
+|-------------------|-------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| clientId          |             | string<br/><small>Optional</small>                                                                                                                         |
+| objectId          |             | string<br/><small>Optional</small>                                                                                                                         |
+| resourceReference |             | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small> |
+
+<a id="UserAssignedIdentity_STATUS"></a>UserAssignedIdentity_STATUS
+-------------------------------------------------------------------
+
+Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS), [ManagedClusterAddonProfile_STATUS](#ManagedClusterAddonProfile_STATUS), [ManagedClusterIngressProfileWebAppRouting_STATUS](#ManagedClusterIngressProfileWebAppRouting_STATUS), and [ManagedClusterPodIdentity_STATUS](#ManagedClusterPodIdentity_STATUS).
+
+| Property   | Description | Type                               |
+|------------|-------------|------------------------------------|
+| clientId   |             | string<br/><small>Optional</small> |
+| objectId   |             | string<br/><small>Optional</small> |
+| resourceId |             | string<br/><small>Optional</small> |
+
+<a id="VirtualMachineNodes"></a>VirtualMachineNodes
+---------------------------------------------------
+
+Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec](#ManagedClustersAgentPool_Spec).
+
+| Property | Description | Type                               |
+|----------|-------------|------------------------------------|
+| count    |             | int<br/><small>Optional</small>    |
+| size     |             | string<br/><small>Optional</small> |
+
+<a id="VirtualMachineNodes_STATUS"></a>VirtualMachineNodes_STATUS
+-----------------------------------------------------------------
+
+Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS](#ManagedClustersAgentPool_STATUS).
+
+| Property | Description | Type                               |
+|----------|-------------|------------------------------------|
+| count    |             | int<br/><small>Optional</small>    |
+| size     |             | string<br/><small>Optional</small> |
+
+<a id="VirtualMachinesProfile"></a>VirtualMachinesProfile
+---------------------------------------------------------
+
+Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec](#ManagedClustersAgentPool_Spec).
+
+| Property | Description | Type                                                      |
+|----------|-------------|-----------------------------------------------------------|
+| scale    |             | [ScaleProfile](#ScaleProfile)<br/><small>Optional</small> |
+
+<a id="VirtualMachinesProfile_STATUS"></a>VirtualMachinesProfile_STATUS
+-----------------------------------------------------------------------
+
+Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS](#ManagedClustersAgentPool_STATUS).
+
+| Property | Description | Type                                                                    |
+|----------|-------------|-------------------------------------------------------------------------|
+| scale    |             | [ScaleProfile_STATUS](#ScaleProfile_STATUS)<br/><small>Optional</small> |
+
+<a id="WorkloadRuntime"></a>WorkloadRuntime
+-------------------------------------------
+
+Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec](#ManagedClustersAgentPool_Spec).
+
+| Value                 | Description |
+|-----------------------|-------------|
+| "KataMshvVmIsolation" |             |
+| "OCIContainer"        |             |
+| "WasmWasi"            |             |
+
+<a id="WorkloadRuntime_STATUS"></a>WorkloadRuntime_STATUS
+---------------------------------------------------------
+
+Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS](#ManagedClustersAgentPool_STATUS).
+
+| Value                 | Description |
+|-----------------------|-------------|
+| "KataMshvVmIsolation" |             |
+| "OCIContainer"        |             |
+| "WasmWasi"            |             |
+
+<a id="AgentPoolSSHAccess"></a>AgentPoolSSHAccess
+-------------------------------------------------
+
+Used by: [AgentPoolSecurityProfile](#AgentPoolSecurityProfile).
+
+| Value       | Description |
+|-------------|-------------|
+| "Disabled"  |             |
+| "LocalUser" |             |
+
+<a id="AgentPoolSSHAccess_STATUS"></a>AgentPoolSSHAccess_STATUS
+---------------------------------------------------------------
+
+Used by: [AgentPoolSecurityProfile_STATUS](#AgentPoolSecurityProfile_STATUS).
+
+| Value       | Description |
+|-------------|-------------|
+| "Disabled"  |             |
+| "LocalUser" |             |
+
+<a id="AzureKeyVaultKms"></a>AzureKeyVaultKms
+---------------------------------------------
+
+Used by: [ManagedClusterSecurityProfile](#ManagedClusterSecurityProfile).
+
+| Property                  | Description | Type                                                                                                                                                       |
+|---------------------------|-------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| enabled                   |             | bool<br/><small>Optional</small>                                                                                                                           |
+| keyId                     |             | string<br/><small>Optional</small>                                                                                                                         |
+| keyVaultNetworkAccess     |             | [AzureKeyVaultKms_KeyVaultNetworkAccess](#AzureKeyVaultKms_KeyVaultNetworkAccess)<br/><small>Optional</small>                                              |
+| keyVaultResourceReference |             | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small> |
+
+<a id="AzureKeyVaultKms_STATUS"></a>AzureKeyVaultKms_STATUS
+-----------------------------------------------------------
+
+Used by: [ManagedClusterSecurityProfile_STATUS](#ManagedClusterSecurityProfile_STATUS).
+
+| Property              | Description | Type                                                                                                                        |
+|-----------------------|-------------|-----------------------------------------------------------------------------------------------------------------------------|
+| enabled               |             | bool<br/><small>Optional</small>                                                                                            |
+| keyId                 |             | string<br/><small>Optional</small>                                                                                          |
+| keyVaultNetworkAccess |             | [AzureKeyVaultKms_KeyVaultNetworkAccess_STATUS](#AzureKeyVaultKms_KeyVaultNetworkAccess_STATUS)<br/><small>Optional</small> |
+| keyVaultResourceId    |             | string<br/><small>Optional</small>                                                                                          |
+
+<a id="ContainerServiceNetworkProfile_KubeProxyConfig"></a>ContainerServiceNetworkProfile_KubeProxyConfig
+---------------------------------------------------------------------------------------------------------
+
+Used by: [ContainerServiceNetworkProfile](#ContainerServiceNetworkProfile).
+
+| Property   | Description | Type                                                                                                                                                |
+|------------|-------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
+| enabled    |             | bool<br/><small>Optional</small>                                                                                                                    |
+| ipvsConfig |             | [ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig](#ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig)<br/><small>Optional</small> |
+| mode       |             | [ContainerServiceNetworkProfile_KubeProxyConfig_Mode](#ContainerServiceNetworkProfile_KubeProxyConfig_Mode)<br/><small>Optional</small>             |
+
+<a id="ContainerServiceNetworkProfile_KubeProxyConfig_STATUS"></a>ContainerServiceNetworkProfile_KubeProxyConfig_STATUS
+-----------------------------------------------------------------------------------------------------------------------
+
+Used by: [ContainerServiceNetworkProfile_STATUS](#ContainerServiceNetworkProfile_STATUS).
+
+| Property   | Description | Type                                                                                                                                                              |
+|------------|-------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| enabled    |             | bool<br/><small>Optional</small>                                                                                                                                  |
+| ipvsConfig |             | [ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS](#ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS)<br/><small>Optional</small> |
+| mode       |             | [ContainerServiceNetworkProfile_KubeProxyConfig_Mode_STATUS](#ContainerServiceNetworkProfile_KubeProxyConfig_Mode_STATUS)<br/><small>Optional</small>             |
+
+<a id="ContainerServiceNetworkProfile_OutboundType"></a>ContainerServiceNetworkProfile_OutboundType
+---------------------------------------------------------------------------------------------------
+
+Used by: [ContainerServiceNetworkProfile](#ContainerServiceNetworkProfile).
+
+| Value                    | Description |
+|--------------------------|-------------|
+| "loadBalancer"           |             |
+| "managedNATGateway"      |             |
+| "userAssignedNATGateway" |             |
+| "userDefinedRouting"     |             |
+
+<a id="ContainerServiceNetworkProfile_OutboundType_STATUS"></a>ContainerServiceNetworkProfile_OutboundType_STATUS
+-----------------------------------------------------------------------------------------------------------------
+
+Used by: [ContainerServiceNetworkProfile_STATUS](#ContainerServiceNetworkProfile_STATUS).
+
+| Value                    | Description |
+|--------------------------|-------------|
+| "loadBalancer"           |             |
+| "managedNATGateway"      |             |
+| "userAssignedNATGateway" |             |
+| "userDefinedRouting"     |             |
+
+<a id="ContainerServiceSshConfiguration"></a>ContainerServiceSshConfiguration
+-----------------------------------------------------------------------------
+
+Used by: [ContainerServiceLinuxProfile](#ContainerServiceLinuxProfile).
+
+| Property   | Description | Type                                                                                        |
+|------------|-------------|---------------------------------------------------------------------------------------------|
+| publicKeys |             | [ContainerServiceSshPublicKey[]](#ContainerServiceSshPublicKey)<br/><small>Required</small> |
+
+<a id="ContainerServiceSshConfiguration_STATUS"></a>ContainerServiceSshConfiguration_STATUS
+-------------------------------------------------------------------------------------------
+
+Used by: [ContainerServiceLinuxProfile_STATUS](#ContainerServiceLinuxProfile_STATUS).
+
+| Property   | Description | Type                                                                                                      |
+|------------|-------------|-----------------------------------------------------------------------------------------------------------|
+| publicKeys |             | [ContainerServiceSshPublicKey_STATUS[]](#ContainerServiceSshPublicKey_STATUS)<br/><small>Optional</small> |
+
+<a id="DelegatedResource"></a>DelegatedResource
+-----------------------------------------------
+
+Used by: [ManagedClusterIdentity](#ManagedClusterIdentity).
+
+| Property          | Description | Type                                                                                                                                                       |
+|-------------------|-------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| location          |             | string<br/><small>Optional</small>                                                                                                                         |
+| referralResource  |             | string<br/><small>Optional</small>                                                                                                                         |
+| resourceReference |             | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small> |
+| tenantId          |             | string<br/><small>Optional</small>                                                                                                                         |
+
+<a id="DelegatedResource_STATUS"></a>DelegatedResource_STATUS
+-------------------------------------------------------------
+
+Used by: [ManagedClusterIdentity_STATUS](#ManagedClusterIdentity_STATUS).
+
+| Property         | Description | Type                               |
+|------------------|-------------|------------------------------------|
+| location         |             | string<br/><small>Optional</small> |
+| referralResource |             | string<br/><small>Optional</small> |
+| resourceId       |             | string<br/><small>Optional</small> |
+| tenantId         |             | string<br/><small>Optional</small> |
+
+<a id="Expander"></a>Expander
+-----------------------------
+
+Used by: [ManagedClusterProperties_AutoScalerProfile](#ManagedClusterProperties_AutoScalerProfile).
+
+| Value         | Description |
+|---------------|-------------|
+| "least-waste" |             |
+| "most-pods"   |             |
+| "priority"    |             |
+| "random"      |             |
+
+<a id="Expander_STATUS"></a>Expander_STATUS
+-------------------------------------------
+
+Used by: [ManagedClusterProperties_AutoScalerProfile_STATUS](#ManagedClusterProperties_AutoScalerProfile_STATUS).
+
+| Value         | Description |
+|---------------|-------------|
+| "least-waste" |             |
+| "most-pods"   |             |
+| "priority"    |             |
+| "random"      |             |
+
+<a id="ExtendedLocationType"></a>ExtendedLocationType
+-----------------------------------------------------
+
+Used by: [ExtendedLocation](#ExtendedLocation).
+
+| Value      | Description |
+|------------|-------------|
+| "EdgeZone" |             |
+
+<a id="ExtendedLocationType_STATUS"></a>ExtendedLocationType_STATUS
+-------------------------------------------------------------------
+
+Used by: [ExtendedLocation_STATUS](#ExtendedLocation_STATUS).
+
+| Value      | Description |
+|------------|-------------|
+| "EdgeZone" |             |
+
+<a id="IpFamily"></a>IpFamily
+-----------------------------
+
+Used by: [ContainerServiceNetworkProfile](#ContainerServiceNetworkProfile).
+
+| Value  | Description |
+|--------|-------------|
+| "IPv4" |             |
+| "IPv6" |             |
+
+<a id="IpFamily_STATUS"></a>IpFamily_STATUS
+-------------------------------------------
+
+Used by: [ContainerServiceNetworkProfile_STATUS](#ContainerServiceNetworkProfile_STATUS).
+
+| Value  | Description |
+|--------|-------------|
+| "IPv4" |             |
+| "IPv6" |             |
+
+<a id="IPTag"></a>IPTag
+-----------------------
+
+Used by: [AgentPoolNetworkProfile](#AgentPoolNetworkProfile).
+
+| Property  | Description | Type                               |
+|-----------|-------------|------------------------------------|
+| ipTagType |             | string<br/><small>Optional</small> |
+| tag       |             | string<br/><small>Optional</small> |
+
+<a id="IPTag_STATUS"></a>IPTag_STATUS
+-------------------------------------
+
+Used by: [AgentPoolNetworkProfile_STATUS](#AgentPoolNetworkProfile_STATUS).
+
+| Property  | Description | Type                               |
+|-----------|-------------|------------------------------------|
+| ipTagType |             | string<br/><small>Optional</small> |
+| tag       |             | string<br/><small>Optional</small> |
+
+<a id="IstioServiceMesh"></a>IstioServiceMesh
+---------------------------------------------
+
+Used by: [ServiceMeshProfile](#ServiceMeshProfile).
+
+| Property             | Description | Type                                                                                |
+|----------------------|-------------|-------------------------------------------------------------------------------------|
+| certificateAuthority |             | [IstioCertificateAuthority](#IstioCertificateAuthority)<br/><small>Optional</small> |
+| components           |             | [IstioComponents](#IstioComponents)<br/><small>Optional</small>                     |
+| revisions            |             | string[]<br/><small>Optional</small>                                                |
+
+<a id="IstioServiceMesh_STATUS"></a>IstioServiceMesh_STATUS
+-----------------------------------------------------------
+
+Used by: [ServiceMeshProfile_STATUS](#ServiceMeshProfile_STATUS).
+
+| Property             | Description | Type                                                                                              |
+|----------------------|-------------|---------------------------------------------------------------------------------------------------|
+| certificateAuthority |             | [IstioCertificateAuthority_STATUS](#IstioCertificateAuthority_STATUS)<br/><small>Optional</small> |
+| components           |             | [IstioComponents_STATUS](#IstioComponents_STATUS)<br/><small>Optional</small>                     |
+| revisions            |             | string[]<br/><small>Optional</small>                                                              |
+
+<a id="LoadBalancerSku"></a>LoadBalancerSku
+-------------------------------------------
+
+Used by: [ContainerServiceNetworkProfile](#ContainerServiceNetworkProfile).
+
+| Value      | Description |
+|------------|-------------|
+| "basic"    |             |
+| "standard" |             |
+
+<a id="LoadBalancerSku_STATUS"></a>LoadBalancerSku_STATUS
+---------------------------------------------------------
+
+Used by: [ContainerServiceNetworkProfile_STATUS](#ContainerServiceNetworkProfile_STATUS).
+
+| Value      | Description |
+|------------|-------------|
+| "basic"    |             |
+| "standard" |             |
+
+<a id="ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel"></a>ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel
+-----------------------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterAutoUpgradeProfile](#ManagedClusterAutoUpgradeProfile).
+
+| Value           | Description |
+|-----------------|-------------|
+| "NodeImage"     |             |
+| "None"          |             |
+| "SecurityPatch" |             |
+| "Unmanaged"     |             |
+
+<a id="ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel_STATUS"></a>ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel_STATUS
+-------------------------------------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterAutoUpgradeProfile_STATUS](#ManagedClusterAutoUpgradeProfile_STATUS).
+
+| Value           | Description |
+|-----------------|-------------|
+| "NodeImage"     |             |
+| "None"          |             |
+| "SecurityPatch" |             |
+| "Unmanaged"     |             |
+
+<a id="ManagedClusterAutoUpgradeProfile_UpgradeChannel"></a>ManagedClusterAutoUpgradeProfile_UpgradeChannel
+-----------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterAutoUpgradeProfile](#ManagedClusterAutoUpgradeProfile).
+
+| Value        | Description |
+|--------------|-------------|
+| "node-image" |             |
+| "none"       |             |
+| "patch"      |             |
+| "rapid"      |             |
+| "stable"     |             |
+
+<a id="ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS"></a>ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS
+-------------------------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterAutoUpgradeProfile_STATUS](#ManagedClusterAutoUpgradeProfile_STATUS).
+
+| Value        | Description |
+|--------------|-------------|
+| "node-image" |             |
+| "none"       |             |
+| "patch"      |             |
+| "rapid"      |             |
+| "stable"     |             |
+
+<a id="ManagedClusterAzureMonitorProfileLogs"></a>ManagedClusterAzureMonitorProfileLogs
+---------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterAzureMonitorProfile](#ManagedClusterAzureMonitorProfile).
+
+| Property          | Description | Type                                                                                                                                  |
+|-------------------|-------------|---------------------------------------------------------------------------------------------------------------------------------------|
+| appMonitoring     |             | [ManagedClusterAzureMonitorProfileAppMonitoring](#ManagedClusterAzureMonitorProfileAppMonitoring)<br/><small>Optional</small>         |
+| containerInsights |             | [ManagedClusterAzureMonitorProfileContainerInsights](#ManagedClusterAzureMonitorProfileContainerInsights)<br/><small>Optional</small> |
+
+<a id="ManagedClusterAzureMonitorProfileLogs_STATUS"></a>ManagedClusterAzureMonitorProfileLogs_STATUS
+-----------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterAzureMonitorProfile_STATUS](#ManagedClusterAzureMonitorProfile_STATUS).
+
+| Property          | Description | Type                                                                                                                                                |
+|-------------------|-------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
+| appMonitoring     |             | [ManagedClusterAzureMonitorProfileAppMonitoring_STATUS](#ManagedClusterAzureMonitorProfileAppMonitoring_STATUS)<br/><small>Optional</small>         |
+| containerInsights |             | [ManagedClusterAzureMonitorProfileContainerInsights_STATUS](#ManagedClusterAzureMonitorProfileContainerInsights_STATUS)<br/><small>Optional</small> |
+
+<a id="ManagedClusterAzureMonitorProfileMetrics"></a>ManagedClusterAzureMonitorProfileMetrics
+---------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterAzureMonitorProfile](#ManagedClusterAzureMonitorProfile).
+
+| Property                          | Description | Type                                                                                                                                                                  |
+|-----------------------------------|-------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| appMonitoringOpenTelemetryMetrics |             | [ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics](#ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics)<br/><small>Optional</small> |
+| enabled                           |             | bool<br/><small>Required</small>                                                                                                                                      |
+| kubeStateMetrics                  |             | [ManagedClusterAzureMonitorProfileKubeStateMetrics](#ManagedClusterAzureMonitorProfileKubeStateMetrics)<br/><small>Optional</small>                                   |
+
+<a id="ManagedClusterAzureMonitorProfileMetrics_STATUS"></a>ManagedClusterAzureMonitorProfileMetrics_STATUS
+-----------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterAzureMonitorProfile_STATUS](#ManagedClusterAzureMonitorProfile_STATUS).
+
+| Property                          | Description | Type                                                                                                                                                                                |
+|-----------------------------------|-------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| appMonitoringOpenTelemetryMetrics |             | [ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics_STATUS](#ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics_STATUS)<br/><small>Optional</small> |
+| enabled                           |             | bool<br/><small>Optional</small>                                                                                                                                                    |
+| kubeStateMetrics                  |             | [ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS](#ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS)<br/><small>Optional</small>                                   |
+
+<a id="ManagedClusterCostAnalysis"></a>ManagedClusterCostAnalysis
+-----------------------------------------------------------------
+
+Used by: [ManagedClusterMetricsProfile](#ManagedClusterMetricsProfile).
+
+| Property | Description | Type                             |
+|----------|-------------|----------------------------------|
+| enabled  |             | bool<br/><small>Optional</small> |
+
+<a id="ManagedClusterCostAnalysis_STATUS"></a>ManagedClusterCostAnalysis_STATUS
+-------------------------------------------------------------------------------
+
+Used by: [ManagedClusterMetricsProfile_STATUS](#ManagedClusterMetricsProfile_STATUS).
+
+| Property | Description | Type                             |
+|----------|-------------|----------------------------------|
+| enabled  |             | bool<br/><small>Optional</small> |
+
+<a id="ManagedClusterIdentity_Type"></a>ManagedClusterIdentity_Type
+-------------------------------------------------------------------
+
+Used by: [ManagedClusterIdentity](#ManagedClusterIdentity).
+
+| Value            | Description |
+|------------------|-------------|
+| "None"           |             |
+| "SystemAssigned" |             |
+| "UserAssigned"   |             |
+
+<a id="ManagedClusterIdentity_Type_STATUS"></a>ManagedClusterIdentity_Type_STATUS
+---------------------------------------------------------------------------------
+
+Used by: [ManagedClusterIdentity_STATUS](#ManagedClusterIdentity_STATUS).
+
+| Value            | Description |
+|------------------|-------------|
+| "None"           |             |
+| "SystemAssigned" |             |
+| "UserAssigned"   |             |
+
+<a id="ManagedClusterIdentity_UserAssignedIdentities_STATUS"></a>ManagedClusterIdentity_UserAssignedIdentities_STATUS
+---------------------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterIdentity_STATUS](#ManagedClusterIdentity_STATUS).
+
+| Property    | Description | Type                               |
+|-------------|-------------|------------------------------------|
+| clientId    |             | string<br/><small>Optional</small> |
+| principalId |             | string<br/><small>Optional</small> |
+
+<a id="ManagedClusterIngressProfileWebAppRouting"></a>ManagedClusterIngressProfileWebAppRouting
+-----------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterIngressProfile](#ManagedClusterIngressProfile).
+
+| Property                  | Description | Type                                                                                                                                                         |
+|---------------------------|-------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| dnsZoneResourceReferences |             | [genruntime.ResourceReference[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small> |
+| enabled                   |             | bool<br/><small>Optional</small>                                                                                                                             |
+
+<a id="ManagedClusterIngressProfileWebAppRouting_STATUS"></a>ManagedClusterIngressProfileWebAppRouting_STATUS
+-------------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterIngressProfile_STATUS](#ManagedClusterIngressProfile_STATUS).
+
+| Property           | Description | Type                                                                                    |
+|--------------------|-------------|-----------------------------------------------------------------------------------------|
+| dnsZoneResourceIds |             | string[]<br/><small>Optional</small>                                                    |
+| enabled            |             | bool<br/><small>Optional</small>                                                        |
+| identity           |             | [UserAssignedIdentity_STATUS](#UserAssignedIdentity_STATUS)<br/><small>Optional</small> |
+
+<a id="ManagedClusterLoadBalancerProfile"></a>ManagedClusterLoadBalancerProfile
+-------------------------------------------------------------------------------
+
+Used by: [ContainerServiceNetworkProfile](#ContainerServiceNetworkProfile).
+
+| Property                            | Description | Type                                                                                                                                      |
+|-------------------------------------|-------------|-------------------------------------------------------------------------------------------------------------------------------------------|
+| allocatedOutboundPorts              |             | int<br/><small>Optional</small>                                                                                                           |
+| backendPoolType                     |             | [ManagedClusterLoadBalancerProfile_BackendPoolType](#ManagedClusterLoadBalancerProfile_BackendPoolType)<br/><small>Optional</small>       |
+| effectiveOutboundIPs                |             | [ResourceReference[]](#ResourceReference)<br/><small>Optional</small>                                                                     |
+| enableMultipleStandardLoadBalancers |             | bool<br/><small>Optional</small>                                                                                                          |
+| idleTimeoutInMinutes                |             | int<br/><small>Optional</small>                                                                                                           |
+| managedOutboundIPs                  |             | [ManagedClusterLoadBalancerProfile_ManagedOutboundIPs](#ManagedClusterLoadBalancerProfile_ManagedOutboundIPs)<br/><small>Optional</small> |
+| outboundIPPrefixes                  |             | [ManagedClusterLoadBalancerProfile_OutboundIPPrefixes](#ManagedClusterLoadBalancerProfile_OutboundIPPrefixes)<br/><small>Optional</small> |
+| outboundIPs                         |             | [ManagedClusterLoadBalancerProfile_OutboundIPs](#ManagedClusterLoadBalancerProfile_OutboundIPs)<br/><small>Optional</small>               |
+
+<a id="ManagedClusterLoadBalancerProfile_STATUS"></a>ManagedClusterLoadBalancerProfile_STATUS
+---------------------------------------------------------------------------------------------
+
+Used by: [ContainerServiceNetworkProfile_STATUS](#ContainerServiceNetworkProfile_STATUS).
+
+| Property                            | Description | Type                                                                                                                                                    |
+|-------------------------------------|-------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| allocatedOutboundPorts              |             | int<br/><small>Optional</small>                                                                                                                         |
+| backendPoolType                     |             | [ManagedClusterLoadBalancerProfile_BackendPoolType_STATUS](#ManagedClusterLoadBalancerProfile_BackendPoolType_STATUS)<br/><small>Optional</small>       |
+| effectiveOutboundIPs                |             | [ResourceReference_STATUS[]](#ResourceReference_STATUS)<br/><small>Optional</small>                                                                     |
+| enableMultipleStandardLoadBalancers |             | bool<br/><small>Optional</small>                                                                                                                        |
+| idleTimeoutInMinutes                |             | int<br/><small>Optional</small>                                                                                                                         |
+| managedOutboundIPs                  |             | [ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS](#ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS)<br/><small>Optional</small> |
+| outboundIPPrefixes                  |             | [ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS](#ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS)<br/><small>Optional</small> |
+| outboundIPs                         |             | [ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS](#ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS)<br/><small>Optional</small>               |
+
+<a id="ManagedClusterNATGatewayProfile"></a>ManagedClusterNATGatewayProfile
+---------------------------------------------------------------------------
+
+Used by: [ContainerServiceNetworkProfile](#ContainerServiceNetworkProfile).
+
+| Property                 | Description | Type                                                                                                          |
+|--------------------------|-------------|---------------------------------------------------------------------------------------------------------------|
+| effectiveOutboundIPs     |             | [ResourceReference[]](#ResourceReference)<br/><small>Optional</small>                                         |
+| idleTimeoutInMinutes     |             | int<br/><small>Optional</small>                                                                               |
+| managedOutboundIPProfile |             | [ManagedClusterManagedOutboundIPProfile](#ManagedClusterManagedOutboundIPProfile)<br/><small>Optional</small> |
+
+<a id="ManagedClusterNATGatewayProfile_STATUS"></a>ManagedClusterNATGatewayProfile_STATUS
+-----------------------------------------------------------------------------------------
+
+Used by: [ContainerServiceNetworkProfile_STATUS](#ContainerServiceNetworkProfile_STATUS).
+
+| Property                 | Description | Type                                                                                                                        |
+|--------------------------|-------------|-----------------------------------------------------------------------------------------------------------------------------|
+| effectiveOutboundIPs     |             | [ResourceReference_STATUS[]](#ResourceReference_STATUS)<br/><small>Optional</small>                                         |
+| idleTimeoutInMinutes     |             | int<br/><small>Optional</small>                                                                                             |
+| managedOutboundIPProfile |             | [ManagedClusterManagedOutboundIPProfile_STATUS](#ManagedClusterManagedOutboundIPProfile_STATUS)<br/><small>Optional</small> |
+
+<a id="ManagedClusterNodeProvisioningProfile_Mode"></a>ManagedClusterNodeProvisioningProfile_Mode
+-------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterNodeProvisioningProfile](#ManagedClusterNodeProvisioningProfile).
+
+| Value    | Description |
+|----------|-------------|
+| "Auto"   |             |
+| "Manual" |             |
+
+<a id="ManagedClusterNodeProvisioningProfile_Mode_STATUS"></a>ManagedClusterNodeProvisioningProfile_Mode_STATUS
+---------------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterNodeProvisioningProfile_STATUS](#ManagedClusterNodeProvisioningProfile_STATUS).
+
+| Value    | Description |
+|----------|-------------|
+| "Auto"   |             |
+| "Manual" |             |
+
+<a id="ManagedClusterNodeResourceGroupProfile_RestrictionLevel"></a>ManagedClusterNodeResourceGroupProfile_RestrictionLevel
+---------------------------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterNodeResourceGroupProfile](#ManagedClusterNodeResourceGroupProfile).
+
+| Value          | Description |
+|----------------|-------------|
+| "ReadOnly"     |             |
+| "Unrestricted" |             |
+
+<a id="ManagedClusterNodeResourceGroupProfile_RestrictionLevel_STATUS"></a>ManagedClusterNodeResourceGroupProfile_RestrictionLevel_STATUS
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterNodeResourceGroupProfile_STATUS](#ManagedClusterNodeResourceGroupProfile_STATUS).
+
+| Value          | Description |
+|----------------|-------------|
+| "ReadOnly"     |             |
+| "Unrestricted" |             |
+
+<a id="ManagedClusterOperatorConfigMaps"></a>ManagedClusterOperatorConfigMaps
+-----------------------------------------------------------------------------
+
+Used by: [ManagedClusterOperatorSpec](#ManagedClusterOperatorSpec).
+
+| Property          | Description                                                                                                   | Type                                                                                                                                                             |
+|-------------------|---------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| oidcIssuerProfile | indicates where the OIDCIssuerProfile config map should be placed. If omitted, no config map will be created. | [genruntime.ConfigMapDestination](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapDestination)<br/><small>Optional</small> |
+
+<a id="ManagedClusterOperatorSecrets"></a>ManagedClusterOperatorSecrets
+-----------------------------------------------------------------------
+
+Used by: [ManagedClusterOperatorSpec](#ManagedClusterOperatorSpec).
+
+| Property         | Description                                                                                                            | Type                                                                                                                                                       |
+|------------------|------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| adminCredentials | indicates where the AdminCredentials secret should be placed. If omitted, the secret will not be retrieved from Azure. | [genruntime.SecretDestination](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination)<br/><small>Optional</small> |
+| userCredentials  | indicates where the UserCredentials secret should be placed. If omitted, the secret will not be retrieved from Azure.  | [genruntime.SecretDestination](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination)<br/><small>Optional</small> |
+
+<a id="ManagedClusterPodIdentity"></a>ManagedClusterPodIdentity
+---------------------------------------------------------------
+
+Used by: [ManagedClusterPodIdentityProfile](#ManagedClusterPodIdentityProfile).
+
+| Property        | Description | Type                                                                      |
+|-----------------|-------------|---------------------------------------------------------------------------|
+| bindingSelector |             | string<br/><small>Optional</small>                                        |
+| identity        |             | [UserAssignedIdentity](#UserAssignedIdentity)<br/><small>Required</small> |
+| name            |             | string<br/><small>Required</small>                                        |
+| namespace       |             | string<br/><small>Required</small>                                        |
+
+<a id="ManagedClusterPodIdentity_STATUS"></a>ManagedClusterPodIdentity_STATUS
+-----------------------------------------------------------------------------
+
+Used by: [ManagedClusterPodIdentityProfile_STATUS](#ManagedClusterPodIdentityProfile_STATUS).
+
+| Property          | Description | Type                                                                                                                                  |
+|-------------------|-------------|---------------------------------------------------------------------------------------------------------------------------------------|
+| bindingSelector   |             | string<br/><small>Optional</small>                                                                                                    |
+| identity          |             | [UserAssignedIdentity_STATUS](#UserAssignedIdentity_STATUS)<br/><small>Optional</small>                                               |
+| name              |             | string<br/><small>Optional</small>                                                                                                    |
+| namespace         |             | string<br/><small>Optional</small>                                                                                                    |
+| provisioningInfo  |             | [ManagedClusterPodIdentity_ProvisioningInfo_STATUS](#ManagedClusterPodIdentity_ProvisioningInfo_STATUS)<br/><small>Optional</small>   |
+| provisioningState |             | [ManagedClusterPodIdentity_ProvisioningState_STATUS](#ManagedClusterPodIdentity_ProvisioningState_STATUS)<br/><small>Optional</small> |
+
+<a id="ManagedClusterPodIdentityException"></a>ManagedClusterPodIdentityException
+---------------------------------------------------------------------------------
+
+Used by: [ManagedClusterPodIdentityProfile](#ManagedClusterPodIdentityProfile).
+
+| Property  | Description | Type                                          |
+|-----------|-------------|-----------------------------------------------|
+| name      |             | string<br/><small>Required</small>            |
+| namespace |             | string<br/><small>Required</small>            |
+| podLabels |             | map[string]string<br/><small>Required</small> |
+
+<a id="ManagedClusterPodIdentityException_STATUS"></a>ManagedClusterPodIdentityException_STATUS
+-----------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterPodIdentityProfile_STATUS](#ManagedClusterPodIdentityProfile_STATUS).
+
+| Property  | Description | Type                                          |
+|-----------|-------------|-----------------------------------------------|
+| name      |             | string<br/><small>Optional</small>            |
+| namespace |             | string<br/><small>Optional</small>            |
+| podLabels |             | map[string]string<br/><small>Optional</small> |
+
+<a id="ManagedClusterSecurityProfileDefender"></a>ManagedClusterSecurityProfileDefender
+---------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterSecurityProfile](#ManagedClusterSecurityProfile).
+
+| Property                               | Description | Type                                                                                                                                                       |
+|----------------------------------------|-------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| logAnalyticsWorkspaceResourceReference |             | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small> |
+| securityMonitoring                     |             | [ManagedClusterSecurityProfileDefenderSecurityMonitoring](#ManagedClusterSecurityProfileDefenderSecurityMonitoring)<br/><small>Optional</small>            |
+
+<a id="ManagedClusterSecurityProfileDefender_STATUS"></a>ManagedClusterSecurityProfileDefender_STATUS
+-----------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterSecurityProfile_STATUS](#ManagedClusterSecurityProfile_STATUS).
+
+| Property                        | Description | Type                                                                                                                                                          |
+|---------------------------------|-------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| logAnalyticsWorkspaceResourceId |             | string<br/><small>Optional</small>                                                                                                                            |
+| securityMonitoring              |             | [ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS](#ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS)<br/><small>Optional</small> |
+
+<a id="ManagedClusterSecurityProfileImageCleaner"></a>ManagedClusterSecurityProfileImageCleaner
+-----------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterSecurityProfile](#ManagedClusterSecurityProfile).
+
+| Property      | Description | Type                             |
+|---------------|-------------|----------------------------------|
+| enabled       |             | bool<br/><small>Optional</small> |
+| intervalHours |             | int<br/><small>Optional</small>  |
+
+<a id="ManagedClusterSecurityProfileImageCleaner_STATUS"></a>ManagedClusterSecurityProfileImageCleaner_STATUS
+-------------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterSecurityProfile_STATUS](#ManagedClusterSecurityProfile_STATUS).
+
+| Property      | Description | Type                             |
+|---------------|-------------|----------------------------------|
+| enabled       |             | bool<br/><small>Optional</small> |
+| intervalHours |             | int<br/><small>Optional</small>  |
+
+<a id="ManagedClusterSecurityProfileImageIntegrity"></a>ManagedClusterSecurityProfileImageIntegrity
+---------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterSecurityProfile](#ManagedClusterSecurityProfile).
+
+| Property | Description | Type                             |
+|----------|-------------|----------------------------------|
+| enabled  |             | bool<br/><small>Optional</small> |
+
+<a id="ManagedClusterSecurityProfileImageIntegrity_STATUS"></a>ManagedClusterSecurityProfileImageIntegrity_STATUS
+-----------------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterSecurityProfile_STATUS](#ManagedClusterSecurityProfile_STATUS).
+
+| Property | Description | Type                             |
+|----------|-------------|----------------------------------|
+| enabled  |             | bool<br/><small>Optional</small> |
+
+<a id="ManagedClusterSecurityProfileNodeRestriction"></a>ManagedClusterSecurityProfileNodeRestriction
+-----------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterSecurityProfile](#ManagedClusterSecurityProfile).
+
+| Property | Description | Type                             |
+|----------|-------------|----------------------------------|
+| enabled  |             | bool<br/><small>Optional</small> |
+
+<a id="ManagedClusterSecurityProfileNodeRestriction_STATUS"></a>ManagedClusterSecurityProfileNodeRestriction_STATUS
+-------------------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterSecurityProfile_STATUS](#ManagedClusterSecurityProfile_STATUS).
+
+| Property | Description | Type                             |
+|----------|-------------|----------------------------------|
+| enabled  |             | bool<br/><small>Optional</small> |
+
+<a id="ManagedClusterSecurityProfileWorkloadIdentity"></a>ManagedClusterSecurityProfileWorkloadIdentity
+-------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterSecurityProfile](#ManagedClusterSecurityProfile).
+
+| Property | Description | Type                             |
+|----------|-------------|----------------------------------|
+| enabled  |             | bool<br/><small>Optional</small> |
+
+<a id="ManagedClusterSecurityProfileWorkloadIdentity_STATUS"></a>ManagedClusterSecurityProfileWorkloadIdentity_STATUS
+---------------------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterSecurityProfile_STATUS](#ManagedClusterSecurityProfile_STATUS).
+
+| Property | Description | Type                             |
+|----------|-------------|----------------------------------|
+| enabled  |             | bool<br/><small>Optional</small> |
+
+<a id="ManagedClusterSKU_Name"></a>ManagedClusterSKU_Name
+---------------------------------------------------------
+
+Used by: [ManagedClusterSKU](#ManagedClusterSKU).
+
+| Value  | Description |
+|--------|-------------|
+| "Base" |             |
+
+<a id="ManagedClusterSKU_Name_STATUS"></a>ManagedClusterSKU_Name_STATUS
+-----------------------------------------------------------------------
+
+Used by: [ManagedClusterSKU_STATUS](#ManagedClusterSKU_STATUS).
+
+| Value  | Description |
+|--------|-------------|
+| "Base" |             |
+
+<a id="ManagedClusterSKU_Tier"></a>ManagedClusterSKU_Tier
+---------------------------------------------------------
+
+Used by: [ManagedClusterSKU](#ManagedClusterSKU).
+
+| Value      | Description |
+|------------|-------------|
+| "Free"     |             |
+| "Premium"  |             |
+| "Standard" |             |
+
+<a id="ManagedClusterSKU_Tier_STATUS"></a>ManagedClusterSKU_Tier_STATUS
+-----------------------------------------------------------------------
+
+Used by: [ManagedClusterSKU_STATUS](#ManagedClusterSKU_STATUS).
+
+| Value      | Description |
+|------------|-------------|
+| "Free"     |             |
+| "Premium"  |             |
+| "Standard" |             |
+
+<a id="ManagedClusterStorageProfileBlobCSIDriver"></a>ManagedClusterStorageProfileBlobCSIDriver
+-----------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterStorageProfile](#ManagedClusterStorageProfile).
+
+| Property | Description | Type                             |
+|----------|-------------|----------------------------------|
+| enabled  |             | bool<br/><small>Optional</small> |
+
+<a id="ManagedClusterStorageProfileBlobCSIDriver_STATUS"></a>ManagedClusterStorageProfileBlobCSIDriver_STATUS
+-------------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterStorageProfile_STATUS](#ManagedClusterStorageProfile_STATUS).
+
+| Property | Description | Type                             |
+|----------|-------------|----------------------------------|
+| enabled  |             | bool<br/><small>Optional</small> |
+
+<a id="ManagedClusterStorageProfileDiskCSIDriver"></a>ManagedClusterStorageProfileDiskCSIDriver
+-----------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterStorageProfile](#ManagedClusterStorageProfile).
+
+| Property | Description | Type                               |
+|----------|-------------|------------------------------------|
+| enabled  |             | bool<br/><small>Optional</small>   |
+| version  |             | string<br/><small>Optional</small> |
+
+<a id="ManagedClusterStorageProfileDiskCSIDriver_STATUS"></a>ManagedClusterStorageProfileDiskCSIDriver_STATUS
+-------------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterStorageProfile_STATUS](#ManagedClusterStorageProfile_STATUS).
+
+| Property | Description | Type                               |
+|----------|-------------|------------------------------------|
+| enabled  |             | bool<br/><small>Optional</small>   |
+| version  |             | string<br/><small>Optional</small> |
+
+<a id="ManagedClusterStorageProfileFileCSIDriver"></a>ManagedClusterStorageProfileFileCSIDriver
+-----------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterStorageProfile](#ManagedClusterStorageProfile).
+
+| Property | Description | Type                             |
+|----------|-------------|----------------------------------|
+| enabled  |             | bool<br/><small>Optional</small> |
+
+<a id="ManagedClusterStorageProfileFileCSIDriver_STATUS"></a>ManagedClusterStorageProfileFileCSIDriver_STATUS
+-------------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterStorageProfile_STATUS](#ManagedClusterStorageProfile_STATUS).
+
+| Property | Description | Type                             |
+|----------|-------------|----------------------------------|
+| enabled  |             | bool<br/><small>Optional</small> |
+
+<a id="ManagedClusterStorageProfileSnapshotController"></a>ManagedClusterStorageProfileSnapshotController
+---------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterStorageProfile](#ManagedClusterStorageProfile).
+
+| Property | Description | Type                             |
+|----------|-------------|----------------------------------|
+| enabled  |             | bool<br/><small>Optional</small> |
+
+<a id="ManagedClusterStorageProfileSnapshotController_STATUS"></a>ManagedClusterStorageProfileSnapshotController_STATUS
+-----------------------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterStorageProfile_STATUS](#ManagedClusterStorageProfile_STATUS).
+
+| Property | Description | Type                             |
+|----------|-------------|----------------------------------|
+| enabled  |             | bool<br/><small>Optional</small> |
+
+<a id="ManagedClusterWindowsProfile_LicenseType"></a>ManagedClusterWindowsProfile_LicenseType
+---------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterWindowsProfile](#ManagedClusterWindowsProfile).
+
+| Value            | Description |
+|------------------|-------------|
+| "None"           |             |
+| "Windows_Server" |             |
+
+<a id="ManagedClusterWindowsProfile_LicenseType_STATUS"></a>ManagedClusterWindowsProfile_LicenseType_STATUS
+-----------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterWindowsProfile_STATUS](#ManagedClusterWindowsProfile_STATUS).
+
+| Value            | Description |
+|------------------|-------------|
+| "None"           |             |
+| "Windows_Server" |             |
+
+<a id="ManagedClusterWorkloadAutoScalerProfileKeda"></a>ManagedClusterWorkloadAutoScalerProfileKeda
+---------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterWorkloadAutoScalerProfile](#ManagedClusterWorkloadAutoScalerProfile).
+
+| Property | Description | Type                             |
+|----------|-------------|----------------------------------|
+| enabled  |             | bool<br/><small>Required</small> |
+
+<a id="ManagedClusterWorkloadAutoScalerProfileKeda_STATUS"></a>ManagedClusterWorkloadAutoScalerProfileKeda_STATUS
+-----------------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterWorkloadAutoScalerProfile_STATUS](#ManagedClusterWorkloadAutoScalerProfile_STATUS).
+
+| Property | Description | Type                             |
+|----------|-------------|----------------------------------|
+| enabled  |             | bool<br/><small>Optional</small> |
+
+<a id="ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler"></a>ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler
+-------------------------------------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterWorkloadAutoScalerProfile](#ManagedClusterWorkloadAutoScalerProfile).
+
+| Property         | Description | Type                                                                                                                                                                                        |
+|------------------|-------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| addonAutoscaling |             | [ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_AddonAutoscaling](#ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_AddonAutoscaling)<br/><small>Optional</small> |
+| enabled          |             | bool<br/><small>Required</small>                                                                                                                                                            |
+
+<a id="ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS"></a>ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterWorkloadAutoScalerProfile_STATUS](#ManagedClusterWorkloadAutoScalerProfile_STATUS).
+
+| Property         | Description | Type                                                                                                                                                                                                      |
+|------------------|-------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| addonAutoscaling |             | [ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_AddonAutoscaling_STATUS](#ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_AddonAutoscaling_STATUS)<br/><small>Optional</small> |
+| enabled          |             | bool<br/><small>Optional</small>                                                                                                                                                                          |
+
+<a id="NetworkDataplane"></a>NetworkDataplane
+---------------------------------------------
+
+Used by: [ContainerServiceNetworkProfile](#ContainerServiceNetworkProfile).
+
+| Value    | Description |
+|----------|-------------|
+| "azure"  |             |
+| "cilium" |             |
+
+<a id="NetworkDataplane_STATUS"></a>NetworkDataplane_STATUS
+-----------------------------------------------------------
+
+Used by: [ContainerServiceNetworkProfile_STATUS](#ContainerServiceNetworkProfile_STATUS).
+
+| Value    | Description |
+|----------|-------------|
+| "azure"  |             |
+| "cilium" |             |
+
+<a id="NetworkMode"></a>NetworkMode
+-----------------------------------
+
+Used by: [ContainerServiceNetworkProfile](#ContainerServiceNetworkProfile).
+
+| Value         | Description |
+|---------------|-------------|
+| "bridge"      |             |
+| "transparent" |             |
+
+<a id="NetworkMode_STATUS"></a>NetworkMode_STATUS
+-------------------------------------------------
+
+Used by: [ContainerServiceNetworkProfile_STATUS](#ContainerServiceNetworkProfile_STATUS).
+
+| Value         | Description |
+|---------------|-------------|
+| "bridge"      |             |
+| "transparent" |             |
+
+<a id="NetworkMonitoring"></a>NetworkMonitoring
+-----------------------------------------------
+
+Used by: [ContainerServiceNetworkProfile](#ContainerServiceNetworkProfile).
+
+| Property | Description | Type                             |
+|----------|-------------|----------------------------------|
+| enabled  |             | bool<br/><small>Optional</small> |
+
+<a id="NetworkMonitoring_STATUS"></a>NetworkMonitoring_STATUS
+-------------------------------------------------------------
+
+Used by: [ContainerServiceNetworkProfile_STATUS](#ContainerServiceNetworkProfile_STATUS).
+
+| Property | Description | Type                             |
+|----------|-------------|----------------------------------|
+| enabled  |             | bool<br/><small>Optional</small> |
+
+<a id="NetworkPlugin"></a>NetworkPlugin
+---------------------------------------
+
+Used by: [ContainerServiceNetworkProfile](#ContainerServiceNetworkProfile).
+
+| Value     | Description |
+|-----------|-------------|
+| "azure"   |             |
+| "kubenet" |             |
+| "none"    |             |
+
+<a id="NetworkPlugin_STATUS"></a>NetworkPlugin_STATUS
+-----------------------------------------------------
+
+Used by: [ContainerServiceNetworkProfile_STATUS](#ContainerServiceNetworkProfile_STATUS).
+
+| Value     | Description |
+|-----------|-------------|
+| "azure"   |             |
+| "kubenet" |             |
+| "none"    |             |
+
+<a id="NetworkPluginMode"></a>NetworkPluginMode
+-----------------------------------------------
+
+Used by: [ContainerServiceNetworkProfile](#ContainerServiceNetworkProfile).
+
+| Value     | Description |
+|-----------|-------------|
+| "overlay" |             |
+
+<a id="NetworkPluginMode_STATUS"></a>NetworkPluginMode_STATUS
+-------------------------------------------------------------
+
+Used by: [ContainerServiceNetworkProfile_STATUS](#ContainerServiceNetworkProfile_STATUS).
+
+| Value     | Description |
+|-----------|-------------|
+| "overlay" |             |
+
+<a id="NetworkPolicy"></a>NetworkPolicy
+---------------------------------------
+
+Used by: [ContainerServiceNetworkProfile](#ContainerServiceNetworkProfile).
+
+| Value    | Description |
+|----------|-------------|
+| "azure"  |             |
+| "calico" |             |
+| "cilium" |             |
+| "none"   |             |
+
+<a id="NetworkPolicy_STATUS"></a>NetworkPolicy_STATUS
+-----------------------------------------------------
+
+Used by: [ContainerServiceNetworkProfile_STATUS](#ContainerServiceNetworkProfile_STATUS).
+
+| Value    | Description |
+|----------|-------------|
+| "azure"  |             |
+| "calico" |             |
+| "cilium" |             |
+| "none"   |             |
+
+<a id="PortRange"></a>PortRange
+-------------------------------
+
+Used by: [AgentPoolNetworkProfile](#AgentPoolNetworkProfile).
+
+| Property  | Description | Type                                                                  |
+|-----------|-------------|-----------------------------------------------------------------------|
+| portEnd   |             | int<br/><small>Optional</small>                                       |
+| portStart |             | int<br/><small>Optional</small>                                       |
+| protocol  |             | [PortRange_Protocol](#PortRange_Protocol)<br/><small>Optional</small> |
+
+<a id="PortRange_STATUS"></a>PortRange_STATUS
+---------------------------------------------
+
+Used by: [AgentPoolNetworkProfile_STATUS](#AgentPoolNetworkProfile_STATUS).
+
+| Property  | Description | Type                                                                                |
+|-----------|-------------|-------------------------------------------------------------------------------------|
+| portEnd   |             | int<br/><small>Optional</small>                                                     |
+| portStart |             | int<br/><small>Optional</small>                                                     |
+| protocol  |             | [PortRange_Protocol_STATUS](#PortRange_Protocol_STATUS)<br/><small>Optional</small> |
+
+<a id="PowerState_Code"></a>PowerState_Code
+-------------------------------------------
+
+Used by: [PowerState](#PowerState).
+
+| Value     | Description |
+|-----------|-------------|
+| "Running" |             |
+| "Stopped" |             |
+
+<a id="PowerState_Code_STATUS"></a>PowerState_Code_STATUS
+---------------------------------------------------------
+
+Used by: [PowerState_STATUS](#PowerState_STATUS).
+
+| Value     | Description |
+|-----------|-------------|
+| "Running" |             |
+| "Stopped" |             |
+
+<a id="SafeguardsProfile_Level"></a>SafeguardsProfile_Level
+-----------------------------------------------------------
+
+Used by: [SafeguardsProfile](#SafeguardsProfile).
+
+| Value         | Description |
+|---------------|-------------|
+| "Enforcement" |             |
+| "Off"         |             |
+| "Warning"     |             |
+
+<a id="SafeguardsProfile_Level_STATUS"></a>SafeguardsProfile_Level_STATUS
+-------------------------------------------------------------------------
+
+Used by: [SafeguardsProfile_STATUS](#SafeguardsProfile_STATUS).
+
+| Value         | Description |
+|---------------|-------------|
+| "Enforcement" |             |
+| "Off"         |             |
+| "Warning"     |             |
+
+<a id="ScaleProfile"></a>ScaleProfile
+-------------------------------------
+
+Used by: [VirtualMachinesProfile](#VirtualMachinesProfile).
+
+| Property | Description | Type                                                                    |
+|----------|-------------|-------------------------------------------------------------------------|
+| manual   |             | [ManualScaleProfile[]](#ManualScaleProfile)<br/><small>Optional</small> |
+
+<a id="ScaleProfile_STATUS"></a>ScaleProfile_STATUS
+---------------------------------------------------
+
+Used by: [VirtualMachinesProfile_STATUS](#VirtualMachinesProfile_STATUS).
+
+| Property | Description | Type                                                                                  |
+|----------|-------------|---------------------------------------------------------------------------------------|
+| manual   |             | [ManualScaleProfile_STATUS[]](#ManualScaleProfile_STATUS)<br/><small>Optional</small> |
+
+<a id="ServiceMeshProfile_Mode"></a>ServiceMeshProfile_Mode
+-----------------------------------------------------------
+
+Used by: [ServiceMeshProfile](#ServiceMeshProfile).
+
+| Value      | Description |
+|------------|-------------|
+| "Disabled" |             |
+| "Istio"    |             |
+
+<a id="ServiceMeshProfile_Mode_STATUS"></a>ServiceMeshProfile_Mode_STATUS
+-------------------------------------------------------------------------
+
+Used by: [ServiceMeshProfile_STATUS](#ServiceMeshProfile_STATUS).
+
+| Value      | Description |
+|------------|-------------|
+| "Disabled" |             |
+| "Istio"    |             |
+
+<a id="SysctlConfig"></a>SysctlConfig
+-------------------------------------
+
+Used by: [LinuxOSConfig](#LinuxOSConfig).
+
+| Property                       | Description | Type                               |
+|--------------------------------|-------------|------------------------------------|
+| fsAioMaxNr                     |             | int<br/><small>Optional</small>    |
+| fsFileMax                      |             | int<br/><small>Optional</small>    |
+| fsInotifyMaxUserWatches        |             | int<br/><small>Optional</small>    |
+| fsNrOpen                       |             | int<br/><small>Optional</small>    |
+| kernelThreadsMax               |             | int<br/><small>Optional</small>    |
+| netCoreNetdevMaxBacklog        |             | int<br/><small>Optional</small>    |
+| netCoreOptmemMax               |             | int<br/><small>Optional</small>    |
+| netCoreRmemDefault             |             | int<br/><small>Optional</small>    |
+| netCoreRmemMax                 |             | int<br/><small>Optional</small>    |
+| netCoreSomaxconn               |             | int<br/><small>Optional</small>    |
+| netCoreWmemDefault             |             | int<br/><small>Optional</small>    |
+| netCoreWmemMax                 |             | int<br/><small>Optional</small>    |
+| netIpv4IpLocalPortRange        |             | string<br/><small>Optional</small> |
+| netIpv4NeighDefaultGcThresh1   |             | int<br/><small>Optional</small>    |
+| netIpv4NeighDefaultGcThresh2   |             | int<br/><small>Optional</small>    |
+| netIpv4NeighDefaultGcThresh3   |             | int<br/><small>Optional</small>    |
+| netIpv4TcpFinTimeout           |             | int<br/><small>Optional</small>    |
+| netIpv4TcpkeepaliveIntvl       |             | int<br/><small>Optional</small>    |
+| netIpv4TcpKeepaliveProbes      |             | int<br/><small>Optional</small>    |
+| netIpv4TcpKeepaliveTime        |             | int<br/><small>Optional</small>    |
+| netIpv4TcpMaxSynBacklog        |             | int<br/><small>Optional</small>    |
+| netIpv4TcpMaxTwBuckets         |             | int<br/><small>Optional</small>    |
+| netIpv4TcpTwReuse              |             | bool<br/><small>Optional</small>   |
+| netNetfilterNfConntrackBuckets |             | int<br/><small>Optional</small>    |
+| netNetfilterNfConntrackMax     |             | int<br/><small>Optional</small>    |
+| vmMaxMapCount                  |             | int<br/><small>Optional</small>    |
+| vmSwappiness                   |             | int<br/><small>Optional</small>    |
+| vmVfsCachePressure             |             | int<br/><small>Optional</small>    |
+
+<a id="SysctlConfig_STATUS"></a>SysctlConfig_STATUS
+---------------------------------------------------
+
+Used by: [LinuxOSConfig_STATUS](#LinuxOSConfig_STATUS).
+
+| Property                       | Description | Type                               |
+|--------------------------------|-------------|------------------------------------|
+| fsAioMaxNr                     |             | int<br/><small>Optional</small>    |
+| fsFileMax                      |             | int<br/><small>Optional</small>    |
+| fsInotifyMaxUserWatches        |             | int<br/><small>Optional</small>    |
+| fsNrOpen                       |             | int<br/><small>Optional</small>    |
+| kernelThreadsMax               |             | int<br/><small>Optional</small>    |
+| netCoreNetdevMaxBacklog        |             | int<br/><small>Optional</small>    |
+| netCoreOptmemMax               |             | int<br/><small>Optional</small>    |
+| netCoreRmemDefault             |             | int<br/><small>Optional</small>    |
+| netCoreRmemMax                 |             | int<br/><small>Optional</small>    |
+| netCoreSomaxconn               |             | int<br/><small>Optional</small>    |
+| netCoreWmemDefault             |             | int<br/><small>Optional</small>    |
+| netCoreWmemMax                 |             | int<br/><small>Optional</small>    |
+| netIpv4IpLocalPortRange        |             | string<br/><small>Optional</small> |
+| netIpv4NeighDefaultGcThresh1   |             | int<br/><small>Optional</small>    |
+| netIpv4NeighDefaultGcThresh2   |             | int<br/><small>Optional</small>    |
+| netIpv4NeighDefaultGcThresh3   |             | int<br/><small>Optional</small>    |
+| netIpv4TcpFinTimeout           |             | int<br/><small>Optional</small>    |
+| netIpv4TcpkeepaliveIntvl       |             | int<br/><small>Optional</small>    |
+| netIpv4TcpKeepaliveProbes      |             | int<br/><small>Optional</small>    |
+| netIpv4TcpKeepaliveTime        |             | int<br/><small>Optional</small>    |
+| netIpv4TcpMaxSynBacklog        |             | int<br/><small>Optional</small>    |
+| netIpv4TcpMaxTwBuckets         |             | int<br/><small>Optional</small>    |
+| netIpv4TcpTwReuse              |             | bool<br/><small>Optional</small>   |
+| netNetfilterNfConntrackBuckets |             | int<br/><small>Optional</small>    |
+| netNetfilterNfConntrackMax     |             | int<br/><small>Optional</small>    |
+| vmMaxMapCount                  |             | int<br/><small>Optional</small>    |
+| vmSwappiness                   |             | int<br/><small>Optional</small>    |
+| vmVfsCachePressure             |             | int<br/><small>Optional</small>    |
+
+<a id="SystemData_CreatedByType_STATUS"></a>SystemData_CreatedByType_STATUS
+---------------------------------------------------------------------------
+
+Used by: [SystemData_STATUS](#SystemData_STATUS).
+
+| Value             | Description |
+|-------------------|-------------|
+| "Application"     |             |
+| "Key"             |             |
+| "ManagedIdentity" |             |
+| "User"            |             |
+
+<a id="SystemData_LastModifiedByType_STATUS"></a>SystemData_LastModifiedByType_STATUS
+-------------------------------------------------------------------------------------
+
+Used by: [SystemData_STATUS](#SystemData_STATUS).
+
+| Value             | Description |
+|-------------------|-------------|
+| "Application"     |             |
+| "Key"             |             |
+| "ManagedIdentity" |             |
+| "User"            |             |
+
+<a id="UpgradeOverrideSettings"></a>UpgradeOverrideSettings
+-----------------------------------------------------------
+
+Used by: [ClusterUpgradeSettings](#ClusterUpgradeSettings).
+
+| Property     | Description | Type                               |
+|--------------|-------------|------------------------------------|
+| forceUpgrade |             | bool<br/><small>Optional</small>   |
+| until        |             | string<br/><small>Optional</small> |
+
+<a id="UpgradeOverrideSettings_STATUS"></a>UpgradeOverrideSettings_STATUS
+-------------------------------------------------------------------------
+
+Used by: [ClusterUpgradeSettings_STATUS](#ClusterUpgradeSettings_STATUS).
+
+| Property     | Description | Type                               |
+|--------------|-------------|------------------------------------|
+| forceUpgrade |             | bool<br/><small>Optional</small>   |
+| until        |             | string<br/><small>Optional</small> |
+
+<a id="UserAssignedIdentityDetails"></a>UserAssignedIdentityDetails
+-------------------------------------------------------------------
+
+Used by: [ManagedClusterIdentity](#ManagedClusterIdentity).
+
+| Property  | Description | Type                                                                                                                                                       |
+|-----------|-------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| reference |             | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small> |
+
+<a id="WindowsGmsaProfile"></a>WindowsGmsaProfile
+-------------------------------------------------
+
+Used by: [ManagedClusterWindowsProfile](#ManagedClusterWindowsProfile).
+
+| Property       | Description | Type                               |
+|----------------|-------------|------------------------------------|
+| dnsServer      |             | string<br/><small>Optional</small> |
+| enabled        |             | bool<br/><small>Optional</small>   |
+| rootDomainName |             | string<br/><small>Optional</small> |
+
+<a id="WindowsGmsaProfile_STATUS"></a>WindowsGmsaProfile_STATUS
+---------------------------------------------------------------
+
+Used by: [ManagedClusterWindowsProfile_STATUS](#ManagedClusterWindowsProfile_STATUS).
+
+| Property       | Description | Type                               |
+|----------------|-------------|------------------------------------|
+| dnsServer      |             | string<br/><small>Optional</small> |
+| enabled        |             | bool<br/><small>Optional</small>   |
+| rootDomainName |             | string<br/><small>Optional</small> |
+
+<a id="AzureKeyVaultKms_KeyVaultNetworkAccess"></a>AzureKeyVaultKms_KeyVaultNetworkAccess
+-----------------------------------------------------------------------------------------
+
+Used by: [AzureKeyVaultKms](#AzureKeyVaultKms).
+
+| Value     | Description |
+|-----------|-------------|
+| "Private" |             |
+| "Public"  |             |
+
+<a id="AzureKeyVaultKms_KeyVaultNetworkAccess_STATUS"></a>AzureKeyVaultKms_KeyVaultNetworkAccess_STATUS
+-------------------------------------------------------------------------------------------------------
+
+Used by: [AzureKeyVaultKms_STATUS](#AzureKeyVaultKms_STATUS).
+
+| Value     | Description |
+|-----------|-------------|
+| "Private" |             |
+| "Public"  |             |
+
+<a id="ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig"></a>ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig
+-------------------------------------------------------------------------------------------------------------------------------
+
+Used by: [ContainerServiceNetworkProfile_KubeProxyConfig](#ContainerServiceNetworkProfile_KubeProxyConfig).
+
+| Property             | Description | Type                                                                                                                                                                    |
+|----------------------|-------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| scheduler            |             | [ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_Scheduler](#ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_Scheduler)<br/><small>Optional</small> |
+| tcpFinTimeoutSeconds |             | int<br/><small>Optional</small>                                                                                                                                         |
+| tcpTimeoutSeconds    |             | int<br/><small>Optional</small>                                                                                                                                         |
+| udpTimeoutSeconds    |             | int<br/><small>Optional</small>                                                                                                                                         |
+
+<a id="ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS"></a>ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Used by: [ContainerServiceNetworkProfile_KubeProxyConfig_STATUS](#ContainerServiceNetworkProfile_KubeProxyConfig_STATUS).
+
+| Property             | Description | Type                                                                                                                                                                                  |
+|----------------------|-------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| scheduler            |             | [ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_Scheduler_STATUS](#ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_Scheduler_STATUS)<br/><small>Optional</small> |
+| tcpFinTimeoutSeconds |             | int<br/><small>Optional</small>                                                                                                                                                       |
+| tcpTimeoutSeconds    |             | int<br/><small>Optional</small>                                                                                                                                                       |
+| udpTimeoutSeconds    |             | int<br/><small>Optional</small>                                                                                                                                                       |
+
+<a id="ContainerServiceNetworkProfile_KubeProxyConfig_Mode"></a>ContainerServiceNetworkProfile_KubeProxyConfig_Mode
+-------------------------------------------------------------------------------------------------------------------
+
+Used by: [ContainerServiceNetworkProfile_KubeProxyConfig](#ContainerServiceNetworkProfile_KubeProxyConfig).
+
+| Value      | Description |
+|------------|-------------|
+| "IPTABLES" |             |
+| "IPVS"     |             |
+
+<a id="ContainerServiceNetworkProfile_KubeProxyConfig_Mode_STATUS"></a>ContainerServiceNetworkProfile_KubeProxyConfig_Mode_STATUS
+---------------------------------------------------------------------------------------------------------------------------------
+
+Used by: [ContainerServiceNetworkProfile_KubeProxyConfig_STATUS](#ContainerServiceNetworkProfile_KubeProxyConfig_STATUS).
+
+| Value      | Description |
+|------------|-------------|
+| "IPTABLES" |             |
+| "IPVS"     |             |
+
+<a id="ContainerServiceSshPublicKey"></a>ContainerServiceSshPublicKey
+---------------------------------------------------------------------
+
+Used by: [ContainerServiceSshConfiguration](#ContainerServiceSshConfiguration).
+
+| Property | Description | Type                               |
+|----------|-------------|------------------------------------|
+| keyData  |             | string<br/><small>Required</small> |
+
+<a id="ContainerServiceSshPublicKey_STATUS"></a>ContainerServiceSshPublicKey_STATUS
+-----------------------------------------------------------------------------------
+
+Used by: [ContainerServiceSshConfiguration_STATUS](#ContainerServiceSshConfiguration_STATUS).
+
+| Property | Description | Type                               |
+|----------|-------------|------------------------------------|
+| keyData  |             | string<br/><small>Optional</small> |
+
+<a id="IstioCertificateAuthority"></a>IstioCertificateAuthority
+---------------------------------------------------------------
+
+Used by: [IstioServiceMesh](#IstioServiceMesh).
+
+| Property | Description | Type                                                                                            |
+|----------|-------------|-------------------------------------------------------------------------------------------------|
+| plugin   |             | [IstioPluginCertificateAuthority](#IstioPluginCertificateAuthority)<br/><small>Optional</small> |
+
+<a id="IstioCertificateAuthority_STATUS"></a>IstioCertificateAuthority_STATUS
+-----------------------------------------------------------------------------
+
+Used by: [IstioServiceMesh_STATUS](#IstioServiceMesh_STATUS).
+
+| Property | Description | Type                                                                                                          |
+|----------|-------------|---------------------------------------------------------------------------------------------------------------|
+| plugin   |             | [IstioPluginCertificateAuthority_STATUS](#IstioPluginCertificateAuthority_STATUS)<br/><small>Optional</small> |
+
+<a id="IstioComponents"></a>IstioComponents
+-------------------------------------------
+
+Used by: [IstioServiceMesh](#IstioServiceMesh).
+
+| Property        | Description | Type                                                                      |
+|-----------------|-------------|---------------------------------------------------------------------------|
+| egressGateways  |             | [IstioEgressGateway[]](#IstioEgressGateway)<br/><small>Optional</small>   |
+| ingressGateways |             | [IstioIngressGateway[]](#IstioIngressGateway)<br/><small>Optional</small> |
+
+<a id="IstioComponents_STATUS"></a>IstioComponents_STATUS
+---------------------------------------------------------
+
+Used by: [IstioServiceMesh_STATUS](#IstioServiceMesh_STATUS).
+
+| Property        | Description | Type                                                                                    |
+|-----------------|-------------|-----------------------------------------------------------------------------------------|
+| egressGateways  |             | [IstioEgressGateway_STATUS[]](#IstioEgressGateway_STATUS)<br/><small>Optional</small>   |
+| ingressGateways |             | [IstioIngressGateway_STATUS[]](#IstioIngressGateway_STATUS)<br/><small>Optional</small> |
+
+<a id="ManagedClusterAzureMonitorProfileAppMonitoring"></a>ManagedClusterAzureMonitorProfileAppMonitoring
+---------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterAzureMonitorProfileLogs](#ManagedClusterAzureMonitorProfileLogs).
+
+| Property | Description | Type                             |
+|----------|-------------|----------------------------------|
+| enabled  |             | bool<br/><small>Optional</small> |
+
+<a id="ManagedClusterAzureMonitorProfileAppMonitoring_STATUS"></a>ManagedClusterAzureMonitorProfileAppMonitoring_STATUS
+-----------------------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterAzureMonitorProfileLogs_STATUS](#ManagedClusterAzureMonitorProfileLogs_STATUS).
+
+| Property | Description | Type                             |
+|----------|-------------|----------------------------------|
+| enabled  |             | bool<br/><small>Optional</small> |
+
+<a id="ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics"></a>ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterAzureMonitorProfileMetrics](#ManagedClusterAzureMonitorProfileMetrics).
+
+| Property | Description | Type                             |
+|----------|-------------|----------------------------------|
+| enabled  |             | bool<br/><small>Optional</small> |
+
+<a id="ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics_STATUS"></a>ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics_STATUS
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterAzureMonitorProfileMetrics_STATUS](#ManagedClusterAzureMonitorProfileMetrics_STATUS).
+
+| Property | Description | Type                             |
+|----------|-------------|----------------------------------|
+| enabled  |             | bool<br/><small>Optional</small> |
+
+<a id="ManagedClusterAzureMonitorProfileContainerInsights"></a>ManagedClusterAzureMonitorProfileContainerInsights
+-----------------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterAzureMonitorProfileLogs](#ManagedClusterAzureMonitorProfileLogs).
+
+| Property                               | Description | Type                                                                                                                                                       |
+|----------------------------------------|-------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| enabled                                |             | bool<br/><small>Optional</small>                                                                                                                           |
+| logAnalyticsWorkspaceResourceReference |             | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small> |
+| windowsHostLogs                        |             | [ManagedClusterAzureMonitorProfileWindowsHostLogs](#ManagedClusterAzureMonitorProfileWindowsHostLogs)<br/><small>Optional</small>                          |
+
+<a id="ManagedClusterAzureMonitorProfileContainerInsights_STATUS"></a>ManagedClusterAzureMonitorProfileContainerInsights_STATUS
+-------------------------------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterAzureMonitorProfileLogs_STATUS](#ManagedClusterAzureMonitorProfileLogs_STATUS).
+
+| Property                        | Description | Type                                                                                                                                            |
+|---------------------------------|-------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
+| enabled                         |             | bool<br/><small>Optional</small>                                                                                                                |
+| logAnalyticsWorkspaceResourceId |             | string<br/><small>Optional</small>                                                                                                              |
+| windowsHostLogs                 |             | [ManagedClusterAzureMonitorProfileWindowsHostLogs_STATUS](#ManagedClusterAzureMonitorProfileWindowsHostLogs_STATUS)<br/><small>Optional</small> |
+
+<a id="ManagedClusterAzureMonitorProfileKubeStateMetrics"></a>ManagedClusterAzureMonitorProfileKubeStateMetrics
+---------------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterAzureMonitorProfileMetrics](#ManagedClusterAzureMonitorProfileMetrics).
+
+| Property                   | Description | Type                               |
+|----------------------------|-------------|------------------------------------|
+| metricAnnotationsAllowList |             | string<br/><small>Optional</small> |
+| metricLabelsAllowlist      |             | string<br/><small>Optional</small> |
+
+<a id="ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS"></a>ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS
+-----------------------------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterAzureMonitorProfileMetrics_STATUS](#ManagedClusterAzureMonitorProfileMetrics_STATUS).
+
+| Property                   | Description | Type                               |
+|----------------------------|-------------|------------------------------------|
+| metricAnnotationsAllowList |             | string<br/><small>Optional</small> |
+| metricLabelsAllowlist      |             | string<br/><small>Optional</small> |
+
+<a id="ManagedClusterLoadBalancerProfile_BackendPoolType"></a>ManagedClusterLoadBalancerProfile_BackendPoolType
+---------------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterLoadBalancerProfile](#ManagedClusterLoadBalancerProfile).
+
+| Value                 | Description |
+|-----------------------|-------------|
+| "NodeIP"              |             |
+| "NodeIPConfiguration" |             |
+
+<a id="ManagedClusterLoadBalancerProfile_BackendPoolType_STATUS"></a>ManagedClusterLoadBalancerProfile_BackendPoolType_STATUS
+-----------------------------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterLoadBalancerProfile_STATUS](#ManagedClusterLoadBalancerProfile_STATUS).
+
+| Value                 | Description |
+|-----------------------|-------------|
+| "NodeIP"              |             |
+| "NodeIPConfiguration" |             |
+
+<a id="ManagedClusterLoadBalancerProfile_ManagedOutboundIPs"></a>ManagedClusterLoadBalancerProfile_ManagedOutboundIPs
+---------------------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterLoadBalancerProfile](#ManagedClusterLoadBalancerProfile).
+
+| Property  | Description | Type                            |
+|-----------|-------------|---------------------------------|
+| count     |             | int<br/><small>Optional</small> |
+| countIPv6 |             | int<br/><small>Optional</small> |
+
+<a id="ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS"></a>ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS
+-----------------------------------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterLoadBalancerProfile_STATUS](#ManagedClusterLoadBalancerProfile_STATUS).
+
+| Property  | Description | Type                            |
+|-----------|-------------|---------------------------------|
+| count     |             | int<br/><small>Optional</small> |
+| countIPv6 |             | int<br/><small>Optional</small> |
+
+<a id="ManagedClusterLoadBalancerProfile_OutboundIPPrefixes"></a>ManagedClusterLoadBalancerProfile_OutboundIPPrefixes
+---------------------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterLoadBalancerProfile](#ManagedClusterLoadBalancerProfile).
+
+| Property         | Description | Type                                                                  |
+|------------------|-------------|-----------------------------------------------------------------------|
+| publicIPPrefixes |             | [ResourceReference[]](#ResourceReference)<br/><small>Optional</small> |
+
+<a id="ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS"></a>ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS
+-----------------------------------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterLoadBalancerProfile_STATUS](#ManagedClusterLoadBalancerProfile_STATUS).
+
+| Property         | Description | Type                                                                                |
+|------------------|-------------|-------------------------------------------------------------------------------------|
+| publicIPPrefixes |             | [ResourceReference_STATUS[]](#ResourceReference_STATUS)<br/><small>Optional</small> |
+
+<a id="ManagedClusterLoadBalancerProfile_OutboundIPs"></a>ManagedClusterLoadBalancerProfile_OutboundIPs
+-------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterLoadBalancerProfile](#ManagedClusterLoadBalancerProfile).
+
+| Property  | Description | Type                                                                  |
+|-----------|-------------|-----------------------------------------------------------------------|
+| publicIPs |             | [ResourceReference[]](#ResourceReference)<br/><small>Optional</small> |
+
+<a id="ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS"></a>ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS
+---------------------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterLoadBalancerProfile_STATUS](#ManagedClusterLoadBalancerProfile_STATUS).
+
+| Property  | Description | Type                                                                                |
+|-----------|-------------|-------------------------------------------------------------------------------------|
+| publicIPs |             | [ResourceReference_STATUS[]](#ResourceReference_STATUS)<br/><small>Optional</small> |
+
+<a id="ManagedClusterManagedOutboundIPProfile"></a>ManagedClusterManagedOutboundIPProfile
+-----------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterNATGatewayProfile](#ManagedClusterNATGatewayProfile).
+
+| Property | Description | Type                            |
+|----------|-------------|---------------------------------|
+| count    |             | int<br/><small>Optional</small> |
+
+<a id="ManagedClusterManagedOutboundIPProfile_STATUS"></a>ManagedClusterManagedOutboundIPProfile_STATUS
+-------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterNATGatewayProfile_STATUS](#ManagedClusterNATGatewayProfile_STATUS).
+
+| Property | Description | Type                            |
+|----------|-------------|---------------------------------|
+| count    |             | int<br/><small>Optional</small> |
+
+<a id="ManagedClusterPodIdentity_ProvisioningInfo_STATUS"></a>ManagedClusterPodIdentity_ProvisioningInfo_STATUS
+---------------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterPodIdentity_STATUS](#ManagedClusterPodIdentity_STATUS).
+
+| Property | Description | Type                                                                                                                                |
+|----------|-------------|-------------------------------------------------------------------------------------------------------------------------------------|
+| error    |             | [ManagedClusterPodIdentityProvisioningError_STATUS](#ManagedClusterPodIdentityProvisioningError_STATUS)<br/><small>Optional</small> |
+
+<a id="ManagedClusterPodIdentity_ProvisioningState_STATUS"></a>ManagedClusterPodIdentity_ProvisioningState_STATUS
+-----------------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterPodIdentity_STATUS](#ManagedClusterPodIdentity_STATUS).
+
+| Value       | Description |
+|-------------|-------------|
+| "Assigned"  |             |
+| "Canceled"  |             |
+| "Deleting"  |             |
+| "Failed"    |             |
+| "Succeeded" |             |
+| "Updating"  |             |
+
+<a id="ManagedClusterSecurityProfileDefenderSecurityMonitoring"></a>ManagedClusterSecurityProfileDefenderSecurityMonitoring
+---------------------------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterSecurityProfileDefender](#ManagedClusterSecurityProfileDefender).
+
+| Property | Description | Type                             |
+|----------|-------------|----------------------------------|
+| enabled  |             | bool<br/><small>Optional</small> |
+
+<a id="ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS"></a>ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterSecurityProfileDefender_STATUS](#ManagedClusterSecurityProfileDefender_STATUS).
+
+| Property | Description | Type                             |
+|----------|-------------|----------------------------------|
+| enabled  |             | bool<br/><small>Optional</small> |
+
+<a id="ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_AddonAutoscaling"></a>ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_AddonAutoscaling
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler](#ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler).
+
+| Value      | Description |
+|------------|-------------|
+| "Disabled" |             |
+| "Enabled"  |             |
+
+<a id="ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_AddonAutoscaling_STATUS"></a>ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_AddonAutoscaling_STATUS
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS](#ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS).
+
+| Value      | Description |
+|------------|-------------|
+| "Disabled" |             |
+| "Enabled"  |             |
+
+<a id="ManualScaleProfile"></a>ManualScaleProfile
+-------------------------------------------------
+
+Used by: [ScaleProfile](#ScaleProfile).
+
+| Property | Description | Type                                 |
+|----------|-------------|--------------------------------------|
+| count    |             | int<br/><small>Optional</small>      |
+| sizes    |             | string[]<br/><small>Optional</small> |
+
+<a id="ManualScaleProfile_STATUS"></a>ManualScaleProfile_STATUS
+---------------------------------------------------------------
+
+Used by: [ScaleProfile_STATUS](#ScaleProfile_STATUS).
+
+| Property | Description | Type                                 |
+|----------|-------------|--------------------------------------|
+| count    |             | int<br/><small>Optional</small>      |
+| sizes    |             | string[]<br/><small>Optional</small> |
+
+<a id="PortRange_Protocol"></a>PortRange_Protocol
+-------------------------------------------------
+
+Used by: [PortRange](#PortRange).
+
+| Value | Description |
+|-------|-------------|
+| "TCP" |             |
+| "UDP" |             |
+
+<a id="PortRange_Protocol_STATUS"></a>PortRange_Protocol_STATUS
+---------------------------------------------------------------
+
+Used by: [PortRange_STATUS](#PortRange_STATUS).
+
+| Value | Description |
+|-------|-------------|
+| "TCP" |             |
+| "UDP" |             |
+
+<a id="ResourceReference"></a>ResourceReference
+-----------------------------------------------
+
+Used by: [ManagedClusterLoadBalancerProfile](#ManagedClusterLoadBalancerProfile), [ManagedClusterLoadBalancerProfile_OutboundIPPrefixes](#ManagedClusterLoadBalancerProfile_OutboundIPPrefixes), [ManagedClusterLoadBalancerProfile_OutboundIPs](#ManagedClusterLoadBalancerProfile_OutboundIPs), and [ManagedClusterNATGatewayProfile](#ManagedClusterNATGatewayProfile).
+
+| Property  | Description | Type                                                                                                                                                       |
+|-----------|-------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| reference |             | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small> |
+
+<a id="ResourceReference_STATUS"></a>ResourceReference_STATUS
+-------------------------------------------------------------
+
+Used by: [ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS](#ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS), [ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS](#ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS), [ManagedClusterLoadBalancerProfile_STATUS](#ManagedClusterLoadBalancerProfile_STATUS), and [ManagedClusterNATGatewayProfile_STATUS](#ManagedClusterNATGatewayProfile_STATUS).
+
+| Property | Description | Type                               |
+|----------|-------------|------------------------------------|
+| id       |             | string<br/><small>Optional</small> |
+
+<a id="ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_Scheduler"></a>ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_Scheduler
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
+Used by: [ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig](#ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig).
+
+| Value             | Description |
+|-------------------|-------------|
+| "LeastConnection" |             |
+| "RoundRobin"      |             |
+
+<a id="ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_Scheduler_STATUS"></a>ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_Scheduler_STATUS
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Used by: [ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS](#ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS).
+
+| Value             | Description |
+|-------------------|-------------|
+| "LeastConnection" |             |
+| "RoundRobin"      |             |
+
+<a id="IstioEgressGateway"></a>IstioEgressGateway
+-------------------------------------------------
+
+Used by: [IstioComponents](#IstioComponents).
+
+| Property     | Description | Type                                          |
+|--------------|-------------|-----------------------------------------------|
+| enabled      |             | bool<br/><small>Required</small>              |
+| nodeSelector |             | map[string]string<br/><small>Optional</small> |
+
+<a id="IstioEgressGateway_STATUS"></a>IstioEgressGateway_STATUS
+---------------------------------------------------------------
+
+Used by: [IstioComponents_STATUS](#IstioComponents_STATUS).
+
+| Property     | Description | Type                                          |
+|--------------|-------------|-----------------------------------------------|
+| enabled      |             | bool<br/><small>Optional</small>              |
+| nodeSelector |             | map[string]string<br/><small>Optional</small> |
+
+<a id="IstioIngressGateway"></a>IstioIngressGateway
+---------------------------------------------------
+
+Used by: [IstioComponents](#IstioComponents).
+
+| Property | Description | Type                                                                              |
+|----------|-------------|-----------------------------------------------------------------------------------|
+| enabled  |             | bool<br/><small>Required</small>                                                  |
+| mode     |             | [IstioIngressGateway_Mode](#IstioIngressGateway_Mode)<br/><small>Required</small> |
+
+<a id="IstioIngressGateway_STATUS"></a>IstioIngressGateway_STATUS
+-----------------------------------------------------------------
+
+Used by: [IstioComponents_STATUS](#IstioComponents_STATUS).
+
+| Property | Description | Type                                                                                            |
+|----------|-------------|-------------------------------------------------------------------------------------------------|
+| enabled  |             | bool<br/><small>Optional</small>                                                                |
+| mode     |             | [IstioIngressGateway_Mode_STATUS](#IstioIngressGateway_Mode_STATUS)<br/><small>Optional</small> |
+
+<a id="IstioPluginCertificateAuthority"></a>IstioPluginCertificateAuthority
+---------------------------------------------------------------------------
+
+Used by: [IstioCertificateAuthority](#IstioCertificateAuthority).
+
+| Property            | Description | Type                                                                                                                                                       |
+|---------------------|-------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| certChainObjectName |             | string<br/><small>Optional</small>                                                                                                                         |
+| certObjectName      |             | string<br/><small>Optional</small>                                                                                                                         |
+| keyObjectName       |             | string<br/><small>Optional</small>                                                                                                                         |
+| keyVaultReference   |             | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small> |
+| rootCertObjectName  |             | string<br/><small>Optional</small>                                                                                                                         |
+
+<a id="IstioPluginCertificateAuthority_STATUS"></a>IstioPluginCertificateAuthority_STATUS
+-----------------------------------------------------------------------------------------
+
+Used by: [IstioCertificateAuthority_STATUS](#IstioCertificateAuthority_STATUS).
+
+| Property            | Description | Type                               |
+|---------------------|-------------|------------------------------------|
+| certChainObjectName |             | string<br/><small>Optional</small> |
+| certObjectName      |             | string<br/><small>Optional</small> |
+| keyObjectName       |             | string<br/><small>Optional</small> |
+| keyVaultId          |             | string<br/><small>Optional</small> |
+| rootCertObjectName  |             | string<br/><small>Optional</small> |
+
+<a id="ManagedClusterAzureMonitorProfileWindowsHostLogs"></a>ManagedClusterAzureMonitorProfileWindowsHostLogs
+-------------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterAzureMonitorProfileContainerInsights](#ManagedClusterAzureMonitorProfileContainerInsights).
+
+| Property | Description | Type                             |
+|----------|-------------|----------------------------------|
+| enabled  |             | bool<br/><small>Optional</small> |
+
+<a id="ManagedClusterAzureMonitorProfileWindowsHostLogs_STATUS"></a>ManagedClusterAzureMonitorProfileWindowsHostLogs_STATUS
+---------------------------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterAzureMonitorProfileContainerInsights_STATUS](#ManagedClusterAzureMonitorProfileContainerInsights_STATUS).
+
+| Property | Description | Type                             |
+|----------|-------------|----------------------------------|
+| enabled  |             | bool<br/><small>Optional</small> |
+
+<a id="ManagedClusterPodIdentityProvisioningError_STATUS"></a>ManagedClusterPodIdentityProvisioningError_STATUS
+---------------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterPodIdentity_ProvisioningInfo_STATUS](#ManagedClusterPodIdentity_ProvisioningInfo_STATUS).
+
+| Property | Description | Type                                                                                                                                        |
+|----------|-------------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| error    |             | [ManagedClusterPodIdentityProvisioningErrorBody_STATUS](#ManagedClusterPodIdentityProvisioningErrorBody_STATUS)<br/><small>Optional</small> |
+
+<a id="IstioIngressGateway_Mode"></a>IstioIngressGateway_Mode
+-------------------------------------------------------------
+
+Used by: [IstioIngressGateway](#IstioIngressGateway).
+
+| Value      | Description |
+|------------|-------------|
+| "External" |             |
+| "Internal" |             |
+
+<a id="IstioIngressGateway_Mode_STATUS"></a>IstioIngressGateway_Mode_STATUS
+---------------------------------------------------------------------------
+
+Used by: [IstioIngressGateway_STATUS](#IstioIngressGateway_STATUS).
+
+| Value      | Description |
+|------------|-------------|
+| "External" |             |
+| "Internal" |             |
+
+<a id="ManagedClusterPodIdentityProvisioningErrorBody_STATUS"></a>ManagedClusterPodIdentityProvisioningErrorBody_STATUS
+-----------------------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterPodIdentityProvisioningError_STATUS](#ManagedClusterPodIdentityProvisioningError_STATUS).
+
+| Property | Description | Type                                                                                                                                                            |
+|----------|-------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| code     |             | string<br/><small>Optional</small>                                                                                                                              |
+| details  |             | [ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled[]](#ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled)<br/><small>Optional</small> |
+| message  |             | string<br/><small>Optional</small>                                                                                                                              |
+| target   |             | string<br/><small>Optional</small>                                                                                                                              |
+
+<a id="ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled"></a>ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+Used by: [ManagedClusterPodIdentityProvisioningErrorBody_STATUS](#ManagedClusterPodIdentityProvisioningErrorBody_STATUS).
+
+| Property | Description | Type                               |
+|----------|-------------|------------------------------------|
+| code     |             | string<br/><small>Optional</small> |
+| message  |             | string<br/><small>Optional</small> |
+| target   |             | string<br/><small>Optional</small> |

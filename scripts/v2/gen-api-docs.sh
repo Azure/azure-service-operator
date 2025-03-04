@@ -39,12 +39,7 @@ do
 
         echo "generating docs for: $package"
         mkdir "$OUTPUTDIR/$GROUPNAME" --parents
-        "gen-crd-api-reference-docs" -config "$TEMPLATEDIR/config.json" \
-                -template-dir "$TEMPLATEDIR" \
-                -api-dir $package \
-                -out-file "$OUTPUTDIR/$GROUPNAME/$PACKAGE_VERSION.md" \
-                "$@"
-        $SCRIPTDIR/wrap-resource-urls.py "$OUTPUTDIR/$GROUPNAME/$PACKAGE_VERSION.md"
+        crddoc document crds $package --config "$TEMPLATEDIR/crddoc.yaml" --output "$OUTPUTDIR/$GROUPNAME/$PACKAGE_VERSION.md" --template $TEMPLATEDIR
 
     fi
 done

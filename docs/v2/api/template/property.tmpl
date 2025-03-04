@@ -1,0 +1,14 @@
+{{ define "property" -}}
+| {{ .Name -}} 
+| {{ .Description | inlineLinks | unwrap | applyEdits -}} 
+| {{ if .Type | createLink -}}
+[
+{{- end -}}
+{{- .Type.Display -}}
+{{- if .Type | createLink -}}
+]({{ .Type | createLink }})
+{{- end -}}
+{{ if .Required -}}
+<br/><small>{{ .Required -}}</small>
+{{- end -}} |
+{{- end }}

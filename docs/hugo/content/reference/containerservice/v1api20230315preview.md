@@ -1,2550 +1,687 @@
 ---
+
 title: containerservice.azure.com/v1api20230315preview
----
-<h2 id="containerservice.azure.com/v1api20230315preview">containerservice.azure.com/v1api20230315preview</h2>
-<div>
-<p>Package v1api20230315preview contains API Schema definitions for the containerservice v1api20230315preview API group</p>
-</div>
-Resource Types:
-<ul></ul>
-<h3 id="containerservice.azure.com/v1api20230315preview.APIVersion">APIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2023-03-15-preview&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20230315preview.ErrorAdditionalInfo_STATUS">ErrorAdditionalInfo_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.ErrorDetail_STATUS">ErrorDetail_STATUS</a>, <a href="#containerservice.azure.com/v1api20230315preview.ErrorDetail_STATUS_Unrolled">ErrorDetail_STATUS_Unrolled</a>)
-</p>
-<div>
-<p>The resource management error additional info.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>info</code><br/>
-<em>
-<a href="https://pkg.go.dev/k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1#JSON">
-map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
-</a>
-</em>
-</td>
-<td>
-<p>Info: The additional info.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: The additional info type.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20230315preview.ErrorDetail_STATUS">ErrorDetail_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.UpdateStatus_STATUS">UpdateStatus_STATUS</a>)
-</p>
-<div>
-<p>The error detail.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>additionalInfo</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.ErrorAdditionalInfo_STATUS">
-[]ErrorAdditionalInfo_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>AdditionalInfo: The error additional info.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>code</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Code: The error code.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>details</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.ErrorDetail_STATUS_Unrolled">
-[]ErrorDetail_STATUS_Unrolled
-</a>
-</em>
-</td>
-<td>
-<p>Details: The error details.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>message</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Message: The error message.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>target</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Target: The error target.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20230315preview.ErrorDetail_STATUS_Unrolled">ErrorDetail_STATUS_Unrolled
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.ErrorDetail_STATUS">ErrorDetail_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>additionalInfo</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.ErrorAdditionalInfo_STATUS">
-[]ErrorAdditionalInfo_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>AdditionalInfo: The error additional info.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>code</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Code: The error code.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>message</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Message: The error message.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>target</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Target: The error target.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20230315preview.Fleet">Fleet
-</h3>
-<div>
-<p>Generator information:
-- Generated from: /containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2023-03-15-preview/fleets.json
-- ARM URI: /&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.ContainerService/&#x200b;fleets/&#x200b;{fleetName}</&#x200b;p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>metadata</code><br/>
-<em>
-<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
-Kubernetes meta/v1.ObjectMeta
-</a>
-</em>
-</td>
-<td>
-Refer to the Kubernetes API documentation for the fields of the
-<code>metadata</code> field.
-</td>
-</tr>
-<tr>
-<td>
-<code>spec</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.Fleet_Spec">
-Fleet_Spec
-</a>
-</em>
-</td>
-<td>
-<br/>
-<br/>
-<table>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>hubProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.FleetHubProfile">
-FleetHubProfile
-</a>
-</em>
-</td>
-<td>
-<p>HubProfile: The FleetHubProfile configures the Fleet&rsquo;s hub.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: The geo-location where the resource lives</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>operatorSpec</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.FleetOperatorSpec">
-FleetOperatorSpec
-</a>
-</em>
-</td>
-<td>
-<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
-passed directly to Azure</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a resources.azure.com/ResourceGroup resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Resource tags.</p>
-</td>
-</tr>
-</table>
-</td>
-</tr>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.Fleet_STATUS">
-Fleet_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20230315preview.FleetHubProfile">FleetHubProfile
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.Fleet_Spec">Fleet_Spec</a>)
-</p>
-<div>
-<p>The FleetHubProfile configures the fleet hub.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>dnsPrefix</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>DnsPrefix: DNS prefix used to create the FQDN for the Fleet hub.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20230315preview.FleetHubProfile_STATUS">FleetHubProfile_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.Fleet_STATUS">Fleet_STATUS</a>)
-</p>
-<div>
-<p>The FleetHubProfile configures the fleet hub.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>dnsPrefix</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>DnsPrefix: DNS prefix used to create the FQDN for the Fleet hub.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>fqdn</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Fqdn: The FQDN of the Fleet hub.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>kubernetesVersion</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>KubernetesVersion: The Kubernetes version of the Fleet hub.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20230315preview.FleetMemberProvisioningState_STATUS">FleetMemberProvisioningState_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.FleetsMember_STATUS">FleetsMember_STATUS</a>)
-</p>
-<div>
-<p>The provisioning state of the last accepted operation.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Canceled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Failed&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Joining&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Leaving&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Succeeded&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Updating&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20230315preview.FleetOperatorSecrets">FleetOperatorSecrets
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.FleetOperatorSpec">FleetOperatorSpec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>userCredentials</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">
-genruntime.SecretDestination
-</a>
-</em>
-</td>
-<td>
-<p>UserCredentials: indicates where the UserCredentials secret should be placed. If omitted, the secret will not be
-retrieved from Azure.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20230315preview.FleetOperatorSpec">FleetOperatorSpec
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.Fleet_Spec">Fleet_Spec</a>)
-</p>
-<div>
-<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>configMapExpressions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
-[]genruntime/core.DestinationExpression
-</a>
-</em>
-</td>
-<td>
-<p>ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>secretExpressions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
-[]genruntime/core.DestinationExpression
-</a>
-</em>
-</td>
-<td>
-<p>SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>secrets</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.FleetOperatorSecrets">
-FleetOperatorSecrets
-</a>
-</em>
-</td>
-<td>
-<p>Secrets: configures where to place Azure generated secrets.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20230315preview.FleetProvisioningState_STATUS">FleetProvisioningState_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.Fleet_STATUS">Fleet_STATUS</a>)
-</p>
-<div>
-<p>The provisioning state of the last accepted operation.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Canceled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Creating&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Deleting&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Failed&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Succeeded&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Updating&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20230315preview.Fleet_STATUS">Fleet_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.Fleet">Fleet</a>)
-</p>
-<div>
-<p>The Fleet resource.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>conditions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
-[]genruntime/conditions.Condition
-</a>
-</em>
-</td>
-<td>
-<p>Conditions: The observed state of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>eTag</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ETag: If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.
-Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in
-the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header
-fields.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>hubProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.FleetHubProfile_STATUS">
-FleetHubProfile_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>HubProfile: The FleetHubProfile configures the Fleet&rsquo;s hub.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: The geo-location where the resource lives</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>provisioningState</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.FleetProvisioningState_STATUS">
-FleetProvisioningState_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>ProvisioningState: The status of the last operation.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>systemData</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.SystemData_STATUS">
-SystemData_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Resource tags.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20230315preview.Fleet_Spec">Fleet_Spec
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.Fleet">Fleet</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>hubProfile</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.FleetHubProfile">
-FleetHubProfile
-</a>
-</em>
-</td>
-<td>
-<p>HubProfile: The FleetHubProfile configures the Fleet&rsquo;s hub.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: The geo-location where the resource lives</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>operatorSpec</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.FleetOperatorSpec">
-FleetOperatorSpec
-</a>
-</em>
-</td>
-<td>
-<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
-passed directly to Azure</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a resources.azure.com/ResourceGroup resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Resource tags.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20230315preview.FleetsMember">FleetsMember
-</h3>
-<div>
-<p>Generator information:
-- Generated from: /containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2023-03-15-preview/fleets.json
-- ARM URI: /&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.ContainerService/&#x200b;fleets/&#x200b;{fleetName}/&#x200b;members/&#x200b;{fleetMemberName}</&#x200b;p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>metadata</code><br/>
-<em>
-<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
-Kubernetes meta/v1.ObjectMeta
-</a>
-</em>
-</td>
-<td>
-Refer to the Kubernetes API documentation for the fields of the
-<code>metadata</code> field.
-</td>
-</tr>
-<tr>
-<td>
-<code>spec</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.FleetsMember_Spec">
-FleetsMember_Spec
-</a>
-</em>
-</td>
-<td>
-<br/>
-<br/>
-<table>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>clusterResourceReference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>ClusterResourceReference: The ARM resource id of the cluster that joins the Fleet. Must be a valid Azure resource id.
-e.g.:
-&lsquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.ContainerService/&#x200b;managedClusters/&#x200b;{clusterName}&rsquo;.</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>group</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Group: The group this member belongs to for multi-cluster update management.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>operatorSpec</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.FleetsMemberOperatorSpec">
-FleetsMemberOperatorSpec
-</a>
-</em>
-</td>
-<td>
-<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
-passed directly to Azure</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a containerservice.azure.com/Fleet resource</p>
-</td>
-</tr>
-</table>
-</td>
-</tr>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.FleetsMember_STATUS">
-FleetsMember_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20230315preview.FleetsMemberOperatorSpec">FleetsMemberOperatorSpec
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.FleetsMember_Spec">FleetsMember_Spec</a>)
-</p>
-<div>
-<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>configMapExpressions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
-[]genruntime/core.DestinationExpression
-</a>
-</em>
-</td>
-<td>
-<p>ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>secretExpressions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
-[]genruntime/core.DestinationExpression
-</a>
-</em>
-</td>
-<td>
-<p>SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20230315preview.FleetsMember_STATUS">FleetsMember_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.FleetsMember">FleetsMember</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>clusterResourceId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ClusterResourceId: The ARM resource id of the cluster that joins the Fleet. Must be a valid Azure resource id. e.g.:
-&lsquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.ContainerService/&#x200b;managedClusters/&#x200b;{clusterName}&rsquo;.</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>conditions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
-[]genruntime/conditions.Condition
-</a>
-</em>
-</td>
-<td>
-<p>Conditions: The observed state of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>eTag</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ETag: If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.
-Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in
-the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header
-fields.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>group</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Group: The group this member belongs to for multi-cluster update management.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>provisioningState</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.FleetMemberProvisioningState_STATUS">
-FleetMemberProvisioningState_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>ProvisioningState: The status of the last operation.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>systemData</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.SystemData_STATUS">
-SystemData_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20230315preview.FleetsMember_Spec">FleetsMember_Spec
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.FleetsMember">FleetsMember</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>clusterResourceReference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>ClusterResourceReference: The ARM resource id of the cluster that joins the Fleet. Must be a valid Azure resource id.
-e.g.:
-&lsquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.ContainerService/&#x200b;managedClusters/&#x200b;{clusterName}&rsquo;.</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>group</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Group: The group this member belongs to for multi-cluster update management.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>operatorSpec</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.FleetsMemberOperatorSpec">
-FleetsMemberOperatorSpec
-</a>
-</em>
-</td>
-<td>
-<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
-passed directly to Azure</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a containerservice.azure.com/Fleet resource</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20230315preview.FleetsUpdateRun">FleetsUpdateRun
-</h3>
-<div>
-<p>Generator information:
-- Generated from: /containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2023-03-15-preview/fleets.json
-- ARM URI: /&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.ContainerService/&#x200b;fleets/&#x200b;{fleetName}/&#x200b;updateRuns/&#x200b;{updateRunName}</&#x200b;p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>metadata</code><br/>
-<em>
-<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
-Kubernetes meta/v1.ObjectMeta
-</a>
-</em>
-</td>
-<td>
-Refer to the Kubernetes API documentation for the fields of the
-<code>metadata</code> field.
-</td>
-</tr>
-<tr>
-<td>
-<code>spec</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.FleetsUpdateRun_Spec">
-FleetsUpdateRun_Spec
-</a>
-</em>
-</td>
-<td>
-<br/>
-<br/>
-<table>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>managedClusterUpdate</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.ManagedClusterUpdate">
-ManagedClusterUpdate
-</a>
-</em>
-</td>
-<td>
-<p>ManagedClusterUpdate: The update to be applied to all clusters in the UpdateRun. The managedClusterUpdate can be
-modified until the run is started.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>operatorSpec</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.FleetsUpdateRunOperatorSpec">
-FleetsUpdateRunOperatorSpec
-</a>
-</em>
-</td>
-<td>
-<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
-passed directly to Azure</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a containerservice.azure.com/Fleet resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>strategy</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.UpdateRunStrategy">
-UpdateRunStrategy
-</a>
-</em>
-</td>
-<td>
-<p>Strategy: The strategy defines the order in which the clusters will be updated.
-If not set, all members will be updated sequentially. The UpdateRun status will show a single UpdateStage and a single
-UpdateGroup targeting all members.
-The strategy of the UpdateRun can be modified until the run is started.</p>
-</td>
-</tr>
-</table>
-</td>
-</tr>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.FleetsUpdateRun_STATUS">
-FleetsUpdateRun_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20230315preview.FleetsUpdateRunOperatorSpec">FleetsUpdateRunOperatorSpec
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.FleetsUpdateRun_Spec">FleetsUpdateRun_Spec</a>)
-</p>
-<div>
-<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>configMapExpressions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
-[]genruntime/core.DestinationExpression
-</a>
-</em>
-</td>
-<td>
-<p>ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>secretExpressions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#DestinationExpression">
-[]genruntime/core.DestinationExpression
-</a>
-</em>
-</td>
-<td>
-<p>SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20230315preview.FleetsUpdateRun_STATUS">FleetsUpdateRun_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.FleetsUpdateRun">FleetsUpdateRun</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>conditions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
-[]genruntime/conditions.Condition
-</a>
-</em>
-</td>
-<td>
-<p>Conditions: The observed state of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>eTag</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ETag: If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.
-Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in
-the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header
-fields.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>managedClusterUpdate</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.ManagedClusterUpdate_STATUS">
-ManagedClusterUpdate_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>ManagedClusterUpdate: The update to be applied to all clusters in the UpdateRun. The managedClusterUpdate can be
-modified until the run is started.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>provisioningState</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.UpdateRunProvisioningState_STATUS">
-UpdateRunProvisioningState_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>ProvisioningState: The provisioning state of the UpdateRun resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.UpdateRunStatus_STATUS">
-UpdateRunStatus_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Status: The status of the UpdateRun.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>strategy</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.UpdateRunStrategy_STATUS">
-UpdateRunStrategy_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Strategy: The strategy defines the order in which the clusters will be updated.
-If not set, all members will be updated sequentially. The UpdateRun status will show a single UpdateStage and a single
-UpdateGroup targeting all members.
-The strategy of the UpdateRun can be modified until the run is started.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>systemData</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.SystemData_STATUS">
-SystemData_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20230315preview.FleetsUpdateRun_Spec">FleetsUpdateRun_Spec
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.FleetsUpdateRun">FleetsUpdateRun</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>managedClusterUpdate</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.ManagedClusterUpdate">
-ManagedClusterUpdate
-</a>
-</em>
-</td>
-<td>
-<p>ManagedClusterUpdate: The update to be applied to all clusters in the UpdateRun. The managedClusterUpdate can be
-modified until the run is started.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>operatorSpec</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.FleetsUpdateRunOperatorSpec">
-FleetsUpdateRunOperatorSpec
-</a>
-</em>
-</td>
-<td>
-<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
-passed directly to Azure</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a containerservice.azure.com/Fleet resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>strategy</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.UpdateRunStrategy">
-UpdateRunStrategy
-</a>
-</em>
-</td>
-<td>
-<p>Strategy: The strategy defines the order in which the clusters will be updated.
-If not set, all members will be updated sequentially. The UpdateRun status will show a single UpdateStage and a single
-UpdateGroup targeting all members.
-The strategy of the UpdateRun can be modified until the run is started.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20230315preview.ManagedClusterUpdate">ManagedClusterUpdate
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.FleetsUpdateRun_Spec">FleetsUpdateRun_Spec</a>)
-</p>
-<div>
-<p>The update to be applied to the ManagedClusters.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>upgrade</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.ManagedClusterUpgradeSpec">
-ManagedClusterUpgradeSpec
-</a>
-</em>
-</td>
-<td>
-<p>Upgrade: The upgrade to apply to the ManagedClusters.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20230315preview.ManagedClusterUpdate_STATUS">ManagedClusterUpdate_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.FleetsUpdateRun_STATUS">FleetsUpdateRun_STATUS</a>)
-</p>
-<div>
-<p>The update to be applied to the ManagedClusters.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>upgrade</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.ManagedClusterUpgradeSpec_STATUS">
-ManagedClusterUpgradeSpec_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Upgrade: The upgrade to apply to the ManagedClusters.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20230315preview.ManagedClusterUpgradeSpec">ManagedClusterUpgradeSpec
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.ManagedClusterUpdate">ManagedClusterUpdate</a>)
-</p>
-<div>
-<p>The upgrade to apply to a ManagedCluster.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>kubernetesVersion</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>KubernetesVersion: The Kubernetes version to upgrade the member clusters to.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.ManagedClusterUpgradeType">
-ManagedClusterUpgradeType
-</a>
-</em>
-</td>
-<td>
-<p>Type: ManagedClusterUpgradeType is the type of upgrade to be applied.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20230315preview.ManagedClusterUpgradeSpec_STATUS">ManagedClusterUpgradeSpec_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.ManagedClusterUpdate_STATUS">ManagedClusterUpdate_STATUS</a>)
-</p>
-<div>
-<p>The upgrade to apply to a ManagedCluster.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>kubernetesVersion</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>KubernetesVersion: The Kubernetes version to upgrade the member clusters to.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.ManagedClusterUpgradeType_STATUS">
-ManagedClusterUpgradeType_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Type: ManagedClusterUpgradeType is the type of upgrade to be applied.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20230315preview.ManagedClusterUpgradeType">ManagedClusterUpgradeType
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.ManagedClusterUpgradeSpec">ManagedClusterUpgradeSpec</a>)
-</p>
-<div>
-<p>The type of upgrade to perform when targeting ManagedClusters.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Full&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;NodeImageOnly&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20230315preview.ManagedClusterUpgradeType_STATUS">ManagedClusterUpgradeType_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.ManagedClusterUpgradeSpec_STATUS">ManagedClusterUpgradeSpec_STATUS</a>)
-</p>
-<div>
-<p>The type of upgrade to perform when targeting ManagedClusters.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Full&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;NodeImageOnly&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20230315preview.MemberUpdateStatus_STATUS">MemberUpdateStatus_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.UpdateGroupStatus_STATUS">UpdateGroupStatus_STATUS</a>)
-</p>
-<div>
-<p>The status of a member update operation.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>clusterResourceId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ClusterResourceId: The Azure resource id of the target Kubernetes cluster.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the FleetMember.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>operationId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>OperationId: The operation resource id of the latest attempt to perform the operation.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.UpdateStatus_STATUS">
-UpdateStatus_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Status: The status of the MemberUpdate operation.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20230315preview.SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.SystemData_STATUS">SystemData_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Application&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Key&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;User&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20230315preview.SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.SystemData_STATUS">SystemData_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Application&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Key&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;User&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20230315preview.SystemData_STATUS">SystemData_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.Fleet_STATUS">Fleet_STATUS</a>, <a href="#containerservice.azure.com/v1api20230315preview.FleetsMember_STATUS">FleetsMember_STATUS</a>, <a href="#containerservice.azure.com/v1api20230315preview.FleetsUpdateRun_STATUS">FleetsUpdateRun_STATUS</a>)
-</p>
-<div>
-<p>Metadata pertaining to creation and last modification of the resource.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>createdAt</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CreatedAt: The timestamp of resource creation (UTC).</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>createdBy</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CreatedBy: The identity that created the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>createdByType</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.SystemData_CreatedByType_STATUS">
-SystemData_CreatedByType_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>CreatedByType: The type of identity that created the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastModifiedAt</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LastModifiedAt: The timestamp of resource last modification (UTC)</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastModifiedBy</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LastModifiedBy: The identity that last modified the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastModifiedByType</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.SystemData_LastModifiedByType_STATUS">
-SystemData_LastModifiedByType_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>LastModifiedByType: The type of identity that last modified the resource.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20230315preview.UpdateGroup">UpdateGroup
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.UpdateStage">UpdateStage</a>)
-</p>
-<div>
-<p>A group to be updated.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: Name of the group.
-It must match a group name of an existing fleet member.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20230315preview.UpdateGroupStatus_STATUS">UpdateGroupStatus_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.UpdateStageStatus_STATUS">UpdateStageStatus_STATUS</a>)
-</p>
-<div>
-<p>The status of a UpdateGroup.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>members</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.MemberUpdateStatus_STATUS">
-[]MemberUpdateStatus_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Members: The list of member this UpdateGroup updates.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the UpdateGroup.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.UpdateStatus_STATUS">
-UpdateStatus_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Status: The status of the UpdateGroup.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20230315preview.UpdateGroup_STATUS">UpdateGroup_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.UpdateStage_STATUS">UpdateStage_STATUS</a>)
-</p>
-<div>
-<p>A group to be updated.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: Name of the group.
-It must match a group name of an existing fleet member.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20230315preview.UpdateRunProvisioningState_STATUS">UpdateRunProvisioningState_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.FleetsUpdateRun_STATUS">FleetsUpdateRun_STATUS</a>)
-</p>
-<div>
-<p>The provisioning state of the UpdateRun resource.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Canceled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Failed&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Succeeded&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20230315preview.UpdateRunStatus_STATUS">UpdateRunStatus_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.FleetsUpdateRun_STATUS">FleetsUpdateRun_STATUS</a>)
-</p>
-<div>
-<p>The status of a UpdateRun.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>stages</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.UpdateStageStatus_STATUS">
-[]UpdateStageStatus_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Stages: The stages composing an update run. Stages are run sequentially withing an UpdateRun.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.UpdateStatus_STATUS">
-UpdateStatus_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Status: The status of the UpdateRun.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20230315preview.UpdateRunStrategy">UpdateRunStrategy
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.FleetsUpdateRun_Spec">FleetsUpdateRun_Spec</a>)
-</p>
-<div>
-<p>Defines the update sequence of the clusters via stages and groups.
-Stages within a run are executed sequentially one
-after another.
-Groups within a stage are executed in parallel.
-Member clusters within a group are updated sequentially
-one after another.
-A valid strategy contains no duplicate groups within or across stages.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>stages</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.UpdateStage">
-[]UpdateStage
-</a>
-</em>
-</td>
-<td>
-<p>Stages: The list of stages that compose this update run. Min size: 1.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20230315preview.UpdateRunStrategy_STATUS">UpdateRunStrategy_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.FleetsUpdateRun_STATUS">FleetsUpdateRun_STATUS</a>)
-</p>
-<div>
-<p>Defines the update sequence of the clusters via stages and groups.
-Stages within a run are executed sequentially one
-after another.
-Groups within a stage are executed in parallel.
-Member clusters within a group are updated sequentially
-one after another.
-A valid strategy contains no duplicate groups within or across stages.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>stages</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.UpdateStage_STATUS">
-[]UpdateStage_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Stages: The list of stages that compose this update run. Min size: 1.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20230315preview.UpdateStage">UpdateStage
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.UpdateRunStrategy">UpdateRunStrategy</a>)
-</p>
-<div>
-<p>Defines a stage which contains the groups to update and the steps to take (e.g., wait for a time period) before starting
-the next stage.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>afterStageWaitInSeconds</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>AfterStageWaitInSeconds: The time in seconds to wait at the end of this stage before starting the next one. Defaults to
-0 seconds if unspecified.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>groups</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.UpdateGroup">
-[]UpdateGroup
-</a>
-</em>
-</td>
-<td>
-<p>Groups: Defines the groups to be executed in parallel in this stage. Duplicate groups are not allowed. Min size: 1.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the stage. Must be unique within the UpdateRun.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20230315preview.UpdateStageStatus_STATUS">UpdateStageStatus_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.UpdateRunStatus_STATUS">UpdateRunStatus_STATUS</a>)
-</p>
-<div>
-<p>The status of a UpdateStage.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>afterStageWaitStatus</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.WaitStatus_STATUS">
-WaitStatus_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>AfterStageWaitStatus: The status of the wait period configured on the UpdateStage.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>groups</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.UpdateGroupStatus_STATUS">
-[]UpdateGroupStatus_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Groups: The list of groups to be updated as part of this UpdateStage.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the UpdateStage.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.UpdateStatus_STATUS">
-UpdateStatus_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Status: The status of the UpdateStage.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20230315preview.UpdateStage_STATUS">UpdateStage_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.UpdateRunStrategy_STATUS">UpdateRunStrategy_STATUS</a>)
-</p>
-<div>
-<p>Defines a stage which contains the groups to update and the steps to take (e.g., wait for a time period) before starting
-the next stage.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>afterStageWaitInSeconds</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>AfterStageWaitInSeconds: The time in seconds to wait at the end of this stage before starting the next one. Defaults to
-0 seconds if unspecified.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>groups</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.UpdateGroup_STATUS">
-[]UpdateGroup_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Groups: Defines the groups to be executed in parallel in this stage. Duplicate groups are not allowed. Min size: 1.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the stage. Must be unique within the UpdateRun.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20230315preview.UpdateState_STATUS">UpdateState_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.UpdateStatus_STATUS">UpdateStatus_STATUS</a>)
-</p>
-<div>
-<p>The state of the UpdateRun, UpdateStage, UpdateGroup, or MemberUpdate.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Completed&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Failed&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;NotStarted&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Running&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Stopped&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Stopping&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20230315preview.UpdateStatus_STATUS">UpdateStatus_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.MemberUpdateStatus_STATUS">MemberUpdateStatus_STATUS</a>, <a href="#containerservice.azure.com/v1api20230315preview.UpdateGroupStatus_STATUS">UpdateGroupStatus_STATUS</a>, <a href="#containerservice.azure.com/v1api20230315preview.UpdateRunStatus_STATUS">UpdateRunStatus_STATUS</a>, <a href="#containerservice.azure.com/v1api20230315preview.UpdateStageStatus_STATUS">UpdateStageStatus_STATUS</a>, <a href="#containerservice.azure.com/v1api20230315preview.WaitStatus_STATUS">WaitStatus_STATUS</a>)
-</p>
-<div>
-<p>The status for an operation or group of operations.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>completedTime</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CompletedTime: The time the operation or group was completed.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>error</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.ErrorDetail_STATUS">
-ErrorDetail_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Error: The error details when a failure is encountered.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>startTime</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>StartTime: The time the operation or group was started.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>state</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.UpdateState_STATUS">
-UpdateState_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>State: The State of the operation or group.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerservice.azure.com/v1api20230315preview.WaitStatus_STATUS">WaitStatus_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.UpdateStageStatus_STATUS">UpdateStageStatus_STATUS</a>)
-</p>
-<div>
-<p>The status of the wait duration.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#containerservice.azure.com/v1api20230315preview.UpdateStatus_STATUS">
-UpdateStatus_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Status: The status of the wait duration.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>waitDurationInSeconds</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>WaitDurationInSeconds: The wait duration configured in seconds.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<hr/>
+
+linktitle: v1api20230315preview
+-------------------------------
+
+<a id="APIVersion"></a>APIVersion
+---------------------------------
+
+| Value                | Description |
+|----------------------|-------------|
+| "2023-03-15-preview" |             |
+
+<a id="Fleet"></a>Fleet
+-----------------------
+
+Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2023-03-15-preview/fleets.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ContainerService/fleets/{fleetName}
+
+Used by: [FleetList](#FleetList).
+
+| Property                                                                                | Description | Type                                                      |
+|-----------------------------------------------------------------------------------------|-------------|-----------------------------------------------------------|
+| [metav1.TypeMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta)     |             |                                                           |
+| [metav1.ObjectMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta) |             |                                                           |
+| spec                                                                                    |             | [Fleet_Spec](#Fleet_Spec)<br/><small>Optional</small>     |
+| status                                                                                  |             | [Fleet_STATUS](#Fleet_STATUS)<br/><small>Optional</small> |
+
+### <a id="Fleet_Spec"></a>Fleet_Spec
+
+| Property     | Description                                                                                                                                                                                                                                                                                  | Type                                                                                                                                                                 |
+|--------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| azureName    | The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn't have to be.                                                                                                                                                               | string<br/><small>Optional</small>                                                                                                                                   |
+| hubProfile   | The FleetHubProfile configures the Fleet's hub.                                                                                                                                                                                                                                              | [FleetHubProfile](#FleetHubProfile)<br/><small>Optional</small>                                                                                                      |
+| location     | The geo-location where the resource lives                                                                                                                                                                                                                                                    | string<br/><small>Required</small>                                                                                                                                   |
+| operatorSpec | The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure                                                                                                                                                              | [FleetOperatorSpec](#FleetOperatorSpec)<br/><small>Optional</small>                                                                                                  |
+| owner        | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
+| tags         | Resource tags.                                                                                                                                                                                                                                                                               | map[string]string<br/><small>Optional</small>                                                                                                                        |
+
+### <a id="Fleet_STATUS"></a>Fleet_STATUS
+
+| Property          | Description                                                                                                                                                                                                                                                                                                                                                         | Type                                                                                                                                                    |
+|-------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| conditions        | The observed state of the resource                                                                                                                                                                                                                                                                                                                                  | [conditions.Condition[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition)<br/><small>Optional</small> |
+| eTag              | If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. | string<br/><small>Optional</small>                                                                                                                      |
+| hubProfile        | The FleetHubProfile configures the Fleet's hub.                                                                                                                                                                                                                                                                                                                     | [FleetHubProfile_STATUS](#FleetHubProfile_STATUS)<br/><small>Optional</small>                                                                           |
+| id                | Fully qualified resource ID for the resource. Ex - /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;{resourceProviderNamespace}/&ZeroWidthSpace;{resourceType}/&ZeroWidthSpace;{resourceName}                                           | string<br/><small>Optional</small>                                                                                                                      |
+| location          | The geo-location where the resource lives                                                                                                                                                                                                                                                                                                                           | string<br/><small>Optional</small>                                                                                                                      |
+| name              | The name of the resource                                                                                                                                                                                                                                                                                                                                            | string<br/><small>Optional</small>                                                                                                                      |
+| provisioningState | The status of the last operation.                                                                                                                                                                                                                                                                                                                                   | [FleetProvisioningState_STATUS](#FleetProvisioningState_STATUS)<br/><small>Optional</small>                                                             |
+| systemData        | Azure Resource Manager metadata containing createdBy and modifiedBy information.                                                                                                                                                                                                                                                                                    | [SystemData_STATUS](#SystemData_STATUS)<br/><small>Optional</small>                                                                                     |
+| tags              | Resource tags.                                                                                                                                                                                                                                                                                                                                                      | map[string]string<br/><small>Optional</small>                                                                                                           |
+| type              | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                                                           | string<br/><small>Optional</small>                                                                                                                      |
+
+<a id="FleetList"></a>FleetList
+-------------------------------
+
+Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2023-03-15-preview/fleets.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ContainerService/fleets/{fleetName}
+
+| Property                                                                            | Description | Type                                          |
+|-------------------------------------------------------------------------------------|-------------|-----------------------------------------------|
+| [metav1.TypeMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta) |             |                                               |
+| [metav1.ListMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta) |             |                                               |
+| items                                                                               |             | [Fleet[]](#Fleet)<br/><small>Optional</small> |
+
+<a id="FleetsMember"></a>FleetsMember
+-------------------------------------
+
+Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2023-03-15-preview/fleets.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ContainerService/fleets/{fleetName}/members/{fleetMemberName}
+
+Used by: [FleetsMemberList](#FleetsMemberList).
+
+| Property                                                                                | Description | Type                                                                    |
+|-----------------------------------------------------------------------------------------|-------------|-------------------------------------------------------------------------|
+| [metav1.TypeMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta)     |             |                                                                         |
+| [metav1.ObjectMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta) |             |                                                                         |
+| spec                                                                                    |             | [FleetsMember_Spec](#FleetsMember_Spec)<br/><small>Optional</small>     |
+| status                                                                                  |             | [FleetsMember_STATUS](#FleetsMember_STATUS)<br/><small>Optional</small> |
+
+### <a id="FleetsMember_Spec"></a>FleetsMember_Spec
+
+| Property                 | Description                                                                                                                                                                                                                                                                                                                                | Type                                                                                                                                                                 |
+|--------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| azureName                | The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn't have to be.                                                                                                                                                                                                             | string<br/><small>Optional</small>                                                                                                                                   |
+| clusterResourceReference | The ARM resource id of the cluster that joins the Fleet. Must be a valid Azure resource id. e.g.: '/&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ContainerService/managedClusters/{clusterName}'. | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Required</small>           |
+| group                    | The group this member belongs to for multi-cluster update management.                                                                                                                                                                                                                                                                      | string<br/><small>Optional</small>                                                                                                                                   |
+| operatorSpec             | The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure                                                                                                                                                                                                            | [FleetsMemberOperatorSpec](#FleetsMemberOperatorSpec)<br/><small>Optional</small>                                                                                    |
+| owner                    | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a containerservice.azure.com/Fleet resource                                                | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
+
+### <a id="FleetsMember_STATUS"></a>FleetsMember_STATUS
+
+| Property          | Description                                                                                                                                                                                                                                                                                                                                                         | Type                                                                                                                                                    |
+|-------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| clusterResourceId | The ARM resource id of the cluster that joins the Fleet. Must be a valid Azure resource id. e.g.: '/&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ContainerService/managedClusters/{clusterName}'.                          | string<br/><small>Optional</small>                                                                                                                      |
+| conditions        | The observed state of the resource                                                                                                                                                                                                                                                                                                                                  | [conditions.Condition[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition)<br/><small>Optional</small> |
+| eTag              | If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. | string<br/><small>Optional</small>                                                                                                                      |
+| group             | The group this member belongs to for multi-cluster update management.                                                                                                                                                                                                                                                                                               | string<br/><small>Optional</small>                                                                                                                      |
+| id                | Fully qualified resource ID for the resource. Ex - /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;{resourceProviderNamespace}/&ZeroWidthSpace;{resourceType}/&ZeroWidthSpace;{resourceName}                                           | string<br/><small>Optional</small>                                                                                                                      |
+| name              | The name of the resource                                                                                                                                                                                                                                                                                                                                            | string<br/><small>Optional</small>                                                                                                                      |
+| provisioningState | The status of the last operation.                                                                                                                                                                                                                                                                                                                                   | [FleetMemberProvisioningState_STATUS](#FleetMemberProvisioningState_STATUS)<br/><small>Optional</small>                                                 |
+| systemData        | Azure Resource Manager metadata containing createdBy and modifiedBy information.                                                                                                                                                                                                                                                                                    | [SystemData_STATUS](#SystemData_STATUS)<br/><small>Optional</small>                                                                                     |
+| type              | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                                                           | string<br/><small>Optional</small>                                                                                                                      |
+
+<a id="FleetsMemberList"></a>FleetsMemberList
+---------------------------------------------
+
+Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2023-03-15-preview/fleets.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ContainerService/fleets/{fleetName}/members/{fleetMemberName}
+
+| Property                                                                            | Description | Type                                                        |
+|-------------------------------------------------------------------------------------|-------------|-------------------------------------------------------------|
+| [metav1.TypeMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta) |             |                                                             |
+| [metav1.ListMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta) |             |                                                             |
+| items                                                                               |             | [FleetsMember[]](#FleetsMember)<br/><small>Optional</small> |
+
+<a id="FleetsUpdateRun"></a>FleetsUpdateRun
+-------------------------------------------
+
+Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2023-03-15-preview/fleets.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ContainerService/fleets/{fleetName}/updateRuns/{updateRunName}
+
+Used by: [FleetsUpdateRunList](#FleetsUpdateRunList).
+
+| Property                                                                                | Description | Type                                                                          |
+|-----------------------------------------------------------------------------------------|-------------|-------------------------------------------------------------------------------|
+| [metav1.TypeMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta)     |             |                                                                               |
+| [metav1.ObjectMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta) |             |                                                                               |
+| spec                                                                                    |             | [FleetsUpdateRun_Spec](#FleetsUpdateRun_Spec)<br/><small>Optional</small>     |
+| status                                                                                  |             | [FleetsUpdateRun_STATUS](#FleetsUpdateRun_STATUS)<br/><small>Optional</small> |
+
+### <a id="FleetsUpdateRun_Spec"></a>FleetsUpdateRun_Spec
+
+| Property             | Description                                                                                                                                                                                                                                                                                             | Type                                                                                                                                                                 |
+|----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| azureName            | The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn't have to be.                                                                                                                                                                          | string<br/><small>Optional</small>                                                                                                                                   |
+| managedClusterUpdate | The update to be applied to all clusters in the UpdateRun. The managedClusterUpdate can be modified until the run is started.                                                                                                                                                                           | [ManagedClusterUpdate](#ManagedClusterUpdate)<br/><small>Required</small>                                                                                            |
+| operatorSpec         | The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure                                                                                                                                                                         | [FleetsUpdateRunOperatorSpec](#FleetsUpdateRunOperatorSpec)<br/><small>Optional</small>                                                                              |
+| owner                | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a containerservice.azure.com/Fleet resource             | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
+| strategy             | The strategy defines the order in which the clusters will be updated. If not set, all members will be updated sequentially. The UpdateRun status will show a single UpdateStage and a single UpdateGroup targeting all members. The strategy of the UpdateRun can be modified until the run is started. | [UpdateRunStrategy](#UpdateRunStrategy)<br/><small>Optional</small>                                                                                                  |
+
+### <a id="FleetsUpdateRun_STATUS"></a>FleetsUpdateRun_STATUS
+
+| Property             | Description                                                                                                                                                                                                                                                                                                                                                         | Type                                                                                                                                                    |
+|----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| conditions           | The observed state of the resource                                                                                                                                                                                                                                                                                                                                  | [conditions.Condition[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition)<br/><small>Optional</small> |
+| eTag                 | If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. | string<br/><small>Optional</small>                                                                                                                      |
+| id                   | Fully qualified resource ID for the resource. Ex - /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;{resourceProviderNamespace}/&ZeroWidthSpace;{resourceType}/&ZeroWidthSpace;{resourceName}                                           | string<br/><small>Optional</small>                                                                                                                      |
+| managedClusterUpdate | The update to be applied to all clusters in the UpdateRun. The managedClusterUpdate can be modified until the run is started.                                                                                                                                                                                                                                       | [ManagedClusterUpdate_STATUS](#ManagedClusterUpdate_STATUS)<br/><small>Optional</small>                                                                 |
+| name                 | The name of the resource                                                                                                                                                                                                                                                                                                                                            | string<br/><small>Optional</small>                                                                                                                      |
+| provisioningState    | The provisioning state of the UpdateRun resource.                                                                                                                                                                                                                                                                                                                   | [UpdateRunProvisioningState_STATUS](#UpdateRunProvisioningState_STATUS)<br/><small>Optional</small>                                                     |
+| status               | The status of the UpdateRun.                                                                                                                                                                                                                                                                                                                                        | [UpdateRunStatus_STATUS](#UpdateRunStatus_STATUS)<br/><small>Optional</small>                                                                           |
+| strategy             | The strategy defines the order in which the clusters will be updated. If not set, all members will be updated sequentially. The UpdateRun status will show a single UpdateStage and a single UpdateGroup targeting all members. The strategy of the UpdateRun can be modified until the run is started.                                                             | [UpdateRunStrategy_STATUS](#UpdateRunStrategy_STATUS)<br/><small>Optional</small>                                                                       |
+| systemData           | Azure Resource Manager metadata containing createdBy and modifiedBy information.                                                                                                                                                                                                                                                                                    | [SystemData_STATUS](#SystemData_STATUS)<br/><small>Optional</small>                                                                                     |
+| type                 | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                                                           | string<br/><small>Optional</small>                                                                                                                      |
+
+<a id="FleetsUpdateRunList"></a>FleetsUpdateRunList
+---------------------------------------------------
+
+Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2023-03-15-preview/fleets.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ContainerService/fleets/{fleetName}/updateRuns/{updateRunName}
+
+| Property                                                                            | Description | Type                                                              |
+|-------------------------------------------------------------------------------------|-------------|-------------------------------------------------------------------|
+| [metav1.TypeMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta) |             |                                                                   |
+| [metav1.ListMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta) |             |                                                                   |
+| items                                                                               |             | [FleetsUpdateRun[]](#FleetsUpdateRun)<br/><small>Optional</small> |
+
+<a id="Fleet_Spec"></a>Fleet_Spec
+---------------------------------
+
+Used by: [Fleet](#Fleet).
+
+| Property     | Description                                                                                                                                                                                                                                                                                  | Type                                                                                                                                                                 |
+|--------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| azureName    | The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn't have to be.                                                                                                                                                               | string<br/><small>Optional</small>                                                                                                                                   |
+| hubProfile   | The FleetHubProfile configures the Fleet's hub.                                                                                                                                                                                                                                              | [FleetHubProfile](#FleetHubProfile)<br/><small>Optional</small>                                                                                                      |
+| location     | The geo-location where the resource lives                                                                                                                                                                                                                                                    | string<br/><small>Required</small>                                                                                                                                   |
+| operatorSpec | The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure                                                                                                                                                              | [FleetOperatorSpec](#FleetOperatorSpec)<br/><small>Optional</small>                                                                                                  |
+| owner        | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
+| tags         | Resource tags.                                                                                                                                                                                                                                                                               | map[string]string<br/><small>Optional</small>                                                                                                                        |
+
+<a id="Fleet_STATUS"></a>Fleet_STATUS
+-------------------------------------
+
+The Fleet resource.
+
+Used by: [Fleet](#Fleet).
+
+| Property          | Description                                                                                                                                                                                                                                                                                                                                                         | Type                                                                                                                                                    |
+|-------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| conditions        | The observed state of the resource                                                                                                                                                                                                                                                                                                                                  | [conditions.Condition[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition)<br/><small>Optional</small> |
+| eTag              | If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. | string<br/><small>Optional</small>                                                                                                                      |
+| hubProfile        | The FleetHubProfile configures the Fleet's hub.                                                                                                                                                                                                                                                                                                                     | [FleetHubProfile_STATUS](#FleetHubProfile_STATUS)<br/><small>Optional</small>                                                                           |
+| id                | Fully qualified resource ID for the resource. Ex - /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;{resourceProviderNamespace}/&ZeroWidthSpace;{resourceType}/&ZeroWidthSpace;{resourceName}                                           | string<br/><small>Optional</small>                                                                                                                      |
+| location          | The geo-location where the resource lives                                                                                                                                                                                                                                                                                                                           | string<br/><small>Optional</small>                                                                                                                      |
+| name              | The name of the resource                                                                                                                                                                                                                                                                                                                                            | string<br/><small>Optional</small>                                                                                                                      |
+| provisioningState | The status of the last operation.                                                                                                                                                                                                                                                                                                                                   | [FleetProvisioningState_STATUS](#FleetProvisioningState_STATUS)<br/><small>Optional</small>                                                             |
+| systemData        | Azure Resource Manager metadata containing createdBy and modifiedBy information.                                                                                                                                                                                                                                                                                    | [SystemData_STATUS](#SystemData_STATUS)<br/><small>Optional</small>                                                                                     |
+| tags              | Resource tags.                                                                                                                                                                                                                                                                                                                                                      | map[string]string<br/><small>Optional</small>                                                                                                           |
+| type              | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                                                           | string<br/><small>Optional</small>                                                                                                                      |
+
+<a id="FleetsMember_Spec"></a>FleetsMember_Spec
+-----------------------------------------------
+
+Used by: [FleetsMember](#FleetsMember).
+
+| Property                 | Description                                                                                                                                                                                                                                                                                                                                | Type                                                                                                                                                                 |
+|--------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| azureName                | The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn't have to be.                                                                                                                                                                                                             | string<br/><small>Optional</small>                                                                                                                                   |
+| clusterResourceReference | The ARM resource id of the cluster that joins the Fleet. Must be a valid Azure resource id. e.g.: '/&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ContainerService/managedClusters/{clusterName}'. | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Required</small>           |
+| group                    | The group this member belongs to for multi-cluster update management.                                                                                                                                                                                                                                                                      | string<br/><small>Optional</small>                                                                                                                                   |
+| operatorSpec             | The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure                                                                                                                                                                                                            | [FleetsMemberOperatorSpec](#FleetsMemberOperatorSpec)<br/><small>Optional</small>                                                                                    |
+| owner                    | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a containerservice.azure.com/Fleet resource                                                | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
+
+<a id="FleetsMember_STATUS"></a>FleetsMember_STATUS
+---------------------------------------------------
+
+Used by: [FleetsMember](#FleetsMember).
+
+| Property          | Description                                                                                                                                                                                                                                                                                                                                                         | Type                                                                                                                                                    |
+|-------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| clusterResourceId | The ARM resource id of the cluster that joins the Fleet. Must be a valid Azure resource id. e.g.: '/&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ContainerService/managedClusters/{clusterName}'.                          | string<br/><small>Optional</small>                                                                                                                      |
+| conditions        | The observed state of the resource                                                                                                                                                                                                                                                                                                                                  | [conditions.Condition[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition)<br/><small>Optional</small> |
+| eTag              | If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. | string<br/><small>Optional</small>                                                                                                                      |
+| group             | The group this member belongs to for multi-cluster update management.                                                                                                                                                                                                                                                                                               | string<br/><small>Optional</small>                                                                                                                      |
+| id                | Fully qualified resource ID for the resource. Ex - /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;{resourceProviderNamespace}/&ZeroWidthSpace;{resourceType}/&ZeroWidthSpace;{resourceName}                                           | string<br/><small>Optional</small>                                                                                                                      |
+| name              | The name of the resource                                                                                                                                                                                                                                                                                                                                            | string<br/><small>Optional</small>                                                                                                                      |
+| provisioningState | The status of the last operation.                                                                                                                                                                                                                                                                                                                                   | [FleetMemberProvisioningState_STATUS](#FleetMemberProvisioningState_STATUS)<br/><small>Optional</small>                                                 |
+| systemData        | Azure Resource Manager metadata containing createdBy and modifiedBy information.                                                                                                                                                                                                                                                                                    | [SystemData_STATUS](#SystemData_STATUS)<br/><small>Optional</small>                                                                                     |
+| type              | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                                                           | string<br/><small>Optional</small>                                                                                                                      |
+
+<a id="FleetsUpdateRun_Spec"></a>FleetsUpdateRun_Spec
+-----------------------------------------------------
+
+Used by: [FleetsUpdateRun](#FleetsUpdateRun).
+
+| Property             | Description                                                                                                                                                                                                                                                                                             | Type                                                                                                                                                                 |
+|----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| azureName            | The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn't have to be.                                                                                                                                                                          | string<br/><small>Optional</small>                                                                                                                                   |
+| managedClusterUpdate | The update to be applied to all clusters in the UpdateRun. The managedClusterUpdate can be modified until the run is started.                                                                                                                                                                           | [ManagedClusterUpdate](#ManagedClusterUpdate)<br/><small>Required</small>                                                                                            |
+| operatorSpec         | The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure                                                                                                                                                                         | [FleetsUpdateRunOperatorSpec](#FleetsUpdateRunOperatorSpec)<br/><small>Optional</small>                                                                              |
+| owner                | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a containerservice.azure.com/Fleet resource             | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
+| strategy             | The strategy defines the order in which the clusters will be updated. If not set, all members will be updated sequentially. The UpdateRun status will show a single UpdateStage and a single UpdateGroup targeting all members. The strategy of the UpdateRun can be modified until the run is started. | [UpdateRunStrategy](#UpdateRunStrategy)<br/><small>Optional</small>                                                                                                  |
+
+<a id="FleetsUpdateRun_STATUS"></a>FleetsUpdateRun_STATUS
+---------------------------------------------------------
+
+Used by: [FleetsUpdateRun](#FleetsUpdateRun).
+
+| Property             | Description                                                                                                                                                                                                                                                                                                                                                         | Type                                                                                                                                                    |
+|----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| conditions           | The observed state of the resource                                                                                                                                                                                                                                                                                                                                  | [conditions.Condition[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition)<br/><small>Optional</small> |
+| eTag                 | If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. | string<br/><small>Optional</small>                                                                                                                      |
+| id                   | Fully qualified resource ID for the resource. Ex - /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;{resourceProviderNamespace}/&ZeroWidthSpace;{resourceType}/&ZeroWidthSpace;{resourceName}                                           | string<br/><small>Optional</small>                                                                                                                      |
+| managedClusterUpdate | The update to be applied to all clusters in the UpdateRun. The managedClusterUpdate can be modified until the run is started.                                                                                                                                                                                                                                       | [ManagedClusterUpdate_STATUS](#ManagedClusterUpdate_STATUS)<br/><small>Optional</small>                                                                 |
+| name                 | The name of the resource                                                                                                                                                                                                                                                                                                                                            | string<br/><small>Optional</small>                                                                                                                      |
+| provisioningState    | The provisioning state of the UpdateRun resource.                                                                                                                                                                                                                                                                                                                   | [UpdateRunProvisioningState_STATUS](#UpdateRunProvisioningState_STATUS)<br/><small>Optional</small>                                                     |
+| status               | The status of the UpdateRun.                                                                                                                                                                                                                                                                                                                                        | [UpdateRunStatus_STATUS](#UpdateRunStatus_STATUS)<br/><small>Optional</small>                                                                           |
+| strategy             | The strategy defines the order in which the clusters will be updated. If not set, all members will be updated sequentially. The UpdateRun status will show a single UpdateStage and a single UpdateGroup targeting all members. The strategy of the UpdateRun can be modified until the run is started.                                                             | [UpdateRunStrategy_STATUS](#UpdateRunStrategy_STATUS)<br/><small>Optional</small>                                                                       |
+| systemData           | Azure Resource Manager metadata containing createdBy and modifiedBy information.                                                                                                                                                                                                                                                                                    | [SystemData_STATUS](#SystemData_STATUS)<br/><small>Optional</small>                                                                                     |
+| type                 | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                                                           | string<br/><small>Optional</small>                                                                                                                      |
+
+<a id="FleetHubProfile"></a>FleetHubProfile
+-------------------------------------------
+
+The FleetHubProfile configures the fleet hub.
+
+Used by: [Fleet_Spec](#Fleet_Spec).
+
+| Property  | Description                                           | Type                               |
+|-----------|-------------------------------------------------------|------------------------------------|
+| dnsPrefix | DNS prefix used to create the FQDN for the Fleet hub. | string<br/><small>Optional</small> |
+
+<a id="FleetHubProfile_STATUS"></a>FleetHubProfile_STATUS
+---------------------------------------------------------
+
+The FleetHubProfile configures the fleet hub.
+
+Used by: [Fleet_STATUS](#Fleet_STATUS).
+
+| Property          | Description                                           | Type                               |
+|-------------------|-------------------------------------------------------|------------------------------------|
+| dnsPrefix         | DNS prefix used to create the FQDN for the Fleet hub. | string<br/><small>Optional</small> |
+| fqdn              | The FQDN of the Fleet hub.                            | string<br/><small>Optional</small> |
+| kubernetesVersion | The Kubernetes version of the Fleet hub.              | string<br/><small>Optional</small> |
+
+<a id="FleetMemberProvisioningState_STATUS"></a>FleetMemberProvisioningState_STATUS
+-----------------------------------------------------------------------------------
+
+The provisioning state of the last accepted operation.
+
+Used by: [FleetsMember_STATUS](#FleetsMember_STATUS).
+
+| Value       | Description |
+|-------------|-------------|
+| "Canceled"  |             |
+| "Failed"    |             |
+| "Joining"   |             |
+| "Leaving"   |             |
+| "Succeeded" |             |
+| "Updating"  |             |
+
+<a id="FleetOperatorSpec"></a>FleetOperatorSpec
+-----------------------------------------------
+
+Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+
+Used by: [Fleet_Spec](#Fleet_Spec).
+
+| Property             | Description                                                                                   | Type                                                                                                                                                                |
+|----------------------|-----------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| configMapExpressions | configures where to place operator written dynamic ConfigMaps (created with CEL expressions). | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
+| secretExpressions    | configures where to place operator written dynamic secrets (created with CEL expressions).    | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
+| secrets              | configures where to place Azure generated secrets.                                            | [FleetOperatorSecrets](#FleetOperatorSecrets)<br/><small>Optional</small>                                                                                           |
+
+<a id="FleetProvisioningState_STATUS"></a>FleetProvisioningState_STATUS
+-----------------------------------------------------------------------
+
+The provisioning state of the last accepted operation.
+
+Used by: [Fleet_STATUS](#Fleet_STATUS).
+
+| Value       | Description |
+|-------------|-------------|
+| "Canceled"  |             |
+| "Creating"  |             |
+| "Deleting"  |             |
+| "Failed"    |             |
+| "Succeeded" |             |
+| "Updating"  |             |
+
+<a id="FleetsMemberOperatorSpec"></a>FleetsMemberOperatorSpec
+-------------------------------------------------------------
+
+Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+
+Used by: [FleetsMember_Spec](#FleetsMember_Spec).
+
+| Property             | Description                                                                                   | Type                                                                                                                                                                |
+|----------------------|-----------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| configMapExpressions | configures where to place operator written dynamic ConfigMaps (created with CEL expressions). | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
+| secretExpressions    | configures where to place operator written dynamic secrets (created with CEL expressions).    | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
+
+<a id="FleetsUpdateRunOperatorSpec"></a>FleetsUpdateRunOperatorSpec
+-------------------------------------------------------------------
+
+Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+
+Used by: [FleetsUpdateRun_Spec](#FleetsUpdateRun_Spec).
+
+| Property             | Description                                                                                   | Type                                                                                                                                                                |
+|----------------------|-----------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| configMapExpressions | configures where to place operator written dynamic ConfigMaps (created with CEL expressions). | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
+| secretExpressions    | configures where to place operator written dynamic secrets (created with CEL expressions).    | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
+
+<a id="ManagedClusterUpdate"></a>ManagedClusterUpdate
+-----------------------------------------------------
+
+The update to be applied to the ManagedClusters.
+
+Used by: [FleetsUpdateRun_Spec](#FleetsUpdateRun_Spec).
+
+| Property | Description                                  | Type                                                                                |
+|----------|----------------------------------------------|-------------------------------------------------------------------------------------|
+| upgrade  | The upgrade to apply to the ManagedClusters. | [ManagedClusterUpgradeSpec](#ManagedClusterUpgradeSpec)<br/><small>Required</small> |
+
+<a id="ManagedClusterUpdate_STATUS"></a>ManagedClusterUpdate_STATUS
+-------------------------------------------------------------------
+
+The update to be applied to the ManagedClusters.
+
+Used by: [FleetsUpdateRun_STATUS](#FleetsUpdateRun_STATUS).
+
+| Property | Description                                  | Type                                                                                              |
+|----------|----------------------------------------------|---------------------------------------------------------------------------------------------------|
+| upgrade  | The upgrade to apply to the ManagedClusters. | [ManagedClusterUpgradeSpec_STATUS](#ManagedClusterUpgradeSpec_STATUS)<br/><small>Optional</small> |
+
+<a id="SystemData_STATUS"></a>SystemData_STATUS
+-----------------------------------------------
+
+Metadata pertaining to creation and last modification of the resource.
+
+Used by: [Fleet_STATUS](#Fleet_STATUS), [FleetsMember_STATUS](#FleetsMember_STATUS), and [FleetsUpdateRun_STATUS](#FleetsUpdateRun_STATUS).
+
+| Property           | Description                                           | Type                                                                                                      |
+|--------------------|-------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|
+| createdAt          | The timestamp of resource creation (UTC).             | string<br/><small>Optional</small>                                                                        |
+| createdBy          | The identity that created the resource.               | string<br/><small>Optional</small>                                                                        |
+| createdByType      | The type of identity that created the resource.       | [SystemData_CreatedByType_STATUS](#SystemData_CreatedByType_STATUS)<br/><small>Optional</small>           |
+| lastModifiedAt     | The timestamp of resource last modification (UTC)     | string<br/><small>Optional</small>                                                                        |
+| lastModifiedBy     | The identity that last modified the resource.         | string<br/><small>Optional</small>                                                                        |
+| lastModifiedByType | The type of identity that last modified the resource. | [SystemData_LastModifiedByType_STATUS](#SystemData_LastModifiedByType_STATUS)<br/><small>Optional</small> |
+
+<a id="UpdateRunProvisioningState_STATUS"></a>UpdateRunProvisioningState_STATUS
+-------------------------------------------------------------------------------
+
+The provisioning state of the UpdateRun resource.
+
+Used by: [FleetsUpdateRun_STATUS](#FleetsUpdateRun_STATUS).
+
+| Value       | Description |
+|-------------|-------------|
+| "Canceled"  |             |
+| "Failed"    |             |
+| "Succeeded" |             |
+
+<a id="UpdateRunStatus_STATUS"></a>UpdateRunStatus_STATUS
+---------------------------------------------------------
+
+The status of a UpdateRun.
+
+Used by: [FleetsUpdateRun_STATUS](#FleetsUpdateRun_STATUS).
+
+| Property | Description                                                                           | Type                                                                                |
+|----------|---------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
+| stages   | The stages composing an update run. Stages are run sequentially withing an UpdateRun. | [UpdateStageStatus_STATUS[]](#UpdateStageStatus_STATUS)<br/><small>Optional</small> |
+| status   | The status of the UpdateRun.                                                          | [UpdateStatus_STATUS](#UpdateStatus_STATUS)<br/><small>Optional</small>             |
+
+<a id="UpdateRunStrategy"></a>UpdateRunStrategy
+-----------------------------------------------
+
+Defines the update sequence of the clusters via stages and groups. Stages within a run are executed sequentially one after another. Groups within a stage are executed in parallel. Member clusters within a group are updated sequentially one after another. A valid strategy contains no duplicate groups within or across stages.
+
+Used by: [FleetsUpdateRun_Spec](#FleetsUpdateRun_Spec).
+
+| Property | Description                                                   | Type                                                      |
+|----------|---------------------------------------------------------------|-----------------------------------------------------------|
+| stages   | The list of stages that compose this update run. Min size: 1. | [UpdateStage[]](#UpdateStage)<br/><small>Required</small> |
+
+<a id="UpdateRunStrategy_STATUS"></a>UpdateRunStrategy_STATUS
+-------------------------------------------------------------
+
+Defines the update sequence of the clusters via stages and groups. Stages within a run are executed sequentially one after another. Groups within a stage are executed in parallel. Member clusters within a group are updated sequentially one after another. A valid strategy contains no duplicate groups within or across stages.
+
+Used by: [FleetsUpdateRun_STATUS](#FleetsUpdateRun_STATUS).
+
+| Property | Description                                                   | Type                                                                    |
+|----------|---------------------------------------------------------------|-------------------------------------------------------------------------|
+| stages   | The list of stages that compose this update run. Min size: 1. | [UpdateStage_STATUS[]](#UpdateStage_STATUS)<br/><small>Optional</small> |
+
+<a id="FleetOperatorSecrets"></a>FleetOperatorSecrets
+-----------------------------------------------------
+
+Used by: [FleetOperatorSpec](#FleetOperatorSpec).
+
+| Property        | Description                                                                                                           | Type                                                                                                                                                       |
+|-----------------|-----------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| userCredentials | indicates where the UserCredentials secret should be placed. If omitted, the secret will not be retrieved from Azure. | [genruntime.SecretDestination](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination)<br/><small>Optional</small> |
+
+<a id="ManagedClusterUpgradeSpec"></a>ManagedClusterUpgradeSpec
+---------------------------------------------------------------
+
+The upgrade to apply to a ManagedCluster.
+
+Used by: [ManagedClusterUpdate](#ManagedClusterUpdate).
+
+| Property          | Description                                                     | Type                                                                                |
+|-------------------|-----------------------------------------------------------------|-------------------------------------------------------------------------------------|
+| kubernetesVersion | The Kubernetes version to upgrade the member clusters to.       | string<br/><small>Optional</small>                                                  |
+| type              | ManagedClusterUpgradeType is the type of upgrade to be applied. | [ManagedClusterUpgradeType](#ManagedClusterUpgradeType)<br/><small>Required</small> |
+
+<a id="ManagedClusterUpgradeSpec_STATUS"></a>ManagedClusterUpgradeSpec_STATUS
+-----------------------------------------------------------------------------
+
+The upgrade to apply to a ManagedCluster.
+
+Used by: [ManagedClusterUpdate_STATUS](#ManagedClusterUpdate_STATUS).
+
+| Property          | Description                                                     | Type                                                                                              |
+|-------------------|-----------------------------------------------------------------|---------------------------------------------------------------------------------------------------|
+| kubernetesVersion | The Kubernetes version to upgrade the member clusters to.       | string<br/><small>Optional</small>                                                                |
+| type              | ManagedClusterUpgradeType is the type of upgrade to be applied. | [ManagedClusterUpgradeType_STATUS](#ManagedClusterUpgradeType_STATUS)<br/><small>Optional</small> |
+
+<a id="SystemData_CreatedByType_STATUS"></a>SystemData_CreatedByType_STATUS
+---------------------------------------------------------------------------
+
+Used by: [SystemData_STATUS](#SystemData_STATUS).
+
+| Value             | Description |
+|-------------------|-------------|
+| "Application"     |             |
+| "Key"             |             |
+| "ManagedIdentity" |             |
+| "User"            |             |
+
+<a id="SystemData_LastModifiedByType_STATUS"></a>SystemData_LastModifiedByType_STATUS
+-------------------------------------------------------------------------------------
+
+Used by: [SystemData_STATUS](#SystemData_STATUS).
+
+| Value             | Description |
+|-------------------|-------------|
+| "Application"     |             |
+| "Key"             |             |
+| "ManagedIdentity" |             |
+| "User"            |             |
+
+<a id="UpdateStage"></a>UpdateStage
+-----------------------------------
+
+Defines a stage which contains the groups to update and the steps to take (e.g., wait for a time period) before starting the next stage.
+
+Used by: [UpdateRunStrategy](#UpdateRunStrategy).
+
+| Property                | Description                                                                                                              | Type                                                      |
+|-------------------------|--------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------|
+| afterStageWaitInSeconds | The time in seconds to wait at the end of this stage before starting the next one. Defaults to 0 seconds if unspecified. | int<br/><small>Optional</small>                           |
+| groups                  | Defines the groups to be executed in parallel in this stage. Duplicate groups are not allowed. Min size: 1.              | [UpdateGroup[]](#UpdateGroup)<br/><small>Optional</small> |
+| name                    | The name of the stage. Must be unique within the UpdateRun.                                                              | string<br/><small>Required</small>                        |
+
+<a id="UpdateStage_STATUS"></a>UpdateStage_STATUS
+-------------------------------------------------
+
+Defines a stage which contains the groups to update and the steps to take (e.g., wait for a time period) before starting the next stage.
+
+Used by: [UpdateRunStrategy_STATUS](#UpdateRunStrategy_STATUS).
+
+| Property                | Description                                                                                                              | Type                                                                    |
+|-------------------------|--------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------|
+| afterStageWaitInSeconds | The time in seconds to wait at the end of this stage before starting the next one. Defaults to 0 seconds if unspecified. | int<br/><small>Optional</small>                                         |
+| groups                  | Defines the groups to be executed in parallel in this stage. Duplicate groups are not allowed. Min size: 1.              | [UpdateGroup_STATUS[]](#UpdateGroup_STATUS)<br/><small>Optional</small> |
+| name                    | The name of the stage. Must be unique within the UpdateRun.                                                              | string<br/><small>Optional</small>                                      |
+
+<a id="UpdateStageStatus_STATUS"></a>UpdateStageStatus_STATUS
+-------------------------------------------------------------
+
+The status of a UpdateStage.
+
+Used by: [UpdateRunStatus_STATUS](#UpdateRunStatus_STATUS).
+
+| Property             | Description                                                   | Type                                                                                |
+|----------------------|---------------------------------------------------------------|-------------------------------------------------------------------------------------|
+| afterStageWaitStatus | The status of the wait period configured on the UpdateStage.  | [WaitStatus_STATUS](#WaitStatus_STATUS)<br/><small>Optional</small>                 |
+| groups               | The list of groups to be updated as part of this UpdateStage. | [UpdateGroupStatus_STATUS[]](#UpdateGroupStatus_STATUS)<br/><small>Optional</small> |
+| name                 | The name of the UpdateStage.                                  | string<br/><small>Optional</small>                                                  |
+| status               | The status of the UpdateStage.                                | [UpdateStatus_STATUS](#UpdateStatus_STATUS)<br/><small>Optional</small>             |
+
+<a id="UpdateStatus_STATUS"></a>UpdateStatus_STATUS
+---------------------------------------------------
+
+The status for an operation or group of operations.
+
+Used by: [MemberUpdateStatus_STATUS](#MemberUpdateStatus_STATUS), [UpdateGroupStatus_STATUS](#UpdateGroupStatus_STATUS), [UpdateRunStatus_STATUS](#UpdateRunStatus_STATUS), [UpdateStageStatus_STATUS](#UpdateStageStatus_STATUS), and [WaitStatus_STATUS](#WaitStatus_STATUS).
+
+| Property      | Description                                      | Type                                                                  |
+|---------------|--------------------------------------------------|-----------------------------------------------------------------------|
+| completedTime | The time the operation or group was completed.   | string<br/><small>Optional</small>                                    |
+| error         | The error details when a failure is encountered. | [ErrorDetail_STATUS](#ErrorDetail_STATUS)<br/><small>Optional</small> |
+| startTime     | The time the operation or group was started.     | string<br/><small>Optional</small>                                    |
+| state         | The State of the operation or group.             | [UpdateState_STATUS](#UpdateState_STATUS)<br/><small>Optional</small> |
+
+<a id="ErrorDetail_STATUS"></a>ErrorDetail_STATUS
+-------------------------------------------------
+
+The error detail.
+
+Used by: [UpdateStatus_STATUS](#UpdateStatus_STATUS).
+
+| Property       | Description                | Type                                                                                      |
+|----------------|----------------------------|-------------------------------------------------------------------------------------------|
+| additionalInfo | The error additional info. | [ErrorAdditionalInfo_STATUS[]](#ErrorAdditionalInfo_STATUS)<br/><small>Optional</small>   |
+| code           | The error code.            | string<br/><small>Optional</small>                                                        |
+| details        | The error details.         | [ErrorDetail_STATUS_Unrolled[]](#ErrorDetail_STATUS_Unrolled)<br/><small>Optional</small> |
+| message        | The error message.         | string<br/><small>Optional</small>                                                        |
+| target         | The error target.          | string<br/><small>Optional</small>                                                        |
+
+<a id="ManagedClusterUpgradeType"></a>ManagedClusterUpgradeType
+---------------------------------------------------------------
+
+The type of upgrade to perform when targeting ManagedClusters.
+
+Used by: [ManagedClusterUpgradeSpec](#ManagedClusterUpgradeSpec).
+
+| Value           | Description |
+|-----------------|-------------|
+| "Full"          |             |
+| "NodeImageOnly" |             |
+
+<a id="ManagedClusterUpgradeType_STATUS"></a>ManagedClusterUpgradeType_STATUS
+-----------------------------------------------------------------------------
+
+The type of upgrade to perform when targeting ManagedClusters.
+
+Used by: [ManagedClusterUpgradeSpec_STATUS](#ManagedClusterUpgradeSpec_STATUS).
+
+| Value           | Description |
+|-----------------|-------------|
+| "Full"          |             |
+| "NodeImageOnly" |             |
+
+<a id="UpdateGroup"></a>UpdateGroup
+-----------------------------------
+
+A group to be updated.
+
+Used by: [UpdateStage](#UpdateStage).
+
+| Property | Description                                                                | Type                               |
+|----------|----------------------------------------------------------------------------|------------------------------------|
+| name     | Name of the group. It must match a group name of an existing fleet member. | string<br/><small>Required</small> |
+
+<a id="UpdateGroup_STATUS"></a>UpdateGroup_STATUS
+-------------------------------------------------
+
+A group to be updated.
+
+Used by: [UpdateStage_STATUS](#UpdateStage_STATUS).
+
+| Property | Description                                                                | Type                               |
+|----------|----------------------------------------------------------------------------|------------------------------------|
+| name     | Name of the group. It must match a group name of an existing fleet member. | string<br/><small>Optional</small> |
+
+<a id="UpdateGroupStatus_STATUS"></a>UpdateGroupStatus_STATUS
+-------------------------------------------------------------
+
+The status of a UpdateGroup.
+
+Used by: [UpdateStageStatus_STATUS](#UpdateStageStatus_STATUS).
+
+| Property | Description                                  | Type                                                                                  |
+|----------|----------------------------------------------|---------------------------------------------------------------------------------------|
+| members  | The list of member this UpdateGroup updates. | [MemberUpdateStatus_STATUS[]](#MemberUpdateStatus_STATUS)<br/><small>Optional</small> |
+| name     | The name of the UpdateGroup.                 | string<br/><small>Optional</small>                                                    |
+| status   | The status of the UpdateGroup.               | [UpdateStatus_STATUS](#UpdateStatus_STATUS)<br/><small>Optional</small>               |
+
+<a id="UpdateState_STATUS"></a>UpdateState_STATUS
+-------------------------------------------------
+
+The state of the UpdateRun, UpdateStage, UpdateGroup, or MemberUpdate.
+
+Used by: [UpdateStatus_STATUS](#UpdateStatus_STATUS).
+
+| Value        | Description |
+|--------------|-------------|
+| "Completed"  |             |
+| "Failed"     |             |
+| "NotStarted" |             |
+| "Running"    |             |
+| "Stopped"    |             |
+| "Stopping"   |             |
+
+<a id="WaitStatus_STATUS"></a>WaitStatus_STATUS
+-----------------------------------------------
+
+The status of the wait duration.
+
+Used by: [UpdateStageStatus_STATUS](#UpdateStageStatus_STATUS).
+
+| Property              | Description                              | Type                                                                    |
+|-----------------------|------------------------------------------|-------------------------------------------------------------------------|
+| status                | The status of the wait duration.         | [UpdateStatus_STATUS](#UpdateStatus_STATUS)<br/><small>Optional</small> |
+| waitDurationInSeconds | The wait duration configured in seconds. | int<br/><small>Optional</small>                                         |
+
+<a id="ErrorAdditionalInfo_STATUS"></a>ErrorAdditionalInfo_STATUS
+-----------------------------------------------------------------
+
+The resource management error additional info.
+
+Used by: [ErrorDetail_STATUS](#ErrorDetail_STATUS), and [ErrorDetail_STATUS_Unrolled](#ErrorDetail_STATUS_Unrolled).
+
+| Property | Description               | Type                                           |
+|----------|---------------------------|------------------------------------------------|
+| info     | The additional info.      | map[string]v1.JSON<br/><small>Optional</small> |
+| type     | The additional info type. | string<br/><small>Optional</small>             |
+
+<a id="ErrorDetail_STATUS_Unrolled"></a>ErrorDetail_STATUS_Unrolled
+-------------------------------------------------------------------
+
+Used by: [ErrorDetail_STATUS](#ErrorDetail_STATUS).
+
+| Property       | Description                | Type                                                                                    |
+|----------------|----------------------------|-----------------------------------------------------------------------------------------|
+| additionalInfo | The error additional info. | [ErrorAdditionalInfo_STATUS[]](#ErrorAdditionalInfo_STATUS)<br/><small>Optional</small> |
+| code           | The error code.            | string<br/><small>Optional</small>                                                      |
+| message        | The error message.         | string<br/><small>Optional</small>                                                      |
+| target         | The error target.          | string<br/><small>Optional</small>                                                      |
+
+<a id="MemberUpdateStatus_STATUS"></a>MemberUpdateStatus_STATUS
+---------------------------------------------------------------
+
+The status of a member update operation.
+
+Used by: [UpdateGroupStatus_STATUS](#UpdateGroupStatus_STATUS).
+
+| Property          | Description                                                               | Type                                                                    |
+|-------------------|---------------------------------------------------------------------------|-------------------------------------------------------------------------|
+| clusterResourceId | The Azure resource id of the target Kubernetes cluster.                   | string<br/><small>Optional</small>                                      |
+| name              | The name of the FleetMember.                                              | string<br/><small>Optional</small>                                      |
+| operationId       | The operation resource id of the latest attempt to perform the operation. | string<br/><small>Optional</small>                                      |
+| status            | The status of the MemberUpdate operation.                                 | [UpdateStatus_STATUS](#UpdateStatus_STATUS)<br/><small>Optional</small> |

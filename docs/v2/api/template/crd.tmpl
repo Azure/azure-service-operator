@@ -1,0 +1,34 @@
+{{ define "crd" }}
+---
+title: {{ .Group }}/{{ .Version }}
+linktitle: {{ .Version }}
+---
+
+{{ range .Declarations "ranked" }}
+
+## <a id="{{ .ID }}"></a>{{ .Name }}
+
+{{ .Description | inlineLinks | unwrap | applyEdits -}}
+{{ template "usage" . }}
+
+{{ with . | asPropertyContainer }}
+{{ template "properties" . }}
+{{ end }}
+
+{{ with . | asResource }}
+### <a id="{{ .Spec.Type.ID }}"></a>{{ .Spec.Type.ID }}
+
+{{ template "properties" ( .Spec.Type.ID | lookupDeclaration | asPropertyContainer ) }}
+
+### <a id="{{ .Status.Type.ID }}"></a>{{ .Status.Type.ID }}
+
+{{ template "properties" ( .Status.Type.ID | lookupDeclaration | asPropertyContainer ) }}
+
+{{ end }}
+
+{{- with . | asEnum }}
+{{ template "values" . }}
+{{ end -}}
+
+{{ end -}}
+{{ end -}}
