@@ -204,6 +204,21 @@ func (ref *ResourceReference) AsArbitraryOwnerReference() ArbitraryOwnerReferenc
 	}
 }
 
+// AsKnownResourceReference creates a KnownResourceReference from this reference.
+func (ref *ResourceReference) AsKnownResourceReference() KnownResourceReference {
+	// If this is a direct ARM reference, return just the ARM  ID
+	if ref.IsDirectARMReference() {
+		return KnownResourceReference{
+			ARMID: ref.ARMID,
+		}
+	}
+
+	// Otherwise return just the name
+	return KnownResourceReference{
+		Name: ref.Name,
+	}
+}
+
 // GroupKind returns the GroupKind of the resource reference
 func (ref *ResourceReference) GroupKind() schema.GroupKind {
 	return schema.GroupKind{
