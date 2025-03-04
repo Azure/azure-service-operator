@@ -80,3 +80,54 @@ func Test_Cloud_ResourceManagerAudienceSet(t *testing.T) {
 	g.Expect(cld.Services[cloud.ResourceManager].Endpoint).To(Equal(cloud.AzurePublic.Services[cloud.ResourceManager].Endpoint))
 	g.Expect(cld.Services[cloud.ResourceManager].Audience).To(Equal(cfg.ResourceManagerAudience))
 }
+
+func TestValidate(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	vOk := config.Values{
+		PodNamespace:            "test-namespace",
+		MaxConcurrentReconciles: 1,
+		OperatorMode:            3,
+		TargetNamespaces:        []string{},
+		DefaultReconcilePolicy:  "detach-on-delete",
+	}
+
+	g.Expect(vOk.Validate()).NotTo(HaveOccurred())
+
+	vKoNamespace := config.Values{
+		PodNamespace: "",
+	}
+
+	err := vKoNamespace.Validate()
+	g.Expect(err).To(MatchError(ContainSubstring("POD_NAMESPACE")))
+	g.Expect(err).To(MatchError(ContainSubstring("missing value")))
+
+	g.Expect(vOk.Validate()).NotTo(HaveOccurred())
+
+	vKoConcurrentReconciles := config.Values{
+		PodNamespace:            "test-namespace",
+		MaxConcurrentReconciles: 0,
+		DefaultReconcilePolicy:  "detach-on-delete",
+	}
+
+	g.Expect(vKoConcurrentReconciles.Validate().Error()).Error().Should(Equal("MAX_CONCURRENT_RECONCILES must be at least 1"))
+
+	vKoDefaultReconcilePolicy := config.Values{
+		PodNamespace:            "test-namespace",
+		MaxConcurrentReconciles: 1,
+		DefaultReconcilePolicy:  "detach",
+	}
+
+	g.Expect(vKoDefaultReconcilePolicy.Validate().Error()).Error().Should(Equal("DEFAULT_RECONCILE_POLICY must be set to any of (detach-on-delete, manage, skip)"))
+
+	vKoOperatorMode := config.Values{
+		PodNamespace:            "test-namespace",
+		MaxConcurrentReconciles: 1,
+		DefaultReconcilePolicy:  "detach-on-delete",
+		TargetNamespaces:        []string{"to-be-watched"},
+		OperatorMode:            2,
+	}
+
+	g.Expect(vKoOperatorMode.Validate().Error()).Error().Should(Equal("AZURE_TARGET_NAMESPACES must include watchers to specify target namespaces"))
+}

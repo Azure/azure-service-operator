@@ -235,7 +235,7 @@ func (gr *GenericReconciler) createOrUpdate(ctx context.Context, log logr.Logger
 	}
 
 	// Check the reconcile-policy to ensure we're allowed to issue a CreateOrUpdate
-	reconcilePolicy := reconcilers.GetReconcilePolicy(metaObj, log)
+	reconcilePolicy := reconcilers.GetReconcilePolicy(metaObj, log, gr.Config.DefaultReconcilePolicy)
 	if !reconcilePolicy.AllowsModify() {
 		return ctrl.Result{}, gr.handleSkipReconcile(ctx, log, metaObj)
 	}
@@ -247,7 +247,7 @@ func (gr *GenericReconciler) createOrUpdate(ctx context.Context, log logr.Logger
 
 func (gr *GenericReconciler) delete(ctx context.Context, log logr.Logger, metaObj genruntime.MetaObject) (ctrl.Result, error) {
 	// Check the reconcile policy to ensure we're allowed to issue a delete
-	reconcilePolicy := reconcilers.GetReconcilePolicy(metaObj, log)
+	reconcilePolicy := reconcilers.GetReconcilePolicy(metaObj, log, gr.Config.DefaultReconcilePolicy)
 	if !reconcilePolicy.AllowsDelete() {
 		log.V(Info).Info("Bypassing delete of resource due to policy", "policy", reconcilePolicy)
 		controllerutil.RemoveFinalizer(metaObj, genruntime.ReconcilerFinalizer)
@@ -351,7 +351,7 @@ func (gr *GenericReconciler) CommitUpdate(
 }
 
 func (gr *GenericReconciler) handleSkipReconcile(ctx context.Context, log logr.Logger, obj genruntime.MetaObject) error {
-	reconcilePolicy := reconcilers.GetReconcilePolicy(obj, log) // TODO: Pull this whole method up here
+	reconcilePolicy := reconcilers.GetReconcilePolicy(obj, log, gr.Config.DefaultReconcilePolicy) // TODO: Pull this whole method up here
 	log.V(Status).Info(
 		"Skipping creation/update of resource due to policy",
 		annotations.ReconcilePolicy, reconcilePolicy)
