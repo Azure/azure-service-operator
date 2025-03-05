@@ -6,7 +6,7 @@ linktitle: {{ .Version }}
 
 {{ range .Declarations "ranked" }}
 
-## <a id="{{ .ID }}"></a>{{ .Name }}
+## {{ .Name }}{# {{- .ID -}}}
 
 {{ .Description | inlineLinks | unwrap | applyEdits -}}
 {{ template "usage" . }}
@@ -16,11 +16,11 @@ linktitle: {{ .Version }}
 {{ end }}
 
 {{ with . | asResource }}
-### <a id="{{ .Spec.Type.ID }}"></a>{{ .Spec.Type.ID }}
+### {{ .Spec.Type.ID }} {# {{- .Spec.Type.ID -}} }
 
 {{ template "properties" ( .Spec.Type.ID | lookupDeclaration | asPropertyContainer ) }}
 
-### <a id="{{ .Status.Type.ID }}"></a>{{ .Status.Type.ID }}
+### {{ .Status.Type.Name }}{# {{- .Status.Type.ID -}} }
 
 {{ template "properties" ( .Status.Type.ID | lookupDeclaration | asPropertyContainer ) }}
 

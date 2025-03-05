@@ -5,15 +5,15 @@ title: insights.azure.com/v1api20180501preview
 linktitle: v1api20180501preview
 -------------------------------
 
-<a id="APIVersion"></a>APIVersion
----------------------------------
+APIVersion{#APIVersion}
+-----------------------
 
 | Value                | Description |
 |----------------------|-------------|
 | "2018-05-01-preview" |             |
 
-<a id="Webtest"></a>Webtest
----------------------------
+Webtest{#Webtest}
+-----------------
 
 Generator information: - Generated from: /applicationinsights/resource-manager/Microsoft.Insights/preview/2018-05-01-preview/webTests_API.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.Insights/webtests/{webTestName}
 
@@ -26,7 +26,7 @@ Used by: [WebtestList](#WebtestList).
 | spec                                                                                    |             | [Webtest_Spec](#Webtest_Spec)<br/><small>Optional</small>     |
 | status                                                                                  |             | [Webtest_STATUS](#Webtest_STATUS)<br/><small>Optional</small> |
 
-### <a id="Webtest_Spec"></a>Webtest_Spec
+### Webtest_Spec {#Webtest_Spec}
 
 | Property           | Description                                                                                                                                                                                                                                                                                  | Type                                                                                                                                                                 |
 |--------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -48,7 +48,7 @@ Used by: [WebtestList](#WebtestList).
 | Timeout            | Seconds until this WebTest will timeout and fail. Default value is 30.                                                                                                                                                                                                                       | int<br/><small>Optional</small>                                                                                                                                      |
 | ValidationRules    | The collection of validation rule properties                                                                                                                                                                                                                                                 | [WebTestProperties_ValidationRules](#WebTestProperties_ValidationRules)<br/><small>Optional</small>                                                                  |
 
-### <a id="Webtest_STATUS"></a>Webtest_STATUS
+### Webtest_STATUS{#Webtest_STATUS}
 
 | Property           | Description                                                                                                                                                                                                                                   | Type                                                                                                                                                    |
 |--------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -72,8 +72,8 @@ Used by: [WebtestList](#WebtestList).
 | type               | Azure resource type                                                                                                                                                                                                                           | string<br/><small>Optional</small>                                                                                                                      |
 | ValidationRules    | The collection of validation rule properties                                                                                                                                                                                                  | [WebTestProperties_ValidationRules_STATUS](#WebTestProperties_ValidationRules_STATUS)<br/><small>Optional</small>                                       |
 
-<a id="WebtestList"></a>WebtestList
------------------------------------
+WebtestList{#WebtestList}
+-------------------------
 
 Generator information: - Generated from: /applicationinsights/resource-manager/Microsoft.Insights/preview/2018-05-01-preview/webTests_API.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.Insights/webtests/{webTestName}
 
@@ -83,8 +83,8 @@ Generator information: - Generated from: /applicationinsights/resource-manager/M
 | [metav1.ListMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta) |             |                                                   |
 | items                                                                               |             | [Webtest[]](#Webtest)<br/><small>Optional</small> |
 
-<a id="Webtest_Spec"></a>Webtest_Spec
--------------------------------------
+Webtest_Spec{#Webtest_Spec}
+---------------------------
 
 Used by: [Webtest](#Webtest).
 
@@ -108,8 +108,8 @@ Used by: [Webtest](#Webtest).
 | Timeout            | Seconds until this WebTest will timeout and fail. Default value is 30.                                                                                                                                                                                                                       | int<br/><small>Optional</small>                                                                                                                                      |
 | ValidationRules    | The collection of validation rule properties                                                                                                                                                                                                                                                 | [WebTestProperties_ValidationRules](#WebTestProperties_ValidationRules)<br/><small>Optional</small>                                                                  |
 
-<a id="Webtest_STATUS"></a>Webtest_STATUS
------------------------------------------
+Webtest_STATUS{#Webtest_STATUS}
+-------------------------------
 
 Used by: [Webtest](#Webtest).
 
@@ -135,8 +135,8 @@ Used by: [Webtest](#Webtest).
 | type               | Azure resource type                                                                                                                                                                                                                           | string<br/><small>Optional</small>                                                                                                                      |
 | ValidationRules    | The collection of validation rule properties                                                                                                                                                                                                  | [WebTestProperties_ValidationRules_STATUS](#WebTestProperties_ValidationRules_STATUS)<br/><small>Optional</small>                                       |
 
-<a id="WebTestGeolocation"></a>WebTestGeolocation
--------------------------------------------------
+WebTestGeolocation{#WebTestGeolocation}
+---------------------------------------
 
 Geo-physical location to run a WebTest from. You must specify one or more locations for the test to run from.
 
@@ -146,8 +146,8 @@ Used by: [Webtest_Spec](#Webtest_Spec).
 |----------|------------------------------------------|------------------------------------|
 | Id       | Location ID for the WebTest to run from. | string<br/><small>Optional</small> |
 
-<a id="WebTestGeolocation_STATUS"></a>WebTestGeolocation_STATUS
----------------------------------------------------------------
+WebTestGeolocation_STATUS{#WebTestGeolocation_STATUS}
+-----------------------------------------------------
 
 Geo-physical location to run a WebTest from. You must specify one or more locations for the test to run from.
 
@@ -157,8 +157,8 @@ Used by: [Webtest_STATUS](#Webtest_STATUS).
 |----------|------------------------------------------|------------------------------------|
 | Id       | Location ID for the WebTest to run from. | string<br/><small>Optional</small> |
 
-<a id="WebtestOperatorSpec"></a>WebtestOperatorSpec
----------------------------------------------------
+WebtestOperatorSpec{#WebtestOperatorSpec}
+-----------------------------------------
 
 Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 
@@ -169,8 +169,8 @@ Used by: [Webtest_Spec](#Webtest_Spec).
 | configMapExpressions | configures where to place operator written dynamic ConfigMaps (created with CEL expressions). | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 | secretExpressions    | configures where to place operator written dynamic secrets (created with CEL expressions).    | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 
-<a id="WebTestProperties_Configuration"></a>WebTestProperties_Configuration
----------------------------------------------------------------------------
+WebTestProperties_Configuration{#WebTestProperties_Configuration}
+-----------------------------------------------------------------
 
 Used by: [Webtest_Spec](#Webtest_Spec).
 
@@ -178,8 +178,8 @@ Used by: [Webtest_Spec](#Webtest_Spec).
 |----------|-------------------------------------------------------------------|------------------------------------|
 | WebTest  | The XML specification of a WebTest to run against an application. | string<br/><small>Optional</small> |
 
-<a id="WebTestProperties_Configuration_STATUS"></a>WebTestProperties_Configuration_STATUS
------------------------------------------------------------------------------------------
+WebTestProperties_Configuration_STATUS{#WebTestProperties_Configuration_STATUS}
+-------------------------------------------------------------------------------
 
 Used by: [Webtest_STATUS](#Webtest_STATUS).
 
@@ -187,8 +187,8 @@ Used by: [Webtest_STATUS](#Webtest_STATUS).
 |----------|-------------------------------------------------------------------|------------------------------------|
 | WebTest  | The XML specification of a WebTest to run against an application. | string<br/><small>Optional</small> |
 
-<a id="WebTestProperties_Kind"></a>WebTestProperties_Kind
----------------------------------------------------------
+WebTestProperties_Kind{#WebTestProperties_Kind}
+-----------------------------------------------
 
 Used by: [Webtest_Spec](#Webtest_Spec).
 
@@ -199,8 +199,8 @@ Used by: [Webtest_Spec](#Webtest_Spec).
 | "ping"      |             |
 | "standard"  |             |
 
-<a id="WebTestProperties_Kind_STATUS"></a>WebTestProperties_Kind_STATUS
------------------------------------------------------------------------
+WebTestProperties_Kind_STATUS{#WebTestProperties_Kind_STATUS}
+-------------------------------------------------------------
 
 Used by: [Webtest_STATUS](#Webtest_STATUS).
 
@@ -211,8 +211,8 @@ Used by: [Webtest_STATUS](#Webtest_STATUS).
 | "ping"      |             |
 | "standard"  |             |
 
-<a id="WebTestProperties_Request"></a>WebTestProperties_Request
----------------------------------------------------------------
+WebTestProperties_Request{#WebTestProperties_Request}
+-----------------------------------------------------
 
 Used by: [Webtest_Spec](#Webtest_Spec).
 
@@ -225,8 +225,8 @@ Used by: [Webtest_Spec](#Webtest_Spec).
 | RequestBody            | Base64 encoded string body to send with this web test.       | string<br/><small>Optional</small>                        |
 | RequestUrl             | Url location to test.                                        | string<br/><small>Optional</small>                        |
 
-<a id="WebTestProperties_Request_STATUS"></a>WebTestProperties_Request_STATUS
------------------------------------------------------------------------------
+WebTestProperties_Request_STATUS{#WebTestProperties_Request_STATUS}
+-------------------------------------------------------------------
 
 Used by: [Webtest_STATUS](#Webtest_STATUS).
 
@@ -239,8 +239,8 @@ Used by: [Webtest_STATUS](#Webtest_STATUS).
 | RequestBody            | Base64 encoded string body to send with this web test.       | string<br/><small>Optional</small>                                      |
 | RequestUrl             | Url location to test.                                        | string<br/><small>Optional</small>                                      |
 
-<a id="WebTestProperties_ValidationRules"></a>WebTestProperties_ValidationRules
--------------------------------------------------------------------------------
+WebTestProperties_ValidationRules{#WebTestProperties_ValidationRules}
+---------------------------------------------------------------------
 
 Used by: [Webtest_Spec](#Webtest_Spec).
 
@@ -252,8 +252,8 @@ Used by: [Webtest_Spec](#Webtest_Spec).
 | SSLCertRemainingLifetimeCheck | A number of days to check still remain before the the existing SSL cert expires. Value must be positive and the SSLCheck must be set to true. | int<br/><small>Optional</small>                                                                                                         |
 | SSLCheck                      | Checks to see if the SSL cert is still valid.                                                                                                 | bool<br/><small>Optional</small>                                                                                                        |
 
-<a id="WebTestProperties_ValidationRules_STATUS"></a>WebTestProperties_ValidationRules_STATUS
----------------------------------------------------------------------------------------------
+WebTestProperties_ValidationRules_STATUS{#WebTestProperties_ValidationRules_STATUS}
+-----------------------------------------------------------------------------------
 
 Used by: [Webtest_STATUS](#Webtest_STATUS).
 
@@ -265,8 +265,8 @@ Used by: [Webtest_STATUS](#Webtest_STATUS).
 | SSLCertRemainingLifetimeCheck | A number of days to check still remain before the the existing SSL cert expires. Value must be positive and the SSLCheck must be set to true. | int<br/><small>Optional</small>                                                                                                                       |
 | SSLCheck                      | Checks to see if the SSL cert is still valid.                                                                                                 | bool<br/><small>Optional</small>                                                                                                                      |
 
-<a id="HeaderField"></a>HeaderField
------------------------------------
+HeaderField{#HeaderField}
+-------------------------
 
 A header to add to the WebTest.
 
@@ -277,8 +277,8 @@ Used by: [WebTestProperties_Request](#WebTestProperties_Request).
 | key      | The name of the header.  | string<br/><small>Optional</small> |
 | value    | The value of the header. | string<br/><small>Optional</small> |
 
-<a id="HeaderField_STATUS"></a>HeaderField_STATUS
--------------------------------------------------
+HeaderField_STATUS{#HeaderField_STATUS}
+---------------------------------------
 
 A header to add to the WebTest.
 
@@ -289,8 +289,8 @@ Used by: [WebTestProperties_Request_STATUS](#WebTestProperties_Request_STATUS).
 | key      | The name of the header.  | string<br/><small>Optional</small> |
 | value    | The value of the header. | string<br/><small>Optional</small> |
 
-<a id="WebTestProperties_ValidationRules_ContentValidation"></a>WebTestProperties_ValidationRules_ContentValidation
--------------------------------------------------------------------------------------------------------------------
+WebTestProperties_ValidationRules_ContentValidation{#WebTestProperties_ValidationRules_ContentValidation}
+---------------------------------------------------------------------------------------------------------
 
 Used by: [WebTestProperties_ValidationRules](#WebTestProperties_ValidationRules).
 
@@ -300,8 +300,8 @@ Used by: [WebTestProperties_ValidationRules](#WebTestProperties_ValidationRules)
 | IgnoreCase      | When set, this value makes the ContentMatch validation case insensitive.                                                            | bool<br/><small>Optional</small>   |
 | PassIfTextFound | When true, validation will pass if there is a match for the ContentMatch string. If false, validation will fail if there is a match | bool<br/><small>Optional</small>   |
 
-<a id="WebTestProperties_ValidationRules_ContentValidation_STATUS"></a>WebTestProperties_ValidationRules_ContentValidation_STATUS
----------------------------------------------------------------------------------------------------------------------------------
+WebTestProperties_ValidationRules_ContentValidation_STATUS{#WebTestProperties_ValidationRules_ContentValidation_STATUS}
+-----------------------------------------------------------------------------------------------------------------------
 
 Used by: [WebTestProperties_ValidationRules_STATUS](#WebTestProperties_ValidationRules_STATUS).
 

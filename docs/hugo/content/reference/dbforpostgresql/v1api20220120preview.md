@@ -5,15 +5,15 @@ title: dbforpostgresql.azure.com/v1api20220120preview
 linktitle: v1api20220120preview
 -------------------------------
 
-<a id="APIVersion"></a>APIVersion
----------------------------------
+APIVersion{#APIVersion}
+-----------------------
 
 | Value                | Description |
 |----------------------|-------------|
 | "2022-01-20-preview" |             |
 
-<a id="FlexibleServer"></a>FlexibleServer
------------------------------------------
+FlexibleServer{#FlexibleServer}
+-------------------------------
 
 Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2022-01-20-preview/postgresql.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.DBforPostgreSQL/flexibleServers/{serverName}
 
@@ -26,7 +26,7 @@ Used by: [FlexibleServerList](#FlexibleServerList).
 | spec                                                                                    |             | [FlexibleServer_Spec](#FlexibleServer_Spec)<br/><small>Optional</small>     |
 | status                                                                                  |             | [FlexibleServer_STATUS](#FlexibleServer_STATUS)<br/><small>Optional</small> |
 
-### <a id="FlexibleServer_Spec"></a>FlexibleServer_Spec
+### FlexibleServer_Spec {#FlexibleServer_Spec}
 
 | Property                      | Description                                                                                                                                                                                                                                                                                  | Type                                                                                                                                                                 |
 |-------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -49,7 +49,7 @@ Used by: [FlexibleServerList](#FlexibleServerList).
 | tags                          | Resource tags.                                                                                                                                                                                                                                                                               | map[string]string<br/><small>Optional</small>                                                                                                                        |
 | version                       | PostgreSQL Server version.                                                                                                                                                                                                                                                                   | [ServerVersion](#ServerVersion)<br/><small>Optional</small>                                                                                                          |
 
-### <a id="FlexibleServer_STATUS"></a>FlexibleServer_STATUS
+### FlexibleServer_STATUS{#FlexibleServer_STATUS}
 
 | Property                 | Description                                                                                                                                                                                                                                                                                                               | Type                                                                                                                                                    |
 |--------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -76,8 +76,8 @@ Used by: [FlexibleServerList](#FlexibleServerList).
 | type                     | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                      |
 | version                  | PostgreSQL Server version.                                                                                                                                                                                                                                                                                                | [ServerVersion_STATUS](#ServerVersion_STATUS)<br/><small>Optional</small>                                                                               |
 
-<a id="FlexibleServerList"></a>FlexibleServerList
--------------------------------------------------
+FlexibleServerList{#FlexibleServerList}
+---------------------------------------
 
 Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2022-01-20-preview/postgresql.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.DBforPostgreSQL/flexibleServers/{serverName}
 
@@ -87,8 +87,8 @@ Generator information: - Generated from: /postgresql/resource-manager/Microsoft.
 | [metav1.ListMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta) |             |                                                                 |
 | items                                                                               |             | [FlexibleServer[]](#FlexibleServer)<br/><small>Optional</small> |
 
-<a id="FlexibleServersConfiguration"></a>FlexibleServersConfiguration
----------------------------------------------------------------------
+FlexibleServersConfiguration{#FlexibleServersConfiguration}
+-----------------------------------------------------------
 
 Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2022-01-20-preview/postgresql.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/configurations/{configurationName}
 
@@ -101,7 +101,7 @@ Used by: [FlexibleServersConfigurationList](#FlexibleServersConfigurationList).
 | spec                                                                                    |             | [FlexibleServersConfiguration_Spec](#FlexibleServersConfiguration_Spec)<br/><small>Optional</small>     |
 | status                                                                                  |             | [FlexibleServersConfiguration_STATUS](#FlexibleServersConfiguration_STATUS)<br/><small>Optional</small> |
 
-### <a id="FlexibleServersConfiguration_Spec"></a>FlexibleServersConfiguration_Spec
+### FlexibleServersConfiguration_Spec {#FlexibleServersConfiguration_Spec}
 
 | Property     | Description                                                                                                                                                                                                                                                                                         | Type                                                                                                                                                                 |
 |--------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -111,7 +111,7 @@ Used by: [FlexibleServersConfigurationList](#FlexibleServersConfigurationList).
 | source       | Source of the configuration.                                                                                                                                                                                                                                                                        | string<br/><small>Optional</small>                                                                                                                                   |
 | value        | Value of the configuration.                                                                                                                                                                                                                                                                         | string<br/><small>Optional</small>                                                                                                                                   |
 
-### <a id="FlexibleServersConfiguration_STATUS"></a>FlexibleServersConfiguration_STATUS
+### FlexibleServersConfiguration_STATUS{#FlexibleServersConfiguration_STATUS}
 
 | Property               | Description                                                                                                                                                                                                                                                                                                               | Type                                                                                                                                                    |
 |------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -132,8 +132,8 @@ Used by: [FlexibleServersConfigurationList](#FlexibleServersConfigurationList).
 | unit                   | Configuration unit.                                                                                                                                                                                                                                                                                                       | string<br/><small>Optional</small>                                                                                                                      |
 | value                  | Value of the configuration.                                                                                                                                                                                                                                                                                               | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="FlexibleServersConfigurationList"></a>FlexibleServersConfigurationList
------------------------------------------------------------------------------
+FlexibleServersConfigurationList{#FlexibleServersConfigurationList}
+-------------------------------------------------------------------
 
 Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2022-01-20-preview/postgresql.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/configurations/{configurationName}
 
@@ -143,8 +143,8 @@ Generator information: - Generated from: /postgresql/resource-manager/Microsoft.
 | [metav1.ListMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta) |             |                                                                                             |
 | items                                                                               |             | [FlexibleServersConfiguration[]](#FlexibleServersConfiguration)<br/><small>Optional</small> |
 
-<a id="FlexibleServersDatabase"></a>FlexibleServersDatabase
------------------------------------------------------------
+FlexibleServersDatabase{#FlexibleServersDatabase}
+-------------------------------------------------
 
 Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2022-01-20-preview/Databases.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/databases/{databaseName}
 
@@ -157,7 +157,7 @@ Used by: [FlexibleServersDatabaseList](#FlexibleServersDatabaseList).
 | spec                                                                                    |             | [FlexibleServersDatabase_Spec](#FlexibleServersDatabase_Spec)<br/><small>Optional</small>     |
 | status                                                                                  |             | [FlexibleServersDatabase_STATUS](#FlexibleServersDatabase_STATUS)<br/><small>Optional</small> |
 
-### <a id="FlexibleServersDatabase_Spec"></a>FlexibleServersDatabase_Spec
+### FlexibleServersDatabase_Spec {#FlexibleServersDatabase_Spec}
 
 | Property     | Description                                                                                                                                                                                                                                                                                         | Type                                                                                                                                                                 |
 |--------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -167,7 +167,7 @@ Used by: [FlexibleServersDatabaseList](#FlexibleServersDatabaseList).
 | operatorSpec | The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure                                                                                                                                                                     | [FlexibleServersDatabaseOperatorSpec](#FlexibleServersDatabaseOperatorSpec)<br/><small>Optional</small>                                                              |
 | owner        | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a dbforpostgresql.azure.com/FlexibleServer resource | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
 
-### <a id="FlexibleServersDatabase_STATUS"></a>FlexibleServersDatabase_STATUS
+### FlexibleServersDatabase_STATUS{#FlexibleServersDatabase_STATUS}
 
 | Property   | Description                                                                                                                                                                                                                                                                                                               | Type                                                                                                                                                    |
 |------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -179,8 +179,8 @@ Used by: [FlexibleServersDatabaseList](#FlexibleServersDatabaseList).
 | systemData | The system metadata relating to this resource.                                                                                                                                                                                                                                                                            | [SystemData_STATUS](#SystemData_STATUS)<br/><small>Optional</small>                                                                                     |
 | type       | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="FlexibleServersDatabaseList"></a>FlexibleServersDatabaseList
--------------------------------------------------------------------
+FlexibleServersDatabaseList{#FlexibleServersDatabaseList}
+---------------------------------------------------------
 
 Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2022-01-20-preview/Databases.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/databases/{databaseName}
 
@@ -190,8 +190,8 @@ Generator information: - Generated from: /postgresql/resource-manager/Microsoft.
 | [metav1.ListMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta) |             |                                                                                   |
 | items                                                                               |             | [FlexibleServersDatabase[]](#FlexibleServersDatabase)<br/><small>Optional</small> |
 
-<a id="FlexibleServersFirewallRule"></a>FlexibleServersFirewallRule
--------------------------------------------------------------------
+FlexibleServersFirewallRule{#FlexibleServersFirewallRule}
+---------------------------------------------------------
 
 Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2022-01-20-preview/postgresql.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/firewallRules/{firewallRuleName}
 
@@ -204,7 +204,7 @@ Used by: [FlexibleServersFirewallRuleList](#FlexibleServersFirewallRuleList).
 | spec                                                                                    |             | [FlexibleServersFirewallRule_Spec](#FlexibleServersFirewallRule_Spec)<br/><small>Optional</small>     |
 | status                                                                                  |             | [FlexibleServersFirewallRule_STATUS](#FlexibleServersFirewallRule_STATUS)<br/><small>Optional</small> |
 
-### <a id="FlexibleServersFirewallRule_Spec"></a>FlexibleServersFirewallRule_Spec
+### FlexibleServersFirewallRule_Spec {#FlexibleServersFirewallRule_Spec}
 
 | Property       | Description                                                                                                                                                                                                                                                                                         | Type                                                                                                                                                                 |
 |----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -214,7 +214,7 @@ Used by: [FlexibleServersFirewallRuleList](#FlexibleServersFirewallRuleList).
 | owner          | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a dbforpostgresql.azure.com/FlexibleServer resource | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
 | startIpAddress | The start IP address of the server firewall rule. Must be IPv4 format.                                                                                                                                                                                                                              | string<br/><small>Required</small>                                                                                                                                   |
 
-### <a id="FlexibleServersFirewallRule_STATUS"></a>FlexibleServersFirewallRule_STATUS
+### FlexibleServersFirewallRule_STATUS{#FlexibleServersFirewallRule_STATUS}
 
 | Property       | Description                                                                                                                                                                                                                                                                                                               | Type                                                                                                                                                    |
 |----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -226,8 +226,8 @@ Used by: [FlexibleServersFirewallRuleList](#FlexibleServersFirewallRuleList).
 | systemData     | The system metadata relating to this resource.                                                                                                                                                                                                                                                                            | [SystemData_STATUS](#SystemData_STATUS)<br/><small>Optional</small>                                                                                     |
 | type           | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="FlexibleServersFirewallRuleList"></a>FlexibleServersFirewallRuleList
----------------------------------------------------------------------------
+FlexibleServersFirewallRuleList{#FlexibleServersFirewallRuleList}
+-----------------------------------------------------------------
 
 Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2022-01-20-preview/postgresql.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/firewallRules/{firewallRuleName}
 
@@ -237,8 +237,8 @@ Generator information: - Generated from: /postgresql/resource-manager/Microsoft.
 | [metav1.ListMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta) |             |                                                                                           |
 | items                                                                               |             | [FlexibleServersFirewallRule[]](#FlexibleServersFirewallRule)<br/><small>Optional</small> |
 
-<a id="FlexibleServer_Spec"></a>FlexibleServer_Spec
----------------------------------------------------
+FlexibleServer_Spec{#FlexibleServer_Spec}
+-----------------------------------------
 
 Used by: [FlexibleServer](#FlexibleServer).
 
@@ -263,8 +263,8 @@ Used by: [FlexibleServer](#FlexibleServer).
 | tags                          | Resource tags.                                                                                                                                                                                                                                                                               | map[string]string<br/><small>Optional</small>                                                                                                                        |
 | version                       | PostgreSQL Server version.                                                                                                                                                                                                                                                                   | [ServerVersion](#ServerVersion)<br/><small>Optional</small>                                                                                                          |
 
-<a id="FlexibleServer_STATUS"></a>FlexibleServer_STATUS
--------------------------------------------------------
+FlexibleServer_STATUS{#FlexibleServer_STATUS}
+---------------------------------------------
 
 Used by: [FlexibleServer](#FlexibleServer).
 
@@ -293,8 +293,8 @@ Used by: [FlexibleServer](#FlexibleServer).
 | type                     | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                      |
 | version                  | PostgreSQL Server version.                                                                                                                                                                                                                                                                                                | [ServerVersion_STATUS](#ServerVersion_STATUS)<br/><small>Optional</small>                                                                               |
 
-<a id="FlexibleServersConfiguration_Spec"></a>FlexibleServersConfiguration_Spec
--------------------------------------------------------------------------------
+FlexibleServersConfiguration_Spec{#FlexibleServersConfiguration_Spec}
+---------------------------------------------------------------------
 
 Used by: [FlexibleServersConfiguration](#FlexibleServersConfiguration).
 
@@ -306,8 +306,8 @@ Used by: [FlexibleServersConfiguration](#FlexibleServersConfiguration).
 | source       | Source of the configuration.                                                                                                                                                                                                                                                                        | string<br/><small>Optional</small>                                                                                                                                   |
 | value        | Value of the configuration.                                                                                                                                                                                                                                                                         | string<br/><small>Optional</small>                                                                                                                                   |
 
-<a id="FlexibleServersConfiguration_STATUS"></a>FlexibleServersConfiguration_STATUS
------------------------------------------------------------------------------------
+FlexibleServersConfiguration_STATUS{#FlexibleServersConfiguration_STATUS}
+-------------------------------------------------------------------------
 
 Used by: [FlexibleServersConfiguration](#FlexibleServersConfiguration).
 
@@ -330,8 +330,8 @@ Used by: [FlexibleServersConfiguration](#FlexibleServersConfiguration).
 | unit                   | Configuration unit.                                                                                                                                                                                                                                                                                                       | string<br/><small>Optional</small>                                                                                                                      |
 | value                  | Value of the configuration.                                                                                                                                                                                                                                                                                               | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="FlexibleServersDatabase_Spec"></a>FlexibleServersDatabase_Spec
----------------------------------------------------------------------
+FlexibleServersDatabase_Spec{#FlexibleServersDatabase_Spec}
+-----------------------------------------------------------
 
 Used by: [FlexibleServersDatabase](#FlexibleServersDatabase).
 
@@ -343,8 +343,8 @@ Used by: [FlexibleServersDatabase](#FlexibleServersDatabase).
 | operatorSpec | The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure                                                                                                                                                                     | [FlexibleServersDatabaseOperatorSpec](#FlexibleServersDatabaseOperatorSpec)<br/><small>Optional</small>                                                              |
 | owner        | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a dbforpostgresql.azure.com/FlexibleServer resource | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
 
-<a id="FlexibleServersDatabase_STATUS"></a>FlexibleServersDatabase_STATUS
--------------------------------------------------------------------------
+FlexibleServersDatabase_STATUS{#FlexibleServersDatabase_STATUS}
+---------------------------------------------------------------
 
 Used by: [FlexibleServersDatabase](#FlexibleServersDatabase).
 
@@ -358,8 +358,8 @@ Used by: [FlexibleServersDatabase](#FlexibleServersDatabase).
 | systemData | The system metadata relating to this resource.                                                                                                                                                                                                                                                                            | [SystemData_STATUS](#SystemData_STATUS)<br/><small>Optional</small>                                                                                     |
 | type       | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="FlexibleServersFirewallRule_Spec"></a>FlexibleServersFirewallRule_Spec
------------------------------------------------------------------------------
+FlexibleServersFirewallRule_Spec{#FlexibleServersFirewallRule_Spec}
+-------------------------------------------------------------------
 
 Used by: [FlexibleServersFirewallRule](#FlexibleServersFirewallRule).
 
@@ -371,8 +371,8 @@ Used by: [FlexibleServersFirewallRule](#FlexibleServersFirewallRule).
 | owner          | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a dbforpostgresql.azure.com/FlexibleServer resource | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
 | startIpAddress | The start IP address of the server firewall rule. Must be IPv4 format.                                                                                                                                                                                                                              | string<br/><small>Required</small>                                                                                                                                   |
 
-<a id="FlexibleServersFirewallRule_STATUS"></a>FlexibleServersFirewallRule_STATUS
----------------------------------------------------------------------------------
+FlexibleServersFirewallRule_STATUS{#FlexibleServersFirewallRule_STATUS}
+-----------------------------------------------------------------------
 
 Used by: [FlexibleServersFirewallRule](#FlexibleServersFirewallRule).
 
@@ -386,8 +386,8 @@ Used by: [FlexibleServersFirewallRule](#FlexibleServersFirewallRule).
 | systemData     | The system metadata relating to this resource.                                                                                                                                                                                                                                                                            | [SystemData_STATUS](#SystemData_STATUS)<br/><small>Optional</small>                                                                                     |
 | type           | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="Backup"></a>Backup
--------------------------
+Backup{#Backup}
+---------------
 
 Backup properties of a server
 
@@ -398,8 +398,8 @@ Used by: [FlexibleServer_Spec](#FlexibleServer_Spec).
 | backupRetentionDays | Backup retention days for the server.                                     | int<br/><small>Optional</small>                                                     |
 | geoRedundantBackup  | A value indicating whether Geo-Redundant backup is enabled on the server. | [Backup_GeoRedundantBackup](#Backup_GeoRedundantBackup)<br/><small>Optional</small> |
 
-<a id="Backup_STATUS"></a>Backup_STATUS
----------------------------------------
+Backup_STATUS{#Backup_STATUS}
+-----------------------------
 
 Backup properties of a server
 
@@ -411,8 +411,8 @@ Used by: [FlexibleServer_STATUS](#FlexibleServer_STATUS).
 | earliestRestoreDate | The earliest restore point time (ISO8601 format) for server.              | string<br/><small>Optional</small>                                                                |
 | geoRedundantBackup  | A value indicating whether Geo-Redundant backup is enabled on the server. | [Backup_GeoRedundantBackup_STATUS](#Backup_GeoRedundantBackup_STATUS)<br/><small>Optional</small> |
 
-<a id="ConfigurationProperties_DataType_STATUS"></a>ConfigurationProperties_DataType_STATUS
--------------------------------------------------------------------------------------------
+ConfigurationProperties_DataType_STATUS{#ConfigurationProperties_DataType_STATUS}
+---------------------------------------------------------------------------------
 
 Used by: [FlexibleServersConfiguration_STATUS](#FlexibleServersConfiguration_STATUS).
 
@@ -423,8 +423,8 @@ Used by: [FlexibleServersConfiguration_STATUS](#FlexibleServersConfiguration_STA
 | "Integer"     |             |
 | "Numeric"     |             |
 
-<a id="FlexibleServerOperatorSpec"></a>FlexibleServerOperatorSpec
------------------------------------------------------------------
+FlexibleServerOperatorSpec{#FlexibleServerOperatorSpec}
+-------------------------------------------------------
 
 Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 
@@ -437,8 +437,8 @@ Used by: [FlexibleServer_Spec](#FlexibleServer_Spec).
 | secretExpressions    | configures where to place operator written dynamic secrets (created with CEL expressions).    | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 | secrets              | configures where to place Azure generated secrets.                                            | [FlexibleServerOperatorSecrets](#FlexibleServerOperatorSecrets)<br/><small>Optional</small>                                                                         |
 
-<a id="FlexibleServersConfigurationOperatorSpec"></a>FlexibleServersConfigurationOperatorSpec
----------------------------------------------------------------------------------------------
+FlexibleServersConfigurationOperatorSpec{#FlexibleServersConfigurationOperatorSpec}
+-----------------------------------------------------------------------------------
 
 Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 
@@ -449,8 +449,8 @@ Used by: [FlexibleServersConfiguration_Spec](#FlexibleServersConfiguration_Spec)
 | configMapExpressions | configures where to place operator written dynamic ConfigMaps (created with CEL expressions). | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 | secretExpressions    | configures where to place operator written dynamic secrets (created with CEL expressions).    | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 
-<a id="FlexibleServersDatabaseOperatorSpec"></a>FlexibleServersDatabaseOperatorSpec
------------------------------------------------------------------------------------
+FlexibleServersDatabaseOperatorSpec{#FlexibleServersDatabaseOperatorSpec}
+-------------------------------------------------------------------------
 
 Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 
@@ -461,8 +461,8 @@ Used by: [FlexibleServersDatabase_Spec](#FlexibleServersDatabase_Spec).
 | configMapExpressions | configures where to place operator written dynamic ConfigMaps (created with CEL expressions). | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 | secretExpressions    | configures where to place operator written dynamic secrets (created with CEL expressions).    | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 
-<a id="FlexibleServersFirewallRuleOperatorSpec"></a>FlexibleServersFirewallRuleOperatorSpec
--------------------------------------------------------------------------------------------
+FlexibleServersFirewallRuleOperatorSpec{#FlexibleServersFirewallRuleOperatorSpec}
+---------------------------------------------------------------------------------
 
 Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 
@@ -473,8 +473,8 @@ Used by: [FlexibleServersFirewallRule_Spec](#FlexibleServersFirewallRule_Spec).
 | configMapExpressions | configures where to place operator written dynamic ConfigMaps (created with CEL expressions). | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 | secretExpressions    | configures where to place operator written dynamic secrets (created with CEL expressions).    | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 
-<a id="HighAvailability"></a>HighAvailability
----------------------------------------------
+HighAvailability{#HighAvailability}
+-----------------------------------
 
 High availability properties of a server
 
@@ -485,8 +485,8 @@ Used by: [FlexibleServer_Spec](#FlexibleServer_Spec).
 | mode                    | The HA mode for the server.                   | [HighAvailability_Mode](#HighAvailability_Mode)<br/><small>Optional</small> |
 | standbyAvailabilityZone | availability zone information of the standby. | string<br/><small>Optional</small>                                          |
 
-<a id="HighAvailability_STATUS"></a>HighAvailability_STATUS
------------------------------------------------------------
+HighAvailability_STATUS{#HighAvailability_STATUS}
+-------------------------------------------------
 
 High availability properties of a server
 
@@ -498,8 +498,8 @@ Used by: [FlexibleServer_STATUS](#FlexibleServer_STATUS).
 | standbyAvailabilityZone | availability zone information of the standby.   | string<br/><small>Optional</small>                                                          |
 | state                   | A state of a HA server that is visible to user. | [HighAvailability_State_STATUS](#HighAvailability_State_STATUS)<br/><small>Optional</small> |
 
-<a id="MaintenanceWindow"></a>MaintenanceWindow
------------------------------------------------
+MaintenanceWindow{#MaintenanceWindow}
+-------------------------------------
 
 Maintenance window properties of a server.
 
@@ -512,8 +512,8 @@ Used by: [FlexibleServer_Spec](#FlexibleServer_Spec).
 | startHour    | start hour for maintenance window                      | int<br/><small>Optional</small>    |
 | startMinute  | start minute for maintenance window                    | int<br/><small>Optional</small>    |
 
-<a id="MaintenanceWindow_STATUS"></a>MaintenanceWindow_STATUS
--------------------------------------------------------------
+MaintenanceWindow_STATUS{#MaintenanceWindow_STATUS}
+---------------------------------------------------
 
 Maintenance window properties of a server.
 
@@ -526,8 +526,8 @@ Used by: [FlexibleServer_STATUS](#FlexibleServer_STATUS).
 | startHour    | start hour for maintenance window                      | int<br/><small>Optional</small>    |
 | startMinute  | start minute for maintenance window                    | int<br/><small>Optional</small>    |
 
-<a id="Network"></a>Network
----------------------------
+Network{#Network}
+-----------------
 
 Network properties of a server
 
@@ -538,8 +538,8 @@ Used by: [FlexibleServer_Spec](#FlexibleServer_Spec).
 | delegatedSubnetResourceReference   | delegated subnet arm resource id. | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small> |
 | privateDnsZoneArmResourceReference | private dns zone arm resource id. | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small> |
 
-<a id="Network_STATUS"></a>Network_STATUS
------------------------------------------
+Network_STATUS{#Network_STATUS}
+-------------------------------
 
 Network properties of a server
 
@@ -551,8 +551,8 @@ Used by: [FlexibleServer_STATUS](#FlexibleServer_STATUS).
 | privateDnsZoneArmResourceId | private dns zone arm resource id.       | string<br/><small>Optional</small>                                                                    |
 | publicNetworkAccess         | public network access is enabled or not | [Network_PublicNetworkAccess_STATUS](#Network_PublicNetworkAccess_STATUS)<br/><small>Optional</small> |
 
-<a id="ServerProperties_CreateMode"></a>ServerProperties_CreateMode
--------------------------------------------------------------------
+ServerProperties_CreateMode{#ServerProperties_CreateMode}
+---------------------------------------------------------
 
 Used by: [FlexibleServer_Spec](#FlexibleServer_Spec).
 
@@ -563,8 +563,8 @@ Used by: [FlexibleServer_Spec](#FlexibleServer_Spec).
 | "PointInTimeRestore" |             |
 | "Update"             |             |
 
-<a id="ServerProperties_CreateMode_STATUS"></a>ServerProperties_CreateMode_STATUS
----------------------------------------------------------------------------------
+ServerProperties_CreateMode_STATUS{#ServerProperties_CreateMode_STATUS}
+-----------------------------------------------------------------------
 
 Used by: [FlexibleServer_STATUS](#FlexibleServer_STATUS).
 
@@ -575,8 +575,8 @@ Used by: [FlexibleServer_STATUS](#FlexibleServer_STATUS).
 | "PointInTimeRestore" |             |
 | "Update"             |             |
 
-<a id="ServerProperties_State_STATUS"></a>ServerProperties_State_STATUS
------------------------------------------------------------------------
+ServerProperties_State_STATUS{#ServerProperties_State_STATUS}
+-------------------------------------------------------------
 
 Used by: [FlexibleServer_STATUS](#FlexibleServer_STATUS).
 
@@ -590,8 +590,8 @@ Used by: [FlexibleServer_STATUS](#FlexibleServer_STATUS).
 | "Stopping" |             |
 | "Updating" |             |
 
-<a id="ServerVersion"></a>ServerVersion
----------------------------------------
+ServerVersion{#ServerVersion}
+-----------------------------
 
 The version of a server.
 
@@ -604,8 +604,8 @@ Used by: [FlexibleServer_Spec](#FlexibleServer_Spec).
 | "13"  |             |
 | "14"  |             |
 
-<a id="ServerVersion_STATUS"></a>ServerVersion_STATUS
------------------------------------------------------
+ServerVersion_STATUS{#ServerVersion_STATUS}
+-------------------------------------------
 
 The version of a server.
 
@@ -618,8 +618,8 @@ Used by: [FlexibleServer_STATUS](#FlexibleServer_STATUS).
 | "13"  |             |
 | "14"  |             |
 
-<a id="Sku"></a>Sku
--------------------
+Sku{#Sku}
+---------
 
 Sku information related properties of a server.
 
@@ -630,8 +630,8 @@ Used by: [FlexibleServer_Spec](#FlexibleServer_Spec).
 | name     | The name of the sku, typically, tier + family + cores, e.g. Standard_D4s_v3. | string<br/><small>Required</small>                |
 | tier     | The tier of the particular SKU, e.g. Burstable.                              | [Sku_Tier](#Sku_Tier)<br/><small>Required</small> |
 
-<a id="Sku_STATUS"></a>Sku_STATUS
----------------------------------
+Sku_STATUS{#Sku_STATUS}
+-----------------------
 
 Sku information related properties of a server.
 
@@ -642,8 +642,8 @@ Used by: [FlexibleServer_STATUS](#FlexibleServer_STATUS).
 | name     | The name of the sku, typically, tier + family + cores, e.g. Standard_D4s_v3. | string<br/><small>Optional</small>                              |
 | tier     | The tier of the particular SKU, e.g. Burstable.                              | [Sku_Tier_STATUS](#Sku_Tier_STATUS)<br/><small>Optional</small> |
 
-<a id="Storage"></a>Storage
----------------------------
+Storage{#Storage}
+-----------------
 
 Storage properties of a server
 
@@ -653,8 +653,8 @@ Used by: [FlexibleServer_Spec](#FlexibleServer_Spec).
 |---------------|-----------------------------------|---------------------------------|
 | storageSizeGB | Max storage allowed for a server. | int<br/><small>Optional</small> |
 
-<a id="Storage_STATUS"></a>Storage_STATUS
------------------------------------------
+Storage_STATUS{#Storage_STATUS}
+-------------------------------
 
 Storage properties of a server
 
@@ -664,8 +664,8 @@ Used by: [FlexibleServer_STATUS](#FlexibleServer_STATUS).
 |---------------|-----------------------------------|---------------------------------|
 | storageSizeGB | Max storage allowed for a server. | int<br/><small>Optional</small> |
 
-<a id="SystemData_STATUS"></a>SystemData_STATUS
------------------------------------------------
+SystemData_STATUS{#SystemData_STATUS}
+-------------------------------------
 
 Metadata pertaining to creation and last modification of the resource.
 
@@ -680,8 +680,8 @@ Used by: [FlexibleServer_STATUS](#FlexibleServer_STATUS), [FlexibleServersConfig
 | lastModifiedBy     | The identity that last modified the resource.         | string<br/><small>Optional</small>                                                                        |
 | lastModifiedByType | The type of identity that last modified the resource. | [SystemData_LastModifiedByType_STATUS](#SystemData_LastModifiedByType_STATUS)<br/><small>Optional</small> |
 
-<a id="Backup_GeoRedundantBackup"></a>Backup_GeoRedundantBackup
----------------------------------------------------------------
+Backup_GeoRedundantBackup{#Backup_GeoRedundantBackup}
+-----------------------------------------------------
 
 Used by: [Backup](#Backup).
 
@@ -690,8 +690,8 @@ Used by: [Backup](#Backup).
 | "Disabled" |             |
 | "Enabled"  |             |
 
-<a id="Backup_GeoRedundantBackup_STATUS"></a>Backup_GeoRedundantBackup_STATUS
------------------------------------------------------------------------------
+Backup_GeoRedundantBackup_STATUS{#Backup_GeoRedundantBackup_STATUS}
+-------------------------------------------------------------------
 
 Used by: [Backup_STATUS](#Backup_STATUS).
 
@@ -700,8 +700,8 @@ Used by: [Backup_STATUS](#Backup_STATUS).
 | "Disabled" |             |
 | "Enabled"  |             |
 
-<a id="FlexibleServerOperatorConfigMaps"></a>FlexibleServerOperatorConfigMaps
------------------------------------------------------------------------------
+FlexibleServerOperatorConfigMaps{#FlexibleServerOperatorConfigMaps}
+-------------------------------------------------------------------
 
 Used by: [FlexibleServerOperatorSpec](#FlexibleServerOperatorSpec).
 
@@ -709,8 +709,8 @@ Used by: [FlexibleServerOperatorSpec](#FlexibleServerOperatorSpec).
 |--------------------------|----------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | fullyQualifiedDomainName | indicates where the FullyQualifiedDomainName config map should be placed. If omitted, no config map will be created. | [genruntime.ConfigMapDestination](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapDestination)<br/><small>Optional</small> |
 
-<a id="FlexibleServerOperatorSecrets"></a>FlexibleServerOperatorSecrets
------------------------------------------------------------------------
+FlexibleServerOperatorSecrets{#FlexibleServerOperatorSecrets}
+-------------------------------------------------------------
 
 Used by: [FlexibleServerOperatorSpec](#FlexibleServerOperatorSpec).
 
@@ -718,8 +718,8 @@ Used by: [FlexibleServerOperatorSpec](#FlexibleServerOperatorSpec).
 |--------------------------|--------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | fullyQualifiedDomainName | indicates where the FullyQualifiedDomainName secret should be placed. If omitted, the secret will not be retrieved from Azure. | [genruntime.SecretDestination](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination)<br/><small>Optional</small> |
 
-<a id="HighAvailability_Mode"></a>HighAvailability_Mode
--------------------------------------------------------
+HighAvailability_Mode{#HighAvailability_Mode}
+---------------------------------------------
 
 Used by: [HighAvailability](#HighAvailability).
 
@@ -729,8 +729,8 @@ Used by: [HighAvailability](#HighAvailability).
 | "SameZone"      |             |
 | "ZoneRedundant" |             |
 
-<a id="HighAvailability_Mode_STATUS"></a>HighAvailability_Mode_STATUS
----------------------------------------------------------------------
+HighAvailability_Mode_STATUS{#HighAvailability_Mode_STATUS}
+-----------------------------------------------------------
 
 Used by: [HighAvailability_STATUS](#HighAvailability_STATUS).
 
@@ -740,8 +740,8 @@ Used by: [HighAvailability_STATUS](#HighAvailability_STATUS).
 | "SameZone"      |             |
 | "ZoneRedundant" |             |
 
-<a id="HighAvailability_State_STATUS"></a>HighAvailability_State_STATUS
------------------------------------------------------------------------
+HighAvailability_State_STATUS{#HighAvailability_State_STATUS}
+-------------------------------------------------------------
 
 Used by: [HighAvailability_STATUS](#HighAvailability_STATUS).
 
@@ -754,8 +754,8 @@ Used by: [HighAvailability_STATUS](#HighAvailability_STATUS).
 | "RemovingStandby" |             |
 | "ReplicatingData" |             |
 
-<a id="Network_PublicNetworkAccess_STATUS"></a>Network_PublicNetworkAccess_STATUS
----------------------------------------------------------------------------------
+Network_PublicNetworkAccess_STATUS{#Network_PublicNetworkAccess_STATUS}
+-----------------------------------------------------------------------
 
 Used by: [Network_STATUS](#Network_STATUS).
 
@@ -764,8 +764,8 @@ Used by: [Network_STATUS](#Network_STATUS).
 | "Disabled" |             |
 | "Enabled"  |             |
 
-<a id="Sku_Tier"></a>Sku_Tier
------------------------------
+Sku_Tier{#Sku_Tier}
+-------------------
 
 Used by: [Sku](#Sku).
 
@@ -775,8 +775,8 @@ Used by: [Sku](#Sku).
 | "GeneralPurpose"  |             |
 | "MemoryOptimized" |             |
 
-<a id="Sku_Tier_STATUS"></a>Sku_Tier_STATUS
--------------------------------------------
+Sku_Tier_STATUS{#Sku_Tier_STATUS}
+---------------------------------
 
 Used by: [Sku_STATUS](#Sku_STATUS).
 
@@ -786,8 +786,8 @@ Used by: [Sku_STATUS](#Sku_STATUS).
 | "GeneralPurpose"  |             |
 | "MemoryOptimized" |             |
 
-<a id="SystemData_CreatedByType_STATUS"></a>SystemData_CreatedByType_STATUS
----------------------------------------------------------------------------
+SystemData_CreatedByType_STATUS{#SystemData_CreatedByType_STATUS}
+-----------------------------------------------------------------
 
 Used by: [SystemData_STATUS](#SystemData_STATUS).
 
@@ -798,8 +798,8 @@ Used by: [SystemData_STATUS](#SystemData_STATUS).
 | "ManagedIdentity" |             |
 | "User"            |             |
 
-<a id="SystemData_LastModifiedByType_STATUS"></a>SystemData_LastModifiedByType_STATUS
--------------------------------------------------------------------------------------
+SystemData_LastModifiedByType_STATUS{#SystemData_LastModifiedByType_STATUS}
+---------------------------------------------------------------------------
 
 Used by: [SystemData_STATUS](#SystemData_STATUS).
 

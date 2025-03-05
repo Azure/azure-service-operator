@@ -5,15 +5,15 @@ title: managedidentity.azure.com/v1api20220131preview
 linktitle: v1api20220131preview
 -------------------------------
 
-<a id="APIVersion"></a>APIVersion
----------------------------------
+APIVersion{#APIVersion}
+-----------------------
 
 | Value                | Description |
 |----------------------|-------------|
 | "2022-01-31-preview" |             |
 
-<a id="FederatedIdentityCredential"></a>FederatedIdentityCredential
--------------------------------------------------------------------
+FederatedIdentityCredential{#FederatedIdentityCredential}
+---------------------------------------------------------
 
 Generator information: - Generated from: /msi/resource-manager/Microsoft.ManagedIdentity/preview/2022-01-31-preview/ManagedIdentity.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ManagedIdentity/userAssignedIdentities/{resourceName}/federatedIdentityCredentials/{federatedIdentityCredentialResourceName}
 
@@ -26,7 +26,7 @@ Used by: [FederatedIdentityCredentialList](#FederatedIdentityCredentialList).
 | spec                                                                                    |             | [FederatedIdentityCredential_Spec](#FederatedIdentityCredential_Spec)<br/><small>Optional</small>     |
 | status                                                                                  |             | [FederatedIdentityCredential_STATUS](#FederatedIdentityCredential_STATUS)<br/><small>Optional</small> |
 
-### <a id="FederatedIdentityCredential_Spec"></a>FederatedIdentityCredential_Spec
+### FederatedIdentityCredential_Spec {#FederatedIdentityCredential_Spec}
 
 | Property          | Description                                                                                                                                                                                                                                                                                               | Type                                                                                                                                                                 |
 |-------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -39,7 +39,7 @@ Used by: [FederatedIdentityCredentialList](#FederatedIdentityCredentialList).
 | subject           | The identifier of the external identity.                                                                                                                                                                                                                                                                  | string<br/><small>Optional</small>                                                                                                                                   |
 | subjectFromConfig | The identifier of the external identity.                                                                                                                                                                                                                                                                  | [genruntime.ConfigMapReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference)<br/><small>Optional</small>         |
 
-### <a id="FederatedIdentityCredential_STATUS"></a>FederatedIdentityCredential_STATUS
+### FederatedIdentityCredential_STATUS{#FederatedIdentityCredential_STATUS}
 
 | Property   | Description                                                                                                                                                                                                                                                                                                               | Type                                                                                                                                                    |
 |------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -51,8 +51,8 @@ Used by: [FederatedIdentityCredentialList](#FederatedIdentityCredentialList).
 | subject    | The identifier of the external identity.                                                                                                                                                                                                                                                                                  | string<br/><small>Optional</small>                                                                                                                      |
 | type       | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="FederatedIdentityCredentialList"></a>FederatedIdentityCredentialList
----------------------------------------------------------------------------
+FederatedIdentityCredentialList{#FederatedIdentityCredentialList}
+-----------------------------------------------------------------
 
 Generator information: - Generated from: /msi/resource-manager/Microsoft.ManagedIdentity/preview/2022-01-31-preview/ManagedIdentity.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ManagedIdentity/userAssignedIdentities/{resourceName}/federatedIdentityCredentials/{federatedIdentityCredentialResourceName}
 
@@ -62,8 +62,8 @@ Generator information: - Generated from: /msi/resource-manager/Microsoft.Managed
 | [metav1.ListMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta) |             |                                                                                           |
 | items                                                                               |             | [FederatedIdentityCredential[]](#FederatedIdentityCredential)<br/><small>Optional</small> |
 
-<a id="FederatedIdentityCredential_Spec"></a>FederatedIdentityCredential_Spec
------------------------------------------------------------------------------
+FederatedIdentityCredential_Spec{#FederatedIdentityCredential_Spec}
+-------------------------------------------------------------------
 
 Used by: [FederatedIdentityCredential](#FederatedIdentityCredential).
 
@@ -78,8 +78,8 @@ Used by: [FederatedIdentityCredential](#FederatedIdentityCredential).
 | subject           | The identifier of the external identity.                                                                                                                                                                                                                                                                  | string<br/><small>Optional</small>                                                                                                                                   |
 | subjectFromConfig | The identifier of the external identity.                                                                                                                                                                                                                                                                  | [genruntime.ConfigMapReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference)<br/><small>Optional</small>         |
 
-<a id="FederatedIdentityCredential_STATUS"></a>FederatedIdentityCredential_STATUS
----------------------------------------------------------------------------------
+FederatedIdentityCredential_STATUS{#FederatedIdentityCredential_STATUS}
+-----------------------------------------------------------------------
 
 Used by: [FederatedIdentityCredential](#FederatedIdentityCredential).
 
@@ -93,8 +93,8 @@ Used by: [FederatedIdentityCredential](#FederatedIdentityCredential).
 | subject    | The identifier of the external identity.                                                                                                                                                                                                                                                                                  | string<br/><small>Optional</small>                                                                                                                      |
 | type       | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="FederatedIdentityCredentialOperatorSpec"></a>FederatedIdentityCredentialOperatorSpec
--------------------------------------------------------------------------------------------
+FederatedIdentityCredentialOperatorSpec{#FederatedIdentityCredentialOperatorSpec}
+---------------------------------------------------------------------------------
 
 Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 

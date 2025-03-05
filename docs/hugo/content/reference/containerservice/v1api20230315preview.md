@@ -5,15 +5,15 @@ title: containerservice.azure.com/v1api20230315preview
 linktitle: v1api20230315preview
 -------------------------------
 
-<a id="APIVersion"></a>APIVersion
----------------------------------
+APIVersion{#APIVersion}
+-----------------------
 
 | Value                | Description |
 |----------------------|-------------|
 | "2023-03-15-preview" |             |
 
-<a id="Fleet"></a>Fleet
------------------------
+Fleet{#Fleet}
+-------------
 
 Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2023-03-15-preview/fleets.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ContainerService/fleets/{fleetName}
 
@@ -26,7 +26,7 @@ Used by: [FleetList](#FleetList).
 | spec                                                                                    |             | [Fleet_Spec](#Fleet_Spec)<br/><small>Optional</small>     |
 | status                                                                                  |             | [Fleet_STATUS](#Fleet_STATUS)<br/><small>Optional</small> |
 
-### <a id="Fleet_Spec"></a>Fleet_Spec
+### Fleet_Spec {#Fleet_Spec}
 
 | Property     | Description                                                                                                                                                                                                                                                                                  | Type                                                                                                                                                                 |
 |--------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -37,7 +37,7 @@ Used by: [FleetList](#FleetList).
 | owner        | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
 | tags         | Resource tags.                                                                                                                                                                                                                                                                               | map[string]string<br/><small>Optional</small>                                                                                                                        |
 
-### <a id="Fleet_STATUS"></a>Fleet_STATUS
+### Fleet_STATUS{#Fleet_STATUS}
 
 | Property          | Description                                                                                                                                                                                                                                                                                                                                                         | Type                                                                                                                                                    |
 |-------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -52,8 +52,8 @@ Used by: [FleetList](#FleetList).
 | tags              | Resource tags.                                                                                                                                                                                                                                                                                                                                                      | map[string]string<br/><small>Optional</small>                                                                                                           |
 | type              | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                                                           | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="FleetList"></a>FleetList
--------------------------------
+FleetList{#FleetList}
+---------------------
 
 Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2023-03-15-preview/fleets.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ContainerService/fleets/{fleetName}
 
@@ -63,8 +63,8 @@ Generator information: - Generated from: /containerservice/resource-manager/Micr
 | [metav1.ListMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta) |             |                                               |
 | items                                                                               |             | [Fleet[]](#Fleet)<br/><small>Optional</small> |
 
-<a id="FleetsMember"></a>FleetsMember
--------------------------------------
+FleetsMember{#FleetsMember}
+---------------------------
 
 Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2023-03-15-preview/fleets.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ContainerService/fleets/{fleetName}/members/{fleetMemberName}
 
@@ -77,7 +77,7 @@ Used by: [FleetsMemberList](#FleetsMemberList).
 | spec                                                                                    |             | [FleetsMember_Spec](#FleetsMember_Spec)<br/><small>Optional</small>     |
 | status                                                                                  |             | [FleetsMember_STATUS](#FleetsMember_STATUS)<br/><small>Optional</small> |
 
-### <a id="FleetsMember_Spec"></a>FleetsMember_Spec
+### FleetsMember_Spec {#FleetsMember_Spec}
 
 | Property                 | Description                                                                                                                                                                                                                                                                                                                                | Type                                                                                                                                                                 |
 |--------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -87,7 +87,7 @@ Used by: [FleetsMemberList](#FleetsMemberList).
 | operatorSpec             | The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure                                                                                                                                                                                                            | [FleetsMemberOperatorSpec](#FleetsMemberOperatorSpec)<br/><small>Optional</small>                                                                                    |
 | owner                    | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a containerservice.azure.com/Fleet resource                                                | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
 
-### <a id="FleetsMember_STATUS"></a>FleetsMember_STATUS
+### FleetsMember_STATUS{#FleetsMember_STATUS}
 
 | Property          | Description                                                                                                                                                                                                                                                                                                                                                         | Type                                                                                                                                                    |
 |-------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -101,8 +101,8 @@ Used by: [FleetsMemberList](#FleetsMemberList).
 | systemData        | Azure Resource Manager metadata containing createdBy and modifiedBy information.                                                                                                                                                                                                                                                                                    | [SystemData_STATUS](#SystemData_STATUS)<br/><small>Optional</small>                                                                                     |
 | type              | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                                                           | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="FleetsMemberList"></a>FleetsMemberList
----------------------------------------------
+FleetsMemberList{#FleetsMemberList}
+-----------------------------------
 
 Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2023-03-15-preview/fleets.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ContainerService/fleets/{fleetName}/members/{fleetMemberName}
 
@@ -112,8 +112,8 @@ Generator information: - Generated from: /containerservice/resource-manager/Micr
 | [metav1.ListMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta) |             |                                                             |
 | items                                                                               |             | [FleetsMember[]](#FleetsMember)<br/><small>Optional</small> |
 
-<a id="FleetsUpdateRun"></a>FleetsUpdateRun
--------------------------------------------
+FleetsUpdateRun{#FleetsUpdateRun}
+---------------------------------
 
 Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2023-03-15-preview/fleets.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ContainerService/fleets/{fleetName}/updateRuns/{updateRunName}
 
@@ -126,7 +126,7 @@ Used by: [FleetsUpdateRunList](#FleetsUpdateRunList).
 | spec                                                                                    |             | [FleetsUpdateRun_Spec](#FleetsUpdateRun_Spec)<br/><small>Optional</small>     |
 | status                                                                                  |             | [FleetsUpdateRun_STATUS](#FleetsUpdateRun_STATUS)<br/><small>Optional</small> |
 
-### <a id="FleetsUpdateRun_Spec"></a>FleetsUpdateRun_Spec
+### FleetsUpdateRun_Spec {#FleetsUpdateRun_Spec}
 
 | Property             | Description                                                                                                                                                                                                                                                                                             | Type                                                                                                                                                                 |
 |----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -136,7 +136,7 @@ Used by: [FleetsUpdateRunList](#FleetsUpdateRunList).
 | owner                | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a containerservice.azure.com/Fleet resource             | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
 | strategy             | The strategy defines the order in which the clusters will be updated. If not set, all members will be updated sequentially. The UpdateRun status will show a single UpdateStage and a single UpdateGroup targeting all members. The strategy of the UpdateRun can be modified until the run is started. | [UpdateRunStrategy](#UpdateRunStrategy)<br/><small>Optional</small>                                                                                                  |
 
-### <a id="FleetsUpdateRun_STATUS"></a>FleetsUpdateRun_STATUS
+### FleetsUpdateRun_STATUS{#FleetsUpdateRun_STATUS}
 
 | Property             | Description                                                                                                                                                                                                                                                                                                                                                         | Type                                                                                                                                                    |
 |----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -151,8 +151,8 @@ Used by: [FleetsUpdateRunList](#FleetsUpdateRunList).
 | systemData           | Azure Resource Manager metadata containing createdBy and modifiedBy information.                                                                                                                                                                                                                                                                                    | [SystemData_STATUS](#SystemData_STATUS)<br/><small>Optional</small>                                                                                     |
 | type                 | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                                                           | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="FleetsUpdateRunList"></a>FleetsUpdateRunList
----------------------------------------------------
+FleetsUpdateRunList{#FleetsUpdateRunList}
+-----------------------------------------
 
 Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2023-03-15-preview/fleets.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ContainerService/fleets/{fleetName}/updateRuns/{updateRunName}
 
@@ -162,8 +162,8 @@ Generator information: - Generated from: /containerservice/resource-manager/Micr
 | [metav1.ListMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta) |             |                                                                   |
 | items                                                                               |             | [FleetsUpdateRun[]](#FleetsUpdateRun)<br/><small>Optional</small> |
 
-<a id="Fleet_Spec"></a>Fleet_Spec
----------------------------------
+Fleet_Spec{#Fleet_Spec}
+-----------------------
 
 Used by: [Fleet](#Fleet).
 
@@ -176,8 +176,8 @@ Used by: [Fleet](#Fleet).
 | owner        | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
 | tags         | Resource tags.                                                                                                                                                                                                                                                                               | map[string]string<br/><small>Optional</small>                                                                                                                        |
 
-<a id="Fleet_STATUS"></a>Fleet_STATUS
--------------------------------------
+Fleet_STATUS{#Fleet_STATUS}
+---------------------------
 
 The Fleet resource.
 
@@ -196,8 +196,8 @@ Used by: [Fleet](#Fleet).
 | tags              | Resource tags.                                                                                                                                                                                                                                                                                                                                                      | map[string]string<br/><small>Optional</small>                                                                                                           |
 | type              | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                                                           | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="FleetsMember_Spec"></a>FleetsMember_Spec
------------------------------------------------
+FleetsMember_Spec{#FleetsMember_Spec}
+-------------------------------------
 
 Used by: [FleetsMember](#FleetsMember).
 
@@ -209,8 +209,8 @@ Used by: [FleetsMember](#FleetsMember).
 | operatorSpec             | The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure                                                                                                                                                                                                            | [FleetsMemberOperatorSpec](#FleetsMemberOperatorSpec)<br/><small>Optional</small>                                                                                    |
 | owner                    | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a containerservice.azure.com/Fleet resource                                                | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
 
-<a id="FleetsMember_STATUS"></a>FleetsMember_STATUS
----------------------------------------------------
+FleetsMember_STATUS{#FleetsMember_STATUS}
+-----------------------------------------
 
 Used by: [FleetsMember](#FleetsMember).
 
@@ -226,8 +226,8 @@ Used by: [FleetsMember](#FleetsMember).
 | systemData        | Azure Resource Manager metadata containing createdBy and modifiedBy information.                                                                                                                                                                                                                                                                                    | [SystemData_STATUS](#SystemData_STATUS)<br/><small>Optional</small>                                                                                     |
 | type              | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                                                           | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="FleetsUpdateRun_Spec"></a>FleetsUpdateRun_Spec
------------------------------------------------------
+FleetsUpdateRun_Spec{#FleetsUpdateRun_Spec}
+-------------------------------------------
 
 Used by: [FleetsUpdateRun](#FleetsUpdateRun).
 
@@ -239,8 +239,8 @@ Used by: [FleetsUpdateRun](#FleetsUpdateRun).
 | owner                | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a containerservice.azure.com/Fleet resource             | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
 | strategy             | The strategy defines the order in which the clusters will be updated. If not set, all members will be updated sequentially. The UpdateRun status will show a single UpdateStage and a single UpdateGroup targeting all members. The strategy of the UpdateRun can be modified until the run is started. | [UpdateRunStrategy](#UpdateRunStrategy)<br/><small>Optional</small>                                                                                                  |
 
-<a id="FleetsUpdateRun_STATUS"></a>FleetsUpdateRun_STATUS
----------------------------------------------------------
+FleetsUpdateRun_STATUS{#FleetsUpdateRun_STATUS}
+-----------------------------------------------
 
 Used by: [FleetsUpdateRun](#FleetsUpdateRun).
 
@@ -257,8 +257,8 @@ Used by: [FleetsUpdateRun](#FleetsUpdateRun).
 | systemData           | Azure Resource Manager metadata containing createdBy and modifiedBy information.                                                                                                                                                                                                                                                                                    | [SystemData_STATUS](#SystemData_STATUS)<br/><small>Optional</small>                                                                                     |
 | type                 | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                                                           | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="FleetHubProfile"></a>FleetHubProfile
--------------------------------------------
+FleetHubProfile{#FleetHubProfile}
+---------------------------------
 
 The FleetHubProfile configures the fleet hub.
 
@@ -268,8 +268,8 @@ Used by: [Fleet_Spec](#Fleet_Spec).
 |-----------|-------------------------------------------------------|------------------------------------|
 | dnsPrefix | DNS prefix used to create the FQDN for the Fleet hub. | string<br/><small>Optional</small> |
 
-<a id="FleetHubProfile_STATUS"></a>FleetHubProfile_STATUS
----------------------------------------------------------
+FleetHubProfile_STATUS{#FleetHubProfile_STATUS}
+-----------------------------------------------
 
 The FleetHubProfile configures the fleet hub.
 
@@ -281,8 +281,8 @@ Used by: [Fleet_STATUS](#Fleet_STATUS).
 | fqdn              | The FQDN of the Fleet hub.                            | string<br/><small>Optional</small> |
 | kubernetesVersion | The Kubernetes version of the Fleet hub.              | string<br/><small>Optional</small> |
 
-<a id="FleetMemberProvisioningState_STATUS"></a>FleetMemberProvisioningState_STATUS
------------------------------------------------------------------------------------
+FleetMemberProvisioningState_STATUS{#FleetMemberProvisioningState_STATUS}
+-------------------------------------------------------------------------
 
 The provisioning state of the last accepted operation.
 
@@ -297,8 +297,8 @@ Used by: [FleetsMember_STATUS](#FleetsMember_STATUS).
 | "Succeeded" |             |
 | "Updating"  |             |
 
-<a id="FleetOperatorSpec"></a>FleetOperatorSpec
------------------------------------------------
+FleetOperatorSpec{#FleetOperatorSpec}
+-------------------------------------
 
 Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 
@@ -310,8 +310,8 @@ Used by: [Fleet_Spec](#Fleet_Spec).
 | secretExpressions    | configures where to place operator written dynamic secrets (created with CEL expressions).    | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 | secrets              | configures where to place Azure generated secrets.                                            | [FleetOperatorSecrets](#FleetOperatorSecrets)<br/><small>Optional</small>                                                                                           |
 
-<a id="FleetProvisioningState_STATUS"></a>FleetProvisioningState_STATUS
------------------------------------------------------------------------
+FleetProvisioningState_STATUS{#FleetProvisioningState_STATUS}
+-------------------------------------------------------------
 
 The provisioning state of the last accepted operation.
 
@@ -326,8 +326,8 @@ Used by: [Fleet_STATUS](#Fleet_STATUS).
 | "Succeeded" |             |
 | "Updating"  |             |
 
-<a id="FleetsMemberOperatorSpec"></a>FleetsMemberOperatorSpec
--------------------------------------------------------------
+FleetsMemberOperatorSpec{#FleetsMemberOperatorSpec}
+---------------------------------------------------
 
 Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 
@@ -338,8 +338,8 @@ Used by: [FleetsMember_Spec](#FleetsMember_Spec).
 | configMapExpressions | configures where to place operator written dynamic ConfigMaps (created with CEL expressions). | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 | secretExpressions    | configures where to place operator written dynamic secrets (created with CEL expressions).    | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 
-<a id="FleetsUpdateRunOperatorSpec"></a>FleetsUpdateRunOperatorSpec
--------------------------------------------------------------------
+FleetsUpdateRunOperatorSpec{#FleetsUpdateRunOperatorSpec}
+---------------------------------------------------------
 
 Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 
@@ -350,8 +350,8 @@ Used by: [FleetsUpdateRun_Spec](#FleetsUpdateRun_Spec).
 | configMapExpressions | configures where to place operator written dynamic ConfigMaps (created with CEL expressions). | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 | secretExpressions    | configures where to place operator written dynamic secrets (created with CEL expressions).    | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 
-<a id="ManagedClusterUpdate"></a>ManagedClusterUpdate
------------------------------------------------------
+ManagedClusterUpdate{#ManagedClusterUpdate}
+-------------------------------------------
 
 The update to be applied to the ManagedClusters.
 
@@ -361,8 +361,8 @@ Used by: [FleetsUpdateRun_Spec](#FleetsUpdateRun_Spec).
 |----------|----------------------------------------------|-------------------------------------------------------------------------------------|
 | upgrade  | The upgrade to apply to the ManagedClusters. | [ManagedClusterUpgradeSpec](#ManagedClusterUpgradeSpec)<br/><small>Required</small> |
 
-<a id="ManagedClusterUpdate_STATUS"></a>ManagedClusterUpdate_STATUS
--------------------------------------------------------------------
+ManagedClusterUpdate_STATUS{#ManagedClusterUpdate_STATUS}
+---------------------------------------------------------
 
 The update to be applied to the ManagedClusters.
 
@@ -372,8 +372,8 @@ Used by: [FleetsUpdateRun_STATUS](#FleetsUpdateRun_STATUS).
 |----------|----------------------------------------------|---------------------------------------------------------------------------------------------------|
 | upgrade  | The upgrade to apply to the ManagedClusters. | [ManagedClusterUpgradeSpec_STATUS](#ManagedClusterUpgradeSpec_STATUS)<br/><small>Optional</small> |
 
-<a id="SystemData_STATUS"></a>SystemData_STATUS
------------------------------------------------
+SystemData_STATUS{#SystemData_STATUS}
+-------------------------------------
 
 Metadata pertaining to creation and last modification of the resource.
 
@@ -388,8 +388,8 @@ Used by: [Fleet_STATUS](#Fleet_STATUS), [FleetsMember_STATUS](#FleetsMember_STAT
 | lastModifiedBy     | The identity that last modified the resource.         | string<br/><small>Optional</small>                                                                        |
 | lastModifiedByType | The type of identity that last modified the resource. | [SystemData_LastModifiedByType_STATUS](#SystemData_LastModifiedByType_STATUS)<br/><small>Optional</small> |
 
-<a id="UpdateRunProvisioningState_STATUS"></a>UpdateRunProvisioningState_STATUS
--------------------------------------------------------------------------------
+UpdateRunProvisioningState_STATUS{#UpdateRunProvisioningState_STATUS}
+---------------------------------------------------------------------
 
 The provisioning state of the UpdateRun resource.
 
@@ -401,8 +401,8 @@ Used by: [FleetsUpdateRun_STATUS](#FleetsUpdateRun_STATUS).
 | "Failed"    |             |
 | "Succeeded" |             |
 
-<a id="UpdateRunStatus_STATUS"></a>UpdateRunStatus_STATUS
----------------------------------------------------------
+UpdateRunStatus_STATUS{#UpdateRunStatus_STATUS}
+-----------------------------------------------
 
 The status of a UpdateRun.
 
@@ -413,8 +413,8 @@ Used by: [FleetsUpdateRun_STATUS](#FleetsUpdateRun_STATUS).
 | stages   | The stages composing an update run. Stages are run sequentially withing an UpdateRun. | [UpdateStageStatus_STATUS[]](#UpdateStageStatus_STATUS)<br/><small>Optional</small> |
 | status   | The status of the UpdateRun.                                                          | [UpdateStatus_STATUS](#UpdateStatus_STATUS)<br/><small>Optional</small>             |
 
-<a id="UpdateRunStrategy"></a>UpdateRunStrategy
------------------------------------------------
+UpdateRunStrategy{#UpdateRunStrategy}
+-------------------------------------
 
 Defines the update sequence of the clusters via stages and groups. Stages within a run are executed sequentially one after another. Groups within a stage are executed in parallel. Member clusters within a group are updated sequentially one after another. A valid strategy contains no duplicate groups within or across stages.
 
@@ -424,8 +424,8 @@ Used by: [FleetsUpdateRun_Spec](#FleetsUpdateRun_Spec).
 |----------|---------------------------------------------------------------|-----------------------------------------------------------|
 | stages   | The list of stages that compose this update run. Min size: 1. | [UpdateStage[]](#UpdateStage)<br/><small>Required</small> |
 
-<a id="UpdateRunStrategy_STATUS"></a>UpdateRunStrategy_STATUS
--------------------------------------------------------------
+UpdateRunStrategy_STATUS{#UpdateRunStrategy_STATUS}
+---------------------------------------------------
 
 Defines the update sequence of the clusters via stages and groups. Stages within a run are executed sequentially one after another. Groups within a stage are executed in parallel. Member clusters within a group are updated sequentially one after another. A valid strategy contains no duplicate groups within or across stages.
 
@@ -435,8 +435,8 @@ Used by: [FleetsUpdateRun_STATUS](#FleetsUpdateRun_STATUS).
 |----------|---------------------------------------------------------------|-------------------------------------------------------------------------|
 | stages   | The list of stages that compose this update run. Min size: 1. | [UpdateStage_STATUS[]](#UpdateStage_STATUS)<br/><small>Optional</small> |
 
-<a id="FleetOperatorSecrets"></a>FleetOperatorSecrets
------------------------------------------------------
+FleetOperatorSecrets{#FleetOperatorSecrets}
+-------------------------------------------
 
 Used by: [FleetOperatorSpec](#FleetOperatorSpec).
 
@@ -444,8 +444,8 @@ Used by: [FleetOperatorSpec](#FleetOperatorSpec).
 |-----------------|-----------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | userCredentials | indicates where the UserCredentials secret should be placed. If omitted, the secret will not be retrieved from Azure. | [genruntime.SecretDestination](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination)<br/><small>Optional</small> |
 
-<a id="ManagedClusterUpgradeSpec"></a>ManagedClusterUpgradeSpec
----------------------------------------------------------------
+ManagedClusterUpgradeSpec{#ManagedClusterUpgradeSpec}
+-----------------------------------------------------
 
 The upgrade to apply to a ManagedCluster.
 
@@ -456,8 +456,8 @@ Used by: [ManagedClusterUpdate](#ManagedClusterUpdate).
 | kubernetesVersion | The Kubernetes version to upgrade the member clusters to.       | string<br/><small>Optional</small>                                                  |
 | type              | ManagedClusterUpgradeType is the type of upgrade to be applied. | [ManagedClusterUpgradeType](#ManagedClusterUpgradeType)<br/><small>Required</small> |
 
-<a id="ManagedClusterUpgradeSpec_STATUS"></a>ManagedClusterUpgradeSpec_STATUS
------------------------------------------------------------------------------
+ManagedClusterUpgradeSpec_STATUS{#ManagedClusterUpgradeSpec_STATUS}
+-------------------------------------------------------------------
 
 The upgrade to apply to a ManagedCluster.
 
@@ -468,7 +468,19 @@ Used by: [ManagedClusterUpdate_STATUS](#ManagedClusterUpdate_STATUS).
 | kubernetesVersion | The Kubernetes version to upgrade the member clusters to.       | string<br/><small>Optional</small>                                                                |
 | type              | ManagedClusterUpgradeType is the type of upgrade to be applied. | [ManagedClusterUpgradeType_STATUS](#ManagedClusterUpgradeType_STATUS)<br/><small>Optional</small> |
 
-<a id="SystemData_CreatedByType_STATUS"></a>SystemData_CreatedByType_STATUS
+SystemData_CreatedByType_STATUS{#SystemData_CreatedByType_STATUS}
+-----------------------------------------------------------------
+
+Used by: [SystemData_STATUS](#SystemData_STATUS).
+
+| Value             | Description |
+|-------------------|-------------|
+| "Application"     |             |
+| "Key"             |             |
+| "ManagedIdentity" |             |
+| "User"            |             |
+
+SystemData_LastModifiedByType_STATUS{#SystemData_LastModifiedByType_STATUS}
 ---------------------------------------------------------------------------
 
 Used by: [SystemData_STATUS](#SystemData_STATUS).
@@ -480,20 +492,8 @@ Used by: [SystemData_STATUS](#SystemData_STATUS).
 | "ManagedIdentity" |             |
 | "User"            |             |
 
-<a id="SystemData_LastModifiedByType_STATUS"></a>SystemData_LastModifiedByType_STATUS
--------------------------------------------------------------------------------------
-
-Used by: [SystemData_STATUS](#SystemData_STATUS).
-
-| Value             | Description |
-|-------------------|-------------|
-| "Application"     |             |
-| "Key"             |             |
-| "ManagedIdentity" |             |
-| "User"            |             |
-
-<a id="UpdateStage"></a>UpdateStage
------------------------------------
+UpdateStage{#UpdateStage}
+-------------------------
 
 Defines a stage which contains the groups to update and the steps to take (e.g., wait for a time period) before starting the next stage.
 
@@ -505,8 +505,8 @@ Used by: [UpdateRunStrategy](#UpdateRunStrategy).
 | groups                  | Defines the groups to be executed in parallel in this stage. Duplicate groups are not allowed. Min size: 1.              | [UpdateGroup[]](#UpdateGroup)<br/><small>Optional</small> |
 | name                    | The name of the stage. Must be unique within the UpdateRun.                                                              | string<br/><small>Required</small>                        |
 
-<a id="UpdateStage_STATUS"></a>UpdateStage_STATUS
--------------------------------------------------
+UpdateStage_STATUS{#UpdateStage_STATUS}
+---------------------------------------
 
 Defines a stage which contains the groups to update and the steps to take (e.g., wait for a time period) before starting the next stage.
 
@@ -518,8 +518,8 @@ Used by: [UpdateRunStrategy_STATUS](#UpdateRunStrategy_STATUS).
 | groups                  | Defines the groups to be executed in parallel in this stage. Duplicate groups are not allowed. Min size: 1.              | [UpdateGroup_STATUS[]](#UpdateGroup_STATUS)<br/><small>Optional</small> |
 | name                    | The name of the stage. Must be unique within the UpdateRun.                                                              | string<br/><small>Optional</small>                                      |
 
-<a id="UpdateStageStatus_STATUS"></a>UpdateStageStatus_STATUS
--------------------------------------------------------------
+UpdateStageStatus_STATUS{#UpdateStageStatus_STATUS}
+---------------------------------------------------
 
 The status of a UpdateStage.
 
@@ -532,8 +532,8 @@ Used by: [UpdateRunStatus_STATUS](#UpdateRunStatus_STATUS).
 | name                 | The name of the UpdateStage.                                  | string<br/><small>Optional</small>                                                  |
 | status               | The status of the UpdateStage.                                | [UpdateStatus_STATUS](#UpdateStatus_STATUS)<br/><small>Optional</small>             |
 
-<a id="UpdateStatus_STATUS"></a>UpdateStatus_STATUS
----------------------------------------------------
+UpdateStatus_STATUS{#UpdateStatus_STATUS}
+-----------------------------------------
 
 The status for an operation or group of operations.
 
@@ -546,8 +546,8 @@ Used by: [MemberUpdateStatus_STATUS](#MemberUpdateStatus_STATUS), [UpdateGroupSt
 | startTime     | The time the operation or group was started.     | string<br/><small>Optional</small>                                    |
 | state         | The State of the operation or group.             | [UpdateState_STATUS](#UpdateState_STATUS)<br/><small>Optional</small> |
 
-<a id="ErrorDetail_STATUS"></a>ErrorDetail_STATUS
--------------------------------------------------
+ErrorDetail_STATUS{#ErrorDetail_STATUS}
+---------------------------------------
 
 The error detail.
 
@@ -561,8 +561,8 @@ Used by: [UpdateStatus_STATUS](#UpdateStatus_STATUS).
 | message        | The error message.         | string<br/><small>Optional</small>                                                        |
 | target         | The error target.          | string<br/><small>Optional</small>                                                        |
 
-<a id="ManagedClusterUpgradeType"></a>ManagedClusterUpgradeType
----------------------------------------------------------------
+ManagedClusterUpgradeType{#ManagedClusterUpgradeType}
+-----------------------------------------------------
 
 The type of upgrade to perform when targeting ManagedClusters.
 
@@ -573,8 +573,8 @@ Used by: [ManagedClusterUpgradeSpec](#ManagedClusterUpgradeSpec).
 | "Full"          |             |
 | "NodeImageOnly" |             |
 
-<a id="ManagedClusterUpgradeType_STATUS"></a>ManagedClusterUpgradeType_STATUS
------------------------------------------------------------------------------
+ManagedClusterUpgradeType_STATUS{#ManagedClusterUpgradeType_STATUS}
+-------------------------------------------------------------------
 
 The type of upgrade to perform when targeting ManagedClusters.
 
@@ -585,8 +585,8 @@ Used by: [ManagedClusterUpgradeSpec_STATUS](#ManagedClusterUpgradeSpec_STATUS).
 | "Full"          |             |
 | "NodeImageOnly" |             |
 
-<a id="UpdateGroup"></a>UpdateGroup
------------------------------------
+UpdateGroup{#UpdateGroup}
+-------------------------
 
 A group to be updated.
 
@@ -596,8 +596,8 @@ Used by: [UpdateStage](#UpdateStage).
 |----------|----------------------------------------------------------------------------|------------------------------------|
 | name     | Name of the group. It must match a group name of an existing fleet member. | string<br/><small>Required</small> |
 
-<a id="UpdateGroup_STATUS"></a>UpdateGroup_STATUS
--------------------------------------------------
+UpdateGroup_STATUS{#UpdateGroup_STATUS}
+---------------------------------------
 
 A group to be updated.
 
@@ -607,8 +607,8 @@ Used by: [UpdateStage_STATUS](#UpdateStage_STATUS).
 |----------|----------------------------------------------------------------------------|------------------------------------|
 | name     | Name of the group. It must match a group name of an existing fleet member. | string<br/><small>Optional</small> |
 
-<a id="UpdateGroupStatus_STATUS"></a>UpdateGroupStatus_STATUS
--------------------------------------------------------------
+UpdateGroupStatus_STATUS{#UpdateGroupStatus_STATUS}
+---------------------------------------------------
 
 The status of a UpdateGroup.
 
@@ -620,8 +620,8 @@ Used by: [UpdateStageStatus_STATUS](#UpdateStageStatus_STATUS).
 | name     | The name of the UpdateGroup.                 | string<br/><small>Optional</small>                                                    |
 | status   | The status of the UpdateGroup.               | [UpdateStatus_STATUS](#UpdateStatus_STATUS)<br/><small>Optional</small>               |
 
-<a id="UpdateState_STATUS"></a>UpdateState_STATUS
--------------------------------------------------
+UpdateState_STATUS{#UpdateState_STATUS}
+---------------------------------------
 
 The state of the UpdateRun, UpdateStage, UpdateGroup, or MemberUpdate.
 
@@ -636,8 +636,8 @@ Used by: [UpdateStatus_STATUS](#UpdateStatus_STATUS).
 | "Stopped"    |             |
 | "Stopping"   |             |
 
-<a id="WaitStatus_STATUS"></a>WaitStatus_STATUS
------------------------------------------------
+WaitStatus_STATUS{#WaitStatus_STATUS}
+-------------------------------------
 
 The status of the wait duration.
 
@@ -648,8 +648,8 @@ Used by: [UpdateStageStatus_STATUS](#UpdateStageStatus_STATUS).
 | status                | The status of the wait duration.         | [UpdateStatus_STATUS](#UpdateStatus_STATUS)<br/><small>Optional</small> |
 | waitDurationInSeconds | The wait duration configured in seconds. | int<br/><small>Optional</small>                                         |
 
-<a id="ErrorAdditionalInfo_STATUS"></a>ErrorAdditionalInfo_STATUS
------------------------------------------------------------------
+ErrorAdditionalInfo_STATUS{#ErrorAdditionalInfo_STATUS}
+-------------------------------------------------------
 
 The resource management error additional info.
 
@@ -660,8 +660,8 @@ Used by: [ErrorDetail_STATUS](#ErrorDetail_STATUS), and [ErrorDetail_STATUS_Unro
 | info     | The additional info.      | map[string]v1.JSON<br/><small>Optional</small> |
 | type     | The additional info type. | string<br/><small>Optional</small>             |
 
-<a id="ErrorDetail_STATUS_Unrolled"></a>ErrorDetail_STATUS_Unrolled
--------------------------------------------------------------------
+ErrorDetail_STATUS_Unrolled{#ErrorDetail_STATUS_Unrolled}
+---------------------------------------------------------
 
 Used by: [ErrorDetail_STATUS](#ErrorDetail_STATUS).
 
@@ -672,8 +672,8 @@ Used by: [ErrorDetail_STATUS](#ErrorDetail_STATUS).
 | message        | The error message.         | string<br/><small>Optional</small>                                                      |
 | target         | The error target.          | string<br/><small>Optional</small>                                                      |
 
-<a id="MemberUpdateStatus_STATUS"></a>MemberUpdateStatus_STATUS
----------------------------------------------------------------
+MemberUpdateStatus_STATUS{#MemberUpdateStatus_STATUS}
+-----------------------------------------------------
 
 The status of a member update operation.
 

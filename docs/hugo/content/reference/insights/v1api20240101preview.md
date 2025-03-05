@@ -5,15 +5,15 @@ title: insights.azure.com/v1api20240101preview
 linktitle: v1api20240101preview
 -------------------------------
 
-<a id="APIVersion"></a>APIVersion
----------------------------------
+APIVersion{#APIVersion}
+-----------------------
 
 | Value                | Description |
 |----------------------|-------------|
 | "2024-01-01-preview" |             |
 
-<a id="ScheduledQueryRule"></a>ScheduledQueryRule
--------------------------------------------------
+ScheduledQueryRule{#ScheduledQueryRule}
+---------------------------------------
 
 Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/preview/2024-01-01-preview/scheduledQueryRule_API.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.Insights/scheduledQueryRules/{ruleName}
 
@@ -26,7 +26,7 @@ Used by: [ScheduledQueryRuleList](#ScheduledQueryRuleList).
 | spec                                                                                    |             | [ScheduledQueryRule_Spec](#ScheduledQueryRule_Spec)<br/><small>Optional</small>     |
 | status                                                                                  |             | [ScheduledQueryRule_STATUS](#ScheduledQueryRule_STATUS)<br/><small>Optional</small> |
 
-### <a id="ScheduledQueryRule_Spec"></a>ScheduledQueryRule_Spec
+### ScheduledQueryRule_Spec {#ScheduledQueryRule_Spec}
 
 | Property                              | Description                                                                                                                                                                                                                                                                                                                                                       | Type                                                                                                                                                                 |
 |---------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -54,7 +54,7 @@ Used by: [ScheduledQueryRuleList](#ScheduledQueryRuleList).
 | targetResourceTypes                   | List of resource type of the target resource(s) on which the alert is created/updated. For example if the scope is a resource group and targetResourceTypes is Microsoft.Compute/virtualMachines, then a different alert will be fired for each virtual machine in the resource group which meet the alert criteria. Relevant only for rules of the kind LogAlert | string[]<br/><small>Optional</small>                                                                                                                                 |
 | windowSize                            | The period of time (in ISO 8601 duration format) on which the Alert query will be executed (bin size). Relevant and required only for rules of the kind LogAlert.                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                                   |
 
-### <a id="ScheduledQueryRule_STATUS"></a>ScheduledQueryRule_STATUS
+### ScheduledQueryRule_STATUS{#ScheduledQueryRule_STATUS}
 
 | Property                              | Description                                                                                                                                                                                                                                                                                                                                                                                          | Type                                                                                                                                                    |
 |---------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -88,8 +88,8 @@ Used by: [ScheduledQueryRuleList](#ScheduledQueryRuleList).
 | type                                  | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                                                                                            | string<br/><small>Optional</small>                                                                                                                      |
 | windowSize                            | The period of time (in ISO 8601 duration format) on which the Alert query will be executed (bin size). Relevant and required only for rules of the kind LogAlert.                                                                                                                                                                                                                                    | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="ScheduledQueryRuleList"></a>ScheduledQueryRuleList
----------------------------------------------------------
+ScheduledQueryRuleList{#ScheduledQueryRuleList}
+-----------------------------------------------
 
 Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/preview/2024-01-01-preview/scheduledQueryRule_API.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.Insights/scheduledQueryRules/{ruleName}
 
@@ -99,8 +99,8 @@ Generator information: - Generated from: /monitor/resource-manager/Microsoft.Ins
 | [metav1.ListMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta) |             |                                                                         |
 | items                                                                               |             | [ScheduledQueryRule[]](#ScheduledQueryRule)<br/><small>Optional</small> |
 
-<a id="ScheduledQueryRule_Spec"></a>ScheduledQueryRule_Spec
------------------------------------------------------------
+ScheduledQueryRule_Spec{#ScheduledQueryRule_Spec}
+-------------------------------------------------
 
 Used by: [ScheduledQueryRule](#ScheduledQueryRule).
 
@@ -130,8 +130,8 @@ Used by: [ScheduledQueryRule](#ScheduledQueryRule).
 | targetResourceTypes                   | List of resource type of the target resource(s) on which the alert is created/updated. For example if the scope is a resource group and targetResourceTypes is Microsoft.Compute/virtualMachines, then a different alert will be fired for each virtual machine in the resource group which meet the alert criteria. Relevant only for rules of the kind LogAlert | string[]<br/><small>Optional</small>                                                                                                                                 |
 | windowSize                            | The period of time (in ISO 8601 duration format) on which the Alert query will be executed (bin size). Relevant and required only for rules of the kind LogAlert.                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                                   |
 
-<a id="ScheduledQueryRule_STATUS"></a>ScheduledQueryRule_STATUS
----------------------------------------------------------------
+ScheduledQueryRule_STATUS{#ScheduledQueryRule_STATUS}
+-----------------------------------------------------
 
 Used by: [ScheduledQueryRule](#ScheduledQueryRule).
 
@@ -167,8 +167,8 @@ Used by: [ScheduledQueryRule](#ScheduledQueryRule).
 | type                                  | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                                                                                            | string<br/><small>Optional</small>                                                                                                                      |
 | windowSize                            | The period of time (in ISO 8601 duration format) on which the Alert query will be executed (bin size). Relevant and required only for rules of the kind LogAlert.                                                                                                                                                                                                                                    | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="Actions"></a>Actions
----------------------------
+Actions{#Actions}
+-----------------
 
 Actions to invoke when the alert fires.
 
@@ -180,8 +180,8 @@ Used by: [ScheduledQueryRule_Spec](#ScheduledQueryRule_Spec).
 | actionProperties       | The properties of an action properties.                   | map[string]string<br/><small>Optional</small>                                                                                                                |
 | customProperties       | The properties of an alert payload.                       | map[string]string<br/><small>Optional</small>                                                                                                                |
 
-<a id="Actions_STATUS"></a>Actions_STATUS
------------------------------------------
+Actions_STATUS{#Actions_STATUS}
+-------------------------------
 
 Actions to invoke when the alert fires.
 
@@ -193,8 +193,8 @@ Used by: [ScheduledQueryRule_STATUS](#ScheduledQueryRule_STATUS).
 | actionProperties | The properties of an action properties.                   | map[string]string<br/><small>Optional</small> |
 | customProperties | The properties of an alert payload.                       | map[string]string<br/><small>Optional</small> |
 
-<a id="Identity"></a>Identity
------------------------------
+Identity{#Identity}
+-------------------
 
 Identity for the resource.
 
@@ -205,8 +205,8 @@ Used by: [ScheduledQueryRule_Spec](#ScheduledQueryRule_Spec).
 | type                   | Type of managed service identity.                                                                                                                                                                                                                                                                                                                                                           | [Identity_Type](#Identity_Type)<br/><small>Required</small>                               |
 | userAssignedIdentities | The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. | [UserAssignedIdentityDetails[]](#UserAssignedIdentityDetails)<br/><small>Optional</small> |
 
-<a id="Identity_STATUS"></a>Identity_STATUS
--------------------------------------------
+Identity_STATUS{#Identity_STATUS}
+---------------------------------
 
 Identity for the resource.
 
@@ -219,8 +219,8 @@ Used by: [ScheduledQueryRule_STATUS](#ScheduledQueryRule_STATUS).
 | type                   | Type of managed service identity.                                                                                                                                                                                                                                                                                                                                                           | [Identity_Type_STATUS](#Identity_Type_STATUS)<br/><small>Optional</small>                              |
 | userAssignedIdentities | The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. | [map[string]UserIdentityProperties_STATUS](#UserIdentityProperties_STATUS)<br/><small>Optional</small> |
 
-<a id="RuleResolveConfiguration"></a>RuleResolveConfiguration
--------------------------------------------------------------
+RuleResolveConfiguration{#RuleResolveConfiguration}
+---------------------------------------------------
 
 TBD. Relevant only for rules of the kind LogAlert.
 
@@ -231,42 +231,42 @@ Used by: [ScheduledQueryRule_Spec](#ScheduledQueryRule_Spec).
 | autoResolved  | The flag that indicates whether or not to auto resolve a fired alert.                                                                  | bool<br/><small>Optional</small>   |
 | timeToResolve | The duration a rule must evaluate as healthy before the fired alert is automatically resolved represented in ISO 8601 duration format. | string<br/><small>Optional</small> |
 
-<a id="RuleResolveConfiguration_STATUS"></a>RuleResolveConfiguration_STATUS
----------------------------------------------------------------------------
-
-TBD. Relevant only for rules of the kind LogAlert.
-
-Used by: [ScheduledQueryRule_STATUS](#ScheduledQueryRule_STATUS).
-
-| Property      | Description                                                                                                                            | Type                               |
-|---------------|----------------------------------------------------------------------------------------------------------------------------------------|------------------------------------|
-| autoResolved  | The flag that indicates whether or not to auto resolve a fired alert.                                                                  | bool<br/><small>Optional</small>   |
-| timeToResolve | The duration a rule must evaluate as healthy before the fired alert is automatically resolved represented in ISO 8601 duration format. | string<br/><small>Optional</small> |
-
-<a id="ScheduledQueryRule_Kind_Spec"></a>ScheduledQueryRule_Kind_Spec
----------------------------------------------------------------------
-
-Used by: [ScheduledQueryRule_Spec](#ScheduledQueryRule_Spec).
-
-| Value           | Description |
-|-----------------|-------------|
-| "EventLogAlert" |             |
-| "LogAlert"      |             |
-| "LogToMetric"   |             |
-
-<a id="ScheduledQueryRule_Kind_STATUS"></a>ScheduledQueryRule_Kind_STATUS
--------------------------------------------------------------------------
-
-Used by: [ScheduledQueryRule_STATUS](#ScheduledQueryRule_STATUS).
-
-| Value           | Description |
-|-----------------|-------------|
-| "EventLogAlert" |             |
-| "LogAlert"      |             |
-| "LogToMetric"   |             |
-
-<a id="ScheduledQueryRuleCriteria"></a>ScheduledQueryRuleCriteria
+RuleResolveConfiguration_STATUS{#RuleResolveConfiguration_STATUS}
 -----------------------------------------------------------------
+
+TBD. Relevant only for rules of the kind LogAlert.
+
+Used by: [ScheduledQueryRule_STATUS](#ScheduledQueryRule_STATUS).
+
+| Property      | Description                                                                                                                            | Type                               |
+|---------------|----------------------------------------------------------------------------------------------------------------------------------------|------------------------------------|
+| autoResolved  | The flag that indicates whether or not to auto resolve a fired alert.                                                                  | bool<br/><small>Optional</small>   |
+| timeToResolve | The duration a rule must evaluate as healthy before the fired alert is automatically resolved represented in ISO 8601 duration format. | string<br/><small>Optional</small> |
+
+ScheduledQueryRule_Kind_Spec{#ScheduledQueryRule_Kind_Spec}
+-----------------------------------------------------------
+
+Used by: [ScheduledQueryRule_Spec](#ScheduledQueryRule_Spec).
+
+| Value           | Description |
+|-----------------|-------------|
+| "EventLogAlert" |             |
+| "LogAlert"      |             |
+| "LogToMetric"   |             |
+
+ScheduledQueryRule_Kind_STATUS{#ScheduledQueryRule_Kind_STATUS}
+---------------------------------------------------------------
+
+Used by: [ScheduledQueryRule_STATUS](#ScheduledQueryRule_STATUS).
+
+| Value           | Description |
+|-----------------|-------------|
+| "EventLogAlert" |             |
+| "LogAlert"      |             |
+| "LogToMetric"   |             |
+
+ScheduledQueryRuleCriteria{#ScheduledQueryRuleCriteria}
+-------------------------------------------------------
 
 The rule criteria that defines the conditions of the scheduled query rule.
 
@@ -276,8 +276,8 @@ Used by: [ScheduledQueryRule_Spec](#ScheduledQueryRule_Spec).
 |----------|---------------------------------------------------------------|-------------------------------------------------------|
 | allOf    | A list of conditions to evaluate against the specified scopes | [Condition[]](#Condition)<br/><small>Optional</small> |
 
-<a id="ScheduledQueryRuleCriteria_STATUS"></a>ScheduledQueryRuleCriteria_STATUS
--------------------------------------------------------------------------------
+ScheduledQueryRuleCriteria_STATUS{#ScheduledQueryRuleCriteria_STATUS}
+---------------------------------------------------------------------
 
 The rule criteria that defines the conditions of the scheduled query rule.
 
@@ -287,8 +287,8 @@ Used by: [ScheduledQueryRule_STATUS](#ScheduledQueryRule_STATUS).
 |----------|---------------------------------------------------------------|---------------------------------------------------------------------|
 | allOf    | A list of conditions to evaluate against the specified scopes | [Condition_STATUS[]](#Condition_STATUS)<br/><small>Optional</small> |
 
-<a id="ScheduledQueryRuleOperatorSpec"></a>ScheduledQueryRuleOperatorSpec
--------------------------------------------------------------------------
+ScheduledQueryRuleOperatorSpec{#ScheduledQueryRuleOperatorSpec}
+---------------------------------------------------------------
 
 Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 
@@ -299,8 +299,8 @@ Used by: [ScheduledQueryRule_Spec](#ScheduledQueryRule_Spec).
 | configMapExpressions | configures where to place operator written dynamic ConfigMaps (created with CEL expressions). | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 | secretExpressions    | configures where to place operator written dynamic secrets (created with CEL expressions).    | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 
-<a id="ScheduledQueryRuleProperties_Severity"></a>ScheduledQueryRuleProperties_Severity
----------------------------------------------------------------------------------------
+ScheduledQueryRuleProperties_Severity{#ScheduledQueryRuleProperties_Severity}
+-----------------------------------------------------------------------------
 
 Used by: [ScheduledQueryRule_Spec](#ScheduledQueryRule_Spec).
 
@@ -312,8 +312,8 @@ Used by: [ScheduledQueryRule_Spec](#ScheduledQueryRule_Spec).
 | 3     |             |
 | 4     |             |
 
-<a id="ScheduledQueryRuleProperties_Severity_STATUS"></a>ScheduledQueryRuleProperties_Severity_STATUS
------------------------------------------------------------------------------------------------------
+ScheduledQueryRuleProperties_Severity_STATUS{#ScheduledQueryRuleProperties_Severity_STATUS}
+-------------------------------------------------------------------------------------------
 
 Used by: [ScheduledQueryRule_STATUS](#ScheduledQueryRule_STATUS).
 
@@ -325,8 +325,8 @@ Used by: [ScheduledQueryRule_STATUS](#ScheduledQueryRule_STATUS).
 | 3     |             |
 | 4     |             |
 
-<a id="SystemData_STATUS"></a>SystemData_STATUS
------------------------------------------------
+SystemData_STATUS{#SystemData_STATUS}
+-------------------------------------
 
 Metadata pertaining to creation and last modification of the resource.
 
@@ -341,8 +341,8 @@ Used by: [ScheduledQueryRule_STATUS](#ScheduledQueryRule_STATUS).
 | lastModifiedBy     | The identity that last modified the resource.         | string<br/><small>Optional</small>                                                                        |
 | lastModifiedByType | The type of identity that last modified the resource. | [SystemData_LastModifiedByType_STATUS](#SystemData_LastModifiedByType_STATUS)<br/><small>Optional</small> |
 
-<a id="Condition"></a>Condition
--------------------------------
+Condition{#Condition}
+---------------------
 
 A condition of the scheduled query rule.
 
@@ -363,8 +363,8 @@ Used by: [ScheduledQueryRuleCriteria](#ScheduledQueryRuleCriteria).
 | threshold                 | the criteria threshold value that activates the alert. Relevant and required only for static threshold rules of the kind LogAlert.                                                                                                                          | float64<br/><small>Optional</small>                                                                                                                        |
 | timeAggregation           | Aggregation type. Relevant and required only for rules of the kind LogAlert.                                                                                                                                                                                | [Condition_TimeAggregation](#Condition_TimeAggregation)<br/><small>Optional</small>                                                                        |
 
-<a id="Condition_STATUS"></a>Condition_STATUS
----------------------------------------------
+Condition_STATUS{#Condition_STATUS}
+-----------------------------------
 
 A condition of the scheduled query rule.
 
@@ -385,8 +385,8 @@ Used by: [ScheduledQueryRuleCriteria_STATUS](#ScheduledQueryRuleCriteria_STATUS)
 | threshold           | the criteria threshold value that activates the alert. Relevant and required only for static threshold rules of the kind LogAlert.                                                                                                                          | float64<br/><small>Optional</small>                                                               |
 | timeAggregation     | Aggregation type. Relevant and required only for rules of the kind LogAlert.                                                                                                                                                                                | [Condition_TimeAggregation_STATUS](#Condition_TimeAggregation_STATUS)<br/><small>Optional</small> |
 
-<a id="Identity_Type"></a>Identity_Type
----------------------------------------
+Identity_Type{#Identity_Type}
+-----------------------------
 
 Used by: [Identity](#Identity).
 
@@ -396,8 +396,8 @@ Used by: [Identity](#Identity).
 | "SystemAssigned" |             |
 | "UserAssigned"   |             |
 
-<a id="Identity_Type_STATUS"></a>Identity_Type_STATUS
------------------------------------------------------
+Identity_Type_STATUS{#Identity_Type_STATUS}
+-------------------------------------------
 
 Used by: [Identity_STATUS](#Identity_STATUS).
 
@@ -407,7 +407,19 @@ Used by: [Identity_STATUS](#Identity_STATUS).
 | "SystemAssigned" |             |
 | "UserAssigned"   |             |
 
-<a id="SystemData_CreatedByType_STATUS"></a>SystemData_CreatedByType_STATUS
+SystemData_CreatedByType_STATUS{#SystemData_CreatedByType_STATUS}
+-----------------------------------------------------------------
+
+Used by: [SystemData_STATUS](#SystemData_STATUS).
+
+| Value             | Description |
+|-------------------|-------------|
+| "Application"     |             |
+| "Key"             |             |
+| "ManagedIdentity" |             |
+| "User"            |             |
+
+SystemData_LastModifiedByType_STATUS{#SystemData_LastModifiedByType_STATUS}
 ---------------------------------------------------------------------------
 
 Used by: [SystemData_STATUS](#SystemData_STATUS).
@@ -419,20 +431,8 @@ Used by: [SystemData_STATUS](#SystemData_STATUS).
 | "ManagedIdentity" |             |
 | "User"            |             |
 
-<a id="SystemData_LastModifiedByType_STATUS"></a>SystemData_LastModifiedByType_STATUS
--------------------------------------------------------------------------------------
-
-Used by: [SystemData_STATUS](#SystemData_STATUS).
-
-| Value             | Description |
-|-------------------|-------------|
-| "Application"     |             |
-| "Key"             |             |
-| "ManagedIdentity" |             |
-| "User"            |             |
-
-<a id="UserAssignedIdentityDetails"></a>UserAssignedIdentityDetails
--------------------------------------------------------------------
+UserAssignedIdentityDetails{#UserAssignedIdentityDetails}
+---------------------------------------------------------
 
 Information about the user assigned identity for the resource
 
@@ -442,8 +442,8 @@ Used by: [Identity](#Identity).
 |-----------|-------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | reference |             | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small> |
 
-<a id="UserIdentityProperties_STATUS"></a>UserIdentityProperties_STATUS
------------------------------------------------------------------------
+UserIdentityProperties_STATUS{#UserIdentityProperties_STATUS}
+-------------------------------------------------------------
 
 User assigned identity properties.
 
@@ -454,51 +454,51 @@ Used by: [Identity_STATUS](#Identity_STATUS).
 | clientId    | The client id of user assigned identity.    | string<br/><small>Optional</small> |
 | principalId | The principal id of user assigned identity. | string<br/><small>Optional</small> |
 
-<a id="Condition_CriterionType"></a>Condition_CriterionType
------------------------------------------------------------
-
-Used by: [Condition](#Condition).
-
-| Value                       | Description |
-|-----------------------------|-------------|
-| "DynamicThresholdCriterion" |             |
-| "StaticThresholdCriterion"  |             |
-
-<a id="Condition_CriterionType_STATUS"></a>Condition_CriterionType_STATUS
--------------------------------------------------------------------------
-
-Used by: [Condition_STATUS](#Condition_STATUS).
-
-| Value                       | Description |
-|-----------------------------|-------------|
-| "DynamicThresholdCriterion" |             |
-| "StaticThresholdCriterion"  |             |
-
-<a id="Condition_FailingPeriods"></a>Condition_FailingPeriods
--------------------------------------------------------------
-
-Used by: [Condition](#Condition).
-
-| Property                  | Description                                                                                                                                                                                         | Type                            |
-|---------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------|
-| minFailingPeriodsToAlert  | The number of violations to trigger an alert. Should be smaller or equal to numberOfEvaluationPeriods. Default value is 1                                                                           | int<br/><small>Optional</small> |
-| numberOfEvaluationPeriods | The number of aggregated lookback points. The lookback time window is calculated based on the aggregation granularity (windowSize) and the selected number of aggregated points. Default value is 1 | int<br/><small>Optional</small> |
-
-<a id="Condition_FailingPeriods_STATUS"></a>Condition_FailingPeriods_STATUS
----------------------------------------------------------------------------
-
-Used by: [Condition_STATUS](#Condition_STATUS).
-
-| Property                  | Description                                                                                                                                                                                         | Type                            |
-|---------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------|
-| minFailingPeriodsToAlert  | The number of violations to trigger an alert. Should be smaller or equal to numberOfEvaluationPeriods. Default value is 1                                                                           | int<br/><small>Optional</small> |
-| numberOfEvaluationPeriods | The number of aggregated lookback points. The lookback time window is calculated based on the aggregation granularity (windowSize) and the selected number of aggregated points. Default value is 1 | int<br/><small>Optional</small> |
-
-<a id="Condition_Operator"></a>Condition_Operator
+Condition_CriterionType{#Condition_CriterionType}
 -------------------------------------------------
 
 Used by: [Condition](#Condition).
 
+| Value                       | Description |
+|-----------------------------|-------------|
+| "DynamicThresholdCriterion" |             |
+| "StaticThresholdCriterion"  |             |
+
+Condition_CriterionType_STATUS{#Condition_CriterionType_STATUS}
+---------------------------------------------------------------
+
+Used by: [Condition_STATUS](#Condition_STATUS).
+
+| Value                       | Description |
+|-----------------------------|-------------|
+| "DynamicThresholdCriterion" |             |
+| "StaticThresholdCriterion"  |             |
+
+Condition_FailingPeriods{#Condition_FailingPeriods}
+---------------------------------------------------
+
+Used by: [Condition](#Condition).
+
+| Property                  | Description                                                                                                                                                                                         | Type                            |
+|---------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------|
+| minFailingPeriodsToAlert  | The number of violations to trigger an alert. Should be smaller or equal to numberOfEvaluationPeriods. Default value is 1                                                                           | int<br/><small>Optional</small> |
+| numberOfEvaluationPeriods | The number of aggregated lookback points. The lookback time window is calculated based on the aggregation granularity (windowSize) and the selected number of aggregated points. Default value is 1 | int<br/><small>Optional</small> |
+
+Condition_FailingPeriods_STATUS{#Condition_FailingPeriods_STATUS}
+-----------------------------------------------------------------
+
+Used by: [Condition_STATUS](#Condition_STATUS).
+
+| Property                  | Description                                                                                                                                                                                         | Type                            |
+|---------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------|
+| minFailingPeriodsToAlert  | The number of violations to trigger an alert. Should be smaller or equal to numberOfEvaluationPeriods. Default value is 1                                                                           | int<br/><small>Optional</small> |
+| numberOfEvaluationPeriods | The number of aggregated lookback points. The lookback time window is calculated based on the aggregation granularity (windowSize) and the selected number of aggregated points. Default value is 1 | int<br/><small>Optional</small> |
+
+Condition_Operator{#Condition_Operator}
+---------------------------------------
+
+Used by: [Condition](#Condition).
+
 | Value                | Description |
 |----------------------|-------------|
 | "Equals"             |             |
@@ -508,8 +508,8 @@ Used by: [Condition](#Condition).
 | "LessThan"           |             |
 | "LessThanOrEqual"    |             |
 
-<a id="Condition_Operator_STATUS"></a>Condition_Operator_STATUS
----------------------------------------------------------------
+Condition_Operator_STATUS{#Condition_Operator_STATUS}
+-----------------------------------------------------
 
 Used by: [Condition_STATUS](#Condition_STATUS).
 
@@ -522,8 +522,8 @@ Used by: [Condition_STATUS](#Condition_STATUS).
 | "LessThan"           |             |
 | "LessThanOrEqual"    |             |
 
-<a id="Condition_TimeAggregation"></a>Condition_TimeAggregation
----------------------------------------------------------------
+Condition_TimeAggregation{#Condition_TimeAggregation}
+-----------------------------------------------------
 
 Used by: [Condition](#Condition).
 
@@ -535,8 +535,8 @@ Used by: [Condition](#Condition).
 | "Minimum" |             |
 | "Total"   |             |
 
-<a id="Condition_TimeAggregation_STATUS"></a>Condition_TimeAggregation_STATUS
------------------------------------------------------------------------------
+Condition_TimeAggregation_STATUS{#Condition_TimeAggregation_STATUS}
+-------------------------------------------------------------------
 
 Used by: [Condition_STATUS](#Condition_STATUS).
 
@@ -548,8 +548,8 @@ Used by: [Condition_STATUS](#Condition_STATUS).
 | "Minimum" |             |
 | "Total"   |             |
 
-<a id="Dimension"></a>Dimension
--------------------------------
+Dimension{#Dimension}
+---------------------
 
 Dimension splitting and filtering definition
 
@@ -561,8 +561,8 @@ Used by: [Condition](#Condition).
 | operator | Operator for dimension values | [Dimension_Operator](#Dimension_Operator)<br/><small>Required</small> |
 | values   | List of dimension values      | string[]<br/><small>Required</small>                                  |
 
-<a id="Dimension_STATUS"></a>Dimension_STATUS
----------------------------------------------
+Dimension_STATUS{#Dimension_STATUS}
+-----------------------------------
 
 Dimension splitting and filtering definition
 
@@ -574,8 +574,8 @@ Used by: [Condition_STATUS](#Condition_STATUS).
 | operator | Operator for dimension values | [Dimension_Operator_STATUS](#Dimension_Operator_STATUS)<br/><small>Optional</small> |
 | values   | List of dimension values      | string[]<br/><small>Optional</small>                                                |
 
-<a id="Dimension_Operator"></a>Dimension_Operator
--------------------------------------------------
+Dimension_Operator{#Dimension_Operator}
+---------------------------------------
 
 Used by: [Dimension](#Dimension).
 
@@ -584,8 +584,8 @@ Used by: [Dimension](#Dimension).
 | "Exclude" |             |
 | "Include" |             |
 
-<a id="Dimension_Operator_STATUS"></a>Dimension_Operator_STATUS
----------------------------------------------------------------
+Dimension_Operator_STATUS{#Dimension_Operator_STATUS}
+-----------------------------------------------------
 
 Used by: [Dimension_STATUS](#Dimension_STATUS).
 

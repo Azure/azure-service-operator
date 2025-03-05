@@ -5,15 +5,15 @@ title: containerservice.azure.com/v1api20240402preview
 linktitle: v1api20240402preview
 -------------------------------
 
-<a id="APIVersion"></a>APIVersion
----------------------------------
+APIVersion{#APIVersion}
+-----------------------
 
 | Value                | Description |
 |----------------------|-------------|
 | "2024-04-02-preview" |             |
 
-<a id="ManagedCluster"></a>ManagedCluster
------------------------------------------
+ManagedCluster{#ManagedCluster}
+-------------------------------
 
 Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-04-02-preview/managedClusters.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ContainerService/managedClusters/{resourceName}
 
@@ -26,7 +26,7 @@ Used by: [ManagedClusterList](#ManagedClusterList).
 | spec                                                                                    |             | [ManagedCluster_Spec](#ManagedCluster_Spec)<br/><small>Optional</small>     |
 | status                                                                                  |             | [ManagedCluster_STATUS](#ManagedCluster_STATUS)<br/><small>Optional</small> |
 
-### <a id="ManagedCluster_Spec"></a>ManagedCluster_Spec
+### ManagedCluster_Spec {#ManagedCluster_Spec}
 
 | Property                   | Description                                                                                                                                                                                                                                                                                                                                                                                 | Type                                                                                                                                                                 |
 |----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -80,7 +80,7 @@ Used by: [ManagedClusterList](#ManagedClusterList).
 | windowsProfile             | The profile for Windows VMs in the Managed Cluster.                                                                                                                                                                                                                                                                                                                                         | [ManagedClusterWindowsProfile](#ManagedClusterWindowsProfile)<br/><small>Optional</small>                                                                            |
 | workloadAutoScalerProfile  | Workload Auto-scaler profile for the managed cluster.                                                                                                                                                                                                                                                                                                                                       | [ManagedClusterWorkloadAutoScalerProfile](#ManagedClusterWorkloadAutoScalerProfile)<br/><small>Optional</small>                                                      |
 
-### <a id="ManagedCluster_STATUS"></a>ManagedCluster_STATUS
+### ManagedCluster_STATUS{#ManagedCluster_STATUS}
 
 | Property                   | Description                                                                                                                                                                                                                                                                                                                                                                                 | Type                                                                                                                                                    |
 |----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -145,8 +145,8 @@ Used by: [ManagedClusterList](#ManagedClusterList).
 | windowsProfile             | The profile for Windows VMs in the Managed Cluster.                                                                                                                                                                                                                                                                                                                                         | [ManagedClusterWindowsProfile_STATUS](#ManagedClusterWindowsProfile_STATUS)<br/><small>Optional</small>                                                 |
 | workloadAutoScalerProfile  | Workload Auto-scaler profile for the managed cluster.                                                                                                                                                                                                                                                                                                                                       | [ManagedClusterWorkloadAutoScalerProfile_STATUS](#ManagedClusterWorkloadAutoScalerProfile_STATUS)<br/><small>Optional</small>                           |
 
-<a id="ManagedClusterList"></a>ManagedClusterList
--------------------------------------------------
+ManagedClusterList{#ManagedClusterList}
+---------------------------------------
 
 Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-04-02-preview/managedClusters.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ContainerService/managedClusters/{resourceName}
 
@@ -156,8 +156,8 @@ Generator information: - Generated from: /containerservice/resource-manager/Micr
 | [metav1.ListMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta) |             |                                                                 |
 | items                                                                               |             | [ManagedCluster[]](#ManagedCluster)<br/><small>Optional</small> |
 
-<a id="ManagedClustersAgentPool"></a>ManagedClustersAgentPool
--------------------------------------------------------------
+ManagedClustersAgentPool{#ManagedClustersAgentPool}
+---------------------------------------------------
 
 Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-04-02-preview/managedClusters.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}
 
@@ -170,7 +170,7 @@ Used by: [ManagedClustersAgentPoolList](#ManagedClustersAgentPoolList).
 | spec                                                                                    |             | [ManagedClustersAgentPool_Spec](#ManagedClustersAgentPool_Spec)<br/><small>Optional</small>     |
 | status                                                                                  |             | [ManagedClustersAgentPool_STATUS](#ManagedClustersAgentPool_STATUS)<br/><small>Optional</small> |
 
-### <a id="ManagedClustersAgentPool_Spec"></a>ManagedClustersAgentPool_Spec
+### ManagedClustersAgentPool_Spec {#ManagedClustersAgentPool_Spec}
 
 | Property                          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Type                                                                                                                                                                 |
 |-----------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -229,7 +229,7 @@ Used by: [ManagedClustersAgentPoolList](#ManagedClustersAgentPoolList).
 | windowsProfile                    | The Windows agent pool's specific profile.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | [AgentPoolWindowsProfile](#AgentPoolWindowsProfile)<br/><small>Optional</small>                                                                                      |
 | workloadRuntime                   | Determines the type of workload a node can run.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | [WorkloadRuntime](#WorkloadRuntime)<br/><small>Optional</small>                                                                                                      |
 
-### <a id="ManagedClustersAgentPool_STATUS"></a>ManagedClustersAgentPool_STATUS
+### ManagedClustersAgentPool_STATUS{#ManagedClustersAgentPool_STATUS}
 
 | Property                   | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Type                                                                                                                                                    |
 |----------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -293,8 +293,8 @@ Used by: [ManagedClustersAgentPoolList](#ManagedClustersAgentPoolList).
 | windowsProfile             | The Windows agent pool's specific profile.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | [AgentPoolWindowsProfile_STATUS](#AgentPoolWindowsProfile_STATUS)<br/><small>Optional</small>                                                           |
 | workloadRuntime            | Determines the type of workload a node can run.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | [WorkloadRuntime_STATUS](#WorkloadRuntime_STATUS)<br/><small>Optional</small>                                                                           |
 
-<a id="ManagedClustersAgentPoolList"></a>ManagedClustersAgentPoolList
----------------------------------------------------------------------
+ManagedClustersAgentPoolList{#ManagedClustersAgentPoolList}
+-----------------------------------------------------------
 
 Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-04-02-preview/managedClusters.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}
 
@@ -304,8 +304,8 @@ Generator information: - Generated from: /containerservice/resource-manager/Micr
 | [metav1.ListMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta) |             |                                                                                     |
 | items                                                                               |             | [ManagedClustersAgentPool[]](#ManagedClustersAgentPool)<br/><small>Optional</small> |
 
-<a id="TrustedAccessRoleBinding"></a>TrustedAccessRoleBinding
--------------------------------------------------------------
+TrustedAccessRoleBinding{#TrustedAccessRoleBinding}
+---------------------------------------------------
 
 Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-04-02-preview/managedClusters.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ContainerService/managedClusters/{resourceName}/trustedAccessRoleBindings/{trustedAccessRoleBindingName}
 
@@ -318,7 +318,7 @@ Used by: [TrustedAccessRoleBindingList](#TrustedAccessRoleBindingList).
 | spec                                                                                    |             | [TrustedAccessRoleBinding_Spec](#TrustedAccessRoleBinding_Spec)<br/><small>Optional</small>     |
 | status                                                                                  |             | [TrustedAccessRoleBinding_STATUS](#TrustedAccessRoleBinding_STATUS)<br/><small>Optional</small> |
 
-### <a id="TrustedAccessRoleBinding_Spec"></a>TrustedAccessRoleBinding_Spec
+### TrustedAccessRoleBinding_Spec {#TrustedAccessRoleBinding_Spec}
 
 | Property                | Description                                                                                                                                                                                                                                                                                          | Type                                                                                                                                                                 |
 |-------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -328,7 +328,7 @@ Used by: [TrustedAccessRoleBindingList](#TrustedAccessRoleBindingList).
 | roles                   | A list of roles to bind, each item is a resource type qualified role name. For example: 'Microsoft.MachineLearningServices/workspaces/reader'.                                                                                                                                                       | string[]<br/><small>Required</small>                                                                                                                                 |
 | sourceResourceReference | The ARM resource ID of source resource that trusted access is configured for.                                                                                                                                                                                                                        | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Required</small>           |
 
-### <a id="TrustedAccessRoleBinding_STATUS"></a>TrustedAccessRoleBinding_STATUS
+### TrustedAccessRoleBinding_STATUS{#TrustedAccessRoleBinding_STATUS}
 
 | Property          | Description                                                                                                                                                                                                                                                                                                                 | Type                                                                                                                                                    |
 |-------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -341,8 +341,8 @@ Used by: [TrustedAccessRoleBindingList](#TrustedAccessRoleBindingList).
 | systemData        | Azure Resource Manager metadata containing createdBy and modifiedBy information.                                                                                                                                                                                                                                            | [SystemData_STATUS](#SystemData_STATUS)<br/><small>Optional</small>                                                                                     |
 | type              | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                   | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="TrustedAccessRoleBindingList"></a>TrustedAccessRoleBindingList
----------------------------------------------------------------------
+TrustedAccessRoleBindingList{#TrustedAccessRoleBindingList}
+-----------------------------------------------------------
 
 Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-04-02-preview/managedClusters.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ContainerService/managedClusters/{resourceName}/trustedAccessRoleBindings/{trustedAccessRoleBindingName}
 
@@ -352,8 +352,8 @@ Generator information: - Generated from: /containerservice/resource-manager/Micr
 | [metav1.ListMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta) |             |                                                                                     |
 | items                                                                               |             | [TrustedAccessRoleBinding[]](#TrustedAccessRoleBinding)<br/><small>Optional</small> |
 
-<a id="ManagedCluster_Spec"></a>ManagedCluster_Spec
----------------------------------------------------
+ManagedCluster_Spec{#ManagedCluster_Spec}
+-----------------------------------------
 
 Used by: [ManagedCluster](#ManagedCluster).
 
@@ -409,8 +409,8 @@ Used by: [ManagedCluster](#ManagedCluster).
 | windowsProfile             | The profile for Windows VMs in the Managed Cluster.                                                                                                                                                                                                                                                                                                                                         | [ManagedClusterWindowsProfile](#ManagedClusterWindowsProfile)<br/><small>Optional</small>                                                                            |
 | workloadAutoScalerProfile  | Workload Auto-scaler profile for the managed cluster.                                                                                                                                                                                                                                                                                                                                       | [ManagedClusterWorkloadAutoScalerProfile](#ManagedClusterWorkloadAutoScalerProfile)<br/><small>Optional</small>                                                      |
 
-<a id="ManagedCluster_STATUS"></a>ManagedCluster_STATUS
--------------------------------------------------------
+ManagedCluster_STATUS{#ManagedCluster_STATUS}
+---------------------------------------------
 
 Managed cluster.
 
@@ -479,8 +479,8 @@ Used by: [ManagedCluster](#ManagedCluster).
 | windowsProfile             | The profile for Windows VMs in the Managed Cluster.                                                                                                                                                                                                                                                                                                                                         | [ManagedClusterWindowsProfile_STATUS](#ManagedClusterWindowsProfile_STATUS)<br/><small>Optional</small>                                                 |
 | workloadAutoScalerProfile  | Workload Auto-scaler profile for the managed cluster.                                                                                                                                                                                                                                                                                                                                       | [ManagedClusterWorkloadAutoScalerProfile_STATUS](#ManagedClusterWorkloadAutoScalerProfile_STATUS)<br/><small>Optional</small>                           |
 
-<a id="ManagedClustersAgentPool_Spec"></a>ManagedClustersAgentPool_Spec
------------------------------------------------------------------------
+ManagedClustersAgentPool_Spec{#ManagedClustersAgentPool_Spec}
+-------------------------------------------------------------
 
 Used by: [ManagedClustersAgentPool](#ManagedClustersAgentPool).
 
@@ -541,8 +541,8 @@ Used by: [ManagedClustersAgentPool](#ManagedClustersAgentPool).
 | windowsProfile                    | The Windows agent pool's specific profile.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | [AgentPoolWindowsProfile](#AgentPoolWindowsProfile)<br/><small>Optional</small>                                                                                      |
 | workloadRuntime                   | Determines the type of workload a node can run.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | [WorkloadRuntime](#WorkloadRuntime)<br/><small>Optional</small>                                                                                                      |
 
-<a id="ManagedClustersAgentPool_STATUS"></a>ManagedClustersAgentPool_STATUS
----------------------------------------------------------------------------
+ManagedClustersAgentPool_STATUS{#ManagedClustersAgentPool_STATUS}
+-----------------------------------------------------------------
 
 Used by: [ManagedClustersAgentPool](#ManagedClustersAgentPool).
 
@@ -608,8 +608,8 @@ Used by: [ManagedClustersAgentPool](#ManagedClustersAgentPool).
 | windowsProfile             | The Windows agent pool's specific profile.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | [AgentPoolWindowsProfile_STATUS](#AgentPoolWindowsProfile_STATUS)<br/><small>Optional</small>                                                           |
 | workloadRuntime            | Determines the type of workload a node can run.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | [WorkloadRuntime_STATUS](#WorkloadRuntime_STATUS)<br/><small>Optional</small>                                                                           |
 
-<a id="TrustedAccessRoleBinding_Spec"></a>TrustedAccessRoleBinding_Spec
------------------------------------------------------------------------
+TrustedAccessRoleBinding_Spec{#TrustedAccessRoleBinding_Spec}
+-------------------------------------------------------------
 
 Used by: [TrustedAccessRoleBinding](#TrustedAccessRoleBinding).
 
@@ -621,8 +621,8 @@ Used by: [TrustedAccessRoleBinding](#TrustedAccessRoleBinding).
 | roles                   | A list of roles to bind, each item is a resource type qualified role name. For example: 'Microsoft.MachineLearningServices/workspaces/reader'.                                                                                                                                                       | string[]<br/><small>Required</small>                                                                                                                                 |
 | sourceResourceReference | The ARM resource ID of source resource that trusted access is configured for.                                                                                                                                                                                                                        | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Required</small>           |
 
-<a id="TrustedAccessRoleBinding_STATUS"></a>TrustedAccessRoleBinding_STATUS
----------------------------------------------------------------------------
+TrustedAccessRoleBinding_STATUS{#TrustedAccessRoleBinding_STATUS}
+-----------------------------------------------------------------
 
 Used by: [TrustedAccessRoleBinding](#TrustedAccessRoleBinding).
 
@@ -637,8 +637,8 @@ Used by: [TrustedAccessRoleBinding](#TrustedAccessRoleBinding).
 | systemData        | Azure Resource Manager metadata containing createdBy and modifiedBy information.                                                                                                                                                                                                                                            | [SystemData_STATUS](#SystemData_STATUS)<br/><small>Optional</small>                                                                                     |
 | type              | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                   | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="AgentPoolArtifactStreamingProfile"></a>AgentPoolArtifactStreamingProfile
--------------------------------------------------------------------------------
+AgentPoolArtifactStreamingProfile{#AgentPoolArtifactStreamingProfile}
+---------------------------------------------------------------------
 
 Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec](#ManagedClustersAgentPool_Spec).
 
@@ -646,8 +646,8 @@ Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and 
 |----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------|
 | enabled  | Artifact streaming speeds up the cold-start of containers on a node through on-demand image loading. To use this feature, container images must also enable artifact streaming on ACR. If not specified, the default is false. | bool<br/><small>Optional</small> |
 
-<a id="AgentPoolArtifactStreamingProfile_STATUS"></a>AgentPoolArtifactStreamingProfile_STATUS
----------------------------------------------------------------------------------------------
+AgentPoolArtifactStreamingProfile_STATUS{#AgentPoolArtifactStreamingProfile_STATUS}
+-----------------------------------------------------------------------------------
 
 Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS](#ManagedClustersAgentPool_STATUS).
 
@@ -655,8 +655,8 @@ Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile
 |----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------|
 | enabled  | Artifact streaming speeds up the cold-start of containers on a node through on-demand image loading. To use this feature, container images must also enable artifact streaming on ACR. If not specified, the default is false. | bool<br/><small>Optional</small> |
 
-<a id="AgentPoolGatewayProfile"></a>AgentPoolGatewayProfile
------------------------------------------------------------
+AgentPoolGatewayProfile{#AgentPoolGatewayProfile}
+-------------------------------------------------
 
 Profile of the managed cluster gateway agent pool.
 
@@ -666,8 +666,8 @@ Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and 
 |--------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------|
 | publicIPPrefixSize | The Gateway agent pool associates one public IPPrefix for each static egress gateway to provide public egress. The size of Public IPPrefix should be selected by the user. Each node in the agent pool is assigned with one IP from the IPPrefix. The IPPrefix size thus serves as a cap on the size of the Gateway agent pool. Due to Azure public IPPrefix size limitation, the valid value range is [28, 31](/31 = 2 nodes/IPs, /30 = 4 nodes/IPs, /29 = 8 nodes/IPs, /28 = 16 nodes/IPs). The default value is 31. | int<br/><small>Optional</small> |
 
-<a id="AgentPoolGatewayProfile_STATUS"></a>AgentPoolGatewayProfile_STATUS
--------------------------------------------------------------------------
+AgentPoolGatewayProfile_STATUS{#AgentPoolGatewayProfile_STATUS}
+---------------------------------------------------------------
 
 Profile of the managed cluster gateway agent pool.
 
@@ -677,8 +677,8 @@ Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile
 |--------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------|
 | publicIPPrefixSize | The Gateway agent pool associates one public IPPrefix for each static egress gateway to provide public egress. The size of Public IPPrefix should be selected by the user. Each node in the agent pool is assigned with one IP from the IPPrefix. The IPPrefix size thus serves as a cap on the size of the Gateway agent pool. Due to Azure public IPPrefix size limitation, the valid value range is [28, 31](/31 = 2 nodes/IPs, /30 = 4 nodes/IPs, /29 = 8 nodes/IPs, /28 = 16 nodes/IPs). The default value is 31. | int<br/><small>Optional</small> |
 
-<a id="AgentPoolGPUProfile"></a>AgentPoolGPUProfile
----------------------------------------------------
+AgentPoolGPUProfile{#AgentPoolGPUProfile}
+-----------------------------------------
 
 Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec](#ManagedClustersAgentPool_Spec).
 
@@ -686,8 +686,8 @@ Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and 
 |------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------|
 | installGPUDriver | The default value is true when the vmSize of the agent pool contains a GPU, false otherwise. GPU Driver Installation can only be set true when VM has an associated GPU resource. Setting this field to false prevents automatic GPU driver installation. In that case, in order for the GPU to be usable, the user must perform GPU driver installation themselves. | bool<br/><small>Optional</small> |
 
-<a id="AgentPoolGPUProfile_STATUS"></a>AgentPoolGPUProfile_STATUS
------------------------------------------------------------------
+AgentPoolGPUProfile_STATUS{#AgentPoolGPUProfile_STATUS}
+-------------------------------------------------------
 
 Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS](#ManagedClustersAgentPool_STATUS).
 
@@ -695,8 +695,8 @@ Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile
 |------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------|
 | installGPUDriver | The default value is true when the vmSize of the agent pool contains a GPU, false otherwise. GPU Driver Installation can only be set true when VM has an associated GPU resource. Setting this field to false prevents automatic GPU driver installation. In that case, in order for the GPU to be usable, the user must perform GPU driver installation themselves. | bool<br/><small>Optional</small> |
 
-<a id="AgentPoolMode"></a>AgentPoolMode
----------------------------------------
+AgentPoolMode{#AgentPoolMode}
+-----------------------------
 
 A cluster must have at least one 'System' Agent Pool at all times. For additional information on agent pool restrictions and best practices, see: https://docs.microsoft.com/azure/aks/use-system-pools
 
@@ -708,8 +708,8 @@ Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and 
 | "System"  |             |
 | "User"    |             |
 
-<a id="AgentPoolMode_STATUS"></a>AgentPoolMode_STATUS
------------------------------------------------------
+AgentPoolMode_STATUS{#AgentPoolMode_STATUS}
+-------------------------------------------
 
 A cluster must have at least one 'System' Agent Pool at all times. For additional information on agent pool restrictions and best practices, see: https://docs.microsoft.com/azure/aks/use-system-pools
 
@@ -721,8 +721,8 @@ Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile
 | "System"  |             |
 | "User"    |             |
 
-<a id="AgentPoolNetworkProfile"></a>AgentPoolNetworkProfile
------------------------------------------------------------
+AgentPoolNetworkProfile{#AgentPoolNetworkProfile}
+-------------------------------------------------
 
 Network settings of an agent pool.
 
@@ -734,8 +734,8 @@ Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and 
 | applicationSecurityGroupsReferences | The IDs of the application security groups which agent pool will associate when created. | [genruntime.ResourceReference[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small> |
 | nodePublicIPTags                    | IPTags of instance-level public IPs.                                                     | [IPTag[]](#IPTag)<br/><small>Optional</small>                                                                                                                |
 
-<a id="AgentPoolNetworkProfile_STATUS"></a>AgentPoolNetworkProfile_STATUS
--------------------------------------------------------------------------
+AgentPoolNetworkProfile_STATUS{#AgentPoolNetworkProfile_STATUS}
+---------------------------------------------------------------
 
 Network settings of an agent pool.
 
@@ -747,8 +747,8 @@ Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile
 | applicationSecurityGroups | The IDs of the application security groups which agent pool will associate when created. | string[]<br/><small>Optional</small>                                |
 | nodePublicIPTags          | IPTags of instance-level public IPs.                                                     | [IPTag_STATUS[]](#IPTag_STATUS)<br/><small>Optional</small>         |
 
-<a id="AgentPoolSecurityProfile"></a>AgentPoolSecurityProfile
--------------------------------------------------------------
+AgentPoolSecurityProfile{#AgentPoolSecurityProfile}
+---------------------------------------------------
 
 The security settings of an agent pool.
 
@@ -760,8 +760,8 @@ Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and 
 | enableVTPM       | vTPM is a Trusted Launch feature for configuring a dedicated secure vault for keys and measurements held locally on the node. For more details, see aka.ms/aks/trustedlaunch. If not specified, the default is false. | bool<br/><small>Optional</small>                                      |
 | sshAccess        | SSH access method of an agent pool.                                                                                                                                                                                   | [AgentPoolSSHAccess](#AgentPoolSSHAccess)<br/><small>Optional</small> |
 
-<a id="AgentPoolSecurityProfile_STATUS"></a>AgentPoolSecurityProfile_STATUS
----------------------------------------------------------------------------
+AgentPoolSecurityProfile_STATUS{#AgentPoolSecurityProfile_STATUS}
+-----------------------------------------------------------------
 
 The security settings of an agent pool.
 
@@ -773,8 +773,8 @@ Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile
 | enableVTPM       | vTPM is a Trusted Launch feature for configuring a dedicated secure vault for keys and measurements held locally on the node. For more details, see aka.ms/aks/trustedlaunch. If not specified, the default is false. | bool<br/><small>Optional</small>                                                    |
 | sshAccess        | SSH access method of an agent pool.                                                                                                                                                                                   | [AgentPoolSSHAccess_STATUS](#AgentPoolSSHAccess_STATUS)<br/><small>Optional</small> |
 
-<a id="AgentPoolType"></a>AgentPoolType
----------------------------------------
+AgentPoolType{#AgentPoolType}
+-----------------------------
 
 The type of Agent Pool.
 
@@ -786,8 +786,8 @@ Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and 
 | "VirtualMachineScaleSets" |             |
 | "VirtualMachines"         |             |
 
-<a id="AgentPoolType_STATUS"></a>AgentPoolType_STATUS
------------------------------------------------------
+AgentPoolType_STATUS{#AgentPoolType_STATUS}
+-------------------------------------------
 
 The type of Agent Pool.
 
@@ -799,8 +799,8 @@ Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile
 | "VirtualMachineScaleSets" |             |
 | "VirtualMachines"         |             |
 
-<a id="AgentPoolUpgradeSettings"></a>AgentPoolUpgradeSettings
--------------------------------------------------------------
+AgentPoolUpgradeSettings{#AgentPoolUpgradeSettings}
+---------------------------------------------------
 
 Settings for upgrading an agentpool
 
@@ -813,8 +813,8 @@ Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and 
 | nodeSoakDurationInMinutes | The amount of time (in minutes) to wait after draining a node and before reimaging it and moving on to next node. If not specified, the default is 0 minutes.                                                                                                                                                                                                                                                          | int<br/><small>Optional</small>                                                                                                   |
 | undrainableNodeBehavior   | Defines the behavior for undrainable nodes during upgrade. The most common cause of undrainable nodes is Pod Disruption Budgets (PDBs), but other issues, such as pod termination grace period is exceeding the remaining per-node drain timeout or pod is still being in a running state, can also cause undrainable nodes.                                                                                           | [AgentPoolUpgradeSettings_UndrainableNodeBehavior](#AgentPoolUpgradeSettings_UndrainableNodeBehavior)<br/><small>Optional</small> |
 
-<a id="AgentPoolUpgradeSettings_STATUS"></a>AgentPoolUpgradeSettings_STATUS
----------------------------------------------------------------------------
+AgentPoolUpgradeSettings_STATUS{#AgentPoolUpgradeSettings_STATUS}
+-----------------------------------------------------------------
 
 Settings for upgrading an agentpool
 
@@ -827,8 +827,8 @@ Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile
 | nodeSoakDurationInMinutes | The amount of time (in minutes) to wait after draining a node and before reimaging it and moving on to next node. If not specified, the default is 0 minutes.                                                                                                                                                                                                                                                          | int<br/><small>Optional</small>                                                                                                                 |
 | undrainableNodeBehavior   | Defines the behavior for undrainable nodes during upgrade. The most common cause of undrainable nodes is Pod Disruption Budgets (PDBs), but other issues, such as pod termination grace period is exceeding the remaining per-node drain timeout or pod is still being in a running state, can also cause undrainable nodes.                                                                                           | [AgentPoolUpgradeSettings_UndrainableNodeBehavior_STATUS](#AgentPoolUpgradeSettings_UndrainableNodeBehavior_STATUS)<br/><small>Optional</small> |
 
-<a id="AgentPoolWindowsProfile"></a>AgentPoolWindowsProfile
------------------------------------------------------------
+AgentPoolWindowsProfile{#AgentPoolWindowsProfile}
+-------------------------------------------------
 
 The Windows agent pool's specific profile.
 
@@ -838,8 +838,8 @@ Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and 
 |--------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------|
 | disableOutboundNat | The default value is false. Outbound NAT can only be disabled if the cluster outboundType is NAT Gateway and the Windows agent pool does not have node public IP enabled. | bool<br/><small>Optional</small> |
 
-<a id="AgentPoolWindowsProfile_STATUS"></a>AgentPoolWindowsProfile_STATUS
--------------------------------------------------------------------------
+AgentPoolWindowsProfile_STATUS{#AgentPoolWindowsProfile_STATUS}
+---------------------------------------------------------------
 
 The Windows agent pool's specific profile.
 
@@ -849,8 +849,8 @@ Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile
 |--------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------|
 | disableOutboundNat | The default value is false. Outbound NAT can only be disabled if the cluster outboundType is NAT Gateway and the Windows agent pool does not have node public IP enabled. | bool<br/><small>Optional</small> |
 
-<a id="ClusterUpgradeSettings"></a>ClusterUpgradeSettings
----------------------------------------------------------
+ClusterUpgradeSettings{#ClusterUpgradeSettings}
+-----------------------------------------------
 
 Settings for upgrading a cluster.
 
@@ -860,8 +860,8 @@ Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
 |------------------|-------------------------|---------------------------------------------------------------------------------|
 | overrideSettings | Settings for overrides. | [UpgradeOverrideSettings](#UpgradeOverrideSettings)<br/><small>Optional</small> |
 
-<a id="ClusterUpgradeSettings_STATUS"></a>ClusterUpgradeSettings_STATUS
------------------------------------------------------------------------
+ClusterUpgradeSettings_STATUS{#ClusterUpgradeSettings_STATUS}
+-------------------------------------------------------------
 
 Settings for upgrading a cluster.
 
@@ -871,8 +871,8 @@ Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
 |------------------|-------------------------|-----------------------------------------------------------------------------------------------|
 | overrideSettings | Settings for overrides. | [UpgradeOverrideSettings_STATUS](#UpgradeOverrideSettings_STATUS)<br/><small>Optional</small> |
 
-<a id="ContainerServiceLinuxProfile"></a>ContainerServiceLinuxProfile
----------------------------------------------------------------------
+ContainerServiceLinuxProfile{#ContainerServiceLinuxProfile}
+-----------------------------------------------------------
 
 Profile for Linux VMs in the container service cluster.
 
@@ -883,8 +883,8 @@ Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
 | adminUsername | The administrator username to use for Linux VMs.            | string<br/><small>Required</small>                                                                |
 | ssh           | The SSH configuration for Linux-based VMs running on Azure. | [ContainerServiceSshConfiguration](#ContainerServiceSshConfiguration)<br/><small>Required</small> |
 
-<a id="ContainerServiceLinuxProfile_STATUS"></a>ContainerServiceLinuxProfile_STATUS
------------------------------------------------------------------------------------
+ContainerServiceLinuxProfile_STATUS{#ContainerServiceLinuxProfile_STATUS}
+-------------------------------------------------------------------------
 
 Profile for Linux VMs in the container service cluster.
 
@@ -895,8 +895,8 @@ Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
 | adminUsername | The administrator username to use for Linux VMs.            | string<br/><small>Optional</small>                                                                              |
 | ssh           | The SSH configuration for Linux-based VMs running on Azure. | [ContainerServiceSshConfiguration_STATUS](#ContainerServiceSshConfiguration_STATUS)<br/><small>Optional</small> |
 
-<a id="ContainerServiceNetworkProfile"></a>ContainerServiceNetworkProfile
--------------------------------------------------------------------------
+ContainerServiceNetworkProfile{#ContainerServiceNetworkProfile}
+---------------------------------------------------------------
 
 Profile of network configuration.
 
@@ -924,8 +924,8 @@ Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
 | serviceCidrs               | One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking. They must not overlap with any Subnet IP ranges.                                                                                                                                                  | string[]<br/><small>Optional</small>                                                                                          |
 | staticEgressGatewayProfile | The profile for Static Egress Gateway addon. For more details about Static Egress Gateway, see https://aka.ms/aks/static-egress-gateway.                                                                                                                                                                                                       | [ManagedClusterStaticEgressGatewayProfile](#ManagedClusterStaticEgressGatewayProfile)<br/><small>Optional</small>             |
 
-<a id="ContainerServiceNetworkProfile_STATUS"></a>ContainerServiceNetworkProfile_STATUS
----------------------------------------------------------------------------------------
+ContainerServiceNetworkProfile_STATUS{#ContainerServiceNetworkProfile_STATUS}
+-----------------------------------------------------------------------------
 
 Profile of network configuration.
 
@@ -953,13 +953,13 @@ Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
 | serviceCidrs               | One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking. They must not overlap with any Subnet IP ranges.                                                                                                                                                  | string[]<br/><small>Optional</small>                                                                                                        |
 | staticEgressGatewayProfile | The profile for Static Egress Gateway addon. For more details about Static Egress Gateway, see https://aka.ms/aks/static-egress-gateway.                                                                                                                                                                                                       | [ManagedClusterStaticEgressGatewayProfile_STATUS](#ManagedClusterStaticEgressGatewayProfile_STATUS)<br/><small>Optional</small>             |
 
-<a id="ContainerServiceOSDisk"></a>ContainerServiceOSDisk
----------------------------------------------------------
+ContainerServiceOSDisk{#ContainerServiceOSDisk}
+-----------------------------------------------
 
 Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec](#ManagedClustersAgentPool_Spec).
 
-<a id="CreationData"></a>CreationData
--------------------------------------
+CreationData{#CreationData}
+---------------------------
 
 Data used when creating a target resource from a source resource.
 
@@ -969,8 +969,8 @@ Used by: [ManagedCluster_Spec](#ManagedCluster_Spec), [ManagedClusterAgentPoolPr
 |-------------------------|---------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | sourceResourceReference | This is the ARM ID of the source object to be used to create the target object. | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small> |
 
-<a id="CreationData_STATUS"></a>CreationData_STATUS
----------------------------------------------------
+CreationData_STATUS{#CreationData_STATUS}
+-----------------------------------------
 
 Data used when creating a target resource from a source resource.
 
@@ -980,8 +980,8 @@ Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS), [ManagedClusterAgentPo
 |------------------|---------------------------------------------------------------------------------|------------------------------------|
 | sourceResourceId | This is the ARM ID of the source object to be used to create the target object. | string<br/><small>Optional</small> |
 
-<a id="ExtendedLocation"></a>ExtendedLocation
----------------------------------------------
+ExtendedLocation{#ExtendedLocation}
+-----------------------------------
 
 The complex type of the extended location.
 
@@ -992,8 +992,8 @@ Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
 | name     | The name of the extended location. | string<br/><small>Optional</small>                                        |
 | type     | The type of the extended location. | [ExtendedLocationType](#ExtendedLocationType)<br/><small>Optional</small> |
 
-<a id="ExtendedLocation_STATUS"></a>ExtendedLocation_STATUS
------------------------------------------------------------
+ExtendedLocation_STATUS{#ExtendedLocation_STATUS}
+-------------------------------------------------
 
 The complex type of the extended location.
 
@@ -1004,60 +1004,60 @@ Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
 | name     | The name of the extended location. | string<br/><small>Optional</small>                                                      |
 | type     | The type of the extended location. | [ExtendedLocationType_STATUS](#ExtendedLocationType_STATUS)<br/><small>Optional</small> |
 
-<a id="GPUInstanceProfile"></a>GPUInstanceProfile
--------------------------------------------------
-
-GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.
-
-Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec](#ManagedClustersAgentPool_Spec).
-
-| Value   | Description |
-|---------|-------------|
-| "MIG1g" |             |
-| "MIG2g" |             |
-| "MIG3g" |             |
-| "MIG4g" |             |
-| "MIG7g" |             |
-
-<a id="GPUInstanceProfile_STATUS"></a>GPUInstanceProfile_STATUS
----------------------------------------------------------------
-
-GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.
-
-Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS](#ManagedClustersAgentPool_STATUS).
-
-| Value   | Description |
-|---------|-------------|
-| "MIG1g" |             |
-| "MIG2g" |             |
-| "MIG3g" |             |
-| "MIG4g" |             |
-| "MIG7g" |             |
-
-<a id="KubeletConfig"></a>KubeletConfig
+GPUInstanceProfile{#GPUInstanceProfile}
 ---------------------------------------
 
-See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
+GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.
 
 Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec](#ManagedClustersAgentPool_Spec).
 
-| Property              | Description                                                                                                                                                                                                                          | Type                                 |
-|-----------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------|
-| allowedUnsafeSysctls  | Allowed list of unsafe sysctls or unsafe sysctl patterns (ending in `*`).                                                                                                                                                            | string[]<br/><small>Optional</small> |
-| containerLogMaxFiles  | The maximum number of container log files that can be present for a container. The number must be ≥ 2.                                                                                                                               | int<br/><small>Optional</small>      |
-| containerLogMaxSizeMB | The maximum size (e.g. 10Mi) of container log file before it is rotated.                                                                                                                                                             | int<br/><small>Optional</small>      |
-| cpuCfsQuota           | The default is true.                                                                                                                                                                                                                 | bool<br/><small>Optional</small>     |
-| cpuCfsQuotaPeriod     | The default is '100ms.' Valid values are a sequence of decimal numbers with an optional fraction and a unit suffix. For example: '300ms', '2h45m'. Supported units are 'ns', 'us', 'ms', 's', 'm', and 'h'.                          | string<br/><small>Optional</small>   |
-| cpuManagerPolicy      | The default is 'none'. See [Kubernetes CPU management policies](https://kubernetes.io/docs/tasks/administer-cluster/cpu-management-policies/#cpu-management-policies) for more information. Allowed values are 'none' and 'static'.  | string<br/><small>Optional</small>   |
-| failSwapOn            | If set to true it will make the Kubelet fail to start if swap is enabled on the node.                                                                                                                                                | bool<br/><small>Optional</small>     |
-| imageGcHighThreshold  | To disable image garbage collection, set to 100. The default is 85%                                                                                                                                                                  | int<br/><small>Optional</small>      |
-| imageGcLowThreshold   | This cannot be set higher than imageGcHighThreshold. The default is 80%                                                                                                                                                              | int<br/><small>Optional</small>      |
-| podMaxPids            | The maximum number of processes per pod.                                                                                                                                                                                             | int<br/><small>Optional</small>      |
-| topologyManagerPolicy | For more information see [Kubernetes Topology Manager](https://kubernetes.io/docs/tasks/administer-cluster/topology-manager). The default is 'none'. Allowed values are 'none', 'best-effort', 'restricted', and 'single-numa-node'. | string<br/><small>Optional</small>   |
+| Value   | Description |
+|---------|-------------|
+| "MIG1g" |             |
+| "MIG2g" |             |
+| "MIG3g" |             |
+| "MIG4g" |             |
+| "MIG7g" |             |
 
-<a id="KubeletConfig_STATUS"></a>KubeletConfig_STATUS
+GPUInstanceProfile_STATUS{#GPUInstanceProfile_STATUS}
 -----------------------------------------------------
 
+GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.
+
+Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS](#ManagedClustersAgentPool_STATUS).
+
+| Value   | Description |
+|---------|-------------|
+| "MIG1g" |             |
+| "MIG2g" |             |
+| "MIG3g" |             |
+| "MIG4g" |             |
+| "MIG7g" |             |
+
+KubeletConfig{#KubeletConfig}
+-----------------------------
+
+See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
+
+Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec](#ManagedClustersAgentPool_Spec).
+
+| Property              | Description                                                                                                                                                                                                                          | Type                                 |
+|-----------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------|
+| allowedUnsafeSysctls  | Allowed list of unsafe sysctls or unsafe sysctl patterns (ending in `*`).                                                                                                                                                            | string[]<br/><small>Optional</small> |
+| containerLogMaxFiles  | The maximum number of container log files that can be present for a container. The number must be ≥ 2.                                                                                                                               | int<br/><small>Optional</small>      |
+| containerLogMaxSizeMB | The maximum size (e.g. 10Mi) of container log file before it is rotated.                                                                                                                                                             | int<br/><small>Optional</small>      |
+| cpuCfsQuota           | The default is true.                                                                                                                                                                                                                 | bool<br/><small>Optional</small>     |
+| cpuCfsQuotaPeriod     | The default is '100ms.' Valid values are a sequence of decimal numbers with an optional fraction and a unit suffix. For example: '300ms', '2h45m'. Supported units are 'ns', 'us', 'ms', 's', 'm', and 'h'.                          | string<br/><small>Optional</small>   |
+| cpuManagerPolicy      | The default is 'none'. See [Kubernetes CPU management policies](https://kubernetes.io/docs/tasks/administer-cluster/cpu-management-policies/#cpu-management-policies) for more information. Allowed values are 'none' and 'static'.  | string<br/><small>Optional</small>   |
+| failSwapOn            | If set to true it will make the Kubelet fail to start if swap is enabled on the node.                                                                                                                                                | bool<br/><small>Optional</small>     |
+| imageGcHighThreshold  | To disable image garbage collection, set to 100. The default is 85%                                                                                                                                                                  | int<br/><small>Optional</small>      |
+| imageGcLowThreshold   | This cannot be set higher than imageGcHighThreshold. The default is 80%                                                                                                                                                              | int<br/><small>Optional</small>      |
+| podMaxPids            | The maximum number of processes per pod.                                                                                                                                                                                             | int<br/><small>Optional</small>      |
+| topologyManagerPolicy | For more information see [Kubernetes Topology Manager](https://kubernetes.io/docs/tasks/administer-cluster/topology-manager). The default is 'none'. Allowed values are 'none', 'best-effort', 'restricted', and 'single-numa-node'. | string<br/><small>Optional</small>   |
+
+KubeletConfig_STATUS{#KubeletConfig_STATUS}
+-------------------------------------------
+
 See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
 
 Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS](#ManagedClustersAgentPool_STATUS).
@@ -1076,8 +1076,8 @@ Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile
 | podMaxPids            | The maximum number of processes per pod.                                                                                                                                                                                             | int<br/><small>Optional</small>      |
 | topologyManagerPolicy | For more information see [Kubernetes Topology Manager](https://kubernetes.io/docs/tasks/administer-cluster/topology-manager). The default is 'none'. Allowed values are 'none', 'best-effort', 'restricted', and 'single-numa-node'. | string<br/><small>Optional</small>   |
 
-<a id="KubeletDiskType"></a>KubeletDiskType
--------------------------------------------
+KubeletDiskType{#KubeletDiskType}
+---------------------------------
 
 Determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral storage.
 
@@ -1088,8 +1088,8 @@ Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and 
 | "OS"        |             |
 | "Temporary" |             |
 
-<a id="KubeletDiskType_STATUS"></a>KubeletDiskType_STATUS
----------------------------------------------------------
+KubeletDiskType_STATUS{#KubeletDiskType_STATUS}
+-----------------------------------------------
 
 Determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral storage.
 
@@ -1100,8 +1100,8 @@ Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile
 | "OS"        |             |
 | "Temporary" |             |
 
-<a id="KubernetesSupportPlan"></a>KubernetesSupportPlan
--------------------------------------------------------
+KubernetesSupportPlan{#KubernetesSupportPlan}
+---------------------------------------------
 
 Different support tiers for AKS managed clusters
 
@@ -1112,8 +1112,8 @@ Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
 | "AKSLongTermSupport" |             |
 | "KubernetesOfficial" |             |
 
-<a id="KubernetesSupportPlan_STATUS"></a>KubernetesSupportPlan_STATUS
----------------------------------------------------------------------
+KubernetesSupportPlan_STATUS{#KubernetesSupportPlan_STATUS}
+-----------------------------------------------------------
 
 Different support tiers for AKS managed clusters
 
@@ -1124,8 +1124,8 @@ Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
 | "AKSLongTermSupport" |             |
 | "KubernetesOfficial" |             |
 
-<a id="LinuxOSConfig"></a>LinuxOSConfig
----------------------------------------
+LinuxOSConfig{#LinuxOSConfig}
+-----------------------------
 
 See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
 
@@ -1138,8 +1138,8 @@ Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and 
 | transparentHugePageDefrag  | Valid values are 'always', 'defer', 'defer+madvise', 'madvise' and 'never'. The default is 'madvise'. For more information see [Transparent Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge). | string<br/><small>Optional</small>                        |
 | transparentHugePageEnabled | Valid values are 'always', 'madvise', and 'never'. The default is 'always'. For more information see [Transparent Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge).                           | string<br/><small>Optional</small>                        |
 
-<a id="LinuxOSConfig_STATUS"></a>LinuxOSConfig_STATUS
------------------------------------------------------
+LinuxOSConfig_STATUS{#LinuxOSConfig_STATUS}
+-------------------------------------------
 
 See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
 
@@ -1152,8 +1152,8 @@ Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile
 | transparentHugePageDefrag  | Valid values are 'always', 'defer', 'defer+madvise', 'madvise' and 'never'. The default is 'madvise'. For more information see [Transparent Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge). | string<br/><small>Optional</small>                                      |
 | transparentHugePageEnabled | Valid values are 'always', 'madvise', and 'never'. The default is 'always'. For more information see [Transparent Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge).                           | string<br/><small>Optional</small>                                      |
 
-<a id="ManagedClusterAADProfile"></a>ManagedClusterAADProfile
--------------------------------------------------------------
+ManagedClusterAADProfile{#ManagedClusterAADProfile}
+---------------------------------------------------
 
 For more details see [managed AAD on AKS](https://docs.microsoft.com/azure/aks/managed-aad).
 
@@ -1169,8 +1169,8 @@ Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
 | serverAppSecret     | (DEPRECATED) The server AAD application secret. Learn more at https://aka.ms/aks/aad-legacy.                       | string<br/><small>Optional</small>   |
 | tenantID            | The AAD tenant ID to use for authentication. If not specified, will use the tenant of the deployment subscription. | string<br/><small>Optional</small>   |
 
-<a id="ManagedClusterAADProfile_STATUS"></a>ManagedClusterAADProfile_STATUS
----------------------------------------------------------------------------
+ManagedClusterAADProfile_STATUS{#ManagedClusterAADProfile_STATUS}
+-----------------------------------------------------------------
 
 For more details see [managed AAD on AKS](https://docs.microsoft.com/azure/aks/managed-aad).
 
@@ -1186,8 +1186,8 @@ Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
 | serverAppSecret     | (DEPRECATED) The server AAD application secret. Learn more at https://aka.ms/aks/aad-legacy.                       | string<br/><small>Optional</small>   |
 | tenantID            | The AAD tenant ID to use for authentication. If not specified, will use the tenant of the deployment subscription. | string<br/><small>Optional</small>   |
 
-<a id="ManagedClusterAddonProfile"></a>ManagedClusterAddonProfile
------------------------------------------------------------------
+ManagedClusterAddonProfile{#ManagedClusterAddonProfile}
+-------------------------------------------------------
 
 A Kubernetes add-on profile for a managed cluster.
 
@@ -1198,8 +1198,8 @@ Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
 | config   | Key-value pairs for configuring an add-on. | map[string]string<br/><small>Optional</small> |
 | enabled  | Whether the add-on is enabled or not.      | bool<br/><small>Required</small>              |
 
-<a id="ManagedClusterAddonProfile_STATUS"></a>ManagedClusterAddonProfile_STATUS
--------------------------------------------------------------------------------
+ManagedClusterAddonProfile_STATUS{#ManagedClusterAddonProfile_STATUS}
+---------------------------------------------------------------------
 
 A Kubernetes add-on profile for a managed cluster.
 
@@ -1211,8 +1211,8 @@ Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
 | enabled  | Whether the add-on is enabled or not.                      | bool<br/><small>Optional</small>                                                        |
 | identity | Information of user assigned identity used by this add-on. | [UserAssignedIdentity_STATUS](#UserAssignedIdentity_STATUS)<br/><small>Optional</small> |
 
-<a id="ManagedClusterAgentPoolProfile"></a>ManagedClusterAgentPoolProfile
--------------------------------------------------------------------------
+ManagedClusterAgentPoolProfile{#ManagedClusterAgentPoolProfile}
+---------------------------------------------------------------
 
 Profile for the container service agent pool.
 
@@ -1273,8 +1273,8 @@ Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
 | windowsProfile                    | The Windows agent pool's specific profile.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | [AgentPoolWindowsProfile](#AgentPoolWindowsProfile)<br/><small>Optional</small>                                                                            |
 | workloadRuntime                   | Determines the type of workload a node can run.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | [WorkloadRuntime](#WorkloadRuntime)<br/><small>Optional</small>                                                                                            |
 
-<a id="ManagedClusterAgentPoolProfile_STATUS"></a>ManagedClusterAgentPoolProfile_STATUS
----------------------------------------------------------------------------------------
+ManagedClusterAgentPoolProfile_STATUS{#ManagedClusterAgentPoolProfile_STATUS}
+-----------------------------------------------------------------------------
 
 Profile for the container service agent pool.
 
@@ -1339,8 +1339,8 @@ Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
 | windowsProfile             | The Windows agent pool's specific profile.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | [AgentPoolWindowsProfile_STATUS](#AgentPoolWindowsProfile_STATUS)<br/><small>Optional</small>                     |
 | workloadRuntime            | Determines the type of workload a node can run.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | [WorkloadRuntime_STATUS](#WorkloadRuntime_STATUS)<br/><small>Optional</small>                                     |
 
-<a id="ManagedClusterAIToolchainOperatorProfile"></a>ManagedClusterAIToolchainOperatorProfile
----------------------------------------------------------------------------------------------
+ManagedClusterAIToolchainOperatorProfile{#ManagedClusterAIToolchainOperatorProfile}
+-----------------------------------------------------------------------------------
 
 When enabling the operator, a set of AKS managed CRDs and controllers will be installed in the cluster. The operator automates the deployment of OSS models for inference and/or training purposes. It provides a set of preset models and enables distributed inference against them.
 
@@ -1350,8 +1350,8 @@ Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
 |----------|----------------------------------------------------|----------------------------------|
 | enabled  | Indicates if AI toolchain operator enabled or not. | bool<br/><small>Optional</small> |
 
-<a id="ManagedClusterAIToolchainOperatorProfile_STATUS"></a>ManagedClusterAIToolchainOperatorProfile_STATUS
------------------------------------------------------------------------------------------------------------
+ManagedClusterAIToolchainOperatorProfile_STATUS{#ManagedClusterAIToolchainOperatorProfile_STATUS}
+-------------------------------------------------------------------------------------------------
 
 When enabling the operator, a set of AKS managed CRDs and controllers will be installed in the cluster. The operator automates the deployment of OSS models for inference and/or training purposes. It provides a set of preset models and enables distributed inference against them.
 
@@ -1361,8 +1361,8 @@ Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
 |----------|----------------------------------------------------|----------------------------------|
 | enabled  | Indicates if AI toolchain operator enabled or not. | bool<br/><small>Optional</small> |
 
-<a id="ManagedClusterAPIServerAccessProfile"></a>ManagedClusterAPIServerAccessProfile
--------------------------------------------------------------------------------------
+ManagedClusterAPIServerAccessProfile{#ManagedClusterAPIServerAccessProfile}
+---------------------------------------------------------------------------
 
 Access profile for managed cluster API server.
 
@@ -1378,8 +1378,8 @@ Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
 | privateDNSZone                 | The default is System. For more details see [configure private DNS zone](https://docs.microsoft.com/azure/aks/private-clusters#configure-private-dns-zone). Allowed values are 'system' and 'none'.                                                                                                                           | string<br/><small>Optional</small>   |
 | subnetId                       | It is required when: 1. creating a new cluster with BYO Vnet; 2. updating an existing cluster to enable apiserver vnet integration.                                                                                                                                                                                           | string<br/><small>Optional</small>   |
 
-<a id="ManagedClusterAPIServerAccessProfile_STATUS"></a>ManagedClusterAPIServerAccessProfile_STATUS
----------------------------------------------------------------------------------------------------
+ManagedClusterAPIServerAccessProfile_STATUS{#ManagedClusterAPIServerAccessProfile_STATUS}
+-----------------------------------------------------------------------------------------
 
 Access profile for managed cluster API server.
 
@@ -1395,8 +1395,8 @@ Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
 | privateDNSZone                 | The default is System. For more details see [configure private DNS zone](https://docs.microsoft.com/azure/aks/private-clusters#configure-private-dns-zone). Allowed values are 'system' and 'none'.                                                                                                                           | string<br/><small>Optional</small>   |
 | subnetId                       | It is required when: 1. creating a new cluster with BYO Vnet; 2. updating an existing cluster to enable apiserver vnet integration.                                                                                                                                                                                           | string<br/><small>Optional</small>   |
 
-<a id="ManagedClusterAutoUpgradeProfile"></a>ManagedClusterAutoUpgradeProfile
------------------------------------------------------------------------------
+ManagedClusterAutoUpgradeProfile{#ManagedClusterAutoUpgradeProfile}
+-------------------------------------------------------------------
 
 Auto upgrade profile for a managed cluster.
 
@@ -1407,8 +1407,8 @@ Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
 | nodeOSUpgradeChannel | The default is Unmanaged, but may change to either NodeImage or SecurityPatch at GA.                                                                    | [ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel](#ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel)<br/><small>Optional</small> |
 | upgradeChannel       | For more information see [setting the AKS cluster auto-upgrade channel](https://docs.microsoft.com/azure/aks/upgrade-cluster#set-auto-upgrade-channel). | [ManagedClusterAutoUpgradeProfile_UpgradeChannel](#ManagedClusterAutoUpgradeProfile_UpgradeChannel)<br/><small>Optional</small>             |
 
-<a id="ManagedClusterAutoUpgradeProfile_STATUS"></a>ManagedClusterAutoUpgradeProfile_STATUS
--------------------------------------------------------------------------------------------
+ManagedClusterAutoUpgradeProfile_STATUS{#ManagedClusterAutoUpgradeProfile_STATUS}
+---------------------------------------------------------------------------------
 
 Auto upgrade profile for a managed cluster.
 
@@ -1419,8 +1419,8 @@ Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
 | nodeOSUpgradeChannel | The default is Unmanaged, but may change to either NodeImage or SecurityPatch at GA.                                                                    | [ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel_STATUS](#ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel_STATUS)<br/><small>Optional</small> |
 | upgradeChannel       | For more information see [setting the AKS cluster auto-upgrade channel](https://docs.microsoft.com/azure/aks/upgrade-cluster#set-auto-upgrade-channel). | [ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS](#ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS)<br/><small>Optional</small>             |
 
-<a id="ManagedClusterAzureMonitorProfile"></a>ManagedClusterAzureMonitorProfile
--------------------------------------------------------------------------------
+ManagedClusterAzureMonitorProfile{#ManagedClusterAzureMonitorProfile}
+---------------------------------------------------------------------
 
 Prometheus addon profile for the container service cluster
 
@@ -1432,8 +1432,8 @@ Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
 | containerInsights | Azure Monitor Container Insights Profile for Kubernetes Events, Inventory and Container stdout & stderr logs etc. See aka.ms/AzureMonitorContainerInsights for an overview.                                                                                                    | [ManagedClusterAzureMonitorProfileContainerInsights](#ManagedClusterAzureMonitorProfileContainerInsights)<br/><small>Optional</small> |
 | metrics           | Metrics profile for the prometheus service addon                                                                                                                                                                                                                               | [ManagedClusterAzureMonitorProfileMetrics](#ManagedClusterAzureMonitorProfileMetrics)<br/><small>Optional</small>                     |
 
-<a id="ManagedClusterAzureMonitorProfile_STATUS"></a>ManagedClusterAzureMonitorProfile_STATUS
----------------------------------------------------------------------------------------------
+ManagedClusterAzureMonitorProfile_STATUS{#ManagedClusterAzureMonitorProfile_STATUS}
+-----------------------------------------------------------------------------------
 
 Prometheus addon profile for the container service cluster
 
@@ -1445,8 +1445,8 @@ Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
 | containerInsights | Azure Monitor Container Insights Profile for Kubernetes Events, Inventory and Container stdout & stderr logs etc. See aka.ms/AzureMonitorContainerInsights for an overview.                                                                                                    | [ManagedClusterAzureMonitorProfileContainerInsights_STATUS](#ManagedClusterAzureMonitorProfileContainerInsights_STATUS)<br/><small>Optional</small> |
 | metrics           | Metrics profile for the prometheus service addon                                                                                                                                                                                                                               | [ManagedClusterAzureMonitorProfileMetrics_STATUS](#ManagedClusterAzureMonitorProfileMetrics_STATUS)<br/><small>Optional</small>                     |
 
-<a id="ManagedClusterBootstrapProfile"></a>ManagedClusterBootstrapProfile
--------------------------------------------------------------------------
+ManagedClusterBootstrapProfile{#ManagedClusterBootstrapProfile}
+---------------------------------------------------------------
 
 The bootstrap profile.
 
@@ -1457,8 +1457,8 @@ Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
 | artifactSource             | The source where the artifacts are downloaded from.                                                                          | [ManagedClusterBootstrapProfile_ArtifactSource](#ManagedClusterBootstrapProfile_ArtifactSource)<br/><small>Optional</small>                                |
 | containerRegistryReference | The resource Id of Azure Container Registry. The registry must have private network access, premium SKU and zone redundancy. | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small> |
 
-<a id="ManagedClusterBootstrapProfile_STATUS"></a>ManagedClusterBootstrapProfile_STATUS
----------------------------------------------------------------------------------------
+ManagedClusterBootstrapProfile_STATUS{#ManagedClusterBootstrapProfile_STATUS}
+-----------------------------------------------------------------------------
 
 The bootstrap profile.
 
@@ -1469,8 +1469,8 @@ Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
 | artifactSource      | The source where the artifacts are downloaded from.                                                                          | [ManagedClusterBootstrapProfile_ArtifactSource_STATUS](#ManagedClusterBootstrapProfile_ArtifactSource_STATUS)<br/><small>Optional</small> |
 | containerRegistryId | The resource Id of Azure Container Registry. The registry must have private network access, premium SKU and zone redundancy. | string<br/><small>Optional</small>                                                                                                        |
 
-<a id="ManagedClusterHTTPProxyConfig"></a>ManagedClusterHTTPProxyConfig
------------------------------------------------------------------------
+ManagedClusterHTTPProxyConfig{#ManagedClusterHTTPProxyConfig}
+-------------------------------------------------------------
 
 Cluster HTTP proxy configuration.
 
@@ -1483,8 +1483,8 @@ Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
 | noProxy    | The endpoints that should not go through proxy.             | string[]<br/><small>Optional</small> |
 | trustedCa  | Alternative CA cert to use for connecting to proxy servers. | string<br/><small>Optional</small>   |
 
-<a id="ManagedClusterHTTPProxyConfig_STATUS"></a>ManagedClusterHTTPProxyConfig_STATUS
--------------------------------------------------------------------------------------
+ManagedClusterHTTPProxyConfig_STATUS{#ManagedClusterHTTPProxyConfig_STATUS}
+---------------------------------------------------------------------------
 
 Cluster HTTP proxy configuration.
 
@@ -1498,8 +1498,8 @@ Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
 | noProxy          | The endpoints that should not go through proxy.                                                                                                     | string[]<br/><small>Optional</small> |
 | trustedCa        | Alternative CA cert to use for connecting to proxy servers.                                                                                         | string<br/><small>Optional</small>   |
 
-<a id="ManagedClusterIdentity"></a>ManagedClusterIdentity
----------------------------------------------------------
+ManagedClusterIdentity{#ManagedClusterIdentity}
+-----------------------------------------------
 
 Identity for the managed cluster.
 
@@ -1511,8 +1511,8 @@ Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
 | type                   | For more information see [use managed identities in AKS](https://docs.microsoft.com/azure/aks/use-managed-identity).                                                                                                                                                                           | [ManagedClusterIdentity_Type](#ManagedClusterIdentity_Type)<br/><small>Optional</small>   |
 | userAssignedIdentities | The keys must be ARM resource IDs in the form: '/&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. | [UserAssignedIdentityDetails[]](#UserAssignedIdentityDetails)<br/><small>Optional</small> |
 
-<a id="ManagedClusterIdentity_STATUS"></a>ManagedClusterIdentity_STATUS
------------------------------------------------------------------------
+ManagedClusterIdentity_STATUS{#ManagedClusterIdentity_STATUS}
+-------------------------------------------------------------
 
 Identity for the managed cluster.
 
@@ -1526,8 +1526,8 @@ Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
 | type                   | For more information see [use managed identities in AKS](https://docs.microsoft.com/azure/aks/use-managed-identity).                                                                                                                                                                           | [ManagedClusterIdentity_Type_STATUS](#ManagedClusterIdentity_Type_STATUS)<br/><small>Optional</small>                                                |
 | userAssignedIdentities | The keys must be ARM resource IDs in the form: '/&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. | [map[string]ManagedClusterIdentity_UserAssignedIdentities_STATUS](#ManagedClusterIdentity_UserAssignedIdentities_STATUS)<br/><small>Optional</small> |
 
-<a id="ManagedClusterIngressProfile"></a>ManagedClusterIngressProfile
----------------------------------------------------------------------
+ManagedClusterIngressProfile{#ManagedClusterIngressProfile}
+-----------------------------------------------------------
 
 Ingress profile for the container service cluster.
 
@@ -1537,8 +1537,8 @@ Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
 |---------------|---------------------------------------------------|---------------------------------------------------------------------------------------------------------------------|
 | webAppRouting | Web App Routing settings for the ingress profile. | [ManagedClusterIngressProfileWebAppRouting](#ManagedClusterIngressProfileWebAppRouting)<br/><small>Optional</small> |
 
-<a id="ManagedClusterIngressProfile_STATUS"></a>ManagedClusterIngressProfile_STATUS
------------------------------------------------------------------------------------
+ManagedClusterIngressProfile_STATUS{#ManagedClusterIngressProfile_STATUS}
+-------------------------------------------------------------------------
 
 Ingress profile for the container service cluster.
 
@@ -1548,8 +1548,8 @@ Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
 |---------------|---------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|
 | webAppRouting | Web App Routing settings for the ingress profile. | [ManagedClusterIngressProfileWebAppRouting_STATUS](#ManagedClusterIngressProfileWebAppRouting_STATUS)<br/><small>Optional</small> |
 
-<a id="ManagedClusterMetricsProfile"></a>ManagedClusterMetricsProfile
----------------------------------------------------------------------
+ManagedClusterMetricsProfile{#ManagedClusterMetricsProfile}
+-----------------------------------------------------------
 
 The metrics profile for the ManagedCluster.
 
@@ -1559,8 +1559,8 @@ Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
 |--------------|-------------------------------------------------|---------------------------------------------------------------------------------------|
 | costAnalysis | The cost analysis configuration for the cluster | [ManagedClusterCostAnalysis](#ManagedClusterCostAnalysis)<br/><small>Optional</small> |
 
-<a id="ManagedClusterMetricsProfile_STATUS"></a>ManagedClusterMetricsProfile_STATUS
------------------------------------------------------------------------------------
+ManagedClusterMetricsProfile_STATUS{#ManagedClusterMetricsProfile_STATUS}
+-------------------------------------------------------------------------
 
 The metrics profile for the ManagedCluster.
 
@@ -1570,8 +1570,8 @@ Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
 |--------------|-------------------------------------------------|-----------------------------------------------------------------------------------------------------|
 | costAnalysis | The cost analysis configuration for the cluster | [ManagedClusterCostAnalysis_STATUS](#ManagedClusterCostAnalysis_STATUS)<br/><small>Optional</small> |
 
-<a id="ManagedClusterNodeProvisioningProfile"></a>ManagedClusterNodeProvisioningProfile
----------------------------------------------------------------------------------------
+ManagedClusterNodeProvisioningProfile{#ManagedClusterNodeProvisioningProfile}
+-----------------------------------------------------------------------------
 
 Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
 
@@ -1579,8 +1579,8 @@ Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
 |----------|--------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|
 | mode     | Once the mode it set to Auto, it cannot be changed back to Manual. | [ManagedClusterNodeProvisioningProfile_Mode](#ManagedClusterNodeProvisioningProfile_Mode)<br/><small>Optional</small> |
 
-<a id="ManagedClusterNodeProvisioningProfile_STATUS"></a>ManagedClusterNodeProvisioningProfile_STATUS
------------------------------------------------------------------------------------------------------
+ManagedClusterNodeProvisioningProfile_STATUS{#ManagedClusterNodeProvisioningProfile_STATUS}
+-------------------------------------------------------------------------------------------
 
 Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
 
@@ -1588,8 +1588,8 @@ Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
 |----------|--------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------|
 | mode     | Once the mode it set to Auto, it cannot be changed back to Manual. | [ManagedClusterNodeProvisioningProfile_Mode_STATUS](#ManagedClusterNodeProvisioningProfile_Mode_STATUS)<br/><small>Optional</small> |
 
-<a id="ManagedClusterNodeResourceGroupProfile"></a>ManagedClusterNodeResourceGroupProfile
------------------------------------------------------------------------------------------
+ManagedClusterNodeResourceGroupProfile{#ManagedClusterNodeResourceGroupProfile}
+-------------------------------------------------------------------------------
 
 Node resource group lockdown profile for a managed cluster.
 
@@ -1599,8 +1599,8 @@ Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
 |------------------|--------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
 | restrictionLevel | The restriction level applied to the cluster's node resource group | [ManagedClusterNodeResourceGroupProfile_RestrictionLevel](#ManagedClusterNodeResourceGroupProfile_RestrictionLevel)<br/><small>Optional</small> |
 
-<a id="ManagedClusterNodeResourceGroupProfile_STATUS"></a>ManagedClusterNodeResourceGroupProfile_STATUS
--------------------------------------------------------------------------------------------------------
+ManagedClusterNodeResourceGroupProfile_STATUS{#ManagedClusterNodeResourceGroupProfile_STATUS}
+---------------------------------------------------------------------------------------------
 
 Node resource group lockdown profile for a managed cluster.
 
@@ -1610,8 +1610,8 @@ Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
 |------------------|--------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | restrictionLevel | The restriction level applied to the cluster's node resource group | [ManagedClusterNodeResourceGroupProfile_RestrictionLevel_STATUS](#ManagedClusterNodeResourceGroupProfile_RestrictionLevel_STATUS)<br/><small>Optional</small> |
 
-<a id="ManagedClusterOIDCIssuerProfile"></a>ManagedClusterOIDCIssuerProfile
----------------------------------------------------------------------------
+ManagedClusterOIDCIssuerProfile{#ManagedClusterOIDCIssuerProfile}
+-----------------------------------------------------------------
 
 The OIDC issuer profile of the Managed Cluster.
 
@@ -1621,8 +1621,8 @@ Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
 |----------|-------------------------------------|----------------------------------|
 | enabled  | Whether the OIDC issuer is enabled. | bool<br/><small>Optional</small> |
 
-<a id="ManagedClusterOIDCIssuerProfile_STATUS"></a>ManagedClusterOIDCIssuerProfile_STATUS
------------------------------------------------------------------------------------------
+ManagedClusterOIDCIssuerProfile_STATUS{#ManagedClusterOIDCIssuerProfile_STATUS}
+-------------------------------------------------------------------------------
 
 The OIDC issuer profile of the Managed Cluster.
 
@@ -1633,8 +1633,8 @@ Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
 | enabled   | Whether the OIDC issuer is enabled.         | bool<br/><small>Optional</small>   |
 | issuerURL | The OIDC issuer url of the Managed Cluster. | string<br/><small>Optional</small> |
 
-<a id="ManagedClusterOperatorSpec"></a>ManagedClusterOperatorSpec
------------------------------------------------------------------
+ManagedClusterOperatorSpec{#ManagedClusterOperatorSpec}
+-------------------------------------------------------
 
 Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 
@@ -1647,8 +1647,8 @@ Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
 | secretExpressions    | configures where to place operator written dynamic secrets (created with CEL expressions).    | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 | secrets              | configures where to place Azure generated secrets.                                            | [ManagedClusterOperatorSecrets](#ManagedClusterOperatorSecrets)<br/><small>Optional</small>                                                                         |
 
-<a id="ManagedClusterPodIdentityProfile"></a>ManagedClusterPodIdentityProfile
------------------------------------------------------------------------------
+ManagedClusterPodIdentityProfile{#ManagedClusterPodIdentityProfile}
+-------------------------------------------------------------------
 
 See [use AAD pod identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity) for more details on pod identity integration.
 
@@ -1661,8 +1661,8 @@ Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
 | userAssignedIdentities         | The pod identities to use in the cluster.                                                                                                                                                                                                                                                                                                                     | [ManagedClusterPodIdentity[]](#ManagedClusterPodIdentity)<br/><small>Optional</small>                   |
 | userAssignedIdentityExceptions | The pod identity exceptions to allow.                                                                                                                                                                                                                                                                                                                         | [ManagedClusterPodIdentityException[]](#ManagedClusterPodIdentityException)<br/><small>Optional</small> |
 
-<a id="ManagedClusterPodIdentityProfile_STATUS"></a>ManagedClusterPodIdentityProfile_STATUS
--------------------------------------------------------------------------------------------
+ManagedClusterPodIdentityProfile_STATUS{#ManagedClusterPodIdentityProfile_STATUS}
+---------------------------------------------------------------------------------
 
 See [use AAD pod identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity) for more details on pod identity integration.
 
@@ -1675,8 +1675,8 @@ Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
 | userAssignedIdentities         | The pod identities to use in the cluster.                                                                                                                                                                                                                                                                                                                     | [ManagedClusterPodIdentity_STATUS[]](#ManagedClusterPodIdentity_STATUS)<br/><small>Optional</small>                   |
 | userAssignedIdentityExceptions | The pod identity exceptions to allow.                                                                                                                                                                                                                                                                                                                         | [ManagedClusterPodIdentityException_STATUS[]](#ManagedClusterPodIdentityException_STATUS)<br/><small>Optional</small> |
 
-<a id="ManagedClusterProperties_AutoScalerProfile"></a>ManagedClusterProperties_AutoScalerProfile
--------------------------------------------------------------------------------------------------
+ManagedClusterProperties_AutoScalerProfile{#ManagedClusterProperties_AutoScalerProfile}
+---------------------------------------------------------------------------------------
 
 Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
 
@@ -1703,8 +1703,8 @@ Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
 | skip-nodes-with-local-storage         | The default is true.                                                                                                                                                                                                                                                                                                                | string<br/><small>Optional</small>                |
 | skip-nodes-with-system-pods           | The default is true.                                                                                                                                                                                                                                                                                                                | string<br/><small>Optional</small>                |
 
-<a id="ManagedClusterProperties_AutoScalerProfile_STATUS"></a>ManagedClusterProperties_AutoScalerProfile_STATUS
----------------------------------------------------------------------------------------------------------------
+ManagedClusterProperties_AutoScalerProfile_STATUS{#ManagedClusterProperties_AutoScalerProfile_STATUS}
+-----------------------------------------------------------------------------------------------------
 
 Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
 
@@ -1731,8 +1731,8 @@ Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
 | skip-nodes-with-local-storage         | The default is true.                                                                                                                                                                                                                                                                                                                | string<br/><small>Optional</small>                              |
 | skip-nodes-with-system-pods           | The default is true.                                                                                                                                                                                                                                                                                                                | string<br/><small>Optional</small>                              |
 
-<a id="ManagedClusterProperties_PublicNetworkAccess"></a>ManagedClusterProperties_PublicNetworkAccess
------------------------------------------------------------------------------------------------------
+ManagedClusterProperties_PublicNetworkAccess{#ManagedClusterProperties_PublicNetworkAccess}
+-------------------------------------------------------------------------------------------
 
 Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
 
@@ -1742,8 +1742,8 @@ Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
 | "Enabled"            |             |
 | "SecuredByPerimeter" |             |
 
-<a id="ManagedClusterProperties_PublicNetworkAccess_STATUS"></a>ManagedClusterProperties_PublicNetworkAccess_STATUS
--------------------------------------------------------------------------------------------------------------------
+ManagedClusterProperties_PublicNetworkAccess_STATUS{#ManagedClusterProperties_PublicNetworkAccess_STATUS}
+---------------------------------------------------------------------------------------------------------
 
 Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
 
@@ -1753,8 +1753,8 @@ Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
 | "Enabled"            |             |
 | "SecuredByPerimeter" |             |
 
-<a id="ManagedClustersAgentPoolOperatorSpec"></a>ManagedClustersAgentPoolOperatorSpec
--------------------------------------------------------------------------------------
+ManagedClustersAgentPoolOperatorSpec{#ManagedClustersAgentPoolOperatorSpec}
+---------------------------------------------------------------------------
 
 Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 
@@ -1765,8 +1765,8 @@ Used by: [ManagedClustersAgentPool_Spec](#ManagedClustersAgentPool_Spec).
 | configMapExpressions | configures where to place operator written dynamic ConfigMaps (created with CEL expressions). | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 | secretExpressions    | configures where to place operator written dynamic secrets (created with CEL expressions).    | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 
-<a id="ManagedClusterSecurityProfile"></a>ManagedClusterSecurityProfile
------------------------------------------------------------------------
+ManagedClusterSecurityProfile{#ManagedClusterSecurityProfile}
+-------------------------------------------------------------
 
 Security profile for the container service cluster.
 
@@ -1782,8 +1782,8 @@ Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
 | nodeRestriction           | [Node Restriction](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#noderestriction) settings for the security profile.                                                                                                                      | [ManagedClusterSecurityProfileNodeRestriction](#ManagedClusterSecurityProfileNodeRestriction)<br/><small>Optional</small>   |
 | workloadIdentity          | Workload identity settings for the security profile. Workload identity enables Kubernetes applications to access Azure cloud resources securely with Azure AD. See https://aka.ms/aks/wi for more details.                                                                 | [ManagedClusterSecurityProfileWorkloadIdentity](#ManagedClusterSecurityProfileWorkloadIdentity)<br/><small>Optional</small> |
 
-<a id="ManagedClusterSecurityProfile_STATUS"></a>ManagedClusterSecurityProfile_STATUS
--------------------------------------------------------------------------------------
+ManagedClusterSecurityProfile_STATUS{#ManagedClusterSecurityProfile_STATUS}
+---------------------------------------------------------------------------
 
 Security profile for the container service cluster.
 
@@ -1799,8 +1799,8 @@ Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
 | nodeRestriction           | [Node Restriction](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#noderestriction) settings for the security profile.                                                                                                                      | [ManagedClusterSecurityProfileNodeRestriction_STATUS](#ManagedClusterSecurityProfileNodeRestriction_STATUS)<br/><small>Optional</small>   |
 | workloadIdentity          | Workload identity settings for the security profile. Workload identity enables Kubernetes applications to access Azure cloud resources securely with Azure AD. See https://aka.ms/aks/wi for more details.                                                                 | [ManagedClusterSecurityProfileWorkloadIdentity_STATUS](#ManagedClusterSecurityProfileWorkloadIdentity_STATUS)<br/><small>Optional</small> |
 
-<a id="ManagedClusterServicePrincipalProfile"></a>ManagedClusterServicePrincipalProfile
----------------------------------------------------------------------------------------
+ManagedClusterServicePrincipalProfile{#ManagedClusterServicePrincipalProfile}
+-----------------------------------------------------------------------------
 
 Information about a service principal identity for the cluster to use for manipulating Azure APIs.
 
@@ -1811,8 +1811,8 @@ Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
 | clientId | The ID for the service principal.                                        | string<br/><small>Required</small>                                                                                                                     |
 | secret   | The secret password associated with the service principal in plain text. | [genruntime.SecretReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference)<br/><small>Optional</small> |
 
-<a id="ManagedClusterServicePrincipalProfile_STATUS"></a>ManagedClusterServicePrincipalProfile_STATUS
------------------------------------------------------------------------------------------------------
+ManagedClusterServicePrincipalProfile_STATUS{#ManagedClusterServicePrincipalProfile_STATUS}
+-------------------------------------------------------------------------------------------
 
 Information about a service principal identity for the cluster to use for manipulating Azure APIs.
 
@@ -1822,8 +1822,8 @@ Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
 |----------|-----------------------------------|------------------------------------|
 | clientId | The ID for the service principal. | string<br/><small>Optional</small> |
 
-<a id="ManagedClusterSKU"></a>ManagedClusterSKU
------------------------------------------------
+ManagedClusterSKU{#ManagedClusterSKU}
+-------------------------------------
 
 The SKU of a Managed Cluster.
 
@@ -1834,8 +1834,8 @@ Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
 | name     | The name of a managed cluster SKU.                                                                                                                   | [ManagedClusterSKU_Name](#ManagedClusterSKU_Name)<br/><small>Optional</small> |
 | tier     | If not specified, the default is 'Free'. See [AKS Pricing Tier](https://learn.microsoft.com/azure/aks/free-standard-pricing-tiers) for more details. | [ManagedClusterSKU_Tier](#ManagedClusterSKU_Tier)<br/><small>Optional</small> |
 
-<a id="ManagedClusterSKU_STATUS"></a>ManagedClusterSKU_STATUS
--------------------------------------------------------------
+ManagedClusterSKU_STATUS{#ManagedClusterSKU_STATUS}
+---------------------------------------------------
 
 The SKU of a Managed Cluster.
 
@@ -1846,8 +1846,8 @@ Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
 | name     | The name of a managed cluster SKU.                                                                                                                   | [ManagedClusterSKU_Name_STATUS](#ManagedClusterSKU_Name_STATUS)<br/><small>Optional</small> |
 | tier     | If not specified, the default is 'Free'. See [AKS Pricing Tier](https://learn.microsoft.com/azure/aks/free-standard-pricing-tiers) for more details. | [ManagedClusterSKU_Tier_STATUS](#ManagedClusterSKU_Tier_STATUS)<br/><small>Optional</small> |
 
-<a id="ManagedClusterStorageProfile"></a>ManagedClusterStorageProfile
----------------------------------------------------------------------
+ManagedClusterStorageProfile{#ManagedClusterStorageProfile}
+-----------------------------------------------------------
 
 Storage profile for the container service cluster.
 
@@ -1860,8 +1860,8 @@ Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
 | fileCSIDriver      | AzureFile CSI Driver settings for the storage profile. | [ManagedClusterStorageProfileFileCSIDriver](#ManagedClusterStorageProfileFileCSIDriver)<br/><small>Optional</small>           |
 | snapshotController | Snapshot Controller settings for the storage profile.  | [ManagedClusterStorageProfileSnapshotController](#ManagedClusterStorageProfileSnapshotController)<br/><small>Optional</small> |
 
-<a id="ManagedClusterStorageProfile_STATUS"></a>ManagedClusterStorageProfile_STATUS
------------------------------------------------------------------------------------
+ManagedClusterStorageProfile_STATUS{#ManagedClusterStorageProfile_STATUS}
+-------------------------------------------------------------------------
 
 Storage profile for the container service cluster.
 
@@ -1874,8 +1874,8 @@ Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
 | fileCSIDriver      | AzureFile CSI Driver settings for the storage profile. | [ManagedClusterStorageProfileFileCSIDriver_STATUS](#ManagedClusterStorageProfileFileCSIDriver_STATUS)<br/><small>Optional</small>           |
 | snapshotController | Snapshot Controller settings for the storage profile.  | [ManagedClusterStorageProfileSnapshotController_STATUS](#ManagedClusterStorageProfileSnapshotController_STATUS)<br/><small>Optional</small> |
 
-<a id="ManagedClusterWindowsProfile"></a>ManagedClusterWindowsProfile
----------------------------------------------------------------------
+ManagedClusterWindowsProfile{#ManagedClusterWindowsProfile}
+-----------------------------------------------------------
 
 Profile for Windows VMs in the managed cluster.
 
@@ -1889,8 +1889,8 @@ Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
 | gmsaProfile    | The Windows gMSA Profile in the Managed Cluster.                                                                                                                                                                                                                                                                                                                                                                                                                   | [WindowsGmsaProfile](#WindowsGmsaProfile)<br/><small>Optional</small>                                                                                  |
 | licenseType    | The license type to use for Windows VMs. See [Azure Hybrid User Benefits](https://azure.microsoft.com/pricing/hybrid-benefit/faq/) for more details.                                                                                                                                                                                                                                                                                                               | [ManagedClusterWindowsProfile_LicenseType](#ManagedClusterWindowsProfile_LicenseType)<br/><small>Optional</small>                                      |
 
-<a id="ManagedClusterWindowsProfile_STATUS"></a>ManagedClusterWindowsProfile_STATUS
------------------------------------------------------------------------------------
+ManagedClusterWindowsProfile_STATUS{#ManagedClusterWindowsProfile_STATUS}
+-------------------------------------------------------------------------
 
 Profile for Windows VMs in the managed cluster.
 
@@ -1903,8 +1903,8 @@ Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
 | gmsaProfile    | The Windows gMSA Profile in the Managed Cluster.                                                                                                                                                                                                                                                                                                                                                                                                                   | [WindowsGmsaProfile_STATUS](#WindowsGmsaProfile_STATUS)<br/><small>Optional</small>                                             |
 | licenseType    | The license type to use for Windows VMs. See [Azure Hybrid User Benefits](https://azure.microsoft.com/pricing/hybrid-benefit/faq/) for more details.                                                                                                                                                                                                                                                                                                               | [ManagedClusterWindowsProfile_LicenseType_STATUS](#ManagedClusterWindowsProfile_LicenseType_STATUS)<br/><small>Optional</small> |
 
-<a id="ManagedClusterWorkloadAutoScalerProfile"></a>ManagedClusterWorkloadAutoScalerProfile
--------------------------------------------------------------------------------------------
+ManagedClusterWorkloadAutoScalerProfile{#ManagedClusterWorkloadAutoScalerProfile}
+---------------------------------------------------------------------------------
 
 Workload Auto-scaler profile for the managed cluster.
 
@@ -1915,8 +1915,8 @@ Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
 | keda                  | KEDA (Kubernetes Event-driven Autoscaling) settings for the workload auto-scaler profile. | [ManagedClusterWorkloadAutoScalerProfileKeda](#ManagedClusterWorkloadAutoScalerProfileKeda)<br/><small>Optional</small>                                   |
 | verticalPodAutoscaler |                                                                                           | [ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler](#ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler)<br/><small>Optional</small> |
 
-<a id="ManagedClusterWorkloadAutoScalerProfile_STATUS"></a>ManagedClusterWorkloadAutoScalerProfile_STATUS
----------------------------------------------------------------------------------------------------------
+ManagedClusterWorkloadAutoScalerProfile_STATUS{#ManagedClusterWorkloadAutoScalerProfile_STATUS}
+-----------------------------------------------------------------------------------------------
 
 Workload Auto-scaler profile for the managed cluster.
 
@@ -1927,50 +1927,50 @@ Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
 | keda                  | KEDA (Kubernetes Event-driven Autoscaling) settings for the workload auto-scaler profile. | [ManagedClusterWorkloadAutoScalerProfileKeda_STATUS](#ManagedClusterWorkloadAutoScalerProfileKeda_STATUS)<br/><small>Optional</small>                                   |
 | verticalPodAutoscaler |                                                                                           | [ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS](#ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS)<br/><small>Optional</small> |
 
-<a id="OSDiskType"></a>OSDiskType
----------------------------------
-
-The default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral OS](https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os).
-
-Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec](#ManagedClustersAgentPool_Spec).
-
-| Value       | Description |
-|-------------|-------------|
-| "Ephemeral" |             |
-| "Managed"   |             |
-
-<a id="OSDiskType_STATUS"></a>OSDiskType_STATUS
------------------------------------------------
-
-The default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral OS](https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os).
-
-Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS](#ManagedClustersAgentPool_STATUS).
-
-| Value       | Description |
-|-------------|-------------|
-| "Ephemeral" |             |
-| "Managed"   |             |
-
-<a id="OSSKU"></a>OSSKU
+OSDiskType{#OSDiskType}
 -----------------------
 
-Specifies the OS SKU used by the agent pool. If not specified, the default is Ubuntu if OSType=Linux or Windows2019 if OSType=Windows. And the default Windows OSSKU will be changed to Windows2022 after Windows2019 is deprecated.
+The default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral OS](https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os).
 
 Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec](#ManagedClustersAgentPool_Spec).
 
-| Value           | Description |
-|-----------------|-------------|
-| "AzureLinux"    |             |
-| "CBLMariner"    |             |
-| "Mariner"       |             |
-| "Ubuntu"        |             |
-| "Windows2019"   |             |
-| "Windows2022"   |             |
-| "WindowsAnnual" |             |
+| Value       | Description |
+|-------------|-------------|
+| "Ephemeral" |             |
+| "Managed"   |             |
 
-<a id="OSSKU_STATUS"></a>OSSKU_STATUS
+OSDiskType_STATUS{#OSDiskType_STATUS}
 -------------------------------------
 
+The default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral OS](https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os).
+
+Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS](#ManagedClustersAgentPool_STATUS).
+
+| Value       | Description |
+|-------------|-------------|
+| "Ephemeral" |             |
+| "Managed"   |             |
+
+OSSKU{#OSSKU}
+-------------
+
+Specifies the OS SKU used by the agent pool. If not specified, the default is Ubuntu if OSType=Linux or Windows2019 if OSType=Windows. And the default Windows OSSKU will be changed to Windows2022 after Windows2019 is deprecated.
+
+Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec](#ManagedClustersAgentPool_Spec).
+
+| Value           | Description |
+|-----------------|-------------|
+| "AzureLinux"    |             |
+| "CBLMariner"    |             |
+| "Mariner"       |             |
+| "Ubuntu"        |             |
+| "Windows2019"   |             |
+| "Windows2022"   |             |
+| "WindowsAnnual" |             |
+
+OSSKU_STATUS{#OSSKU_STATUS}
+---------------------------
+
 Specifies the OS SKU used by the agent pool. If not specified, the default is Ubuntu if OSType=Linux or Windows2019 if OSType=Windows. And the default Windows OSSKU will be changed to Windows2022 after Windows2019 is deprecated.
 
 Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS](#ManagedClustersAgentPool_STATUS).
@@ -1985,8 +1985,8 @@ Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile
 | "Windows2022"   |             |
 | "WindowsAnnual" |             |
 
-<a id="OSType"></a>OSType
--------------------------
+OSType{#OSType}
+---------------
 
 The operating system type. The default is Linux.
 
@@ -1997,8 +1997,8 @@ Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and 
 | "Linux"   |             |
 | "Windows" |             |
 
-<a id="OSType_STATUS"></a>OSType_STATUS
----------------------------------------
+OSType_STATUS{#OSType_STATUS}
+-----------------------------
 
 The operating system type. The default is Linux.
 
@@ -2009,8 +2009,8 @@ Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile
 | "Linux"   |             |
 | "Windows" |             |
 
-<a id="PodIPAllocationMode"></a>PodIPAllocationMode
----------------------------------------------------
+PodIPAllocationMode{#PodIPAllocationMode}
+-----------------------------------------
 
 The IP allocation mode for pods in the agent pool. Must be used with podSubnetId. The default is 'DynamicIndividual'.
 
@@ -2021,8 +2021,8 @@ Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and 
 | "DynamicIndividual" |             |
 | "StaticBlock"       |             |
 
-<a id="PodIPAllocationMode_STATUS"></a>PodIPAllocationMode_STATUS
------------------------------------------------------------------
+PodIPAllocationMode_STATUS{#PodIPAllocationMode_STATUS}
+-------------------------------------------------------
 
 The IP allocation mode for pods in the agent pool. Must be used with podSubnetId. The default is 'DynamicIndividual'.
 
@@ -2033,8 +2033,8 @@ Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile
 | "DynamicIndividual" |             |
 | "StaticBlock"       |             |
 
-<a id="PowerState"></a>PowerState
----------------------------------
+PowerState{#PowerState}
+-----------------------
 
 Describes the Power State of the cluster
 
@@ -2044,8 +2044,8 @@ Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and 
 |----------|-------------------------------------------------|-----------------------------------------------------------------|
 | code     | Tells whether the cluster is Running or Stopped | [PowerState_Code](#PowerState_Code)<br/><small>Optional</small> |
 
-<a id="PowerState_STATUS"></a>PowerState_STATUS
------------------------------------------------
+PowerState_STATUS{#PowerState_STATUS}
+-------------------------------------
 
 Describes the Power State of the cluster
 
@@ -2055,8 +2055,8 @@ Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS), [ManagedClusterAgentPo
 |----------|-------------------------------------------------|-------------------------------------------------------------------------------|
 | code     | Tells whether the cluster is Running or Stopped | [PowerState_Code_STATUS](#PowerState_Code_STATUS)<br/><small>Optional</small> |
 
-<a id="PrivateLinkResource"></a>PrivateLinkResource
----------------------------------------------------
+PrivateLinkResource{#PrivateLinkResource}
+-----------------------------------------
 
 A private link resource
 
@@ -2070,8 +2070,8 @@ Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
 | requiredMembers | The RequiredMembers of the resource    | string[]<br/><small>Optional</small>                                                                                                                       |
 | type            | The resource type.                     | string<br/><small>Optional</small>                                                                                                                         |
 
-<a id="PrivateLinkResource_STATUS"></a>PrivateLinkResource_STATUS
------------------------------------------------------------------
+PrivateLinkResource_STATUS{#PrivateLinkResource_STATUS}
+-------------------------------------------------------
 
 A private link resource
 
@@ -2086,8 +2086,8 @@ Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
 | requiredMembers      | The RequiredMembers of the resource                                                        | string[]<br/><small>Optional</small> |
 | type                 | The resource type.                                                                         | string<br/><small>Optional</small>   |
 
-<a id="SafeguardsProfile"></a>SafeguardsProfile
------------------------------------------------
+SafeguardsProfile{#SafeguardsProfile}
+-------------------------------------
 
 The Safeguards profile.
 
@@ -2099,8 +2099,8 @@ Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
 | level              | The Safeguards level to be used. By default, Safeguards is enabled for all namespaces except those that AKS excludes via systemExcludedNamespaces | [SafeguardsProfile_Level](#SafeguardsProfile_Level)<br/><small>Required</small> |
 | version            | The version of constraints to use                                                                                                                 | string<br/><small>Optional</small>                                              |
 
-<a id="SafeguardsProfile_STATUS"></a>SafeguardsProfile_STATUS
--------------------------------------------------------------
+SafeguardsProfile_STATUS{#SafeguardsProfile_STATUS}
+---------------------------------------------------
 
 The Safeguards profile.
 
@@ -2113,8 +2113,8 @@ Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
 | systemExcludedNamespaces | List of namespaces specified by AKS to be excluded from Safeguards                                                                                | string[]<br/><small>Optional</small>                                                          |
 | version                  | The version of constraints to use                                                                                                                 | string<br/><small>Optional</small>                                                            |
 
-<a id="ScaleDownMode"></a>ScaleDownMode
----------------------------------------
+ScaleDownMode{#ScaleDownMode}
+-----------------------------
 
 Describes how VMs are added to or removed from Agent Pools. See [billing states](https://docs.microsoft.com/azure/virtual-machines/states-billing).
 
@@ -2125,8 +2125,8 @@ Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and 
 | "Deallocate" |             |
 | "Delete"     |             |
 
-<a id="ScaleDownMode_STATUS"></a>ScaleDownMode_STATUS
------------------------------------------------------
+ScaleDownMode_STATUS{#ScaleDownMode_STATUS}
+-------------------------------------------
 
 Describes how VMs are added to or removed from Agent Pools. See [billing states](https://docs.microsoft.com/azure/virtual-machines/states-billing).
 
@@ -2137,8 +2137,8 @@ Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile
 | "Deallocate" |             |
 | "Delete"     |             |
 
-<a id="ScaleSetEvictionPolicy"></a>ScaleSetEvictionPolicy
----------------------------------------------------------
+ScaleSetEvictionPolicy{#ScaleSetEvictionPolicy}
+-----------------------------------------------
 
 The eviction policy specifies what to do with the VM when it is evicted. The default is Delete. For more information about eviction see [spot VMs](https://docs.microsoft.com/azure/virtual-machines/spot-vms)
 
@@ -2149,8 +2149,8 @@ Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and 
 | "Deallocate" |             |
 | "Delete"     |             |
 
-<a id="ScaleSetEvictionPolicy_STATUS"></a>ScaleSetEvictionPolicy_STATUS
------------------------------------------------------------------------
+ScaleSetEvictionPolicy_STATUS{#ScaleSetEvictionPolicy_STATUS}
+-------------------------------------------------------------
 
 The eviction policy specifies what to do with the VM when it is evicted. The default is Delete. For more information about eviction see [spot VMs](https://docs.microsoft.com/azure/virtual-machines/spot-vms)
 
@@ -2161,8 +2161,8 @@ Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile
 | "Deallocate" |             |
 | "Delete"     |             |
 
-<a id="ScaleSetPriority"></a>ScaleSetPriority
----------------------------------------------
+ScaleSetPriority{#ScaleSetPriority}
+-----------------------------------
 
 The Virtual Machine Scale Set priority.
 
@@ -2173,20 +2173,20 @@ Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and 
 | "Regular" |             |
 | "Spot"    |             |
 
-<a id="ScaleSetPriority_STATUS"></a>ScaleSetPriority_STATUS
------------------------------------------------------------
-
-The Virtual Machine Scale Set priority.
-
-Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS](#ManagedClustersAgentPool_STATUS).
-
-| Value     | Description |
-|-----------|-------------|
-| "Regular" |             |
-| "Spot"    |             |
-
-<a id="ServiceMeshProfile"></a>ServiceMeshProfile
+ScaleSetPriority_STATUS{#ScaleSetPriority_STATUS}
 -------------------------------------------------
+
+The Virtual Machine Scale Set priority.
+
+Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS](#ManagedClustersAgentPool_STATUS).
+
+| Value     | Description |
+|-----------|-------------|
+| "Regular" |             |
+| "Spot"    |             |
+
+ServiceMeshProfile{#ServiceMeshProfile}
+---------------------------------------
 
 Service mesh profile for a managed cluster.
 
@@ -2197,8 +2197,8 @@ Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
 | istio    | Istio service mesh configuration. | [IstioServiceMesh](#IstioServiceMesh)<br/><small>Optional</small>               |
 | mode     | Mode of the service mesh.         | [ServiceMeshProfile_Mode](#ServiceMeshProfile_Mode)<br/><small>Required</small> |
 
-<a id="ServiceMeshProfile_STATUS"></a>ServiceMeshProfile_STATUS
----------------------------------------------------------------
+ServiceMeshProfile_STATUS{#ServiceMeshProfile_STATUS}
+-----------------------------------------------------
 
 Service mesh profile for a managed cluster.
 
@@ -2209,8 +2209,8 @@ Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
 | istio    | Istio service mesh configuration. | [IstioServiceMesh_STATUS](#IstioServiceMesh_STATUS)<br/><small>Optional</small>               |
 | mode     | Mode of the service mesh.         | [ServiceMeshProfile_Mode_STATUS](#ServiceMeshProfile_Mode_STATUS)<br/><small>Optional</small> |
 
-<a id="SystemData_STATUS"></a>SystemData_STATUS
------------------------------------------------
+SystemData_STATUS{#SystemData_STATUS}
+-------------------------------------
 
 Metadata pertaining to creation and last modification of the resource.
 
@@ -2225,8 +2225,8 @@ Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS), and [TrustedAccessRole
 | lastModifiedBy     | The identity that last modified the resource.         | string<br/><small>Optional</small>                                                                        |
 | lastModifiedByType | The type of identity that last modified the resource. | [SystemData_LastModifiedByType_STATUS](#SystemData_LastModifiedByType_STATUS)<br/><small>Optional</small> |
 
-<a id="TrustedAccessRoleBindingOperatorSpec"></a>TrustedAccessRoleBindingOperatorSpec
--------------------------------------------------------------------------------------
+TrustedAccessRoleBindingOperatorSpec{#TrustedAccessRoleBindingOperatorSpec}
+---------------------------------------------------------------------------
 
 Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 
@@ -2237,8 +2237,8 @@ Used by: [TrustedAccessRoleBinding_Spec](#TrustedAccessRoleBinding_Spec).
 | configMapExpressions | configures where to place operator written dynamic ConfigMaps (created with CEL expressions). | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 | secretExpressions    | configures where to place operator written dynamic secrets (created with CEL expressions).    | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 
-<a id="TrustedAccessRoleBindingProperties_ProvisioningState_STATUS"></a>TrustedAccessRoleBindingProperties_ProvisioningState_STATUS
------------------------------------------------------------------------------------------------------------------------------------
+TrustedAccessRoleBindingProperties_ProvisioningState_STATUS{#TrustedAccessRoleBindingProperties_ProvisioningState_STATUS}
+-------------------------------------------------------------------------------------------------------------------------
 
 Used by: [TrustedAccessRoleBinding_STATUS](#TrustedAccessRoleBinding_STATUS).
 
@@ -2250,8 +2250,8 @@ Used by: [TrustedAccessRoleBinding_STATUS](#TrustedAccessRoleBinding_STATUS).
 | "Succeeded" |             |
 | "Updating"  |             |
 
-<a id="UserAssignedIdentity"></a>UserAssignedIdentity
------------------------------------------------------
+UserAssignedIdentity{#UserAssignedIdentity}
+-------------------------------------------
 
 Details about a user assigned identity.
 
@@ -2263,8 +2263,8 @@ Used by: [ManagedCluster_Spec](#ManagedCluster_Spec), and [ManagedClusterPodIden
 | objectId          | The object ID of the user assigned identity.   | string<br/><small>Optional</small>                                                                                                                         |
 | resourceReference | The resource ID of the user assigned identity. | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small> |
 
-<a id="UserAssignedIdentity_STATUS"></a>UserAssignedIdentity_STATUS
--------------------------------------------------------------------
+UserAssignedIdentity_STATUS{#UserAssignedIdentity_STATUS}
+---------------------------------------------------------
 
 Details about a user assigned identity.
 
@@ -2276,8 +2276,8 @@ Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS), [ManagedClusterAddonPr
 | objectId   | The object ID of the user assigned identity.   | string<br/><small>Optional</small> |
 | resourceId | The resource ID of the user assigned identity. | string<br/><small>Optional</small> |
 
-<a id="VirtualMachineNodes"></a>VirtualMachineNodes
----------------------------------------------------
+VirtualMachineNodes{#VirtualMachineNodes}
+-----------------------------------------
 
 Current status on a group of nodes of the same vm size.
 
@@ -2288,8 +2288,8 @@ Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and 
 | count    | Number of nodes.                                            | int<br/><small>Optional</small>    |
 | size     | The VM size of the agents used to host this group of nodes. | string<br/><small>Optional</small> |
 
-<a id="VirtualMachineNodes_STATUS"></a>VirtualMachineNodes_STATUS
------------------------------------------------------------------
+VirtualMachineNodes_STATUS{#VirtualMachineNodes_STATUS}
+-------------------------------------------------------
 
 Current status on a group of nodes of the same vm size.
 
@@ -2300,8 +2300,8 @@ Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile
 | count    | Number of nodes.                                            | int<br/><small>Optional</small>    |
 | size     | The VM size of the agents used to host this group of nodes. | string<br/><small>Optional</small> |
 
-<a id="VirtualMachinesProfile"></a>VirtualMachinesProfile
----------------------------------------------------------
+VirtualMachinesProfile{#VirtualMachinesProfile}
+-----------------------------------------------
 
 Specifications on VirtualMachines agent pool.
 
@@ -2311,8 +2311,8 @@ Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and 
 |----------|--------------------------------------------------------------|-----------------------------------------------------------|
 | scale    | Specifications on how to scale a VirtualMachines agent pool. | [ScaleProfile](#ScaleProfile)<br/><small>Optional</small> |
 
-<a id="VirtualMachinesProfile_STATUS"></a>VirtualMachinesProfile_STATUS
------------------------------------------------------------------------
+VirtualMachinesProfile_STATUS{#VirtualMachinesProfile_STATUS}
+-------------------------------------------------------------
 
 Specifications on VirtualMachines agent pool.
 
@@ -2322,8 +2322,8 @@ Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile
 |----------|--------------------------------------------------------------|-------------------------------------------------------------------------|
 | scale    | Specifications on how to scale a VirtualMachines agent pool. | [ScaleProfile_STATUS](#ScaleProfile_STATUS)<br/><small>Optional</small> |
 
-<a id="WorkloadRuntime"></a>WorkloadRuntime
--------------------------------------------
+WorkloadRuntime{#WorkloadRuntime}
+---------------------------------
 
 Determines the type of workload a node can run.
 
@@ -2335,8 +2335,8 @@ Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and 
 | "OCIContainer"        |             |
 | "WasmWasi"            |             |
 
-<a id="WorkloadRuntime_STATUS"></a>WorkloadRuntime_STATUS
----------------------------------------------------------
+WorkloadRuntime_STATUS{#WorkloadRuntime_STATUS}
+-----------------------------------------------
 
 Determines the type of workload a node can run.
 
@@ -2348,8 +2348,8 @@ Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile
 | "OCIContainer"        |             |
 | "WasmWasi"            |             |
 
-<a id="AdvancedNetworking"></a>AdvancedNetworking
--------------------------------------------------
+AdvancedNetworking{#AdvancedNetworking}
+---------------------------------------
 
 Advanced Networking profile for enabling observability on a cluster. Note that enabling advanced networking features may incur additional costs. For more information see aka.ms/aksadvancednetworking.
 
@@ -2359,8 +2359,8 @@ Used by: [ContainerServiceNetworkProfile](#ContainerServiceNetworkProfile).
 |---------------|--------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------|
 | observability | Observability profile to enable advanced network metrics and flow logs with historical contexts. | [AdvancedNetworkingObservability](#AdvancedNetworkingObservability)<br/><small>Optional</small> |
 
-<a id="AdvancedNetworking_STATUS"></a>AdvancedNetworking_STATUS
----------------------------------------------------------------
+AdvancedNetworking_STATUS{#AdvancedNetworking_STATUS}
+-----------------------------------------------------
 
 Advanced Networking profile for enabling observability on a cluster. Note that enabling advanced networking features may incur additional costs. For more information see aka.ms/aksadvancednetworking.
 
@@ -2370,8 +2370,8 @@ Used by: [ContainerServiceNetworkProfile_STATUS](#ContainerServiceNetworkProfile
 |---------------|--------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------|
 | observability | Observability profile to enable advanced network metrics and flow logs with historical contexts. | [AdvancedNetworkingObservability_STATUS](#AdvancedNetworkingObservability_STATUS)<br/><small>Optional</small> |
 
-<a id="AgentPoolSSHAccess"></a>AgentPoolSSHAccess
--------------------------------------------------
+AgentPoolSSHAccess{#AgentPoolSSHAccess}
+---------------------------------------
 
 SSH access method of an agent pool.
 
@@ -2382,8 +2382,8 @@ Used by: [AgentPoolSecurityProfile](#AgentPoolSecurityProfile).
 | "Disabled"  |             |
 | "LocalUser" |             |
 
-<a id="AgentPoolSSHAccess_STATUS"></a>AgentPoolSSHAccess_STATUS
----------------------------------------------------------------
+AgentPoolSSHAccess_STATUS{#AgentPoolSSHAccess_STATUS}
+-----------------------------------------------------
 
 SSH access method of an agent pool.
 
@@ -2394,8 +2394,8 @@ Used by: [AgentPoolSecurityProfile_STATUS](#AgentPoolSecurityProfile_STATUS).
 | "Disabled"  |             |
 | "LocalUser" |             |
 
-<a id="AgentPoolUpgradeSettings_UndrainableNodeBehavior"></a>AgentPoolUpgradeSettings_UndrainableNodeBehavior
--------------------------------------------------------------------------------------------------------------
+AgentPoolUpgradeSettings_UndrainableNodeBehavior{#AgentPoolUpgradeSettings_UndrainableNodeBehavior}
+---------------------------------------------------------------------------------------------------
 
 Used by: [AgentPoolUpgradeSettings](#AgentPoolUpgradeSettings).
 
@@ -2404,8 +2404,8 @@ Used by: [AgentPoolUpgradeSettings](#AgentPoolUpgradeSettings).
 | "Cordon"   |             |
 | "Schedule" |             |
 
-<a id="AgentPoolUpgradeSettings_UndrainableNodeBehavior_STATUS"></a>AgentPoolUpgradeSettings_UndrainableNodeBehavior_STATUS
----------------------------------------------------------------------------------------------------------------------------
+AgentPoolUpgradeSettings_UndrainableNodeBehavior_STATUS{#AgentPoolUpgradeSettings_UndrainableNodeBehavior_STATUS}
+-----------------------------------------------------------------------------------------------------------------
 
 Used by: [AgentPoolUpgradeSettings_STATUS](#AgentPoolUpgradeSettings_STATUS).
 
@@ -2414,8 +2414,8 @@ Used by: [AgentPoolUpgradeSettings_STATUS](#AgentPoolUpgradeSettings_STATUS).
 | "Cordon"   |             |
 | "Schedule" |             |
 
-<a id="AzureKeyVaultKms"></a>AzureKeyVaultKms
----------------------------------------------
+AzureKeyVaultKms{#AzureKeyVaultKms}
+-----------------------------------
 
 Azure Key Vault key management service settings for the security profile.
 
@@ -2428,8 +2428,8 @@ Used by: [ManagedClusterSecurityProfile](#ManagedClusterSecurityProfile).
 | keyVaultNetworkAccess     | Network access of key vault. The possible values are `Public` and `Private`. `Public` means the key vault allows public access from all networks. `Private` means the key vault disables public access and enables private link. The default value is `Public`.                                                                                                                                          | [AzureKeyVaultKms_KeyVaultNetworkAccess](#AzureKeyVaultKms_KeyVaultNetworkAccess)<br/><small>Optional</small>                                              |
 | keyVaultResourceReference | Resource ID of key vault. When keyVaultNetworkAccess is `Private`, this field is required and must be a valid resource ID. When keyVaultNetworkAccess is `Public`, leave the field empty.                                                                                                                                                                                                                | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small> |
 
-<a id="AzureKeyVaultKms_STATUS"></a>AzureKeyVaultKms_STATUS
------------------------------------------------------------
+AzureKeyVaultKms_STATUS{#AzureKeyVaultKms_STATUS}
+-------------------------------------------------
 
 Azure Key Vault key management service settings for the security profile.
 
@@ -2442,8 +2442,8 @@ Used by: [ManagedClusterSecurityProfile_STATUS](#ManagedClusterSecurityProfile_S
 | keyVaultNetworkAccess | Network access of key vault. The possible values are `Public` and `Private`. `Public` means the key vault allows public access from all networks. `Private` means the key vault disables public access and enables private link. The default value is `Public`.                                                                                                                                          | [AzureKeyVaultKms_KeyVaultNetworkAccess_STATUS](#AzureKeyVaultKms_KeyVaultNetworkAccess_STATUS)<br/><small>Optional</small> |
 | keyVaultResourceId    | Resource ID of key vault. When keyVaultNetworkAccess is `Private`, this field is required and must be a valid resource ID. When keyVaultNetworkAccess is `Public`, leave the field empty.                                                                                                                                                                                                                | string<br/><small>Optional</small>                                                                                          |
 
-<a id="ContainerServiceNetworkProfile_KubeProxyConfig"></a>ContainerServiceNetworkProfile_KubeProxyConfig
----------------------------------------------------------------------------------------------------------
+ContainerServiceNetworkProfile_KubeProxyConfig{#ContainerServiceNetworkProfile_KubeProxyConfig}
+-----------------------------------------------------------------------------------------------
 
 Used by: [ContainerServiceNetworkProfile](#ContainerServiceNetworkProfile).
 
@@ -2453,8 +2453,8 @@ Used by: [ContainerServiceNetworkProfile](#ContainerServiceNetworkProfile).
 | ipvsConfig | Holds configuration customizations for IPVS. May only be specified if 'mode' is set to 'IPVS'.                                                         | [ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig](#ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig)<br/><small>Optional</small> |
 | mode       | Specify which proxy mode to use ('IPTABLES' or 'IPVS')                                                                                                 | [ContainerServiceNetworkProfile_KubeProxyConfig_Mode](#ContainerServiceNetworkProfile_KubeProxyConfig_Mode)<br/><small>Optional</small>             |
 
-<a id="ContainerServiceNetworkProfile_KubeProxyConfig_STATUS"></a>ContainerServiceNetworkProfile_KubeProxyConfig_STATUS
------------------------------------------------------------------------------------------------------------------------
+ContainerServiceNetworkProfile_KubeProxyConfig_STATUS{#ContainerServiceNetworkProfile_KubeProxyConfig_STATUS}
+-------------------------------------------------------------------------------------------------------------
 
 Used by: [ContainerServiceNetworkProfile_STATUS](#ContainerServiceNetworkProfile_STATUS).
 
@@ -2464,8 +2464,8 @@ Used by: [ContainerServiceNetworkProfile_STATUS](#ContainerServiceNetworkProfile
 | ipvsConfig | Holds configuration customizations for IPVS. May only be specified if 'mode' is set to 'IPVS'.                                                         | [ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS](#ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS)<br/><small>Optional</small> |
 | mode       | Specify which proxy mode to use ('IPTABLES' or 'IPVS')                                                                                                 | [ContainerServiceNetworkProfile_KubeProxyConfig_Mode_STATUS](#ContainerServiceNetworkProfile_KubeProxyConfig_Mode_STATUS)<br/><small>Optional</small>             |
 
-<a id="ContainerServiceNetworkProfile_OutboundType"></a>ContainerServiceNetworkProfile_OutboundType
----------------------------------------------------------------------------------------------------
+ContainerServiceNetworkProfile_OutboundType{#ContainerServiceNetworkProfile_OutboundType}
+-----------------------------------------------------------------------------------------
 
 Used by: [ContainerServiceNetworkProfile](#ContainerServiceNetworkProfile).
 
@@ -2477,8 +2477,8 @@ Used by: [ContainerServiceNetworkProfile](#ContainerServiceNetworkProfile).
 | "userAssignedNATGateway" |             |
 | "userDefinedRouting"     |             |
 
-<a id="ContainerServiceNetworkProfile_OutboundType_STATUS"></a>ContainerServiceNetworkProfile_OutboundType_STATUS
------------------------------------------------------------------------------------------------------------------
+ContainerServiceNetworkProfile_OutboundType_STATUS{#ContainerServiceNetworkProfile_OutboundType_STATUS}
+-------------------------------------------------------------------------------------------------------
 
 Used by: [ContainerServiceNetworkProfile_STATUS](#ContainerServiceNetworkProfile_STATUS).
 
@@ -2490,8 +2490,8 @@ Used by: [ContainerServiceNetworkProfile_STATUS](#ContainerServiceNetworkProfile
 | "userAssignedNATGateway" |             |
 | "userDefinedRouting"     |             |
 
-<a id="ContainerServiceSshConfiguration"></a>ContainerServiceSshConfiguration
------------------------------------------------------------------------------
+ContainerServiceSshConfiguration{#ContainerServiceSshConfiguration}
+-------------------------------------------------------------------
 
 SSH configuration for Linux-based VMs running on Azure.
 
@@ -2501,8 +2501,8 @@ Used by: [ContainerServiceLinuxProfile](#ContainerServiceLinuxProfile).
 |------------|-------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------|
 | publicKeys | The list of SSH public keys used to authenticate with Linux-based VMs. A maximum of 1 key may be specified. | [ContainerServiceSshPublicKey[]](#ContainerServiceSshPublicKey)<br/><small>Required</small> |
 
-<a id="ContainerServiceSshConfiguration_STATUS"></a>ContainerServiceSshConfiguration_STATUS
--------------------------------------------------------------------------------------------
+ContainerServiceSshConfiguration_STATUS{#ContainerServiceSshConfiguration_STATUS}
+---------------------------------------------------------------------------------
 
 SSH configuration for Linux-based VMs running on Azure.
 
@@ -2512,8 +2512,8 @@ Used by: [ContainerServiceLinuxProfile_STATUS](#ContainerServiceLinuxProfile_STA
 |------------|-------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|
 | publicKeys | The list of SSH public keys used to authenticate with Linux-based VMs. A maximum of 1 key may be specified. | [ContainerServiceSshPublicKey_STATUS[]](#ContainerServiceSshPublicKey_STATUS)<br/><small>Optional</small> |
 
-<a id="DelegatedResource"></a>DelegatedResource
------------------------------------------------
+DelegatedResource{#DelegatedResource}
+-------------------------------------
 
 Delegated resource properties - internal use only.
 
@@ -2526,8 +2526,8 @@ Used by: [ManagedClusterIdentity](#ManagedClusterIdentity).
 | resourceReference | The ARM resource id of the delegated resource - internal use only.           | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small> |
 | tenantId          | The tenant id of the delegated resource - internal use only.                 | string<br/><small>Optional</small>                                                                                                                         |
 
-<a id="DelegatedResource_STATUS"></a>DelegatedResource_STATUS
--------------------------------------------------------------
+DelegatedResource_STATUS{#DelegatedResource_STATUS}
+---------------------------------------------------
 
 Delegated resource properties - internal use only.
 
@@ -2540,8 +2540,8 @@ Used by: [ManagedClusterIdentity_STATUS](#ManagedClusterIdentity_STATUS).
 | resourceId       | The ARM resource id of the delegated resource - internal use only.           | string<br/><small>Optional</small> |
 | tenantId         | The tenant id of the delegated resource - internal use only.                 | string<br/><small>Optional</small> |
 
-<a id="Expander"></a>Expander
------------------------------
+Expander{#Expander}
+-------------------
 
 If not specified, the default is 'random'. See [expanders](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-expanders) for more information.
 
@@ -2554,8 +2554,8 @@ Used by: [ManagedClusterProperties_AutoScalerProfile](#ManagedClusterProperties_
 | "priority"    |             |
 | "random"      |             |
 
-<a id="Expander_STATUS"></a>Expander_STATUS
--------------------------------------------
+Expander_STATUS{#Expander_STATUS}
+---------------------------------
 
 If not specified, the default is 'random'. See [expanders](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-expanders) for more information.
 
@@ -2568,8 +2568,8 @@ Used by: [ManagedClusterProperties_AutoScalerProfile_STATUS](#ManagedClusterProp
 | "priority"    |             |
 | "random"      |             |
 
-<a id="ExtendedLocationType"></a>ExtendedLocationType
------------------------------------------------------
+ExtendedLocationType{#ExtendedLocationType}
+-------------------------------------------
 
 The type of extendedLocation.
 
@@ -2579,8 +2579,8 @@ Used by: [ExtendedLocation](#ExtendedLocation).
 |------------|-------------|
 | "EdgeZone" |             |
 
-<a id="ExtendedLocationType_STATUS"></a>ExtendedLocationType_STATUS
--------------------------------------------------------------------
+ExtendedLocationType_STATUS{#ExtendedLocationType_STATUS}
+---------------------------------------------------------
 
 The type of extendedLocation.
 
@@ -2590,8 +2590,8 @@ Used by: [ExtendedLocation_STATUS](#ExtendedLocation_STATUS).
 |------------|-------------|
 | "EdgeZone" |             |
 
-<a id="IpFamily"></a>IpFamily
------------------------------
+IpFamily{#IpFamily}
+-------------------
 
 To determine if address belongs IPv4 or IPv6 family.
 
@@ -2602,8 +2602,8 @@ Used by: [ContainerServiceNetworkProfile](#ContainerServiceNetworkProfile).
 | "IPv4" |             |
 | "IPv6" |             |
 
-<a id="IpFamily_STATUS"></a>IpFamily_STATUS
--------------------------------------------
+IpFamily_STATUS{#IpFamily_STATUS}
+---------------------------------
 
 To determine if address belongs IPv4 or IPv6 family.
 
@@ -2614,8 +2614,8 @@ Used by: [ContainerServiceNetworkProfile_STATUS](#ContainerServiceNetworkProfile
 | "IPv4" |             |
 | "IPv6" |             |
 
-<a id="IPTag"></a>IPTag
------------------------
+IPTag{#IPTag}
+-------------
 
 Contains the IPTag associated with the object.
 
@@ -2626,8 +2626,8 @@ Used by: [AgentPoolNetworkProfile](#AgentPoolNetworkProfile).
 | ipTagType | The IP tag type. Example: RoutingPreference.                              | string<br/><small>Optional</small> |
 | tag       | The value of the IP tag associated with the public IP. Example: Internet. | string<br/><small>Optional</small> |
 
-<a id="IPTag_STATUS"></a>IPTag_STATUS
--------------------------------------
+IPTag_STATUS{#IPTag_STATUS}
+---------------------------
 
 Contains the IPTag associated with the object.
 
@@ -2638,8 +2638,8 @@ Used by: [AgentPoolNetworkProfile_STATUS](#AgentPoolNetworkProfile_STATUS).
 | ipTagType | The IP tag type. Example: RoutingPreference.                              | string<br/><small>Optional</small> |
 | tag       | The value of the IP tag associated with the public IP. Example: Internet. | string<br/><small>Optional</small> |
 
-<a id="IstioServiceMesh"></a>IstioServiceMesh
----------------------------------------------
+IstioServiceMesh{#IstioServiceMesh}
+-----------------------------------
 
 Istio service mesh configuration.
 
@@ -2651,8 +2651,8 @@ Used by: [ServiceMeshProfile](#ServiceMeshProfile).
 | components           | Istio components configuration.                                                                                                                                                                                                                                                 | [IstioComponents](#IstioComponents)<br/><small>Optional</small>                     |
 | revisions            | The list of revisions of the Istio control plane. When an upgrade is not in progress, this holds one value. When canary upgrade is in progress, this can only hold two consecutive values. For more information, see: https://learn.microsoft.com/en-us/azure/aks/istio-upgrade | string[]<br/><small>Optional</small>                                                |
 
-<a id="IstioServiceMesh_STATUS"></a>IstioServiceMesh_STATUS
------------------------------------------------------------
+IstioServiceMesh_STATUS{#IstioServiceMesh_STATUS}
+-------------------------------------------------
 
 Istio service mesh configuration.
 
@@ -2664,8 +2664,8 @@ Used by: [ServiceMeshProfile_STATUS](#ServiceMeshProfile_STATUS).
 | components           | Istio components configuration.                                                                                                                                                                                                                                                 | [IstioComponents_STATUS](#IstioComponents_STATUS)<br/><small>Optional</small>                     |
 | revisions            | The list of revisions of the Istio control plane. When an upgrade is not in progress, this holds one value. When canary upgrade is in progress, this can only hold two consecutive values. For more information, see: https://learn.microsoft.com/en-us/azure/aks/istio-upgrade | string[]<br/><small>Optional</small>                                                              |
 
-<a id="LoadBalancerSku"></a>LoadBalancerSku
--------------------------------------------
+LoadBalancerSku{#LoadBalancerSku}
+---------------------------------
 
 The default is 'standard'. See [Azure Load Balancer SKUs](https://docs.microsoft.com/azure/load-balancer/skus) for more information about the differences between load balancer SKUs.
 
@@ -2676,8 +2676,8 @@ Used by: [ContainerServiceNetworkProfile](#ContainerServiceNetworkProfile).
 | "basic"    |             |
 | "standard" |             |
 
-<a id="LoadBalancerSku_STATUS"></a>LoadBalancerSku_STATUS
----------------------------------------------------------
+LoadBalancerSku_STATUS{#LoadBalancerSku_STATUS}
+-----------------------------------------------
 
 The default is 'standard'. See [Azure Load Balancer SKUs](https://docs.microsoft.com/azure/load-balancer/skus) for more information about the differences between load balancer SKUs.
 
@@ -2688,8 +2688,8 @@ Used by: [ContainerServiceNetworkProfile_STATUS](#ContainerServiceNetworkProfile
 | "basic"    |             |
 | "standard" |             |
 
-<a id="ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel"></a>ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel
------------------------------------------------------------------------------------------------------------------------
+ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel{#ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel}
+-------------------------------------------------------------------------------------------------------------
 
 Used by: [ManagedClusterAutoUpgradeProfile](#ManagedClusterAutoUpgradeProfile).
 
@@ -2700,8 +2700,8 @@ Used by: [ManagedClusterAutoUpgradeProfile](#ManagedClusterAutoUpgradeProfile).
 | "SecurityPatch" |             |
 | "Unmanaged"     |             |
 
-<a id="ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel_STATUS"></a>ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel_STATUS
--------------------------------------------------------------------------------------------------------------------------------------
+ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel_STATUS{#ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel_STATUS}
+---------------------------------------------------------------------------------------------------------------------------
 
 Used by: [ManagedClusterAutoUpgradeProfile_STATUS](#ManagedClusterAutoUpgradeProfile_STATUS).
 
@@ -2712,8 +2712,8 @@ Used by: [ManagedClusterAutoUpgradeProfile_STATUS](#ManagedClusterAutoUpgradePro
 | "SecurityPatch" |             |
 | "Unmanaged"     |             |
 
-<a id="ManagedClusterAutoUpgradeProfile_UpgradeChannel"></a>ManagedClusterAutoUpgradeProfile_UpgradeChannel
------------------------------------------------------------------------------------------------------------
+ManagedClusterAutoUpgradeProfile_UpgradeChannel{#ManagedClusterAutoUpgradeProfile_UpgradeChannel}
+-------------------------------------------------------------------------------------------------
 
 Used by: [ManagedClusterAutoUpgradeProfile](#ManagedClusterAutoUpgradeProfile).
 
@@ -2725,8 +2725,8 @@ Used by: [ManagedClusterAutoUpgradeProfile](#ManagedClusterAutoUpgradeProfile).
 | "rapid"      |             |
 | "stable"     |             |
 
-<a id="ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS"></a>ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS
--------------------------------------------------------------------------------------------------------------------------
+ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS{#ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS}
+---------------------------------------------------------------------------------------------------------------
 
 Used by: [ManagedClusterAutoUpgradeProfile_STATUS](#ManagedClusterAutoUpgradeProfile_STATUS).
 
@@ -2738,8 +2738,8 @@ Used by: [ManagedClusterAutoUpgradeProfile_STATUS](#ManagedClusterAutoUpgradePro
 | "rapid"      |             |
 | "stable"     |             |
 
-<a id="ManagedClusterAzureMonitorProfileAppMonitoring"></a>ManagedClusterAzureMonitorProfileAppMonitoring
----------------------------------------------------------------------------------------------------------
+ManagedClusterAzureMonitorProfileAppMonitoring{#ManagedClusterAzureMonitorProfileAppMonitoring}
+-----------------------------------------------------------------------------------------------
 
 Application Monitoring Profile for Kubernetes Application Container. Collects application logs, metrics and traces through auto-instrumentation of the application using Azure Monitor OpenTelemetry based SDKs. See aka.ms/AzureMonitorApplicationMonitoring for an overview.
 
@@ -2751,8 +2751,8 @@ Used by: [ManagedClusterAzureMonitorProfile](#ManagedClusterAzureMonitorProfile)
 | openTelemetryLogs    | Application Monitoring Open Telemetry Metrics Profile for Kubernetes Application Container Logs and Traces. Collects OpenTelemetry logs and traces of the application using Azure Monitor OpenTelemetry based SDKs. See aka.ms/AzureMonitorApplicationMonitoring for an overview.                | [ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs](#ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs)<br/><small>Optional</small>       |
 | openTelemetryMetrics | Application Monitoring Open Telemetry Metrics Profile for Kubernetes Application Container Metrics. Collects OpenTelemetry metrics of the application using Azure Monitor OpenTelemetry based SDKs. See aka.ms/AzureMonitorApplicationMonitoring for an overview.                                | [ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics](#ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics)<br/><small>Optional</small> |
 
-<a id="ManagedClusterAzureMonitorProfileAppMonitoring_STATUS"></a>ManagedClusterAzureMonitorProfileAppMonitoring_STATUS
------------------------------------------------------------------------------------------------------------------------
+ManagedClusterAzureMonitorProfileAppMonitoring_STATUS{#ManagedClusterAzureMonitorProfileAppMonitoring_STATUS}
+-------------------------------------------------------------------------------------------------------------
 
 Application Monitoring Profile for Kubernetes Application Container. Collects application logs, metrics and traces through auto-instrumentation of the application using Azure Monitor OpenTelemetry based SDKs. See aka.ms/AzureMonitorApplicationMonitoring for an overview.
 
@@ -2764,8 +2764,8 @@ Used by: [ManagedClusterAzureMonitorProfile_STATUS](#ManagedClusterAzureMonitorP
 | openTelemetryLogs    | Application Monitoring Open Telemetry Metrics Profile for Kubernetes Application Container Logs and Traces. Collects OpenTelemetry logs and traces of the application using Azure Monitor OpenTelemetry based SDKs. See aka.ms/AzureMonitorApplicationMonitoring for an overview.                | [ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs_STATUS](#ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs_STATUS)<br/><small>Optional</small>       |
 | openTelemetryMetrics | Application Monitoring Open Telemetry Metrics Profile for Kubernetes Application Container Metrics. Collects OpenTelemetry metrics of the application using Azure Monitor OpenTelemetry based SDKs. See aka.ms/AzureMonitorApplicationMonitoring for an overview.                                | [ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics_STATUS](#ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics_STATUS)<br/><small>Optional</small> |
 
-<a id="ManagedClusterAzureMonitorProfileContainerInsights"></a>ManagedClusterAzureMonitorProfileContainerInsights
------------------------------------------------------------------------------------------------------------------
+ManagedClusterAzureMonitorProfileContainerInsights{#ManagedClusterAzureMonitorProfileContainerInsights}
+-------------------------------------------------------------------------------------------------------
 
 Azure Monitor Container Insights Profile for Kubernetes Events, Inventory and Container stdout & stderr logs etc. See aka.ms/AzureMonitorContainerInsights for an overview.
 
@@ -2779,8 +2779,8 @@ Used by: [ManagedClusterAzureMonitorProfile](#ManagedClusterAzureMonitorProfile)
 | logAnalyticsWorkspaceResourceReference | Fully Qualified ARM Resource Id of Azure Log Analytics Workspace for storing Azure Monitor Container Insights Logs.                                                                                                      | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small> |
 | syslogPort                             | The syslog host port. If not specified, the default port is 28330.                                                                                                                                                       | int<br/><small>Optional</small>                                                                                                                            |
 
-<a id="ManagedClusterAzureMonitorProfileContainerInsights_STATUS"></a>ManagedClusterAzureMonitorProfileContainerInsights_STATUS
--------------------------------------------------------------------------------------------------------------------------------
+ManagedClusterAzureMonitorProfileContainerInsights_STATUS{#ManagedClusterAzureMonitorProfileContainerInsights_STATUS}
+---------------------------------------------------------------------------------------------------------------------
 
 Azure Monitor Container Insights Profile for Kubernetes Events, Inventory and Container stdout & stderr logs etc. See aka.ms/AzureMonitorContainerInsights for an overview.
 
@@ -2794,8 +2794,8 @@ Used by: [ManagedClusterAzureMonitorProfile_STATUS](#ManagedClusterAzureMonitorP
 | logAnalyticsWorkspaceResourceId  | Fully Qualified ARM Resource Id of Azure Log Analytics Workspace for storing Azure Monitor Container Insights Logs.                                                                                                      | string<br/><small>Optional</small> |
 | syslogPort                       | The syslog host port. If not specified, the default port is 28330.                                                                                                                                                       | int<br/><small>Optional</small>    |
 
-<a id="ManagedClusterAzureMonitorProfileMetrics"></a>ManagedClusterAzureMonitorProfileMetrics
----------------------------------------------------------------------------------------------
+ManagedClusterAzureMonitorProfileMetrics{#ManagedClusterAzureMonitorProfileMetrics}
+-----------------------------------------------------------------------------------
 
 Metrics profile for the prometheus service addon
 
@@ -2806,8 +2806,8 @@ Used by: [ManagedClusterAzureMonitorProfile](#ManagedClusterAzureMonitorProfile)
 | enabled          | Whether to enable the Prometheus collector                                        | bool<br/><small>Required</small>                                                                                                    |
 | kubeStateMetrics | Kube State Metrics for prometheus addon profile for the container service cluster | [ManagedClusterAzureMonitorProfileKubeStateMetrics](#ManagedClusterAzureMonitorProfileKubeStateMetrics)<br/><small>Optional</small> |
 
-<a id="ManagedClusterAzureMonitorProfileMetrics_STATUS"></a>ManagedClusterAzureMonitorProfileMetrics_STATUS
------------------------------------------------------------------------------------------------------------
+ManagedClusterAzureMonitorProfileMetrics_STATUS{#ManagedClusterAzureMonitorProfileMetrics_STATUS}
+-------------------------------------------------------------------------------------------------
 
 Metrics profile for the prometheus service addon
 
@@ -2818,8 +2818,8 @@ Used by: [ManagedClusterAzureMonitorProfile_STATUS](#ManagedClusterAzureMonitorP
 | enabled          | Whether to enable the Prometheus collector                                        | bool<br/><small>Optional</small>                                                                                                                  |
 | kubeStateMetrics | Kube State Metrics for prometheus addon profile for the container service cluster | [ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS](#ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS)<br/><small>Optional</small> |
 
-<a id="ManagedClusterBootstrapProfile_ArtifactSource"></a>ManagedClusterBootstrapProfile_ArtifactSource
--------------------------------------------------------------------------------------------------------
+ManagedClusterBootstrapProfile_ArtifactSource{#ManagedClusterBootstrapProfile_ArtifactSource}
+---------------------------------------------------------------------------------------------
 
 Used by: [ManagedClusterBootstrapProfile](#ManagedClusterBootstrapProfile).
 
@@ -2828,8 +2828,8 @@ Used by: [ManagedClusterBootstrapProfile](#ManagedClusterBootstrapProfile).
 | "Cache"  |             |
 | "Direct" |             |
 
-<a id="ManagedClusterBootstrapProfile_ArtifactSource_STATUS"></a>ManagedClusterBootstrapProfile_ArtifactSource_STATUS
----------------------------------------------------------------------------------------------------------------------
+ManagedClusterBootstrapProfile_ArtifactSource_STATUS{#ManagedClusterBootstrapProfile_ArtifactSource_STATUS}
+-----------------------------------------------------------------------------------------------------------
 
 Used by: [ManagedClusterBootstrapProfile_STATUS](#ManagedClusterBootstrapProfile_STATUS).
 
@@ -2838,8 +2838,8 @@ Used by: [ManagedClusterBootstrapProfile_STATUS](#ManagedClusterBootstrapProfile
 | "Cache"  |             |
 | "Direct" |             |
 
-<a id="ManagedClusterCostAnalysis"></a>ManagedClusterCostAnalysis
------------------------------------------------------------------
+ManagedClusterCostAnalysis{#ManagedClusterCostAnalysis}
+-------------------------------------------------------
 
 The cost analysis configuration for the cluster
 
@@ -2849,8 +2849,8 @@ Used by: [ManagedClusterMetricsProfile](#ManagedClusterMetricsProfile).
 |----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------|
 | enabled  | The Managed Cluster sku.tier must be set to 'Standard' or 'Premium' to enable this feature. Enabling this will add Kubernetes Namespace and Deployment details to the Cost Analysis views in the Azure portal. If not specified, the default is false. For more information see aka.ms/aks/docs/cost-analysis. | bool<br/><small>Optional</small> |
 
-<a id="ManagedClusterCostAnalysis_STATUS"></a>ManagedClusterCostAnalysis_STATUS
--------------------------------------------------------------------------------
+ManagedClusterCostAnalysis_STATUS{#ManagedClusterCostAnalysis_STATUS}
+---------------------------------------------------------------------
 
 The cost analysis configuration for the cluster
 
@@ -2860,8 +2860,8 @@ Used by: [ManagedClusterMetricsProfile_STATUS](#ManagedClusterMetricsProfile_STA
 |----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------|
 | enabled  | The Managed Cluster sku.tier must be set to 'Standard' or 'Premium' to enable this feature. Enabling this will add Kubernetes Namespace and Deployment details to the Cost Analysis views in the Azure portal. If not specified, the default is false. For more information see aka.ms/aks/docs/cost-analysis. | bool<br/><small>Optional</small> |
 
-<a id="ManagedClusterIdentity_Type"></a>ManagedClusterIdentity_Type
--------------------------------------------------------------------
+ManagedClusterIdentity_Type{#ManagedClusterIdentity_Type}
+---------------------------------------------------------
 
 Used by: [ManagedClusterIdentity](#ManagedClusterIdentity).
 
@@ -2871,8 +2871,8 @@ Used by: [ManagedClusterIdentity](#ManagedClusterIdentity).
 | "SystemAssigned" |             |
 | "UserAssigned"   |             |
 
-<a id="ManagedClusterIdentity_Type_STATUS"></a>ManagedClusterIdentity_Type_STATUS
----------------------------------------------------------------------------------
+ManagedClusterIdentity_Type_STATUS{#ManagedClusterIdentity_Type_STATUS}
+-----------------------------------------------------------------------
 
 Used by: [ManagedClusterIdentity_STATUS](#ManagedClusterIdentity_STATUS).
 
@@ -2882,8 +2882,8 @@ Used by: [ManagedClusterIdentity_STATUS](#ManagedClusterIdentity_STATUS).
 | "SystemAssigned" |             |
 | "UserAssigned"   |             |
 
-<a id="ManagedClusterIdentity_UserAssignedIdentities_STATUS"></a>ManagedClusterIdentity_UserAssignedIdentities_STATUS
----------------------------------------------------------------------------------------------------------------------
+ManagedClusterIdentity_UserAssignedIdentities_STATUS{#ManagedClusterIdentity_UserAssignedIdentities_STATUS}
+-----------------------------------------------------------------------------------------------------------
 
 Used by: [ManagedClusterIdentity_STATUS](#ManagedClusterIdentity_STATUS).
 
@@ -2892,8 +2892,8 @@ Used by: [ManagedClusterIdentity_STATUS](#ManagedClusterIdentity_STATUS).
 | clientId    | The client id of user assigned identity.    | string<br/><small>Optional</small> |
 | principalId | The principal id of user assigned identity. | string<br/><small>Optional</small> |
 
-<a id="ManagedClusterIngressProfileWebAppRouting"></a>ManagedClusterIngressProfileWebAppRouting
------------------------------------------------------------------------------------------------
+ManagedClusterIngressProfileWebAppRouting{#ManagedClusterIngressProfileWebAppRouting}
+-------------------------------------------------------------------------------------
 
 Web App Routing settings for the ingress profile.
 
@@ -2904,8 +2904,8 @@ Used by: [ManagedClusterIngressProfile](#ManagedClusterIngressProfile).
 | dnsZoneResourceReferences | Resource IDs of the DNS zones to be associated with the Web App Routing add-on. Used only when Web App Routing is enabled. Public and private DNS zones can be in different resource groups, but all public DNS zones must be in the same resource group and all private DNS zones must be in the same resource group. | [genruntime.ResourceReference[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small> |
 | enabled                   | Whether to enable Web App Routing.                                                                                                                                                                                                                                                                                     | bool<br/><small>Optional</small>                                                                                                                             |
 
-<a id="ManagedClusterIngressProfileWebAppRouting_STATUS"></a>ManagedClusterIngressProfileWebAppRouting_STATUS
--------------------------------------------------------------------------------------------------------------
+ManagedClusterIngressProfileWebAppRouting_STATUS{#ManagedClusterIngressProfileWebAppRouting_STATUS}
+---------------------------------------------------------------------------------------------------
 
 Web App Routing settings for the ingress profile.
 
@@ -2917,8 +2917,8 @@ Used by: [ManagedClusterIngressProfile_STATUS](#ManagedClusterIngressProfile_STA
 | enabled            | Whether to enable Web App Routing.                                                                                                                                                                                                                                                                                                                       | bool<br/><small>Optional</small>                                                        |
 | identity           | Managed identity of the Web Application Routing add-on. This is the identity that should be granted permissions, for example, to manage the associated Azure DNS resource and get certificates from Azure Key Vault. See [this overview of the add-on](https://learn.microsoft.com/en-us/azure/aks/web-app-routing?tabs=with-osm) for more instructions. | [UserAssignedIdentity_STATUS](#UserAssignedIdentity_STATUS)<br/><small>Optional</small> |
 
-<a id="ManagedClusterLoadBalancerProfile"></a>ManagedClusterLoadBalancerProfile
--------------------------------------------------------------------------------
+ManagedClusterLoadBalancerProfile{#ManagedClusterLoadBalancerProfile}
+---------------------------------------------------------------------
 
 Profile of the managed cluster load balancer.
 
@@ -2936,8 +2936,8 @@ Used by: [ContainerServiceNetworkProfile](#ContainerServiceNetworkProfile).
 | outboundIPPrefixes                        | Desired outbound IP Prefix resources for the cluster load balancer.                                                                                                                       | [ManagedClusterLoadBalancerProfile_OutboundIPPrefixes](#ManagedClusterLoadBalancerProfile_OutboundIPPrefixes)<br/><small>Optional</small>                                               |
 | outboundIPs                               | Desired outbound IP resources for the cluster load balancer.                                                                                                                              | [ManagedClusterLoadBalancerProfile_OutboundIPs](#ManagedClusterLoadBalancerProfile_OutboundIPs)<br/><small>Optional</small>                                                             |
 
-<a id="ManagedClusterLoadBalancerProfile_STATUS"></a>ManagedClusterLoadBalancerProfile_STATUS
----------------------------------------------------------------------------------------------
+ManagedClusterLoadBalancerProfile_STATUS{#ManagedClusterLoadBalancerProfile_STATUS}
+-----------------------------------------------------------------------------------
 
 Profile of the managed cluster load balancer.
 
@@ -2955,8 +2955,8 @@ Used by: [ContainerServiceNetworkProfile_STATUS](#ContainerServiceNetworkProfile
 | outboundIPPrefixes                        | Desired outbound IP Prefix resources for the cluster load balancer.                                                                                                                       | [ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS](#ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS)<br/><small>Optional</small>                                               |
 | outboundIPs                               | Desired outbound IP resources for the cluster load balancer.                                                                                                                              | [ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS](#ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS)<br/><small>Optional</small>                                                             |
 
-<a id="ManagedClusterNATGatewayProfile"></a>ManagedClusterNATGatewayProfile
----------------------------------------------------------------------------
+ManagedClusterNATGatewayProfile{#ManagedClusterNATGatewayProfile}
+-----------------------------------------------------------------
 
 Profile of the managed cluster NAT gateway.
 
@@ -2968,8 +2968,8 @@ Used by: [ContainerServiceNetworkProfile](#ContainerServiceNetworkProfile).
 | idleTimeoutInMinutes     | Desired outbound flow idle timeout in minutes. Allowed values are in the range of 4 to 120 (inclusive). The default value is 4 minutes. | int<br/><small>Optional</small>                                                                               |
 | managedOutboundIPProfile | Profile of the managed outbound IP resources of the cluster NAT gateway.                                                                | [ManagedClusterManagedOutboundIPProfile](#ManagedClusterManagedOutboundIPProfile)<br/><small>Optional</small> |
 
-<a id="ManagedClusterNATGatewayProfile_STATUS"></a>ManagedClusterNATGatewayProfile_STATUS
------------------------------------------------------------------------------------------
+ManagedClusterNATGatewayProfile_STATUS{#ManagedClusterNATGatewayProfile_STATUS}
+-------------------------------------------------------------------------------
 
 Profile of the managed cluster NAT gateway.
 
@@ -2981,8 +2981,8 @@ Used by: [ContainerServiceNetworkProfile_STATUS](#ContainerServiceNetworkProfile
 | idleTimeoutInMinutes     | Desired outbound flow idle timeout in minutes. Allowed values are in the range of 4 to 120 (inclusive). The default value is 4 minutes. | int<br/><small>Optional</small>                                                                                             |
 | managedOutboundIPProfile | Profile of the managed outbound IP resources of the cluster NAT gateway.                                                                | [ManagedClusterManagedOutboundIPProfile_STATUS](#ManagedClusterManagedOutboundIPProfile_STATUS)<br/><small>Optional</small> |
 
-<a id="ManagedClusterNodeProvisioningProfile_Mode"></a>ManagedClusterNodeProvisioningProfile_Mode
--------------------------------------------------------------------------------------------------
+ManagedClusterNodeProvisioningProfile_Mode{#ManagedClusterNodeProvisioningProfile_Mode}
+---------------------------------------------------------------------------------------
 
 Used by: [ManagedClusterNodeProvisioningProfile](#ManagedClusterNodeProvisioningProfile).
 
@@ -2991,8 +2991,8 @@ Used by: [ManagedClusterNodeProvisioningProfile](#ManagedClusterNodeProvisioning
 | "Auto"   |             |
 | "Manual" |             |
 
-<a id="ManagedClusterNodeProvisioningProfile_Mode_STATUS"></a>ManagedClusterNodeProvisioningProfile_Mode_STATUS
----------------------------------------------------------------------------------------------------------------
+ManagedClusterNodeProvisioningProfile_Mode_STATUS{#ManagedClusterNodeProvisioningProfile_Mode_STATUS}
+-----------------------------------------------------------------------------------------------------
 
 Used by: [ManagedClusterNodeProvisioningProfile_STATUS](#ManagedClusterNodeProvisioningProfile_STATUS).
 
@@ -3001,8 +3001,8 @@ Used by: [ManagedClusterNodeProvisioningProfile_STATUS](#ManagedClusterNodeProvi
 | "Auto"   |             |
 | "Manual" |             |
 
-<a id="ManagedClusterNodeResourceGroupProfile_RestrictionLevel"></a>ManagedClusterNodeResourceGroupProfile_RestrictionLevel
----------------------------------------------------------------------------------------------------------------------------
+ManagedClusterNodeResourceGroupProfile_RestrictionLevel{#ManagedClusterNodeResourceGroupProfile_RestrictionLevel}
+-----------------------------------------------------------------------------------------------------------------
 
 Used by: [ManagedClusterNodeResourceGroupProfile](#ManagedClusterNodeResourceGroupProfile).
 
@@ -3011,8 +3011,8 @@ Used by: [ManagedClusterNodeResourceGroupProfile](#ManagedClusterNodeResourceGro
 | "ReadOnly"     |             |
 | "Unrestricted" |             |
 
-<a id="ManagedClusterNodeResourceGroupProfile_RestrictionLevel_STATUS"></a>ManagedClusterNodeResourceGroupProfile_RestrictionLevel_STATUS
------------------------------------------------------------------------------------------------------------------------------------------
+ManagedClusterNodeResourceGroupProfile_RestrictionLevel_STATUS{#ManagedClusterNodeResourceGroupProfile_RestrictionLevel_STATUS}
+-------------------------------------------------------------------------------------------------------------------------------
 
 Used by: [ManagedClusterNodeResourceGroupProfile_STATUS](#ManagedClusterNodeResourceGroupProfile_STATUS).
 
@@ -3021,8 +3021,8 @@ Used by: [ManagedClusterNodeResourceGroupProfile_STATUS](#ManagedClusterNodeReso
 | "ReadOnly"     |             |
 | "Unrestricted" |             |
 
-<a id="ManagedClusterOperatorConfigMaps"></a>ManagedClusterOperatorConfigMaps
------------------------------------------------------------------------------
+ManagedClusterOperatorConfigMaps{#ManagedClusterOperatorConfigMaps}
+-------------------------------------------------------------------
 
 Used by: [ManagedClusterOperatorSpec](#ManagedClusterOperatorSpec).
 
@@ -3030,8 +3030,8 @@ Used by: [ManagedClusterOperatorSpec](#ManagedClusterOperatorSpec).
 |-------------------|---------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | oidcIssuerProfile | indicates where the OIDCIssuerProfile config map should be placed. If omitted, no config map will be created. | [genruntime.ConfigMapDestination](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapDestination)<br/><small>Optional</small> |
 
-<a id="ManagedClusterOperatorSecrets"></a>ManagedClusterOperatorSecrets
------------------------------------------------------------------------
+ManagedClusterOperatorSecrets{#ManagedClusterOperatorSecrets}
+-------------------------------------------------------------
 
 Used by: [ManagedClusterOperatorSpec](#ManagedClusterOperatorSpec).
 
@@ -3040,8 +3040,8 @@ Used by: [ManagedClusterOperatorSpec](#ManagedClusterOperatorSpec).
 | adminCredentials | indicates where the AdminCredentials secret should be placed. If omitted, the secret will not be retrieved from Azure. | [genruntime.SecretDestination](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination)<br/><small>Optional</small> |
 | userCredentials  | indicates where the UserCredentials secret should be placed. If omitted, the secret will not be retrieved from Azure.  | [genruntime.SecretDestination](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination)<br/><small>Optional</small> |
 
-<a id="ManagedClusterPodIdentity"></a>ManagedClusterPodIdentity
----------------------------------------------------------------
+ManagedClusterPodIdentity{#ManagedClusterPodIdentity}
+-----------------------------------------------------
 
 Details about the pod identity assigned to the Managed Cluster.
 
@@ -3054,8 +3054,8 @@ Used by: [ManagedClusterPodIdentityProfile](#ManagedClusterPodIdentityProfile).
 | name            | The name of the pod identity.                                      | string<br/><small>Required</small>                                        |
 | namespace       | The namespace of the pod identity.                                 | string<br/><small>Required</small>                                        |
 
-<a id="ManagedClusterPodIdentity_STATUS"></a>ManagedClusterPodIdentity_STATUS
------------------------------------------------------------------------------
+ManagedClusterPodIdentity_STATUS{#ManagedClusterPodIdentity_STATUS}
+-------------------------------------------------------------------
 
 Details about the pod identity assigned to the Managed Cluster.
 
@@ -3070,8 +3070,8 @@ Used by: [ManagedClusterPodIdentityProfile_STATUS](#ManagedClusterPodIdentityPro
 | provisioningInfo  |                                                                    | [ManagedClusterPodIdentity_ProvisioningInfo_STATUS](#ManagedClusterPodIdentity_ProvisioningInfo_STATUS)<br/><small>Optional</small>   |
 | provisioningState | The current provisioning state of the pod identity.                | [ManagedClusterPodIdentity_ProvisioningState_STATUS](#ManagedClusterPodIdentity_ProvisioningState_STATUS)<br/><small>Optional</small> |
 
-<a id="ManagedClusterPodIdentityException"></a>ManagedClusterPodIdentityException
----------------------------------------------------------------------------------
+ManagedClusterPodIdentityException{#ManagedClusterPodIdentityException}
+-----------------------------------------------------------------------
 
 See [disable AAD Pod Identity for a specific Pod/Application](https://azure.github.io/aad-pod-identity/docs/configure/application_exception/) for more details.
 
@@ -3083,8 +3083,8 @@ Used by: [ManagedClusterPodIdentityProfile](#ManagedClusterPodIdentityProfile).
 | namespace | The namespace of the pod identity exception. | string<br/><small>Required</small>            |
 | podLabels | The pod labels to match.                     | map[string]string<br/><small>Required</small> |
 
-<a id="ManagedClusterPodIdentityException_STATUS"></a>ManagedClusterPodIdentityException_STATUS
------------------------------------------------------------------------------------------------
+ManagedClusterPodIdentityException_STATUS{#ManagedClusterPodIdentityException_STATUS}
+-------------------------------------------------------------------------------------
 
 See [disable AAD Pod Identity for a specific Pod/Application](https://azure.github.io/aad-pod-identity/docs/configure/application_exception/) for more details.
 
@@ -3096,8 +3096,8 @@ Used by: [ManagedClusterPodIdentityProfile_STATUS](#ManagedClusterPodIdentityPro
 | namespace | The namespace of the pod identity exception. | string<br/><small>Optional</small>            |
 | podLabels | The pod labels to match.                     | map[string]string<br/><small>Optional</small> |
 
-<a id="ManagedClusterSecurityProfileDefender"></a>ManagedClusterSecurityProfileDefender
----------------------------------------------------------------------------------------
+ManagedClusterSecurityProfileDefender{#ManagedClusterSecurityProfileDefender}
+-----------------------------------------------------------------------------
 
 Microsoft Defender settings for the security profile.
 
@@ -3108,8 +3108,8 @@ Used by: [ManagedClusterSecurityProfile](#ManagedClusterSecurityProfile).
 | logAnalyticsWorkspaceResourceReference | Resource ID of the Log Analytics workspace to be associated with Microsoft Defender. When Microsoft Defender is enabled, this field is required and must be a valid workspace resource ID. When Microsoft Defender is disabled, leave the field empty. | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small> |
 | securityMonitoring                     | Microsoft Defender threat detection for Cloud settings for the security profile.                                                                                                                                                                       | [ManagedClusterSecurityProfileDefenderSecurityMonitoring](#ManagedClusterSecurityProfileDefenderSecurityMonitoring)<br/><small>Optional</small>            |
 
-<a id="ManagedClusterSecurityProfileDefender_STATUS"></a>ManagedClusterSecurityProfileDefender_STATUS
------------------------------------------------------------------------------------------------------
+ManagedClusterSecurityProfileDefender_STATUS{#ManagedClusterSecurityProfileDefender_STATUS}
+-------------------------------------------------------------------------------------------
 
 Microsoft Defender settings for the security profile.
 
@@ -3120,8 +3120,8 @@ Used by: [ManagedClusterSecurityProfile_STATUS](#ManagedClusterSecurityProfile_S
 | logAnalyticsWorkspaceResourceId | Resource ID of the Log Analytics workspace to be associated with Microsoft Defender. When Microsoft Defender is enabled, this field is required and must be a valid workspace resource ID. When Microsoft Defender is disabled, leave the field empty. | string<br/><small>Optional</small>                                                                                                                            |
 | securityMonitoring              | Microsoft Defender threat detection for Cloud settings for the security profile.                                                                                                                                                                       | [ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS](#ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS)<br/><small>Optional</small> |
 
-<a id="ManagedClusterSecurityProfileImageCleaner"></a>ManagedClusterSecurityProfileImageCleaner
------------------------------------------------------------------------------------------------
+ManagedClusterSecurityProfileImageCleaner{#ManagedClusterSecurityProfileImageCleaner}
+-------------------------------------------------------------------------------------
 
 Image Cleaner removes unused images from nodes, freeing up disk space and helping to reduce attack surface area. Here are settings for the security profile.
 
@@ -3132,21 +3132,21 @@ Used by: [ManagedClusterSecurityProfile](#ManagedClusterSecurityProfile).
 | enabled       | Whether to enable Image Cleaner on AKS cluster. | bool<br/><small>Optional</small> |
 | intervalHours | Image Cleaner scanning interval in hours.       | int<br/><small>Optional</small>  |
 
-<a id="ManagedClusterSecurityProfileImageCleaner_STATUS"></a>ManagedClusterSecurityProfileImageCleaner_STATUS
--------------------------------------------------------------------------------------------------------------
-
-Image Cleaner removes unused images from nodes, freeing up disk space and helping to reduce attack surface area. Here are settings for the security profile.
-
-Used by: [ManagedClusterSecurityProfile_STATUS](#ManagedClusterSecurityProfile_STATUS).
-
-| Property      | Description                                     | Type                             |
-|---------------|-------------------------------------------------|----------------------------------|
-| enabled       | Whether to enable Image Cleaner on AKS cluster. | bool<br/><small>Optional</small> |
-| intervalHours | Image Cleaner scanning interval in hours.       | int<br/><small>Optional</small>  |
-
-<a id="ManagedClusterSecurityProfileImageIntegrity"></a>ManagedClusterSecurityProfileImageIntegrity
+ManagedClusterSecurityProfileImageCleaner_STATUS{#ManagedClusterSecurityProfileImageCleaner_STATUS}
 ---------------------------------------------------------------------------------------------------
 
+Image Cleaner removes unused images from nodes, freeing up disk space and helping to reduce attack surface area. Here are settings for the security profile.
+
+Used by: [ManagedClusterSecurityProfile_STATUS](#ManagedClusterSecurityProfile_STATUS).
+
+| Property      | Description                                     | Type                             |
+|---------------|-------------------------------------------------|----------------------------------|
+| enabled       | Whether to enable Image Cleaner on AKS cluster. | bool<br/><small>Optional</small> |
+| intervalHours | Image Cleaner scanning interval in hours.       | int<br/><small>Optional</small>  |
+
+ManagedClusterSecurityProfileImageIntegrity{#ManagedClusterSecurityProfileImageIntegrity}
+-----------------------------------------------------------------------------------------
+
 Image integrity related settings for the security profile.
 
 Used by: [ManagedClusterSecurityProfile](#ManagedClusterSecurityProfile).
@@ -3155,42 +3155,42 @@ Used by: [ManagedClusterSecurityProfile](#ManagedClusterSecurityProfile).
 |----------|----------------------------------------------------------------|----------------------------------|
 | enabled  | Whether to enable image integrity. The default value is false. | bool<br/><small>Optional</small> |
 
-<a id="ManagedClusterSecurityProfileImageIntegrity_STATUS"></a>ManagedClusterSecurityProfileImageIntegrity_STATUS
------------------------------------------------------------------------------------------------------------------
-
-Image integrity related settings for the security profile.
-
-Used by: [ManagedClusterSecurityProfile_STATUS](#ManagedClusterSecurityProfile_STATUS).
-
-| Property | Description                                                    | Type                             |
-|----------|----------------------------------------------------------------|----------------------------------|
-| enabled  | Whether to enable image integrity. The default value is false. | bool<br/><small>Optional</small> |
-
-<a id="ManagedClusterSecurityProfileNodeRestriction"></a>ManagedClusterSecurityProfileNodeRestriction
------------------------------------------------------------------------------------------------------
-
-Node Restriction settings for the security profile.
-
-Used by: [ManagedClusterSecurityProfile](#ManagedClusterSecurityProfile).
-
-| Property | Description                        | Type                             |
-|----------|------------------------------------|----------------------------------|
-| enabled  | Whether to enable Node Restriction | bool<br/><small>Optional</small> |
-
-<a id="ManagedClusterSecurityProfileNodeRestriction_STATUS"></a>ManagedClusterSecurityProfileNodeRestriction_STATUS
--------------------------------------------------------------------------------------------------------------------
-
-Node Restriction settings for the security profile.
-
-Used by: [ManagedClusterSecurityProfile_STATUS](#ManagedClusterSecurityProfile_STATUS).
-
-| Property | Description                        | Type                             |
-|----------|------------------------------------|----------------------------------|
-| enabled  | Whether to enable Node Restriction | bool<br/><small>Optional</small> |
-
-<a id="ManagedClusterSecurityProfileWorkloadIdentity"></a>ManagedClusterSecurityProfileWorkloadIdentity
+ManagedClusterSecurityProfileImageIntegrity_STATUS{#ManagedClusterSecurityProfileImageIntegrity_STATUS}
 -------------------------------------------------------------------------------------------------------
 
+Image integrity related settings for the security profile.
+
+Used by: [ManagedClusterSecurityProfile_STATUS](#ManagedClusterSecurityProfile_STATUS).
+
+| Property | Description                                                    | Type                             |
+|----------|----------------------------------------------------------------|----------------------------------|
+| enabled  | Whether to enable image integrity. The default value is false. | bool<br/><small>Optional</small> |
+
+ManagedClusterSecurityProfileNodeRestriction{#ManagedClusterSecurityProfileNodeRestriction}
+-------------------------------------------------------------------------------------------
+
+Node Restriction settings for the security profile.
+
+Used by: [ManagedClusterSecurityProfile](#ManagedClusterSecurityProfile).
+
+| Property | Description                        | Type                             |
+|----------|------------------------------------|----------------------------------|
+| enabled  | Whether to enable Node Restriction | bool<br/><small>Optional</small> |
+
+ManagedClusterSecurityProfileNodeRestriction_STATUS{#ManagedClusterSecurityProfileNodeRestriction_STATUS}
+---------------------------------------------------------------------------------------------------------
+
+Node Restriction settings for the security profile.
+
+Used by: [ManagedClusterSecurityProfile_STATUS](#ManagedClusterSecurityProfile_STATUS).
+
+| Property | Description                        | Type                             |
+|----------|------------------------------------|----------------------------------|
+| enabled  | Whether to enable Node Restriction | bool<br/><small>Optional</small> |
+
+ManagedClusterSecurityProfileWorkloadIdentity{#ManagedClusterSecurityProfileWorkloadIdentity}
+---------------------------------------------------------------------------------------------
+
 Workload identity settings for the security profile.
 
 Used by: [ManagedClusterSecurityProfile](#ManagedClusterSecurityProfile).
@@ -3199,8 +3199,8 @@ Used by: [ManagedClusterSecurityProfile](#ManagedClusterSecurityProfile).
 |----------|--------------------------------------|----------------------------------|
 | enabled  | Whether to enable workload identity. | bool<br/><small>Optional</small> |
 
-<a id="ManagedClusterSecurityProfileWorkloadIdentity_STATUS"></a>ManagedClusterSecurityProfileWorkloadIdentity_STATUS
----------------------------------------------------------------------------------------------------------------------
+ManagedClusterSecurityProfileWorkloadIdentity_STATUS{#ManagedClusterSecurityProfileWorkloadIdentity_STATUS}
+-----------------------------------------------------------------------------------------------------------
 
 Workload identity settings for the security profile.
 
@@ -3210,8 +3210,8 @@ Used by: [ManagedClusterSecurityProfile_STATUS](#ManagedClusterSecurityProfile_S
 |----------|--------------------------------------|----------------------------------|
 | enabled  | Whether to enable workload identity. | bool<br/><small>Optional</small> |
 
-<a id="ManagedClusterSKU_Name"></a>ManagedClusterSKU_Name
----------------------------------------------------------
+ManagedClusterSKU_Name{#ManagedClusterSKU_Name}
+-----------------------------------------------
 
 Used by: [ManagedClusterSKU](#ManagedClusterSKU).
 
@@ -3220,8 +3220,8 @@ Used by: [ManagedClusterSKU](#ManagedClusterSKU).
 | "Automatic" |             |
 | "Base"      |             |
 
-<a id="ManagedClusterSKU_Name_STATUS"></a>ManagedClusterSKU_Name_STATUS
------------------------------------------------------------------------
+ManagedClusterSKU_Name_STATUS{#ManagedClusterSKU_Name_STATUS}
+-------------------------------------------------------------
 
 Used by: [ManagedClusterSKU_STATUS](#ManagedClusterSKU_STATUS).
 
@@ -3230,8 +3230,8 @@ Used by: [ManagedClusterSKU_STATUS](#ManagedClusterSKU_STATUS).
 | "Automatic" |             |
 | "Base"      |             |
 
-<a id="ManagedClusterSKU_Tier"></a>ManagedClusterSKU_Tier
----------------------------------------------------------
+ManagedClusterSKU_Tier{#ManagedClusterSKU_Tier}
+-----------------------------------------------
 
 Used by: [ManagedClusterSKU](#ManagedClusterSKU).
 
@@ -3241,8 +3241,8 @@ Used by: [ManagedClusterSKU](#ManagedClusterSKU).
 | "Premium"  |             |
 | "Standard" |             |
 
-<a id="ManagedClusterSKU_Tier_STATUS"></a>ManagedClusterSKU_Tier_STATUS
------------------------------------------------------------------------
+ManagedClusterSKU_Tier_STATUS{#ManagedClusterSKU_Tier_STATUS}
+-------------------------------------------------------------
 
 Used by: [ManagedClusterSKU_STATUS](#ManagedClusterSKU_STATUS).
 
@@ -3252,8 +3252,8 @@ Used by: [ManagedClusterSKU_STATUS](#ManagedClusterSKU_STATUS).
 | "Premium"  |             |
 | "Standard" |             |
 
-<a id="ManagedClusterStaticEgressGatewayProfile"></a>ManagedClusterStaticEgressGatewayProfile
----------------------------------------------------------------------------------------------
+ManagedClusterStaticEgressGatewayProfile{#ManagedClusterStaticEgressGatewayProfile}
+-----------------------------------------------------------------------------------
 
 The Static Egress Gateway addon configuration for the cluster.
 
@@ -3263,8 +3263,8 @@ Used by: [ContainerServiceNetworkProfile](#ContainerServiceNetworkProfile).
 |----------|-------------------------------------------------------------|----------------------------------|
 | enabled  | Indicates if Static Egress Gateway addon is enabled or not. | bool<br/><small>Optional</small> |
 
-<a id="ManagedClusterStaticEgressGatewayProfile_STATUS"></a>ManagedClusterStaticEgressGatewayProfile_STATUS
------------------------------------------------------------------------------------------------------------
+ManagedClusterStaticEgressGatewayProfile_STATUS{#ManagedClusterStaticEgressGatewayProfile_STATUS}
+-------------------------------------------------------------------------------------------------
 
 The Static Egress Gateway addon configuration for the cluster.
 
@@ -3274,8 +3274,8 @@ Used by: [ContainerServiceNetworkProfile_STATUS](#ContainerServiceNetworkProfile
 |----------|-------------------------------------------------------------|----------------------------------|
 | enabled  | Indicates if Static Egress Gateway addon is enabled or not. | bool<br/><small>Optional</small> |
 
-<a id="ManagedClusterStorageProfileBlobCSIDriver"></a>ManagedClusterStorageProfileBlobCSIDriver
------------------------------------------------------------------------------------------------
+ManagedClusterStorageProfileBlobCSIDriver{#ManagedClusterStorageProfileBlobCSIDriver}
+-------------------------------------------------------------------------------------
 
 AzureBlob CSI Driver settings for the storage profile.
 
@@ -3285,8 +3285,8 @@ Used by: [ManagedClusterStorageProfile](#ManagedClusterStorageProfile).
 |----------|---------------------------------------------------------------------|----------------------------------|
 | enabled  | Whether to enable AzureBlob CSI Driver. The default value is false. | bool<br/><small>Optional</small> |
 
-<a id="ManagedClusterStorageProfileBlobCSIDriver_STATUS"></a>ManagedClusterStorageProfileBlobCSIDriver_STATUS
--------------------------------------------------------------------------------------------------------------
+ManagedClusterStorageProfileBlobCSIDriver_STATUS{#ManagedClusterStorageProfileBlobCSIDriver_STATUS}
+---------------------------------------------------------------------------------------------------
 
 AzureBlob CSI Driver settings for the storage profile.
 
@@ -3296,8 +3296,8 @@ Used by: [ManagedClusterStorageProfile_STATUS](#ManagedClusterStorageProfile_STA
 |----------|---------------------------------------------------------------------|----------------------------------|
 | enabled  | Whether to enable AzureBlob CSI Driver. The default value is false. | bool<br/><small>Optional</small> |
 
-<a id="ManagedClusterStorageProfileDiskCSIDriver"></a>ManagedClusterStorageProfileDiskCSIDriver
------------------------------------------------------------------------------------------------
+ManagedClusterStorageProfileDiskCSIDriver{#ManagedClusterStorageProfileDiskCSIDriver}
+-------------------------------------------------------------------------------------
 
 AzureDisk CSI Driver settings for the storage profile.
 
@@ -3308,8 +3308,8 @@ Used by: [ManagedClusterStorageProfile](#ManagedClusterStorageProfile).
 | enabled  | Whether to enable AzureDisk CSI Driver. The default value is true. | bool<br/><small>Optional</small>   |
 | version  | The version of AzureDisk CSI Driver. The default value is v1.      | string<br/><small>Optional</small> |
 
-<a id="ManagedClusterStorageProfileDiskCSIDriver_STATUS"></a>ManagedClusterStorageProfileDiskCSIDriver_STATUS
--------------------------------------------------------------------------------------------------------------
+ManagedClusterStorageProfileDiskCSIDriver_STATUS{#ManagedClusterStorageProfileDiskCSIDriver_STATUS}
+---------------------------------------------------------------------------------------------------
 
 AzureDisk CSI Driver settings for the storage profile.
 
@@ -3320,42 +3320,42 @@ Used by: [ManagedClusterStorageProfile_STATUS](#ManagedClusterStorageProfile_STA
 | enabled  | Whether to enable AzureDisk CSI Driver. The default value is true. | bool<br/><small>Optional</small>   |
 | version  | The version of AzureDisk CSI Driver. The default value is v1.      | string<br/><small>Optional</small> |
 
-<a id="ManagedClusterStorageProfileFileCSIDriver"></a>ManagedClusterStorageProfileFileCSIDriver
+ManagedClusterStorageProfileFileCSIDriver{#ManagedClusterStorageProfileFileCSIDriver}
+-------------------------------------------------------------------------------------
+
+AzureFile CSI Driver settings for the storage profile.
+
+Used by: [ManagedClusterStorageProfile](#ManagedClusterStorageProfile).
+
+| Property | Description                                                        | Type                             |
+|----------|--------------------------------------------------------------------|----------------------------------|
+| enabled  | Whether to enable AzureFile CSI Driver. The default value is true. | bool<br/><small>Optional</small> |
+
+ManagedClusterStorageProfileFileCSIDriver_STATUS{#ManagedClusterStorageProfileFileCSIDriver_STATUS}
+---------------------------------------------------------------------------------------------------
+
+AzureFile CSI Driver settings for the storage profile.
+
+Used by: [ManagedClusterStorageProfile_STATUS](#ManagedClusterStorageProfile_STATUS).
+
+| Property | Description                                                        | Type                             |
+|----------|--------------------------------------------------------------------|----------------------------------|
+| enabled  | Whether to enable AzureFile CSI Driver. The default value is true. | bool<br/><small>Optional</small> |
+
+ManagedClusterStorageProfileSnapshotController{#ManagedClusterStorageProfileSnapshotController}
 -----------------------------------------------------------------------------------------------
 
-AzureFile CSI Driver settings for the storage profile.
+Snapshot Controller settings for the storage profile.
 
 Used by: [ManagedClusterStorageProfile](#ManagedClusterStorageProfile).
 
-| Property | Description                                                        | Type                             |
-|----------|--------------------------------------------------------------------|----------------------------------|
-| enabled  | Whether to enable AzureFile CSI Driver. The default value is true. | bool<br/><small>Optional</small> |
+| Property | Description                                                       | Type                             |
+|----------|-------------------------------------------------------------------|----------------------------------|
+| enabled  | Whether to enable Snapshot Controller. The default value is true. | bool<br/><small>Optional</small> |
 
-<a id="ManagedClusterStorageProfileFileCSIDriver_STATUS"></a>ManagedClusterStorageProfileFileCSIDriver_STATUS
+ManagedClusterStorageProfileSnapshotController_STATUS{#ManagedClusterStorageProfileSnapshotController_STATUS}
 -------------------------------------------------------------------------------------------------------------
 
-AzureFile CSI Driver settings for the storage profile.
-
-Used by: [ManagedClusterStorageProfile_STATUS](#ManagedClusterStorageProfile_STATUS).
-
-| Property | Description                                                        | Type                             |
-|----------|--------------------------------------------------------------------|----------------------------------|
-| enabled  | Whether to enable AzureFile CSI Driver. The default value is true. | bool<br/><small>Optional</small> |
-
-<a id="ManagedClusterStorageProfileSnapshotController"></a>ManagedClusterStorageProfileSnapshotController
----------------------------------------------------------------------------------------------------------
-
-Snapshot Controller settings for the storage profile.
-
-Used by: [ManagedClusterStorageProfile](#ManagedClusterStorageProfile).
-
-| Property | Description                                                       | Type                             |
-|----------|-------------------------------------------------------------------|----------------------------------|
-| enabled  | Whether to enable Snapshot Controller. The default value is true. | bool<br/><small>Optional</small> |
-
-<a id="ManagedClusterStorageProfileSnapshotController_STATUS"></a>ManagedClusterStorageProfileSnapshotController_STATUS
------------------------------------------------------------------------------------------------------------------------
-
 Snapshot Controller settings for the storage profile.
 
 Used by: [ManagedClusterStorageProfile_STATUS](#ManagedClusterStorageProfile_STATUS).
@@ -3364,8 +3364,8 @@ Used by: [ManagedClusterStorageProfile_STATUS](#ManagedClusterStorageProfile_STA
 |----------|-------------------------------------------------------------------|----------------------------------|
 | enabled  | Whether to enable Snapshot Controller. The default value is true. | bool<br/><small>Optional</small> |
 
-<a id="ManagedClusterWindowsProfile_LicenseType"></a>ManagedClusterWindowsProfile_LicenseType
----------------------------------------------------------------------------------------------
+ManagedClusterWindowsProfile_LicenseType{#ManagedClusterWindowsProfile_LicenseType}
+-----------------------------------------------------------------------------------
 
 Used by: [ManagedClusterWindowsProfile](#ManagedClusterWindowsProfile).
 
@@ -3374,8 +3374,8 @@ Used by: [ManagedClusterWindowsProfile](#ManagedClusterWindowsProfile).
 | "None"           |             |
 | "Windows_Server" |             |
 
-<a id="ManagedClusterWindowsProfile_LicenseType_STATUS"></a>ManagedClusterWindowsProfile_LicenseType_STATUS
------------------------------------------------------------------------------------------------------------
+ManagedClusterWindowsProfile_LicenseType_STATUS{#ManagedClusterWindowsProfile_LicenseType_STATUS}
+-------------------------------------------------------------------------------------------------
 
 Used by: [ManagedClusterWindowsProfile_STATUS](#ManagedClusterWindowsProfile_STATUS).
 
@@ -3384,8 +3384,8 @@ Used by: [ManagedClusterWindowsProfile_STATUS](#ManagedClusterWindowsProfile_STA
 | "None"           |             |
 | "Windows_Server" |             |
 
-<a id="ManagedClusterWorkloadAutoScalerProfileKeda"></a>ManagedClusterWorkloadAutoScalerProfileKeda
----------------------------------------------------------------------------------------------------
+ManagedClusterWorkloadAutoScalerProfileKeda{#ManagedClusterWorkloadAutoScalerProfileKeda}
+-----------------------------------------------------------------------------------------
 
 KEDA (Kubernetes Event-driven Autoscaling) settings for the workload auto-scaler profile.
 
@@ -3395,8 +3395,8 @@ Used by: [ManagedClusterWorkloadAutoScalerProfile](#ManagedClusterWorkloadAutoSc
 |----------|-------------------------|----------------------------------|
 | enabled  | Whether to enable KEDA. | bool<br/><small>Required</small> |
 
-<a id="ManagedClusterWorkloadAutoScalerProfileKeda_STATUS"></a>ManagedClusterWorkloadAutoScalerProfileKeda_STATUS
------------------------------------------------------------------------------------------------------------------
+ManagedClusterWorkloadAutoScalerProfileKeda_STATUS{#ManagedClusterWorkloadAutoScalerProfileKeda_STATUS}
+-------------------------------------------------------------------------------------------------------
 
 KEDA (Kubernetes Event-driven Autoscaling) settings for the workload auto-scaler profile.
 
@@ -3406,8 +3406,8 @@ Used by: [ManagedClusterWorkloadAutoScalerProfile_STATUS](#ManagedClusterWorkloa
 |----------|-------------------------|----------------------------------|
 | enabled  | Whether to enable KEDA. | bool<br/><small>Optional</small> |
 
-<a id="ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler"></a>ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler
--------------------------------------------------------------------------------------------------------------------------------------
+ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler{#ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler}
+---------------------------------------------------------------------------------------------------------------------------
 
 Used by: [ManagedClusterWorkloadAutoScalerProfile](#ManagedClusterWorkloadAutoScalerProfile).
 
@@ -3416,8 +3416,8 @@ Used by: [ManagedClusterWorkloadAutoScalerProfile](#ManagedClusterWorkloadAutoSc
 | addonAutoscaling | Whether VPA add-on is enabled and configured to scale AKS-managed add-ons. | [ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_AddonAutoscaling](#ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_AddonAutoscaling)<br/><small>Optional</small> |
 | enabled          | Whether to enable VPA add-on in cluster. Default value is false.           | bool<br/><small>Required</small>                                                                                                                                                            |
 
-<a id="ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS"></a>ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS
----------------------------------------------------------------------------------------------------------------------------------------------------
+ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS{#ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS}
+-----------------------------------------------------------------------------------------------------------------------------------------
 
 Used by: [ManagedClusterWorkloadAutoScalerProfile_STATUS](#ManagedClusterWorkloadAutoScalerProfile_STATUS).
 
@@ -3426,45 +3426,45 @@ Used by: [ManagedClusterWorkloadAutoScalerProfile_STATUS](#ManagedClusterWorkloa
 | addonAutoscaling | Whether VPA add-on is enabled and configured to scale AKS-managed add-ons. | [ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_AddonAutoscaling_STATUS](#ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_AddonAutoscaling_STATUS)<br/><small>Optional</small> |
 | enabled          | Whether to enable VPA add-on in cluster. Default value is false.           | bool<br/><small>Optional</small>                                                                                                                                                                          |
 
-<a id="NetworkDataplane"></a>NetworkDataplane
----------------------------------------------
-
-Network dataplane used in the Kubernetes cluster.
-
-Used by: [ContainerServiceNetworkProfile](#ContainerServiceNetworkProfile).
-
-| Value    | Description |
-|----------|-------------|
-| "azure"  |             |
-| "cilium" |             |
-
-<a id="NetworkDataplane_STATUS"></a>NetworkDataplane_STATUS
------------------------------------------------------------
-
-Network dataplane used in the Kubernetes cluster.
-
-Used by: [ContainerServiceNetworkProfile_STATUS](#ContainerServiceNetworkProfile_STATUS).
-
-| Value    | Description |
-|----------|-------------|
-| "azure"  |             |
-| "cilium" |             |
-
-<a id="NetworkMode"></a>NetworkMode
+NetworkDataplane{#NetworkDataplane}
 -----------------------------------
 
-This cannot be specified if networkPlugin is anything other than 'azure'.
+Network dataplane used in the Kubernetes cluster.
 
 Used by: [ContainerServiceNetworkProfile](#ContainerServiceNetworkProfile).
 
-| Value         | Description |
-|---------------|-------------|
-| "bridge"      |             |
-| "transparent" |             |
+| Value    | Description |
+|----------|-------------|
+| "azure"  |             |
+| "cilium" |             |
 
-<a id="NetworkMode_STATUS"></a>NetworkMode_STATUS
+NetworkDataplane_STATUS{#NetworkDataplane_STATUS}
 -------------------------------------------------
 
+Network dataplane used in the Kubernetes cluster.
+
+Used by: [ContainerServiceNetworkProfile_STATUS](#ContainerServiceNetworkProfile_STATUS).
+
+| Value    | Description |
+|----------|-------------|
+| "azure"  |             |
+| "cilium" |             |
+
+NetworkMode{#NetworkMode}
+-------------------------
+
+This cannot be specified if networkPlugin is anything other than 'azure'.
+
+Used by: [ContainerServiceNetworkProfile](#ContainerServiceNetworkProfile).
+
+| Value         | Description |
+|---------------|-------------|
+| "bridge"      |             |
+| "transparent" |             |
+
+NetworkMode_STATUS{#NetworkMode_STATUS}
+---------------------------------------
+
 This cannot be specified if networkPlugin is anything other than 'azure'.
 
 Used by: [ContainerServiceNetworkProfile_STATUS](#ContainerServiceNetworkProfile_STATUS).
@@ -3474,8 +3474,8 @@ Used by: [ContainerServiceNetworkProfile_STATUS](#ContainerServiceNetworkProfile
 | "bridge"      |             |
 | "transparent" |             |
 
-<a id="NetworkPlugin"></a>NetworkPlugin
----------------------------------------
+NetworkPlugin{#NetworkPlugin}
+-----------------------------
 
 Network plugin used for building the Kubernetes network.
 
@@ -3487,8 +3487,8 @@ Used by: [ContainerServiceNetworkProfile](#ContainerServiceNetworkProfile).
 | "kubenet" |             |
 | "none"    |             |
 
-<a id="NetworkPlugin_STATUS"></a>NetworkPlugin_STATUS
------------------------------------------------------
+NetworkPlugin_STATUS{#NetworkPlugin_STATUS}
+-------------------------------------------
 
 Network plugin used for building the Kubernetes network.
 
@@ -3500,8 +3500,8 @@ Used by: [ContainerServiceNetworkProfile_STATUS](#ContainerServiceNetworkProfile
 | "kubenet" |             |
 | "none"    |             |
 
-<a id="NetworkPluginMode"></a>NetworkPluginMode
------------------------------------------------
+NetworkPluginMode{#NetworkPluginMode}
+-------------------------------------
 
 The mode the network plugin should use.
 
@@ -3511,8 +3511,8 @@ Used by: [ContainerServiceNetworkProfile](#ContainerServiceNetworkProfile).
 |-----------|-------------|
 | "overlay" |             |
 
-<a id="NetworkPluginMode_STATUS"></a>NetworkPluginMode_STATUS
--------------------------------------------------------------
+NetworkPluginMode_STATUS{#NetworkPluginMode_STATUS}
+---------------------------------------------------
 
 The mode the network plugin should use.
 
@@ -3522,8 +3522,8 @@ Used by: [ContainerServiceNetworkProfile_STATUS](#ContainerServiceNetworkProfile
 |-----------|-------------|
 | "overlay" |             |
 
-<a id="NetworkPolicy"></a>NetworkPolicy
----------------------------------------
+NetworkPolicy{#NetworkPolicy}
+-----------------------------
 
 Network policy used for building the Kubernetes network.
 
@@ -3536,8 +3536,8 @@ Used by: [ContainerServiceNetworkProfile](#ContainerServiceNetworkProfile).
 | "cilium" |             |
 | "none"   |             |
 
-<a id="NetworkPolicy_STATUS"></a>NetworkPolicy_STATUS
------------------------------------------------------
+NetworkPolicy_STATUS{#NetworkPolicy_STATUS}
+-------------------------------------------
 
 Network policy used for building the Kubernetes network.
 
@@ -3550,8 +3550,8 @@ Used by: [ContainerServiceNetworkProfile_STATUS](#ContainerServiceNetworkProfile
 | "cilium" |             |
 | "none"   |             |
 
-<a id="PodLinkLocalAccess"></a>PodLinkLocalAccess
--------------------------------------------------
+PodLinkLocalAccess{#PodLinkLocalAccess}
+---------------------------------------
 
 Defines access to special link local addresses (Azure Instance Metadata Service, aka IMDS) for pods with hostNetwork=false. If not specified, the default is 'IMDS'.
 
@@ -3562,8 +3562,8 @@ Used by: [ContainerServiceNetworkProfile](#ContainerServiceNetworkProfile).
 | "IMDS" |             |
 | "None" |             |
 
-<a id="PodLinkLocalAccess_STATUS"></a>PodLinkLocalAccess_STATUS
----------------------------------------------------------------
+PodLinkLocalAccess_STATUS{#PodLinkLocalAccess_STATUS}
+-----------------------------------------------------
 
 Defines access to special link local addresses (Azure Instance Metadata Service, aka IMDS) for pods with hostNetwork=false. If not specified, the default is 'IMDS'.
 
@@ -3574,8 +3574,8 @@ Used by: [ContainerServiceNetworkProfile_STATUS](#ContainerServiceNetworkProfile
 | "IMDS" |             |
 | "None" |             |
 
-<a id="PortRange"></a>PortRange
--------------------------------
+PortRange{#PortRange}
+---------------------
 
 The port range.
 
@@ -3587,8 +3587,8 @@ Used by: [AgentPoolNetworkProfile](#AgentPoolNetworkProfile).
 | portStart | The minimum port that is included in the range. It should be ranged from 1 to 65535, and be less than or equal to portEnd.      | int<br/><small>Optional</small>                                       |
 | protocol  | The network protocol of the port.                                                                                               | [PortRange_Protocol](#PortRange_Protocol)<br/><small>Optional</small> |
 
-<a id="PortRange_STATUS"></a>PortRange_STATUS
----------------------------------------------
+PortRange_STATUS{#PortRange_STATUS}
+-----------------------------------
 
 The port range.
 
@@ -3600,8 +3600,8 @@ Used by: [AgentPoolNetworkProfile_STATUS](#AgentPoolNetworkProfile_STATUS).
 | portStart | The minimum port that is included in the range. It should be ranged from 1 to 65535, and be less than or equal to portEnd.      | int<br/><small>Optional</small>                                                     |
 | protocol  | The network protocol of the port.                                                                                               | [PortRange_Protocol_STATUS](#PortRange_Protocol_STATUS)<br/><small>Optional</small> |
 
-<a id="PowerState_Code"></a>PowerState_Code
--------------------------------------------
+PowerState_Code{#PowerState_Code}
+---------------------------------
 
 Used by: [PowerState](#PowerState).
 
@@ -3610,8 +3610,8 @@ Used by: [PowerState](#PowerState).
 | "Running" |             |
 | "Stopped" |             |
 
-<a id="PowerState_Code_STATUS"></a>PowerState_Code_STATUS
----------------------------------------------------------
+PowerState_Code_STATUS{#PowerState_Code_STATUS}
+-----------------------------------------------
 
 Used by: [PowerState_STATUS](#PowerState_STATUS).
 
@@ -3620,8 +3620,8 @@ Used by: [PowerState_STATUS](#PowerState_STATUS).
 | "Running" |             |
 | "Stopped" |             |
 
-<a id="SafeguardsProfile_Level"></a>SafeguardsProfile_Level
------------------------------------------------------------
+SafeguardsProfile_Level{#SafeguardsProfile_Level}
+-------------------------------------------------
 
 Used by: [SafeguardsProfile](#SafeguardsProfile).
 
@@ -3631,8 +3631,8 @@ Used by: [SafeguardsProfile](#SafeguardsProfile).
 | "Off"         |             |
 | "Warning"     |             |
 
-<a id="SafeguardsProfile_Level_STATUS"></a>SafeguardsProfile_Level_STATUS
--------------------------------------------------------------------------
+SafeguardsProfile_Level_STATUS{#SafeguardsProfile_Level_STATUS}
+---------------------------------------------------------------
 
 Used by: [SafeguardsProfile_STATUS](#SafeguardsProfile_STATUS).
 
@@ -3642,8 +3642,8 @@ Used by: [SafeguardsProfile_STATUS](#SafeguardsProfile_STATUS).
 | "Off"         |             |
 | "Warning"     |             |
 
-<a id="ScaleProfile"></a>ScaleProfile
--------------------------------------
+ScaleProfile{#ScaleProfile}
+---------------------------
 
 Specifications on how to scale a VirtualMachines agent pool.
 
@@ -3654,8 +3654,8 @@ Used by: [VirtualMachinesProfile](#VirtualMachinesProfile).
 | autoscale | Specifications on how to auto-scale the VirtualMachines agent pool within a predefined size range. Currently, at most one AutoScaleProfile is allowed. | [AutoScaleProfile[]](#AutoScaleProfile)<br/><small>Optional</small>     |
 | manual    | Specifications on how to scale the VirtualMachines agent pool to a fixed size.                                                                         | [ManualScaleProfile[]](#ManualScaleProfile)<br/><small>Optional</small> |
 
-<a id="ScaleProfile_STATUS"></a>ScaleProfile_STATUS
----------------------------------------------------
+ScaleProfile_STATUS{#ScaleProfile_STATUS}
+-----------------------------------------
 
 Specifications on how to scale a VirtualMachines agent pool.
 
@@ -3666,8 +3666,8 @@ Used by: [VirtualMachinesProfile_STATUS](#VirtualMachinesProfile_STATUS).
 | autoscale | Specifications on how to auto-scale the VirtualMachines agent pool within a predefined size range. Currently, at most one AutoScaleProfile is allowed. | [AutoScaleProfile_STATUS[]](#AutoScaleProfile_STATUS)<br/><small>Optional</small>     |
 | manual    | Specifications on how to scale the VirtualMachines agent pool to a fixed size.                                                                         | [ManualScaleProfile_STATUS[]](#ManualScaleProfile_STATUS)<br/><small>Optional</small> |
 
-<a id="ServiceMeshProfile_Mode"></a>ServiceMeshProfile_Mode
------------------------------------------------------------
+ServiceMeshProfile_Mode{#ServiceMeshProfile_Mode}
+-------------------------------------------------
 
 Used by: [ServiceMeshProfile](#ServiceMeshProfile).
 
@@ -3676,8 +3676,8 @@ Used by: [ServiceMeshProfile](#ServiceMeshProfile).
 | "Disabled" |             |
 | "Istio"    |             |
 
-<a id="ServiceMeshProfile_Mode_STATUS"></a>ServiceMeshProfile_Mode_STATUS
--------------------------------------------------------------------------
+ServiceMeshProfile_Mode_STATUS{#ServiceMeshProfile_Mode_STATUS}
+---------------------------------------------------------------
 
 Used by: [ServiceMeshProfile_STATUS](#ServiceMeshProfile_STATUS).
 
@@ -3686,8 +3686,8 @@ Used by: [ServiceMeshProfile_STATUS](#ServiceMeshProfile_STATUS).
 | "Disabled" |             |
 | "Istio"    |             |
 
-<a id="SysctlConfig"></a>SysctlConfig
--------------------------------------
+SysctlConfig{#SysctlConfig}
+---------------------------
 
 Sysctl settings for Linux agent nodes.
 
@@ -3724,8 +3724,8 @@ Used by: [LinuxOSConfig](#LinuxOSConfig).
 | vmSwappiness                   | Sysctl setting vm.swappiness.                      | int<br/><small>Optional</small>    |
 | vmVfsCachePressure             | Sysctl setting vm.vfs_cache_pressure.              | int<br/><small>Optional</small>    |
 
-<a id="SysctlConfig_STATUS"></a>SysctlConfig_STATUS
----------------------------------------------------
+SysctlConfig_STATUS{#SysctlConfig_STATUS}
+-----------------------------------------
 
 Sysctl settings for Linux agent nodes.
 
@@ -3762,7 +3762,19 @@ Used by: [LinuxOSConfig_STATUS](#LinuxOSConfig_STATUS).
 | vmSwappiness                   | Sysctl setting vm.swappiness.                      | int<br/><small>Optional</small>    |
 | vmVfsCachePressure             | Sysctl setting vm.vfs_cache_pressure.              | int<br/><small>Optional</small>    |
 
-<a id="SystemData_CreatedByType_STATUS"></a>SystemData_CreatedByType_STATUS
+SystemData_CreatedByType_STATUS{#SystemData_CreatedByType_STATUS}
+-----------------------------------------------------------------
+
+Used by: [SystemData_STATUS](#SystemData_STATUS).
+
+| Value             | Description |
+|-------------------|-------------|
+| "Application"     |             |
+| "Key"             |             |
+| "ManagedIdentity" |             |
+| "User"            |             |
+
+SystemData_LastModifiedByType_STATUS{#SystemData_LastModifiedByType_STATUS}
 ---------------------------------------------------------------------------
 
 Used by: [SystemData_STATUS](#SystemData_STATUS).
@@ -3774,20 +3786,8 @@ Used by: [SystemData_STATUS](#SystemData_STATUS).
 | "ManagedIdentity" |             |
 | "User"            |             |
 
-<a id="SystemData_LastModifiedByType_STATUS"></a>SystemData_LastModifiedByType_STATUS
--------------------------------------------------------------------------------------
-
-Used by: [SystemData_STATUS](#SystemData_STATUS).
-
-| Value             | Description |
-|-------------------|-------------|
-| "Application"     |             |
-| "Key"             |             |
-| "ManagedIdentity" |             |
-| "User"            |             |
-
-<a id="UpgradeOverrideSettings"></a>UpgradeOverrideSettings
------------------------------------------------------------
+UpgradeOverrideSettings{#UpgradeOverrideSettings}
+-------------------------------------------------
 
 Settings for overrides when upgrading a cluster.
 
@@ -3798,8 +3798,8 @@ Used by: [ClusterUpgradeSettings](#ClusterUpgradeSettings).
 | forceUpgrade | Whether to force upgrade the cluster. Note that this option instructs upgrade operation to bypass upgrade protections such as checking for deprecated API usage. Enable this option only with caution.                                                                                          | bool<br/><small>Optional</small>   |
 | until        | Until when the overrides are effective. Note that this only matches the start time of an upgrade, and the effectiveness won't change once an upgrade starts even if the `until` expires as upgrade proceeds. This field is not set by default. It must be set for the overrides to take effect. | string<br/><small>Optional</small> |
 
-<a id="UpgradeOverrideSettings_STATUS"></a>UpgradeOverrideSettings_STATUS
--------------------------------------------------------------------------
+UpgradeOverrideSettings_STATUS{#UpgradeOverrideSettings_STATUS}
+---------------------------------------------------------------
 
 Settings for overrides when upgrading a cluster.
 
@@ -3810,8 +3810,8 @@ Used by: [ClusterUpgradeSettings_STATUS](#ClusterUpgradeSettings_STATUS).
 | forceUpgrade | Whether to force upgrade the cluster. Note that this option instructs upgrade operation to bypass upgrade protections such as checking for deprecated API usage. Enable this option only with caution.                                                                                          | bool<br/><small>Optional</small>   |
 | until        | Until when the overrides are effective. Note that this only matches the start time of an upgrade, and the effectiveness won't change once an upgrade starts even if the `until` expires as upgrade proceeds. This field is not set by default. It must be set for the overrides to take effect. | string<br/><small>Optional</small> |
 
-<a id="UserAssignedIdentityDetails"></a>UserAssignedIdentityDetails
--------------------------------------------------------------------
+UserAssignedIdentityDetails{#UserAssignedIdentityDetails}
+---------------------------------------------------------
 
 Information about the user assigned identity for the resource
 
@@ -3821,8 +3821,8 @@ Used by: [ManagedClusterIdentity](#ManagedClusterIdentity).
 |-----------|-------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | reference |             | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small> |
 
-<a id="WindowsGmsaProfile"></a>WindowsGmsaProfile
--------------------------------------------------
+WindowsGmsaProfile{#WindowsGmsaProfile}
+---------------------------------------
 
 Windows gMSA Profile in the managed cluster.
 
@@ -3834,8 +3834,8 @@ Used by: [ManagedClusterWindowsProfile](#ManagedClusterWindowsProfile).
 | enabled        | Specifies whether to enable Windows gMSA in the managed cluster.                                                                                                | bool<br/><small>Optional</small>   |
 | rootDomainName | Specifies the root domain name for Windows gMSA. Set it to empty if you have configured the DNS server in the vnet which is used to create the managed cluster. | string<br/><small>Optional</small> |
 
-<a id="WindowsGmsaProfile_STATUS"></a>WindowsGmsaProfile_STATUS
----------------------------------------------------------------
+WindowsGmsaProfile_STATUS{#WindowsGmsaProfile_STATUS}
+-----------------------------------------------------
 
 Windows gMSA Profile in the managed cluster.
 
@@ -3847,8 +3847,8 @@ Used by: [ManagedClusterWindowsProfile_STATUS](#ManagedClusterWindowsProfile_STA
 | enabled        | Specifies whether to enable Windows gMSA in the managed cluster.                                                                                                | bool<br/><small>Optional</small>   |
 | rootDomainName | Specifies the root domain name for Windows gMSA. Set it to empty if you have configured the DNS server in the vnet which is used to create the managed cluster. | string<br/><small>Optional</small> |
 
-<a id="AdvancedNetworkingObservability"></a>AdvancedNetworkingObservability
----------------------------------------------------------------------------
+AdvancedNetworkingObservability{#AdvancedNetworkingObservability}
+-----------------------------------------------------------------
 
 Observability profile to enable advanced network metrics and flow logs with historical contexts.
 
@@ -3858,8 +3858,8 @@ Used by: [AdvancedNetworking](#AdvancedNetworking).
 |----------|--------------------------------------------------------------------------------------------|----------------------------------|
 | enabled  | Indicates the enablement of Advanced Networking observability functionalities on clusters. | bool<br/><small>Optional</small> |
 
-<a id="AdvancedNetworkingObservability_STATUS"></a>AdvancedNetworkingObservability_STATUS
------------------------------------------------------------------------------------------
+AdvancedNetworkingObservability_STATUS{#AdvancedNetworkingObservability_STATUS}
+-------------------------------------------------------------------------------
 
 Observability profile to enable advanced network metrics and flow logs with historical contexts.
 
@@ -3869,8 +3869,8 @@ Used by: [AdvancedNetworking_STATUS](#AdvancedNetworking_STATUS).
 |----------|--------------------------------------------------------------------------------------------|----------------------------------|
 | enabled  | Indicates the enablement of Advanced Networking observability functionalities on clusters. | bool<br/><small>Optional</small> |
 
-<a id="AutoScaleProfile"></a>AutoScaleProfile
----------------------------------------------
+AutoScaleProfile{#AutoScaleProfile}
+-----------------------------------
 
 Specifications on auto-scaling.
 
@@ -3882,8 +3882,8 @@ Used by: [ScaleProfile](#ScaleProfile).
 | minCount | The minimum number of nodes of the specified sizes.                                                                                                                                                                                                              | int<br/><small>Optional</small>      |
 | sizes    | The list of allowed vm sizes e.g. ['Standard_E4s_v3', 'Standard_E16s_v3', 'Standard_D16s_v5']. AKS will use the first available one when auto scaling. If a VM size is unavailable (e.g. due to quota or regional capacity reasons), AKS will use the next size. | string[]<br/><small>Optional</small> |
 
-<a id="AutoScaleProfile_STATUS"></a>AutoScaleProfile_STATUS
------------------------------------------------------------
+AutoScaleProfile_STATUS{#AutoScaleProfile_STATUS}
+-------------------------------------------------
 
 Specifications on auto-scaling.
 
@@ -3895,8 +3895,8 @@ Used by: [ScaleProfile_STATUS](#ScaleProfile_STATUS).
 | minCount | The minimum number of nodes of the specified sizes.                                                                                                                                                                                                              | int<br/><small>Optional</small>      |
 | sizes    | The list of allowed vm sizes e.g. ['Standard_E4s_v3', 'Standard_E16s_v3', 'Standard_D16s_v5']. AKS will use the first available one when auto scaling. If a VM size is unavailable (e.g. due to quota or regional capacity reasons), AKS will use the next size. | string[]<br/><small>Optional</small> |
 
-<a id="AzureKeyVaultKms_KeyVaultNetworkAccess"></a>AzureKeyVaultKms_KeyVaultNetworkAccess
------------------------------------------------------------------------------------------
+AzureKeyVaultKms_KeyVaultNetworkAccess{#AzureKeyVaultKms_KeyVaultNetworkAccess}
+-------------------------------------------------------------------------------
 
 Used by: [AzureKeyVaultKms](#AzureKeyVaultKms).
 
@@ -3905,8 +3905,8 @@ Used by: [AzureKeyVaultKms](#AzureKeyVaultKms).
 | "Private" |             |
 | "Public"  |             |
 
-<a id="AzureKeyVaultKms_KeyVaultNetworkAccess_STATUS"></a>AzureKeyVaultKms_KeyVaultNetworkAccess_STATUS
--------------------------------------------------------------------------------------------------------
+AzureKeyVaultKms_KeyVaultNetworkAccess_STATUS{#AzureKeyVaultKms_KeyVaultNetworkAccess_STATUS}
+---------------------------------------------------------------------------------------------
 
 Used by: [AzureKeyVaultKms_STATUS](#AzureKeyVaultKms_STATUS).
 
@@ -3915,8 +3915,8 @@ Used by: [AzureKeyVaultKms_STATUS](#AzureKeyVaultKms_STATUS).
 | "Private" |             |
 | "Public"  |             |
 
-<a id="ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig"></a>ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig
--------------------------------------------------------------------------------------------------------------------------------
+ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig{#ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig}
+---------------------------------------------------------------------------------------------------------------------
 
 Used by: [ContainerServiceNetworkProfile_KubeProxyConfig](#ContainerServiceNetworkProfile_KubeProxyConfig).
 
@@ -3927,8 +3927,8 @@ Used by: [ContainerServiceNetworkProfile_KubeProxyConfig](#ContainerServiceNetwo
 | tcpTimeoutSeconds    | The timeout value used for idle IPVS TCP sessions in seconds. Must be a positive integer value.                  | int<br/><small>Optional</small>                                                                                                                                         |
 | udpTimeoutSeconds    | The timeout value used for IPVS UDP packets in seconds. Must be a positive integer value.                        | int<br/><small>Optional</small>                                                                                                                                         |
 
-<a id="ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS"></a>ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS
----------------------------------------------------------------------------------------------------------------------------------------------
+ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS{#ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS}
+-----------------------------------------------------------------------------------------------------------------------------------
 
 Used by: [ContainerServiceNetworkProfile_KubeProxyConfig_STATUS](#ContainerServiceNetworkProfile_KubeProxyConfig_STATUS).
 
@@ -3939,8 +3939,8 @@ Used by: [ContainerServiceNetworkProfile_KubeProxyConfig_STATUS](#ContainerServi
 | tcpTimeoutSeconds    | The timeout value used for idle IPVS TCP sessions in seconds. Must be a positive integer value.                  | int<br/><small>Optional</small>                                                                                                                                                       |
 | udpTimeoutSeconds    | The timeout value used for IPVS UDP packets in seconds. Must be a positive integer value.                        | int<br/><small>Optional</small>                                                                                                                                                       |
 
-<a id="ContainerServiceNetworkProfile_KubeProxyConfig_Mode"></a>ContainerServiceNetworkProfile_KubeProxyConfig_Mode
--------------------------------------------------------------------------------------------------------------------
+ContainerServiceNetworkProfile_KubeProxyConfig_Mode{#ContainerServiceNetworkProfile_KubeProxyConfig_Mode}
+---------------------------------------------------------------------------------------------------------
 
 Used by: [ContainerServiceNetworkProfile_KubeProxyConfig](#ContainerServiceNetworkProfile_KubeProxyConfig).
 
@@ -3949,8 +3949,8 @@ Used by: [ContainerServiceNetworkProfile_KubeProxyConfig](#ContainerServiceNetwo
 | "IPTABLES" |             |
 | "IPVS"     |             |
 
-<a id="ContainerServiceNetworkProfile_KubeProxyConfig_Mode_STATUS"></a>ContainerServiceNetworkProfile_KubeProxyConfig_Mode_STATUS
----------------------------------------------------------------------------------------------------------------------------------
+ContainerServiceNetworkProfile_KubeProxyConfig_Mode_STATUS{#ContainerServiceNetworkProfile_KubeProxyConfig_Mode_STATUS}
+-----------------------------------------------------------------------------------------------------------------------
 
 Used by: [ContainerServiceNetworkProfile_KubeProxyConfig_STATUS](#ContainerServiceNetworkProfile_KubeProxyConfig_STATUS).
 
@@ -3959,8 +3959,8 @@ Used by: [ContainerServiceNetworkProfile_KubeProxyConfig_STATUS](#ContainerServi
 | "IPTABLES" |             |
 | "IPVS"     |             |
 
-<a id="ContainerServiceSshPublicKey"></a>ContainerServiceSshPublicKey
----------------------------------------------------------------------
+ContainerServiceSshPublicKey{#ContainerServiceSshPublicKey}
+-----------------------------------------------------------
 
 Contains information about SSH certificate public key data.
 
@@ -3970,8 +3970,8 @@ Used by: [ContainerServiceSshConfiguration](#ContainerServiceSshConfiguration).
 |----------|----------------------------------------------------------------------------------------------------------------------------------|------------------------------------|
 | keyData  | Certificate public key used to authenticate with VMs through SSH. The certificate must be in PEM format with or without headers. | string<br/><small>Required</small> |
 
-<a id="ContainerServiceSshPublicKey_STATUS"></a>ContainerServiceSshPublicKey_STATUS
------------------------------------------------------------------------------------
+ContainerServiceSshPublicKey_STATUS{#ContainerServiceSshPublicKey_STATUS}
+-------------------------------------------------------------------------
 
 Contains information about SSH certificate public key data.
 
@@ -3981,8 +3981,8 @@ Used by: [ContainerServiceSshConfiguration_STATUS](#ContainerServiceSshConfigura
 |----------|----------------------------------------------------------------------------------------------------------------------------------|------------------------------------|
 | keyData  | Certificate public key used to authenticate with VMs through SSH. The certificate must be in PEM format with or without headers. | string<br/><small>Optional</small> |
 
-<a id="IstioCertificateAuthority"></a>IstioCertificateAuthority
----------------------------------------------------------------
+IstioCertificateAuthority{#IstioCertificateAuthority}
+-----------------------------------------------------
 
 Istio Service Mesh Certificate Authority (CA) configuration. For now, we only support plugin certificates as described here https://aka.ms/asm-plugin-ca
 
@@ -3992,8 +3992,8 @@ Used by: [IstioServiceMesh](#IstioServiceMesh).
 |----------|---------------------------------------------------|-------------------------------------------------------------------------------------------------|
 | plugin   | Plugin certificates information for Service Mesh. | [IstioPluginCertificateAuthority](#IstioPluginCertificateAuthority)<br/><small>Optional</small> |
 
-<a id="IstioCertificateAuthority_STATUS"></a>IstioCertificateAuthority_STATUS
------------------------------------------------------------------------------
+IstioCertificateAuthority_STATUS{#IstioCertificateAuthority_STATUS}
+-------------------------------------------------------------------
 
 Istio Service Mesh Certificate Authority (CA) configuration. For now, we only support plugin certificates as described here https://aka.ms/asm-plugin-ca
 
@@ -4003,8 +4003,8 @@ Used by: [IstioServiceMesh_STATUS](#IstioServiceMesh_STATUS).
 |----------|---------------------------------------------------|---------------------------------------------------------------------------------------------------------------|
 | plugin   | Plugin certificates information for Service Mesh. | [IstioPluginCertificateAuthority_STATUS](#IstioPluginCertificateAuthority_STATUS)<br/><small>Optional</small> |
 
-<a id="IstioComponents"></a>IstioComponents
--------------------------------------------
+IstioComponents{#IstioComponents}
+---------------------------------
 
 Istio components configuration.
 
@@ -4015,8 +4015,8 @@ Used by: [IstioServiceMesh](#IstioServiceMesh).
 | egressGateways  | Istio egress gateways.  | [IstioEgressGateway[]](#IstioEgressGateway)<br/><small>Optional</small>   |
 | ingressGateways | Istio ingress gateways. | [IstioIngressGateway[]](#IstioIngressGateway)<br/><small>Optional</small> |
 
-<a id="IstioComponents_STATUS"></a>IstioComponents_STATUS
----------------------------------------------------------
+IstioComponents_STATUS{#IstioComponents_STATUS}
+-----------------------------------------------
 
 Istio components configuration.
 
@@ -4027,43 +4027,43 @@ Used by: [IstioServiceMesh_STATUS](#IstioServiceMesh_STATUS).
 | egressGateways  | Istio egress gateways.  | [IstioEgressGateway_STATUS[]](#IstioEgressGateway_STATUS)<br/><small>Optional</small>   |
 | ingressGateways | Istio ingress gateways. | [IstioIngressGateway_STATUS[]](#IstioIngressGateway_STATUS)<br/><small>Optional</small> |
 
-<a id="ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation"></a>ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation
+ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation{#ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation}
+-------------------------------------------------------------------------------------------------------------------------------------
+
+Application Monitoring Auto Instrumentation for Kubernetes Application Container. Deploys web hook to auto-instrument Azure Monitor OpenTelemetry based SDKs to collect OpenTelemetry metrics, logs and traces of the application. See aka.ms/AzureMonitorApplicationMonitoring for an overview.
+
+Used by: [ManagedClusterAzureMonitorProfileAppMonitoring](#ManagedClusterAzureMonitorProfileAppMonitoring).
+
+| Property | Description                                                                 | Type                             |
+|----------|-----------------------------------------------------------------------------|----------------------------------|
+| enabled  | Indicates if Application Monitoring Auto Instrumentation is enabled or not. | bool<br/><small>Optional</small> |
+
+ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation_STATUS{#ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation_STATUS}
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
+Application Monitoring Auto Instrumentation for Kubernetes Application Container. Deploys web hook to auto-instrument Azure Monitor OpenTelemetry based SDKs to collect OpenTelemetry metrics, logs and traces of the application. See aka.ms/AzureMonitorApplicationMonitoring for an overview.
+
+Used by: [ManagedClusterAzureMonitorProfileAppMonitoring_STATUS](#ManagedClusterAzureMonitorProfileAppMonitoring_STATUS).
+
+| Property | Description                                                                 | Type                             |
+|----------|-----------------------------------------------------------------------------|----------------------------------|
+| enabled  | Indicates if Application Monitoring Auto Instrumentation is enabled or not. | bool<br/><small>Optional</small> |
+
+ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs{#ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs}
+---------------------------------------------------------------------------------------------------------------------------------
+
+Application Monitoring Open Telemetry Metrics Profile for Kubernetes Application Container Logs and Traces. Collects OpenTelemetry logs and traces of the application using Azure Monitor OpenTelemetry based SDKs. See aka.ms/AzureMonitorApplicationMonitoring for an overview.
+
+Used by: [ManagedClusterAzureMonitorProfileAppMonitoring](#ManagedClusterAzureMonitorProfileAppMonitoring).
+
+| Property | Description                                                                                                   | Type                             |
+|----------|---------------------------------------------------------------------------------------------------------------|----------------------------------|
+| enabled  | Indicates if Application Monitoring Open Telemetry Logs and traces is enabled or not.                         | bool<br/><small>Optional</small> |
+| port     | The Open Telemetry host port for Open Telemetry logs and traces. If not specified, the default port is 28331. | int<br/><small>Optional</small>  |
+
+ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs_STATUS{#ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs_STATUS}
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-Application Monitoring Auto Instrumentation for Kubernetes Application Container. Deploys web hook to auto-instrument Azure Monitor OpenTelemetry based SDKs to collect OpenTelemetry metrics, logs and traces of the application. See aka.ms/AzureMonitorApplicationMonitoring for an overview.
-
-Used by: [ManagedClusterAzureMonitorProfileAppMonitoring](#ManagedClusterAzureMonitorProfileAppMonitoring).
-
-| Property | Description                                                                 | Type                             |
-|----------|-----------------------------------------------------------------------------|----------------------------------|
-| enabled  | Indicates if Application Monitoring Auto Instrumentation is enabled or not. | bool<br/><small>Optional</small> |
-
-<a id="ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation_STATUS"></a>ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation_STATUS
--------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-Application Monitoring Auto Instrumentation for Kubernetes Application Container. Deploys web hook to auto-instrument Azure Monitor OpenTelemetry based SDKs to collect OpenTelemetry metrics, logs and traces of the application. See aka.ms/AzureMonitorApplicationMonitoring for an overview.
-
-Used by: [ManagedClusterAzureMonitorProfileAppMonitoring_STATUS](#ManagedClusterAzureMonitorProfileAppMonitoring_STATUS).
-
-| Property | Description                                                                 | Type                             |
-|----------|-----------------------------------------------------------------------------|----------------------------------|
-| enabled  | Indicates if Application Monitoring Auto Instrumentation is enabled or not. | bool<br/><small>Optional</small> |
-
-<a id="ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs"></a>ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs
--------------------------------------------------------------------------------------------------------------------------------------------
-
-Application Monitoring Open Telemetry Metrics Profile for Kubernetes Application Container Logs and Traces. Collects OpenTelemetry logs and traces of the application using Azure Monitor OpenTelemetry based SDKs. See aka.ms/AzureMonitorApplicationMonitoring for an overview.
-
-Used by: [ManagedClusterAzureMonitorProfileAppMonitoring](#ManagedClusterAzureMonitorProfileAppMonitoring).
-
-| Property | Description                                                                                                   | Type                             |
-|----------|---------------------------------------------------------------------------------------------------------------|----------------------------------|
-| enabled  | Indicates if Application Monitoring Open Telemetry Logs and traces is enabled or not.                         | bool<br/><small>Optional</small> |
-| port     | The Open Telemetry host port for Open Telemetry logs and traces. If not specified, the default port is 28331. | int<br/><small>Optional</small>  |
-
-<a id="ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs_STATUS"></a>ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs_STATUS
----------------------------------------------------------------------------------------------------------------------------------------------------------
-
 Application Monitoring Open Telemetry Metrics Profile for Kubernetes Application Container Logs and Traces. Collects OpenTelemetry logs and traces of the application using Azure Monitor OpenTelemetry based SDKs. See aka.ms/AzureMonitorApplicationMonitoring for an overview.
 
 Used by: [ManagedClusterAzureMonitorProfileAppMonitoring_STATUS](#ManagedClusterAzureMonitorProfileAppMonitoring_STATUS).
@@ -4073,8 +4073,8 @@ Used by: [ManagedClusterAzureMonitorProfileAppMonitoring_STATUS](#ManagedCluster
 | enabled  | Indicates if Application Monitoring Open Telemetry Logs and traces is enabled or not.                         | bool<br/><small>Optional</small> |
 | port     | The Open Telemetry host port for Open Telemetry logs and traces. If not specified, the default port is 28331. | int<br/><small>Optional</small>  |
 
-<a id="ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics"></a>ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics
--------------------------------------------------------------------------------------------------------------------------------------------------
+ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics{#ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics}
+---------------------------------------------------------------------------------------------------------------------------------------
 
 Application Monitoring Open Telemetry Metrics Profile for Kubernetes Application Container Metrics. Collects OpenTelemetry metrics of the application using Azure Monitor OpenTelemetry based SDKs. See aka.ms/AzureMonitorApplicationMonitoring for an overview.
 
@@ -4085,8 +4085,8 @@ Used by: [ManagedClusterAzureMonitorProfileAppMonitoring](#ManagedClusterAzureMo
 | enabled  | Indicates if Application Monitoring Open Telemetry Metrics is enabled or not.                         | bool<br/><small>Optional</small> |
 | port     | The Open Telemetry host port for Open Telemetry metrics. If not specified, the default port is 28333. | int<br/><small>Optional</small>  |
 
-<a id="ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics_STATUS"></a>ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics_STATUS
----------------------------------------------------------------------------------------------------------------------------------------------------------------
+ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics_STATUS{#ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics_STATUS}
+-----------------------------------------------------------------------------------------------------------------------------------------------------
 
 Application Monitoring Open Telemetry Metrics Profile for Kubernetes Application Container Metrics. Collects OpenTelemetry metrics of the application using Azure Monitor OpenTelemetry based SDKs. See aka.ms/AzureMonitorApplicationMonitoring for an overview.
 
@@ -4097,8 +4097,8 @@ Used by: [ManagedClusterAzureMonitorProfileAppMonitoring_STATUS](#ManagedCluster
 | enabled  | Indicates if Application Monitoring Open Telemetry Metrics is enabled or not.                         | bool<br/><small>Optional</small> |
 | port     | The Open Telemetry host port for Open Telemetry metrics. If not specified, the default port is 28333. | int<br/><small>Optional</small>  |
 
-<a id="ManagedClusterAzureMonitorProfileKubeStateMetrics"></a>ManagedClusterAzureMonitorProfileKubeStateMetrics
----------------------------------------------------------------------------------------------------------------
+ManagedClusterAzureMonitorProfileKubeStateMetrics{#ManagedClusterAzureMonitorProfileKubeStateMetrics}
+-----------------------------------------------------------------------------------------------------
 
 Kube State Metrics for prometheus addon profile for the container service cluster
 
@@ -4109,8 +4109,8 @@ Used by: [ManagedClusterAzureMonitorProfileMetrics](#ManagedClusterAzureMonitorP
 | metricAnnotationsAllowList | Comma-separated list of additional Kubernetes label keys that will be used in the resource's labels metric. | string<br/><small>Optional</small> |
 | metricLabelsAllowlist      | Comma-separated list of Kubernetes annotations keys that will be used in the resource's labels metric.      | string<br/><small>Optional</small> |
 
-<a id="ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS"></a>ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS
------------------------------------------------------------------------------------------------------------------------------
+ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS{#ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS}
+-------------------------------------------------------------------------------------------------------------------
 
 Kube State Metrics for prometheus addon profile for the container service cluster
 
@@ -4121,8 +4121,8 @@ Used by: [ManagedClusterAzureMonitorProfileMetrics_STATUS](#ManagedClusterAzureM
 | metricAnnotationsAllowList | Comma-separated list of additional Kubernetes label keys that will be used in the resource's labels metric. | string<br/><small>Optional</small> |
 | metricLabelsAllowlist      | Comma-separated list of Kubernetes annotations keys that will be used in the resource's labels metric.      | string<br/><small>Optional</small> |
 
-<a id="ManagedClusterLoadBalancerProfile_BackendPoolType"></a>ManagedClusterLoadBalancerProfile_BackendPoolType
----------------------------------------------------------------------------------------------------------------
+ManagedClusterLoadBalancerProfile_BackendPoolType{#ManagedClusterLoadBalancerProfile_BackendPoolType}
+-----------------------------------------------------------------------------------------------------
 
 Used by: [ManagedClusterLoadBalancerProfile](#ManagedClusterLoadBalancerProfile).
 
@@ -4131,8 +4131,8 @@ Used by: [ManagedClusterLoadBalancerProfile](#ManagedClusterLoadBalancerProfile)
 | "NodeIP"              |             |
 | "NodeIPConfiguration" |             |
 
-<a id="ManagedClusterLoadBalancerProfile_BackendPoolType_STATUS"></a>ManagedClusterLoadBalancerProfile_BackendPoolType_STATUS
------------------------------------------------------------------------------------------------------------------------------
+ManagedClusterLoadBalancerProfile_BackendPoolType_STATUS{#ManagedClusterLoadBalancerProfile_BackendPoolType_STATUS}
+-------------------------------------------------------------------------------------------------------------------
 
 Used by: [ManagedClusterLoadBalancerProfile_STATUS](#ManagedClusterLoadBalancerProfile_STATUS).
 
@@ -4141,8 +4141,8 @@ Used by: [ManagedClusterLoadBalancerProfile_STATUS](#ManagedClusterLoadBalancerP
 | "NodeIP"              |             |
 | "NodeIPConfiguration" |             |
 
-<a id="ManagedClusterLoadBalancerProfile_ClusterServiceLoadBalancerHealthProbeMode"></a>ManagedClusterLoadBalancerProfile_ClusterServiceLoadBalancerHealthProbeMode
--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ManagedClusterLoadBalancerProfile_ClusterServiceLoadBalancerHealthProbeMode{#ManagedClusterLoadBalancerProfile_ClusterServiceLoadBalancerHealthProbeMode}
+---------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Used by: [ManagedClusterLoadBalancerProfile](#ManagedClusterLoadBalancerProfile).
 
@@ -4151,8 +4151,8 @@ Used by: [ManagedClusterLoadBalancerProfile](#ManagedClusterLoadBalancerProfile)
 | "ServiceNodePort" |             |
 | "Shared"          |             |
 
-<a id="ManagedClusterLoadBalancerProfile_ClusterServiceLoadBalancerHealthProbeMode_STATUS"></a>ManagedClusterLoadBalancerProfile_ClusterServiceLoadBalancerHealthProbeMode_STATUS
----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ManagedClusterLoadBalancerProfile_ClusterServiceLoadBalancerHealthProbeMode_STATUS{#ManagedClusterLoadBalancerProfile_ClusterServiceLoadBalancerHealthProbeMode_STATUS}
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Used by: [ManagedClusterLoadBalancerProfile_STATUS](#ManagedClusterLoadBalancerProfile_STATUS).
 
@@ -4161,8 +4161,8 @@ Used by: [ManagedClusterLoadBalancerProfile_STATUS](#ManagedClusterLoadBalancerP
 | "ServiceNodePort" |             |
 | "Shared"          |             |
 
-<a id="ManagedClusterLoadBalancerProfile_ManagedOutboundIPs"></a>ManagedClusterLoadBalancerProfile_ManagedOutboundIPs
----------------------------------------------------------------------------------------------------------------------
+ManagedClusterLoadBalancerProfile_ManagedOutboundIPs{#ManagedClusterLoadBalancerProfile_ManagedOutboundIPs}
+-----------------------------------------------------------------------------------------------------------
 
 Used by: [ManagedClusterLoadBalancerProfile](#ManagedClusterLoadBalancerProfile).
 
@@ -4171,8 +4171,8 @@ Used by: [ManagedClusterLoadBalancerProfile](#ManagedClusterLoadBalancerProfile)
 | count     | The desired number of IPv4 outbound IPs created/managed by Azure for the cluster load balancer. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1.                                       | int<br/><small>Optional</small> |
 | countIPv6 | The desired number of IPv6 outbound IPs created/managed by Azure for the cluster load balancer. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 0 for single-stack and 1 for dual-stack. | int<br/><small>Optional</small> |
 
-<a id="ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS"></a>ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS
------------------------------------------------------------------------------------------------------------------------------------
+ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS{#ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS}
+-------------------------------------------------------------------------------------------------------------------------
 
 Used by: [ManagedClusterLoadBalancerProfile_STATUS](#ManagedClusterLoadBalancerProfile_STATUS).
 
@@ -4181,8 +4181,8 @@ Used by: [ManagedClusterLoadBalancerProfile_STATUS](#ManagedClusterLoadBalancerP
 | count     | The desired number of IPv4 outbound IPs created/managed by Azure for the cluster load balancer. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1.                                       | int<br/><small>Optional</small> |
 | countIPv6 | The desired number of IPv6 outbound IPs created/managed by Azure for the cluster load balancer. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 0 for single-stack and 1 for dual-stack. | int<br/><small>Optional</small> |
 
-<a id="ManagedClusterLoadBalancerProfile_OutboundIPPrefixes"></a>ManagedClusterLoadBalancerProfile_OutboundIPPrefixes
----------------------------------------------------------------------------------------------------------------------
+ManagedClusterLoadBalancerProfile_OutboundIPPrefixes{#ManagedClusterLoadBalancerProfile_OutboundIPPrefixes}
+-----------------------------------------------------------------------------------------------------------
 
 Used by: [ManagedClusterLoadBalancerProfile](#ManagedClusterLoadBalancerProfile).
 
@@ -4190,8 +4190,8 @@ Used by: [ManagedClusterLoadBalancerProfile](#ManagedClusterLoadBalancerProfile)
 |------------------|---------------------------------------|-----------------------------------------------------------------------|
 | publicIPPrefixes | A list of public IP prefix resources. | [ResourceReference[]](#ResourceReference)<br/><small>Optional</small> |
 
-<a id="ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS"></a>ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS
------------------------------------------------------------------------------------------------------------------------------------
+ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS{#ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS}
+-------------------------------------------------------------------------------------------------------------------------
 
 Used by: [ManagedClusterLoadBalancerProfile_STATUS](#ManagedClusterLoadBalancerProfile_STATUS).
 
@@ -4199,8 +4199,8 @@ Used by: [ManagedClusterLoadBalancerProfile_STATUS](#ManagedClusterLoadBalancerP
 |------------------|---------------------------------------|-------------------------------------------------------------------------------------|
 | publicIPPrefixes | A list of public IP prefix resources. | [ResourceReference_STATUS[]](#ResourceReference_STATUS)<br/><small>Optional</small> |
 
-<a id="ManagedClusterLoadBalancerProfile_OutboundIPs"></a>ManagedClusterLoadBalancerProfile_OutboundIPs
--------------------------------------------------------------------------------------------------------
+ManagedClusterLoadBalancerProfile_OutboundIPs{#ManagedClusterLoadBalancerProfile_OutboundIPs}
+---------------------------------------------------------------------------------------------
 
 Used by: [ManagedClusterLoadBalancerProfile](#ManagedClusterLoadBalancerProfile).
 
@@ -4208,8 +4208,8 @@ Used by: [ManagedClusterLoadBalancerProfile](#ManagedClusterLoadBalancerProfile)
 |-----------|--------------------------------|-----------------------------------------------------------------------|
 | publicIPs | A list of public IP resources. | [ResourceReference[]](#ResourceReference)<br/><small>Optional</small> |
 
-<a id="ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS"></a>ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS
----------------------------------------------------------------------------------------------------------------------
+ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS{#ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS}
+-----------------------------------------------------------------------------------------------------------
 
 Used by: [ManagedClusterLoadBalancerProfile_STATUS](#ManagedClusterLoadBalancerProfile_STATUS).
 
@@ -4217,8 +4217,8 @@ Used by: [ManagedClusterLoadBalancerProfile_STATUS](#ManagedClusterLoadBalancerP
 |-----------|--------------------------------|-------------------------------------------------------------------------------------|
 | publicIPs | A list of public IP resources. | [ResourceReference_STATUS[]](#ResourceReference_STATUS)<br/><small>Optional</small> |
 
-<a id="ManagedClusterManagedOutboundIPProfile"></a>ManagedClusterManagedOutboundIPProfile
------------------------------------------------------------------------------------------
+ManagedClusterManagedOutboundIPProfile{#ManagedClusterManagedOutboundIPProfile}
+-------------------------------------------------------------------------------
 
 Profile of the managed outbound IP resources of the managed cluster.
 
@@ -4228,8 +4228,8 @@ Used by: [ManagedClusterNATGatewayProfile](#ManagedClusterNATGatewayProfile).
 |----------|--------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------|
 | count    | The desired number of outbound IPs created/managed by Azure. Allowed values must be in the range of 1 to 16 (inclusive). The default value is 1. | int<br/><small>Optional</small> |
 
-<a id="ManagedClusterManagedOutboundIPProfile_STATUS"></a>ManagedClusterManagedOutboundIPProfile_STATUS
--------------------------------------------------------------------------------------------------------
+ManagedClusterManagedOutboundIPProfile_STATUS{#ManagedClusterManagedOutboundIPProfile_STATUS}
+---------------------------------------------------------------------------------------------
 
 Profile of the managed outbound IP resources of the managed cluster.
 
@@ -4239,8 +4239,8 @@ Used by: [ManagedClusterNATGatewayProfile_STATUS](#ManagedClusterNATGatewayProfi
 |----------|--------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------|
 | count    | The desired number of outbound IPs created/managed by Azure. Allowed values must be in the range of 1 to 16 (inclusive). The default value is 1. | int<br/><small>Optional</small> |
 
-<a id="ManagedClusterPodIdentity_ProvisioningInfo_STATUS"></a>ManagedClusterPodIdentity_ProvisioningInfo_STATUS
----------------------------------------------------------------------------------------------------------------
+ManagedClusterPodIdentity_ProvisioningInfo_STATUS{#ManagedClusterPodIdentity_ProvisioningInfo_STATUS}
+-----------------------------------------------------------------------------------------------------
 
 Used by: [ManagedClusterPodIdentity_STATUS](#ManagedClusterPodIdentity_STATUS).
 
@@ -4248,8 +4248,8 @@ Used by: [ManagedClusterPodIdentity_STATUS](#ManagedClusterPodIdentity_STATUS).
 |----------|-----------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------|
 | error    | Pod identity assignment error (if any). | [ManagedClusterPodIdentityProvisioningError_STATUS](#ManagedClusterPodIdentityProvisioningError_STATUS)<br/><small>Optional</small> |
 
-<a id="ManagedClusterPodIdentity_ProvisioningState_STATUS"></a>ManagedClusterPodIdentity_ProvisioningState_STATUS
------------------------------------------------------------------------------------------------------------------
+ManagedClusterPodIdentity_ProvisioningState_STATUS{#ManagedClusterPodIdentity_ProvisioningState_STATUS}
+-------------------------------------------------------------------------------------------------------
 
 Used by: [ManagedClusterPodIdentity_STATUS](#ManagedClusterPodIdentity_STATUS).
 
@@ -4262,8 +4262,8 @@ Used by: [ManagedClusterPodIdentity_STATUS](#ManagedClusterPodIdentity_STATUS).
 | "Succeeded" |             |
 | "Updating"  |             |
 
-<a id="ManagedClusterSecurityProfileDefenderSecurityMonitoring"></a>ManagedClusterSecurityProfileDefenderSecurityMonitoring
----------------------------------------------------------------------------------------------------------------------------
+ManagedClusterSecurityProfileDefenderSecurityMonitoring{#ManagedClusterSecurityProfileDefenderSecurityMonitoring}
+-----------------------------------------------------------------------------------------------------------------
 
 Microsoft Defender settings for the security profile threat detection.
 
@@ -4273,8 +4273,8 @@ Used by: [ManagedClusterSecurityProfileDefender](#ManagedClusterSecurityProfileD
 |----------|---------------------------------------------|----------------------------------|
 | enabled  | Whether to enable Defender threat detection | bool<br/><small>Optional</small> |
 
-<a id="ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS"></a>ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS
------------------------------------------------------------------------------------------------------------------------------------------
+ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS{#ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS}
+-------------------------------------------------------------------------------------------------------------------------------
 
 Microsoft Defender settings for the security profile threat detection.
 
@@ -4284,8 +4284,8 @@ Used by: [ManagedClusterSecurityProfileDefender_STATUS](#ManagedClusterSecurityP
 |----------|---------------------------------------------|----------------------------------|
 | enabled  | Whether to enable Defender threat detection | bool<br/><small>Optional</small> |
 
-<a id="ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_AddonAutoscaling"></a>ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_AddonAutoscaling
------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_AddonAutoscaling{#ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_AddonAutoscaling}
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Used by: [ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler](#ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler).
 
@@ -4294,8 +4294,8 @@ Used by: [ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler](#Managed
 | "Disabled" |             |
 | "Enabled"  |             |
 
-<a id="ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_AddonAutoscaling_STATUS"></a>ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_AddonAutoscaling_STATUS
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_AddonAutoscaling_STATUS{#ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_AddonAutoscaling_STATUS}
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Used by: [ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS](#ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS).
 
@@ -4304,8 +4304,8 @@ Used by: [ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS](#
 | "Disabled" |             |
 | "Enabled"  |             |
 
-<a id="ManualScaleProfile"></a>ManualScaleProfile
--------------------------------------------------
+ManualScaleProfile{#ManualScaleProfile}
+---------------------------------------
 
 Specifications on number of machines.
 
@@ -4316,8 +4316,8 @@ Used by: [ScaleProfile](#ScaleProfile).
 | count    | Number of nodes.                                                                                                                                                                                                                                            | int<br/><small>Optional</small>      |
 | sizes    | The list of allowed vm sizes e.g. ['Standard_E4s_v3', 'Standard_E16s_v3', 'Standard_D16s_v5']. AKS will use the first available one when scaling. If a VM size is unavailable (e.g. due to quota or regional capacity reasons), AKS will use the next size. | string[]<br/><small>Optional</small> |
 
-<a id="ManualScaleProfile_STATUS"></a>ManualScaleProfile_STATUS
----------------------------------------------------------------
+ManualScaleProfile_STATUS{#ManualScaleProfile_STATUS}
+-----------------------------------------------------
 
 Specifications on number of machines.
 
@@ -4328,8 +4328,8 @@ Used by: [ScaleProfile_STATUS](#ScaleProfile_STATUS).
 | count    | Number of nodes.                                                                                                                                                                                                                                            | int<br/><small>Optional</small>      |
 | sizes    | The list of allowed vm sizes e.g. ['Standard_E4s_v3', 'Standard_E16s_v3', 'Standard_D16s_v5']. AKS will use the first available one when scaling. If a VM size is unavailable (e.g. due to quota or regional capacity reasons), AKS will use the next size. | string[]<br/><small>Optional</small> |
 
-<a id="PortRange_Protocol"></a>PortRange_Protocol
--------------------------------------------------
+PortRange_Protocol{#PortRange_Protocol}
+---------------------------------------
 
 Used by: [PortRange](#PortRange).
 
@@ -4338,8 +4338,8 @@ Used by: [PortRange](#PortRange).
 | "TCP" |             |
 | "UDP" |             |
 
-<a id="PortRange_Protocol_STATUS"></a>PortRange_Protocol_STATUS
----------------------------------------------------------------
+PortRange_Protocol_STATUS{#PortRange_Protocol_STATUS}
+-----------------------------------------------------
 
 Used by: [PortRange_STATUS](#PortRange_STATUS).
 
@@ -4348,8 +4348,8 @@ Used by: [PortRange_STATUS](#PortRange_STATUS).
 | "TCP" |             |
 | "UDP" |             |
 
-<a id="ResourceReference"></a>ResourceReference
------------------------------------------------
+ResourceReference{#ResourceReference}
+-------------------------------------
 
 A reference to an Azure resource.
 
@@ -4359,8 +4359,8 @@ Used by: [ManagedClusterLoadBalancerProfile](#ManagedClusterLoadBalancerProfile)
 |-----------|----------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | reference | The fully qualified Azure resource id. | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small> |
 
-<a id="ResourceReference_STATUS"></a>ResourceReference_STATUS
--------------------------------------------------------------
+ResourceReference_STATUS{#ResourceReference_STATUS}
+---------------------------------------------------
 
 A reference to an Azure resource.
 
@@ -4370,8 +4370,8 @@ Used by: [ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS](#ManagedC
 |----------|----------------------------------------|------------------------------------|
 | id       | The fully qualified Azure resource id. | string<br/><small>Optional</small> |
 
-<a id="ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_Scheduler"></a>ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_Scheduler
----------------------------------------------------------------------------------------------------------------------------------------------------
+ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_Scheduler{#ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_Scheduler}
+-----------------------------------------------------------------------------------------------------------------------------------------
 
 Used by: [ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig](#ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig).
 
@@ -4380,8 +4380,8 @@ Used by: [ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig](#ContainerS
 | "LeastConnection" |             |
 | "RoundRobin"      |             |
 
-<a id="ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_Scheduler_STATUS"></a>ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_Scheduler_STATUS
------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_Scheduler_STATUS{#ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_Scheduler_STATUS}
+-------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Used by: [ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS](#ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS).
 
@@ -4390,8 +4390,8 @@ Used by: [ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS](#Con
 | "LeastConnection" |             |
 | "RoundRobin"      |             |
 
-<a id="IstioEgressGateway"></a>IstioEgressGateway
--------------------------------------------------
+IstioEgressGateway{#IstioEgressGateway}
+---------------------------------------
 
 Istio egress gateway configuration.
 
@@ -4401,8 +4401,8 @@ Used by: [IstioComponents](#IstioComponents).
 |----------|---------------------------------------|----------------------------------|
 | enabled  | Whether to enable the egress gateway. | bool<br/><small>Required</small> |
 
-<a id="IstioEgressGateway_STATUS"></a>IstioEgressGateway_STATUS
----------------------------------------------------------------
+IstioEgressGateway_STATUS{#IstioEgressGateway_STATUS}
+-----------------------------------------------------
 
 Istio egress gateway configuration.
 
@@ -4412,8 +4412,8 @@ Used by: [IstioComponents_STATUS](#IstioComponents_STATUS).
 |----------|---------------------------------------|----------------------------------|
 | enabled  | Whether to enable the egress gateway. | bool<br/><small>Optional</small> |
 
-<a id="IstioIngressGateway"></a>IstioIngressGateway
----------------------------------------------------
+IstioIngressGateway{#IstioIngressGateway}
+-----------------------------------------
 
 Istio ingress gateway configuration. For now, we support up to one external ingress gateway named `aks-istio-ingressgateway-external` and one internal ingress gateway named `aks-istio-ingressgateway-internal`.
 
@@ -4424,8 +4424,8 @@ Used by: [IstioComponents](#IstioComponents).
 | enabled  | Whether to enable the ingress gateway. | bool<br/><small>Required</small>                                                  |
 | mode     | Mode of an ingress gateway.            | [IstioIngressGateway_Mode](#IstioIngressGateway_Mode)<br/><small>Required</small> |
 
-<a id="IstioIngressGateway_STATUS"></a>IstioIngressGateway_STATUS
------------------------------------------------------------------
+IstioIngressGateway_STATUS{#IstioIngressGateway_STATUS}
+-------------------------------------------------------
 
 Istio ingress gateway configuration. For now, we support up to one external ingress gateway named `aks-istio-ingressgateway-external` and one internal ingress gateway named `aks-istio-ingressgateway-internal`.
 
@@ -4436,8 +4436,8 @@ Used by: [IstioComponents_STATUS](#IstioComponents_STATUS).
 | enabled  | Whether to enable the ingress gateway. | bool<br/><small>Optional</small>                                                                |
 | mode     | Mode of an ingress gateway.            | [IstioIngressGateway_Mode_STATUS](#IstioIngressGateway_Mode_STATUS)<br/><small>Optional</small> |
 
-<a id="IstioPluginCertificateAuthority"></a>IstioPluginCertificateAuthority
----------------------------------------------------------------------------
+IstioPluginCertificateAuthority{#IstioPluginCertificateAuthority}
+-----------------------------------------------------------------
 
 Plugin certificates information for Service Mesh.
 
@@ -4451,8 +4451,8 @@ Used by: [IstioCertificateAuthority](#IstioCertificateAuthority).
 | keyVaultReference   | The resource ID of the Key Vault.                                    | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small> |
 | rootCertObjectName  | Root certificate object name in Azure Key Vault.                     | string<br/><small>Optional</small>                                                                                                                         |
 
-<a id="IstioPluginCertificateAuthority_STATUS"></a>IstioPluginCertificateAuthority_STATUS
------------------------------------------------------------------------------------------
+IstioPluginCertificateAuthority_STATUS{#IstioPluginCertificateAuthority_STATUS}
+-------------------------------------------------------------------------------
 
 Plugin certificates information for Service Mesh.
 
@@ -4466,8 +4466,8 @@ Used by: [IstioCertificateAuthority_STATUS](#IstioCertificateAuthority_STATUS).
 | keyVaultId          | The resource ID of the Key Vault.                                    | string<br/><small>Optional</small> |
 | rootCertObjectName  | Root certificate object name in Azure Key Vault.                     | string<br/><small>Optional</small> |
 
-<a id="ManagedClusterPodIdentityProvisioningError_STATUS"></a>ManagedClusterPodIdentityProvisioningError_STATUS
----------------------------------------------------------------------------------------------------------------
+ManagedClusterPodIdentityProvisioningError_STATUS{#ManagedClusterPodIdentityProvisioningError_STATUS}
+-----------------------------------------------------------------------------------------------------
 
 An error response from the pod identity provisioning.
 
@@ -4477,8 +4477,8 @@ Used by: [ManagedClusterPodIdentity_ProvisioningInfo_STATUS](#ManagedClusterPodI
 |----------|--------------------------|---------------------------------------------------------------------------------------------------------------------------------------------|
 | error    | Details about the error. | [ManagedClusterPodIdentityProvisioningErrorBody_STATUS](#ManagedClusterPodIdentityProvisioningErrorBody_STATUS)<br/><small>Optional</small> |
 
-<a id="IstioIngressGateway_Mode"></a>IstioIngressGateway_Mode
--------------------------------------------------------------
+IstioIngressGateway_Mode{#IstioIngressGateway_Mode}
+---------------------------------------------------
 
 Used by: [IstioIngressGateway](#IstioIngressGateway).
 
@@ -4487,8 +4487,8 @@ Used by: [IstioIngressGateway](#IstioIngressGateway).
 | "External" |             |
 | "Internal" |             |
 
-<a id="IstioIngressGateway_Mode_STATUS"></a>IstioIngressGateway_Mode_STATUS
----------------------------------------------------------------------------
+IstioIngressGateway_Mode_STATUS{#IstioIngressGateway_Mode_STATUS}
+-----------------------------------------------------------------
 
 Used by: [IstioIngressGateway_STATUS](#IstioIngressGateway_STATUS).
 
@@ -4497,8 +4497,8 @@ Used by: [IstioIngressGateway_STATUS](#IstioIngressGateway_STATUS).
 | "External" |             |
 | "Internal" |             |
 
-<a id="ManagedClusterPodIdentityProvisioningErrorBody_STATUS"></a>ManagedClusterPodIdentityProvisioningErrorBody_STATUS
------------------------------------------------------------------------------------------------------------------------
+ManagedClusterPodIdentityProvisioningErrorBody_STATUS{#ManagedClusterPodIdentityProvisioningErrorBody_STATUS}
+-------------------------------------------------------------------------------------------------------------
 
 An error response from the pod identity provisioning.
 
@@ -4511,8 +4511,8 @@ Used by: [ManagedClusterPodIdentityProvisioningError_STATUS](#ManagedClusterPodI
 | message  | A message describing the error, intended to be suitable for display in a user interface.           | string<br/><small>Optional</small>                                                                                                                              |
 | target   | The target of the particular error. For example, the name of the property in error.                | string<br/><small>Optional</small>                                                                                                                              |
 
-<a id="ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled"></a>ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled
------------------------------------------------------------------------------------------------------------------------------------------
+ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled{#ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled}
+-------------------------------------------------------------------------------------------------------------------------------
 
 Used by: [ManagedClusterPodIdentityProvisioningErrorBody_STATUS](#ManagedClusterPodIdentityProvisioningErrorBody_STATUS).
 

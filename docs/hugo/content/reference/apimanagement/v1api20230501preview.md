@@ -5,8 +5,8 @@ title: apimanagement.azure.com/v1api20230501preview
 linktitle: v1api20230501preview
 -------------------------------
 
-<a id="Api"></a>Api
--------------------
+Api{#Api}
+---------
 
 Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/preview/2023-05-01-preview/apimapis.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}
 
@@ -19,7 +19,7 @@ Used by: [ApiList](#ApiList).
 | spec                                                                                    |             | [Api_Spec](#Api_Spec)<br/><small>Optional</small>     |
 | status                                                                                  |             | [Api_STATUS](#Api_STATUS)<br/><small>Optional</small> |
 
-### <a id="Api_Spec"></a>Api_Spec
+### Api_Spec {#Api_Spec}
 
 | Property                         | Description                                                                                                                                                                                                                                                                                | Type                                                                                                                                                                 |
 |----------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -52,7 +52,7 @@ Used by: [ApiList](#ApiList).
 | value                            | Content value when Importing an API.                                                                                                                                                                                                                                                       | string<br/><small>Optional</small>                                                                                                                                   |
 | wsdlSelector                     | Criteria to limit import of WSDL to a subset of the document.                                                                                                                                                                                                                              | [ApiCreateOrUpdateProperties_WsdlSelector](#ApiCreateOrUpdateProperties_WsdlSelector)<br/><small>Optional</small>                                                    |
 
-### <a id="Api_STATUS"></a>Api_STATUS
+### Api_STATUS{#Api_STATUS}
 
 | Property                      | Description                                                                                                                                                                                                                                                                                                               | Type                                                                                                                                                    |
 |-------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -83,8 +83,8 @@ Used by: [ApiList](#ApiList).
 | termsOfServiceUrl             | A URL to the Terms of Service for the API. MUST be in the format of a URL.                                                                                                                                                                                                                                                | string<br/><small>Optional</small>                                                                                                                      |
 | type                          | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="ApiList"></a>ApiList
----------------------------
+ApiList{#ApiList}
+-----------------
 
 Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/preview/2023-05-01-preview/apimapis.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}
 
@@ -94,15 +94,15 @@ Generator information: - Generated from: /apimanagement/resource-manager/Microso
 | [metav1.ListMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta) |             |                                           |
 | items                                                                               |             | [Api[]](#Api)<br/><small>Optional</small> |
 
-<a id="APIVersion"></a>APIVersion
----------------------------------
+APIVersion{#APIVersion}
+-----------------------
 
 | Value                | Description |
 |----------------------|-------------|
 | "2023-05-01-preview" |             |
 
-<a id="ApiVersionSet"></a>ApiVersionSet
----------------------------------------
+ApiVersionSet{#ApiVersionSet}
+-----------------------------
 
 Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/preview/2023-05-01-preview/apimapiversionsets.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ApiManagement/service/{serviceName}/apiVersionSets/{versionSetId}
 
@@ -115,7 +115,7 @@ Used by: [ApiVersionSetList](#ApiVersionSetList).
 | spec                                                                                    |             | [ApiVersionSet_Spec](#ApiVersionSet_Spec)<br/><small>Optional</small>     |
 | status                                                                                  |             | [ApiVersionSet_STATUS](#ApiVersionSet_STATUS)<br/><small>Optional</small> |
 
-### <a id="ApiVersionSet_Spec"></a>ApiVersionSet_Spec
+### ApiVersionSet_Spec {#ApiVersionSet_Spec}
 
 | Property          | Description                                                                                                                                                                                                                                                                                | Type                                                                                                                                                                 |
 |-------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -128,7 +128,7 @@ Used by: [ApiVersionSetList](#ApiVersionSetList).
 | versioningScheme  | An value that determines where the API Version identifier will be located in a HTTP request.                                                                                                                                                                                               | [ApiVersionSetContractProperties_VersioningScheme](#ApiVersionSetContractProperties_VersioningScheme)<br/><small>Required</small>                                    |
 | versionQueryName  | Name of query parameter that indicates the API Version if versioningScheme is set to `query`.                                                                                                                                                                                              | string<br/><small>Optional</small>                                                                                                                                   |
 
-### <a id="ApiVersionSet_STATUS"></a>ApiVersionSet_STATUS
+### ApiVersionSet_STATUS{#ApiVersionSet_STATUS}
 
 | Property          | Description                                                                                                                                                                                                                                                                                                               | Type                                                                                                                                                    |
 |-------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -142,8 +142,8 @@ Used by: [ApiVersionSetList](#ApiVersionSetList).
 | versioningScheme  | An value that determines where the API Version identifier will be located in a HTTP request.                                                                                                                                                                                                                              | [ApiVersionSetContractProperties_VersioningScheme_STATUS](#ApiVersionSetContractProperties_VersioningScheme_STATUS)<br/><small>Optional</small>         |
 | versionQueryName  | Name of query parameter that indicates the API Version if versioningScheme is set to `query`.                                                                                                                                                                                                                             | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="ApiVersionSetList"></a>ApiVersionSetList
------------------------------------------------
+ApiVersionSetList{#ApiVersionSetList}
+-------------------------------------
 
 Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/preview/2023-05-01-preview/apimapiversionsets.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ApiManagement/service/{serviceName}/apiVersionSets/{versionSetId}
 
@@ -153,8 +153,8 @@ Generator information: - Generated from: /apimanagement/resource-manager/Microso
 | [metav1.ListMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta) |             |                                                               |
 | items                                                                               |             | [ApiVersionSet[]](#ApiVersionSet)<br/><small>Optional</small> |
 
-<a id="AuthorizationProvider"></a>AuthorizationProvider
--------------------------------------------------------
+AuthorizationProvider{#AuthorizationProvider}
+---------------------------------------------
 
 Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/preview/2023-05-01-preview/apimauthorizationproviders.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ApiManagement/service/{serviceName}/authorizationProviders/{authorizationProviderId}
 
@@ -167,7 +167,7 @@ Used by: [AuthorizationProviderList](#AuthorizationProviderList).
 | spec                                                                                    |             | [AuthorizationProvider_Spec](#AuthorizationProvider_Spec)<br/><small>Optional</small>     |
 | status                                                                                  |             | [AuthorizationProvider_STATUS](#AuthorizationProvider_STATUS)<br/><small>Optional</small> |
 
-### <a id="AuthorizationProvider_Spec"></a>AuthorizationProvider_Spec
+### AuthorizationProvider_Spec {#AuthorizationProvider_Spec}
 
 | Property         | Description                                                                                                                                                                                                                                                                                | Type                                                                                                                                                                 |
 |------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -178,7 +178,7 @@ Used by: [AuthorizationProviderList](#AuthorizationProviderList).
 | operatorSpec     | The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure                                                                                                                                                            | [AuthorizationProviderOperatorSpec](#AuthorizationProviderOperatorSpec)<br/><small>Optional</small>                                                                  |
 | owner            | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a apimanagement.azure.com/Service resource | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
 
-### <a id="AuthorizationProvider_STATUS"></a>AuthorizationProvider_STATUS
+### AuthorizationProvider_STATUS{#AuthorizationProvider_STATUS}
 
 | Property         | Description                                                                                                                                                                                                                                                                                                               | Type                                                                                                                                                    |
 |------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -190,8 +190,8 @@ Used by: [AuthorizationProviderList](#AuthorizationProviderList).
 | oauth2           | OAuth2 settings                                                                                                                                                                                                                                                                                                           | [AuthorizationProviderOAuth2Settings_STATUS](#AuthorizationProviderOAuth2Settings_STATUS)<br/><small>Optional</small>                                   |
 | type             | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="AuthorizationProviderList"></a>AuthorizationProviderList
----------------------------------------------------------------
+AuthorizationProviderList{#AuthorizationProviderList}
+-----------------------------------------------------
 
 Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/preview/2023-05-01-preview/apimauthorizationproviders.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ApiManagement/service/{serviceName}/authorizationProviders/{authorizationProviderId}
 
@@ -201,8 +201,8 @@ Generator information: - Generated from: /apimanagement/resource-manager/Microso
 | [metav1.ListMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta) |             |                                                                               |
 | items                                                                               |             | [AuthorizationProvider[]](#AuthorizationProvider)<br/><small>Optional</small> |
 
-<a id="AuthorizationProvidersAuthorization"></a>AuthorizationProvidersAuthorization
------------------------------------------------------------------------------------
+AuthorizationProvidersAuthorization{#AuthorizationProvidersAuthorization}
+-------------------------------------------------------------------------
 
 Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/preview/2023-05-01-preview/apimauthorizationproviders.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ApiManagement/service/{serviceName}/authorizationProviders/{authorizationProviderId}/authorizations/{authorizationId}
 
@@ -215,7 +215,7 @@ Used by: [AuthorizationProvidersAuthorizationList](#AuthorizationProvidersAuthor
 | spec                                                                                    |             | [AuthorizationProvidersAuthorization_Spec](#AuthorizationProvidersAuthorization_Spec)<br/><small>Optional</small>     |
 | status                                                                                  |             | [AuthorizationProvidersAuthorization_STATUS](#AuthorizationProvidersAuthorization_STATUS)<br/><small>Optional</small> |
 
-### <a id="AuthorizationProvidersAuthorization_Spec"></a>AuthorizationProvidersAuthorization_Spec
+### AuthorizationProvidersAuthorization_Spec {#AuthorizationProvidersAuthorization_Spec}
 
 | Property          | Description                                                                                                                                                                                                                                                                                              | Type                                                                                                                                                                 |
 |-------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -226,7 +226,7 @@ Used by: [AuthorizationProvidersAuthorizationList](#AuthorizationProvidersAuthor
 | owner             | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a apimanagement.azure.com/AuthorizationProvider resource | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
 | parameters        | Authorization parameters                                                                                                                                                                                                                                                                                 | [genruntime.SecretMapReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretMapReference)<br/><small>Optional</small>         |
 
-### <a id="AuthorizationProvidersAuthorization_STATUS"></a>AuthorizationProvidersAuthorization_STATUS
+### AuthorizationProvidersAuthorization_STATUS{#AuthorizationProvidersAuthorization_STATUS}
 
 | Property          | Description                                                                                                                                                                                                                                                                                                               | Type                                                                                                                                                    |
 |-------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -240,8 +240,8 @@ Used by: [AuthorizationProvidersAuthorizationList](#AuthorizationProvidersAuthor
 | status            | Status of the Authorization                                                                                                                                                                                                                                                                                               | string<br/><small>Optional</small>                                                                                                                      |
 | type              | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="AuthorizationProvidersAuthorizationList"></a>AuthorizationProvidersAuthorizationList
--------------------------------------------------------------------------------------------
+AuthorizationProvidersAuthorizationList{#AuthorizationProvidersAuthorizationList}
+---------------------------------------------------------------------------------
 
 Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/preview/2023-05-01-preview/apimauthorizationproviders.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ApiManagement/service/{serviceName}/authorizationProviders/{authorizationProviderId}/authorizations/{authorizationId}
 
@@ -251,8 +251,8 @@ Generator information: - Generated from: /apimanagement/resource-manager/Microso
 | [metav1.ListMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta) |             |                                                                                                           |
 | items                                                                               |             | [AuthorizationProvidersAuthorization[]](#AuthorizationProvidersAuthorization)<br/><small>Optional</small> |
 
-<a id="AuthorizationProvidersAuthorizationsAccessPolicy"></a>AuthorizationProvidersAuthorizationsAccessPolicy
--------------------------------------------------------------------------------------------------------------
+AuthorizationProvidersAuthorizationsAccessPolicy{#AuthorizationProvidersAuthorizationsAccessPolicy}
+---------------------------------------------------------------------------------------------------
 
 Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/preview/2023-05-01-preview/apimauthorizationproviders.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ApiManagement/service/{serviceName}/authorizationProviders/{authorizationProviderId}/authorizations/{authorizationId}/accessPolicies/{authorizationAccessPolicyId}
 
@@ -265,7 +265,7 @@ Used by: [AuthorizationProvidersAuthorizationsAccessPolicyList](#AuthorizationPr
 | spec                                                                                    |             | [AuthorizationProvidersAuthorizationsAccessPolicy_Spec](#AuthorizationProvidersAuthorizationsAccessPolicy_Spec)<br/><small>Optional</small>     |
 | status                                                                                  |             | [AuthorizationProvidersAuthorizationsAccessPolicy_STATUS](#AuthorizationProvidersAuthorizationsAccessPolicy_STATUS)<br/><small>Optional</small> |
 
-### <a id="AuthorizationProvidersAuthorizationsAccessPolicy_Spec"></a>AuthorizationProvidersAuthorizationsAccessPolicy_Spec
+### AuthorizationProvidersAuthorizationsAccessPolicy_Spec {#AuthorizationProvidersAuthorizationsAccessPolicy_Spec}
 
 | Property           | Description                                                                                                                                                                                                                                                                                                            | Type                                                                                                                                                                 |
 |--------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -278,7 +278,7 @@ Used by: [AuthorizationProvidersAuthorizationsAccessPolicyList](#AuthorizationPr
 | tenantId           | The Tenant Id                                                                                                                                                                                                                                                                                                          | string<br/><small>Optional</small>                                                                                                                                   |
 | tenantIdFromConfig | The Tenant Id                                                                                                                                                                                                                                                                                                          | [genruntime.ConfigMapReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference)<br/><small>Optional</small>         |
 
-### <a id="AuthorizationProvidersAuthorizationsAccessPolicy_STATUS"></a>AuthorizationProvidersAuthorizationsAccessPolicy_STATUS
+### AuthorizationProvidersAuthorizationsAccessPolicy_STATUS{#AuthorizationProvidersAuthorizationsAccessPolicy_STATUS}
 
 | Property   | Description                                                                                                                                                                                                                                                                                                               | Type                                                                                                                                                    |
 |------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -290,8 +290,8 @@ Used by: [AuthorizationProvidersAuthorizationsAccessPolicyList](#AuthorizationPr
 | tenantId   | The Tenant Id                                                                                                                                                                                                                                                                                                             | string<br/><small>Optional</small>                                                                                                                      |
 | type       | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="AuthorizationProvidersAuthorizationsAccessPolicyList"></a>AuthorizationProvidersAuthorizationsAccessPolicyList
----------------------------------------------------------------------------------------------------------------------
+AuthorizationProvidersAuthorizationsAccessPolicyList{#AuthorizationProvidersAuthorizationsAccessPolicyList}
+-----------------------------------------------------------------------------------------------------------
 
 Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/preview/2023-05-01-preview/apimauthorizationproviders.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ApiManagement/service/{serviceName}/authorizationProviders/{authorizationProviderId}/authorizations/{authorizationId}/accessPolicies/{authorizationAccessPolicyId}
 
@@ -301,8 +301,8 @@ Generator information: - Generated from: /apimanagement/resource-manager/Microso
 | [metav1.ListMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta) |             |                                                                                                                                     |
 | items                                                                               |             | [AuthorizationProvidersAuthorizationsAccessPolicy[]](#AuthorizationProvidersAuthorizationsAccessPolicy)<br/><small>Optional</small> |
 
-<a id="Backend"></a>Backend
----------------------------
+Backend{#Backend}
+-----------------
 
 Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/preview/2023-05-01-preview/apimbackends.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ApiManagement/service/{serviceName}/backends/{backendId}
 
@@ -315,7 +315,7 @@ Used by: [BackendList](#BackendList).
 | spec                                                                                    |             | [Backend_Spec](#Backend_Spec)<br/><small>Optional</small>     |
 | status                                                                                  |             | [Backend_STATUS](#Backend_STATUS)<br/><small>Optional</small> |
 
-### <a id="Backend_Spec"></a>Backend_Spec
+### Backend_Spec {#Backend_Spec}
 
 | Property          | Description                                                                                                                                                                                                                                                                                | Type                                                                                                                                                                 |
 |-------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -335,7 +335,7 @@ Used by: [BackendList](#BackendList).
 | type              | Type of the backend. A backend can be either Single or Pool.                                                                                                                                                                                                                               | [BackendContractProperties_Type](#BackendContractProperties_Type)<br/><small>Optional</small>                                                                        |
 | url               | Runtime Url of the Backend.                                                                                                                                                                                                                                                                | string<br/><small>Required</small>                                                                                                                                   |
 
-### <a id="Backend_STATUS"></a>Backend_STATUS
+### Backend_STATUS{#Backend_STATUS}
 
 | Property        | Description                                                                                                                                                                                                                                                                                                               | Type                                                                                                                                                    |
 |-----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -356,8 +356,8 @@ Used by: [BackendList](#BackendList).
 | type            | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                      |
 | url             | Runtime Url of the Backend.                                                                                                                                                                                                                                                                                               | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="BackendList"></a>BackendList
------------------------------------
+BackendList{#BackendList}
+-------------------------
 
 Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/preview/2023-05-01-preview/apimbackends.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ApiManagement/service/{serviceName}/backends/{backendId}
 
@@ -367,8 +367,8 @@ Generator information: - Generated from: /apimanagement/resource-manager/Microso
 | [metav1.ListMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta) |             |                                                   |
 | items                                                                               |             | [Backend[]](#Backend)<br/><small>Optional</small> |
 
-<a id="NamedValue"></a>NamedValue
----------------------------------
+NamedValue{#NamedValue}
+-----------------------
 
 Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/preview/2023-05-01-preview/apimnamedvalues.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ApiManagement/service/{serviceName}/namedValues/{namedValueId}
 
@@ -381,7 +381,7 @@ Used by: [NamedValueList](#NamedValueList).
 | spec                                                                                    |             | [NamedValue_Spec](#NamedValue_Spec)<br/><small>Optional</small>     |
 | status                                                                                  |             | [NamedValue_STATUS](#NamedValue_STATUS)<br/><small>Optional</small> |
 
-### <a id="NamedValue_Spec"></a>NamedValue_Spec
+### NamedValue_Spec {#NamedValue_Spec}
 
 | Property     | Description                                                                                                                                                                                                                                                                                | Type                                                                                                                                                                 |
 |--------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -394,7 +394,7 @@ Used by: [NamedValueList](#NamedValueList).
 | tags         | Optional tags that when provided can be used to filter the NamedValue list.                                                                                                                                                                                                                | string[]<br/><small>Optional</small>                                                                                                                                 |
 | value        | Value of the NamedValue. Can contain policy expressions. It may not be empty or consist only of whitespace. This property will not be filled on 'GET' operations! Use '/listSecrets' POST request to get the value.                                                                        | string<br/><small>Optional</small>                                                                                                                                   |
 
-### <a id="NamedValue_STATUS"></a>NamedValue_STATUS
+### NamedValue_STATUS{#NamedValue_STATUS}
 
 | Property          | Description                                                                                                                                                                                                                                                                                                               | Type                                                                                                                                                    |
 |-------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -409,8 +409,8 @@ Used by: [NamedValueList](#NamedValueList).
 | type              | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                      |
 | value             | Value of the NamedValue. Can contain policy expressions. It may not be empty or consist only of whitespace. This property will not be filled on 'GET' operations! Use '/listSecrets' POST request to get the value.                                                                                                       | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="NamedValueList"></a>NamedValueList
------------------------------------------
+NamedValueList{#NamedValueList}
+-------------------------------
 
 Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/preview/2023-05-01-preview/apimnamedvalues.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ApiManagement/service/{serviceName}/namedValues/{namedValueId}
 
@@ -420,8 +420,8 @@ Generator information: - Generated from: /apimanagement/resource-manager/Microso
 | [metav1.ListMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta) |             |                                                         |
 | items                                                                               |             | [NamedValue[]](#NamedValue)<br/><small>Optional</small> |
 
-<a id="Policy"></a>Policy
--------------------------
+Policy{#Policy}
+---------------
 
 Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/preview/2023-05-01-preview/apimpolicies.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ApiManagement/service/{serviceName}/policies/{policyId}
 
@@ -434,7 +434,7 @@ Used by: [PolicyList](#PolicyList).
 | spec                                                                                    |             | [Policy_Spec](#Policy_Spec)<br/><small>Optional</small>     |
 | status                                                                                  |             | [Policy_STATUS](#Policy_STATUS)<br/><small>Optional</small> |
 
-### <a id="Policy_Spec"></a>Policy_Spec
+### Policy_Spec {#Policy_Spec}
 
 | Property     | Description                                                                                                                                                                                                                                                                                | Type                                                                                                                                                                 |
 |--------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -443,7 +443,7 @@ Used by: [PolicyList](#PolicyList).
 | owner        | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a apimanagement.azure.com/Service resource | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
 | value        | Contents of the Policy as defined by the format.                                                                                                                                                                                                                                           | string<br/><small>Required</small>                                                                                                                                   |
 
-### <a id="Policy_STATUS"></a>Policy_STATUS
+### Policy_STATUS{#Policy_STATUS}
 
 | Property   | Description                                                                                                                                                                                                                                                                                                               | Type                                                                                                                                                    |
 |------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -454,8 +454,8 @@ Used by: [PolicyList](#PolicyList).
 | type       | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                      |
 | value      | Contents of the Policy as defined by the format.                                                                                                                                                                                                                                                                          | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="PolicyFragment"></a>PolicyFragment
------------------------------------------
+PolicyFragment{#PolicyFragment}
+-------------------------------
 
 Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/preview/2023-05-01-preview/apimpolicyfragments.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ApiManagement/service/{serviceName}/policyFragments/{id}
 
@@ -468,7 +468,7 @@ Used by: [PolicyFragmentList](#PolicyFragmentList).
 | spec                                                                                    |             | [PolicyFragment_Spec](#PolicyFragment_Spec)<br/><small>Optional</small>     |
 | status                                                                                  |             | [PolicyFragment_STATUS](#PolicyFragment_STATUS)<br/><small>Optional</small> |
 
-### <a id="PolicyFragment_Spec"></a>PolicyFragment_Spec
+### PolicyFragment_Spec {#PolicyFragment_Spec}
 
 | Property     | Description                                                                                                                                                                                                                                                                                | Type                                                                                                                                                                 |
 |--------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -479,7 +479,7 @@ Used by: [PolicyFragmentList](#PolicyFragmentList).
 | owner        | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a apimanagement.azure.com/Service resource | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
 | value        | Contents of the policy fragment.                                                                                                                                                                                                                                                           | string<br/><small>Required</small>                                                                                                                                   |
 
-### <a id="PolicyFragment_STATUS"></a>PolicyFragment_STATUS
+### PolicyFragment_STATUS{#PolicyFragment_STATUS}
 
 | Property          | Description                                                                                                                                                                                                                                                                                                               | Type                                                                                                                                                    |
 |-------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -492,8 +492,8 @@ Used by: [PolicyFragmentList](#PolicyFragmentList).
 | type              | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                      |
 | value             | Contents of the policy fragment.                                                                                                                                                                                                                                                                                          | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="PolicyFragmentList"></a>PolicyFragmentList
--------------------------------------------------
+PolicyFragmentList{#PolicyFragmentList}
+---------------------------------------
 
 Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/preview/2023-05-01-preview/apimpolicyfragments.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ApiManagement/service/{serviceName}/policyFragments/{id}
 
@@ -503,8 +503,8 @@ Generator information: - Generated from: /apimanagement/resource-manager/Microso
 | [metav1.ListMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta) |             |                                                                 |
 | items                                                                               |             | [PolicyFragment[]](#PolicyFragment)<br/><small>Optional</small> |
 
-<a id="PolicyList"></a>PolicyList
----------------------------------
+PolicyList{#PolicyList}
+-----------------------
 
 Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/preview/2023-05-01-preview/apimpolicies.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ApiManagement/service/{serviceName}/policies/{policyId}
 
@@ -514,8 +514,8 @@ Generator information: - Generated from: /apimanagement/resource-manager/Microso
 | [metav1.ListMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta) |             |                                                 |
 | items                                                                               |             | [Policy[]](#Policy)<br/><small>Optional</small> |
 
-<a id="Product"></a>Product
----------------------------
+Product{#Product}
+-----------------
 
 Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/preview/2023-05-01-preview/apimproducts.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ApiManagement/service/{serviceName}/products/{productId}
 
@@ -528,7 +528,7 @@ Used by: [ProductList](#ProductList).
 | spec                                                                                    |             | [Product_Spec](#Product_Spec)<br/><small>Optional</small>     |
 | status                                                                                  |             | [Product_STATUS](#Product_STATUS)<br/><small>Optional</small> |
 
-### <a id="Product_Spec"></a>Product_Spec
+### Product_Spec {#Product_Spec}
 
 | Property             | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                | Type                                                                                                                                                                 |
 |----------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -543,7 +543,7 @@ Used by: [ProductList](#ProductList).
 | subscriptionsLimit   | Whether the number of subscriptions a user can have to this product at the same time. Set to null or omit to allow unlimited per user subscriptions. Can be present only if subscriptionRequired property is present and has a value of false.                                                                                                                                                                                                                             | int<br/><small>Optional</small>                                                                                                                                      |
 | terms                | Product terms of use. Developers trying to subscribe to the product will be presented and required to accept these terms before they can complete the subscription process.                                                                                                                                                                                                                                                                                                | string<br/><small>Optional</small>                                                                                                                                   |
 
-### <a id="Product_STATUS"></a>Product_STATUS
+### Product_STATUS{#Product_STATUS}
 
 | Property             | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                | Type                                                                                                                                                    |
 |----------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -559,8 +559,8 @@ Used by: [ProductList](#ProductList).
 | terms                | Product terms of use. Developers trying to subscribe to the product will be presented and required to accept these terms before they can complete the subscription process.                                                                                                                                                                                                                                                                                                | string<br/><small>Optional</small>                                                                                                                      |
 | type                 | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                                                                                                                                                                  | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="ProductApi"></a>ProductApi
----------------------------------
+ProductApi{#ProductApi}
+-----------------------
 
 Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/preview/2023-05-01-preview/apimproducts.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ApiManagement/service/{serviceName}/products/{productId}/apis/{apiId}
 
@@ -573,7 +573,7 @@ Used by: [ProductApiList](#ProductApiList).
 | spec                                                                                    |             | [ProductApi_Spec](#ProductApi_Spec)<br/><small>Optional</small>     |
 | status                                                                                  |             | [ProductApi_STATUS](#ProductApi_STATUS)<br/><small>Optional</small> |
 
-### <a id="ProductApi_Spec"></a>ProductApi_Spec
+### ProductApi_Spec {#ProductApi_Spec}
 
 | Property     | Description                                                                                                                                                                                                                                                                                | Type                                                                                                                                                                 |
 |--------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -581,14 +581,14 @@ Used by: [ProductApiList](#ProductApiList).
 | operatorSpec | The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure                                                                                                                                                            | [ProductApiOperatorSpec](#ProductApiOperatorSpec)<br/><small>Optional</small>                                                                                        |
 | owner        | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a apimanagement.azure.com/Product resource | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
 
-### <a id="ProductApi_STATUS"></a>ProductApi_STATUS
+### ProductApi_STATUS{#ProductApi_STATUS}
 
 | Property   | Description                        | Type                                                                                                                                                    |
 |------------|------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
 | conditions | The observed state of the resource | [conditions.Condition[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition)<br/><small>Optional</small> |
 
-<a id="ProductApiList"></a>ProductApiList
------------------------------------------
+ProductApiList{#ProductApiList}
+-------------------------------
 
 Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/preview/2023-05-01-preview/apimproducts.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ApiManagement/service/{serviceName}/products/{productId}/apis/{apiId}
 
@@ -598,8 +598,8 @@ Generator information: - Generated from: /apimanagement/resource-manager/Microso
 | [metav1.ListMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta) |             |                                                         |
 | items                                                                               |             | [ProductApi[]](#ProductApi)<br/><small>Optional</small> |
 
-<a id="ProductList"></a>ProductList
------------------------------------
+ProductList{#ProductList}
+-------------------------
 
 Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/preview/2023-05-01-preview/apimproducts.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ApiManagement/service/{serviceName}/products/{productId}
 
@@ -609,8 +609,8 @@ Generator information: - Generated from: /apimanagement/resource-manager/Microso
 | [metav1.ListMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta) |             |                                                   |
 | items                                                                               |             | [Product[]](#Product)<br/><small>Optional</small> |
 
-<a id="ProductPolicy"></a>ProductPolicy
----------------------------------------
+ProductPolicy{#ProductPolicy}
+-----------------------------
 
 Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/preview/2023-05-01-preview/apimproducts.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ApiManagement/service/{serviceName}/products/{productId}/policies/{policyId}
 
@@ -623,7 +623,7 @@ Used by: [ProductPolicyList](#ProductPolicyList).
 | spec                                                                                    |             | [ProductPolicy_Spec](#ProductPolicy_Spec)<br/><small>Optional</small>     |
 | status                                                                                  |             | [ProductPolicy_STATUS](#ProductPolicy_STATUS)<br/><small>Optional</small> |
 
-### <a id="ProductPolicy_Spec"></a>ProductPolicy_Spec
+### ProductPolicy_Spec {#ProductPolicy_Spec}
 
 | Property     | Description                                                                                                                                                                                                                                                                                | Type                                                                                                                                                                 |
 |--------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -632,7 +632,7 @@ Used by: [ProductPolicyList](#ProductPolicyList).
 | owner        | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a apimanagement.azure.com/Product resource | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
 | value        | Contents of the Policy as defined by the format.                                                                                                                                                                                                                                           | string<br/><small>Required</small>                                                                                                                                   |
 
-### <a id="ProductPolicy_STATUS"></a>ProductPolicy_STATUS
+### ProductPolicy_STATUS{#ProductPolicy_STATUS}
 
 | Property   | Description                                                                                                                                                                                                                                                                                                               | Type                                                                                                                                                    |
 |------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -643,8 +643,8 @@ Used by: [ProductPolicyList](#ProductPolicyList).
 | type       | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                      |
 | value      | Contents of the Policy as defined by the format.                                                                                                                                                                                                                                                                          | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="ProductPolicyList"></a>ProductPolicyList
------------------------------------------------
+ProductPolicyList{#ProductPolicyList}
+-------------------------------------
 
 Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/preview/2023-05-01-preview/apimproducts.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ApiManagement/service/{serviceName}/products/{productId}/policies/{policyId}
 
@@ -654,8 +654,8 @@ Generator information: - Generated from: /apimanagement/resource-manager/Microso
 | [metav1.ListMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta) |             |                                                               |
 | items                                                                               |             | [ProductPolicy[]](#ProductPolicy)<br/><small>Optional</small> |
 
-<a id="Service"></a>Service
----------------------------
+Service{#Service}
+-----------------
 
 Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/preview/2023-05-01-preview/apimdeployment.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ApiManagement/service/{serviceName}
 
@@ -668,7 +668,7 @@ Used by: [ServiceList](#ServiceList).
 | spec                                                                                    |             | [Service_Spec](#Service_Spec)<br/><small>Optional</small>     |
 | status                                                                                  |             | [Service_STATUS](#Service_STATUS)<br/><small>Optional</small> |
 
-### <a id="Service_Spec"></a>Service_Spec
+### Service_Spec {#Service_Spec}
 
 | Property                    | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | Type                                                                                                                                                                 |
 |-----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -700,7 +700,7 @@ Used by: [ServiceList](#ServiceList).
 | virtualNetworkType          | The type of VPN in which API Management service needs to be configured in. None (Default Value) means the API Management service is not part of any Virtual Network, External means the API Management deployment is set up inside a Virtual Network having an Internet Facing Endpoint, and Internal means that API Management deployment is setup inside a Virtual Network having an Intranet Facing Endpoint only.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | [ApiManagementServiceProperties_VirtualNetworkType](#ApiManagementServiceProperties_VirtualNetworkType)<br/><small>Optional</small>                                  |
 | zones                       | A list of availability zones denoting where the resource needs to come from.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | string[]<br/><small>Optional</small>                                                                                                                                 |
 
-### <a id="Service_STATUS"></a>Service_STATUS
+### Service_STATUS{#Service_STATUS}
 
 | Property                    | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | Type                                                                                                                                                    |
 |-----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -749,8 +749,8 @@ Used by: [ServiceList](#ServiceList).
 | virtualNetworkType          | The type of VPN in which API Management service needs to be configured in. None (Default Value) means the API Management service is not part of any Virtual Network, External means the API Management deployment is set up inside a Virtual Network having an Internet Facing Endpoint, and Internal means that API Management deployment is setup inside a Virtual Network having an Intranet Facing Endpoint only.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | [ApiManagementServiceProperties_VirtualNetworkType_STATUS](#ApiManagementServiceProperties_VirtualNetworkType_STATUS)<br/><small>Optional</small>       |
 | zones                       | A list of availability zones denoting where the resource needs to come from.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | string[]<br/><small>Optional</small>                                                                                                                    |
 
-<a id="ServiceList"></a>ServiceList
------------------------------------
+ServiceList{#ServiceList}
+-------------------------
 
 Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/preview/2023-05-01-preview/apimdeployment.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ApiManagement/service/{serviceName}
 
@@ -760,8 +760,8 @@ Generator information: - Generated from: /apimanagement/resource-manager/Microso
 | [metav1.ListMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta) |             |                                                   |
 | items                                                                               |             | [Service[]](#Service)<br/><small>Optional</small> |
 
-<a id="Subscription"></a>Subscription
--------------------------------------
+Subscription{#Subscription}
+---------------------------
 
 Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/preview/2023-05-01-preview/apimsubscriptions.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ApiManagement/service/{serviceName}/&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{sid}
 
@@ -774,7 +774,7 @@ Used by: [SubscriptionList](#SubscriptionList).
 | spec                                                                                    |             | [Subscription_Spec](#Subscription_Spec)<br/><small>Optional</small>     |
 | status                                                                                  |             | [Subscription_STATUS](#Subscription_STATUS)<br/><small>Optional</small> |
 
-### <a id="Subscription_Spec"></a>Subscription_Spec
+### Subscription_Spec {#Subscription_Spec}
 
 | Property       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | Type                                                                                                                                                                 |
 |----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -789,7 +789,7 @@ Used by: [SubscriptionList](#SubscriptionList).
 | secondaryKey   | Secondary subscription key. If not specified during request key will be generated automatically.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | [genruntime.SecretReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference)<br/><small>Optional</small>               |
 | state          | Initial subscription state. If no value is specified, subscription is created with Submitted state. Possible states are * active – the subscription is active, * suspended – the subscription is blocked, and the subscriber cannot call any APIs of the product, * submitted – the subscription request has been made by the developer, but has not yet been approved or rejected, * rejected – the subscription request has been denied by an administrator, * cancelled – the subscription has been cancelled by the developer or administrator, * expired – the subscription reached its expiration date and was deactivated. | [SubscriptionCreateParameterProperties_State](#SubscriptionCreateParameterProperties_State)<br/><small>Optional</small>                                              |
 
-### <a id="Subscription_STATUS"></a>Subscription_STATUS
+### Subscription_STATUS{#Subscription_STATUS}
 
 | Property         | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | Type                                                                                                                                                    |
 |------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -809,8 +809,8 @@ Used by: [SubscriptionList](#SubscriptionList).
 | stateComment     | Optional subscription comment added by an administrator when the state is changed to the 'rejected'.                                                                                                                                                                                                                                                                                                                                                                                                                                              | string<br/><small>Optional</small>                                                                                                                      |
 | type             | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                                                                                                                                                                                                                                         | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="SubscriptionList"></a>SubscriptionList
----------------------------------------------
+SubscriptionList{#SubscriptionList}
+-----------------------------------
 
 Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/preview/2023-05-01-preview/apimsubscriptions.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ApiManagement/service/{serviceName}/&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{sid}
 
@@ -820,8 +820,8 @@ Generator information: - Generated from: /apimanagement/resource-manager/Microso
 | [metav1.ListMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta) |             |                                                             |
 | items                                                                               |             | [Subscription[]](#Subscription)<br/><small>Optional</small> |
 
-<a id="Api_Spec"></a>Api_Spec
------------------------------
+Api_Spec{#Api_Spec}
+-------------------
 
 Used by: [Api](#Api).
 
@@ -856,8 +856,8 @@ Used by: [Api](#Api).
 | value                            | Content value when Importing an API.                                                                                                                                                                                                                                                       | string<br/><small>Optional</small>                                                                                                                                   |
 | wsdlSelector                     | Criteria to limit import of WSDL to a subset of the document.                                                                                                                                                                                                                              | [ApiCreateOrUpdateProperties_WsdlSelector](#ApiCreateOrUpdateProperties_WsdlSelector)<br/><small>Optional</small>                                                    |
 
-<a id="Api_STATUS"></a>Api_STATUS
----------------------------------
+Api_STATUS{#Api_STATUS}
+-----------------------
 
 Used by: [Api](#Api).
 
@@ -890,8 +890,8 @@ Used by: [Api](#Api).
 | termsOfServiceUrl             | A URL to the Terms of Service for the API. MUST be in the format of a URL.                                                                                                                                                                                                                                                | string<br/><small>Optional</small>                                                                                                                      |
 | type                          | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="ApiVersionSet_Spec"></a>ApiVersionSet_Spec
--------------------------------------------------
+ApiVersionSet_Spec{#ApiVersionSet_Spec}
+---------------------------------------
 
 Used by: [ApiVersionSet](#ApiVersionSet).
 
@@ -906,8 +906,8 @@ Used by: [ApiVersionSet](#ApiVersionSet).
 | versioningScheme  | An value that determines where the API Version identifier will be located in a HTTP request.                                                                                                                                                                                               | [ApiVersionSetContractProperties_VersioningScheme](#ApiVersionSetContractProperties_VersioningScheme)<br/><small>Required</small>                                    |
 | versionQueryName  | Name of query parameter that indicates the API Version if versioningScheme is set to `query`.                                                                                                                                                                                              | string<br/><small>Optional</small>                                                                                                                                   |
 
-<a id="ApiVersionSet_STATUS"></a>ApiVersionSet_STATUS
------------------------------------------------------
+ApiVersionSet_STATUS{#ApiVersionSet_STATUS}
+-------------------------------------------
 
 Used by: [ApiVersionSet](#ApiVersionSet).
 
@@ -923,8 +923,8 @@ Used by: [ApiVersionSet](#ApiVersionSet).
 | versioningScheme  | An value that determines where the API Version identifier will be located in a HTTP request.                                                                                                                                                                                                                              | [ApiVersionSetContractProperties_VersioningScheme_STATUS](#ApiVersionSetContractProperties_VersioningScheme_STATUS)<br/><small>Optional</small>         |
 | versionQueryName  | Name of query parameter that indicates the API Version if versioningScheme is set to `query`.                                                                                                                                                                                                                             | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="AuthorizationProvider_Spec"></a>AuthorizationProvider_Spec
------------------------------------------------------------------
+AuthorizationProvider_Spec{#AuthorizationProvider_Spec}
+-------------------------------------------------------
 
 Used by: [AuthorizationProvider](#AuthorizationProvider).
 
@@ -937,8 +937,8 @@ Used by: [AuthorizationProvider](#AuthorizationProvider).
 | operatorSpec     | The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure                                                                                                                                                            | [AuthorizationProviderOperatorSpec](#AuthorizationProviderOperatorSpec)<br/><small>Optional</small>                                                                  |
 | owner            | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a apimanagement.azure.com/Service resource | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
 
-<a id="AuthorizationProvider_STATUS"></a>AuthorizationProvider_STATUS
----------------------------------------------------------------------
+AuthorizationProvider_STATUS{#AuthorizationProvider_STATUS}
+-----------------------------------------------------------
 
 Used by: [AuthorizationProvider](#AuthorizationProvider).
 
@@ -952,8 +952,8 @@ Used by: [AuthorizationProvider](#AuthorizationProvider).
 | oauth2           | OAuth2 settings                                                                                                                                                                                                                                                                                                           | [AuthorizationProviderOAuth2Settings_STATUS](#AuthorizationProviderOAuth2Settings_STATUS)<br/><small>Optional</small>                                   |
 | type             | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="AuthorizationProvidersAuthorization_Spec"></a>AuthorizationProvidersAuthorization_Spec
----------------------------------------------------------------------------------------------
+AuthorizationProvidersAuthorization_Spec{#AuthorizationProvidersAuthorization_Spec}
+-----------------------------------------------------------------------------------
 
 Used by: [AuthorizationProvidersAuthorization](#AuthorizationProvidersAuthorization).
 
@@ -966,8 +966,8 @@ Used by: [AuthorizationProvidersAuthorization](#AuthorizationProvidersAuthorizat
 | owner             | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a apimanagement.azure.com/AuthorizationProvider resource | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
 | parameters        | Authorization parameters                                                                                                                                                                                                                                                                                 | [genruntime.SecretMapReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretMapReference)<br/><small>Optional</small>         |
 
-<a id="AuthorizationProvidersAuthorization_STATUS"></a>AuthorizationProvidersAuthorization_STATUS
--------------------------------------------------------------------------------------------------
+AuthorizationProvidersAuthorization_STATUS{#AuthorizationProvidersAuthorization_STATUS}
+---------------------------------------------------------------------------------------
 
 Used by: [AuthorizationProvidersAuthorization](#AuthorizationProvidersAuthorization).
 
@@ -983,8 +983,8 @@ Used by: [AuthorizationProvidersAuthorization](#AuthorizationProvidersAuthorizat
 | status            | Status of the Authorization                                                                                                                                                                                                                                                                                               | string<br/><small>Optional</small>                                                                                                                      |
 | type              | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="AuthorizationProvidersAuthorizationsAccessPolicy_Spec"></a>AuthorizationProvidersAuthorizationsAccessPolicy_Spec
------------------------------------------------------------------------------------------------------------------------
+AuthorizationProvidersAuthorizationsAccessPolicy_Spec{#AuthorizationProvidersAuthorizationsAccessPolicy_Spec}
+-------------------------------------------------------------------------------------------------------------
 
 Used by: [AuthorizationProvidersAuthorizationsAccessPolicy](#AuthorizationProvidersAuthorizationsAccessPolicy).
 
@@ -999,8 +999,8 @@ Used by: [AuthorizationProvidersAuthorizationsAccessPolicy](#AuthorizationProvid
 | tenantId           | The Tenant Id                                                                                                                                                                                                                                                                                                          | string<br/><small>Optional</small>                                                                                                                                   |
 | tenantIdFromConfig | The Tenant Id                                                                                                                                                                                                                                                                                                          | [genruntime.ConfigMapReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference)<br/><small>Optional</small>         |
 
-<a id="AuthorizationProvidersAuthorizationsAccessPolicy_STATUS"></a>AuthorizationProvidersAuthorizationsAccessPolicy_STATUS
----------------------------------------------------------------------------------------------------------------------------
+AuthorizationProvidersAuthorizationsAccessPolicy_STATUS{#AuthorizationProvidersAuthorizationsAccessPolicy_STATUS}
+-----------------------------------------------------------------------------------------------------------------
 
 Used by: [AuthorizationProvidersAuthorizationsAccessPolicy](#AuthorizationProvidersAuthorizationsAccessPolicy).
 
@@ -1014,8 +1014,8 @@ Used by: [AuthorizationProvidersAuthorizationsAccessPolicy](#AuthorizationProvid
 | tenantId   | The Tenant Id                                                                                                                                                                                                                                                                                                             | string<br/><small>Optional</small>                                                                                                                      |
 | type       | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="Backend_Spec"></a>Backend_Spec
--------------------------------------
+Backend_Spec{#Backend_Spec}
+---------------------------
 
 Used by: [Backend](#Backend).
 
@@ -1037,8 +1037,8 @@ Used by: [Backend](#Backend).
 | type              | Type of the backend. A backend can be either Single or Pool.                                                                                                                                                                                                                               | [BackendContractProperties_Type](#BackendContractProperties_Type)<br/><small>Optional</small>                                                                        |
 | url               | Runtime Url of the Backend.                                                                                                                                                                                                                                                                | string<br/><small>Required</small>                                                                                                                                   |
 
-<a id="Backend_STATUS"></a>Backend_STATUS
------------------------------------------
+Backend_STATUS{#Backend_STATUS}
+-------------------------------
 
 Used by: [Backend](#Backend).
 
@@ -1061,8 +1061,8 @@ Used by: [Backend](#Backend).
 | type            | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                      |
 | url             | Runtime Url of the Backend.                                                                                                                                                                                                                                                                                               | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="NamedValue_Spec"></a>NamedValue_Spec
--------------------------------------------
+NamedValue_Spec{#NamedValue_Spec}
+---------------------------------
 
 Used by: [NamedValue](#NamedValue).
 
@@ -1077,8 +1077,8 @@ Used by: [NamedValue](#NamedValue).
 | tags         | Optional tags that when provided can be used to filter the NamedValue list.                                                                                                                                                                                                                | string[]<br/><small>Optional</small>                                                                                                                                 |
 | value        | Value of the NamedValue. Can contain policy expressions. It may not be empty or consist only of whitespace. This property will not be filled on 'GET' operations! Use '/listSecrets' POST request to get the value.                                                                        | string<br/><small>Optional</small>                                                                                                                                   |
 
-<a id="NamedValue_STATUS"></a>NamedValue_STATUS
------------------------------------------------
+NamedValue_STATUS{#NamedValue_STATUS}
+-------------------------------------
 
 Used by: [NamedValue](#NamedValue).
 
@@ -1095,8 +1095,8 @@ Used by: [NamedValue](#NamedValue).
 | type              | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                      |
 | value             | Value of the NamedValue. Can contain policy expressions. It may not be empty or consist only of whitespace. This property will not be filled on 'GET' operations! Use '/listSecrets' POST request to get the value.                                                                                                       | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="Policy_Spec"></a>Policy_Spec
------------------------------------
+Policy_Spec{#Policy_Spec}
+-------------------------
 
 Used by: [Policy](#Policy).
 
@@ -1107,8 +1107,8 @@ Used by: [Policy](#Policy).
 | owner        | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a apimanagement.azure.com/Service resource | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
 | value        | Contents of the Policy as defined by the format.                                                                                                                                                                                                                                           | string<br/><small>Required</small>                                                                                                                                   |
 
-<a id="Policy_STATUS"></a>Policy_STATUS
----------------------------------------
+Policy_STATUS{#Policy_STATUS}
+-----------------------------
 
 Used by: [Policy](#Policy).
 
@@ -1121,8 +1121,8 @@ Used by: [Policy](#Policy).
 | type       | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                      |
 | value      | Contents of the Policy as defined by the format.                                                                                                                                                                                                                                                                          | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="PolicyFragment_Spec"></a>PolicyFragment_Spec
----------------------------------------------------
+PolicyFragment_Spec{#PolicyFragment_Spec}
+-----------------------------------------
 
 Used by: [PolicyFragment](#PolicyFragment).
 
@@ -1135,8 +1135,8 @@ Used by: [PolicyFragment](#PolicyFragment).
 | owner        | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a apimanagement.azure.com/Service resource | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
 | value        | Contents of the policy fragment.                                                                                                                                                                                                                                                           | string<br/><small>Required</small>                                                                                                                                   |
 
-<a id="PolicyFragment_STATUS"></a>PolicyFragment_STATUS
--------------------------------------------------------
+PolicyFragment_STATUS{#PolicyFragment_STATUS}
+---------------------------------------------
 
 Used by: [PolicyFragment](#PolicyFragment).
 
@@ -1151,8 +1151,8 @@ Used by: [PolicyFragment](#PolicyFragment).
 | type              | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                      |
 | value             | Contents of the policy fragment.                                                                                                                                                                                                                                                                                          | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="Product_Spec"></a>Product_Spec
--------------------------------------
+Product_Spec{#Product_Spec}
+---------------------------
 
 Used by: [Product](#Product).
 
@@ -1169,8 +1169,8 @@ Used by: [Product](#Product).
 | subscriptionsLimit   | Whether the number of subscriptions a user can have to this product at the same time. Set to null or omit to allow unlimited per user subscriptions. Can be present only if subscriptionRequired property is present and has a value of false.                                                                                                                                                                                                                             | int<br/><small>Optional</small>                                                                                                                                      |
 | terms                | Product terms of use. Developers trying to subscribe to the product will be presented and required to accept these terms before they can complete the subscription process.                                                                                                                                                                                                                                                                                                | string<br/><small>Optional</small>                                                                                                                                   |
 
-<a id="Product_STATUS"></a>Product_STATUS
------------------------------------------
+Product_STATUS{#Product_STATUS}
+-------------------------------
 
 Used by: [Product](#Product).
 
@@ -1188,8 +1188,8 @@ Used by: [Product](#Product).
 | terms                | Product terms of use. Developers trying to subscribe to the product will be presented and required to accept these terms before they can complete the subscription process.                                                                                                                                                                                                                                                                                                | string<br/><small>Optional</small>                                                                                                                      |
 | type                 | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                                                                                                                                                                  | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="ProductApi_Spec"></a>ProductApi_Spec
--------------------------------------------
+ProductApi_Spec{#ProductApi_Spec}
+---------------------------------
 
 Used by: [ProductApi](#ProductApi).
 
@@ -1199,8 +1199,8 @@ Used by: [ProductApi](#ProductApi).
 | operatorSpec | The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure                                                                                                                                                            | [ProductApiOperatorSpec](#ProductApiOperatorSpec)<br/><small>Optional</small>                                                                                        |
 | owner        | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a apimanagement.azure.com/Product resource | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
 
-<a id="ProductApi_STATUS"></a>ProductApi_STATUS
------------------------------------------------
+ProductApi_STATUS{#ProductApi_STATUS}
+-------------------------------------
 
 Used by: [ProductApi](#ProductApi).
 
@@ -1208,8 +1208,8 @@ Used by: [ProductApi](#ProductApi).
 |------------|------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
 | conditions | The observed state of the resource | [conditions.Condition[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition)<br/><small>Optional</small> |
 
-<a id="ProductPolicy_Spec"></a>ProductPolicy_Spec
--------------------------------------------------
+ProductPolicy_Spec{#ProductPolicy_Spec}
+---------------------------------------
 
 Used by: [ProductPolicy](#ProductPolicy).
 
@@ -1220,8 +1220,8 @@ Used by: [ProductPolicy](#ProductPolicy).
 | owner        | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a apimanagement.azure.com/Product resource | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
 | value        | Contents of the Policy as defined by the format.                                                                                                                                                                                                                                           | string<br/><small>Required</small>                                                                                                                                   |
 
-<a id="ProductPolicy_STATUS"></a>ProductPolicy_STATUS
------------------------------------------------------
+ProductPolicy_STATUS{#ProductPolicy_STATUS}
+-------------------------------------------
 
 Used by: [ProductPolicy](#ProductPolicy).
 
@@ -1234,8 +1234,8 @@ Used by: [ProductPolicy](#ProductPolicy).
 | type       | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                 | string<br/><small>Optional</small>                                                                                                                      |
 | value      | Contents of the Policy as defined by the format.                                                                                                                                                                                                                                                                          | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="Service_Spec"></a>Service_Spec
--------------------------------------
+Service_Spec{#Service_Spec}
+---------------------------
 
 Used by: [Service](#Service).
 
@@ -1269,8 +1269,8 @@ Used by: [Service](#Service).
 | virtualNetworkType          | The type of VPN in which API Management service needs to be configured in. None (Default Value) means the API Management service is not part of any Virtual Network, External means the API Management deployment is set up inside a Virtual Network having an Internet Facing Endpoint, and Internal means that API Management deployment is setup inside a Virtual Network having an Intranet Facing Endpoint only.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | [ApiManagementServiceProperties_VirtualNetworkType](#ApiManagementServiceProperties_VirtualNetworkType)<br/><small>Optional</small>                                  |
 | zones                       | A list of availability zones denoting where the resource needs to come from.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | string[]<br/><small>Optional</small>                                                                                                                                 |
 
-<a id="Service_STATUS"></a>Service_STATUS
------------------------------------------
+Service_STATUS{#Service_STATUS}
+-------------------------------
 
 Used by: [Service](#Service).
 
@@ -1321,8 +1321,8 @@ Used by: [Service](#Service).
 | virtualNetworkType          | The type of VPN in which API Management service needs to be configured in. None (Default Value) means the API Management service is not part of any Virtual Network, External means the API Management deployment is set up inside a Virtual Network having an Internet Facing Endpoint, and Internal means that API Management deployment is setup inside a Virtual Network having an Intranet Facing Endpoint only.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | [ApiManagementServiceProperties_VirtualNetworkType_STATUS](#ApiManagementServiceProperties_VirtualNetworkType_STATUS)<br/><small>Optional</small>       |
 | zones                       | A list of availability zones denoting where the resource needs to come from.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | string[]<br/><small>Optional</small>                                                                                                                    |
 
-<a id="Subscription_Spec"></a>Subscription_Spec
------------------------------------------------
+Subscription_Spec{#Subscription_Spec}
+-------------------------------------
 
 Used by: [Subscription](#Subscription).
 
@@ -1339,8 +1339,8 @@ Used by: [Subscription](#Subscription).
 | secondaryKey   | Secondary subscription key. If not specified during request key will be generated automatically.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | [genruntime.SecretReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference)<br/><small>Optional</small>               |
 | state          | Initial subscription state. If no value is specified, subscription is created with Submitted state. Possible states are * active – the subscription is active, * suspended – the subscription is blocked, and the subscriber cannot call any APIs of the product, * submitted – the subscription request has been made by the developer, but has not yet been approved or rejected, * rejected – the subscription request has been denied by an administrator, * cancelled – the subscription has been cancelled by the developer or administrator, * expired – the subscription reached its expiration date and was deactivated. | [SubscriptionCreateParameterProperties_State](#SubscriptionCreateParameterProperties_State)<br/><small>Optional</small>                                              |
 
-<a id="Subscription_STATUS"></a>Subscription_STATUS
----------------------------------------------------
+Subscription_STATUS{#Subscription_STATUS}
+-----------------------------------------
 
 Used by: [Subscription](#Subscription).
 
@@ -1362,8 +1362,8 @@ Used by: [Subscription](#Subscription).
 | stateComment     | Optional subscription comment added by an administrator when the state is changed to the 'rejected'.                                                                                                                                                                                                                                                                                                                                                                                                                                              | string<br/><small>Optional</small>                                                                                                                      |
 | type             | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                                                                                                                                                                                                                                         | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="AdditionalLocation"></a>AdditionalLocation
--------------------------------------------------
+AdditionalLocation{#AdditionalLocation}
+---------------------------------------
 
 Description of an additional API Management resource location.
 
@@ -1379,8 +1379,8 @@ Used by: [Service_Spec](#Service_Spec).
 | virtualNetworkConfiguration | Virtual network configuration for the location.                                                                                                                                      | [VirtualNetworkConfiguration](#VirtualNetworkConfiguration)<br/><small>Optional</small>                                                                    |
 | zones                       | A list of availability zones denoting where the resource needs to come from.                                                                                                         | string[]<br/><small>Optional</small>                                                                                                                       |
 
-<a id="AdditionalLocation_STATUS"></a>AdditionalLocation_STATUS
----------------------------------------------------------------
+AdditionalLocation_STATUS{#AdditionalLocation_STATUS}
+-----------------------------------------------------
 
 Description of an additional API Management resource location.
 
@@ -1401,8 +1401,8 @@ Used by: [Service_STATUS](#Service_STATUS).
 | virtualNetworkConfiguration | Virtual network configuration for the location.                                                                                                                                                                             | [VirtualNetworkConfiguration_STATUS](#VirtualNetworkConfiguration_STATUS)<br/><small>Optional</small>               |
 | zones                       | A list of availability zones denoting where the resource needs to come from.                                                                                                                                                | string[]<br/><small>Optional</small>                                                                                |
 
-<a id="ApiContactInformation"></a>ApiContactInformation
--------------------------------------------------------
+ApiContactInformation{#ApiContactInformation}
+---------------------------------------------
 
 API contact information
 
@@ -1414,8 +1414,8 @@ Used by: [Api_Spec](#Api_Spec).
 | name     | The identifying name of the contact person/organization                                         | string<br/><small>Optional</small> |
 | url      | The URL pointing to the contact information. MUST be in the format of a URL                     | string<br/><small>Optional</small> |
 
-<a id="ApiContactInformation_STATUS"></a>ApiContactInformation_STATUS
----------------------------------------------------------------------
+ApiContactInformation_STATUS{#ApiContactInformation_STATUS}
+-----------------------------------------------------------
 
 API contact information
 
@@ -1427,8 +1427,8 @@ Used by: [Api_STATUS](#Api_STATUS).
 | name     | The identifying name of the contact person/organization                                         | string<br/><small>Optional</small> |
 | url      | The URL pointing to the contact information. MUST be in the format of a URL                     | string<br/><small>Optional</small> |
 
-<a id="ApiContractProperties_Protocols_STATUS"></a>ApiContractProperties_Protocols_STATUS
------------------------------------------------------------------------------------------
+ApiContractProperties_Protocols_STATUS{#ApiContractProperties_Protocols_STATUS}
+-------------------------------------------------------------------------------
 
 Used by: [Api_STATUS](#Api_STATUS).
 
@@ -1439,8 +1439,8 @@ Used by: [Api_STATUS](#Api_STATUS).
 | "ws"    |             |
 | "wss"   |             |
 
-<a id="ApiContractProperties_Type_STATUS"></a>ApiContractProperties_Type_STATUS
--------------------------------------------------------------------------------
+ApiContractProperties_Type_STATUS{#ApiContractProperties_Type_STATUS}
+---------------------------------------------------------------------
 
 Used by: [Api_STATUS](#Api_STATUS).
 
@@ -1453,8 +1453,8 @@ Used by: [Api_STATUS](#Api_STATUS).
 | "soap"      |             |
 | "websocket" |             |
 
-<a id="ApiCreateOrUpdateProperties_ApiType"></a>ApiCreateOrUpdateProperties_ApiType
------------------------------------------------------------------------------------
+ApiCreateOrUpdateProperties_ApiType{#ApiCreateOrUpdateProperties_ApiType}
+-------------------------------------------------------------------------
 
 Used by: [Api_Spec](#Api_Spec).
 
@@ -1467,8 +1467,8 @@ Used by: [Api_Spec](#Api_Spec).
 | "soap"      |             |
 | "websocket" |             |
 
-<a id="ApiCreateOrUpdateProperties_Format"></a>ApiCreateOrUpdateProperties_Format
----------------------------------------------------------------------------------
+ApiCreateOrUpdateProperties_Format{#ApiCreateOrUpdateProperties_Format}
+-----------------------------------------------------------------------
 
 Used by: [Api_Spec](#Api_Spec).
 
@@ -1490,8 +1490,8 @@ Used by: [Api_Spec](#Api_Spec).
 | "wsdl"              |             |
 | "wsdl-link"         |             |
 
-<a id="ApiCreateOrUpdateProperties_Protocols"></a>ApiCreateOrUpdateProperties_Protocols
----------------------------------------------------------------------------------------
+ApiCreateOrUpdateProperties_Protocols{#ApiCreateOrUpdateProperties_Protocols}
+-----------------------------------------------------------------------------
 
 Used by: [Api_Spec](#Api_Spec).
 
@@ -1502,8 +1502,8 @@ Used by: [Api_Spec](#Api_Spec).
 | "ws"    |             |
 | "wss"   |             |
 
-<a id="ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters"></a>ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters
--------------------------------------------------------------------------------------------------------------------------------------
+ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters{#ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters}
+---------------------------------------------------------------------------------------------------------------------------
 
 Used by: [Api_Spec](#Api_Spec).
 
@@ -1512,8 +1512,8 @@ Used by: [Api_Spec](#Api_Spec).
 | "query"    |             |
 | "template" |             |
 
-<a id="ApiCreateOrUpdateProperties_Type"></a>ApiCreateOrUpdateProperties_Type
------------------------------------------------------------------------------
+ApiCreateOrUpdateProperties_Type{#ApiCreateOrUpdateProperties_Type}
+-------------------------------------------------------------------
 
 Used by: [Api_Spec](#Api_Spec).
 
@@ -1526,8 +1526,8 @@ Used by: [Api_Spec](#Api_Spec).
 | "soap"      |             |
 | "websocket" |             |
 
-<a id="ApiCreateOrUpdateProperties_WsdlSelector"></a>ApiCreateOrUpdateProperties_WsdlSelector
----------------------------------------------------------------------------------------------
+ApiCreateOrUpdateProperties_WsdlSelector{#ApiCreateOrUpdateProperties_WsdlSelector}
+-----------------------------------------------------------------------------------
 
 Used by: [Api_Spec](#Api_Spec).
 
@@ -1536,8 +1536,8 @@ Used by: [Api_Spec](#Api_Spec).
 | wsdlEndpointName | Name of endpoint(port) to import from WSDL | string<br/><small>Optional</small> |
 | wsdlServiceName  | Name of service to import from WSDL        | string<br/><small>Optional</small> |
 
-<a id="ApiLicenseInformation"></a>ApiLicenseInformation
--------------------------------------------------------
+ApiLicenseInformation{#ApiLicenseInformation}
+---------------------------------------------
 
 API license information
 
@@ -1548,8 +1548,8 @@ Used by: [Api_Spec](#Api_Spec).
 | name     | The license name used for the API                                     | string<br/><small>Optional</small> |
 | url      | A URL to the license used for the API. MUST be in the format of a URL | string<br/><small>Optional</small> |
 
-<a id="ApiLicenseInformation_STATUS"></a>ApiLicenseInformation_STATUS
----------------------------------------------------------------------
+ApiLicenseInformation_STATUS{#ApiLicenseInformation_STATUS}
+-----------------------------------------------------------
 
 API license information
 
@@ -1560,8 +1560,8 @@ Used by: [Api_STATUS](#Api_STATUS).
 | name     | The license name used for the API                                     | string<br/><small>Optional</small> |
 | url      | A URL to the license used for the API. MUST be in the format of a URL | string<br/><small>Optional</small> |
 
-<a id="ApiManagementServiceIdentity"></a>ApiManagementServiceIdentity
----------------------------------------------------------------------
+ApiManagementServiceIdentity{#ApiManagementServiceIdentity}
+-----------------------------------------------------------
 
 Identity properties of the Api Management service resource.
 
@@ -1572,8 +1572,8 @@ Used by: [Service_Spec](#Service_Spec).
 | type                   | The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the service.                                                                                                                                         | [ApiManagementServiceIdentity_Type](#ApiManagementServiceIdentity_Type)<br/><small>Required</small> |
 | userAssignedIdentities | The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace; providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. | [UserAssignedIdentityDetails[]](#UserAssignedIdentityDetails)<br/><small>Optional</small>           |
 
-<a id="ApiManagementServiceIdentity_STATUS"></a>ApiManagementServiceIdentity_STATUS
------------------------------------------------------------------------------------
+ApiManagementServiceIdentity_STATUS{#ApiManagementServiceIdentity_STATUS}
+-------------------------------------------------------------------------
 
 Identity properties of the Api Management service resource.
 
@@ -1586,8 +1586,8 @@ Used by: [Service_STATUS](#Service_STATUS).
 | type                   | The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the service.                                                                                                                                         | [ApiManagementServiceIdentity_Type_STATUS](#ApiManagementServiceIdentity_Type_STATUS)<br/><small>Optional</small> |
 | userAssignedIdentities | The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace; providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. | [map[string]UserIdentityProperties_STATUS](#UserIdentityProperties_STATUS)<br/><small>Optional</small>            |
 
-<a id="ApiManagementServiceProperties_DeveloperPortalStatus"></a>ApiManagementServiceProperties_DeveloperPortalStatus
----------------------------------------------------------------------------------------------------------------------
+ApiManagementServiceProperties_DeveloperPortalStatus{#ApiManagementServiceProperties_DeveloperPortalStatus}
+-----------------------------------------------------------------------------------------------------------
 
 Used by: [Service_Spec](#Service_Spec).
 
@@ -1596,8 +1596,8 @@ Used by: [Service_Spec](#Service_Spec).
 | "Disabled" |             |
 | "Enabled"  |             |
 
-<a id="ApiManagementServiceProperties_DeveloperPortalStatus_STATUS"></a>ApiManagementServiceProperties_DeveloperPortalStatus_STATUS
------------------------------------------------------------------------------------------------------------------------------------
+ApiManagementServiceProperties_DeveloperPortalStatus_STATUS{#ApiManagementServiceProperties_DeveloperPortalStatus_STATUS}
+-------------------------------------------------------------------------------------------------------------------------
 
 Used by: [Service_STATUS](#Service_STATUS).
 
@@ -1606,8 +1606,8 @@ Used by: [Service_STATUS](#Service_STATUS).
 | "Disabled" |             |
 | "Enabled"  |             |
 
-<a id="ApiManagementServiceProperties_LegacyPortalStatus"></a>ApiManagementServiceProperties_LegacyPortalStatus
----------------------------------------------------------------------------------------------------------------
+ApiManagementServiceProperties_LegacyPortalStatus{#ApiManagementServiceProperties_LegacyPortalStatus}
+-----------------------------------------------------------------------------------------------------
 
 Used by: [Service_Spec](#Service_Spec).
 
@@ -1616,8 +1616,8 @@ Used by: [Service_Spec](#Service_Spec).
 | "Disabled" |             |
 | "Enabled"  |             |
 
-<a id="ApiManagementServiceProperties_LegacyPortalStatus_STATUS"></a>ApiManagementServiceProperties_LegacyPortalStatus_STATUS
------------------------------------------------------------------------------------------------------------------------------
+ApiManagementServiceProperties_LegacyPortalStatus_STATUS{#ApiManagementServiceProperties_LegacyPortalStatus_STATUS}
+-------------------------------------------------------------------------------------------------------------------
 
 Used by: [Service_STATUS](#Service_STATUS).
 
@@ -1626,8 +1626,8 @@ Used by: [Service_STATUS](#Service_STATUS).
 | "Disabled" |             |
 | "Enabled"  |             |
 
-<a id="ApiManagementServiceProperties_NatGatewayState"></a>ApiManagementServiceProperties_NatGatewayState
----------------------------------------------------------------------------------------------------------
+ApiManagementServiceProperties_NatGatewayState{#ApiManagementServiceProperties_NatGatewayState}
+-----------------------------------------------------------------------------------------------
 
 Used by: [Service_Spec](#Service_Spec).
 
@@ -1636,8 +1636,8 @@ Used by: [Service_Spec](#Service_Spec).
 | "Disabled" |             |
 | "Enabled"  |             |
 
-<a id="ApiManagementServiceProperties_NatGatewayState_STATUS"></a>ApiManagementServiceProperties_NatGatewayState_STATUS
------------------------------------------------------------------------------------------------------------------------
+ApiManagementServiceProperties_NatGatewayState_STATUS{#ApiManagementServiceProperties_NatGatewayState_STATUS}
+-------------------------------------------------------------------------------------------------------------
 
 Used by: [Service_STATUS](#Service_STATUS).
 
@@ -1646,8 +1646,8 @@ Used by: [Service_STATUS](#Service_STATUS).
 | "Disabled" |             |
 | "Enabled"  |             |
 
-<a id="ApiManagementServiceProperties_PlatformVersion_STATUS"></a>ApiManagementServiceProperties_PlatformVersion_STATUS
------------------------------------------------------------------------------------------------------------------------
+ApiManagementServiceProperties_PlatformVersion_STATUS{#ApiManagementServiceProperties_PlatformVersion_STATUS}
+-------------------------------------------------------------------------------------------------------------
 
 Used by: [Service_STATUS](#Service_STATUS).
 
@@ -1659,8 +1659,8 @@ Used by: [Service_STATUS](#Service_STATUS).
 | "stv2.1"       |             |
 | "undetermined" |             |
 
-<a id="ApiManagementServiceProperties_PublicNetworkAccess"></a>ApiManagementServiceProperties_PublicNetworkAccess
------------------------------------------------------------------------------------------------------------------
+ApiManagementServiceProperties_PublicNetworkAccess{#ApiManagementServiceProperties_PublicNetworkAccess}
+-------------------------------------------------------------------------------------------------------
 
 Used by: [Service_Spec](#Service_Spec).
 
@@ -1669,8 +1669,8 @@ Used by: [Service_Spec](#Service_Spec).
 | "Disabled" |             |
 | "Enabled"  |             |
 
-<a id="ApiManagementServiceProperties_PublicNetworkAccess_STATUS"></a>ApiManagementServiceProperties_PublicNetworkAccess_STATUS
--------------------------------------------------------------------------------------------------------------------------------
+ApiManagementServiceProperties_PublicNetworkAccess_STATUS{#ApiManagementServiceProperties_PublicNetworkAccess_STATUS}
+---------------------------------------------------------------------------------------------------------------------
 
 Used by: [Service_STATUS](#Service_STATUS).
 
@@ -1679,8 +1679,8 @@ Used by: [Service_STATUS](#Service_STATUS).
 | "Disabled" |             |
 | "Enabled"  |             |
 
-<a id="ApiManagementServiceProperties_VirtualNetworkType"></a>ApiManagementServiceProperties_VirtualNetworkType
----------------------------------------------------------------------------------------------------------------
+ApiManagementServiceProperties_VirtualNetworkType{#ApiManagementServiceProperties_VirtualNetworkType}
+-----------------------------------------------------------------------------------------------------
 
 Used by: [Service_Spec](#Service_Spec).
 
@@ -1690,8 +1690,8 @@ Used by: [Service_Spec](#Service_Spec).
 | "Internal" |             |
 | "None"     |             |
 
-<a id="ApiManagementServiceProperties_VirtualNetworkType_STATUS"></a>ApiManagementServiceProperties_VirtualNetworkType_STATUS
------------------------------------------------------------------------------------------------------------------------------
+ApiManagementServiceProperties_VirtualNetworkType_STATUS{#ApiManagementServiceProperties_VirtualNetworkType_STATUS}
+-------------------------------------------------------------------------------------------------------------------
 
 Used by: [Service_STATUS](#Service_STATUS).
 
@@ -1701,8 +1701,8 @@ Used by: [Service_STATUS](#Service_STATUS).
 | "Internal" |             |
 | "None"     |             |
 
-<a id="ApiManagementServiceSkuProperties"></a>ApiManagementServiceSkuProperties
--------------------------------------------------------------------------------
+ApiManagementServiceSkuProperties{#ApiManagementServiceSkuProperties}
+---------------------------------------------------------------------
 
 API Management service resource SKU properties.
 
@@ -1713,8 +1713,8 @@ Used by: [AdditionalLocation](#AdditionalLocation), and [Service_Spec](#Service_
 | capacity | Capacity of the SKU (number of deployed units of the SKU). For Consumption SKU capacity must be specified as 0. | int<br/><small>Required</small>                                                                               |
 | name     | Name of the Sku.                                                                                                | [ApiManagementServiceSkuProperties_Name](#ApiManagementServiceSkuProperties_Name)<br/><small>Required</small> |
 
-<a id="ApiManagementServiceSkuProperties_STATUS"></a>ApiManagementServiceSkuProperties_STATUS
----------------------------------------------------------------------------------------------
+ApiManagementServiceSkuProperties_STATUS{#ApiManagementServiceSkuProperties_STATUS}
+-----------------------------------------------------------------------------------
 
 API Management service resource SKU properties.
 
@@ -1725,8 +1725,8 @@ Used by: [AdditionalLocation_STATUS](#AdditionalLocation_STATUS), and [Service_S
 | capacity | Capacity of the SKU (number of deployed units of the SKU). For Consumption SKU capacity must be specified as 0. | int<br/><small>Optional</small>                                                                                             |
 | name     | Name of the Sku.                                                                                                | [ApiManagementServiceSkuProperties_Name_STATUS](#ApiManagementServiceSkuProperties_Name_STATUS)<br/><small>Optional</small> |
 
-<a id="ApiOperatorSpec"></a>ApiOperatorSpec
--------------------------------------------
+ApiOperatorSpec{#ApiOperatorSpec}
+---------------------------------
 
 Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 
@@ -1737,8 +1737,8 @@ Used by: [Api_Spec](#Api_Spec).
 | configMapExpressions | configures where to place operator written dynamic ConfigMaps (created with CEL expressions). | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 | secretExpressions    | configures where to place operator written dynamic secrets (created with CEL expressions).    | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 
-<a id="ApiVersionConstraint"></a>ApiVersionConstraint
------------------------------------------------------
+ApiVersionConstraint{#ApiVersionConstraint}
+-------------------------------------------
 
 Control Plane Apis version constraint for the API Management service.
 
@@ -1748,8 +1748,8 @@ Used by: [Service_Spec](#Service_Spec).
 |---------------|---------------------------------------------------------------------------------------------------------|------------------------------------|
 | minApiVersion | Limit control plane API calls to API Management service with version equal to or newer than this value. | string<br/><small>Optional</small> |
 
-<a id="ApiVersionConstraint_STATUS"></a>ApiVersionConstraint_STATUS
--------------------------------------------------------------------
+ApiVersionConstraint_STATUS{#ApiVersionConstraint_STATUS}
+---------------------------------------------------------
 
 Control Plane Apis version constraint for the API Management service.
 
@@ -1759,8 +1759,8 @@ Used by: [Service_STATUS](#Service_STATUS).
 |---------------|---------------------------------------------------------------------------------------------------------|------------------------------------|
 | minApiVersion | Limit control plane API calls to API Management service with version equal to or newer than this value. | string<br/><small>Optional</small> |
 
-<a id="ApiVersionSetContractDetails"></a>ApiVersionSetContractDetails
----------------------------------------------------------------------
+ApiVersionSetContractDetails{#ApiVersionSetContractDetails}
+-----------------------------------------------------------
 
 An API Version Set contains the common configuration for a set of API Versions relating
 
@@ -1775,8 +1775,8 @@ Used by: [Api_Spec](#Api_Spec).
 | versioningScheme  | An value that determines where the API Version identifier will be located in a HTTP request.         | [ApiVersionSetContractDetails_VersioningScheme](#ApiVersionSetContractDetails_VersioningScheme)<br/><small>Optional</small>                                |
 | versionQueryName  | Name of query parameter that indicates the API Version if versioningScheme is set to `query`.        | string<br/><small>Optional</small>                                                                                                                         |
 
-<a id="ApiVersionSetContractDetails_STATUS"></a>ApiVersionSetContractDetails_STATUS
------------------------------------------------------------------------------------
+ApiVersionSetContractDetails_STATUS{#ApiVersionSetContractDetails_STATUS}
+-------------------------------------------------------------------------
 
 An API Version Set contains the common configuration for a set of API Versions relating
 
@@ -1791,8 +1791,8 @@ Used by: [Api_STATUS](#Api_STATUS).
 | versioningScheme  | An value that determines where the API Version identifier will be located in a HTTP request.         | [ApiVersionSetContractDetails_VersioningScheme_STATUS](#ApiVersionSetContractDetails_VersioningScheme_STATUS)<br/><small>Optional</small> |
 | versionQueryName  | Name of query parameter that indicates the API Version if versioningScheme is set to `query`.        | string<br/><small>Optional</small>                                                                                                        |
 
-<a id="ApiVersionSetContractProperties_VersioningScheme"></a>ApiVersionSetContractProperties_VersioningScheme
--------------------------------------------------------------------------------------------------------------
+ApiVersionSetContractProperties_VersioningScheme{#ApiVersionSetContractProperties_VersioningScheme}
+---------------------------------------------------------------------------------------------------
 
 Used by: [ApiVersionSet_Spec](#ApiVersionSet_Spec).
 
@@ -1802,8 +1802,8 @@ Used by: [ApiVersionSet_Spec](#ApiVersionSet_Spec).
 | "Query"   |             |
 | "Segment" |             |
 
-<a id="ApiVersionSetContractProperties_VersioningScheme_STATUS"></a>ApiVersionSetContractProperties_VersioningScheme_STATUS
----------------------------------------------------------------------------------------------------------------------------
+ApiVersionSetContractProperties_VersioningScheme_STATUS{#ApiVersionSetContractProperties_VersioningScheme_STATUS}
+-----------------------------------------------------------------------------------------------------------------
 
 Used by: [ApiVersionSet_STATUS](#ApiVersionSet_STATUS).
 
@@ -1813,8 +1813,8 @@ Used by: [ApiVersionSet_STATUS](#ApiVersionSet_STATUS).
 | "Query"   |             |
 | "Segment" |             |
 
-<a id="ApiVersionSetOperatorSpec"></a>ApiVersionSetOperatorSpec
----------------------------------------------------------------
+ApiVersionSetOperatorSpec{#ApiVersionSetOperatorSpec}
+-----------------------------------------------------
 
 Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 
@@ -1825,8 +1825,8 @@ Used by: [ApiVersionSet_Spec](#ApiVersionSet_Spec).
 | configMapExpressions | configures where to place operator written dynamic ConfigMaps (created with CEL expressions). | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 | secretExpressions    | configures where to place operator written dynamic secrets (created with CEL expressions).    | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 
-<a id="AuthenticationSettingsContract"></a>AuthenticationSettingsContract
--------------------------------------------------------------------------
+AuthenticationSettingsContract{#AuthenticationSettingsContract}
+---------------------------------------------------------------
 
 API Authentication Settings.
 
@@ -1839,8 +1839,8 @@ Used by: [Api_Spec](#Api_Spec).
 | openid                       | OpenID Connect Authentication Settings                                        | [OpenIdAuthenticationSettingsContract](#OpenIdAuthenticationSettingsContract)<br/><small>Optional</small>   |
 | openidAuthenticationSettings | Collection of Open ID Connect authentication settings included into this API. | [OpenIdAuthenticationSettingsContract[]](#OpenIdAuthenticationSettingsContract)<br/><small>Optional</small> |
 
-<a id="AuthenticationSettingsContract_STATUS"></a>AuthenticationSettingsContract_STATUS
----------------------------------------------------------------------------------------
+AuthenticationSettingsContract_STATUS{#AuthenticationSettingsContract_STATUS}
+-----------------------------------------------------------------------------
 
 API Authentication Settings.
 
@@ -1853,37 +1853,37 @@ Used by: [Api_STATUS](#Api_STATUS).
 | openid                       | OpenID Connect Authentication Settings                                        | [OpenIdAuthenticationSettingsContract_STATUS](#OpenIdAuthenticationSettingsContract_STATUS)<br/><small>Optional</small>   |
 | openidAuthenticationSettings | Collection of Open ID Connect authentication settings included into this API. | [OpenIdAuthenticationSettingsContract_STATUS[]](#OpenIdAuthenticationSettingsContract_STATUS)<br/><small>Optional</small> |
 
-<a id="AuthorizationContractProperties_AuthorizationType"></a>AuthorizationContractProperties_AuthorizationType
+AuthorizationContractProperties_AuthorizationType{#AuthorizationContractProperties_AuthorizationType}
+-----------------------------------------------------------------------------------------------------
+
+Used by: [AuthorizationProvidersAuthorization_Spec](#AuthorizationProvidersAuthorization_Spec).
+
+| Value    | Description |
+|----------|-------------|
+| "OAuth2" |             |
+
+AuthorizationContractProperties_AuthorizationType_STATUS{#AuthorizationContractProperties_AuthorizationType_STATUS}
+-------------------------------------------------------------------------------------------------------------------
+
+Used by: [AuthorizationProvidersAuthorization_STATUS](#AuthorizationProvidersAuthorization_STATUS).
+
+| Value    | Description |
+|----------|-------------|
+| "OAuth2" |             |
+
+AuthorizationContractProperties_Oauth2GrantType{#AuthorizationContractProperties_Oauth2GrantType}
+-------------------------------------------------------------------------------------------------
+
+Used by: [AuthorizationProvidersAuthorization_Spec](#AuthorizationProvidersAuthorization_Spec).
+
+| Value               | Description |
+|---------------------|-------------|
+| "AuthorizationCode" |             |
+| "ClientCredentials" |             |
+
+AuthorizationContractProperties_Oauth2GrantType_STATUS{#AuthorizationContractProperties_Oauth2GrantType_STATUS}
 ---------------------------------------------------------------------------------------------------------------
 
-Used by: [AuthorizationProvidersAuthorization_Spec](#AuthorizationProvidersAuthorization_Spec).
-
-| Value    | Description |
-|----------|-------------|
-| "OAuth2" |             |
-
-<a id="AuthorizationContractProperties_AuthorizationType_STATUS"></a>AuthorizationContractProperties_AuthorizationType_STATUS
------------------------------------------------------------------------------------------------------------------------------
-
-Used by: [AuthorizationProvidersAuthorization_STATUS](#AuthorizationProvidersAuthorization_STATUS).
-
-| Value    | Description |
-|----------|-------------|
-| "OAuth2" |             |
-
-<a id="AuthorizationContractProperties_Oauth2GrantType"></a>AuthorizationContractProperties_Oauth2GrantType
------------------------------------------------------------------------------------------------------------
-
-Used by: [AuthorizationProvidersAuthorization_Spec](#AuthorizationProvidersAuthorization_Spec).
-
-| Value               | Description |
-|---------------------|-------------|
-| "AuthorizationCode" |             |
-| "ClientCredentials" |             |
-
-<a id="AuthorizationContractProperties_Oauth2GrantType_STATUS"></a>AuthorizationContractProperties_Oauth2GrantType_STATUS
--------------------------------------------------------------------------------------------------------------------------
-
 Used by: [AuthorizationProvidersAuthorization_STATUS](#AuthorizationProvidersAuthorization_STATUS).
 
 | Value               | Description |
@@ -1891,8 +1891,8 @@ Used by: [AuthorizationProvidersAuthorization_STATUS](#AuthorizationProvidersAut
 | "AuthorizationCode" |             |
 | "ClientCredentials" |             |
 
-<a id="AuthorizationError_STATUS"></a>AuthorizationError_STATUS
----------------------------------------------------------------
+AuthorizationError_STATUS{#AuthorizationError_STATUS}
+-----------------------------------------------------
 
 Authorization error details.
 
@@ -1903,8 +1903,8 @@ Used by: [AuthorizationProvidersAuthorization_STATUS](#AuthorizationProvidersAut
 | code     | Error code    | string<br/><small>Optional</small> |
 | message  | Error message | string<br/><small>Optional</small> |
 
-<a id="AuthorizationProviderOAuth2Settings"></a>AuthorizationProviderOAuth2Settings
------------------------------------------------------------------------------------
+AuthorizationProviderOAuth2Settings{#AuthorizationProviderOAuth2Settings}
+-------------------------------------------------------------------------
 
 OAuth2 settings details
 
@@ -1915,8 +1915,8 @@ Used by: [AuthorizationProvider_Spec](#AuthorizationProvider_Spec).
 | grantTypes  | OAuth2 settings                                  | [AuthorizationProviderOAuth2GrantTypes](#AuthorizationProviderOAuth2GrantTypes)<br/><small>Optional</small> |
 | redirectUrl | Redirect URL to be set in the OAuth application. | string<br/><small>Optional</small>                                                                          |
 
-<a id="AuthorizationProviderOAuth2Settings_STATUS"></a>AuthorizationProviderOAuth2Settings_STATUS
--------------------------------------------------------------------------------------------------
+AuthorizationProviderOAuth2Settings_STATUS{#AuthorizationProviderOAuth2Settings_STATUS}
+---------------------------------------------------------------------------------------
 
 OAuth2 settings details
 
@@ -1927,8 +1927,8 @@ Used by: [AuthorizationProvider_STATUS](#AuthorizationProvider_STATUS).
 | grantTypes  | OAuth2 settings                                  | [AuthorizationProviderOAuth2GrantTypes_STATUS](#AuthorizationProviderOAuth2GrantTypes_STATUS)<br/><small>Optional</small> |
 | redirectUrl | Redirect URL to be set in the OAuth application. | string<br/><small>Optional</small>                                                                                        |
 
-<a id="AuthorizationProviderOperatorSpec"></a>AuthorizationProviderOperatorSpec
--------------------------------------------------------------------------------
+AuthorizationProviderOperatorSpec{#AuthorizationProviderOperatorSpec}
+---------------------------------------------------------------------
 
 Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 
@@ -1939,8 +1939,8 @@ Used by: [AuthorizationProvider_Spec](#AuthorizationProvider_Spec).
 | configMapExpressions | configures where to place operator written dynamic ConfigMaps (created with CEL expressions). | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 | secretExpressions    | configures where to place operator written dynamic secrets (created with CEL expressions).    | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 
-<a id="AuthorizationProvidersAuthorizationOperatorSpec"></a>AuthorizationProvidersAuthorizationOperatorSpec
------------------------------------------------------------------------------------------------------------
+AuthorizationProvidersAuthorizationOperatorSpec{#AuthorizationProvidersAuthorizationOperatorSpec}
+-------------------------------------------------------------------------------------------------
 
 Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 
@@ -1951,8 +1951,8 @@ Used by: [AuthorizationProvidersAuthorization_Spec](#AuthorizationProvidersAutho
 | configMapExpressions | configures where to place operator written dynamic ConfigMaps (created with CEL expressions). | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 | secretExpressions    | configures where to place operator written dynamic secrets (created with CEL expressions).    | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 
-<a id="AuthorizationProvidersAuthorizationsAccessPolicyOperatorSpec"></a>AuthorizationProvidersAuthorizationsAccessPolicyOperatorSpec
--------------------------------------------------------------------------------------------------------------------------------------
+AuthorizationProvidersAuthorizationsAccessPolicyOperatorSpec{#AuthorizationProvidersAuthorizationsAccessPolicyOperatorSpec}
+---------------------------------------------------------------------------------------------------------------------------
 
 Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 
@@ -1963,8 +1963,8 @@ Used by: [AuthorizationProvidersAuthorizationsAccessPolicy_Spec](#AuthorizationP
 | configMapExpressions | configures where to place operator written dynamic ConfigMaps (created with CEL expressions). | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 | secretExpressions    | configures where to place operator written dynamic secrets (created with CEL expressions).    | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 
-<a id="BackendCircuitBreaker"></a>BackendCircuitBreaker
--------------------------------------------------------
+BackendCircuitBreaker{#BackendCircuitBreaker}
+---------------------------------------------
 
 The configuration of the backend circuit breaker
 
@@ -1974,8 +1974,8 @@ Used by: [Backend_Spec](#Backend_Spec).
 |----------|-------------------------------------|-------------------------------------------------------------------------|
 | rules    | The rules for tripping the backend. | [CircuitBreakerRule[]](#CircuitBreakerRule)<br/><small>Optional</small> |
 
-<a id="BackendCircuitBreaker_STATUS"></a>BackendCircuitBreaker_STATUS
----------------------------------------------------------------------
+BackendCircuitBreaker_STATUS{#BackendCircuitBreaker_STATUS}
+-----------------------------------------------------------
 
 The configuration of the backend circuit breaker
 
@@ -1985,8 +1985,8 @@ Used by: [Backend_STATUS](#Backend_STATUS).
 |----------|-------------------------------------|---------------------------------------------------------------------------------------|
 | rules    | The rules for tripping the backend. | [CircuitBreakerRule_STATUS[]](#CircuitBreakerRule_STATUS)<br/><small>Optional</small> |
 
-<a id="BackendContractProperties_Protocol"></a>BackendContractProperties_Protocol
----------------------------------------------------------------------------------
+BackendContractProperties_Protocol{#BackendContractProperties_Protocol}
+-----------------------------------------------------------------------
 
 Used by: [Backend_Spec](#Backend_Spec).
 
@@ -1995,8 +1995,8 @@ Used by: [Backend_Spec](#Backend_Spec).
 | "http" |             |
 | "soap" |             |
 
-<a id="BackendContractProperties_Protocol_STATUS"></a>BackendContractProperties_Protocol_STATUS
------------------------------------------------------------------------------------------------
+BackendContractProperties_Protocol_STATUS{#BackendContractProperties_Protocol_STATUS}
+-------------------------------------------------------------------------------------
 
 Used by: [Backend_STATUS](#Backend_STATUS).
 
@@ -2005,8 +2005,8 @@ Used by: [Backend_STATUS](#Backend_STATUS).
 | "http" |             |
 | "soap" |             |
 
-<a id="BackendContractProperties_Type"></a>BackendContractProperties_Type
--------------------------------------------------------------------------
+BackendContractProperties_Type{#BackendContractProperties_Type}
+---------------------------------------------------------------
 
 Used by: [Backend_Spec](#Backend_Spec).
 
@@ -2015,8 +2015,8 @@ Used by: [Backend_Spec](#Backend_Spec).
 | "Pool"   |             |
 | "Single" |             |
 
-<a id="BackendContractProperties_Type_STATUS"></a>BackendContractProperties_Type_STATUS
----------------------------------------------------------------------------------------
+BackendContractProperties_Type_STATUS{#BackendContractProperties_Type_STATUS}
+-----------------------------------------------------------------------------
 
 Used by: [Backend_STATUS](#Backend_STATUS).
 
@@ -2025,8 +2025,8 @@ Used by: [Backend_STATUS](#Backend_STATUS).
 | "Pool"   |             |
 | "Single" |             |
 
-<a id="BackendCredentialsContract"></a>BackendCredentialsContract
------------------------------------------------------------------
+BackendCredentialsContract{#BackendCredentialsContract}
+-------------------------------------------------------
 
 Details of the Credentials used to connect to Backend.
 
@@ -2040,8 +2040,8 @@ Used by: [Backend_Spec](#Backend_Spec).
 | header         | Header Parameter description.                                                            | map[string]string[]<br/><small>Optional</small>                                                             |
 | query          | Query Parameter description.                                                             | map[string]string[]<br/><small>Optional</small>                                                             |
 
-<a id="BackendCredentialsContract_STATUS"></a>BackendCredentialsContract_STATUS
--------------------------------------------------------------------------------
+BackendCredentialsContract_STATUS{#BackendCredentialsContract_STATUS}
+---------------------------------------------------------------------
 
 Details of the Credentials used to connect to Backend.
 
@@ -2055,8 +2055,8 @@ Used by: [Backend_STATUS](#Backend_STATUS).
 | header         | Header Parameter description.                                                            | map[string]string[]<br/><small>Optional</small>                                                                           |
 | query          | Query Parameter description.                                                             | map[string]string[]<br/><small>Optional</small>                                                                           |
 
-<a id="BackendOperatorSpec"></a>BackendOperatorSpec
----------------------------------------------------
+BackendOperatorSpec{#BackendOperatorSpec}
+-----------------------------------------
 
 Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 
@@ -2067,8 +2067,8 @@ Used by: [Backend_Spec](#Backend_Spec).
 | configMapExpressions | configures where to place operator written dynamic ConfigMaps (created with CEL expressions). | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 | secretExpressions    | configures where to place operator written dynamic secrets (created with CEL expressions).    | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 
-<a id="BackendPool"></a>BackendPool
------------------------------------
+BackendPool{#BackendPool}
+-------------------------
 
 Backend pool information
 
@@ -2078,8 +2078,8 @@ Used by: [Backend_Spec](#Backend_Spec).
 |----------|---------------------------------------------------|-------------------------------------------------------------------|
 | services | The list of backend entities belonging to a pool. | [BackendPoolItem[]](#BackendPoolItem)<br/><small>Optional</small> |
 
-<a id="BackendPool_STATUS"></a>BackendPool_STATUS
--------------------------------------------------
+BackendPool_STATUS{#BackendPool_STATUS}
+---------------------------------------
 
 Backend pool information
 
@@ -2089,8 +2089,8 @@ Used by: [Backend_STATUS](#Backend_STATUS).
 |----------|---------------------------------------------------|---------------------------------------------------------------------------------|
 | services | The list of backend entities belonging to a pool. | [BackendPoolItem_STATUS[]](#BackendPoolItem_STATUS)<br/><small>Optional</small> |
 
-<a id="BackendProperties"></a>BackendProperties
------------------------------------------------
+BackendProperties{#BackendProperties}
+-------------------------------------
 
 Properties specific to the Backend Type.
 
@@ -2100,8 +2100,8 @@ Used by: [Backend_Spec](#Backend_Spec).
 |----------------------|-------------------------------------------|-------------------------------------------------------------------------------------------------------------|
 | serviceFabricCluster | Backend Service Fabric Cluster Properties | [BackendServiceFabricClusterProperties](#BackendServiceFabricClusterProperties)<br/><small>Optional</small> |
 
-<a id="BackendProperties_STATUS"></a>BackendProperties_STATUS
--------------------------------------------------------------
+BackendProperties_STATUS{#BackendProperties_STATUS}
+---------------------------------------------------
 
 Properties specific to the Backend Type.
 
@@ -2111,8 +2111,8 @@ Used by: [Backend_STATUS](#Backend_STATUS).
 |----------------------|-------------------------------------------|---------------------------------------------------------------------------------------------------------------------------|
 | serviceFabricCluster | Backend Service Fabric Cluster Properties | [BackendServiceFabricClusterProperties_STATUS](#BackendServiceFabricClusterProperties_STATUS)<br/><small>Optional</small> |
 
-<a id="BackendProxyContract"></a>BackendProxyContract
------------------------------------------------------
+BackendProxyContract{#BackendProxyContract}
+-------------------------------------------
 
 Details of the Backend WebProxy Server to use in the Request to Backend.
 
@@ -2124,8 +2124,8 @@ Used by: [Backend_Spec](#Backend_Spec).
 | url      | WebProxy Server AbsoluteUri property which includes the entire URI stored in the Uri instance, including all fragments and query strings. | string<br/><small>Required</small>                                                                                                                     |
 | username | Username to connect to the WebProxy server                                                                                                | string<br/><small>Optional</small>                                                                                                                     |
 
-<a id="BackendProxyContract_STATUS"></a>BackendProxyContract_STATUS
--------------------------------------------------------------------
+BackendProxyContract_STATUS{#BackendProxyContract_STATUS}
+---------------------------------------------------------
 
 Details of the Backend WebProxy Server to use in the Request to Backend.
 
@@ -2136,8 +2136,8 @@ Used by: [Backend_STATUS](#Backend_STATUS).
 | url      | WebProxy Server AbsoluteUri property which includes the entire URI stored in the Uri instance, including all fragments and query strings. | string<br/><small>Optional</small> |
 | username | Username to connect to the WebProxy server                                                                                                | string<br/><small>Optional</small> |
 
-<a id="BackendTlsProperties"></a>BackendTlsProperties
------------------------------------------------------
+BackendTlsProperties{#BackendTlsProperties}
+-------------------------------------------
 
 Properties controlling TLS Certificate Validation.
 
@@ -2148,8 +2148,8 @@ Used by: [Backend_Spec](#Backend_Spec).
 | validateCertificateChain | Flag indicating whether SSL certificate chain validation should be done when using self-signed certificates for this backend host. | bool<br/><small>Optional</small> |
 | validateCertificateName  | Flag indicating whether SSL certificate name validation should be done when using self-signed certificates for this backend host.  | bool<br/><small>Optional</small> |
 
-<a id="BackendTlsProperties_STATUS"></a>BackendTlsProperties_STATUS
--------------------------------------------------------------------
+BackendTlsProperties_STATUS{#BackendTlsProperties_STATUS}
+---------------------------------------------------------
 
 Properties controlling TLS Certificate Validation.
 
@@ -2160,8 +2160,8 @@ Used by: [Backend_STATUS](#Backend_STATUS).
 | validateCertificateChain | Flag indicating whether SSL certificate chain validation should be done when using self-signed certificates for this backend host. | bool<br/><small>Optional</small> |
 | validateCertificateName  | Flag indicating whether SSL certificate name validation should be done when using self-signed certificates for this backend host.  | bool<br/><small>Optional</small> |
 
-<a id="CertificateConfiguration"></a>CertificateConfiguration
--------------------------------------------------------------
+CertificateConfiguration{#CertificateConfiguration}
+---------------------------------------------------
 
 Certificate configuration which consist of non-trusted intermediates and root certificates.
 
@@ -2174,8 +2174,8 @@ Used by: [Service_Spec](#Service_Spec).
 | encodedCertificate  | Base64 Encoded certificate.                                                                                                                     | string<br/><small>Optional</small>                                                                                                                     |
 | storeName           | The System.Security.Cryptography.x509certificates.StoreName certificate store location. Only Root and CertificateAuthority are valid locations. | [CertificateConfiguration_StoreName](#CertificateConfiguration_StoreName)<br/><small>Required</small>                                                  |
 
-<a id="CertificateConfiguration_STATUS"></a>CertificateConfiguration_STATUS
----------------------------------------------------------------------------
+CertificateConfiguration_STATUS{#CertificateConfiguration_STATUS}
+-----------------------------------------------------------------
 
 Certificate configuration which consist of non-trusted intermediates and root certificates.
 
@@ -2187,8 +2187,8 @@ Used by: [Service_STATUS](#Service_STATUS).
 | encodedCertificate | Base64 Encoded certificate.                                                                                                                     | string<br/><small>Optional</small>                                                                                  |
 | storeName          | The System.Security.Cryptography.x509certificates.StoreName certificate store location. Only Root and CertificateAuthority are valid locations. | [CertificateConfiguration_StoreName_STATUS](#CertificateConfiguration_StoreName_STATUS)<br/><small>Optional</small> |
 
-<a id="ConfigurationApi"></a>ConfigurationApi
----------------------------------------------
+ConfigurationApi{#ConfigurationApi}
+-----------------------------------
 
 Information regarding the Configuration API of the API Management service.
 
@@ -2198,8 +2198,8 @@ Used by: [Service_Spec](#Service_Spec).
 |-----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------|
 | legacyApi | Indication whether or not the legacy Configuration API (v1) should be exposed on the API Management service. Value is optional but must be 'Enabled' or 'Disabled'. If 'Disabled', legacy Configuration API (v1) will not be available for self-hosted gateways. Default value is 'Enabled' | [ConfigurationApi_LegacyApi](#ConfigurationApi_LegacyApi)<br/><small>Optional</small> |
 
-<a id="ConfigurationApi_STATUS"></a>ConfigurationApi_STATUS
------------------------------------------------------------
+ConfigurationApi_STATUS{#ConfigurationApi_STATUS}
+-------------------------------------------------
 
 Information regarding the Configuration API of the API Management service.
 
@@ -2209,8 +2209,8 @@ Used by: [Service_STATUS](#Service_STATUS).
 |-----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
 | legacyApi | Indication whether or not the legacy Configuration API (v1) should be exposed on the API Management service. Value is optional but must be 'Enabled' or 'Disabled'. If 'Disabled', legacy Configuration API (v1) will not be available for self-hosted gateways. Default value is 'Enabled' | [ConfigurationApi_LegacyApi_STATUS](#ConfigurationApi_LegacyApi_STATUS)<br/><small>Optional</small> |
 
-<a id="HostnameConfiguration"></a>HostnameConfiguration
--------------------------------------------------------
+HostnameConfiguration{#HostnameConfiguration}
+---------------------------------------------
 
 Custom hostname configuration.
 
@@ -2231,8 +2231,8 @@ Used by: [Service_Spec](#Service_Spec).
 | negotiateClientCertificate | Specify true to always negotiate client certificate on the hostname. Default Value is false.                                                                                                                                                                                                                                                                                                | bool<br/><small>Optional</small>                                                                                                                             |
 | type                       | Hostname type.                                                                                                                                                                                                                                                                                                                                                                              | [HostnameConfiguration_Type](#HostnameConfiguration_Type)<br/><small>Required</small>                                                                        |
 
-<a id="HostnameConfiguration_STATUS"></a>HostnameConfiguration_STATUS
----------------------------------------------------------------------
+HostnameConfiguration_STATUS{#HostnameConfiguration_STATUS}
+-----------------------------------------------------------
 
 Custom hostname configuration.
 
@@ -2251,8 +2251,8 @@ Used by: [Service_STATUS](#Service_STATUS).
 | negotiateClientCertificate | Specify true to always negotiate client certificate on the hostname. Default Value is false.                                                                                                                                                                                                                                                                                                | bool<br/><small>Optional</small>                                                                                              |
 | type                       | Hostname type.                                                                                                                                                                                                                                                                                                                                                                              | [HostnameConfiguration_Type_STATUS](#HostnameConfiguration_Type_STATUS)<br/><small>Optional</small>                           |
 
-<a id="KeyVaultContractCreateProperties"></a>KeyVaultContractCreateProperties
------------------------------------------------------------------------------
+KeyVaultContractCreateProperties{#KeyVaultContractCreateProperties}
+-------------------------------------------------------------------
 
 Create keyVault contract details.
 
@@ -2264,8 +2264,8 @@ Used by: [NamedValue_Spec](#NamedValue_Spec).
 | identityClientIdFromConfig | Null for SystemAssignedIdentity or Client Id for UserAssignedIdentity , which will be used to access key vault secret.                                                             | [genruntime.ConfigMapReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference)<br/><small>Optional</small> |
 | secretIdentifier           | Key vault secret identifier for fetching secret. Providing a versioned secret will prevent auto-refresh. This requires API Management service to be configured with aka.ms/apimmsi | string<br/><small>Optional</small>                                                                                                                           |
 
-<a id="KeyVaultContractProperties_STATUS"></a>KeyVaultContractProperties_STATUS
--------------------------------------------------------------------------------
+KeyVaultContractProperties_STATUS{#KeyVaultContractProperties_STATUS}
+---------------------------------------------------------------------
 
 KeyVault contract details.
 
@@ -2277,8 +2277,8 @@ Used by: [NamedValue_STATUS](#NamedValue_STATUS).
 | lastStatus       | Last time sync and refresh status of secret from key vault.                                                                                                                        | [KeyVaultLastAccessStatusContractProperties_STATUS](#KeyVaultLastAccessStatusContractProperties_STATUS)<br/><small>Optional</small> |
 | secretIdentifier | Key vault secret identifier for fetching secret. Providing a versioned secret will prevent auto-refresh. This requires API Management service to be configured with aka.ms/apimmsi | string<br/><small>Optional</small>                                                                                                  |
 
-<a id="NamedValueOperatorSpec"></a>NamedValueOperatorSpec
----------------------------------------------------------
+NamedValueOperatorSpec{#NamedValueOperatorSpec}
+-----------------------------------------------
 
 Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 
@@ -2289,8 +2289,8 @@ Used by: [NamedValue_Spec](#NamedValue_Spec).
 | configMapExpressions | configures where to place operator written dynamic ConfigMaps (created with CEL expressions). | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 | secretExpressions    | configures where to place operator written dynamic secrets (created with CEL expressions).    | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 
-<a id="PolicyContractProperties_Format"></a>PolicyContractProperties_Format
----------------------------------------------------------------------------
+PolicyContractProperties_Format{#PolicyContractProperties_Format}
+-----------------------------------------------------------------
 
 Used by: [Policy_Spec](#Policy_Spec), and [ProductPolicy_Spec](#ProductPolicy_Spec).
 
@@ -2301,8 +2301,8 @@ Used by: [Policy_Spec](#Policy_Spec), and [ProductPolicy_Spec](#ProductPolicy_Sp
 | "xml"         |             |
 | "xml-link"    |             |
 
-<a id="PolicyContractProperties_Format_STATUS"></a>PolicyContractProperties_Format_STATUS
------------------------------------------------------------------------------------------
+PolicyContractProperties_Format_STATUS{#PolicyContractProperties_Format_STATUS}
+-------------------------------------------------------------------------------
 
 Used by: [Policy_STATUS](#Policy_STATUS), and [ProductPolicy_STATUS](#ProductPolicy_STATUS).
 
@@ -2313,8 +2313,8 @@ Used by: [Policy_STATUS](#Policy_STATUS), and [ProductPolicy_STATUS](#ProductPol
 | "xml"         |             |
 | "xml-link"    |             |
 
-<a id="PolicyFragmentContractProperties_Format"></a>PolicyFragmentContractProperties_Format
--------------------------------------------------------------------------------------------
+PolicyFragmentContractProperties_Format{#PolicyFragmentContractProperties_Format}
+---------------------------------------------------------------------------------
 
 Used by: [PolicyFragment_Spec](#PolicyFragment_Spec).
 
@@ -2323,8 +2323,8 @@ Used by: [PolicyFragment_Spec](#PolicyFragment_Spec).
 | "rawxml" |             |
 | "xml"    |             |
 
-<a id="PolicyFragmentContractProperties_Format_STATUS"></a>PolicyFragmentContractProperties_Format_STATUS
----------------------------------------------------------------------------------------------------------
+PolicyFragmentContractProperties_Format_STATUS{#PolicyFragmentContractProperties_Format_STATUS}
+-----------------------------------------------------------------------------------------------
 
 Used by: [PolicyFragment_STATUS](#PolicyFragment_STATUS).
 
@@ -2333,8 +2333,8 @@ Used by: [PolicyFragment_STATUS](#PolicyFragment_STATUS).
 | "rawxml" |             |
 | "xml"    |             |
 
-<a id="PolicyFragmentOperatorSpec"></a>PolicyFragmentOperatorSpec
------------------------------------------------------------------
+PolicyFragmentOperatorSpec{#PolicyFragmentOperatorSpec}
+-------------------------------------------------------
 
 Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 
@@ -2345,8 +2345,8 @@ Used by: [PolicyFragment_Spec](#PolicyFragment_Spec).
 | configMapExpressions | configures where to place operator written dynamic ConfigMaps (created with CEL expressions). | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 | secretExpressions    | configures where to place operator written dynamic secrets (created with CEL expressions).    | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 
-<a id="PolicyOperatorSpec"></a>PolicyOperatorSpec
--------------------------------------------------
+PolicyOperatorSpec{#PolicyOperatorSpec}
+---------------------------------------
 
 Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 
@@ -2357,8 +2357,8 @@ Used by: [Policy_Spec](#Policy_Spec).
 | configMapExpressions | configures where to place operator written dynamic ConfigMaps (created with CEL expressions). | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 | secretExpressions    | configures where to place operator written dynamic secrets (created with CEL expressions).    | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 
-<a id="ProductApiOperatorSpec"></a>ProductApiOperatorSpec
----------------------------------------------------------
+ProductApiOperatorSpec{#ProductApiOperatorSpec}
+-----------------------------------------------
 
 Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 
@@ -2369,8 +2369,8 @@ Used by: [ProductApi_Spec](#ProductApi_Spec).
 | configMapExpressions | configures where to place operator written dynamic ConfigMaps (created with CEL expressions). | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 | secretExpressions    | configures where to place operator written dynamic secrets (created with CEL expressions).    | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 
-<a id="ProductContractProperties_State"></a>ProductContractProperties_State
----------------------------------------------------------------------------
+ProductContractProperties_State{#ProductContractProperties_State}
+-----------------------------------------------------------------
 
 Used by: [Product_Spec](#Product_Spec).
 
@@ -2379,8 +2379,8 @@ Used by: [Product_Spec](#Product_Spec).
 | "notPublished" |             |
 | "published"    |             |
 
-<a id="ProductContractProperties_State_STATUS"></a>ProductContractProperties_State_STATUS
------------------------------------------------------------------------------------------
+ProductContractProperties_State_STATUS{#ProductContractProperties_State_STATUS}
+-------------------------------------------------------------------------------
 
 Used by: [Product_STATUS](#Product_STATUS).
 
@@ -2389,8 +2389,8 @@ Used by: [Product_STATUS](#Product_STATUS).
 | "notPublished" |             |
 | "published"    |             |
 
-<a id="ProductOperatorSpec"></a>ProductOperatorSpec
----------------------------------------------------
+ProductOperatorSpec{#ProductOperatorSpec}
+-----------------------------------------
 
 Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 
@@ -2401,8 +2401,8 @@ Used by: [Product_Spec](#Product_Spec).
 | configMapExpressions | configures where to place operator written dynamic ConfigMaps (created with CEL expressions). | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 | secretExpressions    | configures where to place operator written dynamic secrets (created with CEL expressions).    | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 
-<a id="ProductPolicyOperatorSpec"></a>ProductPolicyOperatorSpec
----------------------------------------------------------------
+ProductPolicyOperatorSpec{#ProductPolicyOperatorSpec}
+-----------------------------------------------------
 
 Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 
@@ -2413,8 +2413,8 @@ Used by: [ProductPolicy_Spec](#ProductPolicy_Spec).
 | configMapExpressions | configures where to place operator written dynamic ConfigMaps (created with CEL expressions). | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 | secretExpressions    | configures where to place operator written dynamic secrets (created with CEL expressions).    | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 
-<a id="RemotePrivateEndpointConnectionWrapper_STATUS"></a>RemotePrivateEndpointConnectionWrapper_STATUS
--------------------------------------------------------------------------------------------------------
+RemotePrivateEndpointConnectionWrapper_STATUS{#RemotePrivateEndpointConnectionWrapper_STATUS}
+---------------------------------------------------------------------------------------------
 
 Remote Private Endpoint Connection resource.
 
@@ -2430,8 +2430,8 @@ Used by: [Service_STATUS](#Service_STATUS).
 | provisioningState                 | The provisioning state of the private endpoint connection resource.                                  | string<br/><small>Optional</small>                                                                                |
 | type                              | Private Endpoint Connection Resource Type                                                            | string<br/><small>Optional</small>                                                                                |
 
-<a id="ServiceOperatorSpec"></a>ServiceOperatorSpec
----------------------------------------------------
+ServiceOperatorSpec{#ServiceOperatorSpec}
+-----------------------------------------
 
 Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 
@@ -2442,8 +2442,8 @@ Used by: [Service_Spec](#Service_Spec).
 | configMapExpressions | configures where to place operator written dynamic ConfigMaps (created with CEL expressions). | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 | secretExpressions    | configures where to place operator written dynamic secrets (created with CEL expressions).    | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 
-<a id="SubscriptionContractProperties_State_STATUS"></a>SubscriptionContractProperties_State_STATUS
----------------------------------------------------------------------------------------------------
+SubscriptionContractProperties_State_STATUS{#SubscriptionContractProperties_State_STATUS}
+-----------------------------------------------------------------------------------------
 
 Used by: [Subscription_STATUS](#Subscription_STATUS).
 
@@ -2456,8 +2456,8 @@ Used by: [Subscription_STATUS](#Subscription_STATUS).
 | "submitted" |             |
 | "suspended" |             |
 
-<a id="SubscriptionCreateParameterProperties_State"></a>SubscriptionCreateParameterProperties_State
----------------------------------------------------------------------------------------------------
+SubscriptionCreateParameterProperties_State{#SubscriptionCreateParameterProperties_State}
+-----------------------------------------------------------------------------------------
 
 Used by: [Subscription_Spec](#Subscription_Spec).
 
@@ -2470,8 +2470,8 @@ Used by: [Subscription_Spec](#Subscription_Spec).
 | "submitted" |             |
 | "suspended" |             |
 
-<a id="SubscriptionKeyParameterNamesContract"></a>SubscriptionKeyParameterNamesContract
----------------------------------------------------------------------------------------
+SubscriptionKeyParameterNamesContract{#SubscriptionKeyParameterNamesContract}
+-----------------------------------------------------------------------------
 
 Subscription key parameter names details.
 
@@ -2482,8 +2482,8 @@ Used by: [Api_Spec](#Api_Spec).
 | header   | Subscription key header name.                 | string<br/><small>Optional</small> |
 | query    | Subscription key query string parameter name. | string<br/><small>Optional</small> |
 
-<a id="SubscriptionKeyParameterNamesContract_STATUS"></a>SubscriptionKeyParameterNamesContract_STATUS
------------------------------------------------------------------------------------------------------
+SubscriptionKeyParameterNamesContract_STATUS{#SubscriptionKeyParameterNamesContract_STATUS}
+-------------------------------------------------------------------------------------------
 
 Subscription key parameter names details.
 
@@ -2494,8 +2494,8 @@ Used by: [Api_STATUS](#Api_STATUS).
 | header   | Subscription key header name.                 | string<br/><small>Optional</small> |
 | query    | Subscription key query string parameter name. | string<br/><small>Optional</small> |
 
-<a id="SubscriptionOperatorSpec"></a>SubscriptionOperatorSpec
--------------------------------------------------------------
+SubscriptionOperatorSpec{#SubscriptionOperatorSpec}
+---------------------------------------------------
 
 Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 
@@ -2507,8 +2507,8 @@ Used by: [Subscription_Spec](#Subscription_Spec).
 | secretExpressions    | configures where to place operator written dynamic secrets (created with CEL expressions).    | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 | secrets              | configures where to place Azure generated secrets.                                            | [SubscriptionOperatorSecrets](#SubscriptionOperatorSecrets)<br/><small>Optional</small>                                                                             |
 
-<a id="SystemData_STATUS"></a>SystemData_STATUS
------------------------------------------------
+SystemData_STATUS{#SystemData_STATUS}
+-------------------------------------
 
 Metadata pertaining to creation and last modification of the resource.
 
@@ -2523,8 +2523,8 @@ Used by: [Service_STATUS](#Service_STATUS).
 | lastModifiedBy     | The identity that last modified the resource.         | string<br/><small>Optional</small>                                                                        |
 | lastModifiedByType | The type of identity that last modified the resource. | [SystemData_LastModifiedByType_STATUS](#SystemData_LastModifiedByType_STATUS)<br/><small>Optional</small> |
 
-<a id="VirtualNetworkConfiguration"></a>VirtualNetworkConfiguration
--------------------------------------------------------------------
+VirtualNetworkConfiguration{#VirtualNetworkConfiguration}
+---------------------------------------------------------
 
 Configuration of a virtual network to which API Management service is deployed.
 
@@ -2534,8 +2534,8 @@ Used by: [AdditionalLocation](#AdditionalLocation), and [Service_Spec](#Service_
 |-------------------------|------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | subnetResourceReference | The full resource ID of a subnet in a virtual network to deploy the API Management service in. | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small> |
 
-<a id="VirtualNetworkConfiguration_STATUS"></a>VirtualNetworkConfiguration_STATUS
----------------------------------------------------------------------------------
+VirtualNetworkConfiguration_STATUS{#VirtualNetworkConfiguration_STATUS}
+-----------------------------------------------------------------------
 
 Configuration of a virtual network to which API Management service is deployed.
 
@@ -2547,8 +2547,8 @@ Used by: [AdditionalLocation_STATUS](#AdditionalLocation_STATUS), and [Service_S
 | subnetResourceId | The full resource ID of a subnet in a virtual network to deploy the API Management service in. | string<br/><small>Optional</small> |
 | vnetid           | The virtual network ID. This is typically a GUID. Expect a null GUID by default.               | string<br/><small>Optional</small> |
 
-<a id="AdditionalLocation_NatGatewayState"></a>AdditionalLocation_NatGatewayState
----------------------------------------------------------------------------------
+AdditionalLocation_NatGatewayState{#AdditionalLocation_NatGatewayState}
+-----------------------------------------------------------------------
 
 Used by: [AdditionalLocation](#AdditionalLocation).
 
@@ -2557,8 +2557,8 @@ Used by: [AdditionalLocation](#AdditionalLocation).
 | "Disabled" |             |
 | "Enabled"  |             |
 
-<a id="AdditionalLocation_NatGatewayState_STATUS"></a>AdditionalLocation_NatGatewayState_STATUS
------------------------------------------------------------------------------------------------
+AdditionalLocation_NatGatewayState_STATUS{#AdditionalLocation_NatGatewayState_STATUS}
+-------------------------------------------------------------------------------------
 
 Used by: [AdditionalLocation_STATUS](#AdditionalLocation_STATUS).
 
@@ -2567,8 +2567,8 @@ Used by: [AdditionalLocation_STATUS](#AdditionalLocation_STATUS).
 | "Disabled" |             |
 | "Enabled"  |             |
 
-<a id="AdditionalLocation_PlatformVersion_STATUS"></a>AdditionalLocation_PlatformVersion_STATUS
------------------------------------------------------------------------------------------------
+AdditionalLocation_PlatformVersion_STATUS{#AdditionalLocation_PlatformVersion_STATUS}
+-------------------------------------------------------------------------------------
 
 Used by: [AdditionalLocation_STATUS](#AdditionalLocation_STATUS).
 
@@ -2580,8 +2580,8 @@ Used by: [AdditionalLocation_STATUS](#AdditionalLocation_STATUS).
 | "stv2.1"       |             |
 | "undetermined" |             |
 
-<a id="ApiManagementServiceIdentity_Type"></a>ApiManagementServiceIdentity_Type
--------------------------------------------------------------------------------
+ApiManagementServiceIdentity_Type{#ApiManagementServiceIdentity_Type}
+---------------------------------------------------------------------
 
 Used by: [ApiManagementServiceIdentity](#ApiManagementServiceIdentity).
 
@@ -2592,8 +2592,8 @@ Used by: [ApiManagementServiceIdentity](#ApiManagementServiceIdentity).
 | "SystemAssigned, UserAssigned" |             |
 | "UserAssigned"                 |             |
 
-<a id="ApiManagementServiceIdentity_Type_STATUS"></a>ApiManagementServiceIdentity_Type_STATUS
----------------------------------------------------------------------------------------------
+ApiManagementServiceIdentity_Type_STATUS{#ApiManagementServiceIdentity_Type_STATUS}
+-----------------------------------------------------------------------------------
 
 Used by: [ApiManagementServiceIdentity_STATUS](#ApiManagementServiceIdentity_STATUS).
 
@@ -2604,8 +2604,8 @@ Used by: [ApiManagementServiceIdentity_STATUS](#ApiManagementServiceIdentity_STA
 | "SystemAssigned, UserAssigned" |             |
 | "UserAssigned"                 |             |
 
-<a id="ApiManagementServiceSkuProperties_Name"></a>ApiManagementServiceSkuProperties_Name
------------------------------------------------------------------------------------------
+ApiManagementServiceSkuProperties_Name{#ApiManagementServiceSkuProperties_Name}
+-------------------------------------------------------------------------------
 
 Used by: [ApiManagementServiceSkuProperties](#ApiManagementServiceSkuProperties).
 
@@ -2620,8 +2620,8 @@ Used by: [ApiManagementServiceSkuProperties](#ApiManagementServiceSkuProperties)
 | "Standard"    |             |
 | "StandardV2"  |             |
 
-<a id="ApiManagementServiceSkuProperties_Name_STATUS"></a>ApiManagementServiceSkuProperties_Name_STATUS
--------------------------------------------------------------------------------------------------------
+ApiManagementServiceSkuProperties_Name_STATUS{#ApiManagementServiceSkuProperties_Name_STATUS}
+---------------------------------------------------------------------------------------------
 
 Used by: [ApiManagementServiceSkuProperties_STATUS](#ApiManagementServiceSkuProperties_STATUS).
 
@@ -2636,8 +2636,8 @@ Used by: [ApiManagementServiceSkuProperties_STATUS](#ApiManagementServiceSkuProp
 | "Standard"    |             |
 | "StandardV2"  |             |
 
-<a id="ApiVersionSetContractDetails_VersioningScheme"></a>ApiVersionSetContractDetails_VersioningScheme
--------------------------------------------------------------------------------------------------------
+ApiVersionSetContractDetails_VersioningScheme{#ApiVersionSetContractDetails_VersioningScheme}
+---------------------------------------------------------------------------------------------
 
 Used by: [ApiVersionSetContractDetails](#ApiVersionSetContractDetails).
 
@@ -2647,8 +2647,8 @@ Used by: [ApiVersionSetContractDetails](#ApiVersionSetContractDetails).
 | "Query"   |             |
 | "Segment" |             |
 
-<a id="ApiVersionSetContractDetails_VersioningScheme_STATUS"></a>ApiVersionSetContractDetails_VersioningScheme_STATUS
----------------------------------------------------------------------------------------------------------------------
+ApiVersionSetContractDetails_VersioningScheme_STATUS{#ApiVersionSetContractDetails_VersioningScheme_STATUS}
+-----------------------------------------------------------------------------------------------------------
 
 Used by: [ApiVersionSetContractDetails_STATUS](#ApiVersionSetContractDetails_STATUS).
 
@@ -2658,8 +2658,8 @@ Used by: [ApiVersionSetContractDetails_STATUS](#ApiVersionSetContractDetails_STA
 | "Query"   |             |
 | "Segment" |             |
 
-<a id="ArmIdWrapper_STATUS"></a>ArmIdWrapper_STATUS
----------------------------------------------------
+ArmIdWrapper_STATUS{#ArmIdWrapper_STATUS}
+-----------------------------------------
 
 A wrapper for an ARM resource id
 
@@ -2669,8 +2669,8 @@ Used by: [RemotePrivateEndpointConnectionWrapper_STATUS](#RemotePrivateEndpointC
 |----------|-------------|------------------------------------|
 | id       |             | string<br/><small>Optional</small> |
 
-<a id="AuthorizationProviderOAuth2GrantTypes"></a>AuthorizationProviderOAuth2GrantTypes
----------------------------------------------------------------------------------------
+AuthorizationProviderOAuth2GrantTypes{#AuthorizationProviderOAuth2GrantTypes}
+-----------------------------------------------------------------------------
 
 Authorization Provider oauth2 grant types settings
 
@@ -2681,8 +2681,8 @@ Used by: [AuthorizationProviderOAuth2Settings](#AuthorizationProviderOAuth2Setti
 | authorizationCode | OAuth2 authorization code grant parameters | [genruntime.SecretMapReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretMapReference)<br/><small>Optional</small> |
 | clientCredentials | OAuth2 client credential grant parameters  | [genruntime.SecretMapReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretMapReference)<br/><small>Optional</small> |
 
-<a id="AuthorizationProviderOAuth2GrantTypes_STATUS"></a>AuthorizationProviderOAuth2GrantTypes_STATUS
------------------------------------------------------------------------------------------------------
+AuthorizationProviderOAuth2GrantTypes_STATUS{#AuthorizationProviderOAuth2GrantTypes_STATUS}
+-------------------------------------------------------------------------------------------
 
 Authorization Provider oauth2 grant types settings
 
@@ -2693,8 +2693,8 @@ Used by: [AuthorizationProviderOAuth2Settings_STATUS](#AuthorizationProviderOAut
 | authorizationCode | OAuth2 authorization code grant parameters | map[string]string<br/><small>Optional</small> |
 | clientCredentials | OAuth2 client credential grant parameters  | map[string]string<br/><small>Optional</small> |
 
-<a id="BackendAuthorizationHeaderCredentials"></a>BackendAuthorizationHeaderCredentials
----------------------------------------------------------------------------------------
+BackendAuthorizationHeaderCredentials{#BackendAuthorizationHeaderCredentials}
+-----------------------------------------------------------------------------
 
 Authorization header information.
 
@@ -2705,8 +2705,8 @@ Used by: [BackendCredentialsContract](#BackendCredentialsContract).
 | parameter | Authentication Parameter value. | string<br/><small>Required</small> |
 | scheme    | Authentication Scheme name.     | string<br/><small>Required</small> |
 
-<a id="BackendAuthorizationHeaderCredentials_STATUS"></a>BackendAuthorizationHeaderCredentials_STATUS
------------------------------------------------------------------------------------------------------
+BackendAuthorizationHeaderCredentials_STATUS{#BackendAuthorizationHeaderCredentials_STATUS}
+-------------------------------------------------------------------------------------------
 
 Authorization header information.
 
@@ -2717,8 +2717,8 @@ Used by: [BackendCredentialsContract_STATUS](#BackendCredentialsContract_STATUS)
 | parameter | Authentication Parameter value. | string<br/><small>Optional</small> |
 | scheme    | Authentication Scheme name.     | string<br/><small>Optional</small> |
 
-<a id="BackendPoolItem"></a>BackendPoolItem
--------------------------------------------
+BackendPoolItem{#BackendPoolItem}
+---------------------------------
 
 Backend pool service information
 
@@ -2728,8 +2728,8 @@ Used by: [BackendPool](#BackendPool).
 |-----------|---------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | reference | The unique ARM id of the backend entity. The ARM id should refer to an already existing backend entity. | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Required</small> |
 
-<a id="BackendPoolItem_STATUS"></a>BackendPoolItem_STATUS
----------------------------------------------------------
+BackendPoolItem_STATUS{#BackendPoolItem_STATUS}
+-----------------------------------------------
 
 Backend pool service information
 
@@ -2739,8 +2739,8 @@ Used by: [BackendPool_STATUS](#BackendPool_STATUS).
 |----------|---------------------------------------------------------------------------------------------------------|------------------------------------|
 | id       | The unique ARM id of the backend entity. The ARM id should refer to an already existing backend entity. | string<br/><small>Required</small> |
 
-<a id="BackendServiceFabricClusterProperties"></a>BackendServiceFabricClusterProperties
----------------------------------------------------------------------------------------
+BackendServiceFabricClusterProperties{#BackendServiceFabricClusterProperties}
+-----------------------------------------------------------------------------
 
 Properties of the Service Fabric Type Backend.
 
@@ -2755,8 +2755,8 @@ Used by: [BackendProperties](#BackendProperties).
 | serverCertificateThumbprints  | Thumbprints of certificates cluster management service uses for tls communication                              | string[]<br/><small>Optional</small>                                      |
 | serverX509Names               | Server X509 Certificate Names Collection                                                                       | [X509CertificateName[]](#X509CertificateName)<br/><small>Optional</small> |
 
-<a id="BackendServiceFabricClusterProperties_STATUS"></a>BackendServiceFabricClusterProperties_STATUS
------------------------------------------------------------------------------------------------------
+BackendServiceFabricClusterProperties_STATUS{#BackendServiceFabricClusterProperties_STATUS}
+-------------------------------------------------------------------------------------------
 
 Properties of the Service Fabric Type Backend.
 
@@ -2771,8 +2771,8 @@ Used by: [BackendProperties_STATUS](#BackendProperties_STATUS).
 | serverCertificateThumbprints  | Thumbprints of certificates cluster management service uses for tls communication                              | string[]<br/><small>Optional</small>                                                    |
 | serverX509Names               | Server X509 Certificate Names Collection                                                                       | [X509CertificateName_STATUS[]](#X509CertificateName_STATUS)<br/><small>Optional</small> |
 
-<a id="CertificateConfiguration_StoreName"></a>CertificateConfiguration_StoreName
----------------------------------------------------------------------------------
+CertificateConfiguration_StoreName{#CertificateConfiguration_StoreName}
+-----------------------------------------------------------------------
 
 Used by: [CertificateConfiguration](#CertificateConfiguration).
 
@@ -2781,8 +2781,8 @@ Used by: [CertificateConfiguration](#CertificateConfiguration).
 | "CertificateAuthority" |             |
 | "Root"                 |             |
 
-<a id="CertificateConfiguration_StoreName_STATUS"></a>CertificateConfiguration_StoreName_STATUS
------------------------------------------------------------------------------------------------
+CertificateConfiguration_StoreName_STATUS{#CertificateConfiguration_StoreName_STATUS}
+-------------------------------------------------------------------------------------
 
 Used by: [CertificateConfiguration_STATUS](#CertificateConfiguration_STATUS).
 
@@ -2791,8 +2791,8 @@ Used by: [CertificateConfiguration_STATUS](#CertificateConfiguration_STATUS).
 | "CertificateAuthority" |             |
 | "Root"                 |             |
 
-<a id="CertificateInformation"></a>CertificateInformation
----------------------------------------------------------
+CertificateInformation{#CertificateInformation}
+-----------------------------------------------
 
 SSL certificate information.
 
@@ -2807,8 +2807,8 @@ Used by: [CertificateConfiguration](#CertificateConfiguration), and [HostnameCon
 | thumbprint           | Thumbprint of the certificate.                                                                                                               | string<br/><small>Optional</small>                                                                                                                           |
 | thumbprintFromConfig | Thumbprint of the certificate.                                                                                                               | [genruntime.ConfigMapReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference)<br/><small>Optional</small> |
 
-<a id="CertificateInformation_STATUS"></a>CertificateInformation_STATUS
------------------------------------------------------------------------
+CertificateInformation_STATUS{#CertificateInformation_STATUS}
+-------------------------------------------------------------
 
 SSL certificate information.
 
@@ -2820,8 +2820,8 @@ Used by: [CertificateConfiguration_STATUS](#CertificateConfiguration_STATUS), an
 | subject    | Subject of the certificate.                                                                                                                  | string<br/><small>Optional</small> |
 | thumbprint | Thumbprint of the certificate.                                                                                                               | string<br/><small>Optional</small> |
 
-<a id="CircuitBreakerRule"></a>CircuitBreakerRule
--------------------------------------------------
+CircuitBreakerRule{#CircuitBreakerRule}
+---------------------------------------
 
 Rule configuration to trip the backend.
 
@@ -2833,8 +2833,8 @@ Used by: [BackendCircuitBreaker](#BackendCircuitBreaker).
 | name             | The rule name.                                      | string<br/><small>Optional</small>                                                            |
 | tripDuration     | The duration for which the circuit will be tripped. | string<br/><small>Optional</small>                                                            |
 
-<a id="CircuitBreakerRule_STATUS"></a>CircuitBreakerRule_STATUS
----------------------------------------------------------------
+CircuitBreakerRule_STATUS{#CircuitBreakerRule_STATUS}
+-----------------------------------------------------
 
 Rule configuration to trip the backend.
 
@@ -2846,8 +2846,8 @@ Used by: [BackendCircuitBreaker_STATUS](#BackendCircuitBreaker_STATUS).
 | name             | The rule name.                                      | string<br/><small>Optional</small>                                                                          |
 | tripDuration     | The duration for which the circuit will be tripped. | string<br/><small>Optional</small>                                                                          |
 
-<a id="ConfigurationApi_LegacyApi"></a>ConfigurationApi_LegacyApi
------------------------------------------------------------------
+ConfigurationApi_LegacyApi{#ConfigurationApi_LegacyApi}
+-------------------------------------------------------
 
 Used by: [ConfigurationApi](#ConfigurationApi).
 
@@ -2856,8 +2856,8 @@ Used by: [ConfigurationApi](#ConfigurationApi).
 | "Disabled" |             |
 | "Enabled"  |             |
 
-<a id="ConfigurationApi_LegacyApi_STATUS"></a>ConfigurationApi_LegacyApi_STATUS
--------------------------------------------------------------------------------
+ConfigurationApi_LegacyApi_STATUS{#ConfigurationApi_LegacyApi_STATUS}
+---------------------------------------------------------------------
 
 Used by: [ConfigurationApi_STATUS](#ConfigurationApi_STATUS).
 
@@ -2866,8 +2866,8 @@ Used by: [ConfigurationApi_STATUS](#ConfigurationApi_STATUS).
 | "Disabled" |             |
 | "Enabled"  |             |
 
-<a id="HostnameConfiguration_CertificateSource"></a>HostnameConfiguration_CertificateSource
--------------------------------------------------------------------------------------------
+HostnameConfiguration_CertificateSource{#HostnameConfiguration_CertificateSource}
+---------------------------------------------------------------------------------
 
 Used by: [HostnameConfiguration](#HostnameConfiguration).
 
@@ -2878,8 +2878,8 @@ Used by: [HostnameConfiguration](#HostnameConfiguration).
 | "KeyVault" |             |
 | "Managed"  |             |
 
-<a id="HostnameConfiguration_CertificateSource_STATUS"></a>HostnameConfiguration_CertificateSource_STATUS
----------------------------------------------------------------------------------------------------------
+HostnameConfiguration_CertificateSource_STATUS{#HostnameConfiguration_CertificateSource_STATUS}
+-----------------------------------------------------------------------------------------------
 
 Used by: [HostnameConfiguration_STATUS](#HostnameConfiguration_STATUS).
 
@@ -2890,8 +2890,8 @@ Used by: [HostnameConfiguration_STATUS](#HostnameConfiguration_STATUS).
 | "KeyVault" |             |
 | "Managed"  |             |
 
-<a id="HostnameConfiguration_CertificateStatus"></a>HostnameConfiguration_CertificateStatus
--------------------------------------------------------------------------------------------
+HostnameConfiguration_CertificateStatus{#HostnameConfiguration_CertificateStatus}
+---------------------------------------------------------------------------------
 
 Used by: [HostnameConfiguration](#HostnameConfiguration).
 
@@ -2901,8 +2901,8 @@ Used by: [HostnameConfiguration](#HostnameConfiguration).
 | "Failed"     |             |
 | "InProgress" |             |
 
-<a id="HostnameConfiguration_CertificateStatus_STATUS"></a>HostnameConfiguration_CertificateStatus_STATUS
----------------------------------------------------------------------------------------------------------
+HostnameConfiguration_CertificateStatus_STATUS{#HostnameConfiguration_CertificateStatus_STATUS}
+-----------------------------------------------------------------------------------------------
 
 Used by: [HostnameConfiguration_STATUS](#HostnameConfiguration_STATUS).
 
@@ -2912,8 +2912,8 @@ Used by: [HostnameConfiguration_STATUS](#HostnameConfiguration_STATUS).
 | "Failed"     |             |
 | "InProgress" |             |
 
-<a id="HostnameConfiguration_Type"></a>HostnameConfiguration_Type
------------------------------------------------------------------
+HostnameConfiguration_Type{#HostnameConfiguration_Type}
+-------------------------------------------------------
 
 Used by: [HostnameConfiguration](#HostnameConfiguration).
 
@@ -2926,8 +2926,8 @@ Used by: [HostnameConfiguration](#HostnameConfiguration).
 | "Proxy"            |             |
 | "Scm"              |             |
 
-<a id="HostnameConfiguration_Type_STATUS"></a>HostnameConfiguration_Type_STATUS
--------------------------------------------------------------------------------
+HostnameConfiguration_Type_STATUS{#HostnameConfiguration_Type_STATUS}
+---------------------------------------------------------------------
 
 Used by: [HostnameConfiguration_STATUS](#HostnameConfiguration_STATUS).
 
@@ -2940,8 +2940,8 @@ Used by: [HostnameConfiguration_STATUS](#HostnameConfiguration_STATUS).
 | "Proxy"            |             |
 | "Scm"              |             |
 
-<a id="KeyVaultLastAccessStatusContractProperties_STATUS"></a>KeyVaultLastAccessStatusContractProperties_STATUS
----------------------------------------------------------------------------------------------------------------
+KeyVaultLastAccessStatusContractProperties_STATUS{#KeyVaultLastAccessStatusContractProperties_STATUS}
+-----------------------------------------------------------------------------------------------------
 
 Issue contract Update Properties.
 
@@ -2953,8 +2953,8 @@ Used by: [KeyVaultContractProperties_STATUS](#KeyVaultContractProperties_STATUS)
 | message      | Details of the error else empty.                                                                                                        | string<br/><small>Optional</small> |
 | timeStampUtc | Last time secret was accessed. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard. | string<br/><small>Optional</small> |
 
-<a id="OAuth2AuthenticationSettingsContract"></a>OAuth2AuthenticationSettingsContract
--------------------------------------------------------------------------------------
+OAuth2AuthenticationSettingsContract{#OAuth2AuthenticationSettingsContract}
+---------------------------------------------------------------------------
 
 API OAuth2 Authentication settings details.
 
@@ -2965,8 +2965,8 @@ Used by: [AuthenticationSettingsContract](#AuthenticationSettingsContract), and 
 | authorizationServerId | OAuth authorization server identifier. | string<br/><small>Optional</small> |
 | scope                 | operations scope.                      | string<br/><small>Optional</small> |
 
-<a id="OAuth2AuthenticationSettingsContract_STATUS"></a>OAuth2AuthenticationSettingsContract_STATUS
----------------------------------------------------------------------------------------------------
+OAuth2AuthenticationSettingsContract_STATUS{#OAuth2AuthenticationSettingsContract_STATUS}
+-----------------------------------------------------------------------------------------
 
 API OAuth2 Authentication settings details.
 
@@ -2977,8 +2977,8 @@ Used by: [AuthenticationSettingsContract_STATUS](#AuthenticationSettingsContract
 | authorizationServerId | OAuth authorization server identifier. | string<br/><small>Optional</small> |
 | scope                 | operations scope.                      | string<br/><small>Optional</small> |
 
-<a id="OpenIdAuthenticationSettingsContract"></a>OpenIdAuthenticationSettingsContract
--------------------------------------------------------------------------------------
+OpenIdAuthenticationSettingsContract{#OpenIdAuthenticationSettingsContract}
+---------------------------------------------------------------------------
 
 API OAuth2 Authentication settings details.
 
@@ -2989,8 +2989,8 @@ Used by: [AuthenticationSettingsContract](#AuthenticationSettingsContract), and 
 | bearerTokenSendingMethods | How to send token to the server.       | [BearerTokenSendingMethodsContract[]](#BearerTokenSendingMethodsContract)<br/><small>Optional</small> |
 | openidProviderId          | OAuth authorization server identifier. | string<br/><small>Optional</small>                                                                    |
 
-<a id="OpenIdAuthenticationSettingsContract_STATUS"></a>OpenIdAuthenticationSettingsContract_STATUS
----------------------------------------------------------------------------------------------------
+OpenIdAuthenticationSettingsContract_STATUS{#OpenIdAuthenticationSettingsContract_STATUS}
+-----------------------------------------------------------------------------------------
 
 API OAuth2 Authentication settings details.
 
@@ -3001,8 +3001,8 @@ Used by: [AuthenticationSettingsContract_STATUS](#AuthenticationSettingsContract
 | bearerTokenSendingMethods | How to send token to the server.       | [BearerTokenSendingMethodsContract_STATUS[]](#BearerTokenSendingMethodsContract_STATUS)<br/><small>Optional</small> |
 | openidProviderId          | OAuth authorization server identifier. | string<br/><small>Optional</small>                                                                                  |
 
-<a id="PrivateLinkServiceConnectionState_STATUS"></a>PrivateLinkServiceConnectionState_STATUS
----------------------------------------------------------------------------------------------
+PrivateLinkServiceConnectionState_STATUS{#PrivateLinkServiceConnectionState_STATUS}
+-----------------------------------------------------------------------------------
 
 A collection of information about the state of the connection between service consumer and provider.
 
@@ -3014,8 +3014,8 @@ Used by: [RemotePrivateEndpointConnectionWrapper_STATUS](#RemotePrivateEndpointC
 | description     | The reason for approval/rejection of the connection.                                             | string<br/><small>Optional</small>                                                                                          |
 | status          | Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. | [PrivateEndpointServiceConnectionStatus_STATUS](#PrivateEndpointServiceConnectionStatus_STATUS)<br/><small>Optional</small> |
 
-<a id="SubscriptionOperatorSecrets"></a>SubscriptionOperatorSecrets
--------------------------------------------------------------------
+SubscriptionOperatorSecrets{#SubscriptionOperatorSecrets}
+---------------------------------------------------------
 
 Used by: [SubscriptionOperatorSpec](#SubscriptionOperatorSpec).
 
@@ -3024,7 +3024,19 @@ Used by: [SubscriptionOperatorSpec](#SubscriptionOperatorSpec).
 | primaryKey   | indicates where the PrimaryKey secret should be placed. If omitted, the secret will not be retrieved from Azure.   | [genruntime.SecretDestination](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination)<br/><small>Optional</small> |
 | secondaryKey | indicates where the SecondaryKey secret should be placed. If omitted, the secret will not be retrieved from Azure. | [genruntime.SecretDestination](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination)<br/><small>Optional</small> |
 
-<a id="SystemData_CreatedByType_STATUS"></a>SystemData_CreatedByType_STATUS
+SystemData_CreatedByType_STATUS{#SystemData_CreatedByType_STATUS}
+-----------------------------------------------------------------
+
+Used by: [SystemData_STATUS](#SystemData_STATUS).
+
+| Value             | Description |
+|-------------------|-------------|
+| "Application"     |             |
+| "Key"             |             |
+| "ManagedIdentity" |             |
+| "User"            |             |
+
+SystemData_LastModifiedByType_STATUS{#SystemData_LastModifiedByType_STATUS}
 ---------------------------------------------------------------------------
 
 Used by: [SystemData_STATUS](#SystemData_STATUS).
@@ -3036,20 +3048,8 @@ Used by: [SystemData_STATUS](#SystemData_STATUS).
 | "ManagedIdentity" |             |
 | "User"            |             |
 
-<a id="SystemData_LastModifiedByType_STATUS"></a>SystemData_LastModifiedByType_STATUS
--------------------------------------------------------------------------------------
-
-Used by: [SystemData_STATUS](#SystemData_STATUS).
-
-| Value             | Description |
-|-------------------|-------------|
-| "Application"     |             |
-| "Key"             |             |
-| "ManagedIdentity" |             |
-| "User"            |             |
-
-<a id="UserAssignedIdentityDetails"></a>UserAssignedIdentityDetails
--------------------------------------------------------------------
+UserAssignedIdentityDetails{#UserAssignedIdentityDetails}
+---------------------------------------------------------
 
 Information about the user assigned identity for the resource
 
@@ -3059,8 +3059,8 @@ Used by: [ApiManagementServiceIdentity](#ApiManagementServiceIdentity).
 |-----------|-------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | reference |             | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small> |
 
-<a id="UserIdentityProperties_STATUS"></a>UserIdentityProperties_STATUS
------------------------------------------------------------------------
+UserIdentityProperties_STATUS{#UserIdentityProperties_STATUS}
+-------------------------------------------------------------
 
 Used by: [ApiManagementServiceIdentity_STATUS](#ApiManagementServiceIdentity_STATUS).
 
@@ -3069,8 +3069,8 @@ Used by: [ApiManagementServiceIdentity_STATUS](#ApiManagementServiceIdentity_STA
 | clientId    | The client id of user assigned identity.    | string<br/><small>Optional</small> |
 | principalId | The principal id of user assigned identity. | string<br/><small>Optional</small> |
 
-<a id="BearerTokenSendingMethodsContract"></a>BearerTokenSendingMethodsContract
--------------------------------------------------------------------------------
+BearerTokenSendingMethodsContract{#BearerTokenSendingMethodsContract}
+---------------------------------------------------------------------
 
 Form of an authorization grant, which the client uses to request the access token.
 
@@ -3081,8 +3081,8 @@ Used by: [OpenIdAuthenticationSettingsContract](#OpenIdAuthenticationSettingsCon
 | "authorizationHeader" |             |
 | "query"               |             |
 
-<a id="BearerTokenSendingMethodsContract_STATUS"></a>BearerTokenSendingMethodsContract_STATUS
----------------------------------------------------------------------------------------------
+BearerTokenSendingMethodsContract_STATUS{#BearerTokenSendingMethodsContract_STATUS}
+-----------------------------------------------------------------------------------
 
 Form of an authorization grant, which the client uses to request the access token.
 
@@ -3093,8 +3093,8 @@ Used by: [OpenIdAuthenticationSettingsContract_STATUS](#OpenIdAuthenticationSett
 | "authorizationHeader" |             |
 | "query"               |             |
 
-<a id="CircuitBreakerFailureCondition"></a>CircuitBreakerFailureCondition
--------------------------------------------------------------------------
+CircuitBreakerFailureCondition{#CircuitBreakerFailureCondition}
+---------------------------------------------------------------
 
 The trip conditions of the circuit breaker
 
@@ -3108,8 +3108,8 @@ Used by: [CircuitBreakerRule](#CircuitBreakerRule).
 | percentage       | The threshold for opening the circuit.                  | int<br/><small>Optional</small>                                                                                           |
 | statusCodeRanges | The status code ranges which are considered as failure. | [FailureStatusCodeRange[]](#FailureStatusCodeRange)<br/><small>Optional</small>                                           |
 
-<a id="CircuitBreakerFailureCondition_STATUS"></a>CircuitBreakerFailureCondition_STATUS
----------------------------------------------------------------------------------------
+CircuitBreakerFailureCondition_STATUS{#CircuitBreakerFailureCondition_STATUS}
+-----------------------------------------------------------------------------
 
 The trip conditions of the circuit breaker
 
@@ -3123,8 +3123,8 @@ Used by: [CircuitBreakerRule_STATUS](#CircuitBreakerRule_STATUS).
 | percentage       | The threshold for opening the circuit.                  | int<br/><small>Optional</small>                                                                                                         |
 | statusCodeRanges | The status code ranges which are considered as failure. | [FailureStatusCodeRange_STATUS[]](#FailureStatusCodeRange_STATUS)<br/><small>Optional</small>                                           |
 
-<a id="PrivateEndpointServiceConnectionStatus_STATUS"></a>PrivateEndpointServiceConnectionStatus_STATUS
--------------------------------------------------------------------------------------------------------
+PrivateEndpointServiceConnectionStatus_STATUS{#PrivateEndpointServiceConnectionStatus_STATUS}
+---------------------------------------------------------------------------------------------
 
 The private endpoint connection status.
 
@@ -3136,8 +3136,8 @@ Used by: [PrivateLinkServiceConnectionState_STATUS](#PrivateLinkServiceConnectio
 | "Pending"  |             |
 | "Rejected" |             |
 
-<a id="X509CertificateName"></a>X509CertificateName
----------------------------------------------------
+X509CertificateName{#X509CertificateName}
+-----------------------------------------
 
 Properties of server X509Names.
 
@@ -3148,8 +3148,8 @@ Used by: [BackendServiceFabricClusterProperties](#BackendServiceFabricClusterPro
 | issuerCertificateThumbprint | Thumbprint for the Issuer of the Certificate. | string<br/><small>Optional</small> |
 | name                        | Common Name of the Certificate.               | string<br/><small>Optional</small> |
 
-<a id="X509CertificateName_STATUS"></a>X509CertificateName_STATUS
------------------------------------------------------------------
+X509CertificateName_STATUS{#X509CertificateName_STATUS}
+-------------------------------------------------------
 
 Properties of server X509Names.
 
@@ -3160,18 +3160,18 @@ Used by: [BackendServiceFabricClusterProperties_STATUS](#BackendServiceFabricClu
 | issuerCertificateThumbprint | Thumbprint for the Issuer of the Certificate. | string<br/><small>Optional</small> |
 | name                        | Common Name of the Certificate.               | string<br/><small>Optional</small> |
 
-<a id="CircuitBreakerFailureCondition_ErrorReasons"></a>CircuitBreakerFailureCondition_ErrorReasons
----------------------------------------------------------------------------------------------------
+CircuitBreakerFailureCondition_ErrorReasons{#CircuitBreakerFailureCondition_ErrorReasons}
+-----------------------------------------------------------------------------------------
 
 Used by: [CircuitBreakerFailureCondition](#CircuitBreakerFailureCondition).
 
-<a id="CircuitBreakerFailureCondition_ErrorReasons_STATUS"></a>CircuitBreakerFailureCondition_ErrorReasons_STATUS
------------------------------------------------------------------------------------------------------------------
+CircuitBreakerFailureCondition_ErrorReasons_STATUS{#CircuitBreakerFailureCondition_ErrorReasons_STATUS}
+-------------------------------------------------------------------------------------------------------
 
 Used by: [CircuitBreakerFailureCondition_STATUS](#CircuitBreakerFailureCondition_STATUS).
 
-<a id="FailureStatusCodeRange"></a>FailureStatusCodeRange
----------------------------------------------------------
+FailureStatusCodeRange{#FailureStatusCodeRange}
+-----------------------------------------------
 
 The failure http status code range
 
@@ -3182,8 +3182,8 @@ Used by: [CircuitBreakerFailureCondition](#CircuitBreakerFailureCondition).
 | max      | The maximum http status code. | int<br/><small>Optional</small> |
 | min      | The minimum http status code. | int<br/><small>Optional</small> |
 
-<a id="FailureStatusCodeRange_STATUS"></a>FailureStatusCodeRange_STATUS
------------------------------------------------------------------------
+FailureStatusCodeRange_STATUS{#FailureStatusCodeRange_STATUS}
+-------------------------------------------------------------
 
 The failure http status code range
 

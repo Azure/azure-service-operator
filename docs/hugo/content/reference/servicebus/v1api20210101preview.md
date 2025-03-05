@@ -5,15 +5,15 @@ title: servicebus.azure.com/v1api20210101preview
 linktitle: v1api20210101preview
 -------------------------------
 
-<a id="APIVersion"></a>APIVersion
----------------------------------
+APIVersion{#APIVersion}
+-----------------------
 
 | Value                | Description |
 |----------------------|-------------|
 | "2021-01-01-preview" |             |
 
-<a id="Namespace"></a>Namespace
--------------------------------
+Namespace{#Namespace}
+---------------------
 
 Generator information: - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2021-01-01-preview/namespace-preview.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ServiceBus/namespaces/{namespaceName}
 
@@ -26,7 +26,7 @@ Used by: [NamespaceList](#NamespaceList).
 | spec                                                                                    |             | [Namespace_Spec](#Namespace_Spec)<br/><small>Optional</small>     |
 | status                                                                                  |             | [Namespace_STATUS](#Namespace_STATUS)<br/><small>Optional</small> |
 
-### <a id="Namespace_Spec"></a>Namespace_Spec
+### Namespace_Spec {#Namespace_Spec}
 
 | Property      | Description                                                                                                                                                                                                                                                                                  | Type                                                                                                                                                                 |
 |---------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -40,7 +40,7 @@ Used by: [NamespaceList](#NamespaceList).
 | tags          | Resource tags                                                                                                                                                                                                                                                                                | map[string]string<br/><small>Optional</small>                                                                                                                        |
 | zoneRedundant | Enabling this property creates a Premium Service Bus Namespace in regions supported availability zones.                                                                                                                                                                                      | bool<br/><small>Optional</small>                                                                                                                                     |
 
-### <a id="Namespace_STATUS"></a>Namespace_STATUS
+### Namespace_STATUS{#Namespace_STATUS}
 
 | Property                   | Description                                                                                             | Type                                                                                                                                                    |
 |----------------------------|---------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -63,8 +63,8 @@ Used by: [NamespaceList](#NamespaceList).
 | updatedAt                  | The time the namespace was updated.                                                                     | string<br/><small>Optional</small>                                                                                                                      |
 | zoneRedundant              | Enabling this property creates a Premium Service Bus Namespace in regions supported availability zones. | bool<br/><small>Optional</small>                                                                                                                        |
 
-<a id="NamespaceList"></a>NamespaceList
----------------------------------------
+NamespaceList{#NamespaceList}
+-----------------------------
 
 Generator information: - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2021-01-01-preview/namespace-preview.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ServiceBus/namespaces/{namespaceName}
 
@@ -74,8 +74,8 @@ Generator information: - Generated from: /servicebus/resource-manager/Microsoft.
 | [metav1.ListMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta) |             |                                                       |
 | items                                                                               |             | [Namespace[]](#Namespace)<br/><small>Optional</small> |
 
-<a id="NamespacesAuthorizationRule"></a>NamespacesAuthorizationRule
--------------------------------------------------------------------
+NamespacesAuthorizationRule{#NamespacesAuthorizationRule}
+---------------------------------------------------------
 
 Generator information: - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2021-01-01-preview/AuthorizationRules.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ServiceBus/namespaces/{namespaceName}/AuthorizationRules/{authorizationRuleName}
 
@@ -88,7 +88,7 @@ Used by: [NamespacesAuthorizationRuleList](#NamespacesAuthorizationRuleList).
 | spec                                                                                    |             | [NamespacesAuthorizationRule_Spec](#NamespacesAuthorizationRule_Spec)<br/><small>Optional</small>     |
 | status                                                                                  |             | [NamespacesAuthorizationRule_STATUS](#NamespacesAuthorizationRule_STATUS)<br/><small>Optional</small> |
 
-### <a id="NamespacesAuthorizationRule_Spec"></a>NamespacesAuthorizationRule_Spec
+### NamespacesAuthorizationRule_Spec {#NamespacesAuthorizationRule_Spec}
 
 | Property     | Description                                                                                                                                                                                                                                                                               | Type                                                                                                                                                                 |
 |--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -97,7 +97,7 @@ Used by: [NamespacesAuthorizationRuleList](#NamespacesAuthorizationRuleList).
 | owner        | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a servicebus.azure.com/Namespace resource | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
 | rights       | The rights associated with the rule.                                                                                                                                                                                                                                                      | [Namespaces_AuthorizationRule_Properties_Rights_Spec[]](#Namespaces_AuthorizationRule_Properties_Rights_Spec)<br/><small>Required</small>                            |
 
-### <a id="NamespacesAuthorizationRule_STATUS"></a>NamespacesAuthorizationRule_STATUS
+### NamespacesAuthorizationRule_STATUS{#NamespacesAuthorizationRule_STATUS}
 
 | Property   | Description                                     | Type                                                                                                                                                    |
 |------------|-------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -108,8 +108,8 @@ Used by: [NamespacesAuthorizationRuleList](#NamespacesAuthorizationRuleList).
 | systemData | The system meta data relating to this resource. | [SystemData_STATUS](#SystemData_STATUS)<br/><small>Optional</small>                                                                                     |
 | type       | Resource type                                   | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="NamespacesAuthorizationRuleList"></a>NamespacesAuthorizationRuleList
----------------------------------------------------------------------------
+NamespacesAuthorizationRuleList{#NamespacesAuthorizationRuleList}
+-----------------------------------------------------------------
 
 Generator information: - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2021-01-01-preview/AuthorizationRules.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ServiceBus/namespaces/{namespaceName}/AuthorizationRules/{authorizationRuleName}
 
@@ -119,8 +119,8 @@ Generator information: - Generated from: /servicebus/resource-manager/Microsoft.
 | [metav1.ListMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta) |             |                                                                                           |
 | items                                                                               |             | [NamespacesAuthorizationRule[]](#NamespacesAuthorizationRule)<br/><small>Optional</small> |
 
-<a id="NamespacesQueue"></a>NamespacesQueue
--------------------------------------------
+NamespacesQueue{#NamespacesQueue}
+---------------------------------
 
 Generator information: - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2021-01-01-preview/Queue.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ServiceBus/namespaces/{namespaceName}/queues/{queueName}
 
@@ -133,7 +133,7 @@ Used by: [NamespacesQueueList](#NamespacesQueueList).
 | spec                                                                                    |             | [NamespacesQueue_Spec](#NamespacesQueue_Spec)<br/><small>Optional</small>     |
 | status                                                                                  |             | [NamespacesQueue_STATUS](#NamespacesQueue_STATUS)<br/><small>Optional</small> |
 
-### <a id="NamespacesQueue_Spec"></a>NamespacesQueue_Spec
+### NamespacesQueue_Spec {#NamespacesQueue_Spec}
 
 | Property                            | Description                                                                                                                                                                                                                                                                               | Type                                                                                                                                                                 |
 |-------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -155,7 +155,7 @@ Used by: [NamespacesQueueList](#NamespacesQueueList).
 | requiresDuplicateDetection          | A value indicating if this queue requires duplicate detection.                                                                                                                                                                                                                            | bool<br/><small>Optional</small>                                                                                                                                     |
 | requiresSession                     | A value that indicates whether the queue supports the concept of sessions.                                                                                                                                                                                                                | bool<br/><small>Optional</small>                                                                                                                                     |
 
-### <a id="NamespacesQueue_STATUS"></a>NamespacesQueue_STATUS
+### NamespacesQueue_STATUS{#NamespacesQueue_STATUS}
 
 | Property                            | Description                                                                                                                                                                                                                                  | Type                                                                                                                                                    |
 |-------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -186,8 +186,8 @@ Used by: [NamespacesQueueList](#NamespacesQueueList).
 | type                                | Resource type                                                                                                                                                                                                                                | string<br/><small>Optional</small>                                                                                                                      |
 | updatedAt                           | The exact time the message was updated.                                                                                                                                                                                                      | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="NamespacesQueueList"></a>NamespacesQueueList
----------------------------------------------------
+NamespacesQueueList{#NamespacesQueueList}
+-----------------------------------------
 
 Generator information: - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2021-01-01-preview/Queue.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ServiceBus/namespaces/{namespaceName}/queues/{queueName}
 
@@ -197,8 +197,8 @@ Generator information: - Generated from: /servicebus/resource-manager/Microsoft.
 | [metav1.ListMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta) |             |                                                                   |
 | items                                                                               |             | [NamespacesQueue[]](#NamespacesQueue)<br/><small>Optional</small> |
 
-<a id="NamespacesTopic"></a>NamespacesTopic
--------------------------------------------
+NamespacesTopic{#NamespacesTopic}
+---------------------------------
 
 Generator information: - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2021-01-01-preview/topics.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}
 
@@ -211,7 +211,7 @@ Used by: [NamespacesTopicList](#NamespacesTopicList).
 | spec                                                                                    |             | [NamespacesTopic_Spec](#NamespacesTopic_Spec)<br/><small>Optional</small>     |
 | status                                                                                  |             | [NamespacesTopic_STATUS](#NamespacesTopic_STATUS)<br/><small>Optional</small> |
 
-### <a id="NamespacesTopic_Spec"></a>NamespacesTopic_Spec
+### NamespacesTopic_Spec {#NamespacesTopic_Spec}
 
 | Property                            | Description                                                                                                                                                                                                                                                                               | Type                                                                                                                                                                 |
 |-------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -228,7 +228,7 @@ Used by: [NamespacesTopicList](#NamespacesTopicList).
 | requiresDuplicateDetection          | Value indicating if this topic requires duplicate detection.                                                                                                                                                                                                                              | bool<br/><small>Optional</small>                                                                                                                                     |
 | supportOrdering                     | Value that indicates whether the topic supports ordering.                                                                                                                                                                                                                                 | bool<br/><small>Optional</small>                                                                                                                                     |
 
-### <a id="NamespacesTopic_STATUS"></a>NamespacesTopic_STATUS
+### NamespacesTopic_STATUS{#NamespacesTopic_STATUS}
 
 | Property                            | Description                                                                                                                                                                                                                                  | Type                                                                                                                                                    |
 |-------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -254,8 +254,8 @@ Used by: [NamespacesTopicList](#NamespacesTopicList).
 | type                                | Resource type                                                                                                                                                                                                                                | string<br/><small>Optional</small>                                                                                                                      |
 | updatedAt                           | The exact time the message was updated.                                                                                                                                                                                                      | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="NamespacesTopicList"></a>NamespacesTopicList
----------------------------------------------------
+NamespacesTopicList{#NamespacesTopicList}
+-----------------------------------------
 
 Generator information: - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2021-01-01-preview/topics.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}
 
@@ -265,8 +265,8 @@ Generator information: - Generated from: /servicebus/resource-manager/Microsoft.
 | [metav1.ListMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta) |             |                                                                   |
 | items                                                                               |             | [NamespacesTopic[]](#NamespacesTopic)<br/><small>Optional</small> |
 
-<a id="NamespacesTopicsSubscription"></a>NamespacesTopicsSubscription
----------------------------------------------------------------------
+NamespacesTopicsSubscription{#NamespacesTopicsSubscription}
+-----------------------------------------------------------
 
 Generator information: - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2021-01-01-preview/subscriptions.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionName}
 
@@ -279,7 +279,7 @@ Used by: [NamespacesTopicsSubscriptionList](#NamespacesTopicsSubscriptionList).
 | spec                                                                                    |             | [NamespacesTopicsSubscription_Spec](#NamespacesTopicsSubscription_Spec)<br/><small>Optional</small>     |
 | status                                                                                  |             | [NamespacesTopicsSubscription_STATUS](#NamespacesTopicsSubscription_STATUS)<br/><small>Optional</small> |
 
-### <a id="NamespacesTopicsSubscription_Spec"></a>NamespacesTopicsSubscription_Spec
+### NamespacesTopicsSubscription_Spec {#NamespacesTopicsSubscription_Spec}
 
 | Property                                  | Description                                                                                                                                                                                                                                                                                     | Type                                                                                                                                                                 |
 |-------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -298,7 +298,7 @@ Used by: [NamespacesTopicsSubscriptionList](#NamespacesTopicsSubscriptionList).
 | owner                                     | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a servicebus.azure.com/NamespacesTopic resource | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
 | requiresSession                           | Value indicating if a subscription supports the concept of sessions.                                                                                                                                                                                                                            | bool<br/><small>Optional</small>                                                                                                                                     |
 
-### <a id="NamespacesTopicsSubscription_STATUS"></a>NamespacesTopicsSubscription_STATUS
+### NamespacesTopicsSubscription_STATUS{#NamespacesTopicsSubscription_STATUS}
 
 | Property                                  | Description                                                                                                                                                                                                                                  | Type                                                                                                                                                    |
 |-------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -325,8 +325,8 @@ Used by: [NamespacesTopicsSubscriptionList](#NamespacesTopicsSubscriptionList).
 | type                                      | Resource type                                                                                                                                                                                                                                | string<br/><small>Optional</small>                                                                                                                      |
 | updatedAt                                 | The exact time the message was updated.                                                                                                                                                                                                      | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="NamespacesTopicsSubscriptionList"></a>NamespacesTopicsSubscriptionList
------------------------------------------------------------------------------
+NamespacesTopicsSubscriptionList{#NamespacesTopicsSubscriptionList}
+-------------------------------------------------------------------
 
 Generator information: - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2021-01-01-preview/subscriptions.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionName}
 
@@ -336,8 +336,8 @@ Generator information: - Generated from: /servicebus/resource-manager/Microsoft.
 | [metav1.ListMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta) |             |                                                                                             |
 | items                                                                               |             | [NamespacesTopicsSubscription[]](#NamespacesTopicsSubscription)<br/><small>Optional</small> |
 
-<a id="NamespacesTopicsSubscriptionsRule"></a>NamespacesTopicsSubscriptionsRule
--------------------------------------------------------------------------------
+NamespacesTopicsSubscriptionsRule{#NamespacesTopicsSubscriptionsRule}
+---------------------------------------------------------------------
 
 Generator information: - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2021-01-01-preview/Rules.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionName}/&ZeroWidthSpace;rules/&ZeroWidthSpace;{ruleName}
 
@@ -350,7 +350,7 @@ Used by: [NamespacesTopicsSubscriptionsRuleList](#NamespacesTopicsSubscriptionsR
 | spec                                                                                    |             | [NamespacesTopicsSubscriptionsRule_Spec](#NamespacesTopicsSubscriptionsRule_Spec)<br/><small>Optional</small>     |
 | status                                                                                  |             | [NamespacesTopicsSubscriptionsRule_STATUS](#NamespacesTopicsSubscriptionsRule_STATUS)<br/><small>Optional</small> |
 
-### <a id="NamespacesTopicsSubscriptionsRule_Spec"></a>NamespacesTopicsSubscriptionsRule_Spec
+### NamespacesTopicsSubscriptionsRule_Spec {#NamespacesTopicsSubscriptionsRule_Spec}
 
 | Property          | Description                                                                                                                                                                                                                                                                                                  | Type                                                                                                                                                                 |
 |-------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -362,7 +362,7 @@ Used by: [NamespacesTopicsSubscriptionsRuleList](#NamespacesTopicsSubscriptionsR
 | owner             | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a servicebus.azure.com/NamespacesTopicsSubscription resource | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
 | sqlFilter         | Properties of sqlFilter                                                                                                                                                                                                                                                                                      | [SqlFilter](#SqlFilter)<br/><small>Optional</small>                                                                                                                  |
 
-### <a id="NamespacesTopicsSubscriptionsRule_STATUS"></a>NamespacesTopicsSubscriptionsRule_STATUS
+### NamespacesTopicsSubscriptionsRule_STATUS{#NamespacesTopicsSubscriptionsRule_STATUS}
 
 | Property          | Description                                                                                                                        | Type                                                                                                                                                    |
 |-------------------|------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -376,8 +376,8 @@ Used by: [NamespacesTopicsSubscriptionsRuleList](#NamespacesTopicsSubscriptionsR
 | systemData        | The system meta data relating to this resource.                                                                                    | [SystemData_STATUS](#SystemData_STATUS)<br/><small>Optional</small>                                                                                     |
 | type              | Resource type                                                                                                                      | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="NamespacesTopicsSubscriptionsRuleList"></a>NamespacesTopicsSubscriptionsRuleList
----------------------------------------------------------------------------------------
+NamespacesTopicsSubscriptionsRuleList{#NamespacesTopicsSubscriptionsRuleList}
+-----------------------------------------------------------------------------
 
 Generator information: - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2021-01-01-preview/Rules.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionName}/&ZeroWidthSpace;rules/&ZeroWidthSpace;{ruleName}
 
@@ -387,8 +387,8 @@ Generator information: - Generated from: /servicebus/resource-manager/Microsoft.
 | [metav1.ListMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta) |             |                                                                                                       |
 | items                                                                               |             | [NamespacesTopicsSubscriptionsRule[]](#NamespacesTopicsSubscriptionsRule)<br/><small>Optional</small> |
 
-<a id="Namespace_Spec"></a>Namespace_Spec
------------------------------------------
+Namespace_Spec{#Namespace_Spec}
+-------------------------------
 
 Used by: [Namespace](#Namespace).
 
@@ -404,8 +404,8 @@ Used by: [Namespace](#Namespace).
 | tags          | Resource tags                                                                                                                                                                                                                                                                                | map[string]string<br/><small>Optional</small>                                                                                                                        |
 | zoneRedundant | Enabling this property creates a Premium Service Bus Namespace in regions supported availability zones.                                                                                                                                                                                      | bool<br/><small>Optional</small>                                                                                                                                     |
 
-<a id="Namespace_STATUS"></a>Namespace_STATUS
----------------------------------------------
+Namespace_STATUS{#Namespace_STATUS}
+-----------------------------------
 
 Used by: [Namespace](#Namespace).
 
@@ -430,8 +430,8 @@ Used by: [Namespace](#Namespace).
 | updatedAt                  | The time the namespace was updated.                                                                     | string<br/><small>Optional</small>                                                                                                                      |
 | zoneRedundant              | Enabling this property creates a Premium Service Bus Namespace in regions supported availability zones. | bool<br/><small>Optional</small>                                                                                                                        |
 
-<a id="NamespacesAuthorizationRule_Spec"></a>NamespacesAuthorizationRule_Spec
------------------------------------------------------------------------------
+NamespacesAuthorizationRule_Spec{#NamespacesAuthorizationRule_Spec}
+-------------------------------------------------------------------
 
 Used by: [NamespacesAuthorizationRule](#NamespacesAuthorizationRule).
 
@@ -442,8 +442,8 @@ Used by: [NamespacesAuthorizationRule](#NamespacesAuthorizationRule).
 | owner        | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a servicebus.azure.com/Namespace resource | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
 | rights       | The rights associated with the rule.                                                                                                                                                                                                                                                      | [Namespaces_AuthorizationRule_Properties_Rights_Spec[]](#Namespaces_AuthorizationRule_Properties_Rights_Spec)<br/><small>Required</small>                            |
 
-<a id="NamespacesAuthorizationRule_STATUS"></a>NamespacesAuthorizationRule_STATUS
----------------------------------------------------------------------------------
+NamespacesAuthorizationRule_STATUS{#NamespacesAuthorizationRule_STATUS}
+-----------------------------------------------------------------------
 
 Used by: [NamespacesAuthorizationRule](#NamespacesAuthorizationRule).
 
@@ -456,8 +456,8 @@ Used by: [NamespacesAuthorizationRule](#NamespacesAuthorizationRule).
 | systemData | The system meta data relating to this resource. | [SystemData_STATUS](#SystemData_STATUS)<br/><small>Optional</small>                                                                                     |
 | type       | Resource type                                   | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="NamespacesQueue_Spec"></a>NamespacesQueue_Spec
------------------------------------------------------
+NamespacesQueue_Spec{#NamespacesQueue_Spec}
+-------------------------------------------
 
 Used by: [NamespacesQueue](#NamespacesQueue).
 
@@ -481,8 +481,8 @@ Used by: [NamespacesQueue](#NamespacesQueue).
 | requiresDuplicateDetection          | A value indicating if this queue requires duplicate detection.                                                                                                                                                                                                                            | bool<br/><small>Optional</small>                                                                                                                                     |
 | requiresSession                     | A value that indicates whether the queue supports the concept of sessions.                                                                                                                                                                                                                | bool<br/><small>Optional</small>                                                                                                                                     |
 
-<a id="NamespacesQueue_STATUS"></a>NamespacesQueue_STATUS
----------------------------------------------------------
+NamespacesQueue_STATUS{#NamespacesQueue_STATUS}
+-----------------------------------------------
 
 Used by: [NamespacesQueue](#NamespacesQueue).
 
@@ -515,8 +515,8 @@ Used by: [NamespacesQueue](#NamespacesQueue).
 | type                                | Resource type                                                                                                                                                                                                                                | string<br/><small>Optional</small>                                                                                                                      |
 | updatedAt                           | The exact time the message was updated.                                                                                                                                                                                                      | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="NamespacesTopic_Spec"></a>NamespacesTopic_Spec
------------------------------------------------------
+NamespacesTopic_Spec{#NamespacesTopic_Spec}
+-------------------------------------------
 
 Used by: [NamespacesTopic](#NamespacesTopic).
 
@@ -535,8 +535,8 @@ Used by: [NamespacesTopic](#NamespacesTopic).
 | requiresDuplicateDetection          | Value indicating if this topic requires duplicate detection.                                                                                                                                                                                                                              | bool<br/><small>Optional</small>                                                                                                                                     |
 | supportOrdering                     | Value that indicates whether the topic supports ordering.                                                                                                                                                                                                                                 | bool<br/><small>Optional</small>                                                                                                                                     |
 
-<a id="NamespacesTopic_STATUS"></a>NamespacesTopic_STATUS
----------------------------------------------------------
+NamespacesTopic_STATUS{#NamespacesTopic_STATUS}
+-----------------------------------------------
 
 Used by: [NamespacesTopic](#NamespacesTopic).
 
@@ -564,8 +564,8 @@ Used by: [NamespacesTopic](#NamespacesTopic).
 | type                                | Resource type                                                                                                                                                                                                                                | string<br/><small>Optional</small>                                                                                                                      |
 | updatedAt                           | The exact time the message was updated.                                                                                                                                                                                                      | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="NamespacesTopicsSubscription_Spec"></a>NamespacesTopicsSubscription_Spec
--------------------------------------------------------------------------------
+NamespacesTopicsSubscription_Spec{#NamespacesTopicsSubscription_Spec}
+---------------------------------------------------------------------
 
 Used by: [NamespacesTopicsSubscription](#NamespacesTopicsSubscription).
 
@@ -586,8 +586,8 @@ Used by: [NamespacesTopicsSubscription](#NamespacesTopicsSubscription).
 | owner                                     | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a servicebus.azure.com/NamespacesTopic resource | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
 | requiresSession                           | Value indicating if a subscription supports the concept of sessions.                                                                                                                                                                                                                            | bool<br/><small>Optional</small>                                                                                                                                     |
 
-<a id="NamespacesTopicsSubscription_STATUS"></a>NamespacesTopicsSubscription_STATUS
------------------------------------------------------------------------------------
+NamespacesTopicsSubscription_STATUS{#NamespacesTopicsSubscription_STATUS}
+-------------------------------------------------------------------------
 
 Used by: [NamespacesTopicsSubscription](#NamespacesTopicsSubscription).
 
@@ -616,8 +616,8 @@ Used by: [NamespacesTopicsSubscription](#NamespacesTopicsSubscription).
 | type                                      | Resource type                                                                                                                                                                                                                                | string<br/><small>Optional</small>                                                                                                                      |
 | updatedAt                                 | The exact time the message was updated.                                                                                                                                                                                                      | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="NamespacesTopicsSubscriptionsRule_Spec"></a>NamespacesTopicsSubscriptionsRule_Spec
------------------------------------------------------------------------------------------
+NamespacesTopicsSubscriptionsRule_Spec{#NamespacesTopicsSubscriptionsRule_Spec}
+-------------------------------------------------------------------------------
 
 Used by: [NamespacesTopicsSubscriptionsRule](#NamespacesTopicsSubscriptionsRule).
 
@@ -631,8 +631,8 @@ Used by: [NamespacesTopicsSubscriptionsRule](#NamespacesTopicsSubscriptionsRule)
 | owner             | The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a servicebus.azure.com/NamespacesTopicsSubscription resource | [genruntime.KnownResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference)<br/><small>Required</small> |
 | sqlFilter         | Properties of sqlFilter                                                                                                                                                                                                                                                                                      | [SqlFilter](#SqlFilter)<br/><small>Optional</small>                                                                                                                  |
 
-<a id="NamespacesTopicsSubscriptionsRule_STATUS"></a>NamespacesTopicsSubscriptionsRule_STATUS
----------------------------------------------------------------------------------------------
+NamespacesTopicsSubscriptionsRule_STATUS{#NamespacesTopicsSubscriptionsRule_STATUS}
+-----------------------------------------------------------------------------------
 
 Used by: [NamespacesTopicsSubscriptionsRule](#NamespacesTopicsSubscriptionsRule).
 
@@ -648,8 +648,8 @@ Used by: [NamespacesTopicsSubscriptionsRule](#NamespacesTopicsSubscriptionsRule)
 | systemData        | The system meta data relating to this resource.                                                                                    | [SystemData_STATUS](#SystemData_STATUS)<br/><small>Optional</small>                                                                                     |
 | type              | Resource type                                                                                                                      | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="Action"></a>Action
--------------------------
+Action{#Action}
+---------------
 
 Represents the filter actions which are allowed for the transformation of a message that have been matched by a filter expression.
 
@@ -661,8 +661,8 @@ Used by: [NamespacesTopicsSubscriptionsRule_Spec](#NamespacesTopicsSubscriptions
 | requiresPreprocessing | Value that indicates whether the rule action requires preprocessing.                                                    | bool<br/><small>Optional</small>   |
 | sqlExpression         | SQL expression. e.g. MyProperty='ABC'                                                                                   | string<br/><small>Optional</small> |
 
-<a id="Action_STATUS"></a>Action_STATUS
----------------------------------------
+Action_STATUS{#Action_STATUS}
+-----------------------------
 
 Represents the filter actions which are allowed for the transformation of a message that have been matched by a filter expression.
 
@@ -674,8 +674,8 @@ Used by: [NamespacesTopicsSubscriptionsRule_STATUS](#NamespacesTopicsSubscriptio
 | requiresPreprocessing | Value that indicates whether the rule action requires preprocessing.                                                    | bool<br/><small>Optional</small>   |
 | sqlExpression         | SQL expression. e.g. MyProperty='ABC'                                                                                   | string<br/><small>Optional</small> |
 
-<a id="CorrelationFilter"></a>CorrelationFilter
------------------------------------------------
+CorrelationFilter{#CorrelationFilter}
+-------------------------------------
 
 Represents the correlation filter expression.
 
@@ -694,8 +694,8 @@ Used by: [NamespacesTopicsSubscriptionsRule_Spec](#NamespacesTopicsSubscriptions
 | sessionId             | Session identifier.                                                  | string<br/><small>Optional</small>            |
 | to                    | Address to send to.                                                  | string<br/><small>Optional</small>            |
 
-<a id="CorrelationFilter_STATUS"></a>CorrelationFilter_STATUS
--------------------------------------------------------------
+CorrelationFilter_STATUS{#CorrelationFilter_STATUS}
+---------------------------------------------------
 
 Represents the correlation filter expression.
 
@@ -714,8 +714,8 @@ Used by: [NamespacesTopicsSubscriptionsRule_STATUS](#NamespacesTopicsSubscriptio
 | sessionId             | Session identifier.                                                  | string<br/><small>Optional</small>            |
 | to                    | Address to send to.                                                  | string<br/><small>Optional</small>            |
 
-<a id="Encryption"></a>Encryption
----------------------------------
+Encryption{#Encryption}
+-----------------------
 
 Properties to configure Encryption
 
@@ -727,8 +727,8 @@ Used by: [Namespace_Spec](#Namespace_Spec).
 | keyVaultProperties              | Properties of KeyVault                                    | [KeyVaultProperties[]](#KeyVaultProperties)<br/><small>Optional</small>   |
 | requireInfrastructureEncryption | Enable Infrastructure Encryption (Double Encryption)      | bool<br/><small>Optional</small>                                          |
 
-<a id="Encryption_STATUS"></a>Encryption_STATUS
------------------------------------------------
+Encryption_STATUS{#Encryption_STATUS}
+-------------------------------------
 
 Properties to configure Encryption
 
@@ -740,8 +740,8 @@ Used by: [Namespace_STATUS](#Namespace_STATUS).
 | keyVaultProperties              | Properties of KeyVault                                    | [KeyVaultProperties_STATUS[]](#KeyVaultProperties_STATUS)<br/><small>Optional</small>   |
 | requireInfrastructureEncryption | Enable Infrastructure Encryption (Double Encryption)      | bool<br/><small>Optional</small>                                                        |
 
-<a id="EntityStatus_STATUS"></a>EntityStatus_STATUS
----------------------------------------------------
+EntityStatus_STATUS{#EntityStatus_STATUS}
+-----------------------------------------
 
 Entity status.
 
@@ -759,8 +759,8 @@ Used by: [NamespacesQueue_STATUS](#NamespacesQueue_STATUS), [NamespacesTopic_STA
 | "SendDisabled"    |             |
 | "Unknown"         |             |
 
-<a id="FilterType"></a>FilterType
----------------------------------
+FilterType{#FilterType}
+-----------------------
 
 Rule filter types
 
@@ -771,8 +771,8 @@ Used by: [NamespacesTopicsSubscriptionsRule_Spec](#NamespacesTopicsSubscriptions
 | "CorrelationFilter" |             |
 | "SqlFilter"         |             |
 
-<a id="FilterType_STATUS"></a>FilterType_STATUS
------------------------------------------------
+FilterType_STATUS{#FilterType_STATUS}
+-------------------------------------
 
 Rule filter types
 
@@ -783,8 +783,8 @@ Used by: [NamespacesTopicsSubscriptionsRule_STATUS](#NamespacesTopicsSubscriptio
 | "CorrelationFilter" |             |
 | "SqlFilter"         |             |
 
-<a id="Identity"></a>Identity
------------------------------
+Identity{#Identity}
+-------------------
 
 Properties to configure User Assigned Identities for Bring your Own Keys
 
@@ -795,8 +795,8 @@ Used by: [Namespace_Spec](#Namespace_Spec).
 | type                   | Type of managed service identity.       | [Identity_Type](#Identity_Type)<br/><small>Optional</small>                               |
 | userAssignedIdentities | Properties for User Assigned Identities | [UserAssignedIdentityDetails[]](#UserAssignedIdentityDetails)<br/><small>Optional</small> |
 
-<a id="Identity_STATUS"></a>Identity_STATUS
--------------------------------------------
+Identity_STATUS{#Identity_STATUS}
+---------------------------------
 
 Properties to configure User Assigned Identities for Bring your Own Keys
 
@@ -809,8 +809,8 @@ Used by: [Namespace_STATUS](#Namespace_STATUS).
 | type                   | Type of managed service identity.       | [Identity_Type_STATUS](#Identity_Type_STATUS)<br/><small>Optional</small>                |
 | userAssignedIdentities | Properties for User Assigned Identities | [map[string]DictionaryValue_STATUS](#DictionaryValue_STATUS)<br/><small>Optional</small> |
 
-<a id="MessageCountDetails_STATUS"></a>MessageCountDetails_STATUS
------------------------------------------------------------------
+MessageCountDetails_STATUS{#MessageCountDetails_STATUS}
+-------------------------------------------------------
 
 Message Count Details.
 
@@ -824,8 +824,8 @@ Used by: [NamespacesQueue_STATUS](#NamespacesQueue_STATUS), [NamespacesTopic_STA
 | transferDeadLetterMessageCount | Number of messages transferred into dead letters.                        | int<br/><small>Optional</small> |
 | transferMessageCount           | Number of messages transferred to another queue, topic, or subscription. | int<br/><small>Optional</small> |
 
-<a id="NamespaceOperatorSpec"></a>NamespaceOperatorSpec
--------------------------------------------------------
+NamespaceOperatorSpec{#NamespaceOperatorSpec}
+---------------------------------------------
 
 Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 
@@ -837,8 +837,8 @@ Used by: [Namespace_Spec](#Namespace_Spec).
 | secretExpressions    | configures where to place operator written dynamic secrets (created with CEL expressions).    | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 | secrets              | configures where to place Azure generated secrets.                                            | [NamespaceOperatorSecrets](#NamespaceOperatorSecrets)<br/><small>Optional</small>                                                                                   |
 
-<a id="Namespaces_AuthorizationRule_Properties_Rights_Spec"></a>Namespaces_AuthorizationRule_Properties_Rights_Spec
--------------------------------------------------------------------------------------------------------------------
+Namespaces_AuthorizationRule_Properties_Rights_Spec{#Namespaces_AuthorizationRule_Properties_Rights_Spec}
+---------------------------------------------------------------------------------------------------------
 
 Used by: [NamespacesAuthorizationRule_Spec](#NamespacesAuthorizationRule_Spec).
 
@@ -848,8 +848,8 @@ Used by: [NamespacesAuthorizationRule_Spec](#NamespacesAuthorizationRule_Spec).
 | "Manage" |             |
 | "Send"   |             |
 
-<a id="Namespaces_AuthorizationRule_Properties_Rights_STATUS"></a>Namespaces_AuthorizationRule_Properties_Rights_STATUS
------------------------------------------------------------------------------------------------------------------------
+Namespaces_AuthorizationRule_Properties_Rights_STATUS{#Namespaces_AuthorizationRule_Properties_Rights_STATUS}
+-------------------------------------------------------------------------------------------------------------
 
 Used by: [NamespacesAuthorizationRule_STATUS](#NamespacesAuthorizationRule_STATUS).
 
@@ -859,8 +859,8 @@ Used by: [NamespacesAuthorizationRule_STATUS](#NamespacesAuthorizationRule_STATU
 | "Manage" |             |
 | "Send"   |             |
 
-<a id="NamespacesAuthorizationRuleOperatorSpec"></a>NamespacesAuthorizationRuleOperatorSpec
--------------------------------------------------------------------------------------------
+NamespacesAuthorizationRuleOperatorSpec{#NamespacesAuthorizationRuleOperatorSpec}
+---------------------------------------------------------------------------------
 
 Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 
@@ -872,8 +872,8 @@ Used by: [NamespacesAuthorizationRule_Spec](#NamespacesAuthorizationRule_Spec).
 | secretExpressions    | configures where to place operator written dynamic secrets (created with CEL expressions).    | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 | secrets              | configures where to place Azure generated secrets.                                            | [NamespacesAuthorizationRuleOperatorSecrets](#NamespacesAuthorizationRuleOperatorSecrets)<br/><small>Optional</small>                                               |
 
-<a id="NamespacesQueueOperatorSpec"></a>NamespacesQueueOperatorSpec
--------------------------------------------------------------------
+NamespacesQueueOperatorSpec{#NamespacesQueueOperatorSpec}
+---------------------------------------------------------
 
 Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 
@@ -884,8 +884,8 @@ Used by: [NamespacesQueue_Spec](#NamespacesQueue_Spec).
 | configMapExpressions | configures where to place operator written dynamic ConfigMaps (created with CEL expressions). | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 | secretExpressions    | configures where to place operator written dynamic secrets (created with CEL expressions).    | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 
-<a id="NamespacesTopicOperatorSpec"></a>NamespacesTopicOperatorSpec
--------------------------------------------------------------------
+NamespacesTopicOperatorSpec{#NamespacesTopicOperatorSpec}
+---------------------------------------------------------
 
 Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 
@@ -896,8 +896,8 @@ Used by: [NamespacesTopic_Spec](#NamespacesTopic_Spec).
 | configMapExpressions | configures where to place operator written dynamic ConfigMaps (created with CEL expressions). | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 | secretExpressions    | configures where to place operator written dynamic secrets (created with CEL expressions).    | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 
-<a id="NamespacesTopicsSubscriptionOperatorSpec"></a>NamespacesTopicsSubscriptionOperatorSpec
----------------------------------------------------------------------------------------------
+NamespacesTopicsSubscriptionOperatorSpec{#NamespacesTopicsSubscriptionOperatorSpec}
+-----------------------------------------------------------------------------------
 
 Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 
@@ -908,8 +908,8 @@ Used by: [NamespacesTopicsSubscription_Spec](#NamespacesTopicsSubscription_Spec)
 | configMapExpressions | configures where to place operator written dynamic ConfigMaps (created with CEL expressions). | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 | secretExpressions    | configures where to place operator written dynamic secrets (created with CEL expressions).    | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 
-<a id="NamespacesTopicsSubscriptionsRuleOperatorSpec"></a>NamespacesTopicsSubscriptionsRuleOperatorSpec
--------------------------------------------------------------------------------------------------------
+NamespacesTopicsSubscriptionsRuleOperatorSpec{#NamespacesTopicsSubscriptionsRuleOperatorSpec}
+---------------------------------------------------------------------------------------------
 
 Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 
@@ -920,8 +920,8 @@ Used by: [NamespacesTopicsSubscriptionsRule_Spec](#NamespacesTopicsSubscriptions
 | configMapExpressions | configures where to place operator written dynamic ConfigMaps (created with CEL expressions). | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 | secretExpressions    | configures where to place operator written dynamic secrets (created with CEL expressions).    | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 
-<a id="PrivateEndpointConnection_STATUS"></a>PrivateEndpointConnection_STATUS
------------------------------------------------------------------------------
+PrivateEndpointConnection_STATUS{#PrivateEndpointConnection_STATUS}
+-------------------------------------------------------------------
 
 Properties of the PrivateEndpointConnection.
 
@@ -931,8 +931,8 @@ Used by: [Namespace_STATUS](#Namespace_STATUS).
 |----------|-------------|------------------------------------|
 | id       | Resource Id | string<br/><small>Optional</small> |
 
-<a id="SBSku"></a>SBSku
------------------------
+SBSku{#SBSku}
+-------------
 
 SKU of the namespace.
 
@@ -944,8 +944,8 @@ Used by: [Namespace_Spec](#Namespace_Spec).
 | name     | Name of this SKU.                                                                     | [SBSku_Name](#SBSku_Name)<br/><small>Required</small> |
 | tier     | The billing tier of this particular SKU.                                              | [SBSku_Tier](#SBSku_Tier)<br/><small>Optional</small> |
 
-<a id="SBSku_STATUS"></a>SBSku_STATUS
--------------------------------------
+SBSku_STATUS{#SBSku_STATUS}
+---------------------------
 
 SKU of the namespace.
 
@@ -957,8 +957,8 @@ Used by: [Namespace_STATUS](#Namespace_STATUS).
 | name     | Name of this SKU.                                                                     | [SBSku_Name_STATUS](#SBSku_Name_STATUS)<br/><small>Optional</small> |
 | tier     | The billing tier of this particular SKU.                                              | [SBSku_Tier_STATUS](#SBSku_Tier_STATUS)<br/><small>Optional</small> |
 
-<a id="SqlFilter"></a>SqlFilter
--------------------------------
+SqlFilter{#SqlFilter}
+---------------------
 
 Represents a filter which is a composition of an expression and an action that is executed in the pub/sub pipeline.
 
@@ -970,8 +970,8 @@ Used by: [NamespacesTopicsSubscriptionsRule_Spec](#NamespacesTopicsSubscriptions
 | requiresPreprocessing | Value that indicates whether the rule action requires preprocessing.                                                    | bool<br/><small>Optional</small>   |
 | sqlExpression         | The SQL expression. e.g. MyProperty='ABC'                                                                               | string<br/><small>Optional</small> |
 
-<a id="SqlFilter_STATUS"></a>SqlFilter_STATUS
----------------------------------------------
+SqlFilter_STATUS{#SqlFilter_STATUS}
+-----------------------------------
 
 Represents a filter which is a composition of an expression and an action that is executed in the pub/sub pipeline.
 
@@ -983,8 +983,8 @@ Used by: [NamespacesTopicsSubscriptionsRule_STATUS](#NamespacesTopicsSubscriptio
 | requiresPreprocessing | Value that indicates whether the rule action requires preprocessing.                                                    | bool<br/><small>Optional</small>   |
 | sqlExpression         | The SQL expression. e.g. MyProperty='ABC'                                                                               | string<br/><small>Optional</small> |
 
-<a id="SystemData_STATUS"></a>SystemData_STATUS
------------------------------------------------
+SystemData_STATUS{#SystemData_STATUS}
+-------------------------------------
 
 Metadata pertaining to creation and last modification of the resource.
 
@@ -999,8 +999,8 @@ Used by: [Namespace_STATUS](#Namespace_STATUS), [NamespacesAuthorizationRule_STA
 | lastModifiedBy     | The identity that last modified the resource.         | string<br/><small>Optional</small>                                                                        |
 | lastModifiedByType | The type of identity that last modified the resource. | [SystemData_LastModifiedByType_STATUS](#SystemData_LastModifiedByType_STATUS)<br/><small>Optional</small> |
 
-<a id="DictionaryValue_STATUS"></a>DictionaryValue_STATUS
----------------------------------------------------------
+DictionaryValue_STATUS{#DictionaryValue_STATUS}
+-----------------------------------------------
 
 Recognized Dictionary value.
 
@@ -1011,8 +1011,8 @@ Used by: [Identity_STATUS](#Identity_STATUS).
 | clientId    | Client Id of user assigned identity    | string<br/><small>Optional</small> |
 | principalId | Principal Id of user assigned identity | string<br/><small>Optional</small> |
 
-<a id="Encryption_KeySource"></a>Encryption_KeySource
------------------------------------------------------
+Encryption_KeySource{#Encryption_KeySource}
+-------------------------------------------
 
 Used by: [Encryption](#Encryption).
 
@@ -1020,8 +1020,8 @@ Used by: [Encryption](#Encryption).
 |----------------------|-------------|
 | "Microsoft.KeyVault" |             |
 
-<a id="Encryption_KeySource_STATUS"></a>Encryption_KeySource_STATUS
--------------------------------------------------------------------
+Encryption_KeySource_STATUS{#Encryption_KeySource_STATUS}
+---------------------------------------------------------
 
 Used by: [Encryption_STATUS](#Encryption_STATUS).
 
@@ -1029,8 +1029,8 @@ Used by: [Encryption_STATUS](#Encryption_STATUS).
 |----------------------|-------------|
 | "Microsoft.KeyVault" |             |
 
-<a id="Identity_Type"></a>Identity_Type
----------------------------------------
+Identity_Type{#Identity_Type}
+-----------------------------
 
 Used by: [Identity](#Identity).
 
@@ -1041,8 +1041,8 @@ Used by: [Identity](#Identity).
 | "SystemAssigned, UserAssigned" |             |
 | "UserAssigned"                 |             |
 
-<a id="Identity_Type_STATUS"></a>Identity_Type_STATUS
------------------------------------------------------
+Identity_Type_STATUS{#Identity_Type_STATUS}
+-------------------------------------------
 
 Used by: [Identity_STATUS](#Identity_STATUS).
 
@@ -1053,8 +1053,8 @@ Used by: [Identity_STATUS](#Identity_STATUS).
 | "SystemAssigned, UserAssigned" |             |
 | "UserAssigned"                 |             |
 
-<a id="KeyVaultProperties"></a>KeyVaultProperties
--------------------------------------------------
+KeyVaultProperties{#KeyVaultProperties}
+---------------------------------------
 
 Properties to configure keyVault Properties
 
@@ -1067,8 +1067,8 @@ Used by: [Encryption](#Encryption).
 | keyVaultUri | Uri of KeyVault               | string<br/><small>Optional</small>                                                            |
 | keyVersion  | Version of KeyVault           | string<br/><small>Optional</small>                                                            |
 
-<a id="KeyVaultProperties_STATUS"></a>KeyVaultProperties_STATUS
----------------------------------------------------------------
+KeyVaultProperties_STATUS{#KeyVaultProperties_STATUS}
+-----------------------------------------------------
 
 Properties to configure keyVault Properties
 
@@ -1081,8 +1081,8 @@ Used by: [Encryption_STATUS](#Encryption_STATUS).
 | keyVaultUri | Uri of KeyVault               | string<br/><small>Optional</small>                                                                          |
 | keyVersion  | Version of KeyVault           | string<br/><small>Optional</small>                                                                          |
 
-<a id="NamespaceOperatorSecrets"></a>NamespaceOperatorSecrets
--------------------------------------------------------------
+NamespaceOperatorSecrets{#NamespaceOperatorSecrets}
+---------------------------------------------------
 
 Used by: [NamespaceOperatorSpec](#NamespaceOperatorSpec).
 
@@ -1094,8 +1094,8 @@ Used by: [NamespaceOperatorSpec](#NamespaceOperatorSpec).
 | secondaryConnectionString | indicates where the SecondaryConnectionString secret should be placed. If omitted, the secret will not be retrieved from Azure. | [genruntime.SecretDestination](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination)<br/><small>Optional</small> |
 | secondaryKey              | indicates where the SecondaryKey secret should be placed. If omitted, the secret will not be retrieved from Azure.              | [genruntime.SecretDestination](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination)<br/><small>Optional</small> |
 
-<a id="NamespacesAuthorizationRuleOperatorSecrets"></a>NamespacesAuthorizationRuleOperatorSecrets
--------------------------------------------------------------------------------------------------
+NamespacesAuthorizationRuleOperatorSecrets{#NamespacesAuthorizationRuleOperatorSecrets}
+---------------------------------------------------------------------------------------
 
 Used by: [NamespacesAuthorizationRuleOperatorSpec](#NamespacesAuthorizationRuleOperatorSpec).
 
@@ -1106,8 +1106,8 @@ Used by: [NamespacesAuthorizationRuleOperatorSpec](#NamespacesAuthorizationRuleO
 | secondaryConnectionString | indicates where the SecondaryConnectionString secret should be placed. If omitted, the secret will not be retrieved from Azure. | [genruntime.SecretDestination](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination)<br/><small>Optional</small> |
 | secondaryKey              | indicates where the SecondaryKey secret should be placed. If omitted, the secret will not be retrieved from Azure.              | [genruntime.SecretDestination](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination)<br/><small>Optional</small> |
 
-<a id="SBSku_Name"></a>SBSku_Name
----------------------------------
+SBSku_Name{#SBSku_Name}
+-----------------------
 
 Used by: [SBSku](#SBSku).
 
@@ -1117,8 +1117,8 @@ Used by: [SBSku](#SBSku).
 | "Premium"  |             |
 | "Standard" |             |
 
-<a id="SBSku_Name_STATUS"></a>SBSku_Name_STATUS
------------------------------------------------
+SBSku_Name_STATUS{#SBSku_Name_STATUS}
+-------------------------------------
 
 Used by: [SBSku_STATUS](#SBSku_STATUS).
 
@@ -1128,8 +1128,8 @@ Used by: [SBSku_STATUS](#SBSku_STATUS).
 | "Premium"  |             |
 | "Standard" |             |
 
-<a id="SBSku_Tier"></a>SBSku_Tier
----------------------------------
+SBSku_Tier{#SBSku_Tier}
+-----------------------
 
 Used by: [SBSku](#SBSku).
 
@@ -1139,8 +1139,8 @@ Used by: [SBSku](#SBSku).
 | "Premium"  |             |
 | "Standard" |             |
 
-<a id="SBSku_Tier_STATUS"></a>SBSku_Tier_STATUS
------------------------------------------------
+SBSku_Tier_STATUS{#SBSku_Tier_STATUS}
+-------------------------------------
 
 Used by: [SBSku_STATUS](#SBSku_STATUS).
 
@@ -1150,7 +1150,19 @@ Used by: [SBSku_STATUS](#SBSku_STATUS).
 | "Premium"  |             |
 | "Standard" |             |
 
-<a id="SystemData_CreatedByType_STATUS"></a>SystemData_CreatedByType_STATUS
+SystemData_CreatedByType_STATUS{#SystemData_CreatedByType_STATUS}
+-----------------------------------------------------------------
+
+Used by: [SystemData_STATUS](#SystemData_STATUS).
+
+| Value             | Description |
+|-------------------|-------------|
+| "Application"     |             |
+| "Key"             |             |
+| "ManagedIdentity" |             |
+| "User"            |             |
+
+SystemData_LastModifiedByType_STATUS{#SystemData_LastModifiedByType_STATUS}
 ---------------------------------------------------------------------------
 
 Used by: [SystemData_STATUS](#SystemData_STATUS).
@@ -1162,20 +1174,8 @@ Used by: [SystemData_STATUS](#SystemData_STATUS).
 | "ManagedIdentity" |             |
 | "User"            |             |
 
-<a id="SystemData_LastModifiedByType_STATUS"></a>SystemData_LastModifiedByType_STATUS
--------------------------------------------------------------------------------------
-
-Used by: [SystemData_STATUS](#SystemData_STATUS).
-
-| Value             | Description |
-|-------------------|-------------|
-| "Application"     |             |
-| "Key"             |             |
-| "ManagedIdentity" |             |
-| "User"            |             |
-
-<a id="UserAssignedIdentityDetails"></a>UserAssignedIdentityDetails
--------------------------------------------------------------------
+UserAssignedIdentityDetails{#UserAssignedIdentityDetails}
+---------------------------------------------------------
 
 Information about the user assigned identity for the resource
 
@@ -1185,8 +1185,8 @@ Used by: [Identity](#Identity).
 |-----------|-------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | reference |             | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small> |
 
-<a id="UserAssignedIdentityProperties"></a>UserAssignedIdentityProperties
--------------------------------------------------------------------------
+UserAssignedIdentityProperties{#UserAssignedIdentityProperties}
+---------------------------------------------------------------
 
 Used by: [KeyVaultProperties](#KeyVaultProperties).
 
@@ -1194,8 +1194,8 @@ Used by: [KeyVaultProperties](#KeyVaultProperties).
 |-------------------------------|-------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | userAssignedIdentityReference | ARM ID of user Identity selected for encryption | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small> |
 
-<a id="UserAssignedIdentityProperties_STATUS"></a>UserAssignedIdentityProperties_STATUS
----------------------------------------------------------------------------------------
+UserAssignedIdentityProperties_STATUS{#UserAssignedIdentityProperties_STATUS}
+-----------------------------------------------------------------------------
 
 Used by: [KeyVaultProperties_STATUS](#KeyVaultProperties_STATUS).
 
