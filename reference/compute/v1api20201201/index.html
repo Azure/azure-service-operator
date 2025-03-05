@@ -774,245 +774,245 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
             <div class="td-toc">
         <nav id="TableOfContents">
   <ul>
-    <li><a href="#a-idapiversionaapiversion"><a id="APIVersion"></a>APIVersion</a></li>
-    <li><a href="#a-idvirtualmachineavirtualmachine"><a id="VirtualMachine"></a>VirtualMachine</a>
+    <li><a href="#APIVersion">APIVersion</a></li>
+    <li><a href="#VirtualMachine">VirtualMachine</a>
       <ul>
-        <li><a href="#a-idvirtualmachine_specavirtualmachine_spec"><a id="VirtualMachine_Spec"></a>VirtualMachine_Spec</a></li>
-        <li><a href="#a-idvirtualmachine_statusavirtualmachine_status"><a id="VirtualMachine_STATUS"></a>VirtualMachine_STATUS</a></li>
+        <li><a href="#VirtualMachine_Spec">VirtualMachine_Spec</a></li>
+        <li><a href="#VirtualMachine_STATUS">VirtualMachine_STATUS</a></li>
       </ul>
     </li>
-    <li><a href="#a-idvirtualmachinelistavirtualmachinelist"><a id="VirtualMachineList"></a>VirtualMachineList</a></li>
-    <li><a href="#a-idvirtualmachinescalesetavirtualmachinescaleset"><a id="VirtualMachineScaleSet"></a>VirtualMachineScaleSet</a>
+    <li><a href="#VirtualMachineList">VirtualMachineList</a></li>
+    <li><a href="#VirtualMachineScaleSet">VirtualMachineScaleSet</a>
       <ul>
-        <li><a href="#a-idvirtualmachinescaleset_specavirtualmachinescaleset_spec"><a id="VirtualMachineScaleSet_Spec"></a>VirtualMachineScaleSet_Spec</a></li>
-        <li><a href="#a-idvirtualmachinescaleset_statusavirtualmachinescaleset_status"><a id="VirtualMachineScaleSet_STATUS"></a>VirtualMachineScaleSet_STATUS</a></li>
+        <li><a href="#VirtualMachineScaleSet_Spec">VirtualMachineScaleSet_Spec</a></li>
+        <li><a href="#VirtualMachineScaleSet_STATUS">VirtualMachineScaleSet_STATUS</a></li>
       </ul>
     </li>
-    <li><a href="#a-idvirtualmachinescalesetlistavirtualmachinescalesetlist"><a id="VirtualMachineScaleSetList"></a>VirtualMachineScaleSetList</a></li>
-    <li><a href="#a-idvirtualmachinescalesetsextensionavirtualmachinescalesetsextension"><a id="VirtualMachineScaleSetsExtension"></a>VirtualMachineScaleSetsExtension</a>
+    <li><a href="#VirtualMachineScaleSetList">VirtualMachineScaleSetList</a></li>
+    <li><a href="#VirtualMachineScaleSetsExtension">VirtualMachineScaleSetsExtension</a>
       <ul>
-        <li><a href="#a-idvirtualmachinescalesetsextension_specavirtualmachinescalesetsextension_spec"><a id="VirtualMachineScaleSetsExtension_Spec"></a>VirtualMachineScaleSetsExtension_Spec</a></li>
-        <li><a href="#a-idvirtualmachinescalesetsextension_statusavirtualmachinescalesetsextension_status"><a id="VirtualMachineScaleSetsExtension_STATUS"></a>VirtualMachineScaleSetsExtension_STATUS</a></li>
+        <li><a href="#VirtualMachineScaleSetsExtension_Spec">VirtualMachineScaleSetsExtension_Spec</a></li>
+        <li><a href="#VirtualMachineScaleSetsExtension_STATUS">VirtualMachineScaleSetsExtension_STATUS</a></li>
       </ul>
     </li>
-    <li><a href="#a-idvirtualmachinescalesetsextensionlistavirtualmachinescalesetsextensionlist"><a id="VirtualMachineScaleSetsExtensionList"></a>VirtualMachineScaleSetsExtensionList</a></li>
-    <li><a href="#a-idvirtualmachinesextensionavirtualmachinesextension"><a id="VirtualMachinesExtension"></a>VirtualMachinesExtension</a>
+    <li><a href="#VirtualMachineScaleSetsExtensionList">VirtualMachineScaleSetsExtensionList</a></li>
+    <li><a href="#VirtualMachinesExtension">VirtualMachinesExtension</a>
       <ul>
-        <li><a href="#a-idvirtualmachinesextension_specavirtualmachinesextension_spec"><a id="VirtualMachinesExtension_Spec"></a>VirtualMachinesExtension_Spec</a></li>
-        <li><a href="#a-idvirtualmachinesextension_statusavirtualmachinesextension_status"><a id="VirtualMachinesExtension_STATUS"></a>VirtualMachinesExtension_STATUS</a></li>
+        <li><a href="#VirtualMachinesExtension_Spec">VirtualMachinesExtension_Spec</a></li>
+        <li><a href="#VirtualMachinesExtension_STATUS">VirtualMachinesExtension_STATUS</a></li>
       </ul>
     </li>
-    <li><a href="#a-idvirtualmachinesextensionlistavirtualmachinesextensionlist"><a id="VirtualMachinesExtensionList"></a>VirtualMachinesExtensionList</a></li>
-    <li><a href="#a-idvirtualmachine_specavirtualmachine_spec-1"><a id="VirtualMachine_Spec"></a>VirtualMachine_Spec</a></li>
-    <li><a href="#a-idvirtualmachine_statusavirtualmachine_status-1"><a id="VirtualMachine_STATUS"></a>VirtualMachine_STATUS</a></li>
-    <li><a href="#a-idvirtualmachinescaleset_specavirtualmachinescaleset_spec-1"><a id="VirtualMachineScaleSet_Spec"></a>VirtualMachineScaleSet_Spec</a></li>
-    <li><a href="#a-idvirtualmachinescaleset_statusavirtualmachinescaleset_status-1"><a id="VirtualMachineScaleSet_STATUS"></a>VirtualMachineScaleSet_STATUS</a></li>
-    <li><a href="#a-idvirtualmachinescalesetsextension_specavirtualmachinescalesetsextension_spec-1"><a id="VirtualMachineScaleSetsExtension_Spec"></a>VirtualMachineScaleSetsExtension_Spec</a></li>
-    <li><a href="#a-idvirtualmachinescalesetsextension_statusavirtualmachinescalesetsextension_status-1"><a id="VirtualMachineScaleSetsExtension_STATUS"></a>VirtualMachineScaleSetsExtension_STATUS</a></li>
-    <li><a href="#a-idvirtualmachinesextension_specavirtualmachinesextension_spec-1"><a id="VirtualMachinesExtension_Spec"></a>VirtualMachinesExtension_Spec</a></li>
-    <li><a href="#a-idvirtualmachinesextension_statusavirtualmachinesextension_status-1"><a id="VirtualMachinesExtension_STATUS"></a>VirtualMachinesExtension_STATUS</a></li>
-    <li><a href="#a-idadditionalcapabilitiesaadditionalcapabilities"><a id="AdditionalCapabilities"></a>AdditionalCapabilities</a></li>
-    <li><a href="#a-idadditionalcapabilities_statusaadditionalcapabilities_status"><a id="AdditionalCapabilities_STATUS"></a>AdditionalCapabilities_STATUS</a></li>
-    <li><a href="#a-idautomaticrepairspolicyaautomaticrepairspolicy"><a id="AutomaticRepairsPolicy"></a>AutomaticRepairsPolicy</a></li>
-    <li><a href="#a-idautomaticrepairspolicy_statusaautomaticrepairspolicy_status"><a id="AutomaticRepairsPolicy_STATUS"></a>AutomaticRepairsPolicy_STATUS</a></li>
-    <li><a href="#a-idbillingprofileabillingprofile"><a id="BillingProfile"></a>BillingProfile</a></li>
-    <li><a href="#a-idbillingprofile_statusabillingprofile_status"><a id="BillingProfile_STATUS"></a>BillingProfile_STATUS</a></li>
-    <li><a href="#a-iddiagnosticsprofileadiagnosticsprofile"><a id="DiagnosticsProfile"></a>DiagnosticsProfile</a></li>
-    <li><a href="#a-iddiagnosticsprofile_statusadiagnosticsprofile_status"><a id="DiagnosticsProfile_STATUS"></a>DiagnosticsProfile_STATUS</a></li>
-    <li><a href="#a-idevictionpolicyaevictionpolicy"><a id="EvictionPolicy"></a>EvictionPolicy</a></li>
-    <li><a href="#a-idevictionpolicy_statusaevictionpolicy_status"><a id="EvictionPolicy_STATUS"></a>EvictionPolicy_STATUS</a></li>
-    <li><a href="#a-idextendedlocationaextendedlocation"><a id="ExtendedLocation"></a>ExtendedLocation</a></li>
-    <li><a href="#a-idextendedlocation_statusaextendedlocation_status"><a id="ExtendedLocation_STATUS"></a>ExtendedLocation_STATUS</a></li>
-    <li><a href="#a-idhardwareprofileahardwareprofile"><a id="HardwareProfile"></a>HardwareProfile</a></li>
-    <li><a href="#a-idhardwareprofile_statusahardwareprofile_status"><a id="HardwareProfile_STATUS"></a>HardwareProfile_STATUS</a></li>
-    <li><a href="#a-idnetworkprofileanetworkprofile"><a id="NetworkProfile"></a>NetworkProfile</a></li>
-    <li><a href="#a-idnetworkprofile_statusanetworkprofile_status"><a id="NetworkProfile_STATUS"></a>NetworkProfile_STATUS</a></li>
-    <li><a href="#a-idorchestrationmodeaorchestrationmode"><a id="OrchestrationMode"></a>OrchestrationMode</a></li>
-    <li><a href="#a-idorchestrationmode_statusaorchestrationmode_status"><a id="OrchestrationMode_STATUS"></a>OrchestrationMode_STATUS</a></li>
-    <li><a href="#a-idosprofileaosprofile"><a id="OSProfile"></a>OSProfile</a></li>
-    <li><a href="#a-idosprofile_statusaosprofile_status"><a id="OSProfile_STATUS"></a>OSProfile_STATUS</a></li>
-    <li><a href="#a-idplanaplan"><a id="Plan"></a>Plan</a></li>
-    <li><a href="#a-idplan_statusaplan_status"><a id="Plan_STATUS"></a>Plan_STATUS</a></li>
-    <li><a href="#a-idpriorityapriority"><a id="Priority"></a>Priority</a></li>
-    <li><a href="#a-idpriority_statusapriority_status"><a id="Priority_STATUS"></a>Priority_STATUS</a></li>
-    <li><a href="#a-idscaleinpolicyascaleinpolicy"><a id="ScaleInPolicy"></a>ScaleInPolicy</a></li>
-    <li><a href="#a-idscaleinpolicy_statusascaleinpolicy_status"><a id="ScaleInPolicy_STATUS"></a>ScaleInPolicy_STATUS</a></li>
-    <li><a href="#a-idsecurityprofileasecurityprofile"><a id="SecurityProfile"></a>SecurityProfile</a></li>
-    <li><a href="#a-idsecurityprofile_statusasecurityprofile_status"><a id="SecurityProfile_STATUS"></a>SecurityProfile_STATUS</a></li>
-    <li><a href="#a-idskuasku"><a id="Sku"></a>Sku</a></li>
-    <li><a href="#a-idsku_statusasku_status"><a id="Sku_STATUS"></a>Sku_STATUS</a></li>
-    <li><a href="#a-idstorageprofileastorageprofile"><a id="StorageProfile"></a>StorageProfile</a></li>
-    <li><a href="#a-idstorageprofile_statusastorageprofile_status"><a id="StorageProfile_STATUS"></a>StorageProfile_STATUS</a></li>
-    <li><a href="#a-idsubresourceasubresource"><a id="SubResource"></a>SubResource</a></li>
-    <li><a href="#a-idsubresource_statusasubresource_status"><a id="SubResource_STATUS"></a>SubResource_STATUS</a></li>
-    <li><a href="#a-idupgradepolicyaupgradepolicy"><a id="UpgradePolicy"></a>UpgradePolicy</a></li>
-    <li><a href="#a-idupgradepolicy_statusaupgradepolicy_status"><a id="UpgradePolicy_STATUS"></a>UpgradePolicy_STATUS</a></li>
-    <li><a href="#a-idvirtualmachineextension_statusavirtualmachineextension_status"><a id="VirtualMachineExtension_STATUS"></a>VirtualMachineExtension_STATUS</a></li>
-    <li><a href="#a-idvirtualmachineextensioninstanceviewavirtualmachineextensioninstanceview"><a id="VirtualMachineExtensionInstanceView"></a>VirtualMachineExtensionInstanceView</a></li>
-    <li><a href="#a-idvirtualmachineextensioninstanceview_statusavirtualmachineextensioninstanceview_status"><a id="VirtualMachineExtensionInstanceView_STATUS"></a>VirtualMachineExtensionInstanceView_STATUS</a></li>
-    <li><a href="#a-idvirtualmachineidentityavirtualmachineidentity"><a id="VirtualMachineIdentity"></a>VirtualMachineIdentity</a></li>
-    <li><a href="#a-idvirtualmachineidentity_statusavirtualmachineidentity_status"><a id="VirtualMachineIdentity_STATUS"></a>VirtualMachineIdentity_STATUS</a></li>
-    <li><a href="#a-idvirtualmachineinstanceview_statusavirtualmachineinstanceview_status"><a id="VirtualMachineInstanceView_STATUS"></a>VirtualMachineInstanceView_STATUS</a></li>
-    <li><a href="#a-idvirtualmachineoperatorspecavirtualmachineoperatorspec"><a id="VirtualMachineOperatorSpec"></a>VirtualMachineOperatorSpec</a></li>
-    <li><a href="#a-idvirtualmachinescalesetidentityavirtualmachinescalesetidentity"><a id="VirtualMachineScaleSetIdentity"></a>VirtualMachineScaleSetIdentity</a></li>
-    <li><a href="#a-idvirtualmachinescalesetidentity_statusavirtualmachinescalesetidentity_status"><a id="VirtualMachineScaleSetIdentity_STATUS"></a>VirtualMachineScaleSetIdentity_STATUS</a></li>
-    <li><a href="#a-idvirtualmachinescalesetoperatorspecavirtualmachinescalesetoperatorspec"><a id="VirtualMachineScaleSetOperatorSpec"></a>VirtualMachineScaleSetOperatorSpec</a></li>
-    <li><a href="#a-idvirtualmachinescalesetsextensionoperatorspecavirtualmachinescalesetsextensionoperatorspec"><a id="VirtualMachineScaleSetsExtensionOperatorSpec"></a>VirtualMachineScaleSetsExtensionOperatorSpec</a></li>
-    <li><a href="#a-idvirtualmachinescalesetvmprofileavirtualmachinescalesetvmprofile"><a id="VirtualMachineScaleSetVMProfile"></a>VirtualMachineScaleSetVMProfile</a></li>
-    <li><a href="#a-idvirtualmachinescalesetvmprofile_statusavirtualmachinescalesetvmprofile_status"><a id="VirtualMachineScaleSetVMProfile_STATUS"></a>VirtualMachineScaleSetVMProfile_STATUS</a></li>
-    <li><a href="#a-idvirtualmachinesextensionoperatorspecavirtualmachinesextensionoperatorspec"><a id="VirtualMachinesExtensionOperatorSpec"></a>VirtualMachinesExtensionOperatorSpec</a></li>
-    <li><a href="#a-idautomaticosupgradepolicyaautomaticosupgradepolicy"><a id="AutomaticOSUpgradePolicy"></a>AutomaticOSUpgradePolicy</a></li>
-    <li><a href="#a-idautomaticosupgradepolicy_statusaautomaticosupgradepolicy_status"><a id="AutomaticOSUpgradePolicy_STATUS"></a>AutomaticOSUpgradePolicy_STATUS</a></li>
-    <li><a href="#a-idbootdiagnosticsabootdiagnostics"><a id="BootDiagnostics"></a>BootDiagnostics</a></li>
-    <li><a href="#a-idbootdiagnostics_statusabootdiagnostics_status"><a id="BootDiagnostics_STATUS"></a>BootDiagnostics_STATUS</a></li>
-    <li><a href="#a-idbootdiagnosticsinstanceview_statusabootdiagnosticsinstanceview_status"><a id="BootDiagnosticsInstanceView_STATUS"></a>BootDiagnosticsInstanceView_STATUS</a></li>
-    <li><a href="#a-iddatadiskadatadisk"><a id="DataDisk"></a>DataDisk</a></li>
-    <li><a href="#a-iddatadisk_statusadatadisk_status"><a id="DataDisk_STATUS"></a>DataDisk_STATUS</a></li>
-    <li><a href="#a-iddiskinstanceview_statusadiskinstanceview_status"><a id="DiskInstanceView_STATUS"></a>DiskInstanceView_STATUS</a></li>
-    <li><a href="#a-idextendedlocationtypeaextendedlocationtype"><a id="ExtendedLocationType"></a>ExtendedLocationType</a></li>
-    <li><a href="#a-idextendedlocationtype_statusaextendedlocationtype_status"><a id="ExtendedLocationType_STATUS"></a>ExtendedLocationType_STATUS</a></li>
-    <li><a href="#a-idhardwareprofile_vmsize_statusahardwareprofile_vmsize_status"><a id="HardwareProfile_VmSize_STATUS"></a>HardwareProfile_VmSize_STATUS</a></li>
-    <li><a href="#a-idimagereferenceaimagereference"><a id="ImageReference"></a>ImageReference</a></li>
-    <li><a href="#a-idimagereference_statusaimagereference_status"><a id="ImageReference_STATUS"></a>ImageReference_STATUS</a></li>
-    <li><a href="#a-idinstanceviewstatusainstanceviewstatus"><a id="InstanceViewStatus"></a>InstanceViewStatus</a></li>
-    <li><a href="#a-idinstanceviewstatus_statusainstanceviewstatus_status"><a id="InstanceViewStatus_STATUS"></a>InstanceViewStatus_STATUS</a></li>
-    <li><a href="#a-idlinuxconfigurationalinuxconfiguration"><a id="LinuxConfiguration"></a>LinuxConfiguration</a></li>
-    <li><a href="#a-idlinuxconfiguration_statusalinuxconfiguration_status"><a id="LinuxConfiguration_STATUS"></a>LinuxConfiguration_STATUS</a></li>
-    <li><a href="#a-idmaintenanceredeploystatus_statusamaintenanceredeploystatus_status"><a id="MaintenanceRedeployStatus_STATUS"></a>MaintenanceRedeployStatus_STATUS</a></li>
-    <li><a href="#a-idnetworkinterfacereferenceanetworkinterfacereference"><a id="NetworkInterfaceReference"></a>NetworkInterfaceReference</a></li>
-    <li><a href="#a-idnetworkinterfacereference_statusanetworkinterfacereference_status"><a id="NetworkInterfaceReference_STATUS"></a>NetworkInterfaceReference_STATUS</a></li>
-    <li><a href="#a-idosdiskaosdisk"><a id="OSDisk"></a>OSDisk</a></li>
-    <li><a href="#a-idosdisk_statusaosdisk_status"><a id="OSDisk_STATUS"></a>OSDisk_STATUS</a></li>
-    <li><a href="#a-idrollingupgradepolicyarollingupgradepolicy"><a id="RollingUpgradePolicy"></a>RollingUpgradePolicy</a></li>
-    <li><a href="#a-idrollingupgradepolicy_statusarollingupgradepolicy_status"><a id="RollingUpgradePolicy_STATUS"></a>RollingUpgradePolicy_STATUS</a></li>
-    <li><a href="#a-idscaleinpolicy_rulesascaleinpolicy_rules"><a id="ScaleInPolicy_Rules"></a>ScaleInPolicy_Rules</a></li>
-    <li><a href="#a-idscaleinpolicy_rules_statusascaleinpolicy_rules_status"><a id="ScaleInPolicy_Rules_STATUS"></a>ScaleInPolicy_Rules_STATUS</a></li>
-    <li><a href="#a-idscheduledeventsprofileascheduledeventsprofile"><a id="ScheduledEventsProfile"></a>ScheduledEventsProfile</a></li>
-    <li><a href="#a-idscheduledeventsprofile_statusascheduledeventsprofile_status"><a id="ScheduledEventsProfile_STATUS"></a>ScheduledEventsProfile_STATUS</a></li>
-    <li><a href="#a-idsecurityprofile_securitytypeasecurityprofile_securitytype"><a id="SecurityProfile_SecurityType"></a>SecurityProfile_SecurityType</a></li>
-    <li><a href="#a-idsecurityprofile_securitytype_statusasecurityprofile_securitytype_status"><a id="SecurityProfile_SecurityType_STATUS"></a>SecurityProfile_SecurityType_STATUS</a></li>
-    <li><a href="#a-iduefisettingsauefisettings"><a id="UefiSettings"></a>UefiSettings</a></li>
-    <li><a href="#a-iduefisettings_statusauefisettings_status"><a id="UefiSettings_STATUS"></a>UefiSettings_STATUS</a></li>
-    <li><a href="#a-idupgradepolicy_modeaupgradepolicy_mode"><a id="UpgradePolicy_Mode"></a>UpgradePolicy_Mode</a></li>
-    <li><a href="#a-idupgradepolicy_mode_statusaupgradepolicy_mode_status"><a id="UpgradePolicy_Mode_STATUS"></a>UpgradePolicy_Mode_STATUS</a></li>
-    <li><a href="#a-iduserassignedidentitydetailsauserassignedidentitydetails"><a id="UserAssignedIdentityDetails"></a>UserAssignedIdentityDetails</a></li>
-    <li><a href="#a-idvaultsecretgroupavaultsecretgroup"><a id="VaultSecretGroup"></a>VaultSecretGroup</a></li>
-    <li><a href="#a-idvaultsecretgroup_statusavaultsecretgroup_status"><a id="VaultSecretGroup_STATUS"></a>VaultSecretGroup_STATUS</a></li>
-    <li><a href="#a-idvirtualmachineagentinstanceview_statusavirtualmachineagentinstanceview_status"><a id="VirtualMachineAgentInstanceView_STATUS"></a>VirtualMachineAgentInstanceView_STATUS</a></li>
-    <li><a href="#a-idvirtualmachinehealthstatus_statusavirtualmachinehealthstatus_status"><a id="VirtualMachineHealthStatus_STATUS"></a>VirtualMachineHealthStatus_STATUS</a></li>
-    <li><a href="#a-idvirtualmachineidentity_typeavirtualmachineidentity_type"><a id="VirtualMachineIdentity_Type"></a>VirtualMachineIdentity_Type</a></li>
-    <li><a href="#a-idvirtualmachineidentity_type_statusavirtualmachineidentity_type_status"><a id="VirtualMachineIdentity_Type_STATUS"></a>VirtualMachineIdentity_Type_STATUS</a></li>
-    <li><a href="#a-idvirtualmachineidentity_userassignedidentities_statusavirtualmachineidentity_userassignedidentities_status"><a id="VirtualMachineIdentity_UserAssignedIdentities_STATUS"></a>VirtualMachineIdentity_UserAssignedIdentities_STATUS</a></li>
-    <li><a href="#a-idvirtualmachineinstanceview_hypervgeneration_statusavirtualmachineinstanceview_hypervgeneration_status"><a id="VirtualMachineInstanceView_HyperVGeneration_STATUS"></a>VirtualMachineInstanceView_HyperVGeneration_STATUS</a></li>
-    <li><a href="#a-idvirtualmachinepatchstatus_statusavirtualmachinepatchstatus_status"><a id="VirtualMachinePatchStatus_STATUS"></a>VirtualMachinePatchStatus_STATUS</a></li>
-    <li><a href="#a-idvirtualmachinescalesetextensionprofileavirtualmachinescalesetextensionprofile"><a id="VirtualMachineScaleSetExtensionProfile"></a>VirtualMachineScaleSetExtensionProfile</a></li>
-    <li><a href="#a-idvirtualmachinescalesetextensionprofile_statusavirtualmachinescalesetextensionprofile_status"><a id="VirtualMachineScaleSetExtensionProfile_STATUS"></a>VirtualMachineScaleSetExtensionProfile_STATUS</a></li>
-    <li><a href="#a-idvirtualmachinescalesetidentity_typeavirtualmachinescalesetidentity_type"><a id="VirtualMachineScaleSetIdentity_Type"></a>VirtualMachineScaleSetIdentity_Type</a></li>
-    <li><a href="#a-idvirtualmachinescalesetidentity_type_statusavirtualmachinescalesetidentity_type_status"><a id="VirtualMachineScaleSetIdentity_Type_STATUS"></a>VirtualMachineScaleSetIdentity_Type_STATUS</a></li>
-    <li><a href="#a-idvirtualmachinescalesetidentity_userassignedidentities_statusavirtualmachinescalesetidentity_userassignedidentities_status"><a id="VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS"></a>VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS</a></li>
-    <li><a href="#a-idvirtualmachinescalesetnetworkprofileavirtualmachinescalesetnetworkprofile"><a id="VirtualMachineScaleSetNetworkProfile"></a>VirtualMachineScaleSetNetworkProfile</a></li>
-    <li><a href="#a-idvirtualmachinescalesetnetworkprofile_statusavirtualmachinescalesetnetworkprofile_status"><a id="VirtualMachineScaleSetNetworkProfile_STATUS"></a>VirtualMachineScaleSetNetworkProfile_STATUS</a></li>
-    <li><a href="#a-idvirtualmachinescalesetosprofileavirtualmachinescalesetosprofile"><a id="VirtualMachineScaleSetOSProfile"></a>VirtualMachineScaleSetOSProfile</a></li>
-    <li><a href="#a-idvirtualmachinescalesetosprofile_statusavirtualmachinescalesetosprofile_status"><a id="VirtualMachineScaleSetOSProfile_STATUS"></a>VirtualMachineScaleSetOSProfile_STATUS</a></li>
-    <li><a href="#a-idvirtualmachinescalesetstorageprofileavirtualmachinescalesetstorageprofile"><a id="VirtualMachineScaleSetStorageProfile"></a>VirtualMachineScaleSetStorageProfile</a></li>
-    <li><a href="#a-idvirtualmachinescalesetstorageprofile_statusavirtualmachinescalesetstorageprofile_status"><a id="VirtualMachineScaleSetStorageProfile_STATUS"></a>VirtualMachineScaleSetStorageProfile_STATUS</a></li>
-    <li><a href="#a-idwindowsconfigurationawindowsconfiguration"><a id="WindowsConfiguration"></a>WindowsConfiguration</a></li>
-    <li><a href="#a-idwindowsconfiguration_statusawindowsconfiguration_status"><a id="WindowsConfiguration_STATUS"></a>WindowsConfiguration_STATUS</a></li>
-    <li><a href="#a-idadditionalunattendcontentaadditionalunattendcontent"><a id="AdditionalUnattendContent"></a>AdditionalUnattendContent</a></li>
-    <li><a href="#a-idadditionalunattendcontent_statusaadditionalunattendcontent_status"><a id="AdditionalUnattendContent_STATUS"></a>AdditionalUnattendContent_STATUS</a></li>
-    <li><a href="#a-idapientityreferenceaapientityreference"><a id="ApiEntityReference"></a>ApiEntityReference</a></li>
-    <li><a href="#a-idapientityreference_statusaapientityreference_status"><a id="ApiEntityReference_STATUS"></a>ApiEntityReference_STATUS</a></li>
-    <li><a href="#a-idavailablepatchsummary_statusaavailablepatchsummary_status"><a id="AvailablePatchSummary_STATUS"></a>AvailablePatchSummary_STATUS</a></li>
-    <li><a href="#a-idcachingacaching"><a id="Caching"></a>Caching</a></li>
-    <li><a href="#a-idcaching_statusacaching_status"><a id="Caching_STATUS"></a>Caching_STATUS</a></li>
-    <li><a href="#a-idcreateoptionacreateoption"><a id="CreateOption"></a>CreateOption</a></li>
-    <li><a href="#a-idcreateoption_statusacreateoption_status"><a id="CreateOption_STATUS"></a>CreateOption_STATUS</a></li>
-    <li><a href="#a-iddetachoptionadetachoption"><a id="DetachOption"></a>DetachOption</a></li>
-    <li><a href="#a-iddetachoption_statusadetachoption_status"><a id="DetachOption_STATUS"></a>DetachOption_STATUS</a></li>
-    <li><a href="#a-iddiffdisksettingsadiffdisksettings"><a id="DiffDiskSettings"></a>DiffDiskSettings</a></li>
-    <li><a href="#a-iddiffdisksettings_statusadiffdisksettings_status"><a id="DiffDiskSettings_STATUS"></a>DiffDiskSettings_STATUS</a></li>
-    <li><a href="#a-iddiskencryptionsettingsadiskencryptionsettings"><a id="DiskEncryptionSettings"></a>DiskEncryptionSettings</a></li>
-    <li><a href="#a-iddiskencryptionsettings_statusadiskencryptionsettings_status"><a id="DiskEncryptionSettings_STATUS"></a>DiskEncryptionSettings_STATUS</a></li>
-    <li><a href="#a-idinstanceviewstatus_levelainstanceviewstatus_level"><a id="InstanceViewStatus_Level"></a>InstanceViewStatus_Level</a></li>
-    <li><a href="#a-idinstanceviewstatus_level_statusainstanceviewstatus_level_status"><a id="InstanceViewStatus_Level_STATUS"></a>InstanceViewStatus_Level_STATUS</a></li>
-    <li><a href="#a-idlastpatchinstallationsummary_statusalastpatchinstallationsummary_status"><a id="LastPatchInstallationSummary_STATUS"></a>LastPatchInstallationSummary_STATUS</a></li>
-    <li><a href="#a-idlinuxpatchsettingsalinuxpatchsettings"><a id="LinuxPatchSettings"></a>LinuxPatchSettings</a></li>
-    <li><a href="#a-idlinuxpatchsettings_statusalinuxpatchsettings_status"><a id="LinuxPatchSettings_STATUS"></a>LinuxPatchSettings_STATUS</a></li>
-    <li><a href="#a-idmaintenanceredeploystatus_lastoperationresultcode_statusamaintenanceredeploystatus_lastoperationresultcode_status"><a id="MaintenanceRedeployStatus_LastOperationResultCode_STATUS"></a>MaintenanceRedeployStatus_LastOperationResultCode_STATUS</a></li>
-    <li><a href="#a-idmanageddiskparametersamanageddiskparameters"><a id="ManagedDiskParameters"></a>ManagedDiskParameters</a></li>
-    <li><a href="#a-idmanageddiskparameters_statusamanageddiskparameters_status"><a id="ManagedDiskParameters_STATUS"></a>ManagedDiskParameters_STATUS</a></li>
-    <li><a href="#a-idosdisk_ostypeaosdisk_ostype"><a id="OSDisk_OsType"></a>OSDisk_OsType</a></li>
-    <li><a href="#a-idosdisk_ostype_statusaosdisk_ostype_status"><a id="OSDisk_OsType_STATUS"></a>OSDisk_OsType_STATUS</a></li>
-    <li><a href="#a-idpatchsettingsapatchsettings"><a id="PatchSettings"></a>PatchSettings</a></li>
-    <li><a href="#a-idpatchsettings_statusapatchsettings_status"><a id="PatchSettings_STATUS"></a>PatchSettings_STATUS</a></li>
-    <li><a href="#a-idsshconfigurationasshconfiguration"><a id="SshConfiguration"></a>SshConfiguration</a></li>
-    <li><a href="#a-idsshconfiguration_statusasshconfiguration_status"><a id="SshConfiguration_STATUS"></a>SshConfiguration_STATUS</a></li>
-    <li><a href="#a-idterminatenotificationprofileaterminatenotificationprofile"><a id="TerminateNotificationProfile"></a>TerminateNotificationProfile</a></li>
-    <li><a href="#a-idterminatenotificationprofile_statusaterminatenotificationprofile_status"><a id="TerminateNotificationProfile_STATUS"></a>TerminateNotificationProfile_STATUS</a></li>
-    <li><a href="#a-idvaultcertificateavaultcertificate"><a id="VaultCertificate"></a>VaultCertificate</a></li>
-    <li><a href="#a-idvaultcertificate_statusavaultcertificate_status"><a id="VaultCertificate_STATUS"></a>VaultCertificate_STATUS</a></li>
-    <li><a href="#a-idvirtualharddiskavirtualharddisk"><a id="VirtualHardDisk"></a>VirtualHardDisk</a></li>
-    <li><a href="#a-idvirtualharddisk_statusavirtualharddisk_status"><a id="VirtualHardDisk_STATUS"></a>VirtualHardDisk_STATUS</a></li>
-    <li><a href="#a-idvirtualmachineextensionhandlerinstanceview_statusavirtualmachineextensionhandlerinstanceview_status"><a id="VirtualMachineExtensionHandlerInstanceView_STATUS"></a>VirtualMachineExtensionHandlerInstanceView_STATUS</a></li>
-    <li><a href="#a-idvirtualmachinescalesetdatadiskavirtualmachinescalesetdatadisk"><a id="VirtualMachineScaleSetDataDisk"></a>VirtualMachineScaleSetDataDisk</a></li>
-    <li><a href="#a-idvirtualmachinescalesetdatadisk_statusavirtualmachinescalesetdatadisk_status"><a id="VirtualMachineScaleSetDataDisk_STATUS"></a>VirtualMachineScaleSetDataDisk_STATUS</a></li>
-    <li><a href="#a-idvirtualmachinescalesetextensionavirtualmachinescalesetextension"><a id="VirtualMachineScaleSetExtension"></a>VirtualMachineScaleSetExtension</a></li>
-    <li><a href="#a-idvirtualmachinescalesetextension_statusavirtualmachinescalesetextension_status"><a id="VirtualMachineScaleSetExtension_STATUS"></a>VirtualMachineScaleSetExtension_STATUS</a></li>
-    <li><a href="#a-idvirtualmachinescalesetnetworkconfigurationavirtualmachinescalesetnetworkconfiguration"><a id="VirtualMachineScaleSetNetworkConfiguration"></a>VirtualMachineScaleSetNetworkConfiguration</a></li>
-    <li><a href="#a-idvirtualmachinescalesetnetworkconfiguration_statusavirtualmachinescalesetnetworkconfiguration_status"><a id="VirtualMachineScaleSetNetworkConfiguration_STATUS"></a>VirtualMachineScaleSetNetworkConfiguration_STATUS</a></li>
-    <li><a href="#a-idvirtualmachinescalesetosdiskavirtualmachinescalesetosdisk"><a id="VirtualMachineScaleSetOSDisk"></a>VirtualMachineScaleSetOSDisk</a></li>
-    <li><a href="#a-idvirtualmachinescalesetosdisk_statusavirtualmachinescalesetosdisk_status"><a id="VirtualMachineScaleSetOSDisk_STATUS"></a>VirtualMachineScaleSetOSDisk_STATUS</a></li>
-    <li><a href="#a-idwinrmconfigurationawinrmconfiguration"><a id="WinRMConfiguration"></a>WinRMConfiguration</a></li>
-    <li><a href="#a-idwinrmconfiguration_statusawinrmconfiguration_status"><a id="WinRMConfiguration_STATUS"></a>WinRMConfiguration_STATUS</a></li>
-    <li><a href="#a-idadditionalunattendcontent_componentnameaadditionalunattendcontent_componentname"><a id="AdditionalUnattendContent_ComponentName"></a>AdditionalUnattendContent_ComponentName</a></li>
-    <li><a href="#a-idadditionalunattendcontent_componentname_statusaadditionalunattendcontent_componentname_status"><a id="AdditionalUnattendContent_ComponentName_STATUS"></a>AdditionalUnattendContent_ComponentName_STATUS</a></li>
-    <li><a href="#a-idadditionalunattendcontent_passnameaadditionalunattendcontent_passname"><a id="AdditionalUnattendContent_PassName"></a>AdditionalUnattendContent_PassName</a></li>
-    <li><a href="#a-idadditionalunattendcontent_passname_statusaadditionalunattendcontent_passname_status"><a id="AdditionalUnattendContent_PassName_STATUS"></a>AdditionalUnattendContent_PassName_STATUS</a></li>
-    <li><a href="#a-idadditionalunattendcontent_settingnameaadditionalunattendcontent_settingname"><a id="AdditionalUnattendContent_SettingName"></a>AdditionalUnattendContent_SettingName</a></li>
-    <li><a href="#a-idadditionalunattendcontent_settingname_statusaadditionalunattendcontent_settingname_status"><a id="AdditionalUnattendContent_SettingName_STATUS"></a>AdditionalUnattendContent_SettingName_STATUS</a></li>
-    <li><a href="#a-idapierror_statusaapierror_status"><a id="ApiError_STATUS"></a>ApiError_STATUS</a></li>
-    <li><a href="#a-idavailablepatchsummary_status_statusaavailablepatchsummary_status_status"><a id="AvailablePatchSummary_Status_STATUS"></a>AvailablePatchSummary_Status_STATUS</a></li>
-    <li><a href="#a-iddiffdiskoptionadiffdiskoption"><a id="DiffDiskOption"></a>DiffDiskOption</a></li>
-    <li><a href="#a-iddiffdiskoption_statusadiffdiskoption_status"><a id="DiffDiskOption_STATUS"></a>DiffDiskOption_STATUS</a></li>
-    <li><a href="#a-iddiffdiskplacementadiffdiskplacement"><a id="DiffDiskPlacement"></a>DiffDiskPlacement</a></li>
-    <li><a href="#a-iddiffdiskplacement_statusadiffdiskplacement_status"><a id="DiffDiskPlacement_STATUS"></a>DiffDiskPlacement_STATUS</a></li>
-    <li><a href="#a-idkeyvaultkeyreferenceakeyvaultkeyreference"><a id="KeyVaultKeyReference"></a>KeyVaultKeyReference</a></li>
-    <li><a href="#a-idkeyvaultkeyreference_statusakeyvaultkeyreference_status"><a id="KeyVaultKeyReference_STATUS"></a>KeyVaultKeyReference_STATUS</a></li>
-    <li><a href="#a-idkeyvaultsecretreferenceakeyvaultsecretreference"><a id="KeyVaultSecretReference"></a>KeyVaultSecretReference</a></li>
-    <li><a href="#a-idkeyvaultsecretreference_statusakeyvaultsecretreference_status"><a id="KeyVaultSecretReference_STATUS"></a>KeyVaultSecretReference_STATUS</a></li>
-    <li><a href="#a-idlastpatchinstallationsummary_status_statusalastpatchinstallationsummary_status_status"><a id="LastPatchInstallationSummary_Status_STATUS"></a>LastPatchInstallationSummary_Status_STATUS</a></li>
-    <li><a href="#a-idlinuxpatchsettings_patchmodealinuxpatchsettings_patchmode"><a id="LinuxPatchSettings_PatchMode"></a>LinuxPatchSettings_PatchMode</a></li>
-    <li><a href="#a-idlinuxpatchsettings_patchmode_statusalinuxpatchsettings_patchmode_status"><a id="LinuxPatchSettings_PatchMode_STATUS"></a>LinuxPatchSettings_PatchMode_STATUS</a></li>
-    <li><a href="#a-idpatchsettings_patchmodeapatchsettings_patchmode"><a id="PatchSettings_PatchMode"></a>PatchSettings_PatchMode</a></li>
-    <li><a href="#a-idpatchsettings_patchmode_statusapatchsettings_patchmode_status"><a id="PatchSettings_PatchMode_STATUS"></a>PatchSettings_PatchMode_STATUS</a></li>
-    <li><a href="#a-idsshpublickey_statusasshpublickey_status"><a id="SshPublicKey_STATUS"></a>SshPublicKey_STATUS</a></li>
-    <li><a href="#a-idsshpublickeyspecasshpublickeyspec"><a id="SshPublicKeySpec"></a>SshPublicKeySpec</a></li>
-    <li><a href="#a-idstorageaccounttypeastorageaccounttype"><a id="StorageAccountType"></a>StorageAccountType</a></li>
-    <li><a href="#a-idstorageaccounttype_statusastorageaccounttype_status"><a id="StorageAccountType_STATUS"></a>StorageAccountType_STATUS</a></li>
-    <li><a href="#a-idvirtualmachinescalesetipconfigurationavirtualmachinescalesetipconfiguration"><a id="VirtualMachineScaleSetIPConfiguration"></a>VirtualMachineScaleSetIPConfiguration</a></li>
-    <li><a href="#a-idvirtualmachinescalesetipconfiguration_statusavirtualmachinescalesetipconfiguration_status"><a id="VirtualMachineScaleSetIPConfiguration_STATUS"></a>VirtualMachineScaleSetIPConfiguration_STATUS</a></li>
-    <li><a href="#a-idvirtualmachinescalesetmanageddiskparametersavirtualmachinescalesetmanageddiskparameters"><a id="VirtualMachineScaleSetManagedDiskParameters"></a>VirtualMachineScaleSetManagedDiskParameters</a></li>
-    <li><a href="#a-idvirtualmachinescalesetmanageddiskparameters_statusavirtualmachinescalesetmanageddiskparameters_status"><a id="VirtualMachineScaleSetManagedDiskParameters_STATUS"></a>VirtualMachineScaleSetManagedDiskParameters_STATUS</a></li>
-    <li><a href="#a-idvirtualmachinescalesetnetworkconfigurationdnssettingsavirtualmachinescalesetnetworkconfigurationdnssettings"><a id="VirtualMachineScaleSetNetworkConfigurationDnsSettings"></a>VirtualMachineScaleSetNetworkConfigurationDnsSettings</a></li>
-    <li><a href="#a-idvirtualmachinescalesetnetworkconfigurationdnssettings_statusavirtualmachinescalesetnetworkconfigurationdnssettings_status"><a id="VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS"></a>VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS</a></li>
-    <li><a href="#a-idvirtualmachinescalesetosdisk_ostypeavirtualmachinescalesetosdisk_ostype"><a id="VirtualMachineScaleSetOSDisk_OsType"></a>VirtualMachineScaleSetOSDisk_OsType</a></li>
-    <li><a href="#a-idvirtualmachinescalesetosdisk_ostype_statusavirtualmachinescalesetosdisk_ostype_status"><a id="VirtualMachineScaleSetOSDisk_OsType_STATUS"></a>VirtualMachineScaleSetOSDisk_OsType_STATUS</a></li>
-    <li><a href="#a-idwinrmlistenerawinrmlistener"><a id="WinRMListener"></a>WinRMListener</a></li>
-    <li><a href="#a-idwinrmlistener_statusawinrmlistener_status"><a id="WinRMListener_STATUS"></a>WinRMListener_STATUS</a></li>
-    <li><a href="#a-idapierrorbase_statusaapierrorbase_status"><a id="ApiErrorBase_STATUS"></a>ApiErrorBase_STATUS</a></li>
-    <li><a href="#a-idinnererror_statusainnererror_status"><a id="InnerError_STATUS"></a>InnerError_STATUS</a></li>
-    <li><a href="#a-idvirtualmachinescalesetipconfigurationproperties_privateipaddressversionavirtualmachinescalesetipconfigurationproperties_privateipaddressversion"><a id="VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion"></a>VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion</a></li>
-    <li><a href="#a-idvirtualmachinescalesetipconfigurationproperties_privateipaddressversion_statusavirtualmachinescalesetipconfigurationproperties_privateipaddressversion_status"><a id="VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_STATUS"></a>VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_STATUS</a></li>
-    <li><a href="#a-idvirtualmachinescalesetpublicipaddressconfigurationavirtualmachinescalesetpublicipaddressconfiguration"><a id="VirtualMachineScaleSetPublicIPAddressConfiguration"></a>VirtualMachineScaleSetPublicIPAddressConfiguration</a></li>
-    <li><a href="#a-idvirtualmachinescalesetpublicipaddressconfiguration_statusavirtualmachinescalesetpublicipaddressconfiguration_status"><a id="VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS"></a>VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS</a></li>
-    <li><a href="#a-idwinrmlistener_protocolawinrmlistener_protocol"><a id="WinRMListener_Protocol"></a>WinRMListener_Protocol</a></li>
-    <li><a href="#a-idwinrmlistener_protocol_statusawinrmlistener_protocol_status"><a id="WinRMListener_Protocol_STATUS"></a>WinRMListener_Protocol_STATUS</a></li>
-    <li><a href="#a-idvirtualmachinescalesetiptagavirtualmachinescalesetiptag"><a id="VirtualMachineScaleSetIpTag"></a>VirtualMachineScaleSetIpTag</a></li>
-    <li><a href="#a-idvirtualmachinescalesetiptag_statusavirtualmachinescalesetiptag_status"><a id="VirtualMachineScaleSetIpTag_STATUS"></a>VirtualMachineScaleSetIpTag_STATUS</a></li>
-    <li><a href="#a-idvirtualmachinescalesetpublicipaddressconfigurationdnssettingsavirtualmachinescalesetpublicipaddressconfigurationdnssettings"><a id="VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings"></a>VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings</a></li>
-    <li><a href="#a-idvirtualmachinescalesetpublicipaddressconfigurationdnssettings_statusavirtualmachinescalesetpublicipaddressconfigurationdnssettings_status"><a id="VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS"></a>VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS</a></li>
-    <li><a href="#a-idvirtualmachinescalesetpublicipaddressconfigurationproperties_publicipaddressversionavirtualmachinescalesetpublicipaddressconfigurationproperties_publicipaddressversion"><a id="VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion"></a>VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion</a></li>
-    <li><a href="#a-idvirtualmachinescalesetpublicipaddressconfigurationproperties_publicipaddressversion_statusavirtualmachinescalesetpublicipaddressconfigurationproperties_publicipaddressversion_status"><a id="VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS"></a>VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS</a></li>
+    <li><a href="#VirtualMachinesExtensionList">VirtualMachinesExtensionList</a></li>
+    <li><a href="#VirtualMachine_Spec">VirtualMachine_Spec</a></li>
+    <li><a href="#VirtualMachine_STATUS">VirtualMachine_STATUS</a></li>
+    <li><a href="#VirtualMachineScaleSet_Spec">VirtualMachineScaleSet_Spec</a></li>
+    <li><a href="#VirtualMachineScaleSet_STATUS">VirtualMachineScaleSet_STATUS</a></li>
+    <li><a href="#VirtualMachineScaleSetsExtension_Spec">VirtualMachineScaleSetsExtension_Spec</a></li>
+    <li><a href="#VirtualMachineScaleSetsExtension_STATUS">VirtualMachineScaleSetsExtension_STATUS</a></li>
+    <li><a href="#VirtualMachinesExtension_Spec">VirtualMachinesExtension_Spec</a></li>
+    <li><a href="#VirtualMachinesExtension_STATUS">VirtualMachinesExtension_STATUS</a></li>
+    <li><a href="#AdditionalCapabilities">AdditionalCapabilities</a></li>
+    <li><a href="#AdditionalCapabilities_STATUS">AdditionalCapabilities_STATUS</a></li>
+    <li><a href="#AutomaticRepairsPolicy">AutomaticRepairsPolicy</a></li>
+    <li><a href="#AutomaticRepairsPolicy_STATUS">AutomaticRepairsPolicy_STATUS</a></li>
+    <li><a href="#BillingProfile">BillingProfile</a></li>
+    <li><a href="#BillingProfile_STATUS">BillingProfile_STATUS</a></li>
+    <li><a href="#DiagnosticsProfile">DiagnosticsProfile</a></li>
+    <li><a href="#DiagnosticsProfile_STATUS">DiagnosticsProfile_STATUS</a></li>
+    <li><a href="#EvictionPolicy">EvictionPolicy</a></li>
+    <li><a href="#EvictionPolicy_STATUS">EvictionPolicy_STATUS</a></li>
+    <li><a href="#ExtendedLocation">ExtendedLocation</a></li>
+    <li><a href="#ExtendedLocation_STATUS">ExtendedLocation_STATUS</a></li>
+    <li><a href="#HardwareProfile">HardwareProfile</a></li>
+    <li><a href="#HardwareProfile_STATUS">HardwareProfile_STATUS</a></li>
+    <li><a href="#NetworkProfile">NetworkProfile</a></li>
+    <li><a href="#NetworkProfile_STATUS">NetworkProfile_STATUS</a></li>
+    <li><a href="#OrchestrationMode">OrchestrationMode</a></li>
+    <li><a href="#OrchestrationMode_STATUS">OrchestrationMode_STATUS</a></li>
+    <li><a href="#OSProfile">OSProfile</a></li>
+    <li><a href="#OSProfile_STATUS">OSProfile_STATUS</a></li>
+    <li><a href="#Plan">Plan</a></li>
+    <li><a href="#Plan_STATUS">Plan_STATUS</a></li>
+    <li><a href="#Priority">Priority</a></li>
+    <li><a href="#Priority_STATUS">Priority_STATUS</a></li>
+    <li><a href="#ScaleInPolicy">ScaleInPolicy</a></li>
+    <li><a href="#ScaleInPolicy_STATUS">ScaleInPolicy_STATUS</a></li>
+    <li><a href="#SecurityProfile">SecurityProfile</a></li>
+    <li><a href="#SecurityProfile_STATUS">SecurityProfile_STATUS</a></li>
+    <li><a href="#Sku">Sku</a></li>
+    <li><a href="#Sku_STATUS">Sku_STATUS</a></li>
+    <li><a href="#StorageProfile">StorageProfile</a></li>
+    <li><a href="#StorageProfile_STATUS">StorageProfile_STATUS</a></li>
+    <li><a href="#SubResource">SubResource</a></li>
+    <li><a href="#SubResource_STATUS">SubResource_STATUS</a></li>
+    <li><a href="#UpgradePolicy">UpgradePolicy</a></li>
+    <li><a href="#UpgradePolicy_STATUS">UpgradePolicy_STATUS</a></li>
+    <li><a href="#VirtualMachineExtension_STATUS">VirtualMachineExtension_STATUS</a></li>
+    <li><a href="#VirtualMachineExtensionInstanceView">VirtualMachineExtensionInstanceView</a></li>
+    <li><a href="#VirtualMachineExtensionInstanceView_STATUS">VirtualMachineExtensionInstanceView_STATUS</a></li>
+    <li><a href="#VirtualMachineIdentity">VirtualMachineIdentity</a></li>
+    <li><a href="#VirtualMachineIdentity_STATUS">VirtualMachineIdentity_STATUS</a></li>
+    <li><a href="#VirtualMachineInstanceView_STATUS">VirtualMachineInstanceView_STATUS</a></li>
+    <li><a href="#VirtualMachineOperatorSpec">VirtualMachineOperatorSpec</a></li>
+    <li><a href="#VirtualMachineScaleSetIdentity">VirtualMachineScaleSetIdentity</a></li>
+    <li><a href="#VirtualMachineScaleSetIdentity_STATUS">VirtualMachineScaleSetIdentity_STATUS</a></li>
+    <li><a href="#VirtualMachineScaleSetOperatorSpec">VirtualMachineScaleSetOperatorSpec</a></li>
+    <li><a href="#VirtualMachineScaleSetsExtensionOperatorSpec">VirtualMachineScaleSetsExtensionOperatorSpec</a></li>
+    <li><a href="#VirtualMachineScaleSetVMProfile">VirtualMachineScaleSetVMProfile</a></li>
+    <li><a href="#VirtualMachineScaleSetVMProfile_STATUS">VirtualMachineScaleSetVMProfile_STATUS</a></li>
+    <li><a href="#VirtualMachinesExtensionOperatorSpec">VirtualMachinesExtensionOperatorSpec</a></li>
+    <li><a href="#AutomaticOSUpgradePolicy">AutomaticOSUpgradePolicy</a></li>
+    <li><a href="#AutomaticOSUpgradePolicy_STATUS">AutomaticOSUpgradePolicy_STATUS</a></li>
+    <li><a href="#BootDiagnostics">BootDiagnostics</a></li>
+    <li><a href="#BootDiagnostics_STATUS">BootDiagnostics_STATUS</a></li>
+    <li><a href="#BootDiagnosticsInstanceView_STATUS">BootDiagnosticsInstanceView_STATUS</a></li>
+    <li><a href="#DataDisk">DataDisk</a></li>
+    <li><a href="#DataDisk_STATUS">DataDisk_STATUS</a></li>
+    <li><a href="#DiskInstanceView_STATUS">DiskInstanceView_STATUS</a></li>
+    <li><a href="#ExtendedLocationType">ExtendedLocationType</a></li>
+    <li><a href="#ExtendedLocationType_STATUS">ExtendedLocationType_STATUS</a></li>
+    <li><a href="#HardwareProfile_VmSize_STATUS">HardwareProfile_VmSize_STATUS</a></li>
+    <li><a href="#ImageReference">ImageReference</a></li>
+    <li><a href="#ImageReference_STATUS">ImageReference_STATUS</a></li>
+    <li><a href="#InstanceViewStatus">InstanceViewStatus</a></li>
+    <li><a href="#InstanceViewStatus_STATUS">InstanceViewStatus_STATUS</a></li>
+    <li><a href="#LinuxConfiguration">LinuxConfiguration</a></li>
+    <li><a href="#LinuxConfiguration_STATUS">LinuxConfiguration_STATUS</a></li>
+    <li><a href="#MaintenanceRedeployStatus_STATUS">MaintenanceRedeployStatus_STATUS</a></li>
+    <li><a href="#NetworkInterfaceReference">NetworkInterfaceReference</a></li>
+    <li><a href="#NetworkInterfaceReference_STATUS">NetworkInterfaceReference_STATUS</a></li>
+    <li><a href="#OSDisk">OSDisk</a></li>
+    <li><a href="#OSDisk_STATUS">OSDisk_STATUS</a></li>
+    <li><a href="#RollingUpgradePolicy">RollingUpgradePolicy</a></li>
+    <li><a href="#RollingUpgradePolicy_STATUS">RollingUpgradePolicy_STATUS</a></li>
+    <li><a href="#ScaleInPolicy_Rules">ScaleInPolicy_Rules</a></li>
+    <li><a href="#ScaleInPolicy_Rules_STATUS">ScaleInPolicy_Rules_STATUS</a></li>
+    <li><a href="#ScheduledEventsProfile">ScheduledEventsProfile</a></li>
+    <li><a href="#ScheduledEventsProfile_STATUS">ScheduledEventsProfile_STATUS</a></li>
+    <li><a href="#SecurityProfile_SecurityType">SecurityProfile_SecurityType</a></li>
+    <li><a href="#SecurityProfile_SecurityType_STATUS">SecurityProfile_SecurityType_STATUS</a></li>
+    <li><a href="#UefiSettings">UefiSettings</a></li>
+    <li><a href="#UefiSettings_STATUS">UefiSettings_STATUS</a></li>
+    <li><a href="#UpgradePolicy_Mode">UpgradePolicy_Mode</a></li>
+    <li><a href="#UpgradePolicy_Mode_STATUS">UpgradePolicy_Mode_STATUS</a></li>
+    <li><a href="#UserAssignedIdentityDetails">UserAssignedIdentityDetails</a></li>
+    <li><a href="#VaultSecretGroup">VaultSecretGroup</a></li>
+    <li><a href="#VaultSecretGroup_STATUS">VaultSecretGroup_STATUS</a></li>
+    <li><a href="#VirtualMachineAgentInstanceView_STATUS">VirtualMachineAgentInstanceView_STATUS</a></li>
+    <li><a href="#VirtualMachineHealthStatus_STATUS">VirtualMachineHealthStatus_STATUS</a></li>
+    <li><a href="#VirtualMachineIdentity_Type">VirtualMachineIdentity_Type</a></li>
+    <li><a href="#VirtualMachineIdentity_Type_STATUS">VirtualMachineIdentity_Type_STATUS</a></li>
+    <li><a href="#VirtualMachineIdentity_UserAssignedIdentities_STATUS">VirtualMachineIdentity_UserAssignedIdentities_STATUS</a></li>
+    <li><a href="#VirtualMachineInstanceView_HyperVGeneration_STATUS">VirtualMachineInstanceView_HyperVGeneration_STATUS</a></li>
+    <li><a href="#VirtualMachinePatchStatus_STATUS">VirtualMachinePatchStatus_STATUS</a></li>
+    <li><a href="#VirtualMachineScaleSetExtensionProfile">VirtualMachineScaleSetExtensionProfile</a></li>
+    <li><a href="#VirtualMachineScaleSetExtensionProfile_STATUS">VirtualMachineScaleSetExtensionProfile_STATUS</a></li>
+    <li><a href="#VirtualMachineScaleSetIdentity_Type">VirtualMachineScaleSetIdentity_Type</a></li>
+    <li><a href="#VirtualMachineScaleSetIdentity_Type_STATUS">VirtualMachineScaleSetIdentity_Type_STATUS</a></li>
+    <li><a href="#VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS">VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS</a></li>
+    <li><a href="#VirtualMachineScaleSetNetworkProfile">VirtualMachineScaleSetNetworkProfile</a></li>
+    <li><a href="#VirtualMachineScaleSetNetworkProfile_STATUS">VirtualMachineScaleSetNetworkProfile_STATUS</a></li>
+    <li><a href="#VirtualMachineScaleSetOSProfile">VirtualMachineScaleSetOSProfile</a></li>
+    <li><a href="#VirtualMachineScaleSetOSProfile_STATUS">VirtualMachineScaleSetOSProfile_STATUS</a></li>
+    <li><a href="#VirtualMachineScaleSetStorageProfile">VirtualMachineScaleSetStorageProfile</a></li>
+    <li><a href="#VirtualMachineScaleSetStorageProfile_STATUS">VirtualMachineScaleSetStorageProfile_STATUS</a></li>
+    <li><a href="#WindowsConfiguration">WindowsConfiguration</a></li>
+    <li><a href="#WindowsConfiguration_STATUS">WindowsConfiguration_STATUS</a></li>
+    <li><a href="#AdditionalUnattendContent">AdditionalUnattendContent</a></li>
+    <li><a href="#AdditionalUnattendContent_STATUS">AdditionalUnattendContent_STATUS</a></li>
+    <li><a href="#ApiEntityReference">ApiEntityReference</a></li>
+    <li><a href="#ApiEntityReference_STATUS">ApiEntityReference_STATUS</a></li>
+    <li><a href="#AvailablePatchSummary_STATUS">AvailablePatchSummary_STATUS</a></li>
+    <li><a href="#Caching">Caching</a></li>
+    <li><a href="#Caching_STATUS">Caching_STATUS</a></li>
+    <li><a href="#CreateOption">CreateOption</a></li>
+    <li><a href="#CreateOption_STATUS">CreateOption_STATUS</a></li>
+    <li><a href="#DetachOption">DetachOption</a></li>
+    <li><a href="#DetachOption_STATUS">DetachOption_STATUS</a></li>
+    <li><a href="#DiffDiskSettings">DiffDiskSettings</a></li>
+    <li><a href="#DiffDiskSettings_STATUS">DiffDiskSettings_STATUS</a></li>
+    <li><a href="#DiskEncryptionSettings">DiskEncryptionSettings</a></li>
+    <li><a href="#DiskEncryptionSettings_STATUS">DiskEncryptionSettings_STATUS</a></li>
+    <li><a href="#InstanceViewStatus_Level">InstanceViewStatus_Level</a></li>
+    <li><a href="#InstanceViewStatus_Level_STATUS">InstanceViewStatus_Level_STATUS</a></li>
+    <li><a href="#LastPatchInstallationSummary_STATUS">LastPatchInstallationSummary_STATUS</a></li>
+    <li><a href="#LinuxPatchSettings">LinuxPatchSettings</a></li>
+    <li><a href="#LinuxPatchSettings_STATUS">LinuxPatchSettings_STATUS</a></li>
+    <li><a href="#MaintenanceRedeployStatus_LastOperationResultCode_STATUS">MaintenanceRedeployStatus_LastOperationResultCode_STATUS</a></li>
+    <li><a href="#ManagedDiskParameters">ManagedDiskParameters</a></li>
+    <li><a href="#ManagedDiskParameters_STATUS">ManagedDiskParameters_STATUS</a></li>
+    <li><a href="#OSDisk_OsType">OSDisk_OsType</a></li>
+    <li><a href="#OSDisk_OsType_STATUS">OSDisk_OsType_STATUS</a></li>
+    <li><a href="#PatchSettings">PatchSettings</a></li>
+    <li><a href="#PatchSettings_STATUS">PatchSettings_STATUS</a></li>
+    <li><a href="#SshConfiguration">SshConfiguration</a></li>
+    <li><a href="#SshConfiguration_STATUS">SshConfiguration_STATUS</a></li>
+    <li><a href="#TerminateNotificationProfile">TerminateNotificationProfile</a></li>
+    <li><a href="#TerminateNotificationProfile_STATUS">TerminateNotificationProfile_STATUS</a></li>
+    <li><a href="#VaultCertificate">VaultCertificate</a></li>
+    <li><a href="#VaultCertificate_STATUS">VaultCertificate_STATUS</a></li>
+    <li><a href="#VirtualHardDisk">VirtualHardDisk</a></li>
+    <li><a href="#VirtualHardDisk_STATUS">VirtualHardDisk_STATUS</a></li>
+    <li><a href="#VirtualMachineExtensionHandlerInstanceView_STATUS">VirtualMachineExtensionHandlerInstanceView_STATUS</a></li>
+    <li><a href="#VirtualMachineScaleSetDataDisk">VirtualMachineScaleSetDataDisk</a></li>
+    <li><a href="#VirtualMachineScaleSetDataDisk_STATUS">VirtualMachineScaleSetDataDisk_STATUS</a></li>
+    <li><a href="#VirtualMachineScaleSetExtension">VirtualMachineScaleSetExtension</a></li>
+    <li><a href="#VirtualMachineScaleSetExtension_STATUS">VirtualMachineScaleSetExtension_STATUS</a></li>
+    <li><a href="#VirtualMachineScaleSetNetworkConfiguration">VirtualMachineScaleSetNetworkConfiguration</a></li>
+    <li><a href="#VirtualMachineScaleSetNetworkConfiguration_STATUS">VirtualMachineScaleSetNetworkConfiguration_STATUS</a></li>
+    <li><a href="#VirtualMachineScaleSetOSDisk">VirtualMachineScaleSetOSDisk</a></li>
+    <li><a href="#VirtualMachineScaleSetOSDisk_STATUS">VirtualMachineScaleSetOSDisk_STATUS</a></li>
+    <li><a href="#WinRMConfiguration">WinRMConfiguration</a></li>
+    <li><a href="#WinRMConfiguration_STATUS">WinRMConfiguration_STATUS</a></li>
+    <li><a href="#AdditionalUnattendContent_ComponentName">AdditionalUnattendContent_ComponentName</a></li>
+    <li><a href="#AdditionalUnattendContent_ComponentName_STATUS">AdditionalUnattendContent_ComponentName_STATUS</a></li>
+    <li><a href="#AdditionalUnattendContent_PassName">AdditionalUnattendContent_PassName</a></li>
+    <li><a href="#AdditionalUnattendContent_PassName_STATUS">AdditionalUnattendContent_PassName_STATUS</a></li>
+    <li><a href="#AdditionalUnattendContent_SettingName">AdditionalUnattendContent_SettingName</a></li>
+    <li><a href="#AdditionalUnattendContent_SettingName_STATUS">AdditionalUnattendContent_SettingName_STATUS</a></li>
+    <li><a href="#ApiError_STATUS">ApiError_STATUS</a></li>
+    <li><a href="#AvailablePatchSummary_Status_STATUS">AvailablePatchSummary_Status_STATUS</a></li>
+    <li><a href="#DiffDiskOption">DiffDiskOption</a></li>
+    <li><a href="#DiffDiskOption_STATUS">DiffDiskOption_STATUS</a></li>
+    <li><a href="#DiffDiskPlacement">DiffDiskPlacement</a></li>
+    <li><a href="#DiffDiskPlacement_STATUS">DiffDiskPlacement_STATUS</a></li>
+    <li><a href="#KeyVaultKeyReference">KeyVaultKeyReference</a></li>
+    <li><a href="#KeyVaultKeyReference_STATUS">KeyVaultKeyReference_STATUS</a></li>
+    <li><a href="#KeyVaultSecretReference">KeyVaultSecretReference</a></li>
+    <li><a href="#KeyVaultSecretReference_STATUS">KeyVaultSecretReference_STATUS</a></li>
+    <li><a href="#LastPatchInstallationSummary_Status_STATUS">LastPatchInstallationSummary_Status_STATUS</a></li>
+    <li><a href="#LinuxPatchSettings_PatchMode">LinuxPatchSettings_PatchMode</a></li>
+    <li><a href="#LinuxPatchSettings_PatchMode_STATUS">LinuxPatchSettings_PatchMode_STATUS</a></li>
+    <li><a href="#PatchSettings_PatchMode">PatchSettings_PatchMode</a></li>
+    <li><a href="#PatchSettings_PatchMode_STATUS">PatchSettings_PatchMode_STATUS</a></li>
+    <li><a href="#SshPublicKey_STATUS">SshPublicKey_STATUS</a></li>
+    <li><a href="#SshPublicKeySpec">SshPublicKeySpec</a></li>
+    <li><a href="#StorageAccountType">StorageAccountType</a></li>
+    <li><a href="#StorageAccountType_STATUS">StorageAccountType_STATUS</a></li>
+    <li><a href="#VirtualMachineScaleSetIPConfiguration">VirtualMachineScaleSetIPConfiguration</a></li>
+    <li><a href="#VirtualMachineScaleSetIPConfiguration_STATUS">VirtualMachineScaleSetIPConfiguration_STATUS</a></li>
+    <li><a href="#VirtualMachineScaleSetManagedDiskParameters">VirtualMachineScaleSetManagedDiskParameters</a></li>
+    <li><a href="#VirtualMachineScaleSetManagedDiskParameters_STATUS">VirtualMachineScaleSetManagedDiskParameters_STATUS</a></li>
+    <li><a href="#VirtualMachineScaleSetNetworkConfigurationDnsSettings">VirtualMachineScaleSetNetworkConfigurationDnsSettings</a></li>
+    <li><a href="#VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS">VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS</a></li>
+    <li><a href="#VirtualMachineScaleSetOSDisk_OsType">VirtualMachineScaleSetOSDisk_OsType</a></li>
+    <li><a href="#VirtualMachineScaleSetOSDisk_OsType_STATUS">VirtualMachineScaleSetOSDisk_OsType_STATUS</a></li>
+    <li><a href="#WinRMListener">WinRMListener</a></li>
+    <li><a href="#WinRMListener_STATUS">WinRMListener_STATUS</a></li>
+    <li><a href="#ApiErrorBase_STATUS">ApiErrorBase_STATUS</a></li>
+    <li><a href="#InnerError_STATUS">InnerError_STATUS</a></li>
+    <li><a href="#VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion">VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion</a></li>
+    <li><a href="#VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_STATUS">VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_STATUS</a></li>
+    <li><a href="#VirtualMachineScaleSetPublicIPAddressConfiguration">VirtualMachineScaleSetPublicIPAddressConfiguration</a></li>
+    <li><a href="#VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS">VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS</a></li>
+    <li><a href="#WinRMListener_Protocol">WinRMListener_Protocol</a></li>
+    <li><a href="#WinRMListener_Protocol_STATUS">WinRMListener_Protocol_STATUS</a></li>
+    <li><a href="#VirtualMachineScaleSetIpTag">VirtualMachineScaleSetIpTag</a></li>
+    <li><a href="#VirtualMachineScaleSetIpTag_STATUS">VirtualMachineScaleSetIpTag_STATUS</a></li>
+    <li><a href="#VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings">VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings</a></li>
+    <li><a href="#VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS">VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS</a></li>
+    <li><a href="#VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion">VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion</a></li>
+    <li><a href="#VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS">VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS</a></li>
   </ul>
 </nav>
       </div>
@@ -1042,7 +1042,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
 		
 </header>
 	<hr>
-<h2 id="a-idapiversionaapiversion"><a id="APIVersion"></a>APIVersion</h2>
+<h2 id="APIVersion">APIVersion</h2>
 <table>
   <thead>
       <tr>
@@ -1057,7 +1057,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachineavirtualmachine"><a id="VirtualMachine"></a>VirtualMachine</h2>
+<h2 id="VirtualMachine">VirtualMachine</h2>
 <p>Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2020-12-01/compute.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/virtualMachines/{vmName}</p>
 <p>Used by: <a href="#VirtualMachineList">VirtualMachineList</a>.</p>
 <table>
@@ -1091,7 +1091,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h3 id="a-idvirtualmachine_specavirtualmachine_spec"><a id="VirtualMachine_Spec"></a>VirtualMachine_Spec</h3>
+<h3 id="VirtualMachine_Spec">VirtualMachine_Spec</h3>
 <table>
   <thead>
       <tr>
@@ -1238,7 +1238,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h3 id="a-idvirtualmachine_statusavirtualmachine_status"><a id="VirtualMachine_STATUS"></a>VirtualMachine_STATUS</h3>
+<h3 id="VirtualMachine_STATUS">VirtualMachine_STATUS</h3>
 <table>
   <thead>
       <tr>
@@ -1410,7 +1410,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinelistavirtualmachinelist"><a id="VirtualMachineList"></a>VirtualMachineList</h2>
+<h2 id="VirtualMachineList">VirtualMachineList</h2>
 <p>Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2020-12-01/compute.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/virtualMachines/{vmName}</p>
 <table>
   <thead>
@@ -1438,7 +1438,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinescalesetavirtualmachinescaleset"><a id="VirtualMachineScaleSet"></a>VirtualMachineScaleSet</h2>
+<h2 id="VirtualMachineScaleSet">VirtualMachineScaleSet</h2>
 <p>Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2020-12-01/compute.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}</p>
 <p>Used by: <a href="#VirtualMachineScaleSetList">VirtualMachineScaleSetList</a>.</p>
 <table>
@@ -1472,7 +1472,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h3 id="a-idvirtualmachinescaleset_specavirtualmachinescaleset_spec"><a id="VirtualMachineScaleSet_Spec"></a>VirtualMachineScaleSet_Spec</h3>
+<h3 id="VirtualMachineScaleSet_Spec">VirtualMachineScaleSet_Spec</h3>
 <table>
   <thead>
       <tr>
@@ -1599,7 +1599,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h3 id="a-idvirtualmachinescaleset_statusavirtualmachinescaleset_status"><a id="VirtualMachineScaleSet_STATUS"></a>VirtualMachineScaleSet_STATUS</h3>
+<h3 id="VirtualMachineScaleSet_STATUS">VirtualMachineScaleSet_STATUS</h3>
 <table>
   <thead>
       <tr>
@@ -1741,7 +1741,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinescalesetlistavirtualmachinescalesetlist"><a id="VirtualMachineScaleSetList"></a>VirtualMachineScaleSetList</h2>
+<h2 id="VirtualMachineScaleSetList">VirtualMachineScaleSetList</h2>
 <p>Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2020-12-01/compute.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}</p>
 <table>
   <thead>
@@ -1769,7 +1769,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinescalesetsextensionavirtualmachinescalesetsextension"><a id="VirtualMachineScaleSetsExtension"></a>VirtualMachineScaleSetsExtension</h2>
+<h2 id="VirtualMachineScaleSetsExtension">VirtualMachineScaleSetsExtension</h2>
 <p>Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2020-12-01/compute.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/extensions/{vmssExtensionName}</p>
 <p>Used by: <a href="#VirtualMachineScaleSetsExtensionList">VirtualMachineScaleSetsExtensionList</a>.</p>
 <table>
@@ -1803,7 +1803,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h3 id="a-idvirtualmachinescalesetsextension_specavirtualmachinescalesetsextension_spec"><a id="VirtualMachineScaleSetsExtension_Spec"></a>VirtualMachineScaleSetsExtension_Spec</h3>
+<h3 id="VirtualMachineScaleSetsExtension_Spec">VirtualMachineScaleSetsExtension_Spec</h3>
 <table>
   <thead>
       <tr>
@@ -1875,7 +1875,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h3 id="a-idvirtualmachinescalesetsextension_statusavirtualmachinescalesetsextension_status"><a id="VirtualMachineScaleSetsExtension_STATUS"></a>VirtualMachineScaleSetsExtension_STATUS</h3>
+<h3 id="VirtualMachineScaleSetsExtension_STATUS">VirtualMachineScaleSetsExtension_STATUS</h3>
 <table>
   <thead>
       <tr>
@@ -1952,7 +1952,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinescalesetsextensionlistavirtualmachinescalesetsextensionlist"><a id="VirtualMachineScaleSetsExtensionList"></a>VirtualMachineScaleSetsExtensionList</h2>
+<h2 id="VirtualMachineScaleSetsExtensionList">VirtualMachineScaleSetsExtensionList</h2>
 <p>Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2020-12-01/compute.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/extensions/{vmssExtensionName}</p>
 <table>
   <thead>
@@ -1980,7 +1980,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinesextensionavirtualmachinesextension"><a id="VirtualMachinesExtension"></a>VirtualMachinesExtension</h2>
+<h2 id="VirtualMachinesExtension">VirtualMachinesExtension</h2>
 <p>Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2020-12-01/compute.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/virtualMachines/{vmName}/extensions/{vmExtensionName}</p>
 <p>Used by: <a href="#VirtualMachinesExtensionList">VirtualMachinesExtensionList</a>.</p>
 <table>
@@ -2014,7 +2014,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h3 id="a-idvirtualmachinesextension_specavirtualmachinesextension_spec"><a id="VirtualMachinesExtension_Spec"></a>VirtualMachinesExtension_Spec</h3>
+<h3 id="VirtualMachinesExtension_Spec">VirtualMachinesExtension_Spec</h3>
 <table>
   <thead>
       <tr>
@@ -2096,7 +2096,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h3 id="a-idvirtualmachinesextension_statusavirtualmachinesextension_status"><a id="VirtualMachinesExtension_STATUS"></a>VirtualMachinesExtension_STATUS</h3>
+<h3 id="VirtualMachinesExtension_STATUS">VirtualMachinesExtension_STATUS</h3>
 <table>
   <thead>
       <tr>
@@ -2183,7 +2183,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinesextensionlistavirtualmachinesextensionlist"><a id="VirtualMachinesExtensionList"></a>VirtualMachinesExtensionList</h2>
+<h2 id="VirtualMachinesExtensionList">VirtualMachinesExtensionList</h2>
 <p>Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2020-12-01/compute.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/virtualMachines/{vmName}/extensions/{vmExtensionName}</p>
 <table>
   <thead>
@@ -2211,7 +2211,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachine_specavirtualmachine_spec-1"><a id="VirtualMachine_Spec"></a>VirtualMachine_Spec</h2>
+<h2 id="VirtualMachine_Spec">VirtualMachine_Spec</h2>
 <p>Used by: <a href="#VirtualMachine">VirtualMachine</a>.</p>
 <table>
   <thead>
@@ -2359,7 +2359,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachine_statusavirtualmachine_status-1"><a id="VirtualMachine_STATUS"></a>VirtualMachine_STATUS</h2>
+<h2 id="VirtualMachine_STATUS">VirtualMachine_STATUS</h2>
 <p>Describes a Virtual Machine.</p>
 <p>Used by: <a href="#VirtualMachine">VirtualMachine</a>.</p>
 <table>
@@ -2533,7 +2533,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinescaleset_specavirtualmachinescaleset_spec-1"><a id="VirtualMachineScaleSet_Spec"></a>VirtualMachineScaleSet_Spec</h2>
+<h2 id="VirtualMachineScaleSet_Spec">VirtualMachineScaleSet_Spec</h2>
 <p>Used by: <a href="#VirtualMachineScaleSet">VirtualMachineScaleSet</a>.</p>
 <table>
   <thead>
@@ -2661,7 +2661,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinescaleset_statusavirtualmachinescaleset_status-1"><a id="VirtualMachineScaleSet_STATUS"></a>VirtualMachineScaleSet_STATUS</h2>
+<h2 id="VirtualMachineScaleSet_STATUS">VirtualMachineScaleSet_STATUS</h2>
 <p>Describes a Virtual Machine Scale Set.</p>
 <p>Used by: <a href="#VirtualMachineScaleSet">VirtualMachineScaleSet</a>.</p>
 <table>
@@ -2805,7 +2805,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinescalesetsextension_specavirtualmachinescalesetsextension_spec-1"><a id="VirtualMachineScaleSetsExtension_Spec"></a>VirtualMachineScaleSetsExtension_Spec</h2>
+<h2 id="VirtualMachineScaleSetsExtension_Spec">VirtualMachineScaleSetsExtension_Spec</h2>
 <p>Used by: <a href="#VirtualMachineScaleSetsExtension">VirtualMachineScaleSetsExtension</a>.</p>
 <table>
   <thead>
@@ -2878,7 +2878,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinescalesetsextension_statusavirtualmachinescalesetsextension_status-1"><a id="VirtualMachineScaleSetsExtension_STATUS"></a>VirtualMachineScaleSetsExtension_STATUS</h2>
+<h2 id="VirtualMachineScaleSetsExtension_STATUS">VirtualMachineScaleSetsExtension_STATUS</h2>
 <p>Used by: <a href="#VirtualMachineScaleSetsExtension">VirtualMachineScaleSetsExtension</a>.</p>
 <table>
   <thead>
@@ -2956,7 +2956,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinesextension_specavirtualmachinesextension_spec-1"><a id="VirtualMachinesExtension_Spec"></a>VirtualMachinesExtension_Spec</h2>
+<h2 id="VirtualMachinesExtension_Spec">VirtualMachinesExtension_Spec</h2>
 <p>Used by: <a href="#VirtualMachinesExtension">VirtualMachinesExtension</a>.</p>
 <table>
   <thead>
@@ -3039,7 +3039,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinesextension_statusavirtualmachinesextension_status-1"><a id="VirtualMachinesExtension_STATUS"></a>VirtualMachinesExtension_STATUS</h2>
+<h2 id="VirtualMachinesExtension_STATUS">VirtualMachinesExtension_STATUS</h2>
 <p>Used by: <a href="#VirtualMachinesExtension">VirtualMachinesExtension</a>.</p>
 <table>
   <thead>
@@ -3127,7 +3127,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idadditionalcapabilitiesaadditionalcapabilities"><a id="AdditionalCapabilities"></a>AdditionalCapabilities</h2>
+<h2 id="AdditionalCapabilities">AdditionalCapabilities</h2>
 <p>Enables or disables a capability on the virtual machine or virtual machine scale set.</p>
 <p>Used by: <a href="#VirtualMachine_Spec">VirtualMachine_Spec</a>, and <a href="#VirtualMachineScaleSet_Spec">VirtualMachineScaleSet_Spec</a>.</p>
 <table>
@@ -3146,7 +3146,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idadditionalcapabilities_statusaadditionalcapabilities_status"><a id="AdditionalCapabilities_STATUS"></a>AdditionalCapabilities_STATUS</h2>
+<h2 id="AdditionalCapabilities_STATUS">AdditionalCapabilities_STATUS</h2>
 <p>Enables or disables a capability on the virtual machine or virtual machine scale set.</p>
 <p>Used by: <a href="#VirtualMachine_STATUS">VirtualMachine_STATUS</a>, and <a href="#VirtualMachineScaleSet_STATUS">VirtualMachineScaleSet_STATUS</a>.</p>
 <table>
@@ -3165,7 +3165,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idautomaticrepairspolicyaautomaticrepairspolicy"><a id="AutomaticRepairsPolicy"></a>AutomaticRepairsPolicy</h2>
+<h2 id="AutomaticRepairsPolicy">AutomaticRepairsPolicy</h2>
 <p>Specifies the configuration parameters for automatic repairs on the virtual machine scale set.</p>
 <p>Used by: <a href="#VirtualMachineScaleSet_Spec">VirtualMachineScaleSet_Spec</a>.</p>
 <table>
@@ -3189,7 +3189,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idautomaticrepairspolicy_statusaautomaticrepairspolicy_status"><a id="AutomaticRepairsPolicy_STATUS"></a>AutomaticRepairsPolicy_STATUS</h2>
+<h2 id="AutomaticRepairsPolicy_STATUS">AutomaticRepairsPolicy_STATUS</h2>
 <p>Specifies the configuration parameters for automatic repairs on the virtual machine scale set.</p>
 <p>Used by: <a href="#VirtualMachineScaleSet_STATUS">VirtualMachineScaleSet_STATUS</a>.</p>
 <table>
@@ -3213,7 +3213,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idbillingprofileabillingprofile"><a id="BillingProfile"></a>BillingProfile</h2>
+<h2 id="BillingProfile">BillingProfile</h2>
 <p>Specifies the billing related details of a Azure Spot VM or VMSS. Minimum api-version: 2019-03-01.</p>
 <p>Used by: <a href="#VirtualMachine_Spec">VirtualMachine_Spec</a>, and <a href="#VirtualMachineScaleSetVMProfile">VirtualMachineScaleSetVMProfile</a>.</p>
 <table>
@@ -3232,7 +3232,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idbillingprofile_statusabillingprofile_status"><a id="BillingProfile_STATUS"></a>BillingProfile_STATUS</h2>
+<h2 id="BillingProfile_STATUS">BillingProfile_STATUS</h2>
 <p>Specifies the billing related details of a Azure Spot VM or VMSS. Minimum api-version: 2019-03-01.</p>
 <p>Used by: <a href="#VirtualMachine_STATUS">VirtualMachine_STATUS</a>, and <a href="#VirtualMachineScaleSetVMProfile_STATUS">VirtualMachineScaleSetVMProfile_STATUS</a>.</p>
 <table>
@@ -3251,7 +3251,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-iddiagnosticsprofileadiagnosticsprofile"><a id="DiagnosticsProfile"></a>DiagnosticsProfile</h2>
+<h2 id="DiagnosticsProfile">DiagnosticsProfile</h2>
 <p>Specifies the boot diagnostic settings state. Minimum api-version: 2015-06-15.</p>
 <p>Used by: <a href="#VirtualMachine_Spec">VirtualMachine_Spec</a>, and <a href="#VirtualMachineScaleSetVMProfile">VirtualMachineScaleSetVMProfile</a>.</p>
 <table>
@@ -3270,7 +3270,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-iddiagnosticsprofile_statusadiagnosticsprofile_status"><a id="DiagnosticsProfile_STATUS"></a>DiagnosticsProfile_STATUS</h2>
+<h2 id="DiagnosticsProfile_STATUS">DiagnosticsProfile_STATUS</h2>
 <p>Specifies the boot diagnostic settings state. Minimum api-version: 2015-06-15.</p>
 <p>Used by: <a href="#VirtualMachine_STATUS">VirtualMachine_STATUS</a>, and <a href="#VirtualMachineScaleSetVMProfile_STATUS">VirtualMachineScaleSetVMProfile_STATUS</a>.</p>
 <table>
@@ -3289,7 +3289,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idevictionpolicyaevictionpolicy"><a id="EvictionPolicy"></a>EvictionPolicy</h2>
+<h2 id="EvictionPolicy">EvictionPolicy</h2>
 <p>Specifies the eviction policy for the Azure Spot VM/VMSS</p>
 <p>Used by: <a href="#VirtualMachine_Spec">VirtualMachine_Spec</a>, and <a href="#VirtualMachineScaleSetVMProfile">VirtualMachineScaleSetVMProfile</a>.</p>
 <table>
@@ -3310,7 +3310,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idevictionpolicy_statusaevictionpolicy_status"><a id="EvictionPolicy_STATUS"></a>EvictionPolicy_STATUS</h2>
+<h2 id="EvictionPolicy_STATUS">EvictionPolicy_STATUS</h2>
 <p>Specifies the eviction policy for the Azure Spot VM/VMSS</p>
 <p>Used by: <a href="#VirtualMachine_STATUS">VirtualMachine_STATUS</a>, and <a href="#VirtualMachineScaleSetVMProfile_STATUS">VirtualMachineScaleSetVMProfile_STATUS</a>.</p>
 <table>
@@ -3331,7 +3331,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idextendedlocationaextendedlocation"><a id="ExtendedLocation"></a>ExtendedLocation</h2>
+<h2 id="ExtendedLocation">ExtendedLocation</h2>
 <p>The complex type of the extended location.</p>
 <p>Used by: <a href="#VirtualMachine_Spec">VirtualMachine_Spec</a>, and <a href="#VirtualMachineScaleSet_Spec">VirtualMachineScaleSet_Spec</a>.</p>
 <table>
@@ -3355,7 +3355,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idextendedlocation_statusaextendedlocation_status"><a id="ExtendedLocation_STATUS"></a>ExtendedLocation_STATUS</h2>
+<h2 id="ExtendedLocation_STATUS">ExtendedLocation_STATUS</h2>
 <p>The complex type of the extended location.</p>
 <p>Used by: <a href="#VirtualMachine_STATUS">VirtualMachine_STATUS</a>, and <a href="#VirtualMachineScaleSet_STATUS">VirtualMachineScaleSet_STATUS</a>.</p>
 <table>
@@ -3379,7 +3379,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idhardwareprofileahardwareprofile"><a id="HardwareProfile"></a>HardwareProfile</h2>
+<h2 id="HardwareProfile">HardwareProfile</h2>
 <p>Specifies the hardware settings for the virtual machine.</p>
 <p>Used by: <a href="#VirtualMachine_Spec">VirtualMachine_Spec</a>.</p>
 <table>
@@ -3398,7 +3398,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idhardwareprofile_statusahardwareprofile_status"><a id="HardwareProfile_STATUS"></a>HardwareProfile_STATUS</h2>
+<h2 id="HardwareProfile_STATUS">HardwareProfile_STATUS</h2>
 <p>Specifies the hardware settings for the virtual machine.</p>
 <p>Used by: <a href="#VirtualMachine_STATUS">VirtualMachine_STATUS</a>.</p>
 <table>
@@ -3417,7 +3417,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idnetworkprofileanetworkprofile"><a id="NetworkProfile"></a>NetworkProfile</h2>
+<h2 id="NetworkProfile">NetworkProfile</h2>
 <p>Specifies the network interfaces of the virtual machine.</p>
 <p>Used by: <a href="#VirtualMachine_Spec">VirtualMachine_Spec</a>.</p>
 <table>
@@ -3436,7 +3436,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idnetworkprofile_statusanetworkprofile_status"><a id="NetworkProfile_STATUS"></a>NetworkProfile_STATUS</h2>
+<h2 id="NetworkProfile_STATUS">NetworkProfile_STATUS</h2>
 <p>Specifies the network interfaces of the virtual machine.</p>
 <p>Used by: <a href="#VirtualMachine_STATUS">VirtualMachine_STATUS</a>.</p>
 <table>
@@ -3455,7 +3455,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idorchestrationmodeaorchestrationmode"><a id="OrchestrationMode"></a>OrchestrationMode</h2>
+<h2 id="OrchestrationMode">OrchestrationMode</h2>
 <p>Specifies the orchestration mode for the virtual machine scale set.</p>
 <p>Used by: <a href="#VirtualMachineScaleSet_Spec">VirtualMachineScaleSet_Spec</a>.</p>
 <table>
@@ -3476,7 +3476,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idorchestrationmode_statusaorchestrationmode_status"><a id="OrchestrationMode_STATUS"></a>OrchestrationMode_STATUS</h2>
+<h2 id="OrchestrationMode_STATUS">OrchestrationMode_STATUS</h2>
 <p>Specifies the orchestration mode for the virtual machine scale set.</p>
 <p>Used by: <a href="#VirtualMachineScaleSet_STATUS">VirtualMachineScaleSet_STATUS</a>.</p>
 <table>
@@ -3497,7 +3497,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idosprofileaosprofile"><a id="OSProfile"></a>OSProfile</h2>
+<h2 id="OSProfile">OSProfile</h2>
 <p>Specifies the operating system settings for the virtual machine. Some of the settings cannot be changed once VM is provisioned.</p>
 <p>Used by: <a href="#VirtualMachine_Spec">VirtualMachine_Spec</a>.</p>
 <table>
@@ -3556,7 +3556,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idosprofile_statusaosprofile_status"><a id="OSProfile_STATUS"></a>OSProfile_STATUS</h2>
+<h2 id="OSProfile_STATUS">OSProfile_STATUS</h2>
 <p>Specifies the operating system settings for the virtual machine. Some of the settings cannot be changed once VM is provisioned.</p>
 <p>Used by: <a href="#VirtualMachine_STATUS">VirtualMachine_STATUS</a>.</p>
 <table>
@@ -3610,7 +3610,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idplanaplan"><a id="Plan"></a>Plan</h2>
+<h2 id="Plan">Plan</h2>
 <p>Specifies information about the marketplace image used to create the virtual machine. This element is only used for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use. In the Azure portal, find the marketplace image that you want to use and then click Want to deploy programmatically, Get Started -&gt;. Enter any required information and then click Save.</p>
 <p>Used by: <a href="#VirtualMachine_Spec">VirtualMachine_Spec</a>, and <a href="#VirtualMachineScaleSet_Spec">VirtualMachineScaleSet_Spec</a>.</p>
 <table>
@@ -3644,7 +3644,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idplan_statusaplan_status"><a id="Plan_STATUS"></a>Plan_STATUS</h2>
+<h2 id="Plan_STATUS">Plan_STATUS</h2>
 <p>Specifies information about the marketplace image used to create the virtual machine. This element is only used for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use. In the Azure portal, find the marketplace image that you want to use and then click Want to deploy programmatically, Get Started -&gt;. Enter any required information and then click Save.</p>
 <p>Used by: <a href="#VirtualMachine_STATUS">VirtualMachine_STATUS</a>, and <a href="#VirtualMachineScaleSet_STATUS">VirtualMachineScaleSet_STATUS</a>.</p>
 <table>
@@ -3678,7 +3678,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idpriorityapriority"><a id="Priority"></a>Priority</h2>
+<h2 id="Priority">Priority</h2>
 <p>Specifies the priority for a standalone virtual machine or the virtual machines in the scale set. &lsquo;Low&rsquo; enum will be deprecated in the future, please use &lsquo;Spot&rsquo; as the enum to deploy Azure Spot VM/VMSS.</p>
 <p>Used by: <a href="#VirtualMachine_Spec">VirtualMachine_Spec</a>, and <a href="#VirtualMachineScaleSetVMProfile">VirtualMachineScaleSetVMProfile</a>.</p>
 <table>
@@ -3703,7 +3703,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idpriority_statusapriority_status"><a id="Priority_STATUS"></a>Priority_STATUS</h2>
+<h2 id="Priority_STATUS">Priority_STATUS</h2>
 <p>Specifies the priority for a standalone virtual machine or the virtual machines in the scale set. &lsquo;Low&rsquo; enum will be deprecated in the future, please use &lsquo;Spot&rsquo; as the enum to deploy Azure Spot VM/VMSS.</p>
 <p>Used by: <a href="#VirtualMachine_STATUS">VirtualMachine_STATUS</a>, and <a href="#VirtualMachineScaleSetVMProfile_STATUS">VirtualMachineScaleSetVMProfile_STATUS</a>.</p>
 <table>
@@ -3728,7 +3728,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idscaleinpolicyascaleinpolicy"><a id="ScaleInPolicy"></a>ScaleInPolicy</h2>
+<h2 id="ScaleInPolicy">ScaleInPolicy</h2>
 <p>Describes a scale-in policy for a virtual machine scale set.</p>
 <p>Used by: <a href="#VirtualMachineScaleSet_Spec">VirtualMachineScaleSet_Spec</a>.</p>
 <table>
@@ -3747,7 +3747,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idscaleinpolicy_statusascaleinpolicy_status"><a id="ScaleInPolicy_STATUS"></a>ScaleInPolicy_STATUS</h2>
+<h2 id="ScaleInPolicy_STATUS">ScaleInPolicy_STATUS</h2>
 <p>Describes a scale-in policy for a virtual machine scale set.</p>
 <p>Used by: <a href="#VirtualMachineScaleSet_STATUS">VirtualMachineScaleSet_STATUS</a>.</p>
 <table>
@@ -3766,7 +3766,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idsecurityprofileasecurityprofile"><a id="SecurityProfile"></a>SecurityProfile</h2>
+<h2 id="SecurityProfile">SecurityProfile</h2>
 <p>Specifies the Security profile settings for the virtual machine or virtual machine scale set.</p>
 <p>Used by: <a href="#VirtualMachine_Spec">VirtualMachine_Spec</a>, and <a href="#VirtualMachineScaleSetVMProfile">VirtualMachineScaleSetVMProfile</a>.</p>
 <table>
@@ -3795,7 +3795,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idsecurityprofile_statusasecurityprofile_status"><a id="SecurityProfile_STATUS"></a>SecurityProfile_STATUS</h2>
+<h2 id="SecurityProfile_STATUS">SecurityProfile_STATUS</h2>
 <p>Specifies the Security profile settings for the virtual machine or virtual machine scale set.</p>
 <p>Used by: <a href="#VirtualMachine_STATUS">VirtualMachine_STATUS</a>, and <a href="#VirtualMachineScaleSetVMProfile_STATUS">VirtualMachineScaleSetVMProfile_STATUS</a>.</p>
 <table>
@@ -3824,7 +3824,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idskuasku"><a id="Sku"></a>Sku</h2>
+<h2 id="Sku">Sku</h2>
 <p>Describes a virtual machine scale set sku. NOTE: If the new VM SKU is not supported on the hardware the scale set is currently on, you need to deallocate the VMs in the scale set before you modify the SKU name.</p>
 <p>Used by: <a href="#VirtualMachineScaleSet_Spec">VirtualMachineScaleSet_Spec</a>.</p>
 <table>
@@ -3853,7 +3853,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idsku_statusasku_status"><a id="Sku_STATUS"></a>Sku_STATUS</h2>
+<h2 id="Sku_STATUS">Sku_STATUS</h2>
 <p>Describes a virtual machine scale set sku. NOTE: If the new VM SKU is not supported on the hardware the scale set is currently on, you need to deallocate the VMs in the scale set before you modify the SKU name.</p>
 <p>Used by: <a href="#VirtualMachineScaleSet_STATUS">VirtualMachineScaleSet_STATUS</a>.</p>
 <table>
@@ -3882,7 +3882,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idstorageprofileastorageprofile"><a id="StorageProfile"></a>StorageProfile</h2>
+<h2 id="StorageProfile">StorageProfile</h2>
 <p>Specifies the storage settings for the virtual machine disks.</p>
 <p>Used by: <a href="#VirtualMachine_Spec">VirtualMachine_Spec</a>.</p>
 <table>
@@ -3911,7 +3911,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idstorageprofile_statusastorageprofile_status"><a id="StorageProfile_STATUS"></a>StorageProfile_STATUS</h2>
+<h2 id="StorageProfile_STATUS">StorageProfile_STATUS</h2>
 <p>Specifies the storage settings for the virtual machine disks.</p>
 <p>Used by: <a href="#VirtualMachine_STATUS">VirtualMachine_STATUS</a>.</p>
 <table>
@@ -3940,7 +3940,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idsubresourceasubresource"><a id="SubResource"></a>SubResource</h2>
+<h2 id="SubResource">SubResource</h2>
 <p>Used by: <a href="#KeyVaultKeyReference">KeyVaultKeyReference</a>, <a href="#KeyVaultSecretReference">KeyVaultSecretReference</a>, <a href="#ManagedDiskParameters">ManagedDiskParameters</a>, <a href="#VaultSecretGroup">VaultSecretGroup</a>, <a href="#VirtualMachine_Spec">VirtualMachine_Spec</a>, <a href="#VirtualMachine_Spec">VirtualMachine_Spec</a>, <a href="#VirtualMachine_Spec">VirtualMachine_Spec</a>, <a href="#VirtualMachine_Spec">VirtualMachine_Spec</a>, <a href="#VirtualMachine_Spec">VirtualMachine_Spec</a>, <a href="#VirtualMachineScaleSet_Spec">VirtualMachineScaleSet_Spec</a>, <a href="#VirtualMachineScaleSet_Spec">VirtualMachineScaleSet_Spec</a>, <a href="#VirtualMachineScaleSetIPConfiguration">VirtualMachineScaleSetIPConfiguration</a>, <a href="#VirtualMachineScaleSetIPConfiguration">VirtualMachineScaleSetIPConfiguration</a>, <a href="#VirtualMachineScaleSetIPConfiguration">VirtualMachineScaleSetIPConfiguration</a>, <a href="#VirtualMachineScaleSetIPConfiguration">VirtualMachineScaleSetIPConfiguration</a>, <a href="#VirtualMachineScaleSetManagedDiskParameters">VirtualMachineScaleSetManagedDiskParameters</a>, <a href="#VirtualMachineScaleSetNetworkConfiguration">VirtualMachineScaleSetNetworkConfiguration</a>, and <a href="#VirtualMachineScaleSetPublicIPAddressConfiguration">VirtualMachineScaleSetPublicIPAddressConfiguration</a>.</p>
 <table>
   <thead>
@@ -3958,7 +3958,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idsubresource_statusasubresource_status"><a id="SubResource_STATUS"></a>SubResource_STATUS</h2>
+<h2 id="SubResource_STATUS">SubResource_STATUS</h2>
 <p>Used by: <a href="#KeyVaultKeyReference_STATUS">KeyVaultKeyReference_STATUS</a>, <a href="#KeyVaultSecretReference_STATUS">KeyVaultSecretReference_STATUS</a>, <a href="#ManagedDiskParameters_STATUS">ManagedDiskParameters_STATUS</a>, <a href="#VaultSecretGroup_STATUS">VaultSecretGroup_STATUS</a>, <a href="#VirtualMachine_STATUS">VirtualMachine_STATUS</a>, <a href="#VirtualMachine_STATUS">VirtualMachine_STATUS</a>, <a href="#VirtualMachine_STATUS">VirtualMachine_STATUS</a>, <a href="#VirtualMachine_STATUS">VirtualMachine_STATUS</a>, <a href="#VirtualMachine_STATUS">VirtualMachine_STATUS</a>, <a href="#VirtualMachineScaleSet_STATUS">VirtualMachineScaleSet_STATUS</a>, <a href="#VirtualMachineScaleSet_STATUS">VirtualMachineScaleSet_STATUS</a>, <a href="#VirtualMachineScaleSetIPConfiguration_STATUS">VirtualMachineScaleSetIPConfiguration_STATUS</a>, <a href="#VirtualMachineScaleSetIPConfiguration_STATUS">VirtualMachineScaleSetIPConfiguration_STATUS</a>, <a href="#VirtualMachineScaleSetIPConfiguration_STATUS">VirtualMachineScaleSetIPConfiguration_STATUS</a>, <a href="#VirtualMachineScaleSetIPConfiguration_STATUS">VirtualMachineScaleSetIPConfiguration_STATUS</a>, <a href="#VirtualMachineScaleSetManagedDiskParameters_STATUS">VirtualMachineScaleSetManagedDiskParameters_STATUS</a>, <a href="#VirtualMachineScaleSetNetworkConfiguration_STATUS">VirtualMachineScaleSetNetworkConfiguration_STATUS</a>, and <a href="#VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS">VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS</a>.</p>
 <table>
   <thead>
@@ -3976,7 +3976,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idupgradepolicyaupgradepolicy"><a id="UpgradePolicy"></a>UpgradePolicy</h2>
+<h2 id="UpgradePolicy">UpgradePolicy</h2>
 <p>Describes an upgrade policy - automatic, manual, or rolling.</p>
 <p>Used by: <a href="#VirtualMachineScaleSet_Spec">VirtualMachineScaleSet_Spec</a>.</p>
 <table>
@@ -4005,7 +4005,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idupgradepolicy_statusaupgradepolicy_status"><a id="UpgradePolicy_STATUS"></a>UpgradePolicy_STATUS</h2>
+<h2 id="UpgradePolicy_STATUS">UpgradePolicy_STATUS</h2>
 <p>Describes an upgrade policy - automatic, manual, or rolling.</p>
 <p>Used by: <a href="#VirtualMachineScaleSet_STATUS">VirtualMachineScaleSet_STATUS</a>.</p>
 <table>
@@ -4034,7 +4034,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachineextension_statusavirtualmachineextension_status"><a id="VirtualMachineExtension_STATUS"></a>VirtualMachineExtension_STATUS</h2>
+<h2 id="VirtualMachineExtension_STATUS">VirtualMachineExtension_STATUS</h2>
 <p>Describes a Virtual Machine Extension.</p>
 <p>Used by: <a href="#VirtualMachine_STATUS">VirtualMachine_STATUS</a>.</p>
 <table>
@@ -4118,7 +4118,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachineextensioninstanceviewavirtualmachineextensioninstanceview"><a id="VirtualMachineExtensionInstanceView"></a>VirtualMachineExtensionInstanceView</h2>
+<h2 id="VirtualMachineExtensionInstanceView">VirtualMachineExtensionInstanceView</h2>
 <p>The instance view of a virtual machine extension.</p>
 <p>Used by: <a href="#VirtualMachinesExtension_Spec">VirtualMachinesExtension_Spec</a>.</p>
 <table>
@@ -4157,7 +4157,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachineextensioninstanceview_statusavirtualmachineextensioninstanceview_status"><a id="VirtualMachineExtensionInstanceView_STATUS"></a>VirtualMachineExtensionInstanceView_STATUS</h2>
+<h2 id="VirtualMachineExtensionInstanceView_STATUS">VirtualMachineExtensionInstanceView_STATUS</h2>
 <p>The instance view of a virtual machine extension.</p>
 <p>Used by: <a href="#VirtualMachineExtension_STATUS">VirtualMachineExtension_STATUS</a>, <a href="#VirtualMachineInstanceView_STATUS">VirtualMachineInstanceView_STATUS</a>, and <a href="#VirtualMachinesExtension_STATUS">VirtualMachinesExtension_STATUS</a>.</p>
 <table>
@@ -4196,7 +4196,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachineidentityavirtualmachineidentity"><a id="VirtualMachineIdentity"></a>VirtualMachineIdentity</h2>
+<h2 id="VirtualMachineIdentity">VirtualMachineIdentity</h2>
 <p>Identity for the virtual machine.</p>
 <p>Used by: <a href="#VirtualMachine_Spec">VirtualMachine_Spec</a>.</p>
 <table>
@@ -4220,7 +4220,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachineidentity_statusavirtualmachineidentity_status"><a id="VirtualMachineIdentity_STATUS"></a>VirtualMachineIdentity_STATUS</h2>
+<h2 id="VirtualMachineIdentity_STATUS">VirtualMachineIdentity_STATUS</h2>
 <p>Identity for the virtual machine.</p>
 <p>Used by: <a href="#VirtualMachine_STATUS">VirtualMachine_STATUS</a>.</p>
 <table>
@@ -4254,7 +4254,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachineinstanceview_statusavirtualmachineinstanceview_status"><a id="VirtualMachineInstanceView_STATUS"></a>VirtualMachineInstanceView_STATUS</h2>
+<h2 id="VirtualMachineInstanceView_STATUS">VirtualMachineInstanceView_STATUS</h2>
 <p>The instance view of a virtual machine.</p>
 <p>Used by: <a href="#VirtualMachine_STATUS">VirtualMachine_STATUS</a>.</p>
 <table>
@@ -4348,7 +4348,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachineoperatorspecavirtualmachineoperatorspec"><a id="VirtualMachineOperatorSpec"></a>VirtualMachineOperatorSpec</h2>
+<h2 id="VirtualMachineOperatorSpec">VirtualMachineOperatorSpec</h2>
 <p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
 <p>Used by: <a href="#VirtualMachine_Spec">VirtualMachine_Spec</a>.</p>
 <table>
@@ -4372,7 +4372,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinescalesetidentityavirtualmachinescalesetidentity"><a id="VirtualMachineScaleSetIdentity"></a>VirtualMachineScaleSetIdentity</h2>
+<h2 id="VirtualMachineScaleSetIdentity">VirtualMachineScaleSetIdentity</h2>
 <p>Identity for the virtual machine scale set.</p>
 <p>Used by: <a href="#VirtualMachineScaleSet_Spec">VirtualMachineScaleSet_Spec</a>.</p>
 <table>
@@ -4396,7 +4396,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinescalesetidentity_statusavirtualmachinescalesetidentity_status"><a id="VirtualMachineScaleSetIdentity_STATUS"></a>VirtualMachineScaleSetIdentity_STATUS</h2>
+<h2 id="VirtualMachineScaleSetIdentity_STATUS">VirtualMachineScaleSetIdentity_STATUS</h2>
 <p>Identity for the virtual machine scale set.</p>
 <p>Used by: <a href="#VirtualMachineScaleSet_STATUS">VirtualMachineScaleSet_STATUS</a>.</p>
 <table>
@@ -4430,7 +4430,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinescalesetoperatorspecavirtualmachinescalesetoperatorspec"><a id="VirtualMachineScaleSetOperatorSpec"></a>VirtualMachineScaleSetOperatorSpec</h2>
+<h2 id="VirtualMachineScaleSetOperatorSpec">VirtualMachineScaleSetOperatorSpec</h2>
 <p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
 <p>Used by: <a href="#VirtualMachineScaleSet_Spec">VirtualMachineScaleSet_Spec</a>.</p>
 <table>
@@ -4454,7 +4454,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinescalesetsextensionoperatorspecavirtualmachinescalesetsextensionoperatorspec"><a id="VirtualMachineScaleSetsExtensionOperatorSpec"></a>VirtualMachineScaleSetsExtensionOperatorSpec</h2>
+<h2 id="VirtualMachineScaleSetsExtensionOperatorSpec">VirtualMachineScaleSetsExtensionOperatorSpec</h2>
 <p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
 <p>Used by: <a href="#VirtualMachineScaleSetsExtension_Spec">VirtualMachineScaleSetsExtension_Spec</a>.</p>
 <table>
@@ -4478,7 +4478,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinescalesetvmprofileavirtualmachinescalesetvmprofile"><a id="VirtualMachineScaleSetVMProfile"></a>VirtualMachineScaleSetVMProfile</h2>
+<h2 id="VirtualMachineScaleSetVMProfile">VirtualMachineScaleSetVMProfile</h2>
 <p>Describes a virtual machine scale set virtual machine profile.</p>
 <p>Used by: <a href="#VirtualMachineScaleSet_Spec">VirtualMachineScaleSet_Spec</a>.</p>
 <table>
@@ -4547,7 +4547,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinescalesetvmprofile_statusavirtualmachinescalesetvmprofile_status"><a id="VirtualMachineScaleSetVMProfile_STATUS"></a>VirtualMachineScaleSetVMProfile_STATUS</h2>
+<h2 id="VirtualMachineScaleSetVMProfile_STATUS">VirtualMachineScaleSetVMProfile_STATUS</h2>
 <p>Describes a virtual machine scale set virtual machine profile.</p>
 <p>Used by: <a href="#VirtualMachineScaleSet_STATUS">VirtualMachineScaleSet_STATUS</a>.</p>
 <table>
@@ -4616,7 +4616,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinesextensionoperatorspecavirtualmachinesextensionoperatorspec"><a id="VirtualMachinesExtensionOperatorSpec"></a>VirtualMachinesExtensionOperatorSpec</h2>
+<h2 id="VirtualMachinesExtensionOperatorSpec">VirtualMachinesExtensionOperatorSpec</h2>
 <p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
 <p>Used by: <a href="#VirtualMachinesExtension_Spec">VirtualMachinesExtension_Spec</a>.</p>
 <table>
@@ -4640,7 +4640,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idautomaticosupgradepolicyaautomaticosupgradepolicy"><a id="AutomaticOSUpgradePolicy"></a>AutomaticOSUpgradePolicy</h2>
+<h2 id="AutomaticOSUpgradePolicy">AutomaticOSUpgradePolicy</h2>
 <p>The configuration parameters used for performing automatic OS upgrade.</p>
 <p>Used by: <a href="#UpgradePolicy">UpgradePolicy</a>.</p>
 <table>
@@ -4664,7 +4664,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idautomaticosupgradepolicy_statusaautomaticosupgradepolicy_status"><a id="AutomaticOSUpgradePolicy_STATUS"></a>AutomaticOSUpgradePolicy_STATUS</h2>
+<h2 id="AutomaticOSUpgradePolicy_STATUS">AutomaticOSUpgradePolicy_STATUS</h2>
 <p>The configuration parameters used for performing automatic OS upgrade.</p>
 <p>Used by: <a href="#UpgradePolicy_STATUS">UpgradePolicy_STATUS</a>.</p>
 <table>
@@ -4688,7 +4688,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idbootdiagnosticsabootdiagnostics"><a id="BootDiagnostics"></a>BootDiagnostics</h2>
+<h2 id="BootDiagnostics">BootDiagnostics</h2>
 <p>Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to diagnose VM status. You can easily view the output of your console log. Azure also enables you to see a screenshot of the VM from the hypervisor.</p>
 <p>Used by: <a href="#DiagnosticsProfile">DiagnosticsProfile</a>.</p>
 <table>
@@ -4712,7 +4712,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idbootdiagnostics_statusabootdiagnostics_status"><a id="BootDiagnostics_STATUS"></a>BootDiagnostics_STATUS</h2>
+<h2 id="BootDiagnostics_STATUS">BootDiagnostics_STATUS</h2>
 <p>Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to diagnose VM status. You can easily view the output of your console log. Azure also enables you to see a screenshot of the VM from the hypervisor.</p>
 <p>Used by: <a href="#DiagnosticsProfile_STATUS">DiagnosticsProfile_STATUS</a>.</p>
 <table>
@@ -4736,7 +4736,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idbootdiagnosticsinstanceview_statusabootdiagnosticsinstanceview_status"><a id="BootDiagnosticsInstanceView_STATUS"></a>BootDiagnosticsInstanceView_STATUS</h2>
+<h2 id="BootDiagnosticsInstanceView_STATUS">BootDiagnosticsInstanceView_STATUS</h2>
 <p>The instance view of a virtual machine boot diagnostics.</p>
 <p>Used by: <a href="#VirtualMachineInstanceView_STATUS">VirtualMachineInstanceView_STATUS</a>.</p>
 <table>
@@ -4765,7 +4765,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-iddatadiskadatadisk"><a id="DataDisk"></a>DataDisk</h2>
+<h2 id="DataDisk">DataDisk</h2>
 <p>Describes a data disk.</p>
 <p>Used by: <a href="#StorageProfile">StorageProfile</a>.</p>
 <table>
@@ -4834,7 +4834,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-iddatadisk_statusadatadisk_status"><a id="DataDisk_STATUS"></a>DataDisk_STATUS</h2>
+<h2 id="DataDisk_STATUS">DataDisk_STATUS</h2>
 <p>Describes a data disk.</p>
 <p>Used by: <a href="#StorageProfile_STATUS">StorageProfile_STATUS</a>.</p>
 <table>
@@ -4913,7 +4913,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-iddiskinstanceview_statusadiskinstanceview_status"><a id="DiskInstanceView_STATUS"></a>DiskInstanceView_STATUS</h2>
+<h2 id="DiskInstanceView_STATUS">DiskInstanceView_STATUS</h2>
 <p>The instance view of the disk.</p>
 <p>Used by: <a href="#VirtualMachineInstanceView_STATUS">VirtualMachineInstanceView_STATUS</a>.</p>
 <table>
@@ -4942,7 +4942,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idextendedlocationtypeaextendedlocationtype"><a id="ExtendedLocationType"></a>ExtendedLocationType</h2>
+<h2 id="ExtendedLocationType">ExtendedLocationType</h2>
 <p>The type of extendedLocation.</p>
 <p>Used by: <a href="#ExtendedLocation">ExtendedLocation</a>.</p>
 <table>
@@ -4959,7 +4959,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idextendedlocationtype_statusaextendedlocationtype_status"><a id="ExtendedLocationType_STATUS"></a>ExtendedLocationType_STATUS</h2>
+<h2 id="ExtendedLocationType_STATUS">ExtendedLocationType_STATUS</h2>
 <p>The type of extendedLocation.</p>
 <p>Used by: <a href="#ExtendedLocation_STATUS">ExtendedLocation_STATUS</a>.</p>
 <table>
@@ -4976,7 +4976,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idhardwareprofile_vmsize_statusahardwareprofile_vmsize_status"><a id="HardwareProfile_VmSize_STATUS"></a>HardwareProfile_VmSize_STATUS</h2>
+<h2 id="HardwareProfile_VmSize_STATUS">HardwareProfile_VmSize_STATUS</h2>
 <p>Used by: <a href="#HardwareProfile_STATUS">HardwareProfile_STATUS</a>.</p>
 <table>
   <thead>
@@ -5652,7 +5652,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idimagereferenceaimagereference"><a id="ImageReference"></a>ImageReference</h2>
+<h2 id="ImageReference">ImageReference</h2>
 <p>Specifies information about the image to use. You can specify information about platform images, marketplace images, or virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual machine image, but is not used in other creation operations. NOTE: Image reference publisher and offer can only be set when you create the scale set.</p>
 <p>Used by: <a href="#StorageProfile">StorageProfile</a>, and <a href="#VirtualMachineScaleSetStorageProfile">VirtualMachineScaleSetStorageProfile</a>.</p>
 <table>
@@ -5691,7 +5691,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idimagereference_statusaimagereference_status"><a id="ImageReference_STATUS"></a>ImageReference_STATUS</h2>
+<h2 id="ImageReference_STATUS">ImageReference_STATUS</h2>
 <p>Specifies information about the image to use. You can specify information about platform images, marketplace images, or virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual machine image, but is not used in other creation operations. NOTE: Image reference publisher and offer can only be set when you create the scale set.</p>
 <p>Used by: <a href="#StorageProfile_STATUS">StorageProfile_STATUS</a>, and <a href="#VirtualMachineScaleSetStorageProfile_STATUS">VirtualMachineScaleSetStorageProfile_STATUS</a>.</p>
 <table>
@@ -5735,7 +5735,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idinstanceviewstatusainstanceviewstatus"><a id="InstanceViewStatus"></a>InstanceViewStatus</h2>
+<h2 id="InstanceViewStatus">InstanceViewStatus</h2>
 <p>Instance view status.</p>
 <p>Used by: <a href="#VirtualMachineExtensionInstanceView">VirtualMachineExtensionInstanceView</a>, and <a href="#VirtualMachineExtensionInstanceView">VirtualMachineExtensionInstanceView</a>.</p>
 <table>
@@ -5774,7 +5774,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idinstanceviewstatus_statusainstanceviewstatus_status"><a id="InstanceViewStatus_STATUS"></a>InstanceViewStatus_STATUS</h2>
+<h2 id="InstanceViewStatus_STATUS">InstanceViewStatus_STATUS</h2>
 <p>Instance view status.</p>
 <p>Used by: <a href="#BootDiagnosticsInstanceView_STATUS">BootDiagnosticsInstanceView_STATUS</a>, <a href="#DiskInstanceView_STATUS">DiskInstanceView_STATUS</a>, <a href="#VirtualMachineAgentInstanceView_STATUS">VirtualMachineAgentInstanceView_STATUS</a>, <a href="#VirtualMachineExtensionHandlerInstanceView_STATUS">VirtualMachineExtensionHandlerInstanceView_STATUS</a>, <a href="#VirtualMachineExtensionInstanceView_STATUS">VirtualMachineExtensionInstanceView_STATUS</a>, <a href="#VirtualMachineExtensionInstanceView_STATUS">VirtualMachineExtensionInstanceView_STATUS</a>, <a href="#VirtualMachineHealthStatus_STATUS">VirtualMachineHealthStatus_STATUS</a>, <a href="#VirtualMachineInstanceView_STATUS">VirtualMachineInstanceView_STATUS</a>, and <a href="#VirtualMachinePatchStatus_STATUS">VirtualMachinePatchStatus_STATUS</a>.</p>
 <table>
@@ -5813,7 +5813,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idlinuxconfigurationalinuxconfiguration"><a id="LinuxConfiguration"></a>LinuxConfiguration</h2>
+<h2 id="LinuxConfiguration">LinuxConfiguration</h2>
 <p>Specifies the Linux operating system settings on the virtual machine. For a list of supported Linux distributions, see <a href="https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-endorsed-distros?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json">Linux on Azure-Endorsed Distributions</a> For running non-endorsed distributions, see <a href="https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-create-upload-generic?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json">Information for Non-Endorsed Distributions</a>.</p>
 <p>Used by: <a href="#OSProfile">OSProfile</a>, and <a href="#VirtualMachineScaleSetOSProfile">VirtualMachineScaleSetOSProfile</a>.</p>
 <table>
@@ -5847,7 +5847,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idlinuxconfiguration_statusalinuxconfiguration_status"><a id="LinuxConfiguration_STATUS"></a>LinuxConfiguration_STATUS</h2>
+<h2 id="LinuxConfiguration_STATUS">LinuxConfiguration_STATUS</h2>
 <p>Specifies the Linux operating system settings on the virtual machine. For a list of supported Linux distributions, see <a href="https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-endorsed-distros?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json">Linux on Azure-Endorsed Distributions</a> For running non-endorsed distributions, see <a href="https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-create-upload-generic?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json">Information for Non-Endorsed Distributions</a>.</p>
 <p>Used by: <a href="#OSProfile_STATUS">OSProfile_STATUS</a>, and <a href="#VirtualMachineScaleSetOSProfile_STATUS">VirtualMachineScaleSetOSProfile_STATUS</a>.</p>
 <table>
@@ -5881,7 +5881,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idmaintenanceredeploystatus_statusamaintenanceredeploystatus_status"><a id="MaintenanceRedeployStatus_STATUS"></a>MaintenanceRedeployStatus_STATUS</h2>
+<h2 id="MaintenanceRedeployStatus_STATUS">MaintenanceRedeployStatus_STATUS</h2>
 <p>Maintenance Operation Status.</p>
 <p>Used by: <a href="#VirtualMachineInstanceView_STATUS">VirtualMachineInstanceView_STATUS</a>.</p>
 <table>
@@ -5930,7 +5930,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idnetworkinterfacereferenceanetworkinterfacereference"><a id="NetworkInterfaceReference"></a>NetworkInterfaceReference</h2>
+<h2 id="NetworkInterfaceReference">NetworkInterfaceReference</h2>
 <p>Describes a network interface reference.</p>
 <p>Used by: <a href="#NetworkProfile">NetworkProfile</a>.</p>
 <table>
@@ -5954,7 +5954,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idnetworkinterfacereference_statusanetworkinterfacereference_status"><a id="NetworkInterfaceReference_STATUS"></a>NetworkInterfaceReference_STATUS</h2>
+<h2 id="NetworkInterfaceReference_STATUS">NetworkInterfaceReference_STATUS</h2>
 <p>Describes a network interface reference.</p>
 <p>Used by: <a href="#NetworkProfile_STATUS">NetworkProfile_STATUS</a>.</p>
 <table>
@@ -5978,7 +5978,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idosdiskaosdisk"><a id="OSDisk"></a>OSDisk</h2>
+<h2 id="OSDisk">OSDisk</h2>
 <p>Specifies information about the operating system disk used by the virtual machine. For more information about disks, see <a href="https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json">About disks and VHDs for Azure virtual machines</a>.</p>
 <p>Used by: <a href="#StorageProfile">StorageProfile</a>.</p>
 <table>
@@ -6047,7 +6047,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idosdisk_statusaosdisk_status"><a id="OSDisk_STATUS"></a>OSDisk_STATUS</h2>
+<h2 id="OSDisk_STATUS">OSDisk_STATUS</h2>
 <p>Specifies information about the operating system disk used by the virtual machine. For more information about disks, see <a href="https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json">About disks and VHDs for Azure virtual machines</a>.</p>
 <p>Used by: <a href="#StorageProfile_STATUS">StorageProfile_STATUS</a>.</p>
 <table>
@@ -6116,7 +6116,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idrollingupgradepolicyarollingupgradepolicy"><a id="RollingUpgradePolicy"></a>RollingUpgradePolicy</h2>
+<h2 id="RollingUpgradePolicy">RollingUpgradePolicy</h2>
 <p>The configuration parameters used while performing a rolling upgrade.</p>
 <p>Used by: <a href="#UpgradePolicy">UpgradePolicy</a>.</p>
 <table>
@@ -6160,7 +6160,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idrollingupgradepolicy_statusarollingupgradepolicy_status"><a id="RollingUpgradePolicy_STATUS"></a>RollingUpgradePolicy_STATUS</h2>
+<h2 id="RollingUpgradePolicy_STATUS">RollingUpgradePolicy_STATUS</h2>
 <p>The configuration parameters used while performing a rolling upgrade.</p>
 <p>Used by: <a href="#UpgradePolicy_STATUS">UpgradePolicy_STATUS</a>.</p>
 <table>
@@ -6204,7 +6204,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idscaleinpolicy_rulesascaleinpolicy_rules"><a id="ScaleInPolicy_Rules"></a>ScaleInPolicy_Rules</h2>
+<h2 id="ScaleInPolicy_Rules">ScaleInPolicy_Rules</h2>
 <p>Used by: <a href="#ScaleInPolicy">ScaleInPolicy</a>.</p>
 <table>
   <thead>
@@ -6228,7 +6228,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idscaleinpolicy_rules_statusascaleinpolicy_rules_status"><a id="ScaleInPolicy_Rules_STATUS"></a>ScaleInPolicy_Rules_STATUS</h2>
+<h2 id="ScaleInPolicy_Rules_STATUS">ScaleInPolicy_Rules_STATUS</h2>
 <p>Used by: <a href="#ScaleInPolicy_STATUS">ScaleInPolicy_STATUS</a>.</p>
 <table>
   <thead>
@@ -6252,7 +6252,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idscheduledeventsprofileascheduledeventsprofile"><a id="ScheduledEventsProfile"></a>ScheduledEventsProfile</h2>
+<h2 id="ScheduledEventsProfile">ScheduledEventsProfile</h2>
 <p>Used by: <a href="#VirtualMachineScaleSetVMProfile">VirtualMachineScaleSetVMProfile</a>.</p>
 <table>
   <thead>
@@ -6270,7 +6270,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idscheduledeventsprofile_statusascheduledeventsprofile_status"><a id="ScheduledEventsProfile_STATUS"></a>ScheduledEventsProfile_STATUS</h2>
+<h2 id="ScheduledEventsProfile_STATUS">ScheduledEventsProfile_STATUS</h2>
 <p>Used by: <a href="#VirtualMachineScaleSetVMProfile_STATUS">VirtualMachineScaleSetVMProfile_STATUS</a>.</p>
 <table>
   <thead>
@@ -6288,7 +6288,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idsecurityprofile_securitytypeasecurityprofile_securitytype"><a id="SecurityProfile_SecurityType"></a>SecurityProfile_SecurityType</h2>
+<h2 id="SecurityProfile_SecurityType">SecurityProfile_SecurityType</h2>
 <p>Used by: <a href="#SecurityProfile">SecurityProfile</a>.</p>
 <table>
   <thead>
@@ -6304,7 +6304,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idsecurityprofile_securitytype_statusasecurityprofile_securitytype_status"><a id="SecurityProfile_SecurityType_STATUS"></a>SecurityProfile_SecurityType_STATUS</h2>
+<h2 id="SecurityProfile_SecurityType_STATUS">SecurityProfile_SecurityType_STATUS</h2>
 <p>Used by: <a href="#SecurityProfile_STATUS">SecurityProfile_STATUS</a>.</p>
 <table>
   <thead>
@@ -6320,7 +6320,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-iduefisettingsauefisettings"><a id="UefiSettings"></a>UefiSettings</h2>
+<h2 id="UefiSettings">UefiSettings</h2>
 <p>Specifies the security settings like secure boot and vTPM used while creating the virtual machine. Minimum api-version: 2020-12-01</p>
 <p>Used by: <a href="#SecurityProfile">SecurityProfile</a>.</p>
 <table>
@@ -6344,7 +6344,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-iduefisettings_statusauefisettings_status"><a id="UefiSettings_STATUS"></a>UefiSettings_STATUS</h2>
+<h2 id="UefiSettings_STATUS">UefiSettings_STATUS</h2>
 <p>Specifies the security settings like secure boot and vTPM used while creating the virtual machine. Minimum api-version: 2020-12-01</p>
 <p>Used by: <a href="#SecurityProfile_STATUS">SecurityProfile_STATUS</a>.</p>
 <table>
@@ -6368,7 +6368,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idupgradepolicy_modeaupgradepolicy_mode"><a id="UpgradePolicy_Mode"></a>UpgradePolicy_Mode</h2>
+<h2 id="UpgradePolicy_Mode">UpgradePolicy_Mode</h2>
 <p>Used by: <a href="#UpgradePolicy">UpgradePolicy</a>.</p>
 <table>
   <thead>
@@ -6392,7 +6392,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idupgradepolicy_mode_statusaupgradepolicy_mode_status"><a id="UpgradePolicy_Mode_STATUS"></a>UpgradePolicy_Mode_STATUS</h2>
+<h2 id="UpgradePolicy_Mode_STATUS">UpgradePolicy_Mode_STATUS</h2>
 <p>Used by: <a href="#UpgradePolicy_STATUS">UpgradePolicy_STATUS</a>.</p>
 <table>
   <thead>
@@ -6416,7 +6416,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-iduserassignedidentitydetailsauserassignedidentitydetails"><a id="UserAssignedIdentityDetails"></a>UserAssignedIdentityDetails</h2>
+<h2 id="UserAssignedIdentityDetails">UserAssignedIdentityDetails</h2>
 <p>Information about the user assigned identity for the resource</p>
 <p>Used by: <a href="#VirtualMachineIdentity">VirtualMachineIdentity</a>, and <a href="#VirtualMachineScaleSetIdentity">VirtualMachineScaleSetIdentity</a>.</p>
 <table>
@@ -6435,7 +6435,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvaultsecretgroupavaultsecretgroup"><a id="VaultSecretGroup"></a>VaultSecretGroup</h2>
+<h2 id="VaultSecretGroup">VaultSecretGroup</h2>
 <p>Describes a set of certificates which are all in the same Key Vault.</p>
 <p>Used by: <a href="#OSProfile">OSProfile</a>, and <a href="#VirtualMachineScaleSetOSProfile">VirtualMachineScaleSetOSProfile</a>.</p>
 <table>
@@ -6459,7 +6459,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvaultsecretgroup_statusavaultsecretgroup_status"><a id="VaultSecretGroup_STATUS"></a>VaultSecretGroup_STATUS</h2>
+<h2 id="VaultSecretGroup_STATUS">VaultSecretGroup_STATUS</h2>
 <p>Describes a set of certificates which are all in the same Key Vault.</p>
 <p>Used by: <a href="#OSProfile_STATUS">OSProfile_STATUS</a>, and <a href="#VirtualMachineScaleSetOSProfile_STATUS">VirtualMachineScaleSetOSProfile_STATUS</a>.</p>
 <table>
@@ -6483,7 +6483,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachineagentinstanceview_statusavirtualmachineagentinstanceview_status"><a id="VirtualMachineAgentInstanceView_STATUS"></a>VirtualMachineAgentInstanceView_STATUS</h2>
+<h2 id="VirtualMachineAgentInstanceView_STATUS">VirtualMachineAgentInstanceView_STATUS</h2>
 <p>The instance view of the VM Agent running on the virtual machine.</p>
 <p>Used by: <a href="#VirtualMachineInstanceView_STATUS">VirtualMachineInstanceView_STATUS</a>.</p>
 <table>
@@ -6512,7 +6512,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinehealthstatus_statusavirtualmachinehealthstatus_status"><a id="VirtualMachineHealthStatus_STATUS"></a>VirtualMachineHealthStatus_STATUS</h2>
+<h2 id="VirtualMachineHealthStatus_STATUS">VirtualMachineHealthStatus_STATUS</h2>
 <p>The health status of the VM.</p>
 <p>Used by: <a href="#VirtualMachineInstanceView_STATUS">VirtualMachineInstanceView_STATUS</a>.</p>
 <table>
@@ -6531,7 +6531,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachineidentity_typeavirtualmachineidentity_type"><a id="VirtualMachineIdentity_Type"></a>VirtualMachineIdentity_Type</h2>
+<h2 id="VirtualMachineIdentity_Type">VirtualMachineIdentity_Type</h2>
 <p>Used by: <a href="#VirtualMachineIdentity">VirtualMachineIdentity</a>.</p>
 <table>
   <thead>
@@ -6559,7 +6559,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachineidentity_type_statusavirtualmachineidentity_type_status"><a id="VirtualMachineIdentity_Type_STATUS"></a>VirtualMachineIdentity_Type_STATUS</h2>
+<h2 id="VirtualMachineIdentity_Type_STATUS">VirtualMachineIdentity_Type_STATUS</h2>
 <p>Used by: <a href="#VirtualMachineIdentity_STATUS">VirtualMachineIdentity_STATUS</a>.</p>
 <table>
   <thead>
@@ -6587,7 +6587,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachineidentity_userassignedidentities_statusavirtualmachineidentity_userassignedidentities_status"><a id="VirtualMachineIdentity_UserAssignedIdentities_STATUS"></a>VirtualMachineIdentity_UserAssignedIdentities_STATUS</h2>
+<h2 id="VirtualMachineIdentity_UserAssignedIdentities_STATUS">VirtualMachineIdentity_UserAssignedIdentities_STATUS</h2>
 <p>Used by: <a href="#VirtualMachineIdentity_STATUS">VirtualMachineIdentity_STATUS</a>.</p>
 <table>
   <thead>
@@ -6610,7 +6610,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachineinstanceview_hypervgeneration_statusavirtualmachineinstanceview_hypervgeneration_status"><a id="VirtualMachineInstanceView_HyperVGeneration_STATUS"></a>VirtualMachineInstanceView_HyperVGeneration_STATUS</h2>
+<h2 id="VirtualMachineInstanceView_HyperVGeneration_STATUS">VirtualMachineInstanceView_HyperVGeneration_STATUS</h2>
 <p>Used by: <a href="#VirtualMachineInstanceView_STATUS">VirtualMachineInstanceView_STATUS</a>.</p>
 <table>
   <thead>
@@ -6630,7 +6630,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinepatchstatus_statusavirtualmachinepatchstatus_status"><a id="VirtualMachinePatchStatus_STATUS"></a>VirtualMachinePatchStatus_STATUS</h2>
+<h2 id="VirtualMachinePatchStatus_STATUS">VirtualMachinePatchStatus_STATUS</h2>
 <p>The status of virtual machine patch operations.</p>
 <p>Used by: <a href="#VirtualMachineInstanceView_STATUS">VirtualMachineInstanceView_STATUS</a>.</p>
 <table>
@@ -6659,7 +6659,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinescalesetextensionprofileavirtualmachinescalesetextensionprofile"><a id="VirtualMachineScaleSetExtensionProfile"></a>VirtualMachineScaleSetExtensionProfile</h2>
+<h2 id="VirtualMachineScaleSetExtensionProfile">VirtualMachineScaleSetExtensionProfile</h2>
 <p>Describes a virtual machine scale set extension profile.</p>
 <p>Used by: <a href="#VirtualMachineScaleSetVMProfile">VirtualMachineScaleSetVMProfile</a>.</p>
 <table>
@@ -6683,7 +6683,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinescalesetextensionprofile_statusavirtualmachinescalesetextensionprofile_status"><a id="VirtualMachineScaleSetExtensionProfile_STATUS"></a>VirtualMachineScaleSetExtensionProfile_STATUS</h2>
+<h2 id="VirtualMachineScaleSetExtensionProfile_STATUS">VirtualMachineScaleSetExtensionProfile_STATUS</h2>
 <p>Describes a virtual machine scale set extension profile.</p>
 <p>Used by: <a href="#VirtualMachineScaleSetVMProfile_STATUS">VirtualMachineScaleSetVMProfile_STATUS</a>.</p>
 <table>
@@ -6707,7 +6707,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinescalesetidentity_typeavirtualmachinescalesetidentity_type"><a id="VirtualMachineScaleSetIdentity_Type"></a>VirtualMachineScaleSetIdentity_Type</h2>
+<h2 id="VirtualMachineScaleSetIdentity_Type">VirtualMachineScaleSetIdentity_Type</h2>
 <p>Used by: <a href="#VirtualMachineScaleSetIdentity">VirtualMachineScaleSetIdentity</a>.</p>
 <table>
   <thead>
@@ -6735,7 +6735,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinescalesetidentity_type_statusavirtualmachinescalesetidentity_type_status"><a id="VirtualMachineScaleSetIdentity_Type_STATUS"></a>VirtualMachineScaleSetIdentity_Type_STATUS</h2>
+<h2 id="VirtualMachineScaleSetIdentity_Type_STATUS">VirtualMachineScaleSetIdentity_Type_STATUS</h2>
 <p>Used by: <a href="#VirtualMachineScaleSetIdentity_STATUS">VirtualMachineScaleSetIdentity_STATUS</a>.</p>
 <table>
   <thead>
@@ -6763,7 +6763,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinescalesetidentity_userassignedidentities_statusavirtualmachinescalesetidentity_userassignedidentities_status"><a id="VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS"></a>VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS</h2>
+<h2 id="VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS">VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS</h2>
 <p>Used by: <a href="#VirtualMachineScaleSetIdentity_STATUS">VirtualMachineScaleSetIdentity_STATUS</a>.</p>
 <table>
   <thead>
@@ -6786,7 +6786,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinescalesetnetworkprofileavirtualmachinescalesetnetworkprofile"><a id="VirtualMachineScaleSetNetworkProfile"></a>VirtualMachineScaleSetNetworkProfile</h2>
+<h2 id="VirtualMachineScaleSetNetworkProfile">VirtualMachineScaleSetNetworkProfile</h2>
 <p>Describes a virtual machine scale set network profile.</p>
 <p>Used by: <a href="#VirtualMachineScaleSetVMProfile">VirtualMachineScaleSetVMProfile</a>.</p>
 <table>
@@ -6810,7 +6810,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinescalesetnetworkprofile_statusavirtualmachinescalesetnetworkprofile_status"><a id="VirtualMachineScaleSetNetworkProfile_STATUS"></a>VirtualMachineScaleSetNetworkProfile_STATUS</h2>
+<h2 id="VirtualMachineScaleSetNetworkProfile_STATUS">VirtualMachineScaleSetNetworkProfile_STATUS</h2>
 <p>Describes a virtual machine scale set network profile.</p>
 <p>Used by: <a href="#VirtualMachineScaleSetVMProfile_STATUS">VirtualMachineScaleSetVMProfile_STATUS</a>.</p>
 <table>
@@ -6834,7 +6834,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinescalesetosprofileavirtualmachinescalesetosprofile"><a id="VirtualMachineScaleSetOSProfile"></a>VirtualMachineScaleSetOSProfile</h2>
+<h2 id="VirtualMachineScaleSetOSProfile">VirtualMachineScaleSetOSProfile</h2>
 <p>Describes a virtual machine scale set OS profile.</p>
 <p>Used by: <a href="#VirtualMachineScaleSetVMProfile">VirtualMachineScaleSetVMProfile</a>.</p>
 <table>
@@ -6883,7 +6883,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinescalesetosprofile_statusavirtualmachinescalesetosprofile_status"><a id="VirtualMachineScaleSetOSProfile_STATUS"></a>VirtualMachineScaleSetOSProfile_STATUS</h2>
+<h2 id="VirtualMachineScaleSetOSProfile_STATUS">VirtualMachineScaleSetOSProfile_STATUS</h2>
 <p>Describes a virtual machine scale set OS profile.</p>
 <p>Used by: <a href="#VirtualMachineScaleSetVMProfile_STATUS">VirtualMachineScaleSetVMProfile_STATUS</a>.</p>
 <table>
@@ -6927,7 +6927,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinescalesetstorageprofileavirtualmachinescalesetstorageprofile"><a id="VirtualMachineScaleSetStorageProfile"></a>VirtualMachineScaleSetStorageProfile</h2>
+<h2 id="VirtualMachineScaleSetStorageProfile">VirtualMachineScaleSetStorageProfile</h2>
 <p>Describes a virtual machine scale set storage profile.</p>
 <p>Used by: <a href="#VirtualMachineScaleSetVMProfile">VirtualMachineScaleSetVMProfile</a>.</p>
 <table>
@@ -6956,7 +6956,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinescalesetstorageprofile_statusavirtualmachinescalesetstorageprofile_status"><a id="VirtualMachineScaleSetStorageProfile_STATUS"></a>VirtualMachineScaleSetStorageProfile_STATUS</h2>
+<h2 id="VirtualMachineScaleSetStorageProfile_STATUS">VirtualMachineScaleSetStorageProfile_STATUS</h2>
 <p>Describes a virtual machine scale set storage profile.</p>
 <p>Used by: <a href="#VirtualMachineScaleSetVMProfile_STATUS">VirtualMachineScaleSetVMProfile_STATUS</a>.</p>
 <table>
@@ -6985,7 +6985,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idwindowsconfigurationawindowsconfiguration"><a id="WindowsConfiguration"></a>WindowsConfiguration</h2>
+<h2 id="WindowsConfiguration">WindowsConfiguration</h2>
 <p>Specifies Windows operating system settings on the virtual machine.</p>
 <p>Used by: <a href="#OSProfile">OSProfile</a>, and <a href="#VirtualMachineScaleSetOSProfile">VirtualMachineScaleSetOSProfile</a>.</p>
 <table>
@@ -7029,7 +7029,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idwindowsconfiguration_statusawindowsconfiguration_status"><a id="WindowsConfiguration_STATUS"></a>WindowsConfiguration_STATUS</h2>
+<h2 id="WindowsConfiguration_STATUS">WindowsConfiguration_STATUS</h2>
 <p>Specifies Windows operating system settings on the virtual machine.</p>
 <p>Used by: <a href="#OSProfile_STATUS">OSProfile_STATUS</a>, and <a href="#VirtualMachineScaleSetOSProfile_STATUS">VirtualMachineScaleSetOSProfile_STATUS</a>.</p>
 <table>
@@ -7073,7 +7073,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idadditionalunattendcontentaadditionalunattendcontent"><a id="AdditionalUnattendContent"></a>AdditionalUnattendContent</h2>
+<h2 id="AdditionalUnattendContent">AdditionalUnattendContent</h2>
 <p>Specifies additional XML formatted information that can be included in the Unattend.xml file, which is used by Windows Setup. Contents are defined by setting name, component name, and the pass in which the content is applied.</p>
 <p>Used by: <a href="#WindowsConfiguration">WindowsConfiguration</a>.</p>
 <table>
@@ -7107,7 +7107,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idadditionalunattendcontent_statusaadditionalunattendcontent_status"><a id="AdditionalUnattendContent_STATUS"></a>AdditionalUnattendContent_STATUS</h2>
+<h2 id="AdditionalUnattendContent_STATUS">AdditionalUnattendContent_STATUS</h2>
 <p>Specifies additional XML formatted information that can be included in the Unattend.xml file, which is used by Windows Setup. Contents are defined by setting name, component name, and the pass in which the content is applied.</p>
 <p>Used by: <a href="#WindowsConfiguration_STATUS">WindowsConfiguration_STATUS</a>.</p>
 <table>
@@ -7141,7 +7141,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idapientityreferenceaapientityreference"><a id="ApiEntityReference"></a>ApiEntityReference</h2>
+<h2 id="ApiEntityReference">ApiEntityReference</h2>
 <p>The API entity reference.</p>
 <p>Used by: <a href="#VirtualMachineScaleSetIPConfiguration">VirtualMachineScaleSetIPConfiguration</a>, and <a href="#VirtualMachineScaleSetNetworkProfile">VirtualMachineScaleSetNetworkProfile</a>.</p>
 <table>
@@ -7160,7 +7160,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idapientityreference_statusaapientityreference_status"><a id="ApiEntityReference_STATUS"></a>ApiEntityReference_STATUS</h2>
+<h2 id="ApiEntityReference_STATUS">ApiEntityReference_STATUS</h2>
 <p>The API entity reference.</p>
 <p>Used by: <a href="#VirtualMachineScaleSetIPConfiguration_STATUS">VirtualMachineScaleSetIPConfiguration_STATUS</a>, and <a href="#VirtualMachineScaleSetNetworkProfile_STATUS">VirtualMachineScaleSetNetworkProfile_STATUS</a>.</p>
 <table>
@@ -7179,7 +7179,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idavailablepatchsummary_statusaavailablepatchsummary_status"><a id="AvailablePatchSummary_STATUS"></a>AvailablePatchSummary_STATUS</h2>
+<h2 id="AvailablePatchSummary_STATUS">AvailablePatchSummary_STATUS</h2>
 <p>Describes the properties of an virtual machine instance view for available patch summary.</p>
 <p>Used by: <a href="#VirtualMachinePatchStatus_STATUS">VirtualMachinePatchStatus_STATUS</a>.</p>
 <table>
@@ -7233,7 +7233,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idcachingacaching"><a id="Caching"></a>Caching</h2>
+<h2 id="Caching">Caching</h2>
 <p>Specifies the caching requirements. Possible values are: None ReadOnly ReadWrite Default: None for Standard storage. ReadOnly for Premium storage</p>
 <p>Used by: <a href="#DataDisk">DataDisk</a>, <a href="#OSDisk">OSDisk</a>, <a href="#VirtualMachineScaleSetDataDisk">VirtualMachineScaleSetDataDisk</a>, and <a href="#VirtualMachineScaleSetOSDisk">VirtualMachineScaleSetOSDisk</a>.</p>
 <table>
@@ -7258,7 +7258,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idcaching_statusacaching_status"><a id="Caching_STATUS"></a>Caching_STATUS</h2>
+<h2 id="Caching_STATUS">Caching_STATUS</h2>
 <p>Specifies the caching requirements. Possible values are: None ReadOnly ReadWrite Default: None for Standard storage. ReadOnly for Premium storage</p>
 <p>Used by: <a href="#DataDisk_STATUS">DataDisk_STATUS</a>, <a href="#OSDisk_STATUS">OSDisk_STATUS</a>, <a href="#VirtualMachineScaleSetDataDisk_STATUS">VirtualMachineScaleSetDataDisk_STATUS</a>, and <a href="#VirtualMachineScaleSetOSDisk_STATUS">VirtualMachineScaleSetOSDisk_STATUS</a>.</p>
 <table>
@@ -7283,7 +7283,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idcreateoptionacreateoption"><a id="CreateOption"></a>CreateOption</h2>
+<h2 id="CreateOption">CreateOption</h2>
 <p>Specifies how the virtual machine should be created. Possible values are: Attach \u2013 This value is used when you are using a specialized disk to create the virtual machine. FromImage \u2013 This value is used when you are using an image to create the virtual machine. If you are using a platform image, you also use the imageReference element described above. If you are using a marketplace image, you also use the plan element previously described.</p>
 <p>Used by: <a href="#DataDisk">DataDisk</a>, <a href="#OSDisk">OSDisk</a>, <a href="#VirtualMachineScaleSetDataDisk">VirtualMachineScaleSetDataDisk</a>, and <a href="#VirtualMachineScaleSetOSDisk">VirtualMachineScaleSetOSDisk</a>.</p>
 <table>
@@ -7308,7 +7308,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idcreateoption_statusacreateoption_status"><a id="CreateOption_STATUS"></a>CreateOption_STATUS</h2>
+<h2 id="CreateOption_STATUS">CreateOption_STATUS</h2>
 <p>Specifies how the virtual machine should be created. Possible values are: Attach \u2013 This value is used when you are using a specialized disk to create the virtual machine. FromImage \u2013 This value is used when you are using an image to create the virtual machine. If you are using a platform image, you also use the imageReference element described above. If you are using a marketplace image, you also use the plan element previously described.</p>
 <p>Used by: <a href="#DataDisk_STATUS">DataDisk_STATUS</a>, <a href="#OSDisk_STATUS">OSDisk_STATUS</a>, <a href="#VirtualMachineScaleSetDataDisk_STATUS">VirtualMachineScaleSetDataDisk_STATUS</a>, and <a href="#VirtualMachineScaleSetOSDisk_STATUS">VirtualMachineScaleSetOSDisk_STATUS</a>.</p>
 <table>
@@ -7333,7 +7333,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-iddetachoptionadetachoption"><a id="DetachOption"></a>DetachOption</h2>
+<h2 id="DetachOption">DetachOption</h2>
 <p>Specifies the detach behavior to be used while detaching a disk or which is already in the process of detachment from the virtual machine. Supported values: ForceDetach. detachOption: ForceDetach is applicable only for managed data disks. If a previous detachment attempt of the data disk did not complete due to an unexpected failure from the virtual machine and the disk is still not released then use force-detach as a last resort option to detach the disk forcibly from the VM. All writes might not have been flushed when using this detach behavior. This feature is still in preview mode and is not supported for VirtualMachineScaleSet. To force-detach a data disk update toBeDetached to &rsquo;true&rsquo; along with setting detachOption: &lsquo;ForceDetach&rsquo;.</p>
 <p>Used by: <a href="#DataDisk">DataDisk</a>.</p>
 <table>
@@ -7350,7 +7350,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-iddetachoption_statusadetachoption_status"><a id="DetachOption_STATUS"></a>DetachOption_STATUS</h2>
+<h2 id="DetachOption_STATUS">DetachOption_STATUS</h2>
 <p>Specifies the detach behavior to be used while detaching a disk or which is already in the process of detachment from the virtual machine. Supported values: ForceDetach. detachOption: ForceDetach is applicable only for managed data disks. If a previous detachment attempt of the data disk did not complete due to an unexpected failure from the virtual machine and the disk is still not released then use force-detach as a last resort option to detach the disk forcibly from the VM. All writes might not have been flushed when using this detach behavior. This feature is still in preview mode and is not supported for VirtualMachineScaleSet. To force-detach a data disk update toBeDetached to &rsquo;true&rsquo; along with setting detachOption: &lsquo;ForceDetach&rsquo;.</p>
 <p>Used by: <a href="#DataDisk_STATUS">DataDisk_STATUS</a>.</p>
 <table>
@@ -7367,7 +7367,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-iddiffdisksettingsadiffdisksettings"><a id="DiffDiskSettings"></a>DiffDiskSettings</h2>
+<h2 id="DiffDiskSettings">DiffDiskSettings</h2>
 <p>Describes the parameters of ephemeral disk settings that can be specified for operating system disk. NOTE: The ephemeral disk settings can only be specified for managed disk.</p>
 <p>Used by: <a href="#OSDisk">OSDisk</a>, and <a href="#VirtualMachineScaleSetOSDisk">VirtualMachineScaleSetOSDisk</a>.</p>
 <table>
@@ -7391,7 +7391,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-iddiffdisksettings_statusadiffdisksettings_status"><a id="DiffDiskSettings_STATUS"></a>DiffDiskSettings_STATUS</h2>
+<h2 id="DiffDiskSettings_STATUS">DiffDiskSettings_STATUS</h2>
 <p>Describes the parameters of ephemeral disk settings that can be specified for operating system disk. NOTE: The ephemeral disk settings can only be specified for managed disk.</p>
 <p>Used by: <a href="#OSDisk_STATUS">OSDisk_STATUS</a>, and <a href="#VirtualMachineScaleSetOSDisk_STATUS">VirtualMachineScaleSetOSDisk_STATUS</a>.</p>
 <table>
@@ -7415,7 +7415,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-iddiskencryptionsettingsadiskencryptionsettings"><a id="DiskEncryptionSettings"></a>DiskEncryptionSettings</h2>
+<h2 id="DiskEncryptionSettings">DiskEncryptionSettings</h2>
 <p>Describes a Encryption Settings for a Disk</p>
 <p>Used by: <a href="#OSDisk">OSDisk</a>.</p>
 <table>
@@ -7444,7 +7444,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-iddiskencryptionsettings_statusadiskencryptionsettings_status"><a id="DiskEncryptionSettings_STATUS"></a>DiskEncryptionSettings_STATUS</h2>
+<h2 id="DiskEncryptionSettings_STATUS">DiskEncryptionSettings_STATUS</h2>
 <p>Describes a Encryption Settings for a Disk</p>
 <p>Used by: <a href="#DiskInstanceView_STATUS">DiskInstanceView_STATUS</a>, and <a href="#OSDisk_STATUS">OSDisk_STATUS</a>.</p>
 <table>
@@ -7473,7 +7473,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idinstanceviewstatus_levelainstanceviewstatus_level"><a id="InstanceViewStatus_Level"></a>InstanceViewStatus_Level</h2>
+<h2 id="InstanceViewStatus_Level">InstanceViewStatus_Level</h2>
 <p>Used by: <a href="#InstanceViewStatus">InstanceViewStatus</a>.</p>
 <table>
   <thead>
@@ -7497,7 +7497,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idinstanceviewstatus_level_statusainstanceviewstatus_level_status"><a id="InstanceViewStatus_Level_STATUS"></a>InstanceViewStatus_Level_STATUS</h2>
+<h2 id="InstanceViewStatus_Level_STATUS">InstanceViewStatus_Level_STATUS</h2>
 <p>Used by: <a href="#InstanceViewStatus_STATUS">InstanceViewStatus_STATUS</a>.</p>
 <table>
   <thead>
@@ -7521,7 +7521,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idlastpatchinstallationsummary_statusalastpatchinstallationsummary_status"><a id="LastPatchInstallationSummary_STATUS"></a>LastPatchInstallationSummary_STATUS</h2>
+<h2 id="LastPatchInstallationSummary_STATUS">LastPatchInstallationSummary_STATUS</h2>
 <p>Describes the properties of the last installed patch summary.</p>
 <p>Used by: <a href="#VirtualMachinePatchStatus_STATUS">VirtualMachinePatchStatus_STATUS</a>.</p>
 <table>
@@ -7590,7 +7590,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idlinuxpatchsettingsalinuxpatchsettings"><a id="LinuxPatchSettings"></a>LinuxPatchSettings</h2>
+<h2 id="LinuxPatchSettings">LinuxPatchSettings</h2>
 <p>Specifies settings related to VM Guest Patching on Linux.</p>
 <p>Used by: <a href="#LinuxConfiguration">LinuxConfiguration</a>.</p>
 <table>
@@ -7609,7 +7609,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idlinuxpatchsettings_statusalinuxpatchsettings_status"><a id="LinuxPatchSettings_STATUS"></a>LinuxPatchSettings_STATUS</h2>
+<h2 id="LinuxPatchSettings_STATUS">LinuxPatchSettings_STATUS</h2>
 <p>Specifies settings related to VM Guest Patching on Linux.</p>
 <p>Used by: <a href="#LinuxConfiguration_STATUS">LinuxConfiguration_STATUS</a>.</p>
 <table>
@@ -7628,7 +7628,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idmaintenanceredeploystatus_lastoperationresultcode_statusamaintenanceredeploystatus_lastoperationresultcode_status"><a id="MaintenanceRedeployStatus_LastOperationResultCode_STATUS"></a>MaintenanceRedeployStatus_LastOperationResultCode_STATUS</h2>
+<h2 id="MaintenanceRedeployStatus_LastOperationResultCode_STATUS">MaintenanceRedeployStatus_LastOperationResultCode_STATUS</h2>
 <p>Used by: <a href="#MaintenanceRedeployStatus_STATUS">MaintenanceRedeployStatus_STATUS</a>.</p>
 <table>
   <thead>
@@ -7656,7 +7656,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idmanageddiskparametersamanageddiskparameters"><a id="ManagedDiskParameters"></a>ManagedDiskParameters</h2>
+<h2 id="ManagedDiskParameters">ManagedDiskParameters</h2>
 <p>The parameters of a managed disk.</p>
 <p>Used by: <a href="#DataDisk">DataDisk</a>, and <a href="#OSDisk">OSDisk</a>.</p>
 <table>
@@ -7685,7 +7685,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idmanageddiskparameters_statusamanageddiskparameters_status"><a id="ManagedDiskParameters_STATUS"></a>ManagedDiskParameters_STATUS</h2>
+<h2 id="ManagedDiskParameters_STATUS">ManagedDiskParameters_STATUS</h2>
 <p>The parameters of a managed disk.</p>
 <p>Used by: <a href="#DataDisk_STATUS">DataDisk_STATUS</a>, and <a href="#OSDisk_STATUS">OSDisk_STATUS</a>.</p>
 <table>
@@ -7714,7 +7714,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idosdisk_ostypeaosdisk_ostype"><a id="OSDisk_OsType"></a>OSDisk_OsType</h2>
+<h2 id="OSDisk_OsType">OSDisk_OsType</h2>
 <p>Used by: <a href="#OSDisk">OSDisk</a>.</p>
 <table>
   <thead>
@@ -7734,7 +7734,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idosdisk_ostype_statusaosdisk_ostype_status"><a id="OSDisk_OsType_STATUS"></a>OSDisk_OsType_STATUS</h2>
+<h2 id="OSDisk_OsType_STATUS">OSDisk_OsType_STATUS</h2>
 <p>Used by: <a href="#OSDisk_STATUS">OSDisk_STATUS</a>.</p>
 <table>
   <thead>
@@ -7754,7 +7754,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idpatchsettingsapatchsettings"><a id="PatchSettings"></a>PatchSettings</h2>
+<h2 id="PatchSettings">PatchSettings</h2>
 <p>Specifies settings related to VM Guest Patching on Windows.</p>
 <p>Used by: <a href="#WindowsConfiguration">WindowsConfiguration</a>.</p>
 <table>
@@ -7778,7 +7778,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idpatchsettings_statusapatchsettings_status"><a id="PatchSettings_STATUS"></a>PatchSettings_STATUS</h2>
+<h2 id="PatchSettings_STATUS">PatchSettings_STATUS</h2>
 <p>Specifies settings related to VM Guest Patching on Windows.</p>
 <p>Used by: <a href="#WindowsConfiguration_STATUS">WindowsConfiguration_STATUS</a>.</p>
 <table>
@@ -7802,7 +7802,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idsshconfigurationasshconfiguration"><a id="SshConfiguration"></a>SshConfiguration</h2>
+<h2 id="SshConfiguration">SshConfiguration</h2>
 <p>SSH configuration for Linux based VMs running on Azure</p>
 <p>Used by: <a href="#LinuxConfiguration">LinuxConfiguration</a>.</p>
 <table>
@@ -7821,7 +7821,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idsshconfiguration_statusasshconfiguration_status"><a id="SshConfiguration_STATUS"></a>SshConfiguration_STATUS</h2>
+<h2 id="SshConfiguration_STATUS">SshConfiguration_STATUS</h2>
 <p>SSH configuration for Linux based VMs running on Azure</p>
 <p>Used by: <a href="#LinuxConfiguration_STATUS">LinuxConfiguration_STATUS</a>.</p>
 <table>
@@ -7840,7 +7840,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idterminatenotificationprofileaterminatenotificationprofile"><a id="TerminateNotificationProfile"></a>TerminateNotificationProfile</h2>
+<h2 id="TerminateNotificationProfile">TerminateNotificationProfile</h2>
 <p>Used by: <a href="#ScheduledEventsProfile">ScheduledEventsProfile</a>.</p>
 <table>
   <thead>
@@ -7863,7 +7863,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idterminatenotificationprofile_statusaterminatenotificationprofile_status"><a id="TerminateNotificationProfile_STATUS"></a>TerminateNotificationProfile_STATUS</h2>
+<h2 id="TerminateNotificationProfile_STATUS">TerminateNotificationProfile_STATUS</h2>
 <p>Used by: <a href="#ScheduledEventsProfile_STATUS">ScheduledEventsProfile_STATUS</a>.</p>
 <table>
   <thead>
@@ -7886,7 +7886,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvaultcertificateavaultcertificate"><a id="VaultCertificate"></a>VaultCertificate</h2>
+<h2 id="VaultCertificate">VaultCertificate</h2>
 <p>Describes a single certificate reference in a Key Vault, and where the certificate should reside on the VM.</p>
 <p>Used by: <a href="#VaultSecretGroup">VaultSecretGroup</a>.</p>
 <table>
@@ -7910,7 +7910,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvaultcertificate_statusavaultcertificate_status"><a id="VaultCertificate_STATUS"></a>VaultCertificate_STATUS</h2>
+<h2 id="VaultCertificate_STATUS">VaultCertificate_STATUS</h2>
 <p>Describes a single certificate reference in a Key Vault, and where the certificate should reside on the VM.</p>
 <p>Used by: <a href="#VaultSecretGroup_STATUS">VaultSecretGroup_STATUS</a>.</p>
 <table>
@@ -7934,7 +7934,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualharddiskavirtualharddisk"><a id="VirtualHardDisk"></a>VirtualHardDisk</h2>
+<h2 id="VirtualHardDisk">VirtualHardDisk</h2>
 <p>Describes the uri of a disk.</p>
 <p>Used by: <a href="#DataDisk">DataDisk</a>, <a href="#DataDisk">DataDisk</a>, <a href="#OSDisk">OSDisk</a>, <a href="#OSDisk">OSDisk</a>, and <a href="#VirtualMachineScaleSetOSDisk">VirtualMachineScaleSetOSDisk</a>.</p>
 <table>
@@ -7953,7 +7953,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualharddisk_statusavirtualharddisk_status"><a id="VirtualHardDisk_STATUS"></a>VirtualHardDisk_STATUS</h2>
+<h2 id="VirtualHardDisk_STATUS">VirtualHardDisk_STATUS</h2>
 <p>Describes the uri of a disk.</p>
 <p>Used by: <a href="#DataDisk_STATUS">DataDisk_STATUS</a>, <a href="#DataDisk_STATUS">DataDisk_STATUS</a>, <a href="#OSDisk_STATUS">OSDisk_STATUS</a>, <a href="#OSDisk_STATUS">OSDisk_STATUS</a>, and <a href="#VirtualMachineScaleSetOSDisk_STATUS">VirtualMachineScaleSetOSDisk_STATUS</a>.</p>
 <table>
@@ -7972,7 +7972,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachineextensionhandlerinstanceview_statusavirtualmachineextensionhandlerinstanceview_status"><a id="VirtualMachineExtensionHandlerInstanceView_STATUS"></a>VirtualMachineExtensionHandlerInstanceView_STATUS</h2>
+<h2 id="VirtualMachineExtensionHandlerInstanceView_STATUS">VirtualMachineExtensionHandlerInstanceView_STATUS</h2>
 <p>The instance view of a virtual machine extension handler.</p>
 <p>Used by: <a href="#VirtualMachineAgentInstanceView_STATUS">VirtualMachineAgentInstanceView_STATUS</a>.</p>
 <table>
@@ -8001,7 +8001,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinescalesetdatadiskavirtualmachinescalesetdatadisk"><a id="VirtualMachineScaleSetDataDisk"></a>VirtualMachineScaleSetDataDisk</h2>
+<h2 id="VirtualMachineScaleSetDataDisk">VirtualMachineScaleSetDataDisk</h2>
 <p>Describes a virtual machine scale set data disk.</p>
 <p>Used by: <a href="#VirtualMachineScaleSetStorageProfile">VirtualMachineScaleSetStorageProfile</a>.</p>
 <table>
@@ -8060,7 +8060,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinescalesetdatadisk_statusavirtualmachinescalesetdatadisk_status"><a id="VirtualMachineScaleSetDataDisk_STATUS"></a>VirtualMachineScaleSetDataDisk_STATUS</h2>
+<h2 id="VirtualMachineScaleSetDataDisk_STATUS">VirtualMachineScaleSetDataDisk_STATUS</h2>
 <p>Describes a virtual machine scale set data disk.</p>
 <p>Used by: <a href="#VirtualMachineScaleSetStorageProfile_STATUS">VirtualMachineScaleSetStorageProfile_STATUS</a>.</p>
 <table>
@@ -8119,7 +8119,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinescalesetextensionavirtualmachinescalesetextension"><a id="VirtualMachineScaleSetExtension"></a>VirtualMachineScaleSetExtension</h2>
+<h2 id="VirtualMachineScaleSetExtension">VirtualMachineScaleSetExtension</h2>
 <p>Describes a Virtual Machine Scale Set Extension.</p>
 <p>Used by: <a href="#VirtualMachineScaleSetExtensionProfile">VirtualMachineScaleSetExtensionProfile</a>.</p>
 <table>
@@ -8183,7 +8183,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinescalesetextension_statusavirtualmachinescalesetextension_status"><a id="VirtualMachineScaleSetExtension_STATUS"></a>VirtualMachineScaleSetExtension_STATUS</h2>
+<h2 id="VirtualMachineScaleSetExtension_STATUS">VirtualMachineScaleSetExtension_STATUS</h2>
 <p>Describes a Virtual Machine Scale Set Extension.</p>
 <p>Used by: <a href="#VirtualMachineScaleSetExtensionProfile_STATUS">VirtualMachineScaleSetExtensionProfile_STATUS</a>.</p>
 <table>
@@ -8257,7 +8257,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinescalesetnetworkconfigurationavirtualmachinescalesetnetworkconfiguration"><a id="VirtualMachineScaleSetNetworkConfiguration"></a>VirtualMachineScaleSetNetworkConfiguration</h2>
+<h2 id="VirtualMachineScaleSetNetworkConfiguration">VirtualMachineScaleSetNetworkConfiguration</h2>
 <p>Describes a virtual machine scale set network profile&rsquo;s network configurations.</p>
 <p>Used by: <a href="#VirtualMachineScaleSetNetworkProfile">VirtualMachineScaleSetNetworkProfile</a>.</p>
 <table>
@@ -8316,7 +8316,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinescalesetnetworkconfiguration_statusavirtualmachinescalesetnetworkconfiguration_status"><a id="VirtualMachineScaleSetNetworkConfiguration_STATUS"></a>VirtualMachineScaleSetNetworkConfiguration_STATUS</h2>
+<h2 id="VirtualMachineScaleSetNetworkConfiguration_STATUS">VirtualMachineScaleSetNetworkConfiguration_STATUS</h2>
 <p>Describes a virtual machine scale set network profile&rsquo;s network configurations.</p>
 <p>Used by: <a href="#VirtualMachineScaleSetNetworkProfile_STATUS">VirtualMachineScaleSetNetworkProfile_STATUS</a>.</p>
 <table>
@@ -8375,7 +8375,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinescalesetosdiskavirtualmachinescalesetosdisk"><a id="VirtualMachineScaleSetOSDisk"></a>VirtualMachineScaleSetOSDisk</h2>
+<h2 id="VirtualMachineScaleSetOSDisk">VirtualMachineScaleSetOSDisk</h2>
 <p>Describes a virtual machine scale set operating system disk.</p>
 <p>Used by: <a href="#VirtualMachineScaleSetStorageProfile">VirtualMachineScaleSetStorageProfile</a>.</p>
 <table>
@@ -8439,7 +8439,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinescalesetosdisk_statusavirtualmachinescalesetosdisk_status"><a id="VirtualMachineScaleSetOSDisk_STATUS"></a>VirtualMachineScaleSetOSDisk_STATUS</h2>
+<h2 id="VirtualMachineScaleSetOSDisk_STATUS">VirtualMachineScaleSetOSDisk_STATUS</h2>
 <p>Describes a virtual machine scale set operating system disk.</p>
 <p>Used by: <a href="#VirtualMachineScaleSetStorageProfile_STATUS">VirtualMachineScaleSetStorageProfile_STATUS</a>.</p>
 <table>
@@ -8503,7 +8503,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idwinrmconfigurationawinrmconfiguration"><a id="WinRMConfiguration"></a>WinRMConfiguration</h2>
+<h2 id="WinRMConfiguration">WinRMConfiguration</h2>
 <p>Describes Windows Remote Management configuration of the VM</p>
 <p>Used by: <a href="#WindowsConfiguration">WindowsConfiguration</a>.</p>
 <table>
@@ -8522,7 +8522,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idwinrmconfiguration_statusawinrmconfiguration_status"><a id="WinRMConfiguration_STATUS"></a>WinRMConfiguration_STATUS</h2>
+<h2 id="WinRMConfiguration_STATUS">WinRMConfiguration_STATUS</h2>
 <p>Describes Windows Remote Management configuration of the VM</p>
 <p>Used by: <a href="#WindowsConfiguration_STATUS">WindowsConfiguration_STATUS</a>.</p>
 <table>
@@ -8541,7 +8541,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idadditionalunattendcontent_componentnameaadditionalunattendcontent_componentname"><a id="AdditionalUnattendContent_ComponentName"></a>AdditionalUnattendContent_ComponentName</h2>
+<h2 id="AdditionalUnattendContent_ComponentName">AdditionalUnattendContent_ComponentName</h2>
 <p>Used by: <a href="#AdditionalUnattendContent">AdditionalUnattendContent</a>.</p>
 <table>
   <thead>
@@ -8557,7 +8557,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idadditionalunattendcontent_componentname_statusaadditionalunattendcontent_componentname_status"><a id="AdditionalUnattendContent_ComponentName_STATUS"></a>AdditionalUnattendContent_ComponentName_STATUS</h2>
+<h2 id="AdditionalUnattendContent_ComponentName_STATUS">AdditionalUnattendContent_ComponentName_STATUS</h2>
 <p>Used by: <a href="#AdditionalUnattendContent_STATUS">AdditionalUnattendContent_STATUS</a>.</p>
 <table>
   <thead>
@@ -8573,7 +8573,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idadditionalunattendcontent_passnameaadditionalunattendcontent_passname"><a id="AdditionalUnattendContent_PassName"></a>AdditionalUnattendContent_PassName</h2>
+<h2 id="AdditionalUnattendContent_PassName">AdditionalUnattendContent_PassName</h2>
 <p>Used by: <a href="#AdditionalUnattendContent">AdditionalUnattendContent</a>.</p>
 <table>
   <thead>
@@ -8589,7 +8589,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idadditionalunattendcontent_passname_statusaadditionalunattendcontent_passname_status"><a id="AdditionalUnattendContent_PassName_STATUS"></a>AdditionalUnattendContent_PassName_STATUS</h2>
+<h2 id="AdditionalUnattendContent_PassName_STATUS">AdditionalUnattendContent_PassName_STATUS</h2>
 <p>Used by: <a href="#AdditionalUnattendContent_STATUS">AdditionalUnattendContent_STATUS</a>.</p>
 <table>
   <thead>
@@ -8605,7 +8605,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idadditionalunattendcontent_settingnameaadditionalunattendcontent_settingname"><a id="AdditionalUnattendContent_SettingName"></a>AdditionalUnattendContent_SettingName</h2>
+<h2 id="AdditionalUnattendContent_SettingName">AdditionalUnattendContent_SettingName</h2>
 <p>Used by: <a href="#AdditionalUnattendContent">AdditionalUnattendContent</a>.</p>
 <table>
   <thead>
@@ -8625,7 +8625,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idadditionalunattendcontent_settingname_statusaadditionalunattendcontent_settingname_status"><a id="AdditionalUnattendContent_SettingName_STATUS"></a>AdditionalUnattendContent_SettingName_STATUS</h2>
+<h2 id="AdditionalUnattendContent_SettingName_STATUS">AdditionalUnattendContent_SettingName_STATUS</h2>
 <p>Used by: <a href="#AdditionalUnattendContent_STATUS">AdditionalUnattendContent_STATUS</a>.</p>
 <table>
   <thead>
@@ -8645,7 +8645,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idapierror_statusaapierror_status"><a id="ApiError_STATUS"></a>ApiError_STATUS</h2>
+<h2 id="ApiError_STATUS">ApiError_STATUS</h2>
 <p>Api error.</p>
 <p>Used by: <a href="#AvailablePatchSummary_STATUS">AvailablePatchSummary_STATUS</a>, and <a href="#LastPatchInstallationSummary_STATUS">LastPatchInstallationSummary_STATUS</a>.</p>
 <table>
@@ -8684,7 +8684,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idavailablepatchsummary_status_statusaavailablepatchsummary_status_status"><a id="AvailablePatchSummary_Status_STATUS"></a>AvailablePatchSummary_Status_STATUS</h2>
+<h2 id="AvailablePatchSummary_Status_STATUS">AvailablePatchSummary_Status_STATUS</h2>
 <p>Used by: <a href="#AvailablePatchSummary_STATUS">AvailablePatchSummary_STATUS</a>.</p>
 <table>
   <thead>
@@ -8716,7 +8716,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-iddiffdiskoptionadiffdiskoption"><a id="DiffDiskOption"></a>DiffDiskOption</h2>
+<h2 id="DiffDiskOption">DiffDiskOption</h2>
 <p>Specifies the ephemeral disk option for operating system disk.</p>
 <p>Used by: <a href="#DiffDiskSettings">DiffDiskSettings</a>.</p>
 <table>
@@ -8733,7 +8733,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-iddiffdiskoption_statusadiffdiskoption_status"><a id="DiffDiskOption_STATUS"></a>DiffDiskOption_STATUS</h2>
+<h2 id="DiffDiskOption_STATUS">DiffDiskOption_STATUS</h2>
 <p>Specifies the ephemeral disk option for operating system disk.</p>
 <p>Used by: <a href="#DiffDiskSettings_STATUS">DiffDiskSettings_STATUS</a>.</p>
 <table>
@@ -8750,7 +8750,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-iddiffdiskplacementadiffdiskplacement"><a id="DiffDiskPlacement"></a>DiffDiskPlacement</h2>
+<h2 id="DiffDiskPlacement">DiffDiskPlacement</h2>
 <p>Specifies the ephemeral disk placement for operating system disk. This property can be used by user in the request to choose the location i.e, cache disk or resource disk space for Ephemeral OS disk provisioning. For more information on Ephemeral OS disk size requirements, please refer Ephemeral OS disk size requirements for Windows VM at <a href="https://docs.microsoft.com/en-us/azure/virtual-machines/windows/ephemeral-os-disks#size-requirements">https://docs.microsoft.com/en-us/azure/virtual-machines/windows/ephemeral-os-disks#size-requirements</a> and Linux VM at <a href="https://docs.microsoft.com/en-us/azure/virtual-machines/linux/ephemeral-os-disks#size-requirements">https://docs.microsoft.com/en-us/azure/virtual-machines/linux/ephemeral-os-disks#size-requirements</a></p>
 <p>Used by: <a href="#DiffDiskSettings">DiffDiskSettings</a>.</p>
 <table>
@@ -8771,7 +8771,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-iddiffdiskplacement_statusadiffdiskplacement_status"><a id="DiffDiskPlacement_STATUS"></a>DiffDiskPlacement_STATUS</h2>
+<h2 id="DiffDiskPlacement_STATUS">DiffDiskPlacement_STATUS</h2>
 <p>Specifies the ephemeral disk placement for operating system disk. This property can be used by user in the request to choose the location i.e, cache disk or resource disk space for Ephemeral OS disk provisioning. For more information on Ephemeral OS disk size requirements, please refer Ephemeral OS disk size requirements for Windows VM at <a href="https://docs.microsoft.com/en-us/azure/virtual-machines/windows/ephemeral-os-disks#size-requirements">https://docs.microsoft.com/en-us/azure/virtual-machines/windows/ephemeral-os-disks#size-requirements</a> and Linux VM at <a href="https://docs.microsoft.com/en-us/azure/virtual-machines/linux/ephemeral-os-disks#size-requirements">https://docs.microsoft.com/en-us/azure/virtual-machines/linux/ephemeral-os-disks#size-requirements</a></p>
 <p>Used by: <a href="#DiffDiskSettings_STATUS">DiffDiskSettings_STATUS</a>.</p>
 <table>
@@ -8792,7 +8792,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idkeyvaultkeyreferenceakeyvaultkeyreference"><a id="KeyVaultKeyReference"></a>KeyVaultKeyReference</h2>
+<h2 id="KeyVaultKeyReference">KeyVaultKeyReference</h2>
 <p>Describes a reference to Key Vault Key</p>
 <p>Used by: <a href="#DiskEncryptionSettings">DiskEncryptionSettings</a>.</p>
 <table>
@@ -8816,7 +8816,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idkeyvaultkeyreference_statusakeyvaultkeyreference_status"><a id="KeyVaultKeyReference_STATUS"></a>KeyVaultKeyReference_STATUS</h2>
+<h2 id="KeyVaultKeyReference_STATUS">KeyVaultKeyReference_STATUS</h2>
 <p>Describes a reference to Key Vault Key</p>
 <p>Used by: <a href="#DiskEncryptionSettings_STATUS">DiskEncryptionSettings_STATUS</a>.</p>
 <table>
@@ -8840,7 +8840,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idkeyvaultsecretreferenceakeyvaultsecretreference"><a id="KeyVaultSecretReference"></a>KeyVaultSecretReference</h2>
+<h2 id="KeyVaultSecretReference">KeyVaultSecretReference</h2>
 <p>Describes a reference to Key Vault Secret</p>
 <p>Used by: <a href="#DiskEncryptionSettings">DiskEncryptionSettings</a>.</p>
 <table>
@@ -8864,7 +8864,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idkeyvaultsecretreference_statusakeyvaultsecretreference_status"><a id="KeyVaultSecretReference_STATUS"></a>KeyVaultSecretReference_STATUS</h2>
+<h2 id="KeyVaultSecretReference_STATUS">KeyVaultSecretReference_STATUS</h2>
 <p>Describes a reference to Key Vault Secret</p>
 <p>Used by: <a href="#DiskEncryptionSettings_STATUS">DiskEncryptionSettings_STATUS</a>.</p>
 <table>
@@ -8888,7 +8888,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idlastpatchinstallationsummary_status_statusalastpatchinstallationsummary_status_status"><a id="LastPatchInstallationSummary_Status_STATUS"></a>LastPatchInstallationSummary_Status_STATUS</h2>
+<h2 id="LastPatchInstallationSummary_Status_STATUS">LastPatchInstallationSummary_Status_STATUS</h2>
 <p>Used by: <a href="#LastPatchInstallationSummary_STATUS">LastPatchInstallationSummary_STATUS</a>.</p>
 <table>
   <thead>
@@ -8920,7 +8920,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idlinuxpatchsettings_patchmodealinuxpatchsettings_patchmode"><a id="LinuxPatchSettings_PatchMode"></a>LinuxPatchSettings_PatchMode</h2>
+<h2 id="LinuxPatchSettings_PatchMode">LinuxPatchSettings_PatchMode</h2>
 <p>Used by: <a href="#LinuxPatchSettings">LinuxPatchSettings</a>.</p>
 <table>
   <thead>
@@ -8940,7 +8940,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idlinuxpatchsettings_patchmode_statusalinuxpatchsettings_patchmode_status"><a id="LinuxPatchSettings_PatchMode_STATUS"></a>LinuxPatchSettings_PatchMode_STATUS</h2>
+<h2 id="LinuxPatchSettings_PatchMode_STATUS">LinuxPatchSettings_PatchMode_STATUS</h2>
 <p>Used by: <a href="#LinuxPatchSettings_STATUS">LinuxPatchSettings_STATUS</a>.</p>
 <table>
   <thead>
@@ -8960,7 +8960,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idpatchsettings_patchmodeapatchsettings_patchmode"><a id="PatchSettings_PatchMode"></a>PatchSettings_PatchMode</h2>
+<h2 id="PatchSettings_PatchMode">PatchSettings_PatchMode</h2>
 <p>Used by: <a href="#PatchSettings">PatchSettings</a>.</p>
 <table>
   <thead>
@@ -8984,7 +8984,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idpatchsettings_patchmode_statusapatchsettings_patchmode_status"><a id="PatchSettings_PatchMode_STATUS"></a>PatchSettings_PatchMode_STATUS</h2>
+<h2 id="PatchSettings_PatchMode_STATUS">PatchSettings_PatchMode_STATUS</h2>
 <p>Used by: <a href="#PatchSettings_STATUS">PatchSettings_STATUS</a>.</p>
 <table>
   <thead>
@@ -9008,7 +9008,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idsshpublickey_statusasshpublickey_status"><a id="SshPublicKey_STATUS"></a>SshPublicKey_STATUS</h2>
+<h2 id="SshPublicKey_STATUS">SshPublicKey_STATUS</h2>
 <p>Contains information about SSH certificate public key and the path on the Linux VM where the public key is placed.</p>
 <p>Used by: <a href="#SshConfiguration_STATUS">SshConfiguration_STATUS</a>.</p>
 <table>
@@ -9032,7 +9032,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idsshpublickeyspecasshpublickeyspec"><a id="SshPublicKeySpec"></a>SshPublicKeySpec</h2>
+<h2 id="SshPublicKeySpec">SshPublicKeySpec</h2>
 <p>Contains information about SSH certificate public key and the path on the Linux VM where the public key is placed.</p>
 <p>Used by: <a href="#SshConfiguration">SshConfiguration</a>.</p>
 <table>
@@ -9056,7 +9056,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idstorageaccounttypeastorageaccounttype"><a id="StorageAccountType"></a>StorageAccountType</h2>
+<h2 id="StorageAccountType">StorageAccountType</h2>
 <p>Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with data disks. It cannot be used with OS Disk. Standard_LRS uses Standard HDD. StandardSSD_LRS uses Standard SSD. Premium_LRS uses Premium SSD. UltraSSD_LRS uses Ultra disk. Premium_ZRS uses Premium SSD zone redundant storage. StandardSSD_ZRS uses Standard SSD zone redundant storage. For more information regarding disks supported for Windows Virtual Machines, refer to <a href="https://docs.microsoft.com/en-us/azure/virtual-machines/windows/disks-types">https://docs.microsoft.com/en-us/azure/virtual-machines/windows/disks-types</a> and, for Linux Virtual Machines, refer to <a href="https://docs.microsoft.com/en-us/azure/virtual-machines/linux/disks-types">https://docs.microsoft.com/en-us/azure/virtual-machines/linux/disks-types</a></p>
 <p>Used by: <a href="#ManagedDiskParameters">ManagedDiskParameters</a>, and <a href="#VirtualMachineScaleSetManagedDiskParameters">VirtualMachineScaleSetManagedDiskParameters</a>.</p>
 <table>
@@ -9093,7 +9093,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idstorageaccounttype_statusastorageaccounttype_status"><a id="StorageAccountType_STATUS"></a>StorageAccountType_STATUS</h2>
+<h2 id="StorageAccountType_STATUS">StorageAccountType_STATUS</h2>
 <p>Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with data disks. It cannot be used with OS Disk. Standard_LRS uses Standard HDD. StandardSSD_LRS uses Standard SSD. Premium_LRS uses Premium SSD. UltraSSD_LRS uses Ultra disk. Premium_ZRS uses Premium SSD zone redundant storage. StandardSSD_ZRS uses Standard SSD zone redundant storage. For more information regarding disks supported for Windows Virtual Machines, refer to <a href="https://docs.microsoft.com/en-us/azure/virtual-machines/windows/disks-types">https://docs.microsoft.com/en-us/azure/virtual-machines/windows/disks-types</a> and, for Linux Virtual Machines, refer to <a href="https://docs.microsoft.com/en-us/azure/virtual-machines/linux/disks-types">https://docs.microsoft.com/en-us/azure/virtual-machines/linux/disks-types</a></p>
 <p>Used by: <a href="#ManagedDiskParameters_STATUS">ManagedDiskParameters_STATUS</a>, and <a href="#VirtualMachineScaleSetManagedDiskParameters_STATUS">VirtualMachineScaleSetManagedDiskParameters_STATUS</a>.</p>
 <table>
@@ -9130,7 +9130,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinescalesetipconfigurationavirtualmachinescalesetipconfiguration"><a id="VirtualMachineScaleSetIPConfiguration"></a>VirtualMachineScaleSetIPConfiguration</h2>
+<h2 id="VirtualMachineScaleSetIPConfiguration">VirtualMachineScaleSetIPConfiguration</h2>
 <p>Describes a virtual machine scale set network profile&rsquo;s IP configuration.</p>
 <p>Used by: <a href="#VirtualMachineScaleSetNetworkConfiguration">VirtualMachineScaleSetNetworkConfiguration</a>.</p>
 <table>
@@ -9194,7 +9194,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinescalesetipconfiguration_statusavirtualmachinescalesetipconfiguration_status"><a id="VirtualMachineScaleSetIPConfiguration_STATUS"></a>VirtualMachineScaleSetIPConfiguration_STATUS</h2>
+<h2 id="VirtualMachineScaleSetIPConfiguration_STATUS">VirtualMachineScaleSetIPConfiguration_STATUS</h2>
 <p>Describes a virtual machine scale set network profile&rsquo;s IP configuration.</p>
 <p>Used by: <a href="#VirtualMachineScaleSetNetworkConfiguration_STATUS">VirtualMachineScaleSetNetworkConfiguration_STATUS</a>.</p>
 <table>
@@ -9258,7 +9258,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinescalesetmanageddiskparametersavirtualmachinescalesetmanageddiskparameters"><a id="VirtualMachineScaleSetManagedDiskParameters"></a>VirtualMachineScaleSetManagedDiskParameters</h2>
+<h2 id="VirtualMachineScaleSetManagedDiskParameters">VirtualMachineScaleSetManagedDiskParameters</h2>
 <p>Describes the parameters of a ScaleSet managed disk.</p>
 <p>Used by: <a href="#VirtualMachineScaleSetDataDisk">VirtualMachineScaleSetDataDisk</a>, and <a href="#VirtualMachineScaleSetOSDisk">VirtualMachineScaleSetOSDisk</a>.</p>
 <table>
@@ -9282,7 +9282,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinescalesetmanageddiskparameters_statusavirtualmachinescalesetmanageddiskparameters_status"><a id="VirtualMachineScaleSetManagedDiskParameters_STATUS"></a>VirtualMachineScaleSetManagedDiskParameters_STATUS</h2>
+<h2 id="VirtualMachineScaleSetManagedDiskParameters_STATUS">VirtualMachineScaleSetManagedDiskParameters_STATUS</h2>
 <p>Describes the parameters of a ScaleSet managed disk.</p>
 <p>Used by: <a href="#VirtualMachineScaleSetDataDisk_STATUS">VirtualMachineScaleSetDataDisk_STATUS</a>, and <a href="#VirtualMachineScaleSetOSDisk_STATUS">VirtualMachineScaleSetOSDisk_STATUS</a>.</p>
 <table>
@@ -9306,7 +9306,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinescalesetnetworkconfigurationdnssettingsavirtualmachinescalesetnetworkconfigurationdnssettings"><a id="VirtualMachineScaleSetNetworkConfigurationDnsSettings"></a>VirtualMachineScaleSetNetworkConfigurationDnsSettings</h2>
+<h2 id="VirtualMachineScaleSetNetworkConfigurationDnsSettings">VirtualMachineScaleSetNetworkConfigurationDnsSettings</h2>
 <p>Describes a virtual machines scale sets network configuration&rsquo;s DNS settings.</p>
 <p>Used by: <a href="#VirtualMachineScaleSetNetworkConfiguration">VirtualMachineScaleSetNetworkConfiguration</a>.</p>
 <table>
@@ -9325,7 +9325,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinescalesetnetworkconfigurationdnssettings_statusavirtualmachinescalesetnetworkconfigurationdnssettings_status"><a id="VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS"></a>VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS</h2>
+<h2 id="VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS">VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS</h2>
 <p>Describes a virtual machines scale sets network configuration&rsquo;s DNS settings.</p>
 <p>Used by: <a href="#VirtualMachineScaleSetNetworkConfiguration_STATUS">VirtualMachineScaleSetNetworkConfiguration_STATUS</a>.</p>
 <table>
@@ -9344,7 +9344,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinescalesetosdisk_ostypeavirtualmachinescalesetosdisk_ostype"><a id="VirtualMachineScaleSetOSDisk_OsType"></a>VirtualMachineScaleSetOSDisk_OsType</h2>
+<h2 id="VirtualMachineScaleSetOSDisk_OsType">VirtualMachineScaleSetOSDisk_OsType</h2>
 <p>Used by: <a href="#VirtualMachineScaleSetOSDisk">VirtualMachineScaleSetOSDisk</a>.</p>
 <table>
   <thead>
@@ -9364,7 +9364,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinescalesetosdisk_ostype_statusavirtualmachinescalesetosdisk_ostype_status"><a id="VirtualMachineScaleSetOSDisk_OsType_STATUS"></a>VirtualMachineScaleSetOSDisk_OsType_STATUS</h2>
+<h2 id="VirtualMachineScaleSetOSDisk_OsType_STATUS">VirtualMachineScaleSetOSDisk_OsType_STATUS</h2>
 <p>Used by: <a href="#VirtualMachineScaleSetOSDisk_STATUS">VirtualMachineScaleSetOSDisk_STATUS</a>.</p>
 <table>
   <thead>
@@ -9384,7 +9384,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idwinrmlistenerawinrmlistener"><a id="WinRMListener"></a>WinRMListener</h2>
+<h2 id="WinRMListener">WinRMListener</h2>
 <p>Describes Protocol and thumbprint of Windows Remote Management listener</p>
 <p>Used by: <a href="#WinRMConfiguration">WinRMConfiguration</a>.</p>
 <table>
@@ -9408,7 +9408,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idwinrmlistener_statusawinrmlistener_status"><a id="WinRMListener_STATUS"></a>WinRMListener_STATUS</h2>
+<h2 id="WinRMListener_STATUS">WinRMListener_STATUS</h2>
 <p>Describes Protocol and thumbprint of Windows Remote Management listener</p>
 <p>Used by: <a href="#WinRMConfiguration_STATUS">WinRMConfiguration_STATUS</a>.</p>
 <table>
@@ -9432,7 +9432,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idapierrorbase_statusaapierrorbase_status"><a id="ApiErrorBase_STATUS"></a>ApiErrorBase_STATUS</h2>
+<h2 id="ApiErrorBase_STATUS">ApiErrorBase_STATUS</h2>
 <p>Api error base.</p>
 <p>Used by: <a href="#ApiError_STATUS">ApiError_STATUS</a>.</p>
 <table>
@@ -9461,7 +9461,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idinnererror_statusainnererror_status"><a id="InnerError_STATUS"></a>InnerError_STATUS</h2>
+<h2 id="InnerError_STATUS">InnerError_STATUS</h2>
 <p>Inner error details.</p>
 <p>Used by: <a href="#ApiError_STATUS">ApiError_STATUS</a>.</p>
 <table>
@@ -9485,7 +9485,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinescalesetipconfigurationproperties_privateipaddressversionavirtualmachinescalesetipconfigurationproperties_privateipaddressversion"><a id="VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion"></a>VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion</h2>
+<h2 id="VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion">VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion</h2>
 <p>Used by: <a href="#VirtualMachineScaleSetIPConfiguration">VirtualMachineScaleSetIPConfiguration</a>.</p>
 <table>
   <thead>
@@ -9505,7 +9505,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinescalesetipconfigurationproperties_privateipaddressversion_statusavirtualmachinescalesetipconfigurationproperties_privateipaddressversion_status"><a id="VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_STATUS"></a>VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_STATUS</h2>
+<h2 id="VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_STATUS">VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_STATUS</h2>
 <p>Used by: <a href="#VirtualMachineScaleSetIPConfiguration_STATUS">VirtualMachineScaleSetIPConfiguration_STATUS</a>.</p>
 <table>
   <thead>
@@ -9525,7 +9525,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinescalesetpublicipaddressconfigurationavirtualmachinescalesetpublicipaddressconfiguration"><a id="VirtualMachineScaleSetPublicIPAddressConfiguration"></a>VirtualMachineScaleSetPublicIPAddressConfiguration</h2>
+<h2 id="VirtualMachineScaleSetPublicIPAddressConfiguration">VirtualMachineScaleSetPublicIPAddressConfiguration</h2>
 <p>Describes a virtual machines scale set IP Configuration&rsquo;s PublicIPAddress configuration</p>
 <p>Used by: <a href="#VirtualMachineScaleSetIPConfiguration">VirtualMachineScaleSetIPConfiguration</a>.</p>
 <table>
@@ -9569,7 +9569,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinescalesetpublicipaddressconfiguration_statusavirtualmachinescalesetpublicipaddressconfiguration_status"><a id="VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS"></a>VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS</h2>
+<h2 id="VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS">VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS</h2>
 <p>Describes a virtual machines scale set IP Configuration&rsquo;s PublicIPAddress configuration</p>
 <p>Used by: <a href="#VirtualMachineScaleSetIPConfiguration_STATUS">VirtualMachineScaleSetIPConfiguration_STATUS</a>.</p>
 <table>
@@ -9613,7 +9613,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idwinrmlistener_protocolawinrmlistener_protocol"><a id="WinRMListener_Protocol"></a>WinRMListener_Protocol</h2>
+<h2 id="WinRMListener_Protocol">WinRMListener_Protocol</h2>
 <p>Used by: <a href="#WinRMListener">WinRMListener</a>.</p>
 <table>
   <thead>
@@ -9633,7 +9633,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idwinrmlistener_protocol_statusawinrmlistener_protocol_status"><a id="WinRMListener_Protocol_STATUS"></a>WinRMListener_Protocol_STATUS</h2>
+<h2 id="WinRMListener_Protocol_STATUS">WinRMListener_Protocol_STATUS</h2>
 <p>Used by: <a href="#WinRMListener_STATUS">WinRMListener_STATUS</a>.</p>
 <table>
   <thead>
@@ -9653,7 +9653,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinescalesetiptagavirtualmachinescalesetiptag"><a id="VirtualMachineScaleSetIpTag"></a>VirtualMachineScaleSetIpTag</h2>
+<h2 id="VirtualMachineScaleSetIpTag">VirtualMachineScaleSetIpTag</h2>
 <p>Contains the IP tag associated with the public IP address.</p>
 <p>Used by: <a href="#VirtualMachineScaleSetPublicIPAddressConfiguration">VirtualMachineScaleSetPublicIPAddressConfiguration</a>.</p>
 <table>
@@ -9677,7 +9677,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinescalesetiptag_statusavirtualmachinescalesetiptag_status"><a id="VirtualMachineScaleSetIpTag_STATUS"></a>VirtualMachineScaleSetIpTag_STATUS</h2>
+<h2 id="VirtualMachineScaleSetIpTag_STATUS">VirtualMachineScaleSetIpTag_STATUS</h2>
 <p>Contains the IP tag associated with the public IP address.</p>
 <p>Used by: <a href="#VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS">VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS</a>.</p>
 <table>
@@ -9701,7 +9701,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinescalesetpublicipaddressconfigurationdnssettingsavirtualmachinescalesetpublicipaddressconfigurationdnssettings"><a id="VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings"></a>VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings</h2>
+<h2 id="VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings">VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings</h2>
 <p>Describes a virtual machines scale sets network configuration&rsquo;s DNS settings.</p>
 <p>Used by: <a href="#VirtualMachineScaleSetPublicIPAddressConfiguration">VirtualMachineScaleSetPublicIPAddressConfiguration</a>.</p>
 <table>
@@ -9720,7 +9720,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinescalesetpublicipaddressconfigurationdnssettings_statusavirtualmachinescalesetpublicipaddressconfigurationdnssettings_status"><a id="VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS"></a>VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS</h2>
+<h2 id="VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS">VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS</h2>
 <p>Describes a virtual machines scale sets network configuration&rsquo;s DNS settings.</p>
 <p>Used by: <a href="#VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS">VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS</a>.</p>
 <table>
@@ -9739,7 +9739,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinescalesetpublicipaddressconfigurationproperties_publicipaddressversionavirtualmachinescalesetpublicipaddressconfigurationproperties_publicipaddressversion"><a id="VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion"></a>VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion</h2>
+<h2 id="VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion">VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion</h2>
 <p>Used by: <a href="#VirtualMachineScaleSetPublicIPAddressConfiguration">VirtualMachineScaleSetPublicIPAddressConfiguration</a>.</p>
 <table>
   <thead>
@@ -9759,7 +9759,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
       </tr>
   </tbody>
 </table>
-<h2 id="a-idvirtualmachinescalesetpublicipaddressconfigurationproperties_publicipaddressversion_statusavirtualmachinescalesetpublicipaddressconfigurationproperties_publicipaddressversion_status"><a id="VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS"></a>VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS</h2>
+<h2 id="VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS">VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS</h2>
 <p>Used by: <a href="#VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS">VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS</a>.</p>
 <table>
   <thead>
