@@ -8,7 +8,7 @@ To install the CRDs for these resources, your ASO configuration must include `re
 ### Released
 
 These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
-| Resource                                                                                                                                           | ARM Version | CRD Version   | Supported From | Sample                                                                                                                        |
-|----------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|-------------------------------------------------------------------------------------------------------------------------------|
-| [ResourceGroup](https://azure.github.io/azure-service-operator/reference/resources/v1api20200601/#resources.azure.com/v1api20200601.ResourceGroup) | 2020-06-01  | v1api20200601 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/resources/v1api/v1api20200601_resourcegroup.yaml) |
+| Resource                                                                           | ARM Version | CRD Version   | Supported From | Sample                                                                                                                        |
+|------------------------------------------------------------------------------------|-------------|---------------|----------------|-------------------------------------------------------------------------------------------------------------------------------|
+| [ResourceGroup]({{< relref "/reference/resources/v1api20200601#ResourceGroup" >}}) | 2020-06-01  | v1api20200601 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/resources/v1api/v1api20200601_resourcegroup.yaml) |
 
