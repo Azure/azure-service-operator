@@ -5,15 +5,15 @@ title: insights.azure.com/v1api20210501preview
 linktitle: v1api20210501preview
 -------------------------------
 
-<a id="APIVersion"></a>APIVersion
----------------------------------
+APIVersion{#APIVersion}
+-----------------------
 
 | Value                | Description |
 |----------------------|-------------|
 | "2021-05-01-preview" |             |
 
-<a id="DiagnosticSetting"></a>DiagnosticSetting
------------------------------------------------
+DiagnosticSetting{#DiagnosticSetting}
+-------------------------------------
 
 Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/preview/2021-05-01-preview/diagnosticsSettings_API.json - ARM URI: /{resourceUri}/providers/Microsoft.Insights/diagnosticSettings/{name}
 
@@ -26,7 +26,7 @@ Used by: [DiagnosticSettingList](#DiagnosticSettingList).
 | spec                                                                                    |             | [DiagnosticSetting_Spec](#DiagnosticSetting_Spec)<br/><small>Optional</small>     |
 | status                                                                                  |             | [DiagnosticSetting_STATUS](#DiagnosticSetting_STATUS)<br/><small>Optional</small> |
 
-### <a id="DiagnosticSetting_Spec"></a>DiagnosticSetting_Spec
+### DiagnosticSetting_Spec {#DiagnosticSetting_Spec}
 
 | Property                           | Description                                                                                                                                                                                                                                                                                                                                                           | Type                                                                                                                                                                   |
 |------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -43,7 +43,7 @@ Used by: [DiagnosticSettingList](#DiagnosticSettingList).
 | storageAccountReference            | The resource ID of the storage account to which you would like to send Diagnostic Logs.                                                                                                                                                                                                                                                                               | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small>             |
 | workspaceReference                 | The full ARM resource ID of the Log Analytics workspace to which you would like to send Diagnostic Logs. Example: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;insights-integration/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.OperationalInsights/workspaces/viruela2 | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small>             |
 
-### <a id="DiagnosticSetting_STATUS"></a>DiagnosticSetting_STATUS
+### DiagnosticSetting_STATUS{#DiagnosticSetting_STATUS}
 
 | Property                    | Description                                                                                                                                                                                                                                                                                                                                                           | Type                                                                                                                                                    |
 |-----------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -62,8 +62,8 @@ Used by: [DiagnosticSettingList](#DiagnosticSettingList).
 | type                        | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                                                             | string<br/><small>Optional</small>                                                                                                                      |
 | workspaceId                 | The full ARM resource ID of the Log Analytics workspace to which you would like to send Diagnostic Logs. Example: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;insights-integration/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.OperationalInsights/workspaces/viruela2 | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="DiagnosticSettingList"></a>DiagnosticSettingList
--------------------------------------------------------
+DiagnosticSettingList{#DiagnosticSettingList}
+---------------------------------------------
 
 Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/preview/2021-05-01-preview/diagnosticsSettings_API.json - ARM URI: /{resourceUri}/providers/Microsoft.Insights/diagnosticSettings/{name}
 
@@ -73,8 +73,8 @@ Generator information: - Generated from: /monitor/resource-manager/Microsoft.Ins
 | [metav1.ListMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta) |             |                                                                       |
 | items                                                                               |             | [DiagnosticSetting[]](#DiagnosticSetting)<br/><small>Optional</small> |
 
-<a id="DiagnosticSetting_Spec"></a>DiagnosticSetting_Spec
----------------------------------------------------------
+DiagnosticSetting_Spec{#DiagnosticSetting_Spec}
+-----------------------------------------------
 
 Used by: [DiagnosticSetting](#DiagnosticSetting).
 
@@ -93,8 +93,8 @@ Used by: [DiagnosticSetting](#DiagnosticSetting).
 | storageAccountReference            | The resource ID of the storage account to which you would like to send Diagnostic Logs.                                                                                                                                                                                                                                                                               | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small>             |
 | workspaceReference                 | The full ARM resource ID of the Log Analytics workspace to which you would like to send Diagnostic Logs. Example: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;insights-integration/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.OperationalInsights/workspaces/viruela2 | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Optional</small>             |
 
-<a id="DiagnosticSetting_STATUS"></a>DiagnosticSetting_STATUS
--------------------------------------------------------------
+DiagnosticSetting_STATUS{#DiagnosticSetting_STATUS}
+---------------------------------------------------
 
 Used by: [DiagnosticSetting](#DiagnosticSetting).
 
@@ -115,8 +115,8 @@ Used by: [DiagnosticSetting](#DiagnosticSetting).
 | type                        | The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"                                                                                                                                                                                                                                                             | string<br/><small>Optional</small>                                                                                                                      |
 | workspaceId                 | The full ARM resource ID of the Log Analytics workspace to which you would like to send Diagnostic Logs. Example: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;insights-integration/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.OperationalInsights/workspaces/viruela2 | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="DiagnosticSettingOperatorSpec"></a>DiagnosticSettingOperatorSpec
------------------------------------------------------------------------
+DiagnosticSettingOperatorSpec{#DiagnosticSettingOperatorSpec}
+-------------------------------------------------------------
 
 Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 
@@ -127,8 +127,8 @@ Used by: [DiagnosticSetting_Spec](#DiagnosticSetting_Spec).
 | configMapExpressions | configures where to place operator written dynamic ConfigMaps (created with CEL expressions). | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 | secretExpressions    | configures where to place operator written dynamic secrets (created with CEL expressions).    | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 
-<a id="LogSettings"></a>LogSettings
------------------------------------
+LogSettings{#LogSettings}
+-------------------------
 
 Part of MultiTenantDiagnosticSettings. Specifies the settings for a particular log.
 
@@ -141,8 +141,8 @@ Used by: [DiagnosticSetting_Spec](#DiagnosticSetting_Spec).
 | enabled         | a value indicating whether this log is enabled.                                                                                                                                                            | bool<br/><small>Required</small>                                |
 | retentionPolicy | the retention policy for this log.                                                                                                                                                                         | [RetentionPolicy](#RetentionPolicy)<br/><small>Optional</small> |
 
-<a id="LogSettings_STATUS"></a>LogSettings_STATUS
--------------------------------------------------
+LogSettings_STATUS{#LogSettings_STATUS}
+---------------------------------------
 
 Part of MultiTenantDiagnosticSettings. Specifies the settings for a particular log.
 
@@ -155,8 +155,8 @@ Used by: [DiagnosticSetting_STATUS](#DiagnosticSetting_STATUS).
 | enabled         | a value indicating whether this log is enabled.                                                                                                                                                            | bool<br/><small>Optional</small>                                              |
 | retentionPolicy | the retention policy for this log.                                                                                                                                                                         | [RetentionPolicy_STATUS](#RetentionPolicy_STATUS)<br/><small>Optional</small> |
 
-<a id="MetricSettings"></a>MetricSettings
------------------------------------------
+MetricSettings{#MetricSettings}
+-------------------------------
 
 Part of MultiTenantDiagnosticSettings. Specifies the settings for a particular metric.
 
@@ -169,8 +169,8 @@ Used by: [DiagnosticSetting_Spec](#DiagnosticSetting_Spec).
 | retentionPolicy | the retention policy for this category.                                                                                                                                                                    | [RetentionPolicy](#RetentionPolicy)<br/><small>Optional</small> |
 | timeGrain       | the timegrain of the metric in ISO8601 format.                                                                                                                                                             | string<br/><small>Optional</small>                              |
 
-<a id="MetricSettings_STATUS"></a>MetricSettings_STATUS
--------------------------------------------------------
+MetricSettings_STATUS{#MetricSettings_STATUS}
+---------------------------------------------
 
 Part of MultiTenantDiagnosticSettings. Specifies the settings for a particular metric.
 
@@ -183,8 +183,8 @@ Used by: [DiagnosticSetting_STATUS](#DiagnosticSetting_STATUS).
 | retentionPolicy | the retention policy for this category.                                                                                                                                                                    | [RetentionPolicy_STATUS](#RetentionPolicy_STATUS)<br/><small>Optional</small> |
 | timeGrain       | the timegrain of the metric in ISO8601 format.                                                                                                                                                             | string<br/><small>Optional</small>                                            |
 
-<a id="SystemData_STATUS"></a>SystemData_STATUS
------------------------------------------------
+SystemData_STATUS{#SystemData_STATUS}
+-------------------------------------
 
 Metadata pertaining to creation and last modification of the resource.
 
@@ -199,8 +199,8 @@ Used by: [DiagnosticSetting_STATUS](#DiagnosticSetting_STATUS).
 | lastModifiedBy     | The identity that last modified the resource.         | string<br/><small>Optional</small>                                                                        |
 | lastModifiedByType | The type of identity that last modified the resource. | [SystemData_LastModifiedByType_STATUS](#SystemData_LastModifiedByType_STATUS)<br/><small>Optional</small> |
 
-<a id="RetentionPolicy"></a>RetentionPolicy
--------------------------------------------
+RetentionPolicy{#RetentionPolicy}
+---------------------------------
 
 Specifies the retention policy for the log.
 
@@ -211,8 +211,8 @@ Used by: [LogSettings](#LogSettings), and [MetricSettings](#MetricSettings).
 | days     | the number of days for the retention in days. A value of 0 will retain the events indefinitely. | int<br/><small>Required</small>  |
 | enabled  | a value indicating whether the retention policy is enabled.                                     | bool<br/><small>Required</small> |
 
-<a id="RetentionPolicy_STATUS"></a>RetentionPolicy_STATUS
----------------------------------------------------------
+RetentionPolicy_STATUS{#RetentionPolicy_STATUS}
+-----------------------------------------------
 
 Specifies the retention policy for the log.
 
@@ -223,8 +223,8 @@ Used by: [LogSettings_STATUS](#LogSettings_STATUS), and [MetricSettings_STATUS](
 | days     | the number of days for the retention in days. A value of 0 will retain the events indefinitely. | int<br/><small>Optional</small>  |
 | enabled  | a value indicating whether the retention policy is enabled.                                     | bool<br/><small>Optional</small> |
 
-<a id="SystemData_CreatedByType_STATUS"></a>SystemData_CreatedByType_STATUS
----------------------------------------------------------------------------
+SystemData_CreatedByType_STATUS{#SystemData_CreatedByType_STATUS}
+-----------------------------------------------------------------
 
 Used by: [SystemData_STATUS](#SystemData_STATUS).
 
@@ -235,8 +235,8 @@ Used by: [SystemData_STATUS](#SystemData_STATUS).
 | "ManagedIdentity" |             |
 | "User"            |             |
 
-<a id="SystemData_LastModifiedByType_STATUS"></a>SystemData_LastModifiedByType_STATUS
--------------------------------------------------------------------------------------
+SystemData_LastModifiedByType_STATUS{#SystemData_LastModifiedByType_STATUS}
+---------------------------------------------------------------------------
 
 Used by: [SystemData_STATUS](#SystemData_STATUS).
 

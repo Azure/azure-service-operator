@@ -5,15 +5,15 @@ title: keyvault.azure.com/v1api20210401preview
 linktitle: v1api20210401preview
 -------------------------------
 
-<a id="APIVersion"></a>APIVersion
----------------------------------
+APIVersion{#APIVersion}
+-----------------------
 
 | Value                | Description |
 |----------------------|-------------|
 | "2021-04-01-preview" |             |
 
-<a id="Vault"></a>Vault
------------------------
+Vault{#Vault}
+-------------
 
 Generator information: - Generated from: /keyvault/resource-manager/Microsoft.KeyVault/preview/2021-04-01-preview/keyvault.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.KeyVault/vaults/{vaultName}
 
@@ -26,7 +26,7 @@ Used by: [VaultList](#VaultList).
 | spec                                                                                    |             | [Vault_Spec](#Vault_Spec)<br/><small>Optional</small>     |
 | status                                                                                  |             | [Vault_STATUS](#Vault_STATUS)<br/><small>Optional</small> |
 
-### <a id="Vault_Spec"></a>Vault_Spec
+### Vault_Spec {#Vault_Spec}
 
 | Property     | Description                                                                                                                                                                                                                                                                                  | Type                                                                                                                                                                 |
 |--------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -37,7 +37,7 @@ Used by: [VaultList](#VaultList).
 | properties   | Properties of the vault                                                                                                                                                                                                                                                                      | [VaultProperties](#VaultProperties)<br/><small>Required</small>                                                                                                      |
 | tags         | The tags that will be assigned to the key vault.                                                                                                                                                                                                                                             | map[string]string<br/><small>Optional</small>                                                                                                                        |
 
-### <a id="Vault_STATUS"></a>Vault_STATUS
+### Vault_STATUS{#Vault_STATUS}
 
 | Property   | Description                                           | Type                                                                                                                                                    |
 |------------|-------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -50,8 +50,8 @@ Used by: [VaultList](#VaultList).
 | tags       | Tags assigned to the key vault resource.              | map[string]string<br/><small>Optional</small>                                                                                                           |
 | type       | Resource type of the key vault resource.              | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="VaultList"></a>VaultList
--------------------------------
+VaultList{#VaultList}
+---------------------
 
 Generator information: - Generated from: /keyvault/resource-manager/Microsoft.KeyVault/preview/2021-04-01-preview/keyvault.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.KeyVault/vaults/{vaultName}
 
@@ -61,8 +61,8 @@ Generator information: - Generated from: /keyvault/resource-manager/Microsoft.Ke
 | [metav1.ListMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta) |             |                                               |
 | items                                                                               |             | [Vault[]](#Vault)<br/><small>Optional</small> |
 
-<a id="Vault_Spec"></a>Vault_Spec
----------------------------------
+Vault_Spec{#Vault_Spec}
+-----------------------
 
 Used by: [Vault](#Vault).
 
@@ -75,8 +75,8 @@ Used by: [Vault](#Vault).
 | properties   | Properties of the vault                                                                                                                                                                                                                                                                      | [VaultProperties](#VaultProperties)<br/><small>Required</small>                                                                                                      |
 | tags         | The tags that will be assigned to the key vault.                                                                                                                                                                                                                                             | map[string]string<br/><small>Optional</small>                                                                                                                        |
 
-<a id="Vault_STATUS"></a>Vault_STATUS
--------------------------------------
+Vault_STATUS{#Vault_STATUS}
+---------------------------
 
 Resource information with extended details.
 
@@ -93,8 +93,8 @@ Used by: [Vault](#Vault).
 | tags       | Tags assigned to the key vault resource.              | map[string]string<br/><small>Optional</small>                                                                                                           |
 | type       | Resource type of the key vault resource.              | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="SystemData_STATUS"></a>SystemData_STATUS
------------------------------------------------
+SystemData_STATUS{#SystemData_STATUS}
+-------------------------------------
 
 Metadata pertaining to creation and last modification of the key vault resource.
 
@@ -109,8 +109,8 @@ Used by: [Vault_STATUS](#Vault_STATUS).
 | lastModifiedBy     | The identity that last modified the key vault resource.          | string<br/><small>Optional</small>                                      |
 | lastModifiedByType | The type of identity that last modified the key vault resource.  | [IdentityType_STATUS](#IdentityType_STATUS)<br/><small>Optional</small> |
 
-<a id="VaultOperatorSpec"></a>VaultOperatorSpec
------------------------------------------------
+VaultOperatorSpec{#VaultOperatorSpec}
+-------------------------------------
 
 Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 
@@ -121,8 +121,8 @@ Used by: [Vault_Spec](#Vault_Spec).
 | configMapExpressions | configures where to place operator written dynamic ConfigMaps (created with CEL expressions). | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 | secretExpressions    | configures where to place operator written dynamic secrets (created with CEL expressions).    | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 
-<a id="VaultProperties"></a>VaultProperties
--------------------------------------------
+VaultProperties{#VaultProperties}
+---------------------------------
 
 Properties of the vault
 
@@ -146,8 +146,8 @@ Used by: [Vault_Spec](#Vault_Spec).
 | tenantIdFromConfig           | The Azure Active Directory tenant ID that should be used for authenticating requests to the key vault.                                                                                                                                                                                                                                                                                                                                                                                                                                    | [genruntime.ConfigMapReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference)<br/><small>Optional</small> |
 | vaultUri                     | The URI of the vault for performing operations on keys and secrets.                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | string<br/><small>Optional</small>                                                                                                                           |
 
-<a id="VaultProperties_STATUS"></a>VaultProperties_STATUS
----------------------------------------------------------
+VaultProperties_STATUS{#VaultProperties_STATUS}
+-----------------------------------------------
 
 Properties of the vault
 
@@ -172,8 +172,8 @@ Used by: [Vault_STATUS](#Vault_STATUS).
 | tenantId                     | The Azure Active Directory tenant ID that should be used for authenticating requests to the key vault.                                                                                                                                                                                                                                                                                                                                                                                                                                    | string<br/><small>Optional</small>                                                                                |
 | vaultUri                     | The URI of the vault for performing operations on keys and secrets.                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | string<br/><small>Optional</small>                                                                                |
 
-<a id="AccessPolicyEntry"></a>AccessPolicyEntry
------------------------------------------------
+AccessPolicyEntry{#AccessPolicyEntry}
+-------------------------------------
 
 An identity that have access to the key vault. All identities in the array must use the same tenant ID as the key vault's tenant ID.
 
@@ -189,8 +189,8 @@ Used by: [VaultProperties](#VaultProperties).
 | tenantId                | The Azure Active Directory tenant ID that should be used for authenticating requests to the key vault.                                                                         | string<br/><small>Optional</small>                                                                                                                           |
 | tenantIdFromConfig      | The Azure Active Directory tenant ID that should be used for authenticating requests to the key vault.                                                                         | [genruntime.ConfigMapReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference)<br/><small>Optional</small> |
 
-<a id="AccessPolicyEntry_STATUS"></a>AccessPolicyEntry_STATUS
--------------------------------------------------------------
+AccessPolicyEntry_STATUS{#AccessPolicyEntry_STATUS}
+---------------------------------------------------
 
 An identity that have access to the key vault. All identities in the array must use the same tenant ID as the key vault's tenant ID.
 
@@ -203,8 +203,8 @@ Used by: [VaultProperties_STATUS](#VaultProperties_STATUS).
 | permissions   | Permissions the identity has for keys, secrets and certificates.                                                                                                               | [Permissions_STATUS](#Permissions_STATUS)<br/><small>Optional</small> |
 | tenantId      | The Azure Active Directory tenant ID that should be used for authenticating requests to the key vault.                                                                         | string<br/><small>Optional</small>                                    |
 
-<a id="IdentityType_STATUS"></a>IdentityType_STATUS
----------------------------------------------------
+IdentityType_STATUS{#IdentityType_STATUS}
+-----------------------------------------
 
 The type of identity.
 
@@ -217,8 +217,8 @@ Used by: [SystemData_STATUS](#SystemData_STATUS), and [SystemData_STATUS](#Syste
 | "ManagedIdentity" |             |
 | "User"            |             |
 
-<a id="NetworkRuleSet"></a>NetworkRuleSet
------------------------------------------
+NetworkRuleSet{#NetworkRuleSet}
+-------------------------------
 
 A set of rules governing the network accessibility of a vault.
 
@@ -231,8 +231,8 @@ Used by: [VaultProperties](#VaultProperties).
 | ipRules             | The list of IP address rules.                                                                                                                    | [IPRule[]](#IPRule)<br/><small>Optional</small>                                           |
 | virtualNetworkRules | The list of virtual network rules.                                                                                                               | [VirtualNetworkRule[]](#VirtualNetworkRule)<br/><small>Optional</small>                   |
 
-<a id="NetworkRuleSet_STATUS"></a>NetworkRuleSet_STATUS
--------------------------------------------------------
+NetworkRuleSet_STATUS{#NetworkRuleSet_STATUS}
+---------------------------------------------
 
 A set of rules governing the network accessibility of a vault.
 
@@ -245,8 +245,8 @@ Used by: [VaultProperties_STATUS](#VaultProperties_STATUS).
 | ipRules             | The list of IP address rules.                                                                                                                    | [IPRule_STATUS[]](#IPRule_STATUS)<br/><small>Optional</small>                                           |
 | virtualNetworkRules | The list of virtual network rules.                                                                                                               | [VirtualNetworkRule_STATUS[]](#VirtualNetworkRule_STATUS)<br/><small>Optional</small>                   |
 
-<a id="PrivateEndpointConnectionItem_STATUS"></a>PrivateEndpointConnectionItem_STATUS
--------------------------------------------------------------------------------------
+PrivateEndpointConnectionItem_STATUS{#PrivateEndpointConnectionItem_STATUS}
+---------------------------------------------------------------------------
 
 Private endpoint connection item.
 
@@ -260,8 +260,8 @@ Used by: [VaultProperties_STATUS](#VaultProperties_STATUS).
 | privateLinkServiceConnectionState | Approval state of the private link connection.                                   | [PrivateLinkServiceConnectionState_STATUS](#PrivateLinkServiceConnectionState_STATUS)<br/><small>Optional</small>                   |
 | provisioningState                 | Provisioning state of the private endpoint connection.                           | [PrivateEndpointConnectionProvisioningState_STATUS](#PrivateEndpointConnectionProvisioningState_STATUS)<br/><small>Optional</small> |
 
-<a id="Sku"></a>Sku
--------------------
+Sku{#Sku}
+---------
 
 SKU details
 
@@ -272,8 +272,8 @@ Used by: [VaultProperties](#VaultProperties).
 | family   | SKU family name                                                                   | [Sku_Family](#Sku_Family)<br/><small>Required</small> |
 | name     | SKU name to specify whether the key vault is a standard vault or a premium vault. | [Sku_Name](#Sku_Name)<br/><small>Required</small>     |
 
-<a id="Sku_STATUS"></a>Sku_STATUS
----------------------------------
+Sku_STATUS{#Sku_STATUS}
+-----------------------
 
 SKU details
 
@@ -284,8 +284,8 @@ Used by: [VaultProperties_STATUS](#VaultProperties_STATUS).
 | family   | SKU family name                                                                   | [Sku_Family_STATUS](#Sku_Family_STATUS)<br/><small>Optional</small> |
 | name     | SKU name to specify whether the key vault is a standard vault or a premium vault. | [Sku_Name_STATUS](#Sku_Name_STATUS)<br/><small>Optional</small>     |
 
-<a id="VaultProperties_CreateMode"></a>VaultProperties_CreateMode
------------------------------------------------------------------
+VaultProperties_CreateMode{#VaultProperties_CreateMode}
+-------------------------------------------------------
 
 Used by: [VaultProperties](#VaultProperties).
 
@@ -296,8 +296,8 @@ Used by: [VaultProperties](#VaultProperties).
 | "purgeThenCreate" |             |
 | "recover"         |             |
 
-<a id="VaultProperties_CreateMode_STATUS"></a>VaultProperties_CreateMode_STATUS
--------------------------------------------------------------------------------
+VaultProperties_CreateMode_STATUS{#VaultProperties_CreateMode_STATUS}
+---------------------------------------------------------------------
 
 Used by: [VaultProperties_STATUS](#VaultProperties_STATUS).
 
@@ -308,8 +308,8 @@ Used by: [VaultProperties_STATUS](#VaultProperties_STATUS).
 | "purgeThenCreate" |             |
 | "recover"         |             |
 
-<a id="VaultProperties_ProvisioningState"></a>VaultProperties_ProvisioningState
--------------------------------------------------------------------------------
+VaultProperties_ProvisioningState{#VaultProperties_ProvisioningState}
+---------------------------------------------------------------------
 
 Used by: [VaultProperties](#VaultProperties).
 
@@ -318,8 +318,8 @@ Used by: [VaultProperties](#VaultProperties).
 | "RegisteringDns" |             |
 | "Succeeded"      |             |
 
-<a id="VaultProperties_ProvisioningState_STATUS"></a>VaultProperties_ProvisioningState_STATUS
----------------------------------------------------------------------------------------------
+VaultProperties_ProvisioningState_STATUS{#VaultProperties_ProvisioningState_STATUS}
+-----------------------------------------------------------------------------------
 
 Used by: [VaultProperties_STATUS](#VaultProperties_STATUS).
 
@@ -328,8 +328,8 @@ Used by: [VaultProperties_STATUS](#VaultProperties_STATUS).
 | "RegisteringDns" |             |
 | "Succeeded"      |             |
 
-<a id="IPRule"></a>IPRule
--------------------------
+IPRule{#IPRule}
+---------------
 
 A rule governing the accessibility of a vault from a specific ip address or ip range.
 
@@ -339,8 +339,8 @@ Used by: [NetworkRuleSet](#NetworkRuleSet).
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------|
 | value    | An IPv4 address range in CIDR notation, such as '124.56.78.91' (simple IP address) or '124.56.78.0/24' (all addresses that start with 124.56.78). | string<br/><small>Required</small> |
 
-<a id="IPRule_STATUS"></a>IPRule_STATUS
----------------------------------------
+IPRule_STATUS{#IPRule_STATUS}
+-----------------------------
 
 A rule governing the accessibility of a vault from a specific ip address or ip range.
 
@@ -350,8 +350,8 @@ Used by: [NetworkRuleSet_STATUS](#NetworkRuleSet_STATUS).
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------|
 | value    | An IPv4 address range in CIDR notation, such as '124.56.78.91' (simple IP address) or '124.56.78.0/24' (all addresses that start with 124.56.78). | string<br/><small>Optional</small> |
 
-<a id="NetworkRuleSet_Bypass"></a>NetworkRuleSet_Bypass
--------------------------------------------------------
+NetworkRuleSet_Bypass{#NetworkRuleSet_Bypass}
+---------------------------------------------
 
 Used by: [NetworkRuleSet](#NetworkRuleSet).
 
@@ -360,8 +360,8 @@ Used by: [NetworkRuleSet](#NetworkRuleSet).
 | "AzureServices" |             |
 | "None"          |             |
 
-<a id="NetworkRuleSet_Bypass_STATUS"></a>NetworkRuleSet_Bypass_STATUS
----------------------------------------------------------------------
+NetworkRuleSet_Bypass_STATUS{#NetworkRuleSet_Bypass_STATUS}
+-----------------------------------------------------------
 
 Used by: [NetworkRuleSet_STATUS](#NetworkRuleSet_STATUS).
 
@@ -370,8 +370,8 @@ Used by: [NetworkRuleSet_STATUS](#NetworkRuleSet_STATUS).
 | "AzureServices" |             |
 | "None"          |             |
 
-<a id="NetworkRuleSet_DefaultAction"></a>NetworkRuleSet_DefaultAction
----------------------------------------------------------------------
+NetworkRuleSet_DefaultAction{#NetworkRuleSet_DefaultAction}
+-----------------------------------------------------------
 
 Used by: [NetworkRuleSet](#NetworkRuleSet).
 
@@ -380,8 +380,8 @@ Used by: [NetworkRuleSet](#NetworkRuleSet).
 | "Allow" |             |
 | "Deny"  |             |
 
-<a id="NetworkRuleSet_DefaultAction_STATUS"></a>NetworkRuleSet_DefaultAction_STATUS
------------------------------------------------------------------------------------
+NetworkRuleSet_DefaultAction_STATUS{#NetworkRuleSet_DefaultAction_STATUS}
+-------------------------------------------------------------------------
 
 Used by: [NetworkRuleSet_STATUS](#NetworkRuleSet_STATUS).
 
@@ -390,8 +390,8 @@ Used by: [NetworkRuleSet_STATUS](#NetworkRuleSet_STATUS).
 | "Allow" |             |
 | "Deny"  |             |
 
-<a id="Permissions"></a>Permissions
------------------------------------
+Permissions{#Permissions}
+-------------------------
 
 Permissions the identity has for keys, secrets, certificates and storage.
 
@@ -404,8 +404,8 @@ Used by: [AccessPolicyEntry](#AccessPolicyEntry).
 | secrets      | Permissions to secrets          | [Permissions_Secrets[]](#Permissions_Secrets)<br/><small>Optional</small>           |
 | storage      | Permissions to storage accounts | [Permissions_Storage[]](#Permissions_Storage)<br/><small>Optional</small>           |
 
-<a id="Permissions_STATUS"></a>Permissions_STATUS
--------------------------------------------------
+Permissions_STATUS{#Permissions_STATUS}
+---------------------------------------
 
 Permissions the identity has for keys, secrets, certificates and storage.
 
@@ -418,8 +418,8 @@ Used by: [AccessPolicyEntry_STATUS](#AccessPolicyEntry_STATUS).
 | secrets      | Permissions to secrets          | [Permissions_Secrets_STATUS[]](#Permissions_Secrets_STATUS)<br/><small>Optional</small>           |
 | storage      | Permissions to storage accounts | [Permissions_Storage_STATUS[]](#Permissions_Storage_STATUS)<br/><small>Optional</small>           |
 
-<a id="PrivateEndpoint_STATUS"></a>PrivateEndpoint_STATUS
----------------------------------------------------------
+PrivateEndpoint_STATUS{#PrivateEndpoint_STATUS}
+-----------------------------------------------
 
 Private endpoint object properties.
 
@@ -429,8 +429,8 @@ Used by: [PrivateEndpointConnectionItem_STATUS](#PrivateEndpointConnectionItem_S
 |----------|---------------------------------------------------|------------------------------------|
 | id       | Full identifier of the private endpoint resource. | string<br/><small>Optional</small> |
 
-<a id="PrivateEndpointConnectionProvisioningState_STATUS"></a>PrivateEndpointConnectionProvisioningState_STATUS
----------------------------------------------------------------------------------------------------------------
+PrivateEndpointConnectionProvisioningState_STATUS{#PrivateEndpointConnectionProvisioningState_STATUS}
+-----------------------------------------------------------------------------------------------------
 
 The current provisioning state.
 
@@ -445,8 +445,8 @@ Used by: [PrivateEndpointConnectionItem_STATUS](#PrivateEndpointConnectionItem_S
 | "Succeeded"    |             |
 | "Updating"     |             |
 
-<a id="PrivateLinkServiceConnectionState_STATUS"></a>PrivateLinkServiceConnectionState_STATUS
----------------------------------------------------------------------------------------------
+PrivateLinkServiceConnectionState_STATUS{#PrivateLinkServiceConnectionState_STATUS}
+-----------------------------------------------------------------------------------
 
 An object that represents the approval state of the private link connection.
 
@@ -458,37 +458,37 @@ Used by: [PrivateEndpointConnectionItem_STATUS](#PrivateEndpointConnectionItem_S
 | description     | The reason for approval or rejection.                                                           | string<br/><small>Optional</small>                                                                                                                |
 | status          | Indicates whether the connection has been approved, rejected or removed by the key vault owner. | [PrivateEndpointServiceConnectionStatus_STATUS](#PrivateEndpointServiceConnectionStatus_STATUS)<br/><small>Optional</small>                       |
 
-<a id="Sku_Family"></a>Sku_Family
+Sku_Family{#Sku_Family}
+-----------------------
+
+Used by: [Sku](#Sku).
+
+| Value | Description |
+|-------|-------------|
+| "A"   |             |
+
+Sku_Family_STATUS{#Sku_Family_STATUS}
+-------------------------------------
+
+Used by: [Sku_STATUS](#Sku_STATUS).
+
+| Value | Description |
+|-------|-------------|
+| "A"   |             |
+
+Sku_Name{#Sku_Name}
+-------------------
+
+Used by: [Sku](#Sku).
+
+| Value      | Description |
+|------------|-------------|
+| "premium"  |             |
+| "standard" |             |
+
+Sku_Name_STATUS{#Sku_Name_STATUS}
 ---------------------------------
 
-Used by: [Sku](#Sku).
-
-| Value | Description |
-|-------|-------------|
-| "A"   |             |
-
-<a id="Sku_Family_STATUS"></a>Sku_Family_STATUS
------------------------------------------------
-
-Used by: [Sku_STATUS](#Sku_STATUS).
-
-| Value | Description |
-|-------|-------------|
-| "A"   |             |
-
-<a id="Sku_Name"></a>Sku_Name
------------------------------
-
-Used by: [Sku](#Sku).
-
-| Value      | Description |
-|------------|-------------|
-| "premium"  |             |
-| "standard" |             |
-
-<a id="Sku_Name_STATUS"></a>Sku_Name_STATUS
--------------------------------------------
-
 Used by: [Sku_STATUS](#Sku_STATUS).
 
 | Value      | Description |
@@ -496,8 +496,8 @@ Used by: [Sku_STATUS](#Sku_STATUS).
 | "premium"  |             |
 | "standard" |             |
 
-<a id="VirtualNetworkRule"></a>VirtualNetworkRule
--------------------------------------------------
+VirtualNetworkRule{#VirtualNetworkRule}
+---------------------------------------
 
 A rule governing the accessibility of a vault from a specific virtual network.
 
@@ -508,8 +508,8 @@ Used by: [NetworkRuleSet](#NetworkRuleSet).
 | ignoreMissingVnetServiceEndpoint | Property to specify whether NRP will ignore the check if parent subnet has serviceEndpoints configured.                                                                                                                                                     | bool<br/><small>Optional</small>                                                                                                                           |
 | reference                        | Full resource id of a vnet subnet, such as '/&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;subid/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;rg1/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1'. | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Required</small> |
 
-<a id="VirtualNetworkRule_STATUS"></a>VirtualNetworkRule_STATUS
----------------------------------------------------------------
+VirtualNetworkRule_STATUS{#VirtualNetworkRule_STATUS}
+-----------------------------------------------------
 
 A rule governing the accessibility of a vault from a specific virtual network.
 
@@ -520,8 +520,8 @@ Used by: [NetworkRuleSet_STATUS](#NetworkRuleSet_STATUS).
 | id                               | Full resource id of a vnet subnet, such as '/&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;subid/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;rg1/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1'. | string<br/><small>Optional</small> |
 | ignoreMissingVnetServiceEndpoint | Property to specify whether NRP will ignore the check if parent subnet has serviceEndpoints configured.                                                                                                                                                     | bool<br/><small>Optional</small>   |
 
-<a id="Permissions_Certificates"></a>Permissions_Certificates
--------------------------------------------------------------
+Permissions_Certificates{#Permissions_Certificates}
+---------------------------------------------------
 
 Used by: [Permissions](#Permissions).
 
@@ -544,8 +544,8 @@ Used by: [Permissions](#Permissions).
 | "setissuers"     |             |
 | "update"         |             |
 
-<a id="Permissions_Certificates_STATUS"></a>Permissions_Certificates_STATUS
----------------------------------------------------------------------------
+Permissions_Certificates_STATUS{#Permissions_Certificates_STATUS}
+-----------------------------------------------------------------
 
 Used by: [Permissions_STATUS](#Permissions_STATUS).
 
@@ -568,8 +568,8 @@ Used by: [Permissions_STATUS](#Permissions_STATUS).
 | "setissuers"     |             |
 | "update"         |             |
 
-<a id="Permissions_Keys"></a>Permissions_Keys
----------------------------------------------
+Permissions_Keys{#Permissions_Keys}
+-----------------------------------
 
 Used by: [Permissions](#Permissions).
 
@@ -593,8 +593,8 @@ Used by: [Permissions](#Permissions).
 | "verify"    |             |
 | "wrapKey"   |             |
 
-<a id="Permissions_Keys_STATUS"></a>Permissions_Keys_STATUS
------------------------------------------------------------
+Permissions_Keys_STATUS{#Permissions_Keys_STATUS}
+-------------------------------------------------
 
 Used by: [Permissions_STATUS](#Permissions_STATUS).
 
@@ -618,8 +618,8 @@ Used by: [Permissions_STATUS](#Permissions_STATUS).
 | "verify"    |             |
 | "wrapKey"   |             |
 
-<a id="Permissions_Secrets"></a>Permissions_Secrets
----------------------------------------------------
+Permissions_Secrets{#Permissions_Secrets}
+-----------------------------------------
 
 Used by: [Permissions](#Permissions).
 
@@ -634,8 +634,8 @@ Used by: [Permissions](#Permissions).
 | "restore" |             |
 | "set"     |             |
 
-<a id="Permissions_Secrets_STATUS"></a>Permissions_Secrets_STATUS
------------------------------------------------------------------
+Permissions_Secrets_STATUS{#Permissions_Secrets_STATUS}
+-------------------------------------------------------
 
 Used by: [Permissions_STATUS](#Permissions_STATUS).
 
@@ -650,8 +650,8 @@ Used by: [Permissions_STATUS](#Permissions_STATUS).
 | "restore" |             |
 | "set"     |             |
 
-<a id="Permissions_Storage"></a>Permissions_Storage
----------------------------------------------------
+Permissions_Storage{#Permissions_Storage}
+-----------------------------------------
 
 Used by: [Permissions](#Permissions).
 
@@ -672,8 +672,8 @@ Used by: [Permissions](#Permissions).
 | "setsas"        |             |
 | "update"        |             |
 
-<a id="Permissions_Storage_STATUS"></a>Permissions_Storage_STATUS
------------------------------------------------------------------
+Permissions_Storage_STATUS{#Permissions_Storage_STATUS}
+-------------------------------------------------------
 
 Used by: [Permissions_STATUS](#Permissions_STATUS).
 
@@ -694,8 +694,8 @@ Used by: [Permissions_STATUS](#Permissions_STATUS).
 | "setsas"        |             |
 | "update"        |             |
 
-<a id="PrivateEndpointServiceConnectionStatus_STATUS"></a>PrivateEndpointServiceConnectionStatus_STATUS
--------------------------------------------------------------------------------------------------------
+PrivateEndpointServiceConnectionStatus_STATUS{#PrivateEndpointServiceConnectionStatus_STATUS}
+---------------------------------------------------------------------------------------------
 
 The private endpoint connection status.
 
@@ -708,8 +708,8 @@ Used by: [PrivateLinkServiceConnectionState_STATUS](#PrivateLinkServiceConnectio
 | "Pending"      |             |
 | "Rejected"     |             |
 
-<a id="PrivateLinkServiceConnectionState_ActionsRequired_STATUS"></a>PrivateLinkServiceConnectionState_ActionsRequired_STATUS
------------------------------------------------------------------------------------------------------------------------------
+PrivateLinkServiceConnectionState_ActionsRequired_STATUS{#PrivateLinkServiceConnectionState_ActionsRequired_STATUS}
+-------------------------------------------------------------------------------------------------------------------
 
 Used by: [PrivateLinkServiceConnectionState_STATUS](#PrivateLinkServiceConnectionState_STATUS).
 

@@ -5,15 +5,15 @@ title: authorization.azure.com/v1api20200801preview
 linktitle: v1api20200801preview
 -------------------------------
 
-<a id="APIVersion"></a>APIVersion
----------------------------------
+APIVersion{#APIVersion}
+-----------------------
 
 | Value                | Description |
 |----------------------|-------------|
 | "2020-08-01-preview" |             |
 
-<a id="RoleAssignment"></a>RoleAssignment
------------------------------------------
+RoleAssignment{#RoleAssignment}
+-------------------------------
 
 Generator information: - Generated from: /authorization/resource-manager/Microsoft.Authorization/preview/2020-08-01-preview/authorization-RoleAssignmentsCalls.json - ARM URI: /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}
 
@@ -26,7 +26,7 @@ Used by: [RoleAssignmentList](#RoleAssignmentList).
 | spec                                                                                    |             | [RoleAssignment_Spec](#RoleAssignment_Spec)<br/><small>Optional</small>     |
 | status                                                                                  |             | [RoleAssignment_STATUS](#RoleAssignment_STATUS)<br/><small>Optional</small> |
 
-### <a id="RoleAssignment_Spec"></a>RoleAssignment_Spec
+### RoleAssignment_Spec {#RoleAssignment_Spec}
 
 | Property                                  | Description                                                                                                                                                                                                                                                                                                  | Type                                                                                                                                                                   |
 |-------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -42,7 +42,7 @@ Used by: [RoleAssignmentList](#RoleAssignmentList).
 | principalType                             | The principal type of the assigned principal ID.                                                                                                                                                                                                                                                             | [RoleAssignmentProperties_PrincipalType](#RoleAssignmentProperties_PrincipalType)<br/><small>Optional</small>                                                          |
 | roleDefinitionReference                   | The role definition ID.                                                                                                                                                                                                                                                                                      | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Required</small>             |
 
-### <a id="RoleAssignment_STATUS"></a>RoleAssignment_STATUS
+### RoleAssignment_STATUS{#RoleAssignment_STATUS}
 
 | Property                           | Description                                                                                                                                                                                                                     | Type                                                                                                                                                    |
 |------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -63,8 +63,8 @@ Used by: [RoleAssignmentList](#RoleAssignmentList).
 | updatedBy                          | Id of the user who updated the assignment                                                                                                                                                                                       | string<br/><small>Optional</small>                                                                                                                      |
 | updatedOn                          | Time it was updated                                                                                                                                                                                                             | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="RoleAssignmentList"></a>RoleAssignmentList
--------------------------------------------------
+RoleAssignmentList{#RoleAssignmentList}
+---------------------------------------
 
 Generator information: - Generated from: /authorization/resource-manager/Microsoft.Authorization/preview/2020-08-01-preview/authorization-RoleAssignmentsCalls.json - ARM URI: /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}
 
@@ -74,8 +74,8 @@ Generator information: - Generated from: /authorization/resource-manager/Microso
 | [metav1.ListMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta) |             |                                                                 |
 | items                                                                               |             | [RoleAssignment[]](#RoleAssignment)<br/><small>Optional</small> |
 
-<a id="RoleAssignment_Spec"></a>RoleAssignment_Spec
----------------------------------------------------
+RoleAssignment_Spec{#RoleAssignment_Spec}
+-----------------------------------------
 
 Used by: [RoleAssignment](#RoleAssignment).
 
@@ -93,8 +93,8 @@ Used by: [RoleAssignment](#RoleAssignment).
 | principalType                             | The principal type of the assigned principal ID.                                                                                                                                                                                                                                                             | [RoleAssignmentProperties_PrincipalType](#RoleAssignmentProperties_PrincipalType)<br/><small>Optional</small>                                                          |
 | roleDefinitionReference                   | The role definition ID.                                                                                                                                                                                                                                                                                      | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Required</small>             |
 
-<a id="RoleAssignment_STATUS"></a>RoleAssignment_STATUS
--------------------------------------------------------
+RoleAssignment_STATUS{#RoleAssignment_STATUS}
+---------------------------------------------
 
 Role Assignments
 
@@ -119,8 +119,8 @@ Used by: [RoleAssignment](#RoleAssignment).
 | updatedBy                          | Id of the user who updated the assignment                                                                                                                                                                                       | string<br/><small>Optional</small>                                                                                                                      |
 | updatedOn                          | Time it was updated                                                                                                                                                                                                             | string<br/><small>Optional</small>                                                                                                                      |
 
-<a id="RoleAssignmentOperatorSpec"></a>RoleAssignmentOperatorSpec
------------------------------------------------------------------
+RoleAssignmentOperatorSpec{#RoleAssignmentOperatorSpec}
+-------------------------------------------------------
 
 Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 
@@ -132,8 +132,8 @@ Used by: [RoleAssignment_Spec](#RoleAssignment_Spec).
 | namingConvention     | The uuid generation technique to use for any role without an explicit AzureName. One of 'stable' or 'random'. | string<br/><small>Optional</small>                                                                                                                                  |
 | secretExpressions    | configures where to place operator written dynamic secrets (created with CEL expressions).                    | [core.DestinationExpression[]](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression)<br/><small>Optional</small> |
 
-<a id="RoleAssignmentProperties_PrincipalType"></a>RoleAssignmentProperties_PrincipalType
------------------------------------------------------------------------------------------
+RoleAssignmentProperties_PrincipalType{#RoleAssignmentProperties_PrincipalType}
+-------------------------------------------------------------------------------
 
 Used by: [RoleAssignment_Spec](#RoleAssignment_Spec).
 
@@ -144,8 +144,8 @@ Used by: [RoleAssignment_Spec](#RoleAssignment_Spec).
 | "ServicePrincipal" |             |
 | "User"             |             |
 
-<a id="RoleAssignmentProperties_PrincipalType_STATUS"></a>RoleAssignmentProperties_PrincipalType_STATUS
--------------------------------------------------------------------------------------------------------
+RoleAssignmentProperties_PrincipalType_STATUS{#RoleAssignmentProperties_PrincipalType_STATUS}
+---------------------------------------------------------------------------------------------
 
 Used by: [RoleAssignment_STATUS](#RoleAssignment_STATUS).
 
