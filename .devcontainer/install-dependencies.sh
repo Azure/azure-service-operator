@@ -209,9 +209,14 @@ go-install htmltest github.com/theunrepentantgeek/htmltest@latest
 #doc# | crddoc | latest | https://github.com/theunrepentantgeek/crddoc |
 go-install gen-crd-api-reference-docs github.com/theunrepentantgeek/crddoc@latest
 
-# Install envtest tooling - ideally version here should match that used in v2/go.mod, but only @latest works
-#doc# | setup-envtest | latest | https://book.kubebuilder.io/reference/envtest.html |
-go-install setup-envtest sigs.k8s.io/controller-runtime/tools/setup-envtest@latest
+# Install envtest tooling
+#doc# | setup-envtest | v0.19.7 | https://book.kubebuilder.io/reference/envtest.html |
+write-verbose "Checking for $TOOL_DEST/setup-envtest"
+if should-install "$TOOL_DEST/setup-envtest"; then
+    write-info "Installing setup-envtest"
+    curl -sL "https://github.com/kubernetes-sigs/controller-runtime/releases/download/v0.19.7/setup-envtest-${os}-${arch}" --output "$TOOL_DEST/setup-envtest"
+    chmod +x "$TOOL_DEST/setup-envtest"
+fi
 
 # Stricter GO formatting
 #doc# | gofumpt | latest | https://pkg.go.dev/mvdan.cc/gofumpt |
