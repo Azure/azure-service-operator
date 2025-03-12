@@ -66,6 +66,9 @@ spec:
         {{- if or (eq .Values.multitenant.enable false) (eq .Values.azureOperatorMode "webhooks") }}
         - --webhook-cert-dir={{ .Values.webhook.certDir }}
         {{- end }}
+        {{- if (eq .Values.useJSONLogging true) }}
+        - --json-logging
+        {{- end }}
         env:
         - name: GOMEMLIMIT
           value: {{ .Values.go.memLimit }}

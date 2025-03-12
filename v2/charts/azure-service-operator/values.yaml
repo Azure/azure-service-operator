@@ -140,6 +140,8 @@ installCRDs: true
 # See https://azure.github.io/azure-service-operator/guide/crd-management for more details.
 crdPattern: ""
 
+useJSONLogging: false
+
 # deploymentAnnotations contain the deployment annotations for Azure Service Operator
 deploymentAnnotations: {}
 
