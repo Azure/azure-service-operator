@@ -564,17 +564,11 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(
 			astbuilder.IfNotNil(propToCheck, stmts...))
 	}
 
-	comment := []dst.Stmt{
-		&dst.EmptyStmt{
-			Decs: dst.EmptyStmtDecorations{
-				NodeDecs: dst.NodeDecs{
-					End: []string{"// copying flattened property:"},
-				},
-			},
-		},
-	}
+	astbuilder.AddComment(
+		&stmts[0].Decorations().Start,
+		"// copying flattened property:")
 
-	return handleWith(comment, stmts), nil
+	return handleWith(stmts), nil
 }
 
 func (builder *convertFromARMBuilder) propertiesByNameHandler(

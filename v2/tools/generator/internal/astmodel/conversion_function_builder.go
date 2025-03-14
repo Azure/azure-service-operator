@@ -354,9 +354,9 @@ func IdentityConvertComplexArrayProperty(
 
 		emptySlice := astbuilder.SliceLiteral(destinationTypeExpr)
 		assignEmpty := astbuilder.SimpleAssignment(params.GetDestination(), emptySlice)
-		astbuilder.AddComments(
+		astbuilder.AddComment(
 			&assignEmpty.Decs.Start,
-			[]string{"// Set property to empty map, as this resource is set to serialize all collections explicitly"})
+			"// Set property to empty map, as this resource is set to serialize all collections explicitly")
 		assignEmpty.Decs.Before = dst.NewLine
 
 		ifNil := astbuilder.IfNil(
@@ -471,9 +471,9 @@ func IdentityConvertComplexMapProperty(
 		emptyMap := astbuilder.MakeMap(keyTypeExpr, valueTypeExpr)
 
 		assignEmpty := astbuilder.SimpleAssignment(params.GetDestination(), emptyMap)
-		astbuilder.AddComments(
+		astbuilder.AddComment(
 			&assignEmpty.Decs.Start,
-			[]string{"// Set property to empty map, as this resource is set to serialize all collections explicitly"})
+			"// Set property to empty map, as this resource is set to serialize all collections explicitly")
 		assignEmpty.Decs.Before = dst.NewLine
 
 		result = astbuilder.SimpleIfElse(
