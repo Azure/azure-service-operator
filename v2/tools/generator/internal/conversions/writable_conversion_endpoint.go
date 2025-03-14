@@ -40,11 +40,10 @@ func NewWritableConversionEndpointWritingProperty(
 	return &WritableConversionEndpoint{
 		endpoint: endpoint,
 		writer: func(destination dst.Expr, value dst.Expr) []dst.Stmt {
-			return []dst.Stmt{
+			return astbuilder.Statements(
 				astbuilder.SimpleAssignment(
 					astbuilder.Selector(destination, name),
-					value),
-			}
+					value))
 		},
 		description: fmt.Sprintf("write to property %s", name),
 	}
@@ -59,11 +58,10 @@ func NewWritableConversionEndpointWritingPropertyBagMember(
 	return &WritableConversionEndpoint{
 		endpoint: NewTypedConversionEndpoint(NewPropertyBagMemberType(itemType), itemName),
 		writer: func(destination dst.Expr, value dst.Expr) []dst.Stmt {
-			return []dst.Stmt{
+			return astbuilder.Statements(
 				astbuilder.SimpleAssignment(
 					astbuilder.Selector(destination, itemName),
-					value),
-			}
+					value))
 		},
 		description: fmt.Sprintf("write %s to property bag", itemName),
 	}

@@ -441,9 +441,9 @@ func (v *ValidatorBuilder) localValidationFuncBody(
 	}
 
 	if len(elements) == 0 {
-		return []dst.Stmt{
+		return astbuilder.Statements(
 			astbuilder.Returns(astbuilder.Nil()),
-		}, nil
+		), nil
 	}
 
 	returnStmt := astbuilder.Returns(&dst.CompositeLit{

@@ -77,7 +77,7 @@ func (f *OneOfJSONUnmarshalFunction) AsFunc(
 	discrimName := "discriminator"
 	errName := "err"
 
-	statements := []dst.Stmt{
+	statements := astbuilder.Statements(
 		astbuilder.LocalVariableDeclaration(mapName, &dst.MapType{Key: dst.NewIdent("string"), Value: dst.NewIdent("interface{}")}, ""),
 		astbuilder.ShortDeclaration(errName,
 			astbuilder.CallQualifiedFunc(jsonPackage, "Unmarshal", dst.NewIdent(paramName), astbuilder.AddrOf(dst.NewIdent(mapName)))),
@@ -86,7 +86,7 @@ func (f *OneOfJSONUnmarshalFunction) AsFunc(
 			X:     dst.NewIdent(mapName),
 			Index: astbuilder.StringLiteral(discrimJSONName),
 		}),
-	}
+	)
 
 	// must order this for consistent output
 	values := make([]string, 0, len(valuesMapping))

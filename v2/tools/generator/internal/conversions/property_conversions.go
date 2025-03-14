@@ -1337,14 +1337,14 @@ func assignArrayFromArray(
 			astbuilder.MakeSlice(destinationArrayExpr, astbuilder.CallFunc("len", actualReader)))
 
 		writeToElement := func(expr dst.Expr) []dst.Stmt {
-			return []dst.Stmt{
+			return astbuilder.Statements(
 				astbuilder.SimpleAssignment(
 					&dst.IndexExpr{
 						X:     dst.NewIdent(tempId),
 						Index: dst.NewIdent(indexId),
 					},
 					expr),
-			}
+			)
 		}
 
 		avoidAliasing := astbuilder.ShortDeclaration(itemId, dst.NewIdent(itemId))
@@ -1499,14 +1499,14 @@ func assignMapFromMap(
 				astbuilder.CallFunc("len", actualReader)))
 
 		assignToItem := func(expr dst.Expr) []dst.Stmt {
-			return []dst.Stmt{
+			return astbuilder.Statements(
 				astbuilder.SimpleAssignment(
 					&dst.IndexExpr{
 						X:     dst.NewIdent(tempId),
 						Index: dst.NewIdent(keyId),
 					},
 					expr),
-			}
+			)
 		}
 
 		avoidAliasing := astbuilder.ShortDeclaration(itemId, dst.NewIdent(itemId))
@@ -1649,9 +1649,8 @@ func assignUserAssignedIdentityMapFromArray(
 		uaiBuilder.AddField("Reference", dst.NewIdent(intermediateDestination))
 
 		writeToElement := func(expr dst.Expr) []dst.Stmt {
-			return []dst.Stmt{
-				astbuilder.ShortDeclaration(intermediateDestination, expr),
-			}
+			return astbuilder.Statements(
+				astbuilder.ShortDeclaration(intermediateDestination, expr))
 		}
 
 		//	for key, _ := range source.UserAssignedIdentities {

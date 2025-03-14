@@ -627,13 +627,13 @@ func setStringAzureNameFunction(
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
 		ReceiverType:  astbuilder.PointerTo(receiverTypeExpr),
-		Body: []dst.Stmt{
+		Body: astbuilder.Statements(
 			astbuilder.QualifiedAssignment(
 				dst.NewIdent(receiverIdent),
 				astmodel.AzureNameProperty,
 				token.ASSIGN,
 				dst.NewIdent("azureName")),
-		},
+		),
 	}
 
 	fn.AddComments("sets the Azure name of the resource")

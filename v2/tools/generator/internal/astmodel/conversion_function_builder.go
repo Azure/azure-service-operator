@@ -478,13 +478,13 @@ func IdentityConvertComplexMapProperty(
 
 		result = astbuilder.SimpleIfElse(
 			astbuilder.NotNil(params.GetSource()),
-			[]dst.Stmt{
+			astbuilder.Statements(
 				makeMapStatement,
 				rangeStatement,
-			},
-			[]dst.Stmt{
+			),
+			astbuilder.Statements(
 				assignEmpty,
-			},
+			),
 		)
 	} else {
 		result = astbuilder.IfNotNil(
@@ -500,7 +500,7 @@ func IdentityConvertComplexMapProperty(
 		result.Body.List = append(result.Body.List, params.AssignmentHandler(params.GetDestination(), dst.Clone(destination).(dst.Expr)))
 	}
 
-	return []dst.Stmt{result}, nil
+	return astbuilder.Statements(result), nil
 }
 
 // IdentityAssignTypeName handles conversion for TypeName's that are the same
