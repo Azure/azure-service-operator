@@ -487,7 +487,9 @@ func (o *JSONSerializationTestCase) createGeneratorMethod(ctx *astmodel.CodeGene
 			Ellipsis: true,
 		}
 
-		oneOfStmts = []dst.Stmt{possibleGenerators, initGopters}
+		oneOfStmts = astbuilder.Statements(
+			possibleGenerators,
+			initGopters)
 	}
 
 	// If we have already cached our builder, return it immediately

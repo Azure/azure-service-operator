@@ -106,9 +106,7 @@ func (f *OneOfJSONMarshalFunction) AsFunc(
 		statements = append(statements, ifStatement)
 	}
 
-	finalReturnStatement := &dst.ReturnStmt{
-		Results: []dst.Expr{astbuilder.Nil(), astbuilder.Nil()},
-	}
+	finalReturnStatement := astbuilder.Returns(astbuilder.Nil(), astbuilder.Nil())
 
 	fn := &astbuilder.FuncDetails{
 		Name:          f.Name(),

@@ -441,9 +441,9 @@ func (v *ValidatorBuilder) localValidationFuncBody(
 	}
 
 	if len(elements) == 0 {
-		return []dst.Stmt{
+		return astbuilder.Statements(
 			astbuilder.Returns(astbuilder.Nil()),
-		}, nil
+		), nil
 	}
 
 	returnStmt := astbuilder.Returns(&dst.CompositeLit{
@@ -493,11 +493,9 @@ func (v *ValidatorBuilder) makeLocalValidationElement(
 					},
 				},
 				Type: getValidationFuncType(kind, codeGenerationContext),
-				Body: &dst.BlockStmt{
-					List: []dst.Stmt{
-						astbuilder.Returns(astbuilder.CallQualifiedFunc(receiverIdent, validation.name)),
-					},
-				},
+				Body: astbuilder.StatementBlock(
+					astbuilder.Returns(astbuilder.CallQualifiedFunc(receiverIdent, validation.name)),
+				),
 			}, nil
 		}
 	}

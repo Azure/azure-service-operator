@@ -38,9 +38,9 @@ func GetConditionsFunction(
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
 		ReceiverType:  astbuilder.PointerTo(receiverExpr),
-		Body: []dst.Stmt{
+		Body: astbuilder.Statements(
 			astbuilder.Returns(astbuilder.Selector(status, astmodel.ConditionsProperty)),
-		},
+		),
 	}
 
 	fn.AddComments("returns the conditions of the resource")
@@ -79,9 +79,9 @@ func SetConditionsFunction(
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
 		ReceiverType:  astbuilder.PointerTo(receiverExpr),
-		Body: []dst.Stmt{
+		Body: astbuilder.Statements(
 			astbuilder.QualifiedAssignment(status, "Conditions", token.ASSIGN, dst.NewIdent(conditionsParameterName)),
-		},
+		),
 	}
 
 	conditionsTypeExpr, err := astmodel.ConditionsType.AsTypeExpr(codeGenerationContext)

@@ -354,9 +354,9 @@ func IdentityConvertComplexArrayProperty(
 
 		emptySlice := astbuilder.SliceLiteral(destinationTypeExpr)
 		assignEmpty := astbuilder.SimpleAssignment(params.GetDestination(), emptySlice)
-		astbuilder.AddComments(
+		astbuilder.AddComment(
 			&assignEmpty.Decs.Start,
-			[]string{"// Set property to empty map, as this resource is set to serialize all collections explicitly"})
+			"// Set property to empty map, as this resource is set to serialize all collections explicitly")
 		assignEmpty.Decs.Before = dst.NewLine
 
 		ifNil := astbuilder.IfNil(
@@ -471,20 +471,20 @@ func IdentityConvertComplexMapProperty(
 		emptyMap := astbuilder.MakeMap(keyTypeExpr, valueTypeExpr)
 
 		assignEmpty := astbuilder.SimpleAssignment(params.GetDestination(), emptyMap)
-		astbuilder.AddComments(
+		astbuilder.AddComment(
 			&assignEmpty.Decs.Start,
-			[]string{"// Set property to empty map, as this resource is set to serialize all collections explicitly"})
+			"// Set property to empty map, as this resource is set to serialize all collections explicitly")
 		assignEmpty.Decs.Before = dst.NewLine
 
 		result = astbuilder.SimpleIfElse(
 			astbuilder.NotNil(params.GetSource()),
-			[]dst.Stmt{
+			astbuilder.Statements(
 				makeMapStatement,
 				rangeStatement,
-			},
-			[]dst.Stmt{
+			),
+			astbuilder.Statements(
 				assignEmpty,
-			},
+			),
 		)
 	} else {
 		result = astbuilder.IfNotNil(
@@ -500,7 +500,7 @@ func IdentityConvertComplexMapProperty(
 		result.Body.List = append(result.Body.List, params.AssignmentHandler(params.GetDestination(), dst.Clone(destination).(dst.Expr)))
 	}
 
-	return []dst.Stmt{result}, nil
+	return astbuilder.Statements(result), nil
 }
 
 // IdentityAssignTypeName handles conversion for TypeName's that are the same

@@ -135,12 +135,9 @@ func (builder *convertToARMBuilder) functionBodyStatements() ([]dst.Stmt, error)
 		return nil, eris.Wrapf(err, "unable to generate property conversions for %s", builder.methodName)
 	}
 
-	returnStatement := &dst.ReturnStmt{
-		Results: []dst.Expr{
-			dst.NewIdent(builder.resultIdent),
-			astbuilder.Nil(),
-		},
-	}
+	returnStatement := astbuilder.Returns(
+		dst.NewIdent(builder.resultIdent),
+		astbuilder.Nil())
 
 	return astbuilder.Statements(
 		returnIfNil,
