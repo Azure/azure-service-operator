@@ -370,11 +370,7 @@ func (r *ResourceRegistrationFile) createGetKnownStorageTypesFunc(
 		resourceAppendStatements = append(resourceAppendStatements, appendStmt)
 	}
 
-	returnStmt := &dst.ReturnStmt{
-		Results: []dst.Expr{
-			resultIdent,
-		},
-	}
+	returnStmt := astbuilder.Returns(resultIdent)
 
 	body := astbuilder.Statements(resultVar, resourceAppendStatements, returnStmt)
 
@@ -494,11 +490,7 @@ func (r *ResourceRegistrationFile) createCreateSchemeFunc(codeGenerationContext 
 		groupVersionAssignments = append(groupVersionAssignments, groupSchemeAssign)
 	}
 
-	returnStmt := &dst.ReturnStmt{
-		Results: []dst.Expr{
-			dst.NewIdent(scheme),
-		},
-	}
+	returnStmt := astbuilder.Returns(dst.NewIdent(scheme))
 
 	body := astbuilder.Statements(initSchemeVar, clientGoSchemeAssign, groupVersionAssignments, returnStmt)
 
