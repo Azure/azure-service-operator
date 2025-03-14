@@ -473,11 +473,7 @@ func (i *importableARMResource) getStatus(
 
 	o := genruntime.ArbitraryOwnerReference{}
 	if i.owner != nil {
-		o = genruntime.ArbitraryOwnerReference{
-			Group: i.owner.Group,
-			Kind:  i.owner.Kind,
-			Name:  i.owner.Name,
-		}
+		o = i.owner.AsArbitraryOwnerReference()
 	}
 
 	err = s.PopulateFromARM(o, reflecthelpers.ValueOfPtr(armStatus)) // TODO: PopulateFromArm expects a value... ick
@@ -569,22 +565,14 @@ func (i *importableARMResource) SetOwner(
 
 	// If the owner is an ArbitraryOwnerReference we need to synthesize one
 	if ownerField.Type() == reflect.PointerTo(reflect.TypeOf(genruntime.ArbitraryOwnerReference{})) {
-		aor := genruntime.ArbitraryOwnerReference{
-			Group: owner.Group,
-			Kind:  owner.Kind,
-			Name:  owner.Name,
-		}
-
+		aor := owner.AsArbitraryOwnerReference()
 		ownerField.Set(reflect.ValueOf(&aor))
 		return
 	}
 
 	// if the owner is a KnownResourceReference, we need to synthesize one
 	if ownerField.Type() == reflect.PointerTo(reflect.TypeOf(genruntime.KnownResourceReference{})) {
-		krr := genruntime.KnownResourceReference{
-			Name: owner.Name,
-		}
-
+		krr := owner.AsKnownResourceReference()
 		ownerField.Set(reflect.ValueOf(&krr))
 		return
 	}

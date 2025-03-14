@@ -187,6 +187,38 @@ func (ref *ResourceReference) AsNamespacedRef(namespace string) NamespacedResour
 	}
 }
 
+// AsArbitraryOwnerReference creates an ArbitraryOwnerReference from this reference.
+func (ref *ResourceReference) AsArbitraryOwnerReference() ArbitraryOwnerReference {
+	// If this is a direct ARM reference, return just the ARM  ID
+	if ref.IsDirectARMReference() {
+		return ArbitraryOwnerReference{
+			ARMID: ref.ARMID,
+		}
+	}
+
+	// Otherwise return GVK
+	return ArbitraryOwnerReference{
+		Group: ref.Group,
+		Kind:  ref.Kind,
+		Name:  ref.Name,
+	}
+}
+
+// AsKnownResourceReference creates a KnownResourceReference from this reference.
+func (ref *ResourceReference) AsKnownResourceReference() KnownResourceReference {
+	// If this is a direct ARM reference, return just the ARM  ID
+	if ref.IsDirectARMReference() {
+		return KnownResourceReference{
+			ARMID: ref.ARMID,
+		}
+	}
+
+	// Otherwise return just the name
+	return KnownResourceReference{
+		Name: ref.Name,
+	}
+}
+
 // GroupKind returns the GroupKind of the resource reference
 func (ref *ResourceReference) GroupKind() schema.GroupKind {
 	return schema.GroupKind{
