@@ -227,21 +227,19 @@ func (file *FileDefinition) AsAst() (result *dst.File, err error) {
 			&dst.FuncDecl{
 				Type: &dst.FuncType{Params: &dst.FieldList{}},
 				Name: dst.NewIdent("init"),
-				Body: &dst.BlockStmt{
-					List: []dst.Stmt{
-						&dst.ExprStmt{
-							Decs: dst.ExprStmtDecorations{
-								NodeDecs: dst.NodeDecs{
-									Before: dst.NewLine,
-								},
-							},
-							X: &dst.CallExpr{
-								Fun:  dst.NewIdent("SchemeBuilder.Register"), // HACK
-								Args: exprs,
+				Body: astbuilder.StatementBlock(
+					&dst.ExprStmt{
+						Decs: dst.ExprStmtDecorations{
+							NodeDecs: dst.NodeDecs{
+								Before: dst.NewLine,
 							},
 						},
+						X: &dst.CallExpr{
+							Fun:  dst.NewIdent("SchemeBuilder.Register"), // HACK
+							Args: exprs,
+						},
 					},
-				},
+				),
 			})
 	}
 
