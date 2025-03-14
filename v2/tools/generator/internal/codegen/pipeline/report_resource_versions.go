@@ -680,7 +680,9 @@ func (report *ResourceVersionsReport) createItem(
 }
 
 // generateAPILink returns a link to the API definition for the given resource
-func (report *ResourceVersionsReport) generateAPILink(name astmodel.InternalTypeName) string {
+func (report *ResourceVersionsReport) generateAPILink(
+	name astmodel.InternalTypeName,
+) string {
 	crdKind := name.Name()
 	linkTemplate := report.reportConfiguration.ResourceUrlTemplate
 	pathTemplate := report.reportConfiguration.ResourcePathTemplate
