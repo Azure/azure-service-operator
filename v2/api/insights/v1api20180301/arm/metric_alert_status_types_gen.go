@@ -55,7 +55,8 @@ type MetricAlertProperties_STATUS struct {
 	// LastUpdatedTime: Last time the rule was updated in ISO8601 format.
 	LastUpdatedTime *string `json:"lastUpdatedTime,omitempty"`
 
-	// Scopes: the list of resource id's that this metric alert is scoped to.
+	// Scopes: the list of resource id's that this metric alert is scoped to. You cannot change the scope of a metric rule
+	// based on logs.
 	Scopes []string `json:"scopes,omitempty"`
 
 	// Severity: Alert severity {0, 1, 2, 3, 4}
