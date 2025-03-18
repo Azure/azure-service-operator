@@ -14,7 +14,7 @@ If you prefer to install those dependencies manually (instead of using the `.dev
 | cmctl | latest | https://cert-manager.io/docs/reference/cmctl |
 | controller-gen | v0.16.3 | https://book.kubebuilder.io/reference/controller-gen |
 | conversion-gen | v0.30.5 | https://pkg.go.dev/k8s.io/code-generator/cmd/conversion-gen |
-| gen-crd-api-reference-docs | 11fe95cb | https://github.com/ahmetb/gen-crd-api-reference-docs |
+| crddoc | latest | https://github.com/theunrepentantgeek/crddoc |
 | Go | 1.23 | https://golang.org/doc/install #
 | gofumpt | latest | https://pkg.go.dev/mvdan.cc/gofumpt |
 | golangci-lint | 1.62.0 | https://github.com/golangci/golangci-lint |
@@ -25,7 +25,7 @@ If you prefer to install those dependencies manually (instead of using the `.dev
 | kustomize | v4.5.7 | https://kustomize.io/ |
 | Pip3 | latest | https://pip.pypa.io/en/stable/installation/ |
 | PostCSS | latest | https://postcss.org/ |
-| setup-envtest | latest | https://book.kubebuilder.io/reference/envtest.html |
+| setup-envtest | v0.19.7 | https://book.kubebuilder.io/reference/envtest.html |
 | Task | v3.39.2 | https://taskfile.dev/ |
 | Trivy | v0.55.2 | https://trivy.dev/ |
 | YQ | v4.44.3 | https://github.com/mikefarah/yq/ |
