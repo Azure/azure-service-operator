@@ -377,11 +377,6 @@ type FluxConfigurationList struct {
 	Items           []FluxConfiguration `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"2024-11-01"}
-type APIVersion string
-
-const APIVersion_Value = APIVersion("2024-11-01")
-
 type FluxConfiguration_Spec struct {
 	// AzureBlob: Parameters to reconcile to the AzureBlob source kind type.
 	AzureBlob *AzureBlobDefinition `json:"azureBlob,omitempty"`

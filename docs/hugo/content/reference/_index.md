@@ -562,9 +562,10 @@ To install the CRDs for these resources, your ASO configuration must include `ku
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource          | ARM Version | CRD Version   | Supported From | Sample |
-|-------------------|-------------|---------------|----------------|--------|
-| FluxConfiguration | 2024-11-01  | v1api20241101 | v2.13.0        | -      |
+| Resource          | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                          |
+|-------------------|-------------|---------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
+| Extension         | 2024-11-01  | v1api20241101 | v2.13.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/kubernetesconfiguration/v1api/v1api20241101_extension.yaml)         |
+| FluxConfiguration | 2024-11-01  | v1api20241101 | v2.13.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/kubernetesconfiguration/v1api/v1api20241101_fluxconfiguration.yaml) |
 
 ### Released
 

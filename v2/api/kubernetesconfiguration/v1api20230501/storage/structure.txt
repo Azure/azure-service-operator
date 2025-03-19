@@ -321,6 +321,28 @@ augmentConversionForBucketDefinition: Interface
 
 augmentConversionForBucketDefinition_STATUS: Interface
 
+augmentConversionForErrorAdditionalInfo_STATUS: Interface
+
+augmentConversionForErrorDetail_STATUS: Interface
+
+augmentConversionForErrorDetail_STATUS_Unrolled: Interface
+
+augmentConversionForExtension: Interface
+
+augmentConversionForExtensionOperatorConfigMaps: Interface
+
+augmentConversionForExtensionOperatorSpec: Interface
+
+augmentConversionForExtensionStatus_STATUS: Interface
+
+augmentConversionForExtension_Properties_AksAssignedIdentity_STATUS: Interface
+
+augmentConversionForExtension_Properties_AksAssignedIdentity_Spec: Interface
+
+augmentConversionForExtension_STATUS: Interface
+
+augmentConversionForExtension_Spec: Interface
+
 augmentConversionForFluxConfiguration: Interface
 
 augmentConversionForFluxConfigurationOperatorSpec: Interface
@@ -334,6 +356,10 @@ augmentConversionForGitRepositoryDefinition: Interface
 augmentConversionForGitRepositoryDefinition_STATUS: Interface
 
 augmentConversionForHelmReleasePropertiesDefinition_STATUS: Interface
+
+augmentConversionForIdentity: Interface
+
+augmentConversionForIdentity_STATUS: Interface
 
 augmentConversionForKustomizationDefinition: Interface
 
@@ -349,6 +375,10 @@ augmentConversionForObjectStatusConditionDefinition_STATUS: Interface
 
 augmentConversionForObjectStatusDefinition_STATUS: Interface
 
+augmentConversionForPlan: Interface
+
+augmentConversionForPlan_STATUS: Interface
+
 augmentConversionForPostBuildDefinition: Interface
 
 augmentConversionForPostBuildDefinition_STATUS: Interface
@@ -357,6 +387,18 @@ augmentConversionForRepositoryRefDefinition: Interface
 
 augmentConversionForRepositoryRefDefinition_STATUS: Interface
 
+augmentConversionForScope: Interface
+
+augmentConversionForScopeCluster: Interface
+
+augmentConversionForScopeCluster_STATUS: Interface
+
+augmentConversionForScopeNamespace: Interface
+
+augmentConversionForScopeNamespace_STATUS: Interface
+
+augmentConversionForScope_STATUS: Interface
+
 augmentConversionForServicePrincipalDefinition: Interface
 
 augmentConversionForServicePrincipalDefinition_STATUS: Interface
@@ -364,4 +406,8 @@ augmentConversionForServicePrincipalDefinition_STATUS: Interface
 augmentConversionForSubstituteFromDefinition: Interface
 
 augmentConversionForSubstituteFromDefinition_STATUS: Interface
+
+augmentConversionForSystemData: Interface
+
+augmentConversionForSystemData_STATUS: Interface
 
