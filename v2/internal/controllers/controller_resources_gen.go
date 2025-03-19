@@ -883,7 +883,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 	})
 	result = append(result, &registration.StorageType{
-		Obj: new(kubernetesconfiguration_v20230501s.Extension),
+		Obj: new(kubernetesconfiguration_v20241101s.Extension),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.configurationProtectedSettings",
@@ -893,7 +893,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Watches: []registration.Watch{
 			{
 				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.configurationProtectedSettings"}, &kubernetesconfiguration_v20230501s.ExtensionList{}),
+				MakeEventHandler: watchSecretsFactory([]string{".spec.configurationProtectedSettings"}, &kubernetesconfiguration_v20241101s.ExtensionList{}),
 			},
 		},
 	})
@@ -2404,8 +2404,14 @@ func getKnownTypes() []client.Object {
 		result,
 		new(kubernetesconfiguration_v20230501s.Extension),
 		new(kubernetesconfiguration_v20230501s.FluxConfiguration))
-	result = append(result, new(kubernetesconfiguration_v20241101.FluxConfiguration))
-	result = append(result, new(kubernetesconfiguration_v20241101s.FluxConfiguration))
+	result = append(
+		result,
+		new(kubernetesconfiguration_v20241101.Extension),
+		new(kubernetesconfiguration_v20241101.FluxConfiguration))
+	result = append(
+		result,
+		new(kubernetesconfiguration_v20241101s.Extension),
+		new(kubernetesconfiguration_v20241101s.FluxConfiguration))
 	result = append(
 		result,
 		new(machinelearningservices_v20210701.Workspace),
@@ -4257,9 +4263,9 @@ func indexKeyvaultVaultPropertiesTenantIdFromConfig(rawObj client.Object) []stri
 	return obj.Spec.Properties.TenantIdFromConfig.Index()
 }
 
-// indexKubernetesconfigurationExtensionConfigurationProtectedSettings an index function for kubernetesconfiguration_v20230501s.Extension .spec.configurationProtectedSettings
+// indexKubernetesconfigurationExtensionConfigurationProtectedSettings an index function for kubernetesconfiguration_v20241101s.Extension .spec.configurationProtectedSettings
 func indexKubernetesconfigurationExtensionConfigurationProtectedSettings(rawObj client.Object) []string {
-	obj, ok := rawObj.(*kubernetesconfiguration_v20230501s.Extension)
+	obj, ok := rawObj.(*kubernetesconfiguration_v20241101s.Extension)
 	if !ok {
 		return nil
 	}

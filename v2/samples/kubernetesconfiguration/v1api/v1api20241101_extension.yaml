@@ -1,0 +1,17 @@
+apiVersion: kubernetesconfiguration.azure.com/v1api20241101
+kind: Extension
+metadata:
+  name: aso-sample-extension
+  namespace: default
+spec:
+  autoUpgradeMinorVersion: true
+  extensionType: microsoft.flux
+  identity:
+    type: SystemAssigned
+  owner:
+    group: containerservice.azure.com
+    kind: ManagedCluster
+    name: aso-sample-mc
+  scope:
+    cluster:
+      releaseNamespace: kube-system

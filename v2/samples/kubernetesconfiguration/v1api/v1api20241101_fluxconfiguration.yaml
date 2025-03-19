@@ -1,11 +1,11 @@
-apiVersion: kubernetesconfiguration.azure.com/v1api20230501
+apiVersion: kubernetesconfiguration.azure.com/v1api20241101
 kind: FluxConfiguration
 metadata:
   name: aso-sample-flux
   namespace: default
 spec:
   gitRepository:
-    provider: github
+    provider: generic
     repositoryRef:
       branch: master
     url: https://github.com/Azure/arc-k8s-demo
