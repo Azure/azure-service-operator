@@ -10,11 +10,11 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	kubernetesconfiguration "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/v1api20230501"
+	kubernetesconfiguration "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/v1api20241101"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
-func Test_KubernetesConfiguration_FluxConfiguration_CRUD(t *testing.T) {
+func Test_KubernetesConfiguration_FluxConfiguration_20241101_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
@@ -28,7 +28,18 @@ func Test_KubernetesConfiguration_FluxConfiguration_CRUD(t *testing.T) {
 
 	tc.CreateResourceAndWait(cluster)
 
-	// Example from https://learn.microsoft.com/en-us/rest/api/kubernetesconfiguration/flux-configurations/create-or-update?view=rest-kubernetesconfiguration-2023-05-01
+	// We need flux extension before adding flux configurations
+	fluxExtension := &kubernetesconfiguration.Extension{
+		ObjectMeta: tc.MakeObjectMeta("extension"),
+		Spec: kubernetesconfiguration.Extension_Spec{
+			AutoUpgradeMinorVersion: to.Ptr(true),
+			ExtensionType:           to.Ptr("microsoft.flux"),
+			Owner:                   tc.AsExtensionOwner(cluster),
+		},
+	}
+
+	tc.CreateResourceAndWait(fluxExtension)
+
 	flux := &kubernetesconfiguration.FluxConfiguration{
 		ObjectMeta: tc.MakeObjectMeta("flux"),
 		Spec: kubernetesconfiguration.FluxConfiguration_Spec{
@@ -38,10 +49,13 @@ func Test_KubernetesConfiguration_FluxConfiguration_CRUD(t *testing.T) {
 				RepositoryRef: &kubernetesconfiguration.RepositoryRefDefinition{
 					Branch: to.Ptr("master"),
 				},
-				Url: to.Ptr("https://github.com/Azure/arc-k8s-demo"),
+				Url:      to.Ptr("https://github.com/kubernetes-sigs/kustomize"),
+				Provider: to.Ptr(kubernetesconfiguration.GitRepositoryDefinition_Provider_Generic),
 			},
 			Kustomizations: map[string]kubernetesconfiguration.KustomizationDefinition{
-				"kustomization-1": {},
+				"hello-world": {
+					Path: to.Ptr("./examples/helloWorld"),
+				},
 			},
 			Namespace: to.Ptr("flux-ns"),
 		},

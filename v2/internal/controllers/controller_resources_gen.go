@@ -152,6 +152,8 @@ import (
 	kubernetesconfiguration_customizations "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/customizations"
 	kubernetesconfiguration_v20230501 "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/v1api20230501"
 	kubernetesconfiguration_v20230501s "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/v1api20230501/storage"
+	kubernetesconfiguration_v20241101 "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/v1api20241101"
+	kubernetesconfiguration_v20241101s "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/v1api20241101/storage"
 	machinelearningservices_customizations "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/customizations"
 	machinelearningservices_v20210701 "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701"
 	machinelearningservices_v20210701s "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701/storage"
@@ -881,7 +883,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 	})
 	result = append(result, &registration.StorageType{
-		Obj: new(kubernetesconfiguration_v20230501s.Extension),
+		Obj: new(kubernetesconfiguration_v20241101s.Extension),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.configurationProtectedSettings",
@@ -891,12 +893,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Watches: []registration.Watch{
 			{
 				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.configurationProtectedSettings"}, &kubernetesconfiguration_v20230501s.ExtensionList{}),
+				MakeEventHandler: watchSecretsFactory([]string{".spec.configurationProtectedSettings"}, &kubernetesconfiguration_v20241101s.ExtensionList{}),
 			},
 		},
 	})
 	result = append(result, &registration.StorageType{
-		Obj: new(kubernetesconfiguration_v20230501s.FluxConfiguration),
+		Obj: new(kubernetesconfiguration_v20241101s.FluxConfiguration),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.bucket.accessKey",
@@ -907,20 +909,8 @@ func getKnownStorageTypes() []*registration.StorageType {
 				Func: indexKubernetesconfigurationFluxConfigurationAccountKey,
 			},
 			{
-				Key:  ".spec.azureBlob.servicePrincipal.clientCertificate",
-				Func: indexKubernetesconfigurationFluxConfigurationClientCertificate,
-			},
-			{
-				Key:  ".spec.azureBlob.servicePrincipal.clientCertificatePassword",
-				Func: indexKubernetesconfigurationFluxConfigurationClientCertificatePassword,
-			},
-			{
 				Key:  ".spec.azureBlob.servicePrincipal.clientIdFromConfig",
 				Func: indexKubernetesconfigurationFluxConfigurationClientIdFromConfig,
-			},
-			{
-				Key:  ".spec.azureBlob.servicePrincipal.clientSecret",
-				Func: indexKubernetesconfigurationFluxConfigurationClientSecret,
 			},
 			{
 				Key:  ".spec.configurationProtectedSettings",
@@ -935,18 +925,42 @@ func getKnownStorageTypes() []*registration.StorageType {
 				Func: indexKubernetesconfigurationFluxConfigurationSasToken,
 			},
 			{
+				Key:  ".spec.azureBlob.servicePrincipal.clientCertificate",
+				Func: indexKubernetesconfigurationFluxConfigurationServicePrincipalClientCertificate,
+			},
+			{
+				Key:  ".spec.azureBlob.servicePrincipal.clientCertificatePassword",
+				Func: indexKubernetesconfigurationFluxConfigurationServicePrincipalClientCertificatePassword,
+			},
+			{
+				Key:  ".spec.azureBlob.servicePrincipal.clientSecret",
+				Func: indexKubernetesconfigurationFluxConfigurationServicePrincipalClientSecret,
+			},
+			{
 				Key:  ".spec.azureBlob.servicePrincipal.tenantIdFromConfig",
 				Func: indexKubernetesconfigurationFluxConfigurationTenantIdFromConfig,
+			},
+			{
+				Key:  ".spec.ociRepository.tlsConfig.caCertificate",
+				Func: indexKubernetesconfigurationFluxConfigurationTlsConfigCaCertificate,
+			},
+			{
+				Key:  ".spec.ociRepository.tlsConfig.clientCertificate",
+				Func: indexKubernetesconfigurationFluxConfigurationTlsConfigClientCertificate,
+			},
+			{
+				Key:  ".spec.ociRepository.tlsConfig.privateKey",
+				Func: indexKubernetesconfigurationFluxConfigurationTlsConfigPrivateKey,
 			},
 		},
 		Watches: []registration.Watch{
 			{
 				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.azureBlob.accountKey", ".spec.azureBlob.sasToken", ".spec.azureBlob.servicePrincipal.clientCertificate", ".spec.azureBlob.servicePrincipal.clientCertificatePassword", ".spec.azureBlob.servicePrincipal.clientSecret", ".spec.bucket.accessKey", ".spec.configurationProtectedSettings", ".spec.gitRepository.httpsCACert"}, &kubernetesconfiguration_v20230501s.FluxConfigurationList{}),
+				MakeEventHandler: watchSecretsFactory([]string{".spec.azureBlob.accountKey", ".spec.azureBlob.sasToken", ".spec.azureBlob.servicePrincipal.clientCertificate", ".spec.azureBlob.servicePrincipal.clientCertificatePassword", ".spec.azureBlob.servicePrincipal.clientSecret", ".spec.bucket.accessKey", ".spec.configurationProtectedSettings", ".spec.gitRepository.httpsCACert", ".spec.ociRepository.tlsConfig.caCertificate", ".spec.ociRepository.tlsConfig.clientCertificate", ".spec.ociRepository.tlsConfig.privateKey"}, &kubernetesconfiguration_v20241101s.FluxConfigurationList{}),
 			},
 			{
 				Type:             &v1.ConfigMap{},
-				MakeEventHandler: watchConfigMapsFactory([]string{".spec.azureBlob.servicePrincipal.clientIdFromConfig", ".spec.azureBlob.servicePrincipal.tenantIdFromConfig"}, &kubernetesconfiguration_v20230501s.FluxConfigurationList{}),
+				MakeEventHandler: watchConfigMapsFactory([]string{".spec.azureBlob.servicePrincipal.clientIdFromConfig", ".spec.azureBlob.servicePrincipal.tenantIdFromConfig"}, &kubernetesconfiguration_v20241101s.FluxConfigurationList{}),
 			},
 		},
 	})
@@ -2392,6 +2406,14 @@ func getKnownTypes() []client.Object {
 		new(kubernetesconfiguration_v20230501s.FluxConfiguration))
 	result = append(
 		result,
+		new(kubernetesconfiguration_v20241101.Extension),
+		new(kubernetesconfiguration_v20241101.FluxConfiguration))
+	result = append(
+		result,
+		new(kubernetesconfiguration_v20241101s.Extension),
+		new(kubernetesconfiguration_v20241101s.FluxConfiguration))
+	result = append(
+		result,
 		new(machinelearningservices_v20210701.Workspace),
 		new(machinelearningservices_v20210701.WorkspacesCompute),
 		new(machinelearningservices_v20210701.WorkspacesConnection))
@@ -2975,6 +2997,8 @@ func createScheme() *runtime.Scheme {
 	_ = keyvault_v20230701s.AddToScheme(scheme)
 	_ = kubernetesconfiguration_v20230501.AddToScheme(scheme)
 	_ = kubernetesconfiguration_v20230501s.AddToScheme(scheme)
+	_ = kubernetesconfiguration_v20241101.AddToScheme(scheme)
+	_ = kubernetesconfiguration_v20241101s.AddToScheme(scheme)
 	_ = machinelearningservices_v20210701.AddToScheme(scheme)
 	_ = machinelearningservices_v20210701s.AddToScheme(scheme)
 	_ = machinelearningservices_v20240401.AddToScheme(scheme)
@@ -4239,9 +4263,9 @@ func indexKeyvaultVaultPropertiesTenantIdFromConfig(rawObj client.Object) []stri
 	return obj.Spec.Properties.TenantIdFromConfig.Index()
 }
 
-// indexKubernetesconfigurationExtensionConfigurationProtectedSettings an index function for kubernetesconfiguration_v20230501s.Extension .spec.configurationProtectedSettings
+// indexKubernetesconfigurationExtensionConfigurationProtectedSettings an index function for kubernetesconfiguration_v20241101s.Extension .spec.configurationProtectedSettings
 func indexKubernetesconfigurationExtensionConfigurationProtectedSettings(rawObj client.Object) []string {
-	obj, ok := rawObj.(*kubernetesconfiguration_v20230501s.Extension)
+	obj, ok := rawObj.(*kubernetesconfiguration_v20241101s.Extension)
 	if !ok {
 		return nil
 	}
@@ -4251,9 +4275,9 @@ func indexKubernetesconfigurationExtensionConfigurationProtectedSettings(rawObj 
 	return obj.Spec.ConfigurationProtectedSettings.Index()
 }
 
-// indexKubernetesconfigurationFluxConfigurationAccessKey an index function for kubernetesconfiguration_v20230501s.FluxConfiguration .spec.bucket.accessKey
+// indexKubernetesconfigurationFluxConfigurationAccessKey an index function for kubernetesconfiguration_v20241101s.FluxConfiguration .spec.bucket.accessKey
 func indexKubernetesconfigurationFluxConfigurationAccessKey(rawObj client.Object) []string {
-	obj, ok := rawObj.(*kubernetesconfiguration_v20230501s.FluxConfiguration)
+	obj, ok := rawObj.(*kubernetesconfiguration_v20241101s.FluxConfiguration)
 	if !ok {
 		return nil
 	}
@@ -4266,9 +4290,9 @@ func indexKubernetesconfigurationFluxConfigurationAccessKey(rawObj client.Object
 	return obj.Spec.Bucket.AccessKey.Index()
 }
 
-// indexKubernetesconfigurationFluxConfigurationAccountKey an index function for kubernetesconfiguration_v20230501s.FluxConfiguration .spec.azureBlob.accountKey
+// indexKubernetesconfigurationFluxConfigurationAccountKey an index function for kubernetesconfiguration_v20241101s.FluxConfiguration .spec.azureBlob.accountKey
 func indexKubernetesconfigurationFluxConfigurationAccountKey(rawObj client.Object) []string {
-	obj, ok := rawObj.(*kubernetesconfiguration_v20230501s.FluxConfiguration)
+	obj, ok := rawObj.(*kubernetesconfiguration_v20241101s.FluxConfiguration)
 	if !ok {
 		return nil
 	}
@@ -4281,45 +4305,9 @@ func indexKubernetesconfigurationFluxConfigurationAccountKey(rawObj client.Objec
 	return obj.Spec.AzureBlob.AccountKey.Index()
 }
 
-// indexKubernetesconfigurationFluxConfigurationClientCertificate an index function for kubernetesconfiguration_v20230501s.FluxConfiguration .spec.azureBlob.servicePrincipal.clientCertificate
-func indexKubernetesconfigurationFluxConfigurationClientCertificate(rawObj client.Object) []string {
-	obj, ok := rawObj.(*kubernetesconfiguration_v20230501s.FluxConfiguration)
-	if !ok {
-		return nil
-	}
-	if obj.Spec.AzureBlob == nil {
-		return nil
-	}
-	if obj.Spec.AzureBlob.ServicePrincipal == nil {
-		return nil
-	}
-	if obj.Spec.AzureBlob.ServicePrincipal.ClientCertificate == nil {
-		return nil
-	}
-	return obj.Spec.AzureBlob.ServicePrincipal.ClientCertificate.Index()
-}
-
-// indexKubernetesconfigurationFluxConfigurationClientCertificatePassword an index function for kubernetesconfiguration_v20230501s.FluxConfiguration .spec.azureBlob.servicePrincipal.clientCertificatePassword
-func indexKubernetesconfigurationFluxConfigurationClientCertificatePassword(rawObj client.Object) []string {
-	obj, ok := rawObj.(*kubernetesconfiguration_v20230501s.FluxConfiguration)
-	if !ok {
-		return nil
-	}
-	if obj.Spec.AzureBlob == nil {
-		return nil
-	}
-	if obj.Spec.AzureBlob.ServicePrincipal == nil {
-		return nil
-	}
-	if obj.Spec.AzureBlob.ServicePrincipal.ClientCertificatePassword == nil {
-		return nil
-	}
-	return obj.Spec.AzureBlob.ServicePrincipal.ClientCertificatePassword.Index()
-}
-
-// indexKubernetesconfigurationFluxConfigurationClientIdFromConfig an index function for kubernetesconfiguration_v20230501s.FluxConfiguration .spec.azureBlob.servicePrincipal.clientIdFromConfig
+// indexKubernetesconfigurationFluxConfigurationClientIdFromConfig an index function for kubernetesconfiguration_v20241101s.FluxConfiguration .spec.azureBlob.servicePrincipal.clientIdFromConfig
 func indexKubernetesconfigurationFluxConfigurationClientIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*kubernetesconfiguration_v20230501s.FluxConfiguration)
+	obj, ok := rawObj.(*kubernetesconfiguration_v20241101s.FluxConfiguration)
 	if !ok {
 		return nil
 	}
@@ -4335,9 +4323,87 @@ func indexKubernetesconfigurationFluxConfigurationClientIdFromConfig(rawObj clie
 	return obj.Spec.AzureBlob.ServicePrincipal.ClientIdFromConfig.Index()
 }
 
-// indexKubernetesconfigurationFluxConfigurationClientSecret an index function for kubernetesconfiguration_v20230501s.FluxConfiguration .spec.azureBlob.servicePrincipal.clientSecret
-func indexKubernetesconfigurationFluxConfigurationClientSecret(rawObj client.Object) []string {
-	obj, ok := rawObj.(*kubernetesconfiguration_v20230501s.FluxConfiguration)
+// indexKubernetesconfigurationFluxConfigurationConfigurationProtectedSettings an index function for kubernetesconfiguration_v20241101s.FluxConfiguration .spec.configurationProtectedSettings
+func indexKubernetesconfigurationFluxConfigurationConfigurationProtectedSettings(rawObj client.Object) []string {
+	obj, ok := rawObj.(*kubernetesconfiguration_v20241101s.FluxConfiguration)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.ConfigurationProtectedSettings == nil {
+		return nil
+	}
+	return obj.Spec.ConfigurationProtectedSettings.Index()
+}
+
+// indexKubernetesconfigurationFluxConfigurationHttpsCACert an index function for kubernetesconfiguration_v20241101s.FluxConfiguration .spec.gitRepository.httpsCACert
+func indexKubernetesconfigurationFluxConfigurationHttpsCACert(rawObj client.Object) []string {
+	obj, ok := rawObj.(*kubernetesconfiguration_v20241101s.FluxConfiguration)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.GitRepository == nil {
+		return nil
+	}
+	if obj.Spec.GitRepository.HttpsCACert == nil {
+		return nil
+	}
+	return obj.Spec.GitRepository.HttpsCACert.Index()
+}
+
+// indexKubernetesconfigurationFluxConfigurationSasToken an index function for kubernetesconfiguration_v20241101s.FluxConfiguration .spec.azureBlob.sasToken
+func indexKubernetesconfigurationFluxConfigurationSasToken(rawObj client.Object) []string {
+	obj, ok := rawObj.(*kubernetesconfiguration_v20241101s.FluxConfiguration)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.AzureBlob == nil {
+		return nil
+	}
+	if obj.Spec.AzureBlob.SasToken == nil {
+		return nil
+	}
+	return obj.Spec.AzureBlob.SasToken.Index()
+}
+
+// indexKubernetesconfigurationFluxConfigurationServicePrincipalClientCertificate an index function for kubernetesconfiguration_v20241101s.FluxConfiguration .spec.azureBlob.servicePrincipal.clientCertificate
+func indexKubernetesconfigurationFluxConfigurationServicePrincipalClientCertificate(rawObj client.Object) []string {
+	obj, ok := rawObj.(*kubernetesconfiguration_v20241101s.FluxConfiguration)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.AzureBlob == nil {
+		return nil
+	}
+	if obj.Spec.AzureBlob.ServicePrincipal == nil {
+		return nil
+	}
+	if obj.Spec.AzureBlob.ServicePrincipal.ClientCertificate == nil {
+		return nil
+	}
+	return obj.Spec.AzureBlob.ServicePrincipal.ClientCertificate.Index()
+}
+
+// indexKubernetesconfigurationFluxConfigurationServicePrincipalClientCertificatePassword an index function for kubernetesconfiguration_v20241101s.FluxConfiguration .spec.azureBlob.servicePrincipal.clientCertificatePassword
+func indexKubernetesconfigurationFluxConfigurationServicePrincipalClientCertificatePassword(rawObj client.Object) []string {
+	obj, ok := rawObj.(*kubernetesconfiguration_v20241101s.FluxConfiguration)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.AzureBlob == nil {
+		return nil
+	}
+	if obj.Spec.AzureBlob.ServicePrincipal == nil {
+		return nil
+	}
+	if obj.Spec.AzureBlob.ServicePrincipal.ClientCertificatePassword == nil {
+		return nil
+	}
+	return obj.Spec.AzureBlob.ServicePrincipal.ClientCertificatePassword.Index()
+}
+
+// indexKubernetesconfigurationFluxConfigurationServicePrincipalClientSecret an index function for kubernetesconfiguration_v20241101s.FluxConfiguration .spec.azureBlob.servicePrincipal.clientSecret
+func indexKubernetesconfigurationFluxConfigurationServicePrincipalClientSecret(rawObj client.Object) []string {
+	obj, ok := rawObj.(*kubernetesconfiguration_v20241101s.FluxConfiguration)
 	if !ok {
 		return nil
 	}
@@ -4353,51 +4419,9 @@ func indexKubernetesconfigurationFluxConfigurationClientSecret(rawObj client.Obj
 	return obj.Spec.AzureBlob.ServicePrincipal.ClientSecret.Index()
 }
 
-// indexKubernetesconfigurationFluxConfigurationConfigurationProtectedSettings an index function for kubernetesconfiguration_v20230501s.FluxConfiguration .spec.configurationProtectedSettings
-func indexKubernetesconfigurationFluxConfigurationConfigurationProtectedSettings(rawObj client.Object) []string {
-	obj, ok := rawObj.(*kubernetesconfiguration_v20230501s.FluxConfiguration)
-	if !ok {
-		return nil
-	}
-	if obj.Spec.ConfigurationProtectedSettings == nil {
-		return nil
-	}
-	return obj.Spec.ConfigurationProtectedSettings.Index()
-}
-
-// indexKubernetesconfigurationFluxConfigurationHttpsCACert an index function for kubernetesconfiguration_v20230501s.FluxConfiguration .spec.gitRepository.httpsCACert
-func indexKubernetesconfigurationFluxConfigurationHttpsCACert(rawObj client.Object) []string {
-	obj, ok := rawObj.(*kubernetesconfiguration_v20230501s.FluxConfiguration)
-	if !ok {
-		return nil
-	}
-	if obj.Spec.GitRepository == nil {
-		return nil
-	}
-	if obj.Spec.GitRepository.HttpsCACert == nil {
-		return nil
-	}
-	return obj.Spec.GitRepository.HttpsCACert.Index()
-}
-
-// indexKubernetesconfigurationFluxConfigurationSasToken an index function for kubernetesconfiguration_v20230501s.FluxConfiguration .spec.azureBlob.sasToken
-func indexKubernetesconfigurationFluxConfigurationSasToken(rawObj client.Object) []string {
-	obj, ok := rawObj.(*kubernetesconfiguration_v20230501s.FluxConfiguration)
-	if !ok {
-		return nil
-	}
-	if obj.Spec.AzureBlob == nil {
-		return nil
-	}
-	if obj.Spec.AzureBlob.SasToken == nil {
-		return nil
-	}
-	return obj.Spec.AzureBlob.SasToken.Index()
-}
-
-// indexKubernetesconfigurationFluxConfigurationTenantIdFromConfig an index function for kubernetesconfiguration_v20230501s.FluxConfiguration .spec.azureBlob.servicePrincipal.tenantIdFromConfig
+// indexKubernetesconfigurationFluxConfigurationTenantIdFromConfig an index function for kubernetesconfiguration_v20241101s.FluxConfiguration .spec.azureBlob.servicePrincipal.tenantIdFromConfig
 func indexKubernetesconfigurationFluxConfigurationTenantIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*kubernetesconfiguration_v20230501s.FluxConfiguration)
+	obj, ok := rawObj.(*kubernetesconfiguration_v20241101s.FluxConfiguration)
 	if !ok {
 		return nil
 	}
@@ -4411,6 +4435,60 @@ func indexKubernetesconfigurationFluxConfigurationTenantIdFromConfig(rawObj clie
 		return nil
 	}
 	return obj.Spec.AzureBlob.ServicePrincipal.TenantIdFromConfig.Index()
+}
+
+// indexKubernetesconfigurationFluxConfigurationTlsConfigCaCertificate an index function for kubernetesconfiguration_v20241101s.FluxConfiguration .spec.ociRepository.tlsConfig.caCertificate
+func indexKubernetesconfigurationFluxConfigurationTlsConfigCaCertificate(rawObj client.Object) []string {
+	obj, ok := rawObj.(*kubernetesconfiguration_v20241101s.FluxConfiguration)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.OciRepository == nil {
+		return nil
+	}
+	if obj.Spec.OciRepository.TlsConfig == nil {
+		return nil
+	}
+	if obj.Spec.OciRepository.TlsConfig.CaCertificate == nil {
+		return nil
+	}
+	return obj.Spec.OciRepository.TlsConfig.CaCertificate.Index()
+}
+
+// indexKubernetesconfigurationFluxConfigurationTlsConfigClientCertificate an index function for kubernetesconfiguration_v20241101s.FluxConfiguration .spec.ociRepository.tlsConfig.clientCertificate
+func indexKubernetesconfigurationFluxConfigurationTlsConfigClientCertificate(rawObj client.Object) []string {
+	obj, ok := rawObj.(*kubernetesconfiguration_v20241101s.FluxConfiguration)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.OciRepository == nil {
+		return nil
+	}
+	if obj.Spec.OciRepository.TlsConfig == nil {
+		return nil
+	}
+	if obj.Spec.OciRepository.TlsConfig.ClientCertificate == nil {
+		return nil
+	}
+	return obj.Spec.OciRepository.TlsConfig.ClientCertificate.Index()
+}
+
+// indexKubernetesconfigurationFluxConfigurationTlsConfigPrivateKey an index function for kubernetesconfiguration_v20241101s.FluxConfiguration .spec.ociRepository.tlsConfig.privateKey
+func indexKubernetesconfigurationFluxConfigurationTlsConfigPrivateKey(rawObj client.Object) []string {
+	obj, ok := rawObj.(*kubernetesconfiguration_v20241101s.FluxConfiguration)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.OciRepository == nil {
+		return nil
+	}
+	if obj.Spec.OciRepository.TlsConfig == nil {
+		return nil
+	}
+	if obj.Spec.OciRepository.TlsConfig.PrivateKey == nil {
+		return nil
+	}
+	return obj.Spec.OciRepository.TlsConfig.PrivateKey.Index()
 }
 
 // indexMachinelearningservicesWorkspaceIdentityClientIdFromConfig an index function for machinelearningservices_v20240401s.Workspace .spec.encryption.keyVaultProperties.identityClientIdFromConfig

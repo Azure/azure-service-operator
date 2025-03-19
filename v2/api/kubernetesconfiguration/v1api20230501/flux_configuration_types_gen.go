@@ -53,22 +53,36 @@ var _ conversion.Convertible = &FluxConfiguration{}
 
 // ConvertFrom populates our FluxConfiguration from the provided hub FluxConfiguration
 func (configuration *FluxConfiguration) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.FluxConfiguration)
-	if !ok {
-		return fmt.Errorf("expected kubernetesconfiguration/v1api20230501/storage/FluxConfiguration but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.FluxConfiguration
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return configuration.AssignProperties_From_FluxConfiguration(source)
+	err = configuration.AssignProperties_From_FluxConfiguration(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to configuration")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub FluxConfiguration from our FluxConfiguration
 func (configuration *FluxConfiguration) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.FluxConfiguration)
-	if !ok {
-		return fmt.Errorf("expected kubernetesconfiguration/v1api20230501/storage/FluxConfiguration but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.FluxConfiguration
+	err := configuration.AssignProperties_To_FluxConfiguration(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from configuration")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return configuration.AssignProperties_To_FluxConfiguration(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-kubernetesconfiguration-azure-com-v1api20230501-fluxconfiguration,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=kubernetesconfiguration.azure.com,resources=fluxconfigurations,verbs=create;update,versions=v1api20230501,name=default.v1api20230501.fluxconfigurations.kubernetesconfiguration.azure.com,admissionReviewVersions=v1
@@ -112,17 +126,6 @@ func (configuration *FluxConfiguration) SecretDestinationExpressions() []*core.D
 		return nil
 	}
 	return configuration.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &FluxConfiguration{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (configuration *FluxConfiguration) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*FluxConfiguration_STATUS); ok {
-		return configuration.Spec.Initialize_From_FluxConfiguration_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type FluxConfiguration_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &FluxConfiguration{}
@@ -987,105 +990,6 @@ func (configuration *FluxConfiguration_Spec) AssignProperties_To_FluxConfigurati
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_FluxConfiguration_STATUS populates our FluxConfiguration_Spec from the provided source FluxConfiguration_STATUS
-func (configuration *FluxConfiguration_Spec) Initialize_From_FluxConfiguration_STATUS(source *FluxConfiguration_STATUS) error {
-
-	// AzureBlob
-	if source.AzureBlob != nil {
-		var azureBlob AzureBlobDefinition
-		err := azureBlob.Initialize_From_AzureBlobDefinition_STATUS(source.AzureBlob)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_AzureBlobDefinition_STATUS() to populate field AzureBlob")
-		}
-		configuration.AzureBlob = &azureBlob
-	} else {
-		configuration.AzureBlob = nil
-	}
-
-	// Bucket
-	if source.Bucket != nil {
-		var bucket BucketDefinition
-		err := bucket.Initialize_From_BucketDefinition_STATUS(source.Bucket)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_BucketDefinition_STATUS() to populate field Bucket")
-		}
-		configuration.Bucket = &bucket
-	} else {
-		configuration.Bucket = nil
-	}
-
-	// GitRepository
-	if source.GitRepository != nil {
-		var gitRepository GitRepositoryDefinition
-		err := gitRepository.Initialize_From_GitRepositoryDefinition_STATUS(source.GitRepository)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_GitRepositoryDefinition_STATUS() to populate field GitRepository")
-		}
-		configuration.GitRepository = &gitRepository
-	} else {
-		configuration.GitRepository = nil
-	}
-
-	// Kustomizations
-	if source.Kustomizations != nil {
-		kustomizationMap := make(map[string]KustomizationDefinition, len(source.Kustomizations))
-		for kustomizationKey, kustomizationValue := range source.Kustomizations {
-			// Shadow the loop variable to avoid aliasing
-			kustomizationValue := kustomizationValue
-			var kustomization KustomizationDefinition
-			err := kustomization.Initialize_From_KustomizationDefinition_STATUS(&kustomizationValue)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_KustomizationDefinition_STATUS() to populate field Kustomizations")
-			}
-			kustomizationMap[kustomizationKey] = kustomization
-		}
-		configuration.Kustomizations = kustomizationMap
-	} else {
-		configuration.Kustomizations = nil
-	}
-
-	// Namespace
-	configuration.Namespace = genruntime.ClonePointerToString(source.Namespace)
-
-	// ReconciliationWaitDuration
-	configuration.ReconciliationWaitDuration = genruntime.ClonePointerToString(source.ReconciliationWaitDuration)
-
-	// Scope
-	if source.Scope != nil {
-		scope := genruntime.ToEnum(string(*source.Scope), scopeDefinition_Values)
-		configuration.Scope = &scope
-	} else {
-		configuration.Scope = nil
-	}
-
-	// SourceKind
-	if source.SourceKind != nil {
-		sourceKind := genruntime.ToEnum(string(*source.SourceKind), sourceKindDefinition_Values)
-		configuration.SourceKind = &sourceKind
-	} else {
-		configuration.SourceKind = nil
-	}
-
-	// Suspend
-	if source.Suspend != nil {
-		suspend := *source.Suspend
-		configuration.Suspend = &suspend
-	} else {
-		configuration.Suspend = nil
-	}
-
-	// WaitForReconciliation
-	if source.WaitForReconciliation != nil {
-		waitForReconciliation := *source.WaitForReconciliation
-		configuration.WaitForReconciliation = &waitForReconciliation
-	} else {
-		configuration.WaitForReconciliation = nil
 	}
 
 	// No error
@@ -2130,52 +2034,6 @@ func (definition *AzureBlobDefinition) AssignProperties_To_AzureBlobDefinition(d
 	return nil
 }
 
-// Initialize_From_AzureBlobDefinition_STATUS populates our AzureBlobDefinition from the provided source AzureBlobDefinition_STATUS
-func (definition *AzureBlobDefinition) Initialize_From_AzureBlobDefinition_STATUS(source *AzureBlobDefinition_STATUS) error {
-
-	// ContainerName
-	definition.ContainerName = genruntime.ClonePointerToString(source.ContainerName)
-
-	// LocalAuthRef
-	definition.LocalAuthRef = genruntime.ClonePointerToString(source.LocalAuthRef)
-
-	// ManagedIdentity
-	if source.ManagedIdentity != nil {
-		var managedIdentity ManagedIdentityDefinition
-		err := managedIdentity.Initialize_From_ManagedIdentityDefinition_STATUS(source.ManagedIdentity)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ManagedIdentityDefinition_STATUS() to populate field ManagedIdentity")
-		}
-		definition.ManagedIdentity = &managedIdentity
-	} else {
-		definition.ManagedIdentity = nil
-	}
-
-	// ServicePrincipal
-	if source.ServicePrincipal != nil {
-		var servicePrincipal ServicePrincipalDefinition
-		err := servicePrincipal.Initialize_From_ServicePrincipalDefinition_STATUS(source.ServicePrincipal)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ServicePrincipalDefinition_STATUS() to populate field ServicePrincipal")
-		}
-		definition.ServicePrincipal = &servicePrincipal
-	} else {
-		definition.ServicePrincipal = nil
-	}
-
-	// SyncIntervalInSeconds
-	definition.SyncIntervalInSeconds = genruntime.ClonePointerToInt(source.SyncIntervalInSeconds)
-
-	// TimeoutInSeconds
-	definition.TimeoutInSeconds = genruntime.ClonePointerToInt(source.TimeoutInSeconds)
-
-	// Url
-	definition.Url = genruntime.ClonePointerToString(source.Url)
-
-	// No error
-	return nil
-}
-
 // Parameters to reconcile to the AzureBlob source kind type.
 type AzureBlobDefinition_STATUS struct {
 	// ContainerName: The Azure Blob container name to sync from the url endpoint for the flux configuration.
@@ -2588,36 +2446,6 @@ func (definition *BucketDefinition) AssignProperties_To_BucketDefinition(destina
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_BucketDefinition_STATUS populates our BucketDefinition from the provided source BucketDefinition_STATUS
-func (definition *BucketDefinition) Initialize_From_BucketDefinition_STATUS(source *BucketDefinition_STATUS) error {
-
-	// BucketName
-	definition.BucketName = genruntime.ClonePointerToString(source.BucketName)
-
-	// Insecure
-	if source.Insecure != nil {
-		insecure := *source.Insecure
-		definition.Insecure = &insecure
-	} else {
-		definition.Insecure = nil
-	}
-
-	// LocalAuthRef
-	definition.LocalAuthRef = genruntime.ClonePointerToString(source.LocalAuthRef)
-
-	// SyncIntervalInSeconds
-	definition.SyncIntervalInSeconds = genruntime.ClonePointerToInt(source.SyncIntervalInSeconds)
-
-	// TimeoutInSeconds
-	definition.TimeoutInSeconds = genruntime.ClonePointerToInt(source.TimeoutInSeconds)
-
-	// Url
-	definition.Url = genruntime.ClonePointerToString(source.Url)
 
 	// No error
 	return nil
@@ -3152,43 +2980,6 @@ func (definition *GitRepositoryDefinition) AssignProperties_To_GitRepositoryDefi
 	return nil
 }
 
-// Initialize_From_GitRepositoryDefinition_STATUS populates our GitRepositoryDefinition from the provided source GitRepositoryDefinition_STATUS
-func (definition *GitRepositoryDefinition) Initialize_From_GitRepositoryDefinition_STATUS(source *GitRepositoryDefinition_STATUS) error {
-
-	// HttpsUser
-	definition.HttpsUser = genruntime.ClonePointerToString(source.HttpsUser)
-
-	// LocalAuthRef
-	definition.LocalAuthRef = genruntime.ClonePointerToString(source.LocalAuthRef)
-
-	// RepositoryRef
-	if source.RepositoryRef != nil {
-		var repositoryRef RepositoryRefDefinition
-		err := repositoryRef.Initialize_From_RepositoryRefDefinition_STATUS(source.RepositoryRef)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_RepositoryRefDefinition_STATUS() to populate field RepositoryRef")
-		}
-		definition.RepositoryRef = &repositoryRef
-	} else {
-		definition.RepositoryRef = nil
-	}
-
-	// SshKnownHosts
-	definition.SshKnownHosts = genruntime.ClonePointerToString(source.SshKnownHosts)
-
-	// SyncIntervalInSeconds
-	definition.SyncIntervalInSeconds = genruntime.ClonePointerToInt(source.SyncIntervalInSeconds)
-
-	// TimeoutInSeconds
-	definition.TimeoutInSeconds = genruntime.ClonePointerToInt(source.TimeoutInSeconds)
-
-	// Url
-	definition.Url = genruntime.ClonePointerToString(source.Url)
-
-	// No error
-	return nil
-}
-
 // Parameters to reconcile to the GitRepository source kind type.
 type GitRepositoryDefinition_STATUS struct {
 	// HttpsUser: Plaintext HTTPS username used to access private git repositories over HTTPS
@@ -3657,64 +3448,6 @@ func (definition *KustomizationDefinition) AssignProperties_To_KustomizationDefi
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_KustomizationDefinition_STATUS populates our KustomizationDefinition from the provided source KustomizationDefinition_STATUS
-func (definition *KustomizationDefinition) Initialize_From_KustomizationDefinition_STATUS(source *KustomizationDefinition_STATUS) error {
-
-	// DependsOn
-	definition.DependsOn = genruntime.CloneSliceOfString(source.DependsOn)
-
-	// Force
-	if source.Force != nil {
-		force := *source.Force
-		definition.Force = &force
-	} else {
-		definition.Force = nil
-	}
-
-	// Path
-	definition.Path = genruntime.ClonePointerToString(source.Path)
-
-	// PostBuild
-	if source.PostBuild != nil {
-		var postBuild PostBuildDefinition
-		err := postBuild.Initialize_From_PostBuildDefinition_STATUS(source.PostBuild)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_PostBuildDefinition_STATUS() to populate field PostBuild")
-		}
-		definition.PostBuild = &postBuild
-	} else {
-		definition.PostBuild = nil
-	}
-
-	// Prune
-	if source.Prune != nil {
-		prune := *source.Prune
-		definition.Prune = &prune
-	} else {
-		definition.Prune = nil
-	}
-
-	// RetryIntervalInSeconds
-	definition.RetryIntervalInSeconds = genruntime.ClonePointerToInt(source.RetryIntervalInSeconds)
-
-	// SyncIntervalInSeconds
-	definition.SyncIntervalInSeconds = genruntime.ClonePointerToInt(source.SyncIntervalInSeconds)
-
-	// TimeoutInSeconds
-	definition.TimeoutInSeconds = genruntime.ClonePointerToInt(source.TimeoutInSeconds)
-
-	// Wait
-	if source.Wait != nil {
-		wait := *source.Wait
-		definition.Wait = &wait
-	} else {
-		definition.Wait = nil
 	}
 
 	// No error
@@ -4491,16 +4224,6 @@ func (definition *ManagedIdentityDefinition) AssignProperties_To_ManagedIdentity
 	return nil
 }
 
-// Initialize_From_ManagedIdentityDefinition_STATUS populates our ManagedIdentityDefinition from the provided source ManagedIdentityDefinition_STATUS
-func (definition *ManagedIdentityDefinition) Initialize_From_ManagedIdentityDefinition_STATUS(source *ManagedIdentityDefinition_STATUS) error {
-
-	// ClientId
-	definition.ClientId = genruntime.ClonePointerToString(source.ClientId)
-
-	// No error
-	return nil
-}
-
 // Parameters to authenticate using a Managed Identity.
 type ManagedIdentityDefinition_STATUS struct {
 	// ClientId: The client Id for authenticating a Managed Identity.
@@ -4889,34 +4612,6 @@ func (definition *PostBuildDefinition) AssignProperties_To_PostBuildDefinition(d
 	return nil
 }
 
-// Initialize_From_PostBuildDefinition_STATUS populates our PostBuildDefinition from the provided source PostBuildDefinition_STATUS
-func (definition *PostBuildDefinition) Initialize_From_PostBuildDefinition_STATUS(source *PostBuildDefinition_STATUS) error {
-
-	// Substitute
-	definition.Substitute = genruntime.CloneMapOfStringToString(source.Substitute)
-
-	// SubstituteFrom
-	if source.SubstituteFrom != nil {
-		substituteFromList := make([]SubstituteFromDefinition, len(source.SubstituteFrom))
-		for substituteFromIndex, substituteFromItem := range source.SubstituteFrom {
-			// Shadow the loop variable to avoid aliasing
-			substituteFromItem := substituteFromItem
-			var substituteFrom SubstituteFromDefinition
-			err := substituteFrom.Initialize_From_SubstituteFromDefinition_STATUS(&substituteFromItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_SubstituteFromDefinition_STATUS() to populate field SubstituteFrom")
-			}
-			substituteFromList[substituteFromIndex] = substituteFrom
-		}
-		definition.SubstituteFrom = substituteFromList
-	} else {
-		definition.SubstituteFrom = nil
-	}
-
-	// No error
-	return nil
-}
-
 // The postBuild definitions defining variable substitutions for this Kustomization after kustomize build.
 type PostBuildDefinition_STATUS struct {
 	// Substitute: Key/value pairs holding the variables to be substituted in this Kustomization.
@@ -5160,25 +4855,6 @@ func (definition *RepositoryRefDefinition) AssignProperties_To_RepositoryRefDefi
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_RepositoryRefDefinition_STATUS populates our RepositoryRefDefinition from the provided source RepositoryRefDefinition_STATUS
-func (definition *RepositoryRefDefinition) Initialize_From_RepositoryRefDefinition_STATUS(source *RepositoryRefDefinition_STATUS) error {
-
-	// Branch
-	definition.Branch = genruntime.ClonePointerToString(source.Branch)
-
-	// Commit
-	definition.Commit = genruntime.ClonePointerToString(source.Commit)
-
-	// Semver
-	definition.Semver = genruntime.ClonePointerToString(source.Semver)
-
-	// Tag
-	definition.Tag = genruntime.ClonePointerToString(source.Tag)
 
 	// No error
 	return nil
@@ -5567,27 +5243,6 @@ func (definition *ServicePrincipalDefinition) AssignProperties_To_ServicePrincip
 	return nil
 }
 
-// Initialize_From_ServicePrincipalDefinition_STATUS populates our ServicePrincipalDefinition from the provided source ServicePrincipalDefinition_STATUS
-func (definition *ServicePrincipalDefinition) Initialize_From_ServicePrincipalDefinition_STATUS(source *ServicePrincipalDefinition_STATUS) error {
-
-	// ClientCertificateSendChain
-	if source.ClientCertificateSendChain != nil {
-		clientCertificateSendChain := *source.ClientCertificateSendChain
-		definition.ClientCertificateSendChain = &clientCertificateSendChain
-	} else {
-		definition.ClientCertificateSendChain = nil
-	}
-
-	// ClientId
-	definition.ClientId = genruntime.ClonePointerToString(source.ClientId)
-
-	// TenantId
-	definition.TenantId = genruntime.ClonePointerToString(source.TenantId)
-
-	// No error
-	return nil
-}
-
 // Parameters to authenticate using Service Principal.
 type ServicePrincipalDefinition_STATUS struct {
 	// ClientCertificateSendChain: Specifies whether to include x5c header in client claims when acquiring a token to enable
@@ -5808,27 +5463,6 @@ func (definition *SubstituteFromDefinition) AssignProperties_To_SubstituteFromDe
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_SubstituteFromDefinition_STATUS populates our SubstituteFromDefinition from the provided source SubstituteFromDefinition_STATUS
-func (definition *SubstituteFromDefinition) Initialize_From_SubstituteFromDefinition_STATUS(source *SubstituteFromDefinition_STATUS) error {
-
-	// Kind
-	definition.Kind = genruntime.ClonePointerToString(source.Kind)
-
-	// Name
-	definition.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Optional
-	if source.Optional != nil {
-		optional := *source.Optional
-		definition.Optional = &optional
-	} else {
-		definition.Optional = nil
 	}
 
 	// No error

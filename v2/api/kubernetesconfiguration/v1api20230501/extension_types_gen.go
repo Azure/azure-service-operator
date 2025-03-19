@@ -58,22 +58,36 @@ var _ conversion.Convertible = &Extension{}
 
 // ConvertFrom populates our Extension from the provided hub Extension
 func (extension *Extension) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.Extension)
-	if !ok {
-		return fmt.Errorf("expected kubernetesconfiguration/v1api20230501/storage/Extension but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.Extension
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return extension.AssignProperties_From_Extension(source)
+	err = extension.AssignProperties_From_Extension(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to extension")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Extension from our Extension
 func (extension *Extension) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.Extension)
-	if !ok {
-		return fmt.Errorf("expected kubernetesconfiguration/v1api20230501/storage/Extension but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.Extension
+	err := extension.AssignProperties_To_Extension(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from extension")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return extension.AssignProperties_To_Extension(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-kubernetesconfiguration-azure-com-v1api20230501-extension,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=kubernetesconfiguration.azure.com,resources=extensions,verbs=create;update,versions=v1api20230501,name=default.v1api20230501.extensions.kubernetesconfiguration.azure.com,admissionReviewVersions=v1
@@ -117,17 +131,6 @@ func (extension *Extension) SecretDestinationExpressions() []*core.DestinationEx
 		return nil
 	}
 	return extension.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &Extension{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (extension *Extension) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Extension_STATUS); ok {
-		return extension.Spec.Initialize_From_Extension_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Extension_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesConfigExporter = &Extension{}
@@ -984,93 +987,6 @@ func (extension *Extension_Spec) AssignProperties_To_Extension_Spec(destination 
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Extension_STATUS populates our Extension_Spec from the provided source Extension_STATUS
-func (extension *Extension_Spec) Initialize_From_Extension_STATUS(source *Extension_STATUS) error {
-
-	// AksAssignedIdentity
-	if source.AksAssignedIdentity != nil {
-		var aksAssignedIdentity Extension_Properties_AksAssignedIdentity_Spec
-		err := aksAssignedIdentity.Initialize_From_Extension_Properties_AksAssignedIdentity_STATUS(source.AksAssignedIdentity)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_Extension_Properties_AksAssignedIdentity_STATUS() to populate field AksAssignedIdentity")
-		}
-		extension.AksAssignedIdentity = &aksAssignedIdentity
-	} else {
-		extension.AksAssignedIdentity = nil
-	}
-
-	// AutoUpgradeMinorVersion
-	if source.AutoUpgradeMinorVersion != nil {
-		autoUpgradeMinorVersion := *source.AutoUpgradeMinorVersion
-		extension.AutoUpgradeMinorVersion = &autoUpgradeMinorVersion
-	} else {
-		extension.AutoUpgradeMinorVersion = nil
-	}
-
-	// ConfigurationSettings
-	extension.ConfigurationSettings = genruntime.CloneMapOfStringToString(source.ConfigurationSettings)
-
-	// ExtensionType
-	extension.ExtensionType = genruntime.ClonePointerToString(source.ExtensionType)
-
-	// Identity
-	if source.Identity != nil {
-		var identity Identity
-		err := identity.Initialize_From_Identity_STATUS(source.Identity)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_Identity_STATUS() to populate field Identity")
-		}
-		extension.Identity = &identity
-	} else {
-		extension.Identity = nil
-	}
-
-	// Plan
-	if source.Plan != nil {
-		var plan Plan
-		err := plan.Initialize_From_Plan_STATUS(source.Plan)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_Plan_STATUS() to populate field Plan")
-		}
-		extension.Plan = &plan
-	} else {
-		extension.Plan = nil
-	}
-
-	// ReleaseTrain
-	extension.ReleaseTrain = genruntime.ClonePointerToString(source.ReleaseTrain)
-
-	// Scope
-	if source.Scope != nil {
-		var scope Scope
-		err := scope.Initialize_From_Scope_STATUS(source.Scope)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_Scope_STATUS() to populate field Scope")
-		}
-		extension.Scope = &scope
-	} else {
-		extension.Scope = nil
-	}
-
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData
-		err := systemDatum.Initialize_From_SystemData_STATUS(source.SystemData)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_SystemData_STATUS() to populate field SystemData")
-		}
-		extension.SystemData = &systemDatum
-	} else {
-		extension.SystemData = nil
-	}
-
-	// Version
-	extension.Version = genruntime.ClonePointerToString(source.Version)
 
 	// No error
 	return nil
@@ -2041,21 +1957,6 @@ func (identity *Extension_Properties_AksAssignedIdentity_Spec) AssignProperties_
 	return nil
 }
 
-// Initialize_From_Extension_Properties_AksAssignedIdentity_STATUS populates our Extension_Properties_AksAssignedIdentity_Spec from the provided source Extension_Properties_AksAssignedIdentity_STATUS
-func (identity *Extension_Properties_AksAssignedIdentity_Spec) Initialize_From_Extension_Properties_AksAssignedIdentity_STATUS(source *Extension_Properties_AksAssignedIdentity_STATUS) error {
-
-	// Type
-	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), extension_Properties_AksAssignedIdentity_Type_Spec_Values)
-		identity.Type = &typeVar
-	} else {
-		identity.Type = nil
-	}
-
-	// No error
-	return nil
-}
-
 type Extension_Properties_AksAssignedIdentity_STATUS struct {
 	// PrincipalId: The principal ID of resource identity.
 	PrincipalId *string `json:"principalId,omitempty"`
@@ -2509,21 +2410,6 @@ func (identity *Identity) AssignProperties_To_Identity(destination *storage.Iden
 	return nil
 }
 
-// Initialize_From_Identity_STATUS populates our Identity from the provided source Identity_STATUS
-func (identity *Identity) Initialize_From_Identity_STATUS(source *Identity_STATUS) error {
-
-	// Type
-	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), identity_Type_Values)
-		identity.Type = &typeVar
-	} else {
-		identity.Type = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Identity for the resource.
 type Identity_STATUS struct {
 	// PrincipalId: The principal ID of resource identity.
@@ -2783,28 +2669,6 @@ func (plan *Plan) AssignProperties_To_Plan(destination *storage.Plan) error {
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Plan_STATUS populates our Plan from the provided source Plan_STATUS
-func (plan *Plan) Initialize_From_Plan_STATUS(source *Plan_STATUS) error {
-
-	// Name
-	plan.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Product
-	plan.Product = genruntime.ClonePointerToString(source.Product)
-
-	// PromotionCode
-	plan.PromotionCode = genruntime.ClonePointerToString(source.PromotionCode)
-
-	// Publisher
-	plan.Publisher = genruntime.ClonePointerToString(source.Publisher)
-
-	// Version
-	plan.Version = genruntime.ClonePointerToString(source.Version)
 
 	// No error
 	return nil
@@ -3095,37 +2959,6 @@ func (scope *Scope) AssignProperties_To_Scope(destination *storage.Scope) error 
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Scope_STATUS populates our Scope from the provided source Scope_STATUS
-func (scope *Scope) Initialize_From_Scope_STATUS(source *Scope_STATUS) error {
-
-	// Cluster
-	if source.Cluster != nil {
-		var cluster ScopeCluster
-		err := cluster.Initialize_From_ScopeCluster_STATUS(source.Cluster)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ScopeCluster_STATUS() to populate field Cluster")
-		}
-		scope.Cluster = &cluster
-	} else {
-		scope.Cluster = nil
-	}
-
-	// Namespace
-	if source.Namespace != nil {
-		var namespace ScopeNamespace
-		err := namespace.Initialize_From_ScopeNamespace_STATUS(source.Namespace)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ScopeNamespace_STATUS() to populate field Namespace")
-		}
-		scope.Namespace = &namespace
-	} else {
-		scope.Namespace = nil
 	}
 
 	// No error
@@ -3455,41 +3288,6 @@ func (data *SystemData) AssignProperties_To_SystemData(destination *storage.Syst
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_SystemData_STATUS populates our SystemData from the provided source SystemData_STATUS
-func (data *SystemData) Initialize_From_SystemData_STATUS(source *SystemData_STATUS) error {
-
-	// CreatedAt
-	data.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
-
-	// CreatedBy
-	data.CreatedBy = genruntime.ClonePointerToString(source.CreatedBy)
-
-	// CreatedByType
-	if source.CreatedByType != nil {
-		createdByType := genruntime.ToEnum(string(*source.CreatedByType), systemData_CreatedByType_Values)
-		data.CreatedByType = &createdByType
-	} else {
-		data.CreatedByType = nil
-	}
-
-	// LastModifiedAt
-	data.LastModifiedAt = genruntime.ClonePointerToString(source.LastModifiedAt)
-
-	// LastModifiedBy
-	data.LastModifiedBy = genruntime.ClonePointerToString(source.LastModifiedBy)
-
-	// LastModifiedByType
-	if source.LastModifiedByType != nil {
-		lastModifiedByType := genruntime.ToEnum(string(*source.LastModifiedByType), systemData_LastModifiedByType_Values)
-		data.LastModifiedByType = &lastModifiedByType
-	} else {
-		data.LastModifiedByType = nil
 	}
 
 	// No error
@@ -4069,16 +3867,6 @@ func (cluster *ScopeCluster) AssignProperties_To_ScopeCluster(destination *stora
 	return nil
 }
 
-// Initialize_From_ScopeCluster_STATUS populates our ScopeCluster from the provided source ScopeCluster_STATUS
-func (cluster *ScopeCluster) Initialize_From_ScopeCluster_STATUS(source *ScopeCluster_STATUS) error {
-
-	// ReleaseNamespace
-	cluster.ReleaseNamespace = genruntime.ClonePointerToString(source.ReleaseNamespace)
-
-	// No error
-	return nil
-}
-
 // Specifies that the scope of the extension is Cluster
 type ScopeCluster_STATUS struct {
 	// ReleaseNamespace: Namespace where the extension Release must be placed, for a Cluster scoped extension.  If this
@@ -4209,16 +3997,6 @@ func (namespace *ScopeNamespace) AssignProperties_To_ScopeNamespace(destination 
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ScopeNamespace_STATUS populates our ScopeNamespace from the provided source ScopeNamespace_STATUS
-func (namespace *ScopeNamespace) Initialize_From_ScopeNamespace_STATUS(source *ScopeNamespace_STATUS) error {
-
-	// TargetNamespace
-	namespace.TargetNamespace = genruntime.ClonePointerToString(source.TargetNamespace)
 
 	// No error
 	return nil
