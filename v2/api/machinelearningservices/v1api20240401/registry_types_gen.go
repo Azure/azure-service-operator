@@ -3668,9 +3668,6 @@ func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination
 type AcrDetails struct {
 	// SystemCreatedAcrAccount: Details of system created ACR account to be used for the Registry
 	SystemCreatedAcrAccount *SystemCreatedAcrAccount `json:"systemCreatedAcrAccount,omitempty"`
-
-	// UserCreatedAcrAccount: Details of user created ACR account to be used for the Registry
-	UserCreatedAcrAccount *UserCreatedAcrAccount `json:"userCreatedAcrAccount,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &AcrDetails{}
@@ -3690,16 +3687,6 @@ func (details *AcrDetails) ConvertToARM(resolved genruntime.ConvertToARMResolved
 		}
 		systemCreatedAcrAccount := *systemCreatedAcrAccount_ARM.(*arm.SystemCreatedAcrAccount)
 		result.SystemCreatedAcrAccount = &systemCreatedAcrAccount
-	}
-
-	// Set property "UserCreatedAcrAccount":
-	if details.UserCreatedAcrAccount != nil {
-		userCreatedAcrAccount_ARM, err := (*details.UserCreatedAcrAccount).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		userCreatedAcrAccount := *userCreatedAcrAccount_ARM.(*arm.UserCreatedAcrAccount)
-		result.UserCreatedAcrAccount = &userCreatedAcrAccount
 	}
 	return result, nil
 }
@@ -3727,17 +3714,6 @@ func (details *AcrDetails) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		details.SystemCreatedAcrAccount = &systemCreatedAcrAccount
 	}
 
-	// Set property "UserCreatedAcrAccount":
-	if typedInput.UserCreatedAcrAccount != nil {
-		var userCreatedAcrAccount1 UserCreatedAcrAccount
-		err := userCreatedAcrAccount1.PopulateFromARM(owner, *typedInput.UserCreatedAcrAccount)
-		if err != nil {
-			return err
-		}
-		userCreatedAcrAccount := userCreatedAcrAccount1
-		details.UserCreatedAcrAccount = &userCreatedAcrAccount
-	}
-
 	// No error
 	return nil
 }
@@ -3755,18 +3731,6 @@ func (details *AcrDetails) AssignProperties_From_AcrDetails(source *storage.AcrD
 		details.SystemCreatedAcrAccount = &systemCreatedAcrAccount
 	} else {
 		details.SystemCreatedAcrAccount = nil
-	}
-
-	// UserCreatedAcrAccount
-	if source.UserCreatedAcrAccount != nil {
-		var userCreatedAcrAccount UserCreatedAcrAccount
-		err := userCreatedAcrAccount.AssignProperties_From_UserCreatedAcrAccount(source.UserCreatedAcrAccount)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_UserCreatedAcrAccount() to populate field UserCreatedAcrAccount")
-		}
-		details.UserCreatedAcrAccount = &userCreatedAcrAccount
-	} else {
-		details.UserCreatedAcrAccount = nil
 	}
 
 	// No error
@@ -3788,18 +3752,6 @@ func (details *AcrDetails) AssignProperties_To_AcrDetails(destination *storage.A
 		destination.SystemCreatedAcrAccount = &systemCreatedAcrAccount
 	} else {
 		destination.SystemCreatedAcrAccount = nil
-	}
-
-	// UserCreatedAcrAccount
-	if details.UserCreatedAcrAccount != nil {
-		var userCreatedAcrAccount storage.UserCreatedAcrAccount
-		err := details.UserCreatedAcrAccount.AssignProperties_To_UserCreatedAcrAccount(&userCreatedAcrAccount)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_UserCreatedAcrAccount() to populate field UserCreatedAcrAccount")
-		}
-		destination.UserCreatedAcrAccount = &userCreatedAcrAccount
-	} else {
-		destination.UserCreatedAcrAccount = nil
 	}
 
 	// Update the property bag
@@ -3828,18 +3780,6 @@ func (details *AcrDetails) Initialize_From_AcrDetails_STATUS(source *AcrDetails_
 		details.SystemCreatedAcrAccount = nil
 	}
 
-	// UserCreatedAcrAccount
-	if source.UserCreatedAcrAccount != nil {
-		var userCreatedAcrAccount UserCreatedAcrAccount
-		err := userCreatedAcrAccount.Initialize_From_UserCreatedAcrAccount_STATUS(source.UserCreatedAcrAccount)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_UserCreatedAcrAccount_STATUS() to populate field UserCreatedAcrAccount")
-		}
-		details.UserCreatedAcrAccount = &userCreatedAcrAccount
-	} else {
-		details.UserCreatedAcrAccount = nil
-	}
-
 	// No error
 	return nil
 }
@@ -3848,9 +3788,6 @@ func (details *AcrDetails) Initialize_From_AcrDetails_STATUS(source *AcrDetails_
 type AcrDetails_STATUS struct {
 	// SystemCreatedAcrAccount: Details of system created ACR account to be used for the Registry
 	SystemCreatedAcrAccount *SystemCreatedAcrAccount_STATUS `json:"systemCreatedAcrAccount,omitempty"`
-
-	// UserCreatedAcrAccount: Details of user created ACR account to be used for the Registry
-	UserCreatedAcrAccount *UserCreatedAcrAccount_STATUS `json:"userCreatedAcrAccount,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &AcrDetails_STATUS{}
@@ -3878,17 +3815,6 @@ func (details *AcrDetails_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 		details.SystemCreatedAcrAccount = &systemCreatedAcrAccount
 	}
 
-	// Set property "UserCreatedAcrAccount":
-	if typedInput.UserCreatedAcrAccount != nil {
-		var userCreatedAcrAccount1 UserCreatedAcrAccount_STATUS
-		err := userCreatedAcrAccount1.PopulateFromARM(owner, *typedInput.UserCreatedAcrAccount)
-		if err != nil {
-			return err
-		}
-		userCreatedAcrAccount := userCreatedAcrAccount1
-		details.UserCreatedAcrAccount = &userCreatedAcrAccount
-	}
-
 	// No error
 	return nil
 }
@@ -3906,18 +3832,6 @@ func (details *AcrDetails_STATUS) AssignProperties_From_AcrDetails_STATUS(source
 		details.SystemCreatedAcrAccount = &systemCreatedAcrAccount
 	} else {
 		details.SystemCreatedAcrAccount = nil
-	}
-
-	// UserCreatedAcrAccount
-	if source.UserCreatedAcrAccount != nil {
-		var userCreatedAcrAccount UserCreatedAcrAccount_STATUS
-		err := userCreatedAcrAccount.AssignProperties_From_UserCreatedAcrAccount_STATUS(source.UserCreatedAcrAccount)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_UserCreatedAcrAccount_STATUS() to populate field UserCreatedAcrAccount")
-		}
-		details.UserCreatedAcrAccount = &userCreatedAcrAccount
-	} else {
-		details.UserCreatedAcrAccount = nil
 	}
 
 	// No error
@@ -3939,18 +3853,6 @@ func (details *AcrDetails_STATUS) AssignProperties_To_AcrDetails_STATUS(destinat
 		destination.SystemCreatedAcrAccount = &systemCreatedAcrAccount
 	} else {
 		destination.SystemCreatedAcrAccount = nil
-	}
-
-	// UserCreatedAcrAccount
-	if details.UserCreatedAcrAccount != nil {
-		var userCreatedAcrAccount storage.UserCreatedAcrAccount_STATUS
-		err := details.UserCreatedAcrAccount.AssignProperties_To_UserCreatedAcrAccount_STATUS(&userCreatedAcrAccount)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_UserCreatedAcrAccount_STATUS() to populate field UserCreatedAcrAccount")
-		}
-		destination.UserCreatedAcrAccount = &userCreatedAcrAccount
-	} else {
-		destination.UserCreatedAcrAccount = nil
 	}
 
 	// Update the property bag
@@ -4535,9 +4437,6 @@ var skuTier_STATUS_Values = map[string]SkuTier_STATUS{
 type StorageAccountDetails struct {
 	// SystemCreatedStorageAccount: Details of system created storage account to be used for the registry
 	SystemCreatedStorageAccount *SystemCreatedStorageAccount `json:"systemCreatedStorageAccount,omitempty"`
-
-	// UserCreatedStorageAccount: Details of user created storage account to be used for the registry
-	UserCreatedStorageAccount *UserCreatedStorageAccount `json:"userCreatedStorageAccount,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &StorageAccountDetails{}
@@ -4557,16 +4456,6 @@ func (details *StorageAccountDetails) ConvertToARM(resolved genruntime.ConvertTo
 		}
 		systemCreatedStorageAccount := *systemCreatedStorageAccount_ARM.(*arm.SystemCreatedStorageAccount)
 		result.SystemCreatedStorageAccount = &systemCreatedStorageAccount
-	}
-
-	// Set property "UserCreatedStorageAccount":
-	if details.UserCreatedStorageAccount != nil {
-		userCreatedStorageAccount_ARM, err := (*details.UserCreatedStorageAccount).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		userCreatedStorageAccount := *userCreatedStorageAccount_ARM.(*arm.UserCreatedStorageAccount)
-		result.UserCreatedStorageAccount = &userCreatedStorageAccount
 	}
 	return result, nil
 }
@@ -4594,17 +4483,6 @@ func (details *StorageAccountDetails) PopulateFromARM(owner genruntime.Arbitrary
 		details.SystemCreatedStorageAccount = &systemCreatedStorageAccount
 	}
 
-	// Set property "UserCreatedStorageAccount":
-	if typedInput.UserCreatedStorageAccount != nil {
-		var userCreatedStorageAccount1 UserCreatedStorageAccount
-		err := userCreatedStorageAccount1.PopulateFromARM(owner, *typedInput.UserCreatedStorageAccount)
-		if err != nil {
-			return err
-		}
-		userCreatedStorageAccount := userCreatedStorageAccount1
-		details.UserCreatedStorageAccount = &userCreatedStorageAccount
-	}
-
 	// No error
 	return nil
 }
@@ -4622,18 +4500,6 @@ func (details *StorageAccountDetails) AssignProperties_From_StorageAccountDetail
 		details.SystemCreatedStorageAccount = &systemCreatedStorageAccount
 	} else {
 		details.SystemCreatedStorageAccount = nil
-	}
-
-	// UserCreatedStorageAccount
-	if source.UserCreatedStorageAccount != nil {
-		var userCreatedStorageAccount UserCreatedStorageAccount
-		err := userCreatedStorageAccount.AssignProperties_From_UserCreatedStorageAccount(source.UserCreatedStorageAccount)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_UserCreatedStorageAccount() to populate field UserCreatedStorageAccount")
-		}
-		details.UserCreatedStorageAccount = &userCreatedStorageAccount
-	} else {
-		details.UserCreatedStorageAccount = nil
 	}
 
 	// No error
@@ -4655,18 +4521,6 @@ func (details *StorageAccountDetails) AssignProperties_To_StorageAccountDetails(
 		destination.SystemCreatedStorageAccount = &systemCreatedStorageAccount
 	} else {
 		destination.SystemCreatedStorageAccount = nil
-	}
-
-	// UserCreatedStorageAccount
-	if details.UserCreatedStorageAccount != nil {
-		var userCreatedStorageAccount storage.UserCreatedStorageAccount
-		err := details.UserCreatedStorageAccount.AssignProperties_To_UserCreatedStorageAccount(&userCreatedStorageAccount)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_UserCreatedStorageAccount() to populate field UserCreatedStorageAccount")
-		}
-		destination.UserCreatedStorageAccount = &userCreatedStorageAccount
-	} else {
-		destination.UserCreatedStorageAccount = nil
 	}
 
 	// Update the property bag
@@ -4695,18 +4549,6 @@ func (details *StorageAccountDetails) Initialize_From_StorageAccountDetails_STAT
 		details.SystemCreatedStorageAccount = nil
 	}
 
-	// UserCreatedStorageAccount
-	if source.UserCreatedStorageAccount != nil {
-		var userCreatedStorageAccount UserCreatedStorageAccount
-		err := userCreatedStorageAccount.Initialize_From_UserCreatedStorageAccount_STATUS(source.UserCreatedStorageAccount)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_UserCreatedStorageAccount_STATUS() to populate field UserCreatedStorageAccount")
-		}
-		details.UserCreatedStorageAccount = &userCreatedStorageAccount
-	} else {
-		details.UserCreatedStorageAccount = nil
-	}
-
 	// No error
 	return nil
 }
@@ -4715,9 +4557,6 @@ func (details *StorageAccountDetails) Initialize_From_StorageAccountDetails_STAT
 type StorageAccountDetails_STATUS struct {
 	// SystemCreatedStorageAccount: Details of system created storage account to be used for the registry
 	SystemCreatedStorageAccount *SystemCreatedStorageAccount_STATUS `json:"systemCreatedStorageAccount,omitempty"`
-
-	// UserCreatedStorageAccount: Details of user created storage account to be used for the registry
-	UserCreatedStorageAccount *UserCreatedStorageAccount_STATUS `json:"userCreatedStorageAccount,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &StorageAccountDetails_STATUS{}
@@ -4745,17 +4584,6 @@ func (details *StorageAccountDetails_STATUS) PopulateFromARM(owner genruntime.Ar
 		details.SystemCreatedStorageAccount = &systemCreatedStorageAccount
 	}
 
-	// Set property "UserCreatedStorageAccount":
-	if typedInput.UserCreatedStorageAccount != nil {
-		var userCreatedStorageAccount1 UserCreatedStorageAccount_STATUS
-		err := userCreatedStorageAccount1.PopulateFromARM(owner, *typedInput.UserCreatedStorageAccount)
-		if err != nil {
-			return err
-		}
-		userCreatedStorageAccount := userCreatedStorageAccount1
-		details.UserCreatedStorageAccount = &userCreatedStorageAccount
-	}
-
 	// No error
 	return nil
 }
@@ -4773,18 +4601,6 @@ func (details *StorageAccountDetails_STATUS) AssignProperties_From_StorageAccoun
 		details.SystemCreatedStorageAccount = &systemCreatedStorageAccount
 	} else {
 		details.SystemCreatedStorageAccount = nil
-	}
-
-	// UserCreatedStorageAccount
-	if source.UserCreatedStorageAccount != nil {
-		var userCreatedStorageAccount UserCreatedStorageAccount_STATUS
-		err := userCreatedStorageAccount.AssignProperties_From_UserCreatedStorageAccount_STATUS(source.UserCreatedStorageAccount)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_UserCreatedStorageAccount_STATUS() to populate field UserCreatedStorageAccount")
-		}
-		details.UserCreatedStorageAccount = &userCreatedStorageAccount
-	} else {
-		details.UserCreatedStorageAccount = nil
 	}
 
 	// No error
@@ -4806,18 +4622,6 @@ func (details *StorageAccountDetails_STATUS) AssignProperties_To_StorageAccountD
 		destination.SystemCreatedStorageAccount = &systemCreatedStorageAccount
 	} else {
 		destination.SystemCreatedStorageAccount = nil
-	}
-
-	// UserCreatedStorageAccount
-	if details.UserCreatedStorageAccount != nil {
-		var userCreatedStorageAccount storage.UserCreatedStorageAccount_STATUS
-		err := details.UserCreatedStorageAccount.AssignProperties_To_UserCreatedStorageAccount_STATUS(&userCreatedStorageAccount)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_UserCreatedStorageAccount_STATUS() to populate field UserCreatedStorageAccount")
-		}
-		destination.UserCreatedStorageAccount = &userCreatedStorageAccount
-	} else {
-		destination.UserCreatedStorageAccount = nil
 	}
 
 	// Update the property bag
@@ -5578,406 +5382,6 @@ func (account *SystemCreatedStorageAccount_STATUS) AssignProperties_To_SystemCre
 
 	// StorageAccountType
 	destination.StorageAccountType = genruntime.ClonePointerToString(account.StorageAccountType)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-type UserCreatedAcrAccount struct {
-	// ArmResourceId: ARM ResourceId of a resource
-	ArmResourceId *ArmResourceId `json:"armResourceId,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &UserCreatedAcrAccount{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (account *UserCreatedAcrAccount) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if account == nil {
-		return nil, nil
-	}
-	result := &arm.UserCreatedAcrAccount{}
-
-	// Set property "ArmResourceId":
-	if account.ArmResourceId != nil {
-		armResourceId_ARM, err := (*account.ArmResourceId).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		armResourceId := *armResourceId_ARM.(*arm.ArmResourceId)
-		result.ArmResourceId = &armResourceId
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (account *UserCreatedAcrAccount) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.UserCreatedAcrAccount{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (account *UserCreatedAcrAccount) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.UserCreatedAcrAccount)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.UserCreatedAcrAccount, got %T", armInput)
-	}
-
-	// Set property "ArmResourceId":
-	if typedInput.ArmResourceId != nil {
-		var armResourceId1 ArmResourceId
-		err := armResourceId1.PopulateFromARM(owner, *typedInput.ArmResourceId)
-		if err != nil {
-			return err
-		}
-		armResourceId := armResourceId1
-		account.ArmResourceId = &armResourceId
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_UserCreatedAcrAccount populates our UserCreatedAcrAccount from the provided source UserCreatedAcrAccount
-func (account *UserCreatedAcrAccount) AssignProperties_From_UserCreatedAcrAccount(source *storage.UserCreatedAcrAccount) error {
-
-	// ArmResourceId
-	if source.ArmResourceId != nil {
-		var armResourceId ArmResourceId
-		err := armResourceId.AssignProperties_From_ArmResourceId(source.ArmResourceId)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_ArmResourceId() to populate field ArmResourceId")
-		}
-		account.ArmResourceId = &armResourceId
-	} else {
-		account.ArmResourceId = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_UserCreatedAcrAccount populates the provided destination UserCreatedAcrAccount from our UserCreatedAcrAccount
-func (account *UserCreatedAcrAccount) AssignProperties_To_UserCreatedAcrAccount(destination *storage.UserCreatedAcrAccount) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// ArmResourceId
-	if account.ArmResourceId != nil {
-		var armResourceId storage.ArmResourceId
-		err := account.ArmResourceId.AssignProperties_To_ArmResourceId(&armResourceId)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_ArmResourceId() to populate field ArmResourceId")
-		}
-		destination.ArmResourceId = &armResourceId
-	} else {
-		destination.ArmResourceId = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_UserCreatedAcrAccount_STATUS populates our UserCreatedAcrAccount from the provided source UserCreatedAcrAccount_STATUS
-func (account *UserCreatedAcrAccount) Initialize_From_UserCreatedAcrAccount_STATUS(source *UserCreatedAcrAccount_STATUS) error {
-
-	// ArmResourceId
-	if source.ArmResourceId != nil {
-		var armResourceId ArmResourceId
-		err := armResourceId.Initialize_From_ArmResourceId_STATUS(source.ArmResourceId)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ArmResourceId_STATUS() to populate field ArmResourceId")
-		}
-		account.ArmResourceId = &armResourceId
-	} else {
-		account.ArmResourceId = nil
-	}
-
-	// No error
-	return nil
-}
-
-type UserCreatedAcrAccount_STATUS struct {
-	// ArmResourceId: ARM ResourceId of a resource
-	ArmResourceId *ArmResourceId_STATUS `json:"armResourceId,omitempty"`
-}
-
-var _ genruntime.FromARMConverter = &UserCreatedAcrAccount_STATUS{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (account *UserCreatedAcrAccount_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.UserCreatedAcrAccount_STATUS{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (account *UserCreatedAcrAccount_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.UserCreatedAcrAccount_STATUS)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.UserCreatedAcrAccount_STATUS, got %T", armInput)
-	}
-
-	// Set property "ArmResourceId":
-	if typedInput.ArmResourceId != nil {
-		var armResourceId1 ArmResourceId_STATUS
-		err := armResourceId1.PopulateFromARM(owner, *typedInput.ArmResourceId)
-		if err != nil {
-			return err
-		}
-		armResourceId := armResourceId1
-		account.ArmResourceId = &armResourceId
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_UserCreatedAcrAccount_STATUS populates our UserCreatedAcrAccount_STATUS from the provided source UserCreatedAcrAccount_STATUS
-func (account *UserCreatedAcrAccount_STATUS) AssignProperties_From_UserCreatedAcrAccount_STATUS(source *storage.UserCreatedAcrAccount_STATUS) error {
-
-	// ArmResourceId
-	if source.ArmResourceId != nil {
-		var armResourceId ArmResourceId_STATUS
-		err := armResourceId.AssignProperties_From_ArmResourceId_STATUS(source.ArmResourceId)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_ArmResourceId_STATUS() to populate field ArmResourceId")
-		}
-		account.ArmResourceId = &armResourceId
-	} else {
-		account.ArmResourceId = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_UserCreatedAcrAccount_STATUS populates the provided destination UserCreatedAcrAccount_STATUS from our UserCreatedAcrAccount_STATUS
-func (account *UserCreatedAcrAccount_STATUS) AssignProperties_To_UserCreatedAcrAccount_STATUS(destination *storage.UserCreatedAcrAccount_STATUS) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// ArmResourceId
-	if account.ArmResourceId != nil {
-		var armResourceId storage.ArmResourceId_STATUS
-		err := account.ArmResourceId.AssignProperties_To_ArmResourceId_STATUS(&armResourceId)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_ArmResourceId_STATUS() to populate field ArmResourceId")
-		}
-		destination.ArmResourceId = &armResourceId
-	} else {
-		destination.ArmResourceId = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-type UserCreatedStorageAccount struct {
-	// ArmResourceId: ARM ResourceId of a resource
-	ArmResourceId *ArmResourceId `json:"armResourceId,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &UserCreatedStorageAccount{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (account *UserCreatedStorageAccount) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if account == nil {
-		return nil, nil
-	}
-	result := &arm.UserCreatedStorageAccount{}
-
-	// Set property "ArmResourceId":
-	if account.ArmResourceId != nil {
-		armResourceId_ARM, err := (*account.ArmResourceId).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		armResourceId := *armResourceId_ARM.(*arm.ArmResourceId)
-		result.ArmResourceId = &armResourceId
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (account *UserCreatedStorageAccount) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.UserCreatedStorageAccount{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (account *UserCreatedStorageAccount) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.UserCreatedStorageAccount)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.UserCreatedStorageAccount, got %T", armInput)
-	}
-
-	// Set property "ArmResourceId":
-	if typedInput.ArmResourceId != nil {
-		var armResourceId1 ArmResourceId
-		err := armResourceId1.PopulateFromARM(owner, *typedInput.ArmResourceId)
-		if err != nil {
-			return err
-		}
-		armResourceId := armResourceId1
-		account.ArmResourceId = &armResourceId
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_UserCreatedStorageAccount populates our UserCreatedStorageAccount from the provided source UserCreatedStorageAccount
-func (account *UserCreatedStorageAccount) AssignProperties_From_UserCreatedStorageAccount(source *storage.UserCreatedStorageAccount) error {
-
-	// ArmResourceId
-	if source.ArmResourceId != nil {
-		var armResourceId ArmResourceId
-		err := armResourceId.AssignProperties_From_ArmResourceId(source.ArmResourceId)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_ArmResourceId() to populate field ArmResourceId")
-		}
-		account.ArmResourceId = &armResourceId
-	} else {
-		account.ArmResourceId = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_UserCreatedStorageAccount populates the provided destination UserCreatedStorageAccount from our UserCreatedStorageAccount
-func (account *UserCreatedStorageAccount) AssignProperties_To_UserCreatedStorageAccount(destination *storage.UserCreatedStorageAccount) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// ArmResourceId
-	if account.ArmResourceId != nil {
-		var armResourceId storage.ArmResourceId
-		err := account.ArmResourceId.AssignProperties_To_ArmResourceId(&armResourceId)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_ArmResourceId() to populate field ArmResourceId")
-		}
-		destination.ArmResourceId = &armResourceId
-	} else {
-		destination.ArmResourceId = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_UserCreatedStorageAccount_STATUS populates our UserCreatedStorageAccount from the provided source UserCreatedStorageAccount_STATUS
-func (account *UserCreatedStorageAccount) Initialize_From_UserCreatedStorageAccount_STATUS(source *UserCreatedStorageAccount_STATUS) error {
-
-	// ArmResourceId
-	if source.ArmResourceId != nil {
-		var armResourceId ArmResourceId
-		err := armResourceId.Initialize_From_ArmResourceId_STATUS(source.ArmResourceId)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ArmResourceId_STATUS() to populate field ArmResourceId")
-		}
-		account.ArmResourceId = &armResourceId
-	} else {
-		account.ArmResourceId = nil
-	}
-
-	// No error
-	return nil
-}
-
-type UserCreatedStorageAccount_STATUS struct {
-	// ArmResourceId: ARM ResourceId of a resource
-	ArmResourceId *ArmResourceId_STATUS `json:"armResourceId,omitempty"`
-}
-
-var _ genruntime.FromARMConverter = &UserCreatedStorageAccount_STATUS{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (account *UserCreatedStorageAccount_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.UserCreatedStorageAccount_STATUS{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (account *UserCreatedStorageAccount_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.UserCreatedStorageAccount_STATUS)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.UserCreatedStorageAccount_STATUS, got %T", armInput)
-	}
-
-	// Set property "ArmResourceId":
-	if typedInput.ArmResourceId != nil {
-		var armResourceId1 ArmResourceId_STATUS
-		err := armResourceId1.PopulateFromARM(owner, *typedInput.ArmResourceId)
-		if err != nil {
-			return err
-		}
-		armResourceId := armResourceId1
-		account.ArmResourceId = &armResourceId
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_UserCreatedStorageAccount_STATUS populates our UserCreatedStorageAccount_STATUS from the provided source UserCreatedStorageAccount_STATUS
-func (account *UserCreatedStorageAccount_STATUS) AssignProperties_From_UserCreatedStorageAccount_STATUS(source *storage.UserCreatedStorageAccount_STATUS) error {
-
-	// ArmResourceId
-	if source.ArmResourceId != nil {
-		var armResourceId ArmResourceId_STATUS
-		err := armResourceId.AssignProperties_From_ArmResourceId_STATUS(source.ArmResourceId)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_ArmResourceId_STATUS() to populate field ArmResourceId")
-		}
-		account.ArmResourceId = &armResourceId
-	} else {
-		account.ArmResourceId = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_UserCreatedStorageAccount_STATUS populates the provided destination UserCreatedStorageAccount_STATUS from our UserCreatedStorageAccount_STATUS
-func (account *UserCreatedStorageAccount_STATUS) AssignProperties_To_UserCreatedStorageAccount_STATUS(destination *storage.UserCreatedStorageAccount_STATUS) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// ArmResourceId
-	if account.ArmResourceId != nil {
-		var armResourceId storage.ArmResourceId_STATUS
-		err := account.ArmResourceId.AssignProperties_To_ArmResourceId_STATUS(&armResourceId)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_ArmResourceId_STATUS() to populate field ArmResourceId")
-		}
-		destination.ArmResourceId = &armResourceId
-	} else {
-		destination.ArmResourceId = nil
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
