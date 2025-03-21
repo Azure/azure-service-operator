@@ -363,10 +363,6 @@
 | UserAccountCredentials_STATUS                                            | v1api20210701 | v1api20240401 |
 | UserAssignedIdentityDetails                                              | v1api20210701 | v1api20240401 |
 | UserAssignedIdentity_STATUS                                              | v1api20210701 | v1api20240401 |
-| UserCreatedAcrAccount                                                    |               | v1api20240401 |
-| UserCreatedAcrAccount_STATUS                                             |               | v1api20240401 |
-| UserCreatedStorageAccount                                                |               | v1api20240401 |
-| UserCreatedStorageAccount_STATUS                                         |               | v1api20240401 |
 | UsernamePasswordAuthTypeWorkspaceConnectionProperties                    |               | v1api20240401 |
 | UsernamePasswordAuthTypeWorkspaceConnectionProperties_AuthType           |               | v1api20240401 |
 | UsernamePasswordAuthTypeWorkspaceConnectionProperties_AuthType_STATUS    |               | v1api20240401 |

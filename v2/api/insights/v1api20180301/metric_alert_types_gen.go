@@ -422,7 +422,8 @@ type MetricAlert_Spec struct {
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
 	// +kubebuilder:validation:Required
-	// ScopesReferences: the list of resource id's that this metric alert is scoped to.
+	// ScopesReferences: the list of resource id's that this metric alert is scoped to. You cannot change the scope of a metric
+	// rule based on logs.
 	ScopesReferences []genruntime.ResourceReference `armReference:"Scopes" json:"scopesReferences,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -1096,7 +1097,8 @@ type MetricAlert_STATUS struct {
 	// Name: Azure resource name
 	Name *string `json:"name,omitempty"`
 
-	// Scopes: the list of resource id's that this metric alert is scoped to.
+	// Scopes: the list of resource id's that this metric alert is scoped to. You cannot change the scope of a metric rule
+	// based on logs.
 	Scopes []string `json:"scopes,omitempty"`
 
 	// Severity: Alert severity {0, 1, 2, 3, 4}
