@@ -2881,7 +2881,26 @@ objectModelConfiguration:
       GitRepositoryDefinition:
         HttpsCACert:
           $isSecret: true
-
+    2024-11-01:
+      Extension:
+        $export: true
+        $supportedFrom: v2.13.0
+        $generatedConfigs:
+          PrincipalId: $.Status.AksAssignedIdentity.PrincipalId
+      FluxConfiguration:
+        $export: true
+        $supportedFrom: v2.13.0
+      ServicePrincipalDefinition:
+        ClientId:
+          $importConfigMapMode: optional
+        TenantId:
+          $importConfigMapMode: optional
+      BucketDefinition:
+        AccessKey:
+          $isSecret: true
+      GitRepositoryDefinition:
+        HttpsCACert:
+          $isSecret: true
   managedidentity:
     2018-11-30:
       UserAssignedIdentity:
