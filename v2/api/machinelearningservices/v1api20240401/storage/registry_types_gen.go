@@ -418,7 +418,6 @@ type SystemData_STATUS struct {
 type AcrDetails struct {
 	PropertyBag             genruntime.PropertyBag   `json:"$propertyBag,omitempty"`
 	SystemCreatedAcrAccount *SystemCreatedAcrAccount `json:"systemCreatedAcrAccount,omitempty"`
-	UserCreatedAcrAccount   *UserCreatedAcrAccount   `json:"userCreatedAcrAccount,omitempty"`
 }
 
 // Storage version of v1api20240401.AcrDetails_STATUS
@@ -426,7 +425,6 @@ type AcrDetails struct {
 type AcrDetails_STATUS struct {
 	PropertyBag             genruntime.PropertyBag          `json:"$propertyBag,omitempty"`
 	SystemCreatedAcrAccount *SystemCreatedAcrAccount_STATUS `json:"systemCreatedAcrAccount,omitempty"`
-	UserCreatedAcrAccount   *UserCreatedAcrAccount_STATUS   `json:"userCreatedAcrAccount,omitempty"`
 }
 
 // Storage version of v1api20240401.PrivateEndpointResource
@@ -476,7 +474,6 @@ type RegistryPrivateLinkServiceConnectionState_STATUS struct {
 type StorageAccountDetails struct {
 	PropertyBag                 genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
 	SystemCreatedStorageAccount *SystemCreatedStorageAccount `json:"systemCreatedStorageAccount,omitempty"`
-	UserCreatedStorageAccount   *UserCreatedStorageAccount   `json:"userCreatedStorageAccount,omitempty"`
 }
 
 // Storage version of v1api20240401.StorageAccountDetails_STATUS
@@ -484,7 +481,6 @@ type StorageAccountDetails struct {
 type StorageAccountDetails_STATUS struct {
 	PropertyBag                 genruntime.PropertyBag              `json:"$propertyBag,omitempty"`
 	SystemCreatedStorageAccount *SystemCreatedStorageAccount_STATUS `json:"systemCreatedStorageAccount,omitempty"`
-	UserCreatedStorageAccount   *UserCreatedStorageAccount_STATUS   `json:"userCreatedStorageAccount,omitempty"`
 }
 
 // Storage version of v1api20240401.UserAssignedIdentity_STATUS
@@ -534,30 +530,6 @@ type SystemCreatedStorageAccount_STATUS struct {
 	StorageAccountHnsEnabled *bool                  `json:"storageAccountHnsEnabled,omitempty"`
 	StorageAccountName       *string                `json:"storageAccountName,omitempty"`
 	StorageAccountType       *string                `json:"storageAccountType,omitempty"`
-}
-
-// Storage version of v1api20240401.UserCreatedAcrAccount
-type UserCreatedAcrAccount struct {
-	ArmResourceId *ArmResourceId         `json:"armResourceId,omitempty"`
-	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v1api20240401.UserCreatedAcrAccount_STATUS
-type UserCreatedAcrAccount_STATUS struct {
-	ArmResourceId *ArmResourceId_STATUS  `json:"armResourceId,omitempty"`
-	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v1api20240401.UserCreatedStorageAccount
-type UserCreatedStorageAccount struct {
-	ArmResourceId *ArmResourceId         `json:"armResourceId,omitempty"`
-	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v1api20240401.UserCreatedStorageAccount_STATUS
-type UserCreatedStorageAccount_STATUS struct {
-	ArmResourceId *ArmResourceId_STATUS  `json:"armResourceId,omitempty"`
-	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 func init() {

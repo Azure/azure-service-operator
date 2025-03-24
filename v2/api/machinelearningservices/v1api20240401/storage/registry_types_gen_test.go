@@ -75,7 +75,6 @@ func AcrDetailsGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForAcrDetails is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForAcrDetails(gens map[string]gopter.Gen) {
 	gens["SystemCreatedAcrAccount"] = gen.PtrOf(SystemCreatedAcrAccountGenerator())
-	gens["UserCreatedAcrAccount"] = gen.PtrOf(UserCreatedAcrAccountGenerator())
 }
 
 func Test_AcrDetails_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -136,7 +135,6 @@ func AcrDetails_STATUSGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForAcrDetails_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForAcrDetails_STATUS(gens map[string]gopter.Gen) {
 	gens["SystemCreatedAcrAccount"] = gen.PtrOf(SystemCreatedAcrAccount_STATUSGenerator())
-	gens["UserCreatedAcrAccount"] = gen.PtrOf(UserCreatedAcrAccount_STATUSGenerator())
 }
 
 func Test_ArmResourceId_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1504,7 +1502,6 @@ func StorageAccountDetailsGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForStorageAccountDetails is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForStorageAccountDetails(gens map[string]gopter.Gen) {
 	gens["SystemCreatedStorageAccount"] = gen.PtrOf(SystemCreatedStorageAccountGenerator())
-	gens["UserCreatedStorageAccount"] = gen.PtrOf(UserCreatedStorageAccountGenerator())
 }
 
 func Test_StorageAccountDetails_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1566,7 +1563,6 @@ func StorageAccountDetails_STATUSGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForStorageAccountDetails_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForStorageAccountDetails_STATUS(gens map[string]gopter.Gen) {
 	gens["SystemCreatedStorageAccount"] = gen.PtrOf(SystemCreatedStorageAccount_STATUSGenerator())
-	gens["UserCreatedStorageAccount"] = gen.PtrOf(UserCreatedStorageAccount_STATUSGenerator())
 }
 
 func Test_SystemCreatedAcrAccount_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2029,248 +2025,4 @@ func UserAssignedIdentity_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForUserAssignedIdentity_STATUS(gens map[string]gopter.Gen) {
 	gens["ClientId"] = gen.PtrOf(gen.AlphaString())
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_UserCreatedAcrAccount_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of UserCreatedAcrAccount via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUserCreatedAcrAccount, UserCreatedAcrAccountGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForUserCreatedAcrAccount runs a test to see if a specific instance of UserCreatedAcrAccount round trips to JSON and back losslessly
-func RunJSONSerializationTestForUserCreatedAcrAccount(subject UserCreatedAcrAccount) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual UserCreatedAcrAccount
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of UserCreatedAcrAccount instances for property testing - lazily instantiated by
-// UserCreatedAcrAccountGenerator()
-var userCreatedAcrAccountGenerator gopter.Gen
-
-// UserCreatedAcrAccountGenerator returns a generator of UserCreatedAcrAccount instances for property testing.
-func UserCreatedAcrAccountGenerator() gopter.Gen {
-	if userCreatedAcrAccountGenerator != nil {
-		return userCreatedAcrAccountGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForUserCreatedAcrAccount(generators)
-	userCreatedAcrAccountGenerator = gen.Struct(reflect.TypeOf(UserCreatedAcrAccount{}), generators)
-
-	return userCreatedAcrAccountGenerator
-}
-
-// AddRelatedPropertyGeneratorsForUserCreatedAcrAccount is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForUserCreatedAcrAccount(gens map[string]gopter.Gen) {
-	gens["ArmResourceId"] = gen.PtrOf(ArmResourceIdGenerator())
-}
-
-func Test_UserCreatedAcrAccount_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of UserCreatedAcrAccount_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUserCreatedAcrAccount_STATUS, UserCreatedAcrAccount_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForUserCreatedAcrAccount_STATUS runs a test to see if a specific instance of UserCreatedAcrAccount_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForUserCreatedAcrAccount_STATUS(subject UserCreatedAcrAccount_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual UserCreatedAcrAccount_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of UserCreatedAcrAccount_STATUS instances for property testing - lazily instantiated by
-// UserCreatedAcrAccount_STATUSGenerator()
-var userCreatedAcrAccount_STATUSGenerator gopter.Gen
-
-// UserCreatedAcrAccount_STATUSGenerator returns a generator of UserCreatedAcrAccount_STATUS instances for property testing.
-func UserCreatedAcrAccount_STATUSGenerator() gopter.Gen {
-	if userCreatedAcrAccount_STATUSGenerator != nil {
-		return userCreatedAcrAccount_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForUserCreatedAcrAccount_STATUS(generators)
-	userCreatedAcrAccount_STATUSGenerator = gen.Struct(reflect.TypeOf(UserCreatedAcrAccount_STATUS{}), generators)
-
-	return userCreatedAcrAccount_STATUSGenerator
-}
-
-// AddRelatedPropertyGeneratorsForUserCreatedAcrAccount_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForUserCreatedAcrAccount_STATUS(gens map[string]gopter.Gen) {
-	gens["ArmResourceId"] = gen.PtrOf(ArmResourceId_STATUSGenerator())
-}
-
-func Test_UserCreatedStorageAccount_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of UserCreatedStorageAccount via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUserCreatedStorageAccount, UserCreatedStorageAccountGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForUserCreatedStorageAccount runs a test to see if a specific instance of UserCreatedStorageAccount round trips to JSON and back losslessly
-func RunJSONSerializationTestForUserCreatedStorageAccount(subject UserCreatedStorageAccount) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual UserCreatedStorageAccount
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of UserCreatedStorageAccount instances for property testing - lazily instantiated by
-// UserCreatedStorageAccountGenerator()
-var userCreatedStorageAccountGenerator gopter.Gen
-
-// UserCreatedStorageAccountGenerator returns a generator of UserCreatedStorageAccount instances for property testing.
-func UserCreatedStorageAccountGenerator() gopter.Gen {
-	if userCreatedStorageAccountGenerator != nil {
-		return userCreatedStorageAccountGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForUserCreatedStorageAccount(generators)
-	userCreatedStorageAccountGenerator = gen.Struct(reflect.TypeOf(UserCreatedStorageAccount{}), generators)
-
-	return userCreatedStorageAccountGenerator
-}
-
-// AddRelatedPropertyGeneratorsForUserCreatedStorageAccount is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForUserCreatedStorageAccount(gens map[string]gopter.Gen) {
-	gens["ArmResourceId"] = gen.PtrOf(ArmResourceIdGenerator())
-}
-
-func Test_UserCreatedStorageAccount_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of UserCreatedStorageAccount_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUserCreatedStorageAccount_STATUS, UserCreatedStorageAccount_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForUserCreatedStorageAccount_STATUS runs a test to see if a specific instance of UserCreatedStorageAccount_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForUserCreatedStorageAccount_STATUS(subject UserCreatedStorageAccount_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual UserCreatedStorageAccount_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of UserCreatedStorageAccount_STATUS instances for property testing - lazily instantiated by
-// UserCreatedStorageAccount_STATUSGenerator()
-var userCreatedStorageAccount_STATUSGenerator gopter.Gen
-
-// UserCreatedStorageAccount_STATUSGenerator returns a generator of UserCreatedStorageAccount_STATUS instances for property testing.
-func UserCreatedStorageAccount_STATUSGenerator() gopter.Gen {
-	if userCreatedStorageAccount_STATUSGenerator != nil {
-		return userCreatedStorageAccount_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForUserCreatedStorageAccount_STATUS(generators)
-	userCreatedStorageAccount_STATUSGenerator = gen.Struct(reflect.TypeOf(UserCreatedStorageAccount_STATUS{}), generators)
-
-	return userCreatedStorageAccount_STATUSGenerator
-}
-
-// AddRelatedPropertyGeneratorsForUserCreatedStorageAccount_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForUserCreatedStorageAccount_STATUS(gens map[string]gopter.Gen) {
-	gens["ArmResourceId"] = gen.PtrOf(ArmResourceId_STATUSGenerator())
 }
