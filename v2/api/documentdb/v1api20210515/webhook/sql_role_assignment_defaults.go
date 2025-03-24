@@ -3,17 +3,29 @@ Copyright (c) Microsoft Corporation.
 Licensed under the MIT license.
 */
 
-package v1api20210515
+package webhook
 
 import (
+	"context"
+	"fmt"
+
+	"k8s.io/apimachinery/pkg/runtime"
+
+	"github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515"
 	"github.com/Azure/azure-service-operator/v2/internal/util/randextensions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 var _ genruntime.Defaulter = &SqlRoleAssignment{}
 
-func (assignment *SqlRoleAssignment) CustomDefault() {
-	assignment.defaultAzureName()
+func (webhook *SqlRoleAssignment) CustomDefault(ctx context.Context, obj runtime.Object) error {
+	resource, ok := obj.(*v1api20210515.SqlRoleAssignment)
+	if !ok {
+		return fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515/SqlRoleAssignment, but got %T", obj)
+	}
+
+	webhook.defaultAzureName(ctx, resource)
+	return nil
 }
 
 // defaultAzureName performs special AzureName defaulting for RoleAssignment by generating a stable GUID
@@ -29,7 +41,7 @@ func (assignment *SqlRoleAssignment) CustomDefault() {
 // In the rare case users have multiple ASO instances with resources in the same namespace in each cluster
 // having the same name but not actually pointing to the same Azure resource (maybe in a different subscription?)
 // they can avoid name conflicts by explicitly specifying AzureName for their RoleAssignment.
-func (assignment *SqlRoleAssignment) defaultAzureName() {
+func (webhook *SqlRoleAssignment) defaultAzureName(_ context.Context, assignment *v1api20210515.SqlRoleAssignment) {
 	// If owner is not set we can't default AzureName, but the request will be rejected anyway for lack of owner.
 	if assignment.Spec.Owner == nil {
 		return

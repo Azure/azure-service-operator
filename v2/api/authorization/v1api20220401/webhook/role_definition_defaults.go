@@ -3,19 +3,30 @@ Copyright (c) Microsoft Corporation.
 Licensed under the MIT license.
 */
 
-package v1api20220401
+package webhook
 
 import (
+	"context"
+	"fmt"
 	"strings"
 
+	"k8s.io/apimachinery/pkg/runtime"
+
+	"github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401"
 	"github.com/Azure/azure-service-operator/v2/internal/util/randextensions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 var _ genruntime.Defaulter = &RoleDefinition{}
 
-func (definition *RoleDefinition) CustomDefault() {
-	definition.defaultAzureName()
+func (webhook *RoleDefinition) CustomDefault(ctx context.Context, obj runtime.Object) error {
+	resource, ok := obj.(*v1api20220401.RoleDefinition)
+	if !ok {
+		return fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401/RoleDefinition, but got %T", obj)
+	}
+
+	webhook.defaultAzureName(ctx, resource)
+	return nil
 }
 
 // defaultAzureName performs special AzureName defaulting for RoleDefinition by generating a GUID
@@ -33,7 +44,7 @@ func (definition *RoleDefinition) CustomDefault() {
 // In the rare case users have multiple ASO instances with resources in the same namespace in each cluster
 // having the same name but not actually pointing to the same Azure resource (maybe in a different subscription?)
 // they can avoid name conflicts by explicitly specifying AzureName for their RoleDefinition.
-func (definition *RoleDefinition) defaultAzureName() {
+func (webhook *RoleDefinition) defaultAzureName(_ context.Context, definition *v1api20220401.RoleDefinition) {
 	// If owner is not set we can't default AzureName, but the request will be rejected anyway for lack of owner.
 	if definition.Spec.Owner == nil {
 		return

@@ -408,6 +408,7 @@ func CosmosDB_SQL_RoleAssignment_v20231115_CRUD(tc *testcommon.KubePerTestContex
 	roleAssignment := &documentdb.SqlRoleAssignment{
 		ObjectMeta: tc.MakeObjectMeta("roleassignment"),
 		Spec: documentdb.SqlRoleAssignment_Spec{
+			// Do not set AzureName here, it should be automatically set by webhook
 			Owner: testcommon.AsOwner(acct),
 			PrincipalIdFromConfig: &genruntime.ConfigMapReference{
 				Name: configMapName,

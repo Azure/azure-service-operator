@@ -4,8 +4,6 @@ metadata:
   name: sample-role-assignment
   namespace: default
 spec:
-  # The azure name is required and has to be a GUID. See https://github.com/Azure/bicep/discussions/10539 for more.
-  azureName: 00000000-0000-0000-0000-000000000000
   owner:
     name: sample-sqldb-account
   principalIdFromConfig:

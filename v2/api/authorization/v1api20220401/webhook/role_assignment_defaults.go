@@ -3,19 +3,30 @@ Copyright (c) Microsoft Corporation.
 Licensed under the MIT license.
 */
 
-package v1api20220401
+package webhook
 
 import (
+	"context"
+	"fmt"
 	"strings"
 
+	"k8s.io/apimachinery/pkg/runtime"
+
+	"github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401"
 	"github.com/Azure/azure-service-operator/v2/internal/util/randextensions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 var _ genruntime.Defaulter = &RoleAssignment{}
 
-func (assignment *RoleAssignment) CustomDefault() {
-	assignment.defaultAzureName()
+func (webhook *RoleAssignment) CustomDefault(ctx context.Context, obj runtime.Object) error {
+	resource, ok := obj.(*v1api20220401.RoleAssignment)
+	if !ok {
+		return fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401/RoleAssignment, but got %T", obj)
+	}
+
+	webhook.defaultAzureName(ctx, resource)
+	return nil
 }
 
 // defaultAzureName performs special AzureName defaulting for RoleAssignment by generating a stable GUID
@@ -41,7 +52,7 @@ func (assignment *RoleAssignment) CustomDefault() {
 //	(RoleAssignmentUpdateNotPermitted) Tenant ID, application ID, principal ID, and scope are not allowed to be updated.
 //	Code: RoleAssignmentUpdateNotPermitted
 //	Message: Tenant ID, application ID, principal ID, and scope are not allowed to be updated.
-func (assignment *RoleAssignment) defaultAzureName() {
+func (webhook *RoleAssignment) defaultAzureName(_ context.Context, assignment *v1api20220401.RoleAssignment) {
 	// If owner is not set we can't default AzureName, but the request will be rejected anyway for lack of owner.
 	if assignment.Spec.Owner == nil {
 		return
