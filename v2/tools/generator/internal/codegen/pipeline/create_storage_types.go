@@ -36,8 +36,13 @@ func CreateStorageTypes() *Stage {
 				return !astmodel.ARMFlag.IsOn(def.Type())
 			}
 
+			// Predicate to filter webhook types
+			isNotWebhookType := func(def astmodel.TypeDefinition) bool {
+				return !astmodel.IsWebhookPackageReference(def.Name().PackageReference())
+			}
+
 			// Filter to the types we want to process
-			typesToConvert := state.Definitions().Where(isResourceOrObject).Where(isNotARMType)
+			typesToConvert := state.Definitions().Where(isResourceOrObject).Where(isNotARMType).Where(isNotWebhookType)
 
 			// HACK: include the APIVersion in the storage types package.
 			// really we don't want storage types to have API Version at all,

@@ -15,37 +15,65 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
-func NewValidateResourceReferencesFunction(resource *astmodel.ResourceType, idFactory astmodel.IdentifierFactory) *ResourceFunction {
-	return NewResourceFunction(
+// NewValidateResourceReferencesFunction creates a function for validating resource references
+//
+//	func (group *<obj>) validateResourceReferences(ctx context.Context, obj *<obj>) (admission.Warnings, error) {
+//		refs, err := reflecthelpers.FindResourceReferences(&obj.Spec)
+//		if err != nil {
+//			return nil, err
+//		}
+//		return genruntime.ValidateResourceReferences(refs)
+//	}
+func NewValidateResourceReferencesFunction(resource astmodel.TypeDefinition, idFactory astmodel.IdentifierFactory) *ValidateFunction {
+	return NewValidateFunction(
 		"validateResourceReferences",
-		resource,
+		resource.Name(),
 		idFactory,
 		validateResourceReferences,
 		astmodel.GenRuntimeReference,
 		astmodel.ReflectHelpersReference)
 }
 
-func NewValidateOwnerReferenceFunction(resource *astmodel.ResourceType, idFactory astmodel.IdentifierFactory) *ResourceFunction {
-	return NewResourceFunction(
+// NewValidateOwnerReferenceFunction creates a function for validating the owner reference, if it exists
+//
+//	func (domain *<obj>) validateOwnerReference(ctx context.Context, obj *<obj>) (admission.Warnings, error) {
+//		return genruntime.ValidateOwner(obj)
+//	}
+func NewValidateOwnerReferenceFunction(resource astmodel.TypeDefinition, idFactory astmodel.IdentifierFactory) *ValidateFunction {
+	return NewValidateFunction(
 		"validateOwnerReference",
-		resource,
+		resource.Name(),
 		idFactory,
 		validateOwnerReferences,
 		astmodel.GenRuntimeReference)
 }
 
-func NewValidateWriteOncePropertiesFunction(resource *astmodel.ResourceType, idFactory astmodel.IdentifierFactory) *ResourceFunction {
-	return NewResourceFunction(
+// NewValidateWriteOncePropertiesFunction creates a function for validating write-once properties
+//
+//	func (group *<obj>) validateWriteOnceProperties(ctx context.Context, oldObj *<obj>, newObj *<obj>) (admission.Warnings, error) {
+//		return genruntime.ValidateWriteOnceProperties(oldObj, newObj)
+//	}
+func NewValidateWriteOncePropertiesFunction(resource astmodel.TypeDefinition, idFactory astmodel.IdentifierFactory) *ValidateFunction {
+	return NewValidateFunction(
 		"validateWriteOnceProperties",
-		resource,
+		resource.Name(),
 		idFactory,
 		validateWriteOncePropertiesFunction)
 }
 
-func NewValidateOptionalConfigMapReferenceFunction(resource *astmodel.ResourceType, idFactory astmodel.IdentifierFactory) *ResourceFunction {
-	return NewResourceFunction(
+// NewValidateOptionalConfigMapReferenceFunction creates a function for validating optional configmap references
+//
+//	func (encryptionSet *<obj>) validateOptionalConfigMapReferences(ctx context.Context, obj *<obj>) (admission.Warnings, error) {
+//		refs, err := reflecthelpers.FindOptionalConfigMapReferences(&obj.Spec)
+//		if err != nil {
+//			return nil, err
+//		}
+//		return configmaps.ValidateOptionalReferences(refs)
+//	}
+func NewValidateOptionalConfigMapReferenceFunction(resource astmodel.TypeDefinition, idFactory astmodel.IdentifierFactory) *ValidateFunction {
+	return NewValidateFunction(
 		"validateOptionalConfigMapReferences",
-		resource,
+		resource.Name(),
 		idFactory,
 		validateOptionalConfigMapReferences,
 		astmodel.GenRuntimeConfigMapsReference,
@@ -53,11 +81,14 @@ func NewValidateOptionalConfigMapReferenceFunction(resource *astmodel.ResourceTy
 }
 
 func validateResourceReferences(
-	k *ResourceFunction,
+	k *ValidateFunction,
 	codeGenerationContext *astmodel.CodeGenerationContext,
 	receiver astmodel.TypeName,
 	methodName string,
 ) (*dst.FuncDecl, error) {
+	objectIdent := "obj"
+	contextIdent := "ctx"
+
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
 	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
 	if err != nil {
@@ -68,8 +99,20 @@ func validateResourceReferences(
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
 		ReceiverType:  astbuilder.PointerTo(receiverExpr),
-		Body:          validateResourceReferencesBody(codeGenerationContext, receiverIdent),
+		Body:          validateResourceReferencesBody(codeGenerationContext, objectIdent),
 	}
+
+	contextTypeExpr, err := astmodel.ContextType.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, eris.Wrap(err, "creating context type expression")
+	}
+	fn.AddParameter(contextIdent, contextTypeExpr)
+
+	typedObjExpr, err := k.data.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, eris.Wrap(err, "creating object type expression")
+	}
+	fn.AddParameter(objectIdent, astbuilder.PointerTo(typedObjExpr))
 
 	fn.AddReturn(astbuilder.QualifiedTypeName(codeGenerationContext.MustGetImportedPackageName(astmodel.ControllerRuntimeAdmission), "Warnings"))
 	fn.AddReturn(dst.NewIdent("error"))
@@ -84,7 +127,7 @@ func validateResourceReferences(
 //		return err
 //	}
 //	return genruntime.ValidateResourceReferences(refs)
-func validateResourceReferencesBody(codeGenerationContext *astmodel.CodeGenerationContext, receiverIdent string) []dst.Stmt {
+func validateResourceReferencesBody(codeGenerationContext *astmodel.CodeGenerationContext, objIdent string) []dst.Stmt {
 	reflectHelpers := codeGenerationContext.MustGetImportedPackageName(astmodel.ReflectHelpersReference)
 	genRuntime := codeGenerationContext.MustGetImportedPackageName(astmodel.GenRuntimeReference)
 
@@ -98,7 +141,7 @@ func validateResourceReferencesBody(codeGenerationContext *astmodel.CodeGenerati
 			astbuilder.CallQualifiedFunc(
 				reflectHelpers,
 				"FindResourceReferences",
-				astbuilder.AddrOf(astbuilder.Selector(dst.NewIdent(receiverIdent), "Spec")))))
+				astbuilder.AddrOf(astbuilder.Selector(dst.NewIdent(objIdent), "Spec")))))
 	body = append(body, astbuilder.CheckErrorAndReturn(astbuilder.Nil()))
 	body = append(
 		body,
@@ -112,11 +155,14 @@ func validateResourceReferencesBody(codeGenerationContext *astmodel.CodeGenerati
 }
 
 func validateOwnerReferences(
-	k *ResourceFunction,
+	k *ValidateFunction,
 	codeGenerationContext *astmodel.CodeGenerationContext,
 	receiver astmodel.TypeName,
 	methodName string,
 ) (*dst.FuncDecl, error) {
+	objectIdent := "obj"
+	contextIdent := "ctx"
+
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
 	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
 	if err != nil {
@@ -129,8 +175,20 @@ func validateOwnerReferences(
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
 		ReceiverType:  astbuilder.PointerTo(receiverExpr),
-		Body:          validateOwnerReferencesBody(codeGenerationContext, receiverIdent),
+		Body:          validateOwnerReferencesBody(codeGenerationContext, objectIdent),
 	}
+
+	contextTypeExpr, err := astmodel.ContextType.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, eris.Wrap(err, "creating context type expression")
+	}
+	fn.AddParameter(contextIdent, contextTypeExpr)
+
+	typedObjExpr, err := k.data.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, eris.Wrap(err, "creating object type expression")
+	}
+	fn.AddParameter(objectIdent, astbuilder.PointerTo(typedObjExpr))
 
 	fn.AddReturn(astbuilder.QualifiedTypeName(admissionPkg, "Warnings"))
 	fn.AddReturn(dst.NewIdent("error"))
@@ -141,7 +199,7 @@ func validateOwnerReferences(
 // validateOwnerReferencesBody helps generate the body of the validateOwnerReferences function:
 //
 //	return genruntime.ValidateOwner(<resource>)
-func validateOwnerReferencesBody(codeGenerationContext *astmodel.CodeGenerationContext, receiverIdent string) []dst.Stmt {
+func validateOwnerReferencesBody(codeGenerationContext *astmodel.CodeGenerationContext, objIdent string) []dst.Stmt {
 	genRuntime := codeGenerationContext.MustGetImportedPackageName(astmodel.GenRuntimeReference)
 
 	var body []dst.Stmt
@@ -152,29 +210,28 @@ func validateOwnerReferencesBody(codeGenerationContext *astmodel.CodeGenerationC
 			astbuilder.CallQualifiedFunc(
 				genRuntime,
 				"ValidateOwner",
-				dst.NewIdent(receiverIdent))))
+				dst.NewIdent(objIdent))))
 
 	return body
 }
 
 func validateWriteOncePropertiesFunction(
-	resourceFn *ResourceFunction,
+	k *ValidateFunction,
 	codeGenerationContext *astmodel.CodeGenerationContext,
 	receiver astmodel.TypeName,
 	methodName string,
 ) (*dst.FuncDecl, error) {
-	receiverIdent := resourceFn.IdFactory().CreateReceiver(receiver.Name())
+	objIdent := "newObj"
+	oldObjIdent := "oldObj"
+	contextIdent := "ctx"
+
+	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
 	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
 	if err != nil {
 		return nil, eris.Wrapf(err, "creating receiver type expression for %s", receiver)
 	}
 
-	runtimePackage := codeGenerationContext.MustGetImportedPackageName(astmodel.APIMachineryRuntimeReference)
-
-	body, err := validateWriteOncePropertiesFunctionBody(receiver, codeGenerationContext, receiverIdent)
-	if err != nil {
-		return nil, eris.Wrapf(err, "creating function body for %s", methodName)
-	}
+	body := validateWriteOncePropertiesFunctionBody(codeGenerationContext, oldObjIdent, objIdent)
 
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
@@ -183,9 +240,21 @@ func validateWriteOncePropertiesFunction(
 		Body:          body,
 	}
 
+	contextTypeExpr, err := astmodel.ContextType.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, eris.Wrap(err, "creating context type expression")
+	}
+	fn.AddParameter(contextIdent, contextTypeExpr)
+
+	typedObjExpr, err := k.data.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, eris.Wrap(err, "creating object type expression")
+	}
+	fn.AddParameter(oldObjIdent, astbuilder.PointerTo(typedObjExpr))
+	fn.AddParameter(objIdent, astbuilder.PointerTo(typedObjExpr))
+
 	fn.AddReturn(astbuilder.QualifiedTypeName(codeGenerationContext.MustGetImportedPackageName(astmodel.ControllerRuntimeAdmission), "Warnings"))
 	fn.AddReturn(dst.NewIdent("error"))
-	fn.AddParameter("old", astbuilder.QualifiedTypeName(runtimePackage, "Object"))
 	fn.AddComments("validates all WriteOnce properties")
 
 	return fn.DefineFunc(), nil
@@ -193,49 +262,37 @@ func validateWriteOncePropertiesFunction(
 
 // validateWriteOncePropertiesFunctionBody helps generate the body of the validateWriteOncePropertiesFunctionBody function:
 //
-//	oldObj, ok := old.(*Receiver)
+//	oldObj, ok := old.(*T)
 //	if !ok {
 //	    return nil
 //	}
 //
-// return genruntime.ValidateWriteOnceProperties(oldObj, <receiverIndent>)
+// return genruntime.ValidateWriteOnceProperties(oldObj, <objIdent>)
 func validateWriteOncePropertiesFunctionBody(
-	receiver astmodel.TypeName,
 	codeGenerationContext *astmodel.CodeGenerationContext,
-	receiverIdent string,
-) ([]dst.Stmt, error) {
+	oldObjIdent string,
+	newObjIdent string,
+) []dst.Stmt {
 	genRuntime := codeGenerationContext.MustGetImportedPackageName(astmodel.GenRuntimeReference)
-
-	obj := dst.NewIdent("oldObj")
-
-	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
-	if err != nil {
-		return nil, eris.Wrapf(err, "creating receiver type expression for %s", receiver)
-	}
-
-	cast := astbuilder.TypeAssert(obj, dst.NewIdent("old"), astbuilder.PointerTo(receiverExpr))
-	checkAssert := astbuilder.ReturnIfNotOk(astbuilder.Nil(), astbuilder.Nil())
 
 	returnStmt := astbuilder.Returns(
 		astbuilder.CallQualifiedFunc(
 			genRuntime,
 			"ValidateWriteOnceProperties",
-			obj,
-			dst.NewIdent(receiverIdent)))
-	returnStmt.Decorations().Before = dst.EmptyLine
-
-	return astbuilder.Statements(
-		cast,
-		checkAssert,
-		returnStmt), nil
+			dst.NewIdent(oldObjIdent),
+			dst.NewIdent(newObjIdent)))
+	return astbuilder.Statements(returnStmt)
 }
 
 func validateOptionalConfigMapReferences(
-	k *ResourceFunction,
+	k *ValidateFunction,
 	codeGenerationContext *astmodel.CodeGenerationContext,
 	receiver astmodel.TypeName,
 	methodName string,
 ) (*dst.FuncDecl, error) {
+	objectIdent := "obj"
+	contextIdent := "ctx"
+
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
 	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
 	if err != nil {
@@ -246,8 +303,20 @@ func validateOptionalConfigMapReferences(
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
 		ReceiverType:  astbuilder.PointerTo(receiverExpr),
-		Body:          validateOptionalConfigMapReferencesBody(codeGenerationContext, receiverIdent),
+		Body:          validateOptionalConfigMapReferencesBody(codeGenerationContext, objectIdent),
 	}
+
+	contextTypeExpr, err := astmodel.ContextType.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, eris.Wrap(err, "creating context type expression")
+	}
+	fn.AddParameter(contextIdent, contextTypeExpr)
+
+	typedObjExpr, err := k.data.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, eris.Wrap(err, "creating object type expression")
+	}
+	fn.AddParameter(objectIdent, astbuilder.PointerTo(typedObjExpr))
 
 	fn.AddReturn(astbuilder.QualifiedTypeName(codeGenerationContext.MustGetImportedPackageName(astmodel.ControllerRuntimeAdmission), "Warnings"))
 	fn.AddReturn(dst.NewIdent("error"))
@@ -262,7 +331,7 @@ func validateOptionalConfigMapReferences(
 //		return nil, err
 //	}
 //	return genruntime.ValidateOptionalConfigMapReferences(refs)
-func validateOptionalConfigMapReferencesBody(codeGenerationContext *astmodel.CodeGenerationContext, receiverIdent string) []dst.Stmt {
+func validateOptionalConfigMapReferencesBody(codeGenerationContext *astmodel.CodeGenerationContext, objIdent string) []dst.Stmt {
 	reflectHelpers := codeGenerationContext.MustGetImportedPackageName(astmodel.ReflectHelpersReference)
 	genRuntimeConfigMaps := codeGenerationContext.MustGetImportedPackageName(astmodel.GenRuntimeConfigMapsReference)
 
@@ -276,7 +345,7 @@ func validateOptionalConfigMapReferencesBody(codeGenerationContext *astmodel.Cod
 			astbuilder.CallQualifiedFunc(
 				reflectHelpers,
 				"FindOptionalConfigMapReferences",
-				astbuilder.AddrOf(astbuilder.Selector(dst.NewIdent(receiverIdent), "Spec")))))
+				astbuilder.AddrOf(astbuilder.Selector(dst.NewIdent(objIdent), "Spec")))))
 	body = append(body, astbuilder.CheckErrorAndReturn(astbuilder.Nil()))
 	body = append(
 		body,

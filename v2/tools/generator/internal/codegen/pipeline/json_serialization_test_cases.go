@@ -73,6 +73,11 @@ func (s *objectSerializationTestCaseFactory) NeedsTest(def astmodel.TypeDefiniti
 		return false
 	}
 
+	if astmodel.IsWebhookPackageReference(def.Name().PackageReference()) {
+		// Webhook types don't have properties and don't need to test JSON serialization
+		return false
+	}
+
 	// Note that if the property container has no properties we still generate a test case for it because we need
 	// the Generator for the empty type to build up tests for types containing the empty type.
 

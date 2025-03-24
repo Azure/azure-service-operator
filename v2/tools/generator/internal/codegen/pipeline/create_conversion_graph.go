@@ -40,6 +40,11 @@ func CreateConversionGraph(
 					continue
 				}
 
+				if astmodel.IsWebhookPackageReference(def.Name().PackageReference()) {
+					// Webhook types also don't participate in the conversion graph
+					continue
+				}
+
 				allNames.Add(def.Name())
 			}
 

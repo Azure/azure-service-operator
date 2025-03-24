@@ -32,6 +32,8 @@ func ExportControllerResourceRegistrations(idFactory astmodel.IdentifierFactory,
 			var resources []astmodel.InternalTypeName
 			var storageVersionResources []astmodel.InternalTypeName
 			var resourceExtensions []astmodel.InternalTypeName
+			validatingWebhooks := make(map[astmodel.InternalTypeName]astmodel.InternalTypeName)
+			mutatingWebhooks := make(map[astmodel.InternalTypeName]astmodel.InternalTypeName)
 			indexFunctions := make(map[astmodel.InternalTypeName][]*functions.IndexRegistrationFunction)
 			secretPropertyKeys := make(map[astmodel.InternalTypeName][]string)
 			configMapPropertyKeys := make(map[astmodel.InternalTypeName][]string)
@@ -40,7 +42,7 @@ func ExportControllerResourceRegistrations(idFactory astmodel.IdentifierFactory,
 			for _, def := range definitions {
 				if resource, ok := astmodel.AsResourceType(def.Type()); ok {
 
-					if resource.IsStorageVersion() {
+					if resource.IsStorageVersion() { // This means the resource is the one storage version in k8s
 						storageVersionResources = append(storageVersionResources, def.Name())
 
 						secretChains, err := catalogSecretPropertyChains(def, definitions)
@@ -61,6 +63,12 @@ func ExportControllerResourceRegistrations(idFactory astmodel.IdentifierFactory,
 						configMapPropertyKeys[def.Name()] = resourceConfigMapPropertyKeys
 					}
 
+					if !astmodel.IsStoragePackageReference(def.Name().PackageReference()) {
+						// Currently storage versions don't have webhooks
+						validatingWebhooks[def.Name()] = astmodel.CreateWebhookTypeName(def.Name())
+						mutatingWebhooks[def.Name()] = astmodel.CreateWebhookTypeName(def.Name())
+					}
+
 					resources = append(resources, def.Name())
 				} else if object, ok := astmodel.AsObjectType(def.Type()); ok {
 					if object.HasFunctionWithName(functions.ExtendedResourcesFunctionName) {
@@ -74,7 +82,10 @@ func ExportControllerResourceRegistrations(idFactory astmodel.IdentifierFactory,
 				indexFunctions,
 				secretPropertyKeys,
 				configMapPropertyKeys,
-				resourceExtensions)
+				resourceExtensions,
+				validatingWebhooks,
+				mutatingWebhooks,
+			)
 			fileWriter := astmodel.NewGoSourceFileWriter(file)
 
 			err := fileWriter.SaveToFile(outputPath)

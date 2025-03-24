@@ -13,25 +13,23 @@ import (
 )
 
 func AddValidatorInterface(
-	resourceDef astmodel.TypeDefinition,
+	resourceName astmodel.InternalTypeName,
+	webhookDef astmodel.TypeDefinition,
 	idFactory astmodel.IdentifierFactory,
-	definitions astmodel.TypeDefinitionSet,
-	validations map[functions.ValidationKind][]*functions.ResourceFunction,
+	validations map[functions.ValidationKind][]*functions.ValidateFunction,
 ) (astmodel.TypeDefinition, error) {
-	rt, ok := astmodel.AsResourceType(resourceDef.Type())
+	webhhookObject, ok := webhookDef.Type().(*astmodel.ObjectType)
 	if !ok {
-		return astmodel.TypeDefinition{}, eris.Errorf("unable to resolve resource %s", resourceDef.Name())
+		return astmodel.TypeDefinition{}, eris.Errorf("cannot add validator interface to non-object type: %s %T", webhookDef.Name(), webhookDef.Type())
 	}
 
-	validatorBuilder := functions.NewValidatorBuilder(resourceDef.Name(), rt, idFactory)
+	validatorBuilder := functions.NewValidatorBuilder(resourceName, idFactory)
 	for validationKind, vs := range validations {
 		for _, validation := range vs {
 			validatorBuilder.AddValidation(validationKind, validation)
 		}
 	}
 
-	injector := astmodel.NewInterfaceInjector()
-	def, err := injector.Inject(resourceDef, validatorBuilder.ToInterfaceImplementation())
-
-	return def, err
+	webhhookObject = webhhookObject.WithInterface(validatorBuilder.ToInterfaceImplementation())
+	return webhookDef.WithType(webhhookObject), nil
 }
