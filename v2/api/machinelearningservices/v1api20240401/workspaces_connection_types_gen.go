@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20240401/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20240401/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -15,10 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -70,29 +67,6 @@ func (connection *WorkspacesConnection) ConvertTo(hub conversion.Hub) error {
 
 	return connection.AssignProperties_To_WorkspacesConnection(destination)
 }
-
-// +kubebuilder:webhook:path=/mutate-machinelearningservices-azure-com-v1api20240401-workspacesconnection,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=machinelearningservices.azure.com,resources=workspacesconnections,verbs=create;update,versions=v1api20240401,name=default.v1api20240401.workspacesconnections.machinelearningservices.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &WorkspacesConnection{}
-
-// Default applies defaults to the WorkspacesConnection resource
-func (connection *WorkspacesConnection) Default() {
-	connection.defaultImpl()
-	var temp any = connection
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (connection *WorkspacesConnection) defaultAzureName() {
-	if connection.Spec.AzureName == "" {
-		connection.Spec.AzureName = connection.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the WorkspacesConnection resource
-func (connection *WorkspacesConnection) defaultImpl() { connection.defaultAzureName() }
 
 var _ configmaps.Exporter = &WorkspacesConnection{}
 
@@ -198,121 +172,6 @@ func (connection *WorkspacesConnection) SetStatus(status genruntime.ConvertibleS
 
 	connection.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-machinelearningservices-azure-com-v1api20240401-workspacesconnection,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=machinelearningservices.azure.com,resources=workspacesconnections,verbs=create;update,versions=v1api20240401,name=validate.v1api20240401.workspacesconnections.machinelearningservices.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &WorkspacesConnection{}
-
-// ValidateCreate validates the creation of the resource
-func (connection *WorkspacesConnection) ValidateCreate() (admission.Warnings, error) {
-	validations := connection.createValidations()
-	var temp any = connection
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (connection *WorkspacesConnection) ValidateDelete() (admission.Warnings, error) {
-	validations := connection.deleteValidations()
-	var temp any = connection
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (connection *WorkspacesConnection) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := connection.updateValidations()
-	var temp any = connection
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (connection *WorkspacesConnection) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){connection.validateResourceReferences, connection.validateOwnerReference, connection.validateSecretDestinations, connection.validateConfigMapDestinations, connection.validateOptionalConfigMapReferences}
-}
-
-// deleteValidations validates the deletion of the resource
-func (connection *WorkspacesConnection) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (connection *WorkspacesConnection) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return connection.validateResourceReferences()
-		},
-		connection.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return connection.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return connection.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return connection.validateConfigMapDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return connection.validateOptionalConfigMapReferences()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (connection *WorkspacesConnection) validateConfigMapDestinations() (admission.Warnings, error) {
-	if connection.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(connection, nil, connection.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
-func (connection *WorkspacesConnection) validateOptionalConfigMapReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindOptionalConfigMapReferences(&connection.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return configmaps.ValidateOptionalReferences(refs)
-}
-
-// validateOwnerReference validates the owner field
-func (connection *WorkspacesConnection) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(connection)
-}
-
-// validateResourceReferences validates all resource references
-func (connection *WorkspacesConnection) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&connection.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (connection *WorkspacesConnection) validateSecretDestinations() (admission.Warnings, error) {
-	if connection.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(connection, nil, connection.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (connection *WorkspacesConnection) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*WorkspacesConnection)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, connection)
 }
 
 // AssignProperties_From_WorkspacesConnection populates our WorkspacesConnection from the provided source WorkspacesConnection

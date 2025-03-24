@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/web/v1api20220301/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/web/v1api20220301/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -15,10 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -70,29 +67,6 @@ func (site *Site) ConvertTo(hub conversion.Hub) error {
 
 	return site.AssignProperties_To_Site(destination)
 }
-
-// +kubebuilder:webhook:path=/mutate-web-azure-com-v1api20220301-site,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=web.azure.com,resources=sites,verbs=create;update,versions=v1api20220301,name=default.v1api20220301.sites.web.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &Site{}
-
-// Default applies defaults to the Site resource
-func (site *Site) Default() {
-	site.defaultImpl()
-	var temp any = site
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (site *Site) defaultAzureName() {
-	if site.Spec.AzureName == "" {
-		site.Spec.AzureName = site.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the Site resource
-func (site *Site) defaultImpl() { site.defaultAzureName() }
 
 var _ configmaps.Exporter = &Site{}
 
@@ -198,109 +172,6 @@ func (site *Site) SetStatus(status genruntime.ConvertibleStatus) error {
 
 	site.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-web-azure-com-v1api20220301-site,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=web.azure.com,resources=sites,verbs=create;update,versions=v1api20220301,name=validate.v1api20220301.sites.web.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &Site{}
-
-// ValidateCreate validates the creation of the resource
-func (site *Site) ValidateCreate() (admission.Warnings, error) {
-	validations := site.createValidations()
-	var temp any = site
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (site *Site) ValidateDelete() (admission.Warnings, error) {
-	validations := site.deleteValidations()
-	var temp any = site
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (site *Site) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := site.updateValidations()
-	var temp any = site
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (site *Site) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){site.validateResourceReferences, site.validateOwnerReference, site.validateSecretDestinations, site.validateConfigMapDestinations}
-}
-
-// deleteValidations validates the deletion of the resource
-func (site *Site) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (site *Site) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return site.validateResourceReferences()
-		},
-		site.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return site.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return site.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return site.validateConfigMapDestinations()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (site *Site) validateConfigMapDestinations() (admission.Warnings, error) {
-	if site.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(site, nil, site.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOwnerReference validates the owner field
-func (site *Site) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(site)
-}
-
-// validateResourceReferences validates all resource references
-func (site *Site) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&site.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (site *Site) validateSecretDestinations() (admission.Warnings, error) {
-	if site.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(site, nil, site.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (site *Site) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*Site)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, site)
 }
 
 // AssignProperties_From_Site populates our Site from the provided source Site

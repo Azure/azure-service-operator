@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -15,10 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -70,29 +67,6 @@ func (resolver *DnsResolver) ConvertTo(hub conversion.Hub) error {
 
 	return resolver.AssignProperties_To_DnsResolver(destination)
 }
-
-// +kubebuilder:webhook:path=/mutate-network-azure-com-v1api20220701-dnsresolver,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=dnsresolvers,verbs=create;update,versions=v1api20220701,name=default.v1api20220701.dnsresolvers.network.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &DnsResolver{}
-
-// Default applies defaults to the DnsResolver resource
-func (resolver *DnsResolver) Default() {
-	resolver.defaultImpl()
-	var temp any = resolver
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (resolver *DnsResolver) defaultAzureName() {
-	if resolver.Spec.AzureName == "" {
-		resolver.Spec.AzureName = resolver.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the DnsResolver resource
-func (resolver *DnsResolver) defaultImpl() { resolver.defaultAzureName() }
 
 var _ configmaps.Exporter = &DnsResolver{}
 
@@ -198,109 +172,6 @@ func (resolver *DnsResolver) SetStatus(status genruntime.ConvertibleStatus) erro
 
 	resolver.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-network-azure-com-v1api20220701-dnsresolver,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=dnsresolvers,verbs=create;update,versions=v1api20220701,name=validate.v1api20220701.dnsresolvers.network.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &DnsResolver{}
-
-// ValidateCreate validates the creation of the resource
-func (resolver *DnsResolver) ValidateCreate() (admission.Warnings, error) {
-	validations := resolver.createValidations()
-	var temp any = resolver
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (resolver *DnsResolver) ValidateDelete() (admission.Warnings, error) {
-	validations := resolver.deleteValidations()
-	var temp any = resolver
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (resolver *DnsResolver) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := resolver.updateValidations()
-	var temp any = resolver
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (resolver *DnsResolver) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){resolver.validateResourceReferences, resolver.validateOwnerReference, resolver.validateSecretDestinations, resolver.validateConfigMapDestinations}
-}
-
-// deleteValidations validates the deletion of the resource
-func (resolver *DnsResolver) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (resolver *DnsResolver) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return resolver.validateResourceReferences()
-		},
-		resolver.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return resolver.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return resolver.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return resolver.validateConfigMapDestinations()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (resolver *DnsResolver) validateConfigMapDestinations() (admission.Warnings, error) {
-	if resolver.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(resolver, nil, resolver.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOwnerReference validates the owner field
-func (resolver *DnsResolver) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(resolver)
-}
-
-// validateResourceReferences validates all resource references
-func (resolver *DnsResolver) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&resolver.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (resolver *DnsResolver) validateSecretDestinations() (admission.Warnings, error) {
-	if resolver.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(resolver, nil, resolver.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (resolver *DnsResolver) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*DnsResolver)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, resolver)
 }
 
 // AssignProperties_From_DnsResolver populates our DnsResolver from the provided source DnsResolver

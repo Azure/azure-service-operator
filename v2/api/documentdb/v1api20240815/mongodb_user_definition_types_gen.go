@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20240815/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20240815/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -15,10 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -70,29 +67,6 @@ func (definition *MongodbUserDefinition) ConvertTo(hub conversion.Hub) error {
 
 	return definition.AssignProperties_To_MongodbUserDefinition(destination)
 }
-
-// +kubebuilder:webhook:path=/mutate-documentdb-azure-com-v1api20240815-mongodbuserdefinition,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=mongodbuserdefinitions,verbs=create;update,versions=v1api20240815,name=default.v1api20240815.mongodbuserdefinitions.documentdb.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &MongodbUserDefinition{}
-
-// Default applies defaults to the MongodbUserDefinition resource
-func (definition *MongodbUserDefinition) Default() {
-	definition.defaultImpl()
-	var temp any = definition
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (definition *MongodbUserDefinition) defaultAzureName() {
-	if definition.Spec.AzureName == "" {
-		definition.Spec.AzureName = definition.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the MongodbUserDefinition resource
-func (definition *MongodbUserDefinition) defaultImpl() { definition.defaultAzureName() }
 
 var _ configmaps.Exporter = &MongodbUserDefinition{}
 
@@ -198,109 +172,6 @@ func (definition *MongodbUserDefinition) SetStatus(status genruntime.Convertible
 
 	definition.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-documentdb-azure-com-v1api20240815-mongodbuserdefinition,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=mongodbuserdefinitions,verbs=create;update,versions=v1api20240815,name=validate.v1api20240815.mongodbuserdefinitions.documentdb.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &MongodbUserDefinition{}
-
-// ValidateCreate validates the creation of the resource
-func (definition *MongodbUserDefinition) ValidateCreate() (admission.Warnings, error) {
-	validations := definition.createValidations()
-	var temp any = definition
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (definition *MongodbUserDefinition) ValidateDelete() (admission.Warnings, error) {
-	validations := definition.deleteValidations()
-	var temp any = definition
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (definition *MongodbUserDefinition) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := definition.updateValidations()
-	var temp any = definition
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (definition *MongodbUserDefinition) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){definition.validateResourceReferences, definition.validateOwnerReference, definition.validateSecretDestinations, definition.validateConfigMapDestinations}
-}
-
-// deleteValidations validates the deletion of the resource
-func (definition *MongodbUserDefinition) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (definition *MongodbUserDefinition) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return definition.validateResourceReferences()
-		},
-		definition.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return definition.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return definition.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return definition.validateConfigMapDestinations()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (definition *MongodbUserDefinition) validateConfigMapDestinations() (admission.Warnings, error) {
-	if definition.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(definition, nil, definition.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOwnerReference validates the owner field
-func (definition *MongodbUserDefinition) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(definition)
-}
-
-// validateResourceReferences validates all resource references
-func (definition *MongodbUserDefinition) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&definition.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (definition *MongodbUserDefinition) validateSecretDestinations() (admission.Warnings, error) {
-	if definition.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(definition, nil, definition.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (definition *MongodbUserDefinition) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*MongodbUserDefinition)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, definition)
 }
 
 // AssignProperties_From_MongodbUserDefinition populates our MongodbUserDefinition from the provided source MongodbUserDefinition

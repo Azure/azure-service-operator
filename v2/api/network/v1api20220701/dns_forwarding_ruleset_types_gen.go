@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -15,10 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -70,29 +67,6 @@ func (ruleset *DnsForwardingRuleset) ConvertTo(hub conversion.Hub) error {
 
 	return ruleset.AssignProperties_To_DnsForwardingRuleset(destination)
 }
-
-// +kubebuilder:webhook:path=/mutate-network-azure-com-v1api20220701-dnsforwardingruleset,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=dnsforwardingrulesets,verbs=create;update,versions=v1api20220701,name=default.v1api20220701.dnsforwardingrulesets.network.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &DnsForwardingRuleset{}
-
-// Default applies defaults to the DnsForwardingRuleset resource
-func (ruleset *DnsForwardingRuleset) Default() {
-	ruleset.defaultImpl()
-	var temp any = ruleset
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (ruleset *DnsForwardingRuleset) defaultAzureName() {
-	if ruleset.Spec.AzureName == "" {
-		ruleset.Spec.AzureName = ruleset.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the DnsForwardingRuleset resource
-func (ruleset *DnsForwardingRuleset) defaultImpl() { ruleset.defaultAzureName() }
 
 var _ configmaps.Exporter = &DnsForwardingRuleset{}
 
@@ -198,109 +172,6 @@ func (ruleset *DnsForwardingRuleset) SetStatus(status genruntime.ConvertibleStat
 
 	ruleset.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-network-azure-com-v1api20220701-dnsforwardingruleset,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=dnsforwardingrulesets,verbs=create;update,versions=v1api20220701,name=validate.v1api20220701.dnsforwardingrulesets.network.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &DnsForwardingRuleset{}
-
-// ValidateCreate validates the creation of the resource
-func (ruleset *DnsForwardingRuleset) ValidateCreate() (admission.Warnings, error) {
-	validations := ruleset.createValidations()
-	var temp any = ruleset
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (ruleset *DnsForwardingRuleset) ValidateDelete() (admission.Warnings, error) {
-	validations := ruleset.deleteValidations()
-	var temp any = ruleset
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (ruleset *DnsForwardingRuleset) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := ruleset.updateValidations()
-	var temp any = ruleset
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (ruleset *DnsForwardingRuleset) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){ruleset.validateResourceReferences, ruleset.validateOwnerReference, ruleset.validateSecretDestinations, ruleset.validateConfigMapDestinations}
-}
-
-// deleteValidations validates the deletion of the resource
-func (ruleset *DnsForwardingRuleset) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (ruleset *DnsForwardingRuleset) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return ruleset.validateResourceReferences()
-		},
-		ruleset.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return ruleset.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return ruleset.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return ruleset.validateConfigMapDestinations()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (ruleset *DnsForwardingRuleset) validateConfigMapDestinations() (admission.Warnings, error) {
-	if ruleset.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(ruleset, nil, ruleset.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOwnerReference validates the owner field
-func (ruleset *DnsForwardingRuleset) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(ruleset)
-}
-
-// validateResourceReferences validates all resource references
-func (ruleset *DnsForwardingRuleset) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&ruleset.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (ruleset *DnsForwardingRuleset) validateSecretDestinations() (admission.Warnings, error) {
-	if ruleset.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(ruleset, nil, ruleset.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (ruleset *DnsForwardingRuleset) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*DnsForwardingRuleset)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, ruleset)
 }
 
 // AssignProperties_From_DnsForwardingRuleset populates our DnsForwardingRuleset from the provided source DnsForwardingRuleset

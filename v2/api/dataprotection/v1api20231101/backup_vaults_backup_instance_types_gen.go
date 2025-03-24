@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231101/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231101/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -15,10 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -70,29 +67,6 @@ func (instance *BackupVaultsBackupInstance) ConvertTo(hub conversion.Hub) error 
 
 	return instance.AssignProperties_To_BackupVaultsBackupInstance(destination)
 }
-
-// +kubebuilder:webhook:path=/mutate-dataprotection-azure-com-v1api20231101-backupvaultsbackupinstance,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dataprotection.azure.com,resources=backupvaultsbackupinstances,verbs=create;update,versions=v1api20231101,name=default.v1api20231101.backupvaultsbackupinstances.dataprotection.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &BackupVaultsBackupInstance{}
-
-// Default applies defaults to the BackupVaultsBackupInstance resource
-func (instance *BackupVaultsBackupInstance) Default() {
-	instance.defaultImpl()
-	var temp any = instance
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (instance *BackupVaultsBackupInstance) defaultAzureName() {
-	if instance.Spec.AzureName == "" {
-		instance.Spec.AzureName = instance.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the BackupVaultsBackupInstance resource
-func (instance *BackupVaultsBackupInstance) defaultImpl() { instance.defaultAzureName() }
 
 var _ configmaps.Exporter = &BackupVaultsBackupInstance{}
 
@@ -198,109 +172,6 @@ func (instance *BackupVaultsBackupInstance) SetStatus(status genruntime.Converti
 
 	instance.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-dataprotection-azure-com-v1api20231101-backupvaultsbackupinstance,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dataprotection.azure.com,resources=backupvaultsbackupinstances,verbs=create;update,versions=v1api20231101,name=validate.v1api20231101.backupvaultsbackupinstances.dataprotection.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &BackupVaultsBackupInstance{}
-
-// ValidateCreate validates the creation of the resource
-func (instance *BackupVaultsBackupInstance) ValidateCreate() (admission.Warnings, error) {
-	validations := instance.createValidations()
-	var temp any = instance
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (instance *BackupVaultsBackupInstance) ValidateDelete() (admission.Warnings, error) {
-	validations := instance.deleteValidations()
-	var temp any = instance
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (instance *BackupVaultsBackupInstance) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := instance.updateValidations()
-	var temp any = instance
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (instance *BackupVaultsBackupInstance) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){instance.validateResourceReferences, instance.validateOwnerReference, instance.validateSecretDestinations, instance.validateConfigMapDestinations}
-}
-
-// deleteValidations validates the deletion of the resource
-func (instance *BackupVaultsBackupInstance) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (instance *BackupVaultsBackupInstance) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return instance.validateResourceReferences()
-		},
-		instance.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return instance.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return instance.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return instance.validateConfigMapDestinations()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (instance *BackupVaultsBackupInstance) validateConfigMapDestinations() (admission.Warnings, error) {
-	if instance.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(instance, nil, instance.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOwnerReference validates the owner field
-func (instance *BackupVaultsBackupInstance) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(instance)
-}
-
-// validateResourceReferences validates all resource references
-func (instance *BackupVaultsBackupInstance) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&instance.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (instance *BackupVaultsBackupInstance) validateSecretDestinations() (admission.Warnings, error) {
-	if instance.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(instance, nil, instance.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (instance *BackupVaultsBackupInstance) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*BackupVaultsBackupInstance)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, instance)
 }
 
 // AssignProperties_From_BackupVaultsBackupInstance populates our BackupVaultsBackupInstance from the provided source BackupVaultsBackupInstance

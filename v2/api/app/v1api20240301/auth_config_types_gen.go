@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/app/v1api20240301/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/app/v1api20240301/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -15,10 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -70,29 +67,6 @@ func (config *AuthConfig) ConvertTo(hub conversion.Hub) error {
 
 	return config.AssignProperties_To_AuthConfig(destination)
 }
-
-// +kubebuilder:webhook:path=/mutate-app-azure-com-v1api20240301-authconfig,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=app.azure.com,resources=authconfigs,verbs=create;update,versions=v1api20240301,name=default.v1api20240301.authconfigs.app.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &AuthConfig{}
-
-// Default applies defaults to the AuthConfig resource
-func (config *AuthConfig) Default() {
-	config.defaultImpl()
-	var temp any = config
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (config *AuthConfig) defaultAzureName() {
-	if config.Spec.AzureName == "" {
-		config.Spec.AzureName = config.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the AuthConfig resource
-func (config *AuthConfig) defaultImpl() { config.defaultAzureName() }
 
 var _ configmaps.Exporter = &AuthConfig{}
 
@@ -198,109 +172,6 @@ func (config *AuthConfig) SetStatus(status genruntime.ConvertibleStatus) error {
 
 	config.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-app-azure-com-v1api20240301-authconfig,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=app.azure.com,resources=authconfigs,verbs=create;update,versions=v1api20240301,name=validate.v1api20240301.authconfigs.app.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &AuthConfig{}
-
-// ValidateCreate validates the creation of the resource
-func (config *AuthConfig) ValidateCreate() (admission.Warnings, error) {
-	validations := config.createValidations()
-	var temp any = config
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (config *AuthConfig) ValidateDelete() (admission.Warnings, error) {
-	validations := config.deleteValidations()
-	var temp any = config
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (config *AuthConfig) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := config.updateValidations()
-	var temp any = config
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (config *AuthConfig) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){config.validateResourceReferences, config.validateOwnerReference, config.validateSecretDestinations, config.validateConfigMapDestinations}
-}
-
-// deleteValidations validates the deletion of the resource
-func (config *AuthConfig) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (config *AuthConfig) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return config.validateResourceReferences()
-		},
-		config.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return config.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return config.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return config.validateConfigMapDestinations()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (config *AuthConfig) validateConfigMapDestinations() (admission.Warnings, error) {
-	if config.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(config, nil, config.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOwnerReference validates the owner field
-func (config *AuthConfig) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(config)
-}
-
-// validateResourceReferences validates all resource references
-func (config *AuthConfig) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&config.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (config *AuthConfig) validateSecretDestinations() (admission.Warnings, error) {
-	if config.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(config, nil, config.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (config *AuthConfig) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*AuthConfig)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, config)
 }
 
 // AssignProperties_From_AuthConfig populates our AuthConfig from the provided source AuthConfig

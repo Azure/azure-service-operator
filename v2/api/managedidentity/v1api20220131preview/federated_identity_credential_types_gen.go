@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20220131preview/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20220131preview/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -15,10 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -84,29 +81,6 @@ func (credential *FederatedIdentityCredential) ConvertTo(hub conversion.Hub) err
 
 	return nil
 }
-
-// +kubebuilder:webhook:path=/mutate-managedidentity-azure-com-v1api20220131preview-federatedidentitycredential,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=managedidentity.azure.com,resources=federatedidentitycredentials,verbs=create;update,versions=v1api20220131preview,name=default.v1api20220131preview.federatedidentitycredentials.managedidentity.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &FederatedIdentityCredential{}
-
-// Default applies defaults to the FederatedIdentityCredential resource
-func (credential *FederatedIdentityCredential) Default() {
-	credential.defaultImpl()
-	var temp any = credential
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (credential *FederatedIdentityCredential) defaultAzureName() {
-	if credential.Spec.AzureName == "" {
-		credential.Spec.AzureName = credential.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the FederatedIdentityCredential resource
-func (credential *FederatedIdentityCredential) defaultImpl() { credential.defaultAzureName() }
 
 var _ configmaps.Exporter = &FederatedIdentityCredential{}
 
@@ -201,121 +175,6 @@ func (credential *FederatedIdentityCredential) SetStatus(status genruntime.Conve
 
 	credential.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-managedidentity-azure-com-v1api20220131preview-federatedidentitycredential,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=managedidentity.azure.com,resources=federatedidentitycredentials,verbs=create;update,versions=v1api20220131preview,name=validate.v1api20220131preview.federatedidentitycredentials.managedidentity.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &FederatedIdentityCredential{}
-
-// ValidateCreate validates the creation of the resource
-func (credential *FederatedIdentityCredential) ValidateCreate() (admission.Warnings, error) {
-	validations := credential.createValidations()
-	var temp any = credential
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (credential *FederatedIdentityCredential) ValidateDelete() (admission.Warnings, error) {
-	validations := credential.deleteValidations()
-	var temp any = credential
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (credential *FederatedIdentityCredential) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := credential.updateValidations()
-	var temp any = credential
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (credential *FederatedIdentityCredential) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){credential.validateResourceReferences, credential.validateOwnerReference, credential.validateSecretDestinations, credential.validateConfigMapDestinations, credential.validateOptionalConfigMapReferences}
-}
-
-// deleteValidations validates the deletion of the resource
-func (credential *FederatedIdentityCredential) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (credential *FederatedIdentityCredential) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return credential.validateResourceReferences()
-		},
-		credential.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return credential.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return credential.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return credential.validateConfigMapDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return credential.validateOptionalConfigMapReferences()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (credential *FederatedIdentityCredential) validateConfigMapDestinations() (admission.Warnings, error) {
-	if credential.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(credential, nil, credential.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
-func (credential *FederatedIdentityCredential) validateOptionalConfigMapReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindOptionalConfigMapReferences(&credential.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return configmaps.ValidateOptionalReferences(refs)
-}
-
-// validateOwnerReference validates the owner field
-func (credential *FederatedIdentityCredential) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(credential)
-}
-
-// validateResourceReferences validates all resource references
-func (credential *FederatedIdentityCredential) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&credential.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (credential *FederatedIdentityCredential) validateSecretDestinations() (admission.Warnings, error) {
-	if credential.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(credential, nil, credential.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (credential *FederatedIdentityCredential) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*FederatedIdentityCredential)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, credential)
 }
 
 // AssignProperties_From_FederatedIdentityCredential populates our FederatedIdentityCredential from the provided source FederatedIdentityCredential

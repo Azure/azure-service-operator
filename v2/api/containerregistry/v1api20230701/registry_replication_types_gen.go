@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20230701/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20230701/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -15,10 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -70,29 +67,6 @@ func (replication *RegistryReplication) ConvertTo(hub conversion.Hub) error {
 
 	return replication.AssignProperties_To_RegistryReplication(destination)
 }
-
-// +kubebuilder:webhook:path=/mutate-containerregistry-azure-com-v1api20230701-registryreplication,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=containerregistry.azure.com,resources=registryreplications,verbs=create;update,versions=v1api20230701,name=default.v1api20230701.registryreplications.containerregistry.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &RegistryReplication{}
-
-// Default applies defaults to the RegistryReplication resource
-func (replication *RegistryReplication) Default() {
-	replication.defaultImpl()
-	var temp any = replication
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (replication *RegistryReplication) defaultAzureName() {
-	if replication.Spec.AzureName == "" {
-		replication.Spec.AzureName = replication.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the RegistryReplication resource
-func (replication *RegistryReplication) defaultImpl() { replication.defaultAzureName() }
 
 var _ configmaps.Exporter = &RegistryReplication{}
 
@@ -198,109 +172,6 @@ func (replication *RegistryReplication) SetStatus(status genruntime.ConvertibleS
 
 	replication.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-containerregistry-azure-com-v1api20230701-registryreplication,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=containerregistry.azure.com,resources=registryreplications,verbs=create;update,versions=v1api20230701,name=validate.v1api20230701.registryreplications.containerregistry.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &RegistryReplication{}
-
-// ValidateCreate validates the creation of the resource
-func (replication *RegistryReplication) ValidateCreate() (admission.Warnings, error) {
-	validations := replication.createValidations()
-	var temp any = replication
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (replication *RegistryReplication) ValidateDelete() (admission.Warnings, error) {
-	validations := replication.deleteValidations()
-	var temp any = replication
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (replication *RegistryReplication) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := replication.updateValidations()
-	var temp any = replication
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (replication *RegistryReplication) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){replication.validateResourceReferences, replication.validateOwnerReference, replication.validateSecretDestinations, replication.validateConfigMapDestinations}
-}
-
-// deleteValidations validates the deletion of the resource
-func (replication *RegistryReplication) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (replication *RegistryReplication) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return replication.validateResourceReferences()
-		},
-		replication.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return replication.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return replication.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return replication.validateConfigMapDestinations()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (replication *RegistryReplication) validateConfigMapDestinations() (admission.Warnings, error) {
-	if replication.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(replication, nil, replication.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOwnerReference validates the owner field
-func (replication *RegistryReplication) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(replication)
-}
-
-// validateResourceReferences validates all resource references
-func (replication *RegistryReplication) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&replication.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (replication *RegistryReplication) validateSecretDestinations() (admission.Warnings, error) {
-	if replication.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(replication, nil, replication.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (replication *RegistryReplication) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*RegistryReplication)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, replication)
 }
 
 // AssignProperties_From_RegistryReplication populates our RegistryReplication from the provided source RegistryReplication

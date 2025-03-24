@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -15,10 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -70,29 +67,6 @@ func (pool *WorkspacesBigDataPool) ConvertTo(hub conversion.Hub) error {
 
 	return pool.AssignProperties_To_WorkspacesBigDataPool(destination)
 }
-
-// +kubebuilder:webhook:path=/mutate-synapse-azure-com-v1api20210601-workspacesbigdatapool,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=synapse.azure.com,resources=workspacesbigdatapools,verbs=create;update,versions=v1api20210601,name=default.v1api20210601.workspacesbigdatapools.synapse.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &WorkspacesBigDataPool{}
-
-// Default applies defaults to the WorkspacesBigDataPool resource
-func (pool *WorkspacesBigDataPool) Default() {
-	pool.defaultImpl()
-	var temp any = pool
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (pool *WorkspacesBigDataPool) defaultAzureName() {
-	if pool.Spec.AzureName == "" {
-		pool.Spec.AzureName = pool.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the WorkspacesBigDataPool resource
-func (pool *WorkspacesBigDataPool) defaultImpl() { pool.defaultAzureName() }
 
 var _ configmaps.Exporter = &WorkspacesBigDataPool{}
 
@@ -198,109 +172,6 @@ func (pool *WorkspacesBigDataPool) SetStatus(status genruntime.ConvertibleStatus
 
 	pool.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-synapse-azure-com-v1api20210601-workspacesbigdatapool,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=synapse.azure.com,resources=workspacesbigdatapools,verbs=create;update,versions=v1api20210601,name=validate.v1api20210601.workspacesbigdatapools.synapse.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &WorkspacesBigDataPool{}
-
-// ValidateCreate validates the creation of the resource
-func (pool *WorkspacesBigDataPool) ValidateCreate() (admission.Warnings, error) {
-	validations := pool.createValidations()
-	var temp any = pool
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (pool *WorkspacesBigDataPool) ValidateDelete() (admission.Warnings, error) {
-	validations := pool.deleteValidations()
-	var temp any = pool
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (pool *WorkspacesBigDataPool) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := pool.updateValidations()
-	var temp any = pool
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (pool *WorkspacesBigDataPool) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){pool.validateResourceReferences, pool.validateOwnerReference, pool.validateSecretDestinations, pool.validateConfigMapDestinations}
-}
-
-// deleteValidations validates the deletion of the resource
-func (pool *WorkspacesBigDataPool) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (pool *WorkspacesBigDataPool) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return pool.validateResourceReferences()
-		},
-		pool.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return pool.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return pool.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return pool.validateConfigMapDestinations()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (pool *WorkspacesBigDataPool) validateConfigMapDestinations() (admission.Warnings, error) {
-	if pool.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(pool, nil, pool.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOwnerReference validates the owner field
-func (pool *WorkspacesBigDataPool) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(pool)
-}
-
-// validateResourceReferences validates all resource references
-func (pool *WorkspacesBigDataPool) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&pool.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (pool *WorkspacesBigDataPool) validateSecretDestinations() (admission.Warnings, error) {
-	if pool.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(pool, nil, pool.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (pool *WorkspacesBigDataPool) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*WorkspacesBigDataPool)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, pool)
 }
 
 // AssignProperties_From_WorkspacesBigDataPool populates our WorkspacesBigDataPool from the provided source WorkspacesBigDataPool

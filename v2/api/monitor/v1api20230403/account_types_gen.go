@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/monitor/v1api20230403/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/monitor/v1api20230403/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -15,10 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -70,29 +67,6 @@ func (account *Account) ConvertTo(hub conversion.Hub) error {
 
 	return account.AssignProperties_To_Account(destination)
 }
-
-// +kubebuilder:webhook:path=/mutate-monitor-azure-com-v1api20230403-account,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=monitor.azure.com,resources=accounts,verbs=create;update,versions=v1api20230403,name=default.v1api20230403.accounts.monitor.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &Account{}
-
-// Default applies defaults to the Account resource
-func (account *Account) Default() {
-	account.defaultImpl()
-	var temp any = account
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (account *Account) defaultAzureName() {
-	if account.Spec.AzureName == "" {
-		account.Spec.AzureName = account.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the Account resource
-func (account *Account) defaultImpl() { account.defaultAzureName() }
 
 var _ configmaps.Exporter = &Account{}
 
@@ -198,109 +172,6 @@ func (account *Account) SetStatus(status genruntime.ConvertibleStatus) error {
 
 	account.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-monitor-azure-com-v1api20230403-account,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=monitor.azure.com,resources=accounts,verbs=create;update,versions=v1api20230403,name=validate.v1api20230403.accounts.monitor.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &Account{}
-
-// ValidateCreate validates the creation of the resource
-func (account *Account) ValidateCreate() (admission.Warnings, error) {
-	validations := account.createValidations()
-	var temp any = account
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (account *Account) ValidateDelete() (admission.Warnings, error) {
-	validations := account.deleteValidations()
-	var temp any = account
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (account *Account) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := account.updateValidations()
-	var temp any = account
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (account *Account) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){account.validateResourceReferences, account.validateOwnerReference, account.validateSecretDestinations, account.validateConfigMapDestinations}
-}
-
-// deleteValidations validates the deletion of the resource
-func (account *Account) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (account *Account) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return account.validateResourceReferences()
-		},
-		account.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return account.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return account.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return account.validateConfigMapDestinations()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (account *Account) validateConfigMapDestinations() (admission.Warnings, error) {
-	if account.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(account, nil, account.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOwnerReference validates the owner field
-func (account *Account) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(account)
-}
-
-// validateResourceReferences validates all resource references
-func (account *Account) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&account.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (account *Account) validateSecretDestinations() (admission.Warnings, error) {
-	if account.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(account, nil, account.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (account *Account) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*Account)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, account)
 }
 
 // AssignProperties_From_Account populates our Account from the provided source Account

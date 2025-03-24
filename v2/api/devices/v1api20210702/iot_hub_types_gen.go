@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -15,10 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -70,29 +67,6 @@ func (iotHub *IotHub) ConvertTo(hub conversion.Hub) error {
 
 	return iotHub.AssignProperties_To_IotHub(destination)
 }
-
-// +kubebuilder:webhook:path=/mutate-devices-azure-com-v1api20210702-iothub,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=devices.azure.com,resources=iothubs,verbs=create;update,versions=v1api20210702,name=default.v1api20210702.iothubs.devices.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &IotHub{}
-
-// Default applies defaults to the IotHub resource
-func (iotHub *IotHub) Default() {
-	iotHub.defaultImpl()
-	var temp any = iotHub
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (iotHub *IotHub) defaultAzureName() {
-	if iotHub.Spec.AzureName == "" {
-		iotHub.Spec.AzureName = iotHub.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the IotHub resource
-func (iotHub *IotHub) defaultImpl() { iotHub.defaultAzureName() }
 
 var _ configmaps.Exporter = &IotHub{}
 
@@ -198,124 +172,6 @@ func (iotHub *IotHub) SetStatus(status genruntime.ConvertibleStatus) error {
 
 	iotHub.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-devices-azure-com-v1api20210702-iothub,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=devices.azure.com,resources=iothubs,verbs=create;update,versions=v1api20210702,name=validate.v1api20210702.iothubs.devices.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &IotHub{}
-
-// ValidateCreate validates the creation of the resource
-func (iotHub *IotHub) ValidateCreate() (admission.Warnings, error) {
-	validations := iotHub.createValidations()
-	var temp any = iotHub
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (iotHub *IotHub) ValidateDelete() (admission.Warnings, error) {
-	validations := iotHub.deleteValidations()
-	var temp any = iotHub
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (iotHub *IotHub) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := iotHub.updateValidations()
-	var temp any = iotHub
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (iotHub *IotHub) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){iotHub.validateResourceReferences, iotHub.validateOwnerReference, iotHub.validateSecretDestinations, iotHub.validateConfigMapDestinations}
-}
-
-// deleteValidations validates the deletion of the resource
-func (iotHub *IotHub) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (iotHub *IotHub) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return iotHub.validateResourceReferences()
-		},
-		iotHub.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return iotHub.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return iotHub.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return iotHub.validateConfigMapDestinations()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (iotHub *IotHub) validateConfigMapDestinations() (admission.Warnings, error) {
-	if iotHub.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(iotHub, nil, iotHub.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOwnerReference validates the owner field
-func (iotHub *IotHub) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(iotHub)
-}
-
-// validateResourceReferences validates all resource references
-func (iotHub *IotHub) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&iotHub.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (iotHub *IotHub) validateSecretDestinations() (admission.Warnings, error) {
-	if iotHub.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	var toValidate []*genruntime.SecretDestination
-	if iotHub.Spec.OperatorSpec.Secrets != nil {
-		toValidate = []*genruntime.SecretDestination{
-			iotHub.Spec.OperatorSpec.Secrets.DevicePrimaryKey,
-			iotHub.Spec.OperatorSpec.Secrets.DeviceSecondaryKey,
-			iotHub.Spec.OperatorSpec.Secrets.IotHubOwnerPrimaryKey,
-			iotHub.Spec.OperatorSpec.Secrets.IotHubOwnerSecondaryKey,
-			iotHub.Spec.OperatorSpec.Secrets.RegistryReadPrimaryKey,
-			iotHub.Spec.OperatorSpec.Secrets.RegistryReadSecondaryKey,
-			iotHub.Spec.OperatorSpec.Secrets.RegistryReadWritePrimaryKey,
-			iotHub.Spec.OperatorSpec.Secrets.RegistryReadWriteSecondaryKey,
-			iotHub.Spec.OperatorSpec.Secrets.ServicePrimaryKey,
-			iotHub.Spec.OperatorSpec.Secrets.ServiceSecondaryKey,
-		}
-	}
-	return secrets.ValidateDestinations(iotHub, toValidate, iotHub.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (iotHub *IotHub) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*IotHub)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, iotHub)
 }
 
 // AssignProperties_From_IotHub populates our IotHub from the provided source IotHub

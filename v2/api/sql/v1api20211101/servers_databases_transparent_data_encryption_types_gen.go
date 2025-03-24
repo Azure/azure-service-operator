@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -15,10 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -70,22 +67,6 @@ func (encryption *ServersDatabasesTransparentDataEncryption) ConvertTo(hub conve
 
 	return encryption.AssignProperties_To_ServersDatabasesTransparentDataEncryption(destination)
 }
-
-// +kubebuilder:webhook:path=/mutate-sql-azure-com-v1api20211101-serversdatabasestransparentdataencryption,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=sql.azure.com,resources=serversdatabasestransparentdataencryptions,verbs=create;update,versions=v1api20211101,name=default.v1api20211101.serversdatabasestransparentdataencryptions.sql.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &ServersDatabasesTransparentDataEncryption{}
-
-// Default applies defaults to the ServersDatabasesTransparentDataEncryption resource
-func (encryption *ServersDatabasesTransparentDataEncryption) Default() {
-	encryption.defaultImpl()
-	var temp any = encryption
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultImpl applies the code generated defaults to the ServersDatabasesTransparentDataEncryption resource
-func (encryption *ServersDatabasesTransparentDataEncryption) defaultImpl() {}
 
 var _ configmaps.Exporter = &ServersDatabasesTransparentDataEncryption{}
 
@@ -190,109 +171,6 @@ func (encryption *ServersDatabasesTransparentDataEncryption) SetStatus(status ge
 
 	encryption.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-sql-azure-com-v1api20211101-serversdatabasestransparentdataencryption,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=sql.azure.com,resources=serversdatabasestransparentdataencryptions,verbs=create;update,versions=v1api20211101,name=validate.v1api20211101.serversdatabasestransparentdataencryptions.sql.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &ServersDatabasesTransparentDataEncryption{}
-
-// ValidateCreate validates the creation of the resource
-func (encryption *ServersDatabasesTransparentDataEncryption) ValidateCreate() (admission.Warnings, error) {
-	validations := encryption.createValidations()
-	var temp any = encryption
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (encryption *ServersDatabasesTransparentDataEncryption) ValidateDelete() (admission.Warnings, error) {
-	validations := encryption.deleteValidations()
-	var temp any = encryption
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (encryption *ServersDatabasesTransparentDataEncryption) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := encryption.updateValidations()
-	var temp any = encryption
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (encryption *ServersDatabasesTransparentDataEncryption) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){encryption.validateResourceReferences, encryption.validateOwnerReference, encryption.validateSecretDestinations, encryption.validateConfigMapDestinations}
-}
-
-// deleteValidations validates the deletion of the resource
-func (encryption *ServersDatabasesTransparentDataEncryption) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (encryption *ServersDatabasesTransparentDataEncryption) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return encryption.validateResourceReferences()
-		},
-		encryption.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return encryption.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return encryption.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return encryption.validateConfigMapDestinations()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (encryption *ServersDatabasesTransparentDataEncryption) validateConfigMapDestinations() (admission.Warnings, error) {
-	if encryption.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(encryption, nil, encryption.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOwnerReference validates the owner field
-func (encryption *ServersDatabasesTransparentDataEncryption) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(encryption)
-}
-
-// validateResourceReferences validates all resource references
-func (encryption *ServersDatabasesTransparentDataEncryption) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&encryption.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (encryption *ServersDatabasesTransparentDataEncryption) validateSecretDestinations() (admission.Warnings, error) {
-	if encryption.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(encryption, nil, encryption.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (encryption *ServersDatabasesTransparentDataEncryption) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*ServersDatabasesTransparentDataEncryption)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, encryption)
 }
 
 // AssignProperties_From_ServersDatabasesTransparentDataEncryption populates our ServersDatabasesTransparentDataEncryption from the provided source ServersDatabasesTransparentDataEncryption

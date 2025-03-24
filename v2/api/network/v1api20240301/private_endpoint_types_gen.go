@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -15,10 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -70,29 +67,6 @@ func (endpoint *PrivateEndpoint) ConvertTo(hub conversion.Hub) error {
 
 	return endpoint.AssignProperties_To_PrivateEndpoint(destination)
 }
-
-// +kubebuilder:webhook:path=/mutate-network-azure-com-v1api20240301-privateendpoint,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=privateendpoints,verbs=create;update,versions=v1api20240301,name=default.v1api20240301.privateendpoints.network.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &PrivateEndpoint{}
-
-// Default applies defaults to the PrivateEndpoint resource
-func (endpoint *PrivateEndpoint) Default() {
-	endpoint.defaultImpl()
-	var temp any = endpoint
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (endpoint *PrivateEndpoint) defaultAzureName() {
-	if endpoint.Spec.AzureName == "" {
-		endpoint.Spec.AzureName = endpoint.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the PrivateEndpoint resource
-func (endpoint *PrivateEndpoint) defaultImpl() { endpoint.defaultAzureName() }
 
 var _ configmaps.Exporter = &PrivateEndpoint{}
 
@@ -198,115 +172,6 @@ func (endpoint *PrivateEndpoint) SetStatus(status genruntime.ConvertibleStatus) 
 
 	endpoint.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-network-azure-com-v1api20240301-privateendpoint,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=privateendpoints,verbs=create;update,versions=v1api20240301,name=validate.v1api20240301.privateendpoints.network.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &PrivateEndpoint{}
-
-// ValidateCreate validates the creation of the resource
-func (endpoint *PrivateEndpoint) ValidateCreate() (admission.Warnings, error) {
-	validations := endpoint.createValidations()
-	var temp any = endpoint
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (endpoint *PrivateEndpoint) ValidateDelete() (admission.Warnings, error) {
-	validations := endpoint.deleteValidations()
-	var temp any = endpoint
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (endpoint *PrivateEndpoint) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := endpoint.updateValidations()
-	var temp any = endpoint
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (endpoint *PrivateEndpoint) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){endpoint.validateResourceReferences, endpoint.validateOwnerReference, endpoint.validateSecretDestinations, endpoint.validateConfigMapDestinations}
-}
-
-// deleteValidations validates the deletion of the resource
-func (endpoint *PrivateEndpoint) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (endpoint *PrivateEndpoint) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return endpoint.validateResourceReferences()
-		},
-		endpoint.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return endpoint.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return endpoint.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return endpoint.validateConfigMapDestinations()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (endpoint *PrivateEndpoint) validateConfigMapDestinations() (admission.Warnings, error) {
-	if endpoint.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	var toValidate []*genruntime.ConfigMapDestination
-	if endpoint.Spec.OperatorSpec.ConfigMaps != nil {
-		toValidate = []*genruntime.ConfigMapDestination{
-			endpoint.Spec.OperatorSpec.ConfigMaps.PrimaryNicPrivateIpAddress,
-		}
-	}
-	return configmaps.ValidateDestinations(endpoint, toValidate, endpoint.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOwnerReference validates the owner field
-func (endpoint *PrivateEndpoint) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(endpoint)
-}
-
-// validateResourceReferences validates all resource references
-func (endpoint *PrivateEndpoint) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&endpoint.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (endpoint *PrivateEndpoint) validateSecretDestinations() (admission.Warnings, error) {
-	if endpoint.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(endpoint, nil, endpoint.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (endpoint *PrivateEndpoint) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*PrivateEndpoint)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, endpoint)
 }
 
 // AssignProperties_From_PrivateEndpoint populates our PrivateEndpoint from the provided source PrivateEndpoint

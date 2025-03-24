@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20230701/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20230701/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -15,10 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -70,29 +67,6 @@ func (registry *Registry) ConvertTo(hub conversion.Hub) error {
 
 	return registry.AssignProperties_To_Registry(destination)
 }
-
-// +kubebuilder:webhook:path=/mutate-containerregistry-azure-com-v1api20230701-registry,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=containerregistry.azure.com,resources=registries,verbs=create;update,versions=v1api20230701,name=default.v1api20230701.registries.containerregistry.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &Registry{}
-
-// Default applies defaults to the Registry resource
-func (registry *Registry) Default() {
-	registry.defaultImpl()
-	var temp any = registry
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (registry *Registry) defaultAzureName() {
-	if registry.Spec.AzureName == "" {
-		registry.Spec.AzureName = registry.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the Registry resource
-func (registry *Registry) defaultImpl() { registry.defaultAzureName() }
 
 var _ configmaps.Exporter = &Registry{}
 
@@ -198,121 +172,6 @@ func (registry *Registry) SetStatus(status genruntime.ConvertibleStatus) error {
 
 	registry.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-containerregistry-azure-com-v1api20230701-registry,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=containerregistry.azure.com,resources=registries,verbs=create;update,versions=v1api20230701,name=validate.v1api20230701.registries.containerregistry.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &Registry{}
-
-// ValidateCreate validates the creation of the resource
-func (registry *Registry) ValidateCreate() (admission.Warnings, error) {
-	validations := registry.createValidations()
-	var temp any = registry
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (registry *Registry) ValidateDelete() (admission.Warnings, error) {
-	validations := registry.deleteValidations()
-	var temp any = registry
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (registry *Registry) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := registry.updateValidations()
-	var temp any = registry
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (registry *Registry) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){registry.validateResourceReferences, registry.validateOwnerReference, registry.validateSecretDestinations, registry.validateConfigMapDestinations, registry.validateOptionalConfigMapReferences}
-}
-
-// deleteValidations validates the deletion of the resource
-func (registry *Registry) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (registry *Registry) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return registry.validateResourceReferences()
-		},
-		registry.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return registry.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return registry.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return registry.validateConfigMapDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return registry.validateOptionalConfigMapReferences()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (registry *Registry) validateConfigMapDestinations() (admission.Warnings, error) {
-	if registry.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(registry, nil, registry.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
-func (registry *Registry) validateOptionalConfigMapReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindOptionalConfigMapReferences(&registry.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return configmaps.ValidateOptionalReferences(refs)
-}
-
-// validateOwnerReference validates the owner field
-func (registry *Registry) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(registry)
-}
-
-// validateResourceReferences validates all resource references
-func (registry *Registry) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&registry.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (registry *Registry) validateSecretDestinations() (admission.Warnings, error) {
-	if registry.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(registry, nil, registry.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (registry *Registry) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*Registry)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, registry)
 }
 
 // AssignProperties_From_Registry populates our Registry from the provided source Registry

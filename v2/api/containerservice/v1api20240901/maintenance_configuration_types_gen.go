@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -15,10 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -70,29 +67,6 @@ func (configuration *MaintenanceConfiguration) ConvertTo(hub conversion.Hub) err
 
 	return configuration.AssignProperties_To_MaintenanceConfiguration(destination)
 }
-
-// +kubebuilder:webhook:path=/mutate-containerservice-azure-com-v1api20240901-maintenanceconfiguration,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=containerservice.azure.com,resources=maintenanceconfigurations,verbs=create;update,versions=v1api20240901,name=default.v1api20240901.maintenanceconfigurations.containerservice.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &MaintenanceConfiguration{}
-
-// Default applies defaults to the MaintenanceConfiguration resource
-func (configuration *MaintenanceConfiguration) Default() {
-	configuration.defaultImpl()
-	var temp any = configuration
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (configuration *MaintenanceConfiguration) defaultAzureName() {
-	if configuration.Spec.AzureName == "" {
-		configuration.Spec.AzureName = configuration.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the MaintenanceConfiguration resource
-func (configuration *MaintenanceConfiguration) defaultImpl() { configuration.defaultAzureName() }
 
 var _ configmaps.Exporter = &MaintenanceConfiguration{}
 
@@ -198,109 +172,6 @@ func (configuration *MaintenanceConfiguration) SetStatus(status genruntime.Conve
 
 	configuration.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-containerservice-azure-com-v1api20240901-maintenanceconfiguration,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=containerservice.azure.com,resources=maintenanceconfigurations,verbs=create;update,versions=v1api20240901,name=validate.v1api20240901.maintenanceconfigurations.containerservice.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &MaintenanceConfiguration{}
-
-// ValidateCreate validates the creation of the resource
-func (configuration *MaintenanceConfiguration) ValidateCreate() (admission.Warnings, error) {
-	validations := configuration.createValidations()
-	var temp any = configuration
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (configuration *MaintenanceConfiguration) ValidateDelete() (admission.Warnings, error) {
-	validations := configuration.deleteValidations()
-	var temp any = configuration
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (configuration *MaintenanceConfiguration) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := configuration.updateValidations()
-	var temp any = configuration
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (configuration *MaintenanceConfiguration) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){configuration.validateResourceReferences, configuration.validateOwnerReference, configuration.validateSecretDestinations, configuration.validateConfigMapDestinations}
-}
-
-// deleteValidations validates the deletion of the resource
-func (configuration *MaintenanceConfiguration) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (configuration *MaintenanceConfiguration) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return configuration.validateResourceReferences()
-		},
-		configuration.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return configuration.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return configuration.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return configuration.validateConfigMapDestinations()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (configuration *MaintenanceConfiguration) validateConfigMapDestinations() (admission.Warnings, error) {
-	if configuration.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(configuration, nil, configuration.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOwnerReference validates the owner field
-func (configuration *MaintenanceConfiguration) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(configuration)
-}
-
-// validateResourceReferences validates all resource references
-func (configuration *MaintenanceConfiguration) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&configuration.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (configuration *MaintenanceConfiguration) validateSecretDestinations() (admission.Warnings, error) {
-	if configuration.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(configuration, nil, configuration.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (configuration *MaintenanceConfiguration) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*MaintenanceConfiguration)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, configuration)
 }
 
 // AssignProperties_From_MaintenanceConfiguration populates our MaintenanceConfiguration from the provided source MaintenanceConfiguration

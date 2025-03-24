@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501preview/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501preview/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -15,10 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -84,29 +81,6 @@ func (product *Product) ConvertTo(hub conversion.Hub) error {
 
 	return nil
 }
-
-// +kubebuilder:webhook:path=/mutate-apimanagement-azure-com-v1api20230501preview-product,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=apimanagement.azure.com,resources=products,verbs=create;update,versions=v1api20230501preview,name=default.v1api20230501preview.products.apimanagement.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &Product{}
-
-// Default applies defaults to the Product resource
-func (product *Product) Default() {
-	product.defaultImpl()
-	var temp any = product
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (product *Product) defaultAzureName() {
-	if product.Spec.AzureName == "" {
-		product.Spec.AzureName = product.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the Product resource
-func (product *Product) defaultImpl() { product.defaultAzureName() }
 
 var _ configmaps.Exporter = &Product{}
 
@@ -202,109 +176,6 @@ func (product *Product) SetStatus(status genruntime.ConvertibleStatus) error {
 
 	product.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-apimanagement-azure-com-v1api20230501preview-product,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=apimanagement.azure.com,resources=products,verbs=create;update,versions=v1api20230501preview,name=validate.v1api20230501preview.products.apimanagement.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &Product{}
-
-// ValidateCreate validates the creation of the resource
-func (product *Product) ValidateCreate() (admission.Warnings, error) {
-	validations := product.createValidations()
-	var temp any = product
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (product *Product) ValidateDelete() (admission.Warnings, error) {
-	validations := product.deleteValidations()
-	var temp any = product
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (product *Product) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := product.updateValidations()
-	var temp any = product
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (product *Product) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){product.validateResourceReferences, product.validateOwnerReference, product.validateSecretDestinations, product.validateConfigMapDestinations}
-}
-
-// deleteValidations validates the deletion of the resource
-func (product *Product) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (product *Product) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return product.validateResourceReferences()
-		},
-		product.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return product.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return product.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return product.validateConfigMapDestinations()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (product *Product) validateConfigMapDestinations() (admission.Warnings, error) {
-	if product.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(product, nil, product.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOwnerReference validates the owner field
-func (product *Product) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(product)
-}
-
-// validateResourceReferences validates all resource references
-func (product *Product) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&product.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (product *Product) validateSecretDestinations() (admission.Warnings, error) {
-	if product.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(product, nil, product.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (product *Product) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*Product)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, product)
 }
 
 // AssignProperties_From_Product populates our Product from the provided source Product

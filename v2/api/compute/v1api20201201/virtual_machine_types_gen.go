@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -16,10 +15,8 @@ import (
 	"github.com/rotisserie/eris"
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -85,29 +82,6 @@ func (machine *VirtualMachine) ConvertTo(hub conversion.Hub) error {
 
 	return nil
 }
-
-// +kubebuilder:webhook:path=/mutate-compute-azure-com-v1api20201201-virtualmachine,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=compute.azure.com,resources=virtualmachines,verbs=create;update,versions=v1api20201201,name=default.v1api20201201.virtualmachines.compute.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &VirtualMachine{}
-
-// Default applies defaults to the VirtualMachine resource
-func (machine *VirtualMachine) Default() {
-	machine.defaultImpl()
-	var temp any = machine
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (machine *VirtualMachine) defaultAzureName() {
-	if machine.Spec.AzureName == "" {
-		machine.Spec.AzureName = machine.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the VirtualMachine resource
-func (machine *VirtualMachine) defaultImpl() { machine.defaultAzureName() }
 
 var _ configmaps.Exporter = &VirtualMachine{}
 
@@ -202,109 +176,6 @@ func (machine *VirtualMachine) SetStatus(status genruntime.ConvertibleStatus) er
 
 	machine.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-compute-azure-com-v1api20201201-virtualmachine,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=compute.azure.com,resources=virtualmachines,verbs=create;update,versions=v1api20201201,name=validate.v1api20201201.virtualmachines.compute.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &VirtualMachine{}
-
-// ValidateCreate validates the creation of the resource
-func (machine *VirtualMachine) ValidateCreate() (admission.Warnings, error) {
-	validations := machine.createValidations()
-	var temp any = machine
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (machine *VirtualMachine) ValidateDelete() (admission.Warnings, error) {
-	validations := machine.deleteValidations()
-	var temp any = machine
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (machine *VirtualMachine) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := machine.updateValidations()
-	var temp any = machine
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (machine *VirtualMachine) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){machine.validateResourceReferences, machine.validateOwnerReference, machine.validateSecretDestinations, machine.validateConfigMapDestinations}
-}
-
-// deleteValidations validates the deletion of the resource
-func (machine *VirtualMachine) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (machine *VirtualMachine) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return machine.validateResourceReferences()
-		},
-		machine.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return machine.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return machine.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return machine.validateConfigMapDestinations()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (machine *VirtualMachine) validateConfigMapDestinations() (admission.Warnings, error) {
-	if machine.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(machine, nil, machine.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOwnerReference validates the owner field
-func (machine *VirtualMachine) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(machine)
-}
-
-// validateResourceReferences validates all resource references
-func (machine *VirtualMachine) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&machine.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (machine *VirtualMachine) validateSecretDestinations() (admission.Warnings, error) {
-	if machine.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(machine, nil, machine.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (machine *VirtualMachine) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*VirtualMachine)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, machine)
 }
 
 // AssignProperties_From_VirtualMachine populates our VirtualMachine from the provided source VirtualMachine

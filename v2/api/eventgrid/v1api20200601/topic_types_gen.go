@@ -9,7 +9,6 @@ import (
 	arm "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -18,11 +17,9 @@ import (
 	"github.com/go-logr/logr"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -74,29 +71,6 @@ func (topic *Topic) ConvertTo(hub conversion.Hub) error {
 
 	return topic.AssignProperties_To_Topic(destination)
 }
-
-// +kubebuilder:webhook:path=/mutate-eventgrid-azure-com-v1api20200601-topic,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=eventgrid.azure.com,resources=topics,verbs=create;update,versions=v1api20200601,name=default.v1api20200601.topics.eventgrid.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &Topic{}
-
-// Default applies defaults to the Topic resource
-func (topic *Topic) Default() {
-	topic.defaultImpl()
-	var temp any = topic
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (topic *Topic) defaultAzureName() {
-	if topic.Spec.AzureName == "" {
-		topic.Spec.AzureName = topic.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the Topic resource
-func (topic *Topic) defaultImpl() { topic.defaultAzureName() }
 
 var _ configmaps.Exporter = &Topic{}
 
@@ -219,122 +193,6 @@ func (topic *Topic) SetStatus(status genruntime.ConvertibleStatus) error {
 
 	topic.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-eventgrid-azure-com-v1api20200601-topic,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=eventgrid.azure.com,resources=topics,verbs=create;update,versions=v1api20200601,name=validate.v1api20200601.topics.eventgrid.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &Topic{}
-
-// ValidateCreate validates the creation of the resource
-func (topic *Topic) ValidateCreate() (admission.Warnings, error) {
-	validations := topic.createValidations()
-	var temp any = topic
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (topic *Topic) ValidateDelete() (admission.Warnings, error) {
-	validations := topic.deleteValidations()
-	var temp any = topic
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (topic *Topic) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := topic.updateValidations()
-	var temp any = topic
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (topic *Topic) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){topic.validateResourceReferences, topic.validateOwnerReference, topic.validateSecretDestinations, topic.validateConfigMapDestinations}
-}
-
-// deleteValidations validates the deletion of the resource
-func (topic *Topic) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (topic *Topic) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return topic.validateResourceReferences()
-		},
-		topic.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return topic.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return topic.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return topic.validateConfigMapDestinations()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (topic *Topic) validateConfigMapDestinations() (admission.Warnings, error) {
-	if topic.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	var toValidate []*genruntime.ConfigMapDestination
-	if topic.Spec.OperatorSpec.ConfigMaps != nil {
-		toValidate = []*genruntime.ConfigMapDestination{
-			topic.Spec.OperatorSpec.ConfigMaps.Endpoint,
-		}
-	}
-	return configmaps.ValidateDestinations(topic, toValidate, topic.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOwnerReference validates the owner field
-func (topic *Topic) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(topic)
-}
-
-// validateResourceReferences validates all resource references
-func (topic *Topic) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&topic.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (topic *Topic) validateSecretDestinations() (admission.Warnings, error) {
-	if topic.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	var toValidate []*genruntime.SecretDestination
-	if topic.Spec.OperatorSpec.Secrets != nil {
-		toValidate = []*genruntime.SecretDestination{
-			topic.Spec.OperatorSpec.Secrets.Key1,
-			topic.Spec.OperatorSpec.Secrets.Key2,
-		}
-	}
-	return secrets.ValidateDestinations(topic, toValidate, topic.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (topic *Topic) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*Topic)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, topic)
 }
 
 // AssignProperties_From_Topic populates our Topic from the provided source Topic

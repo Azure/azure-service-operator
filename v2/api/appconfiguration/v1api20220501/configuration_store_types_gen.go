@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20220501/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20220501/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -15,10 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -70,29 +67,6 @@ func (store *ConfigurationStore) ConvertTo(hub conversion.Hub) error {
 
 	return store.AssignProperties_To_ConfigurationStore(destination)
 }
-
-// +kubebuilder:webhook:path=/mutate-appconfiguration-azure-com-v1api20220501-configurationstore,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=appconfiguration.azure.com,resources=configurationstores,verbs=create;update,versions=v1api20220501,name=default.v1api20220501.configurationstores.appconfiguration.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &ConfigurationStore{}
-
-// Default applies defaults to the ConfigurationStore resource
-func (store *ConfigurationStore) Default() {
-	store.defaultImpl()
-	var temp any = store
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (store *ConfigurationStore) defaultAzureName() {
-	if store.Spec.AzureName == "" {
-		store.Spec.AzureName = store.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the ConfigurationStore resource
-func (store *ConfigurationStore) defaultImpl() { store.defaultAzureName() }
 
 var _ configmaps.Exporter = &ConfigurationStore{}
 
@@ -198,126 +172,6 @@ func (store *ConfigurationStore) SetStatus(status genruntime.ConvertibleStatus) 
 
 	store.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-appconfiguration-azure-com-v1api20220501-configurationstore,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=appconfiguration.azure.com,resources=configurationstores,verbs=create;update,versions=v1api20220501,name=validate.v1api20220501.configurationstores.appconfiguration.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &ConfigurationStore{}
-
-// ValidateCreate validates the creation of the resource
-func (store *ConfigurationStore) ValidateCreate() (admission.Warnings, error) {
-	validations := store.createValidations()
-	var temp any = store
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (store *ConfigurationStore) ValidateDelete() (admission.Warnings, error) {
-	validations := store.deleteValidations()
-	var temp any = store
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (store *ConfigurationStore) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := store.updateValidations()
-	var temp any = store
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (store *ConfigurationStore) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){store.validateResourceReferences, store.validateOwnerReference, store.validateSecretDestinations, store.validateConfigMapDestinations}
-}
-
-// deleteValidations validates the deletion of the resource
-func (store *ConfigurationStore) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (store *ConfigurationStore) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return store.validateResourceReferences()
-		},
-		store.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return store.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return store.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return store.validateConfigMapDestinations()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (store *ConfigurationStore) validateConfigMapDestinations() (admission.Warnings, error) {
-	if store.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(store, nil, store.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOwnerReference validates the owner field
-func (store *ConfigurationStore) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(store)
-}
-
-// validateResourceReferences validates all resource references
-func (store *ConfigurationStore) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&store.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (store *ConfigurationStore) validateSecretDestinations() (admission.Warnings, error) {
-	if store.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	var toValidate []*genruntime.SecretDestination
-	if store.Spec.OperatorSpec.Secrets != nil {
-		toValidate = []*genruntime.SecretDestination{
-			store.Spec.OperatorSpec.Secrets.PrimaryConnectionString,
-			store.Spec.OperatorSpec.Secrets.PrimaryKey,
-			store.Spec.OperatorSpec.Secrets.PrimaryKeyID,
-			store.Spec.OperatorSpec.Secrets.PrimaryReadOnlyConnectionString,
-			store.Spec.OperatorSpec.Secrets.PrimaryReadOnlyKey,
-			store.Spec.OperatorSpec.Secrets.PrimaryReadOnlyKeyID,
-			store.Spec.OperatorSpec.Secrets.SecondaryConnectionString,
-			store.Spec.OperatorSpec.Secrets.SecondaryKey,
-			store.Spec.OperatorSpec.Secrets.SecondaryKeyID,
-			store.Spec.OperatorSpec.Secrets.SecondaryReadOnlyConnectionString,
-			store.Spec.OperatorSpec.Secrets.SecondaryReadOnlyKey,
-			store.Spec.OperatorSpec.Secrets.SecondaryReadOnlyKeyID,
-		}
-	}
-	return secrets.ValidateDestinations(store, toValidate, store.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (store *ConfigurationStore) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*ConfigurationStore)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, store)
 }
 
 // AssignProperties_From_ConfigurationStore populates our ConfigurationStore from the provided source ConfigurationStore

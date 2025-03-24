@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/web/v1api20220301/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/web/v1api20220301/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -15,10 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -70,22 +67,6 @@ func (sourcecontrol *SitesSourcecontrol) ConvertTo(hub conversion.Hub) error {
 
 	return sourcecontrol.AssignProperties_To_SitesSourcecontrol(destination)
 }
-
-// +kubebuilder:webhook:path=/mutate-web-azure-com-v1api20220301-sitessourcecontrol,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=web.azure.com,resources=sitessourcecontrols,verbs=create;update,versions=v1api20220301,name=default.v1api20220301.sitessourcecontrols.web.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &SitesSourcecontrol{}
-
-// Default applies defaults to the SitesSourcecontrol resource
-func (sourcecontrol *SitesSourcecontrol) Default() {
-	sourcecontrol.defaultImpl()
-	var temp any = sourcecontrol
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultImpl applies the code generated defaults to the SitesSourcecontrol resource
-func (sourcecontrol *SitesSourcecontrol) defaultImpl() {}
 
 var _ configmaps.Exporter = &SitesSourcecontrol{}
 
@@ -191,109 +172,6 @@ func (sourcecontrol *SitesSourcecontrol) SetStatus(status genruntime.Convertible
 
 	sourcecontrol.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-web-azure-com-v1api20220301-sitessourcecontrol,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=web.azure.com,resources=sitessourcecontrols,verbs=create;update,versions=v1api20220301,name=validate.v1api20220301.sitessourcecontrols.web.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &SitesSourcecontrol{}
-
-// ValidateCreate validates the creation of the resource
-func (sourcecontrol *SitesSourcecontrol) ValidateCreate() (admission.Warnings, error) {
-	validations := sourcecontrol.createValidations()
-	var temp any = sourcecontrol
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (sourcecontrol *SitesSourcecontrol) ValidateDelete() (admission.Warnings, error) {
-	validations := sourcecontrol.deleteValidations()
-	var temp any = sourcecontrol
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (sourcecontrol *SitesSourcecontrol) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := sourcecontrol.updateValidations()
-	var temp any = sourcecontrol
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (sourcecontrol *SitesSourcecontrol) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){sourcecontrol.validateResourceReferences, sourcecontrol.validateOwnerReference, sourcecontrol.validateSecretDestinations, sourcecontrol.validateConfigMapDestinations}
-}
-
-// deleteValidations validates the deletion of the resource
-func (sourcecontrol *SitesSourcecontrol) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (sourcecontrol *SitesSourcecontrol) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return sourcecontrol.validateResourceReferences()
-		},
-		sourcecontrol.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return sourcecontrol.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return sourcecontrol.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return sourcecontrol.validateConfigMapDestinations()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (sourcecontrol *SitesSourcecontrol) validateConfigMapDestinations() (admission.Warnings, error) {
-	if sourcecontrol.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(sourcecontrol, nil, sourcecontrol.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOwnerReference validates the owner field
-func (sourcecontrol *SitesSourcecontrol) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(sourcecontrol)
-}
-
-// validateResourceReferences validates all resource references
-func (sourcecontrol *SitesSourcecontrol) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&sourcecontrol.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (sourcecontrol *SitesSourcecontrol) validateSecretDestinations() (admission.Warnings, error) {
-	if sourcecontrol.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(sourcecontrol, nil, sourcecontrol.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (sourcecontrol *SitesSourcecontrol) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*SitesSourcecontrol)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, sourcecontrol)
 }
 
 // AssignProperties_From_SitesSourcecontrol populates our SitesSourcecontrol from the provided source SitesSourcecontrol

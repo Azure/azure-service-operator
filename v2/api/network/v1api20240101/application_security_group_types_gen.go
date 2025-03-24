@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/network/v1api20240101/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20240101/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -15,10 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -70,29 +67,6 @@ func (group *ApplicationSecurityGroup) ConvertTo(hub conversion.Hub) error {
 
 	return group.AssignProperties_To_ApplicationSecurityGroup(destination)
 }
-
-// +kubebuilder:webhook:path=/mutate-network-azure-com-v1api20240101-applicationsecuritygroup,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=applicationsecuritygroups,verbs=create;update,versions=v1api20240101,name=default.v1api20240101.applicationsecuritygroups.network.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &ApplicationSecurityGroup{}
-
-// Default applies defaults to the ApplicationSecurityGroup resource
-func (group *ApplicationSecurityGroup) Default() {
-	group.defaultImpl()
-	var temp any = group
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (group *ApplicationSecurityGroup) defaultAzureName() {
-	if group.Spec.AzureName == "" {
-		group.Spec.AzureName = group.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the ApplicationSecurityGroup resource
-func (group *ApplicationSecurityGroup) defaultImpl() { group.defaultAzureName() }
 
 var _ configmaps.Exporter = &ApplicationSecurityGroup{}
 
@@ -198,109 +172,6 @@ func (group *ApplicationSecurityGroup) SetStatus(status genruntime.ConvertibleSt
 
 	group.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-network-azure-com-v1api20240101-applicationsecuritygroup,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=applicationsecuritygroups,verbs=create;update,versions=v1api20240101,name=validate.v1api20240101.applicationsecuritygroups.network.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &ApplicationSecurityGroup{}
-
-// ValidateCreate validates the creation of the resource
-func (group *ApplicationSecurityGroup) ValidateCreate() (admission.Warnings, error) {
-	validations := group.createValidations()
-	var temp any = group
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (group *ApplicationSecurityGroup) ValidateDelete() (admission.Warnings, error) {
-	validations := group.deleteValidations()
-	var temp any = group
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (group *ApplicationSecurityGroup) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := group.updateValidations()
-	var temp any = group
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (group *ApplicationSecurityGroup) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){group.validateResourceReferences, group.validateOwnerReference, group.validateSecretDestinations, group.validateConfigMapDestinations}
-}
-
-// deleteValidations validates the deletion of the resource
-func (group *ApplicationSecurityGroup) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (group *ApplicationSecurityGroup) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return group.validateResourceReferences()
-		},
-		group.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return group.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return group.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return group.validateConfigMapDestinations()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (group *ApplicationSecurityGroup) validateConfigMapDestinations() (admission.Warnings, error) {
-	if group.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(group, nil, group.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOwnerReference validates the owner field
-func (group *ApplicationSecurityGroup) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(group)
-}
-
-// validateResourceReferences validates all resource references
-func (group *ApplicationSecurityGroup) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&group.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (group *ApplicationSecurityGroup) validateSecretDestinations() (admission.Warnings, error) {
-	if group.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(group, nil, group.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (group *ApplicationSecurityGroup) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*ApplicationSecurityGroup)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, group)
 }
 
 // AssignProperties_From_ApplicationSecurityGroup populates our ApplicationSecurityGroup from the provided source ApplicationSecurityGroup

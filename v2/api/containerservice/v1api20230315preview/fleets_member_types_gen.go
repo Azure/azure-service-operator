@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230315preview/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230315preview/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -15,10 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -70,29 +67,6 @@ func (member *FleetsMember) ConvertTo(hub conversion.Hub) error {
 
 	return member.AssignProperties_To_FleetsMember(destination)
 }
-
-// +kubebuilder:webhook:path=/mutate-containerservice-azure-com-v1api20230315preview-fleetsmember,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=containerservice.azure.com,resources=fleetsmembers,verbs=create;update,versions=v1api20230315preview,name=default.v1api20230315preview.fleetsmembers.containerservice.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &FleetsMember{}
-
-// Default applies defaults to the FleetsMember resource
-func (member *FleetsMember) Default() {
-	member.defaultImpl()
-	var temp any = member
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (member *FleetsMember) defaultAzureName() {
-	if member.Spec.AzureName == "" {
-		member.Spec.AzureName = member.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the FleetsMember resource
-func (member *FleetsMember) defaultImpl() { member.defaultAzureName() }
 
 var _ configmaps.Exporter = &FleetsMember{}
 
@@ -198,109 +172,6 @@ func (member *FleetsMember) SetStatus(status genruntime.ConvertibleStatus) error
 
 	member.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-containerservice-azure-com-v1api20230315preview-fleetsmember,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=containerservice.azure.com,resources=fleetsmembers,verbs=create;update,versions=v1api20230315preview,name=validate.v1api20230315preview.fleetsmembers.containerservice.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &FleetsMember{}
-
-// ValidateCreate validates the creation of the resource
-func (member *FleetsMember) ValidateCreate() (admission.Warnings, error) {
-	validations := member.createValidations()
-	var temp any = member
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (member *FleetsMember) ValidateDelete() (admission.Warnings, error) {
-	validations := member.deleteValidations()
-	var temp any = member
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (member *FleetsMember) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := member.updateValidations()
-	var temp any = member
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (member *FleetsMember) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){member.validateResourceReferences, member.validateOwnerReference, member.validateSecretDestinations, member.validateConfigMapDestinations}
-}
-
-// deleteValidations validates the deletion of the resource
-func (member *FleetsMember) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (member *FleetsMember) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return member.validateResourceReferences()
-		},
-		member.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return member.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return member.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return member.validateConfigMapDestinations()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (member *FleetsMember) validateConfigMapDestinations() (admission.Warnings, error) {
-	if member.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(member, nil, member.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOwnerReference validates the owner field
-func (member *FleetsMember) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(member)
-}
-
-// validateResourceReferences validates all resource references
-func (member *FleetsMember) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&member.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (member *FleetsMember) validateSecretDestinations() (admission.Warnings, error) {
-	if member.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(member, nil, member.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (member *FleetsMember) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*FleetsMember)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, member)
 }
 
 // AssignProperties_From_FleetsMember populates our FleetsMember from the provided source FleetsMember

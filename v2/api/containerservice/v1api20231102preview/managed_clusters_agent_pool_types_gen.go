@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231102preview/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231102preview/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -15,10 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -84,29 +81,6 @@ func (pool *ManagedClustersAgentPool) ConvertTo(hub conversion.Hub) error {
 
 	return nil
 }
-
-// +kubebuilder:webhook:path=/mutate-containerservice-azure-com-v1api20231102preview-managedclustersagentpool,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=containerservice.azure.com,resources=managedclustersagentpools,verbs=create;update,versions=v1api20231102preview,name=default.v1api20231102preview.managedclustersagentpools.containerservice.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &ManagedClustersAgentPool{}
-
-// Default applies defaults to the ManagedClustersAgentPool resource
-func (pool *ManagedClustersAgentPool) Default() {
-	pool.defaultImpl()
-	var temp any = pool
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (pool *ManagedClustersAgentPool) defaultAzureName() {
-	if pool.Spec.AzureName == "" {
-		pool.Spec.AzureName = pool.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the ManagedClustersAgentPool resource
-func (pool *ManagedClustersAgentPool) defaultImpl() { pool.defaultAzureName() }
 
 var _ configmaps.Exporter = &ManagedClustersAgentPool{}
 
@@ -201,109 +175,6 @@ func (pool *ManagedClustersAgentPool) SetStatus(status genruntime.ConvertibleSta
 
 	pool.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-containerservice-azure-com-v1api20231102preview-managedclustersagentpool,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=containerservice.azure.com,resources=managedclustersagentpools,verbs=create;update,versions=v1api20231102preview,name=validate.v1api20231102preview.managedclustersagentpools.containerservice.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &ManagedClustersAgentPool{}
-
-// ValidateCreate validates the creation of the resource
-func (pool *ManagedClustersAgentPool) ValidateCreate() (admission.Warnings, error) {
-	validations := pool.createValidations()
-	var temp any = pool
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (pool *ManagedClustersAgentPool) ValidateDelete() (admission.Warnings, error) {
-	validations := pool.deleteValidations()
-	var temp any = pool
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (pool *ManagedClustersAgentPool) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := pool.updateValidations()
-	var temp any = pool
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (pool *ManagedClustersAgentPool) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){pool.validateResourceReferences, pool.validateOwnerReference, pool.validateSecretDestinations, pool.validateConfigMapDestinations}
-}
-
-// deleteValidations validates the deletion of the resource
-func (pool *ManagedClustersAgentPool) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (pool *ManagedClustersAgentPool) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return pool.validateResourceReferences()
-		},
-		pool.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return pool.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return pool.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return pool.validateConfigMapDestinations()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (pool *ManagedClustersAgentPool) validateConfigMapDestinations() (admission.Warnings, error) {
-	if pool.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(pool, nil, pool.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOwnerReference validates the owner field
-func (pool *ManagedClustersAgentPool) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(pool)
-}
-
-// validateResourceReferences validates all resource references
-func (pool *ManagedClustersAgentPool) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&pool.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (pool *ManagedClustersAgentPool) validateSecretDestinations() (admission.Warnings, error) {
-	if pool.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(pool, nil, pool.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (pool *ManagedClustersAgentPool) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*ManagedClustersAgentPool)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, pool)
 }
 
 // AssignProperties_From_ManagedClustersAgentPool populates our ManagedClustersAgentPool from the provided source ManagedClustersAgentPool

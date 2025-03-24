@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -15,10 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -70,29 +67,6 @@ func (origin *AfdOrigin) ConvertTo(hub conversion.Hub) error {
 
 	return origin.AssignProperties_To_AfdOrigin(destination)
 }
-
-// +kubebuilder:webhook:path=/mutate-cdn-azure-com-v1api20230501-afdorigin,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=cdn.azure.com,resources=afdorigins,verbs=create;update,versions=v1api20230501,name=default.v1api20230501.afdorigins.cdn.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &AfdOrigin{}
-
-// Default applies defaults to the AfdOrigin resource
-func (origin *AfdOrigin) Default() {
-	origin.defaultImpl()
-	var temp any = origin
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (origin *AfdOrigin) defaultAzureName() {
-	if origin.Spec.AzureName == "" {
-		origin.Spec.AzureName = origin.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the AfdOrigin resource
-func (origin *AfdOrigin) defaultImpl() { origin.defaultAzureName() }
 
 var _ configmaps.Exporter = &AfdOrigin{}
 
@@ -198,121 +172,6 @@ func (origin *AfdOrigin) SetStatus(status genruntime.ConvertibleStatus) error {
 
 	origin.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-cdn-azure-com-v1api20230501-afdorigin,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=cdn.azure.com,resources=afdorigins,verbs=create;update,versions=v1api20230501,name=validate.v1api20230501.afdorigins.cdn.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &AfdOrigin{}
-
-// ValidateCreate validates the creation of the resource
-func (origin *AfdOrigin) ValidateCreate() (admission.Warnings, error) {
-	validations := origin.createValidations()
-	var temp any = origin
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (origin *AfdOrigin) ValidateDelete() (admission.Warnings, error) {
-	validations := origin.deleteValidations()
-	var temp any = origin
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (origin *AfdOrigin) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := origin.updateValidations()
-	var temp any = origin
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (origin *AfdOrigin) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){origin.validateResourceReferences, origin.validateOwnerReference, origin.validateSecretDestinations, origin.validateConfigMapDestinations, origin.validateOptionalConfigMapReferences}
-}
-
-// deleteValidations validates the deletion of the resource
-func (origin *AfdOrigin) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (origin *AfdOrigin) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return origin.validateResourceReferences()
-		},
-		origin.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return origin.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return origin.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return origin.validateConfigMapDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return origin.validateOptionalConfigMapReferences()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (origin *AfdOrigin) validateConfigMapDestinations() (admission.Warnings, error) {
-	if origin.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(origin, nil, origin.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
-func (origin *AfdOrigin) validateOptionalConfigMapReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindOptionalConfigMapReferences(&origin.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return configmaps.ValidateOptionalReferences(refs)
-}
-
-// validateOwnerReference validates the owner field
-func (origin *AfdOrigin) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(origin)
-}
-
-// validateResourceReferences validates all resource references
-func (origin *AfdOrigin) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&origin.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (origin *AfdOrigin) validateSecretDestinations() (admission.Warnings, error) {
-	if origin.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(origin, nil, origin.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (origin *AfdOrigin) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*AfdOrigin)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, origin)
 }
 
 // AssignProperties_From_AfdOrigin populates our AfdOrigin from the provided source AfdOrigin

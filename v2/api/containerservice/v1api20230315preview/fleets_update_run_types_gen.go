@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230315preview/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230315preview/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -16,10 +15,8 @@ import (
 	"github.com/rotisserie/eris"
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -71,29 +68,6 @@ func (updateRun *FleetsUpdateRun) ConvertTo(hub conversion.Hub) error {
 
 	return updateRun.AssignProperties_To_FleetsUpdateRun(destination)
 }
-
-// +kubebuilder:webhook:path=/mutate-containerservice-azure-com-v1api20230315preview-fleetsupdaterun,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=containerservice.azure.com,resources=fleetsupdateruns,verbs=create;update,versions=v1api20230315preview,name=default.v1api20230315preview.fleetsupdateruns.containerservice.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &FleetsUpdateRun{}
-
-// Default applies defaults to the FleetsUpdateRun resource
-func (updateRun *FleetsUpdateRun) Default() {
-	updateRun.defaultImpl()
-	var temp any = updateRun
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (updateRun *FleetsUpdateRun) defaultAzureName() {
-	if updateRun.Spec.AzureName == "" {
-		updateRun.Spec.AzureName = updateRun.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the FleetsUpdateRun resource
-func (updateRun *FleetsUpdateRun) defaultImpl() { updateRun.defaultAzureName() }
 
 var _ configmaps.Exporter = &FleetsUpdateRun{}
 
@@ -199,109 +173,6 @@ func (updateRun *FleetsUpdateRun) SetStatus(status genruntime.ConvertibleStatus)
 
 	updateRun.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-containerservice-azure-com-v1api20230315preview-fleetsupdaterun,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=containerservice.azure.com,resources=fleetsupdateruns,verbs=create;update,versions=v1api20230315preview,name=validate.v1api20230315preview.fleetsupdateruns.containerservice.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &FleetsUpdateRun{}
-
-// ValidateCreate validates the creation of the resource
-func (updateRun *FleetsUpdateRun) ValidateCreate() (admission.Warnings, error) {
-	validations := updateRun.createValidations()
-	var temp any = updateRun
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (updateRun *FleetsUpdateRun) ValidateDelete() (admission.Warnings, error) {
-	validations := updateRun.deleteValidations()
-	var temp any = updateRun
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (updateRun *FleetsUpdateRun) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := updateRun.updateValidations()
-	var temp any = updateRun
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (updateRun *FleetsUpdateRun) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){updateRun.validateResourceReferences, updateRun.validateOwnerReference, updateRun.validateSecretDestinations, updateRun.validateConfigMapDestinations}
-}
-
-// deleteValidations validates the deletion of the resource
-func (updateRun *FleetsUpdateRun) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (updateRun *FleetsUpdateRun) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return updateRun.validateResourceReferences()
-		},
-		updateRun.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return updateRun.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return updateRun.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return updateRun.validateConfigMapDestinations()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (updateRun *FleetsUpdateRun) validateConfigMapDestinations() (admission.Warnings, error) {
-	if updateRun.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(updateRun, nil, updateRun.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOwnerReference validates the owner field
-func (updateRun *FleetsUpdateRun) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(updateRun)
-}
-
-// validateResourceReferences validates all resource references
-func (updateRun *FleetsUpdateRun) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&updateRun.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (updateRun *FleetsUpdateRun) validateSecretDestinations() (admission.Warnings, error) {
-	if updateRun.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(updateRun, nil, updateRun.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (updateRun *FleetsUpdateRun) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*FleetsUpdateRun)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, updateRun)
 }
 
 // AssignProperties_From_FleetsUpdateRun populates our FleetsUpdateRun from the provided source FleetsUpdateRun

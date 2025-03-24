@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/app/v1api20240301/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/app/v1api20240301/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -16,10 +15,8 @@ import (
 	"github.com/rotisserie/eris"
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -69,29 +66,6 @@ func (job *Job) ConvertTo(hub conversion.Hub) error {
 
 	return job.AssignProperties_To_Job(destination)
 }
-
-// +kubebuilder:webhook:path=/mutate-app-azure-com-v1api20240301-job,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=app.azure.com,resources=jobs,verbs=create;update,versions=v1api20240301,name=default.v1api20240301.jobs.app.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &Job{}
-
-// Default applies defaults to the Job resource
-func (job *Job) Default() {
-	job.defaultImpl()
-	var temp any = job
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (job *Job) defaultAzureName() {
-	if job.Spec.AzureName == "" {
-		job.Spec.AzureName = job.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the Job resource
-func (job *Job) defaultImpl() { job.defaultAzureName() }
 
 var _ configmaps.Exporter = &Job{}
 
@@ -197,109 +171,6 @@ func (job *Job) SetStatus(status genruntime.ConvertibleStatus) error {
 
 	job.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-app-azure-com-v1api20240301-job,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=app.azure.com,resources=jobs,verbs=create;update,versions=v1api20240301,name=validate.v1api20240301.jobs.app.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &Job{}
-
-// ValidateCreate validates the creation of the resource
-func (job *Job) ValidateCreate() (admission.Warnings, error) {
-	validations := job.createValidations()
-	var temp any = job
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (job *Job) ValidateDelete() (admission.Warnings, error) {
-	validations := job.deleteValidations()
-	var temp any = job
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (job *Job) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := job.updateValidations()
-	var temp any = job
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (job *Job) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){job.validateResourceReferences, job.validateOwnerReference, job.validateSecretDestinations, job.validateConfigMapDestinations}
-}
-
-// deleteValidations validates the deletion of the resource
-func (job *Job) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (job *Job) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return job.validateResourceReferences()
-		},
-		job.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return job.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return job.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return job.validateConfigMapDestinations()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (job *Job) validateConfigMapDestinations() (admission.Warnings, error) {
-	if job.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(job, nil, job.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOwnerReference validates the owner field
-func (job *Job) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(job)
-}
-
-// validateResourceReferences validates all resource references
-func (job *Job) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&job.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (job *Job) validateSecretDestinations() (admission.Warnings, error) {
-	if job.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(job, nil, job.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (job *Job) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*Job)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, job)
 }
 
 // AssignProperties_From_Job populates our Job from the provided source Job

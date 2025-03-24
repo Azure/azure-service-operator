@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -15,10 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -84,29 +81,6 @@ func (function *SqlDatabaseContainerUserDefinedFunction) ConvertTo(hub conversio
 
 	return nil
 }
-
-// +kubebuilder:webhook:path=/mutate-documentdb-azure-com-v1api20210515-sqldatabasecontaineruserdefinedfunction,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=sqldatabasecontaineruserdefinedfunctions,verbs=create;update,versions=v1api20210515,name=default.v1api20210515.sqldatabasecontaineruserdefinedfunctions.documentdb.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &SqlDatabaseContainerUserDefinedFunction{}
-
-// Default applies defaults to the SqlDatabaseContainerUserDefinedFunction resource
-func (function *SqlDatabaseContainerUserDefinedFunction) Default() {
-	function.defaultImpl()
-	var temp any = function
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (function *SqlDatabaseContainerUserDefinedFunction) defaultAzureName() {
-	if function.Spec.AzureName == "" {
-		function.Spec.AzureName = function.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the SqlDatabaseContainerUserDefinedFunction resource
-func (function *SqlDatabaseContainerUserDefinedFunction) defaultImpl() { function.defaultAzureName() }
 
 var _ configmaps.Exporter = &SqlDatabaseContainerUserDefinedFunction{}
 
@@ -201,109 +175,6 @@ func (function *SqlDatabaseContainerUserDefinedFunction) SetStatus(status genrun
 
 	function.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-documentdb-azure-com-v1api20210515-sqldatabasecontaineruserdefinedfunction,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=sqldatabasecontaineruserdefinedfunctions,verbs=create;update,versions=v1api20210515,name=validate.v1api20210515.sqldatabasecontaineruserdefinedfunctions.documentdb.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &SqlDatabaseContainerUserDefinedFunction{}
-
-// ValidateCreate validates the creation of the resource
-func (function *SqlDatabaseContainerUserDefinedFunction) ValidateCreate() (admission.Warnings, error) {
-	validations := function.createValidations()
-	var temp any = function
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (function *SqlDatabaseContainerUserDefinedFunction) ValidateDelete() (admission.Warnings, error) {
-	validations := function.deleteValidations()
-	var temp any = function
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (function *SqlDatabaseContainerUserDefinedFunction) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := function.updateValidations()
-	var temp any = function
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (function *SqlDatabaseContainerUserDefinedFunction) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){function.validateResourceReferences, function.validateOwnerReference, function.validateSecretDestinations, function.validateConfigMapDestinations}
-}
-
-// deleteValidations validates the deletion of the resource
-func (function *SqlDatabaseContainerUserDefinedFunction) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (function *SqlDatabaseContainerUserDefinedFunction) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return function.validateResourceReferences()
-		},
-		function.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return function.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return function.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return function.validateConfigMapDestinations()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (function *SqlDatabaseContainerUserDefinedFunction) validateConfigMapDestinations() (admission.Warnings, error) {
-	if function.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(function, nil, function.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOwnerReference validates the owner field
-func (function *SqlDatabaseContainerUserDefinedFunction) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(function)
-}
-
-// validateResourceReferences validates all resource references
-func (function *SqlDatabaseContainerUserDefinedFunction) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&function.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (function *SqlDatabaseContainerUserDefinedFunction) validateSecretDestinations() (admission.Warnings, error) {
-	if function.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(function, nil, function.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (function *SqlDatabaseContainerUserDefinedFunction) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*SqlDatabaseContainerUserDefinedFunction)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, function)
 }
 
 // AssignProperties_From_SqlDatabaseContainerUserDefinedFunction populates our SqlDatabaseContainerUserDefinedFunction from the provided source SqlDatabaseContainerUserDefinedFunction

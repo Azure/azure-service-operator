@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20221001preview/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20221001preview/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -15,10 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -84,29 +81,6 @@ func (subscription *NamespacesTopicsSubscription) ConvertTo(hub conversion.Hub) 
 
 	return nil
 }
-
-// +kubebuilder:webhook:path=/mutate-servicebus-azure-com-v1api20221001preview-namespacestopicssubscription,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=servicebus.azure.com,resources=namespacestopicssubscriptions,verbs=create;update,versions=v1api20221001preview,name=default.v1api20221001preview.namespacestopicssubscriptions.servicebus.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &NamespacesTopicsSubscription{}
-
-// Default applies defaults to the NamespacesTopicsSubscription resource
-func (subscription *NamespacesTopicsSubscription) Default() {
-	subscription.defaultImpl()
-	var temp any = subscription
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (subscription *NamespacesTopicsSubscription) defaultAzureName() {
-	if subscription.Spec.AzureName == "" {
-		subscription.Spec.AzureName = subscription.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the NamespacesTopicsSubscription resource
-func (subscription *NamespacesTopicsSubscription) defaultImpl() { subscription.defaultAzureName() }
 
 var _ configmaps.Exporter = &NamespacesTopicsSubscription{}
 
@@ -201,109 +175,6 @@ func (subscription *NamespacesTopicsSubscription) SetStatus(status genruntime.Co
 
 	subscription.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-servicebus-azure-com-v1api20221001preview-namespacestopicssubscription,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=servicebus.azure.com,resources=namespacestopicssubscriptions,verbs=create;update,versions=v1api20221001preview,name=validate.v1api20221001preview.namespacestopicssubscriptions.servicebus.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &NamespacesTopicsSubscription{}
-
-// ValidateCreate validates the creation of the resource
-func (subscription *NamespacesTopicsSubscription) ValidateCreate() (admission.Warnings, error) {
-	validations := subscription.createValidations()
-	var temp any = subscription
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (subscription *NamespacesTopicsSubscription) ValidateDelete() (admission.Warnings, error) {
-	validations := subscription.deleteValidations()
-	var temp any = subscription
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (subscription *NamespacesTopicsSubscription) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := subscription.updateValidations()
-	var temp any = subscription
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (subscription *NamespacesTopicsSubscription) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){subscription.validateResourceReferences, subscription.validateOwnerReference, subscription.validateSecretDestinations, subscription.validateConfigMapDestinations}
-}
-
-// deleteValidations validates the deletion of the resource
-func (subscription *NamespacesTopicsSubscription) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (subscription *NamespacesTopicsSubscription) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return subscription.validateResourceReferences()
-		},
-		subscription.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return subscription.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return subscription.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return subscription.validateConfigMapDestinations()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (subscription *NamespacesTopicsSubscription) validateConfigMapDestinations() (admission.Warnings, error) {
-	if subscription.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(subscription, nil, subscription.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOwnerReference validates the owner field
-func (subscription *NamespacesTopicsSubscription) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(subscription)
-}
-
-// validateResourceReferences validates all resource references
-func (subscription *NamespacesTopicsSubscription) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&subscription.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (subscription *NamespacesTopicsSubscription) validateSecretDestinations() (admission.Warnings, error) {
-	if subscription.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(subscription, nil, subscription.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (subscription *NamespacesTopicsSubscription) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*NamespacesTopicsSubscription)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, subscription)
 }
 
 // AssignProperties_From_NamespacesTopicsSubscription populates our NamespacesTopicsSubscription from the provided source NamespacesTopicsSubscription

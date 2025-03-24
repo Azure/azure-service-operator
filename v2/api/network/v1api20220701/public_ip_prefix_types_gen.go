@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -15,10 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -84,29 +81,6 @@ func (prefix *PublicIPPrefix) ConvertTo(hub conversion.Hub) error {
 
 	return nil
 }
-
-// +kubebuilder:webhook:path=/mutate-network-azure-com-v1api20220701-publicipprefix,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=publicipprefixes,verbs=create;update,versions=v1api20220701,name=default.v1api20220701.publicipprefixes.network.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &PublicIPPrefix{}
-
-// Default applies defaults to the PublicIPPrefix resource
-func (prefix *PublicIPPrefix) Default() {
-	prefix.defaultImpl()
-	var temp any = prefix
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (prefix *PublicIPPrefix) defaultAzureName() {
-	if prefix.Spec.AzureName == "" {
-		prefix.Spec.AzureName = prefix.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the PublicIPPrefix resource
-func (prefix *PublicIPPrefix) defaultImpl() { prefix.defaultAzureName() }
 
 var _ configmaps.Exporter = &PublicIPPrefix{}
 
@@ -201,109 +175,6 @@ func (prefix *PublicIPPrefix) SetStatus(status genruntime.ConvertibleStatus) err
 
 	prefix.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-network-azure-com-v1api20220701-publicipprefix,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=publicipprefixes,verbs=create;update,versions=v1api20220701,name=validate.v1api20220701.publicipprefixes.network.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &PublicIPPrefix{}
-
-// ValidateCreate validates the creation of the resource
-func (prefix *PublicIPPrefix) ValidateCreate() (admission.Warnings, error) {
-	validations := prefix.createValidations()
-	var temp any = prefix
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (prefix *PublicIPPrefix) ValidateDelete() (admission.Warnings, error) {
-	validations := prefix.deleteValidations()
-	var temp any = prefix
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (prefix *PublicIPPrefix) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := prefix.updateValidations()
-	var temp any = prefix
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (prefix *PublicIPPrefix) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){prefix.validateResourceReferences, prefix.validateOwnerReference, prefix.validateSecretDestinations, prefix.validateConfigMapDestinations}
-}
-
-// deleteValidations validates the deletion of the resource
-func (prefix *PublicIPPrefix) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (prefix *PublicIPPrefix) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return prefix.validateResourceReferences()
-		},
-		prefix.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return prefix.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return prefix.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return prefix.validateConfigMapDestinations()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (prefix *PublicIPPrefix) validateConfigMapDestinations() (admission.Warnings, error) {
-	if prefix.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(prefix, nil, prefix.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOwnerReference validates the owner field
-func (prefix *PublicIPPrefix) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(prefix)
-}
-
-// validateResourceReferences validates all resource references
-func (prefix *PublicIPPrefix) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&prefix.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (prefix *PublicIPPrefix) validateSecretDestinations() (admission.Warnings, error) {
-	if prefix.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(prefix, nil, prefix.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (prefix *PublicIPPrefix) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*PublicIPPrefix)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, prefix)
 }
 
 // AssignProperties_From_PublicIPPrefix populates our PublicIPPrefix from the provided source PublicIPPrefix

@@ -9,7 +9,6 @@ import (
 	arm "github.com/Azure/azure-service-operator/v2/api/app/v1api20240301/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/app/v1api20240301/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -18,11 +17,9 @@ import (
 	"github.com/go-logr/logr"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -74,29 +71,6 @@ func (containerApp *ContainerApp) ConvertTo(hub conversion.Hub) error {
 
 	return containerApp.AssignProperties_To_ContainerApp(destination)
 }
-
-// +kubebuilder:webhook:path=/mutate-app-azure-com-v1api20240301-containerapp,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=app.azure.com,resources=containerapps,verbs=create;update,versions=v1api20240301,name=default.v1api20240301.containerapps.app.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &ContainerApp{}
-
-// Default applies defaults to the ContainerApp resource
-func (containerApp *ContainerApp) Default() {
-	containerApp.defaultImpl()
-	var temp any = containerApp
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (containerApp *ContainerApp) defaultAzureName() {
-	if containerApp.Spec.AzureName == "" {
-		containerApp.Spec.AzureName = containerApp.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the ContainerApp resource
-func (containerApp *ContainerApp) defaultImpl() { containerApp.defaultAzureName() }
 
 var _ configmaps.Exporter = &ContainerApp{}
 
@@ -224,116 +198,6 @@ func (containerApp *ContainerApp) SetStatus(status genruntime.ConvertibleStatus)
 
 	containerApp.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-app-azure-com-v1api20240301-containerapp,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=app.azure.com,resources=containerapps,verbs=create;update,versions=v1api20240301,name=validate.v1api20240301.containerapps.app.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &ContainerApp{}
-
-// ValidateCreate validates the creation of the resource
-func (containerApp *ContainerApp) ValidateCreate() (admission.Warnings, error) {
-	validations := containerApp.createValidations()
-	var temp any = containerApp
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (containerApp *ContainerApp) ValidateDelete() (admission.Warnings, error) {
-	validations := containerApp.deleteValidations()
-	var temp any = containerApp
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (containerApp *ContainerApp) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := containerApp.updateValidations()
-	var temp any = containerApp
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (containerApp *ContainerApp) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){containerApp.validateResourceReferences, containerApp.validateOwnerReference, containerApp.validateSecretDestinations, containerApp.validateConfigMapDestinations}
-}
-
-// deleteValidations validates the deletion of the resource
-func (containerApp *ContainerApp) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (containerApp *ContainerApp) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return containerApp.validateResourceReferences()
-		},
-		containerApp.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return containerApp.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return containerApp.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return containerApp.validateConfigMapDestinations()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (containerApp *ContainerApp) validateConfigMapDestinations() (admission.Warnings, error) {
-	if containerApp.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	var toValidate []*genruntime.ConfigMapDestination
-	if containerApp.Spec.OperatorSpec.ConfigMaps != nil {
-		toValidate = []*genruntime.ConfigMapDestination{
-			containerApp.Spec.OperatorSpec.ConfigMaps.EventStreamEndpoint,
-			containerApp.Spec.OperatorSpec.ConfigMaps.Fqdn,
-		}
-	}
-	return configmaps.ValidateDestinations(containerApp, toValidate, containerApp.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOwnerReference validates the owner field
-func (containerApp *ContainerApp) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(containerApp)
-}
-
-// validateResourceReferences validates all resource references
-func (containerApp *ContainerApp) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&containerApp.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (containerApp *ContainerApp) validateSecretDestinations() (admission.Warnings, error) {
-	if containerApp.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(containerApp, nil, containerApp.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (containerApp *ContainerApp) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*ContainerApp)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, containerApp)
 }
 
 // AssignProperties_From_ContainerApp populates our ContainerApp from the provided source ContainerApp

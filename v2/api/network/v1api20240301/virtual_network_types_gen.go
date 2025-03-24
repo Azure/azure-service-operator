@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -15,10 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -70,29 +67,6 @@ func (network *VirtualNetwork) ConvertTo(hub conversion.Hub) error {
 
 	return network.AssignProperties_To_VirtualNetwork(destination)
 }
-
-// +kubebuilder:webhook:path=/mutate-network-azure-com-v1api20240301-virtualnetwork,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=virtualnetworks,verbs=create;update,versions=v1api20240301,name=default.v1api20240301.virtualnetworks.network.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &VirtualNetwork{}
-
-// Default applies defaults to the VirtualNetwork resource
-func (network *VirtualNetwork) Default() {
-	network.defaultImpl()
-	var temp any = network
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (network *VirtualNetwork) defaultAzureName() {
-	if network.Spec.AzureName == "" {
-		network.Spec.AzureName = network.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the VirtualNetwork resource
-func (network *VirtualNetwork) defaultImpl() { network.defaultAzureName() }
 
 var _ configmaps.Exporter = &VirtualNetwork{}
 
@@ -198,109 +172,6 @@ func (network *VirtualNetwork) SetStatus(status genruntime.ConvertibleStatus) er
 
 	network.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-network-azure-com-v1api20240301-virtualnetwork,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=virtualnetworks,verbs=create;update,versions=v1api20240301,name=validate.v1api20240301.virtualnetworks.network.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &VirtualNetwork{}
-
-// ValidateCreate validates the creation of the resource
-func (network *VirtualNetwork) ValidateCreate() (admission.Warnings, error) {
-	validations := network.createValidations()
-	var temp any = network
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (network *VirtualNetwork) ValidateDelete() (admission.Warnings, error) {
-	validations := network.deleteValidations()
-	var temp any = network
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (network *VirtualNetwork) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := network.updateValidations()
-	var temp any = network
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (network *VirtualNetwork) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){network.validateResourceReferences, network.validateOwnerReference, network.validateSecretDestinations, network.validateConfigMapDestinations}
-}
-
-// deleteValidations validates the deletion of the resource
-func (network *VirtualNetwork) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (network *VirtualNetwork) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return network.validateResourceReferences()
-		},
-		network.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return network.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return network.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return network.validateConfigMapDestinations()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (network *VirtualNetwork) validateConfigMapDestinations() (admission.Warnings, error) {
-	if network.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(network, nil, network.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOwnerReference validates the owner field
-func (network *VirtualNetwork) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(network)
-}
-
-// validateResourceReferences validates all resource references
-func (network *VirtualNetwork) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&network.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (network *VirtualNetwork) validateSecretDestinations() (admission.Warnings, error) {
-	if network.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(network, nil, network.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (network *VirtualNetwork) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*VirtualNetwork)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, network)
 }
 
 // AssignProperties_From_VirtualNetwork populates our VirtualNetwork from the provided source VirtualNetwork

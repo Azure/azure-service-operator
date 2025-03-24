@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -15,10 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -69,31 +66,6 @@ func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) ConvertTo(hub co
 	}
 
 	return policy.AssignProperties_To_AuthorizationProvidersAuthorizationsAccessPolicy(destination)
-}
-
-// +kubebuilder:webhook:path=/mutate-apimanagement-azure-com-v1api20220801-authorizationprovidersauthorizationsaccesspolicy,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=apimanagement.azure.com,resources=authorizationprovidersauthorizationsaccesspolicies,verbs=create;update,versions=v1api20220801,name=default.v1api20220801.authorizationprovidersauthorizationsaccesspolicies.apimanagement.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &AuthorizationProvidersAuthorizationsAccessPolicy{}
-
-// Default applies defaults to the AuthorizationProvidersAuthorizationsAccessPolicy resource
-func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) Default() {
-	policy.defaultImpl()
-	var temp any = policy
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) defaultAzureName() {
-	if policy.Spec.AzureName == "" {
-		policy.Spec.AzureName = policy.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the AuthorizationProvidersAuthorizationsAccessPolicy resource
-func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) defaultImpl() {
-	policy.defaultAzureName()
 }
 
 var _ configmaps.Exporter = &AuthorizationProvidersAuthorizationsAccessPolicy{}
@@ -200,121 +172,6 @@ func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) SetStatus(status
 
 	policy.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-apimanagement-azure-com-v1api20220801-authorizationprovidersauthorizationsaccesspolicy,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=apimanagement.azure.com,resources=authorizationprovidersauthorizationsaccesspolicies,verbs=create;update,versions=v1api20220801,name=validate.v1api20220801.authorizationprovidersauthorizationsaccesspolicies.apimanagement.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &AuthorizationProvidersAuthorizationsAccessPolicy{}
-
-// ValidateCreate validates the creation of the resource
-func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) ValidateCreate() (admission.Warnings, error) {
-	validations := policy.createValidations()
-	var temp any = policy
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) ValidateDelete() (admission.Warnings, error) {
-	validations := policy.deleteValidations()
-	var temp any = policy
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := policy.updateValidations()
-	var temp any = policy
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){policy.validateResourceReferences, policy.validateOwnerReference, policy.validateSecretDestinations, policy.validateConfigMapDestinations, policy.validateOptionalConfigMapReferences}
-}
-
-// deleteValidations validates the deletion of the resource
-func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return policy.validateResourceReferences()
-		},
-		policy.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return policy.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return policy.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return policy.validateConfigMapDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return policy.validateOptionalConfigMapReferences()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) validateConfigMapDestinations() (admission.Warnings, error) {
-	if policy.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(policy, nil, policy.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
-func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) validateOptionalConfigMapReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindOptionalConfigMapReferences(&policy.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return configmaps.ValidateOptionalReferences(refs)
-}
-
-// validateOwnerReference validates the owner field
-func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(policy)
-}
-
-// validateResourceReferences validates all resource references
-func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&policy.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) validateSecretDestinations() (admission.Warnings, error) {
-	if policy.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(policy, nil, policy.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*AuthorizationProvidersAuthorizationsAccessPolicy)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, policy)
 }
 
 // AssignProperties_From_AuthorizationProvidersAuthorizationsAccessPolicy populates our AuthorizationProvidersAuthorizationsAccessPolicy from the provided source AuthorizationProvidersAuthorizationsAccessPolicy

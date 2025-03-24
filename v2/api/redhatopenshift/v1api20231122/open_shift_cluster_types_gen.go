@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20231122/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20231122/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -15,10 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -70,29 +67,6 @@ func (cluster *OpenShiftCluster) ConvertTo(hub conversion.Hub) error {
 
 	return cluster.AssignProperties_To_OpenShiftCluster(destination)
 }
-
-// +kubebuilder:webhook:path=/mutate-redhatopenshift-azure-com-v1api20231122-openshiftcluster,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=redhatopenshift.azure.com,resources=openshiftclusters,verbs=create;update,versions=v1api20231122,name=default.v1api20231122.openshiftclusters.redhatopenshift.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &OpenShiftCluster{}
-
-// Default applies defaults to the OpenShiftCluster resource
-func (cluster *OpenShiftCluster) Default() {
-	cluster.defaultImpl()
-	var temp any = cluster
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (cluster *OpenShiftCluster) defaultAzureName() {
-	if cluster.Spec.AzureName == "" {
-		cluster.Spec.AzureName = cluster.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the OpenShiftCluster resource
-func (cluster *OpenShiftCluster) defaultImpl() { cluster.defaultAzureName() }
 
 var _ configmaps.Exporter = &OpenShiftCluster{}
 
@@ -198,121 +172,6 @@ func (cluster *OpenShiftCluster) SetStatus(status genruntime.ConvertibleStatus) 
 
 	cluster.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-redhatopenshift-azure-com-v1api20231122-openshiftcluster,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=redhatopenshift.azure.com,resources=openshiftclusters,verbs=create;update,versions=v1api20231122,name=validate.v1api20231122.openshiftclusters.redhatopenshift.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &OpenShiftCluster{}
-
-// ValidateCreate validates the creation of the resource
-func (cluster *OpenShiftCluster) ValidateCreate() (admission.Warnings, error) {
-	validations := cluster.createValidations()
-	var temp any = cluster
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (cluster *OpenShiftCluster) ValidateDelete() (admission.Warnings, error) {
-	validations := cluster.deleteValidations()
-	var temp any = cluster
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (cluster *OpenShiftCluster) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := cluster.updateValidations()
-	var temp any = cluster
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (cluster *OpenShiftCluster) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){cluster.validateResourceReferences, cluster.validateOwnerReference, cluster.validateSecretDestinations, cluster.validateConfigMapDestinations, cluster.validateOptionalConfigMapReferences}
-}
-
-// deleteValidations validates the deletion of the resource
-func (cluster *OpenShiftCluster) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (cluster *OpenShiftCluster) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return cluster.validateResourceReferences()
-		},
-		cluster.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return cluster.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return cluster.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return cluster.validateConfigMapDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return cluster.validateOptionalConfigMapReferences()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (cluster *OpenShiftCluster) validateConfigMapDestinations() (admission.Warnings, error) {
-	if cluster.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(cluster, nil, cluster.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
-func (cluster *OpenShiftCluster) validateOptionalConfigMapReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindOptionalConfigMapReferences(&cluster.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return configmaps.ValidateOptionalReferences(refs)
-}
-
-// validateOwnerReference validates the owner field
-func (cluster *OpenShiftCluster) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(cluster)
-}
-
-// validateResourceReferences validates all resource references
-func (cluster *OpenShiftCluster) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&cluster.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (cluster *OpenShiftCluster) validateSecretDestinations() (admission.Warnings, error) {
-	if cluster.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(cluster, nil, cluster.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (cluster *OpenShiftCluster) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*OpenShiftCluster)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, cluster)
 }
 
 // AssignProperties_From_OpenShiftCluster populates our OpenShiftCluster from the provided source OpenShiftCluster
