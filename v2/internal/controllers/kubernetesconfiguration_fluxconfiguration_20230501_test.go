@@ -28,6 +28,18 @@ func Test_KubernetesConfiguration_FluxConfiguration_20230501_CRUD(t *testing.T) 
 
 	tc.CreateResourceAndWait(cluster)
 
+	// We need flux extension before adding flux configurations
+	fluxExtension := &kubernetesconfiguration.Extension{
+		ObjectMeta: tc.MakeObjectMeta("extension"),
+		Spec: kubernetesconfiguration.Extension_Spec{
+			AutoUpgradeMinorVersion: to.Ptr(true),
+			ExtensionType:           to.Ptr("microsoft.flux"),
+			Owner:                   tc.AsExtensionOwner(cluster),
+		},
+	}
+
+	tc.CreateResourceAndWait(fluxExtension)
+
 	// Example from https://learn.microsoft.com/en-us/rest/api/kubernetesconfiguration/flux-configurations/create-or-update?view=rest-kubernetesconfiguration-2023-05-01
 	flux := &kubernetesconfiguration.FluxConfiguration{
 		ObjectMeta: tc.MakeObjectMeta("flux"),

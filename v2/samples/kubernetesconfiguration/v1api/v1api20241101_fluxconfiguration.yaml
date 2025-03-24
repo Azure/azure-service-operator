@@ -5,7 +5,7 @@ metadata:
   namespace: default
 spec:
   gitRepository:
-    provider: generic
+    provider: Generic
     repositoryRef:
       branch: master
     url: https://github.com/Azure/arc-k8s-demo
