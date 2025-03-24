@@ -5,7 +5,7 @@ destinationGoModuleFile: go.mod
 # typesOutputPath specifies the output folder name, relative to the directory containing the mod file above.
 typesOutputPath: api
 
-# typeRegistrationOutputFile specifies the output file name for registration code, relative to the directory
+# typeRegistrationOutputFile specifies the output file name for registration code, relative to the directory 
 # containing the mod file above.
 typeRegistrationOutputFile: internal/controllers/controller_resources_gen.go
 
@@ -34,7 +34,7 @@ supportedResourcesReport:
   currentRelease: v2.12.0
 
 #
-# These filters are used early in the processing pipeline.
+# These filters are used early in the processing pipeline. 
 #
 # We exclude types with known problems, types that we don't need, and other types that may cause issues.
 # The 'because' value for each filter describes the reason why the filter is present.
@@ -45,7 +45,7 @@ typeFilters:
   - action: include
     group: containerservice
     because: We know ContainerService doesn't do weird things with their previews
-
+    
   - action: include
     group: servicebus
     version: v*20210101preview;v*20221001preview
@@ -141,10 +141,10 @@ typeFilters:
     because: QueryFilter is a self-referential, infinitely recursive type. We can't easily unroll it and controller-gen doesn't support recursive types
 
 #
-# When loading resources, it's possible for us to end up with a name collision if two resources
-# specify similar URLs (we derive the names from the structure of the ARM URL specified for the
+# When loading resources, it's possible for us to end up with a name collision if two resources 
+# specify similar URLs (we derive the names from the structure of the ARM URL specified for the 
 # resource). This is an extremely rare event.
-# Because this happens so early in the operation of our pipeline, our existing mechanisms for
+# Because this happens so early in the operation of our pipeline, our existing mechanisms for 
 # disambiguation and renaming can't be applied, so we special case them here.
 #
 # This is configuration of last resort; in most cases, you should use the objectModelConfiguration
@@ -162,14 +162,14 @@ typeLoaderRenames:
 anyTypePackages:
 
 
-#
-# Type Transformers are used to make precision edits to the object model we've loaded from the
+# 
+# Type Transformers are used to make precision edits to the object model we've loaded from the 
 # original OpenAPI/Swagger files.
 #
-# We need these because there is great variability in how different product groups define their
+# We need these because there is great variability in how different product groups define their 
 # APIs, and because some of the common constructs that are used can't be directly handled in Go.
 #
-# The available properties fall into two groups - the first used to select which type needs to be
+# The available properties fall into two groups - the first used to select which type needs to be 
 # transformed, and the second to define the required transformation.
 #
 # Selection Properties
@@ -195,14 +195,14 @@ anyTypePackages:
 # Some of the transformations below have been commented to illustrate use.
 #
 typeTransformers:
-  #
+  # 
   # Match the property 'Tags' on any type,
   # but only if it has the type 'map[string]any'
   # and replace it with 'map[string]string'
   #
   - name: "*"
     property: Tags
-    ifType:
+    ifType: 
       map:
         key:
           name: string
@@ -210,16 +210,16 @@ typeTransformers:
           name: any
     target:
       map:
-        key:
+        key: 
           name: string
         value:
           name: string
     because: Tags is defined as map[string]interface{} when it should be map[string]string
 
   #
-  # In the group 'cache',
+  # In the group 'cache', 
   # remove the property'RedisProperties_Status.AccessKeys'
-  # because it's only populated in a response from Azure
+  # because it's only populated in a response from Azure 
   #
 
   - group: kubernetesconfiguration
@@ -240,7 +240,7 @@ typeTransformers:
   # redefine the property 'CreateMode' to be an enum with four values
   #
   - group: keyvault
-    name: VaultProperties_CreateMode;VaultProperties_CreateMode_STATUS
+    name: VaultProperties_CreateMode;VaultProperties_CreateMode_STATUS 
     target:
       enum:
         base: string
@@ -253,10 +253,10 @@ typeTransformers:
 
   #
   # In the group 'insights'
-  # rename the object 'AutoscaleSetting'
+  # rename the object 'AutoscaleSetting' 
   # to 'AutoscaleSettingProperties'.
   #
-  # Using object: true so that we don't rename the
+  # Using object: true so that we don't rename the 
   # resource `Autoscalesetting` (with a lowercase 's') as well
   #
   - group: insights
@@ -266,10 +266,10 @@ typeTransformers:
       object: true
     because: We want to use the name `AutoscaleSetting` (with a capital 'S') for the resource
 
-  #
-  # In the group 'apimanagement',
+  # 
+  # In the group 'apimanagement', 
   # remove the properties 'ApiManagementServiceProperties.PrivateEndpointConnections', 'AuthorizationContractProperties.Error' and 'AuthorizationContractProperties.Status'
-  #
+  # 
   - group: apimanagement
     name: ApiManagementServiceProperties
     property: PrivateEndpointConnections
@@ -323,7 +323,7 @@ typeTransformers:
     remove: true
     because: We don't want Protected settings on status
 
-  #
+  # 
   # In the group 'dataprotection',
   # from the type 'BackupVault_Spec',
   # Remove the properties 'Etag' and 'SystemData'
@@ -352,7 +352,7 @@ typeTransformers:
     remove: true
     because: This property should be marked readonly
 
-  #
+  # 
   # In the group 'devices',
   # from the types 'SharedAccessSignatureAuthorizationRule'
   # and 'SharedAccessSignatureAuthorizationRule_STATUS'
@@ -433,8 +433,8 @@ typeTransformers:
     property: MigrationPhase
     remove: true
     because: it is supposed to be marked ReadOnly in Swagger
-
-  #
+  
+  # 
   # In the group 'network'
   # remove the property 'Type'
   # from the following four types
@@ -450,7 +450,7 @@ typeTransformers:
     remove: true
     because: type is supposed to be marked ReadOnly in Swagger
 
-  #
+  # 
   # In the group 'network'
   # remove the property 'Etag'
   # from the following nine types:
@@ -717,7 +717,7 @@ status:
         basePath: 'frontdoor/resource-manager',
         suffix: 'FrontDoor',
     },
-    {
+    { 
         basePath: 'eventgrid/resource-manager',
         resourceConfig: [
             {
@@ -766,7 +766,7 @@ status:
         basePath: 'storSimple1200Series/resource-manager',
         suffix: '1200'
     },
-    {
+    { 
         basePath: 'storsimple8000series/resource-manager',
         suffix: '8000',
     },
@@ -780,8 +780,8 @@ status:
         ]
     },
   ]
-#
-# This section of the configuration file mirrors the hierarchy of generated types, providing
+# 
+# This section of the configuration file mirrors the hierarchy of generated types, providing 
 # additional information about how to handle each one.
 #
 # Each level of the configuration works as follows:
@@ -791,11 +791,11 @@ status:
 #     type:           // A resource or subtype (similar to kubernetes 'kind')
 #       property:     // An attribute found on an object type
 #
-# Please add new elements to this configuration in ALPHABETICAL order to make
+# Please add new elements to this configuration in ALPHABETICAL order to make 
 # it easier for future maintainers to scan for the item they want.
-#
+# 
 # At specific levels, optional modifiers may be injected.
-# All modifiers start with `$` in order to avoid clashes with ARM object and
+# All modifiers start with `$` in order to avoid clashes with ARM object and 
 # property names
 #
 # ===================
@@ -803,7 +803,7 @@ status:
 # ===================
 #
 # $payloadType: <string>
-#     Specifies the type of the payload to generate for the group. This is used to compensate for
+#     Specifies the type of the payload to generate for the group. This is used to compensate for 
 #     some Azure Resource Providers using PATCH semantics instead of PUT semantics for updates.
 #     We control this at the group level because RPs tend to be consistent across all their resources.
 #
@@ -867,7 +867,7 @@ status:
 #     forward and backward conversion.
 #
 # $renameTo: <string>
-#     Changes the name of any type, allowing selective adjustments to make
+#     Changes the name of any type, allowing selective adjustments to make 
 #     names more idiomatic for Go and/or Kubernetes use.
 #
 #     For resource types, prefer $exportAs
@@ -884,10 +884,10 @@ status:
 #     a CRD to below the Kubernetes CRD size limit.
 #
 # $supportedFrom: <version>
-#     Gives the version number of the first release of ASO that provides
+#     Gives the version number of the first release of ASO that provides 
 #     support for this resource.
-#     Note: If the resource is renamed via $exportAs, $supportedFrom won't
-#     work if you put it in the same section as $exportAs; you instead need
+#     Note: If the resource is renamed via $exportAs, $supportedFrom won't 
+#     work if you put it in the same section as $exportAs; you instead need 
 #     to place $supportedFrom in a section using the name specified by $exportAs
 #
 # $isResource: <bool>
@@ -921,7 +921,7 @@ status:
 #     Specifies that the property references a secret
 #     Secrets are string values read from a secure storage by ASO when needed.
 #     Set to `true` to flag this property as a secret. This is an override for when the Swagger
-#     is incomplete. If you specify $isSecret: true, you should also open a PR to update the
+#     is incomplete. If you specify $isSecret: true, you should also open a PR to update the 
 #     upstream Swagger repo spec with the x-ms-secret annotation.
 #     Here's a reference PR: https://github.com/Azure/azure-rest-api-specs/pull/19399
 #
@@ -931,10 +931,10 @@ status:
 #     forward and backward conversion.
 #
 # $referenceType: string
-#     Indicates whether this property is an ARM reference to another resource or some other kind
+#     Indicates whether this property is an ARM reference to another resource or some other kind 
 #     of reference.
 #  o  Set to 'arm' to confirm the property is an ARM reference.
-#  o  Set to 'simple' to indicate this is a simple value not requiring special handling. This is
+#  o  Set to 'simple' to indicate this is a simple value not requiring special handling. This is 
 #     used disable our heuristics if a property is incorrectly identified as an ARM reference.
 #
 # $resourceLifecycleOwnedByParent: <string>
@@ -987,7 +987,7 @@ objectModelConfiguration:
         SourceApiId:
           $referenceType: arm
       ApiVersionSetContractDetails:
-        Id:
+        Id: 
           $referenceType: arm
       ApiManagementServiceProperties:
         PublicIpAddressId:
@@ -1094,7 +1094,7 @@ objectModelConfiguration:
         SourceApiId:
           $referenceType: arm
       ApiVersionSetContractDetails:
-        Id:
+        Id: 
           $referenceType: arm
       ApiManagementServiceProperties:
         PublicIpAddressId:
@@ -1273,7 +1273,7 @@ objectModelConfiguration:
             description: The uuid generation technique to use for any role without an explicit AzureName. One of 'stable' or 'random'. <br> +kubebuilder:validation:Enum={"random","stable"}
       RoleAssignmentProperties:
         DelegatedManagedIdentityResourceId:
-          $referenceType: arm
+          $referenceType: arm 
         RoleDefinitionId:
           $referenceType: arm
         PrincipalId:
@@ -1331,7 +1331,7 @@ objectModelConfiguration:
       Redis_LinkedServer:
         $exportAs: RedisLinkedServer
         $supportedFrom: v2.0.0-alpha.4
-      Redis_PatchSchedule:
+      Redis_PatchSchedule: 
         $exportAs: RedisPatchSchedule
         $supportedFrom: v2.0.0-alpha.4
     2021-03-01:
@@ -1529,7 +1529,7 @@ objectModelConfiguration:
         $export: true
         $supportedFrom: v2.0.0-alpha.4
       SnapshotProperties:
-        DiskAccessId:
+        DiskAccessId: 
           $referenceType: arm
       SourceVault:
         Id:
@@ -1738,7 +1738,7 @@ objectModelConfiguration:
         $supportedFrom: v2.0.0-alpha.6
     2023-07-01:
       KeyVaultProperties:
-        Identity:
+        Identity: 
           $importConfigMapMode: optional
       Registry:
         $export: true
@@ -2065,28 +2065,28 @@ objectModelConfiguration:
       Factory:
         $export: true
         $supportedFrom: v2.1.0
-  dataprotection:
-    2023-01-01:
-      BackupVault:
-        $export: true
-        $supportedFrom: v2.2.0
+  dataprotection: 
+    2023-01-01: 
+      BackupVault: 
+        $export: true 
+        $supportedFrom: v2.2.0 
         $generatedConfigs:
           PrincipalId: $.Status.Identity.PrincipalId
-      BackupVaults_BackupPolicy:
-        $exportAs: BackupVaultsBackupPolicy
+      BackupVaults_BackupPolicy: 
+        $exportAs: BackupVaultsBackupPolicy 
         $supportedFrom: v2.2.0
-    2023-11-01:
-      BackupVault:
-        $export: true
-        $supportedFrom: v2.7.0
+    2023-11-01: 
+      BackupVault: 
+        $export: true 
+        $supportedFrom: v2.7.0 
         $generatedConfigs:
           PrincipalId: $.Status.Identity.PrincipalId
-      BackupVaults_BackupPolicy:
-        $exportAs: BackupVaultsBackupPolicy
-        $supportedFrom: v2.7.0
-      BackupVaults_BackupInstance:
-        $exportAs: BackupVaultsBackupInstance
-        $supportedFrom: v2.7.0
+      BackupVaults_BackupPolicy: 
+        $exportAs: BackupVaultsBackupPolicy 
+        $supportedFrom: v2.7.0 
+      BackupVaults_BackupInstance: 
+        $exportAs: BackupVaultsBackupInstance 
+        $supportedFrom: v2.7.0 
       DatasourceSet:
         ResourceID:
           $referenceType: arm
@@ -2113,7 +2113,7 @@ objectModelConfiguration:
         $exportAs: Database
         $supportedFrom: v2.0.0-beta.1
   dbformysql:
-    v1: # Handcrafted
+    v1: # Handcrafted 
       User:
         $supportedFrom: v2.0.0
     2021-05-01:
@@ -2122,7 +2122,7 @@ objectModelConfiguration:
           $referenceType: arm
         PrimaryUserAssignedIdentityId:
           $referenceType: arm
-      FlexibleServer:
+      FlexibleServer: 
         $export: true
         $supportedFrom: v2.0.0-alpha.2
         $azureGeneratedSecrets:
@@ -2244,7 +2244,7 @@ objectModelConfiguration:
         SourceServerResourceId:
           $referenceType: arm
   dbforpostgresql:
-    v1: # Handcrafted
+    v1: # Handcrafted 
       User:
         $supportedFrom: v2.0.0
     2021-06-01:
@@ -2881,26 +2881,7 @@ objectModelConfiguration:
       GitRepositoryDefinition:
         HttpsCACert:
           $isSecret: true
-    2024-11-01:
-      Extension:
-        $export: true
-        $supportedFrom: v2.13.0
-        $generatedConfigs:
-          PrincipalId: $.Status.AksAssignedIdentity.PrincipalId
-      FluxConfiguration:
-        $export: true
-        $supportedFrom: v2.13.0
-      ServicePrincipalDefinition:
-        ClientId:
-          $importConfigMapMode: optional
-        TenantId:
-          $importConfigMapMode: optional
-      BucketDefinition:
-        AccessKey:
-          $isSecret: true
-      GitRepositoryDefinition:
-        HttpsCACert:
-          $isSecret: true
+
   managedidentity:
     2018-11-30:
       UserAssignedIdentity:
@@ -3446,7 +3427,7 @@ objectModelConfiguration:
         Data:
           $isSecret: true
         Password:
-          $isSecret: true
+          $isSecret: true    
       ApplicationGatewaySslProfile:
         $resourceEmbeddedInParent: ApplicationGateway
       ApplicationGatewayTrustedClientCertificate:
@@ -3458,7 +3439,7 @@ objectModelConfiguration:
         $resourceEmbeddedInParent: ApplicationGateway
       ApplicationGatewayTrustedRootCertificatePropertiesFormat:
         Data:
-          $isSecret: true
+          $isSecret: true      
       ApplicationGatewayUrlPathMap:
         $resourceEmbeddedInParent: ApplicationGateway
       ApplicationGatewayAuthenticationCertificate:
@@ -3972,7 +3953,7 @@ objectModelConfiguration:
         Id:
           $referenceType: arm
   sql:
-    v1: # Handcrafted
+    v1: # Handcrafted 
       User:
         $supportedFrom: v2.0.0
     2021-11-01:
