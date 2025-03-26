@@ -18,7 +18,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-func Test_KubernetesConfiguration_Extension_CRUD(t *testing.T) {
+func Test_KubernetesConfiguration_Extension_20230501_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
@@ -63,7 +63,7 @@ func Test_KubernetesConfiguration_Extension_CRUD(t *testing.T) {
 	tc.Expect(exists).To(BeFalse())
 }
 
-func Test_KubernetesConfiguration_Extension_ProtectedSettings(t *testing.T) {
+func Test_KubernetesConfiguration_Extension_ProtectedSettings_20230501(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
