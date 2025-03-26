@@ -24,21 +24,21 @@
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="KubernetesConfiguration Supported Resources">
   <meta property="og:description" content="To install the CRDs for these resources, your ASO configuration must include kubernetesconfiguration.azure.com/* as a one of the configured CRD patterns. See CRD Management in ASO for details on doing this for both Helm and YAML based installations.
-Released These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
-Resource ARM Version CRD Version Supported From Sample Extension 2023-05-01 v1api20230501 v2.4.0 View FluxConfiguration 2023-05-01 v1api20230501 v2.10.0 View ">
+Next Release Development of these new resources is complete and they will be available in the next release of ASO.
+Resource ARM Version CRD Version Supported From Sample Extension 2024-11-01 v1api20241101 v2.13.0 View FluxConfiguration 2024-11-01 v1api20241101 v2.13.0 View Released These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="website">
 
   <meta itemprop="name" content="KubernetesConfiguration Supported Resources">
   <meta itemprop="description" content="To install the CRDs for these resources, your ASO configuration must include kubernetesconfiguration.azure.com/* as a one of the configured CRD patterns. See CRD Management in ASO for details on doing this for both Helm and YAML based installations.
-Released These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
-Resource ARM Version CRD Version Supported From Sample Extension 2023-05-01 v1api20230501 v2.4.0 View FluxConfiguration 2023-05-01 v1api20230501 v2.10.0 View ">
-  <meta itemprop="wordCount" content="83">
+Next Release Development of these new resources is complete and they will be available in the next release of ASO.
+Resource ARM Version CRD Version Supported From Sample Extension 2024-11-01 v1api20241101 v2.13.0 View FluxConfiguration 2024-11-01 v1api20241101 v2.13.0 View Released These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.">
+  <meta itemprop="wordCount" content="121">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="KubernetesConfiguration Supported Resources">
   <meta name="twitter:description" content="To install the CRDs for these resources, your ASO configuration must include kubernetesconfiguration.azure.com/* as a one of the configured CRD patterns. See CRD Management in ASO for details on doing this for both Helm and YAML based installations.
-Released These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
-Resource ARM Version CRD Version Supported From Sample Extension 2023-05-01 v1api20230501 v2.4.0 View FluxConfiguration 2023-05-01 v1api20230501 v2.10.0 View ">
+Next Release Development of these new resources is complete and they will be available in the next release of ASO.
+Resource ARM Version CRD Version Supported From Sample Extension 2024-11-01 v1api20241101 v2.13.0 View FluxConfiguration 2024-11-01 v1api20241101 v2.13.0 View Released These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.">
 
 
 
@@ -116,6 +116,15 @@ Resource ARM Version CRD Version Supported From Sample Extension 2023-05-01 v1ap
   <a href="/azure-service-operator/guide/upgrading/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideupgrading"><span class="">Upgrading</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidefrequently-asked-questions-li">
   <a href="/azure-service-operator/guide/frequently-asked-questions/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidefrequently-asked-questions"><span class="">FAQ</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguidediagnosing-problems-li">
+  <a href="/azure-service-operator/guide/diagnosing-problems/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidediagnosing-problems"><span class="">Diagnosing problems</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidediagnosing-problemsazure-throttling-li">
+  <a href="/azure-service-operator/guide/diagnosing-problems/azure-throttling/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidediagnosing-problemsazure-throttling"><span class="">ARM Throttling</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidediagnosing-problemsreconciliation-frequency-li">
+  <a href="/azure-service-operator/guide/diagnosing-problems/reconciliation-frequency/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidediagnosing-problemsreconciliation-frequency"><span class="">Reconciliation Frequencey</span></a>
+</li>
+  </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideadoption-li">
   <a href="/azure-service-operator/guide/adoption/" title="Adopting existing Azure resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideadoption"><span class="">Adoption</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideannotations-li">
@@ -169,8 +178,6 @@ Resource ARM Version CRD Version Supported From Sample Extension 2023-05-01 v1ap
   <a href="/azure-service-operator/guide/conditions/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideconditions"><span class="">Conditions</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideaso-controller-settings-options-li">
   <a href="/azure-service-operator/guide/aso-controller-settings-options/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideaso-controller-settings-options"><span class="">Configuring ASO</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidediagnosing-problems-li">
-  <a href="/azure-service-operator/guide/diagnosing-problems/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidediagnosing-problems"><span class="">Diagnosing problems</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideexpressions-li">
   <a href="/azure-service-operator/guide/expressions/" title="CEL Expressions" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideexpressions"><span class="">Expressions</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidesecrets-li">
@@ -774,6 +781,7 @@ Resource ARM Version CRD Version Supported From Sample Extension 2023-05-01 v1ap
   <ul>
     <li>
       <ul>
+        <li><a href="#next-release">Next Release</a></li>
         <li><a href="#released">Released</a></li>
       </ul>
     </li>
@@ -804,6 +812,35 @@ Resource ARM Version CRD Version Supported From Sample Extension 2023-05-01 v1ap
 		
 </header>
 	<p>To install the CRDs for these resources, your ASO configuration must include <code>kubernetesconfiguration.azure.com/*</code> as a one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
+<h3 id="next-release">Next Release</h3>
+<p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Resource</th>
+          <th style="text-align: left">ARM Version</th>
+          <th style="text-align: left">CRD Version</th>
+          <th style="text-align: left">Supported From</th>
+          <th style="text-align: left">Sample</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">Extension</td>
+          <td style="text-align: left">2024-11-01</td>
+          <td style="text-align: left">v1api20241101</td>
+          <td style="text-align: left">v2.13.0</td>
+          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/kubernetesconfiguration/v1api20241101/v1api20241101_extension.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">FluxConfiguration</td>
+          <td style="text-align: left">2024-11-01</td>
+          <td style="text-align: left">v1api20241101</td>
+          <td style="text-align: left">v2.13.0</td>
+          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/kubernetesconfiguration/v1api20241101/v1api20241101_fluxconfiguration.yaml">View</a></td>
+      </tr>
+  </tbody>
+</table>
 <h3 id="released">Released</h3>
 <p>These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
 <table>
@@ -822,14 +859,14 @@ Resource ARM Version CRD Version Supported From Sample Extension 2023-05-01 v1ap
           <td style="text-align: left">2023-05-01</td>
           <td style="text-align: left">v1api20230501</td>
           <td style="text-align: left">v2.4.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/kubernetesconfiguration/v1api/v1api20230501_extension.yaml">View</a></td>
+          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/kubernetesconfiguration/v1api20230501/v1api20230501_extension.yaml">View</a></td>
       </tr>
       <tr>
           <td style="text-align: left"><a href="/azure-service-operator/reference/kubernetesconfiguration/v1api20230501/#FluxConfiguration">FluxConfiguration</a></td>
           <td style="text-align: left">2023-05-01</td>
           <td style="text-align: left">v1api20230501</td>
           <td style="text-align: left">v2.10.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/kubernetesconfiguration/v1api/v1api20230501_fluxconfiguration.yaml">View</a></td>
+          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/kubernetesconfiguration/v1api20230501/v1api20230501_fluxconfiguration.yaml">View</a></td>
       </tr>
   </tbody>
 </table>

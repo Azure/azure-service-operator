@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Diagnosing problems on Azure Service Operator</title>
+    <link>https://azure.github.io/azure-service-operator/guide/diagnosing-problems/</link>
+    <description>Recent content in Diagnosing problems on Azure Service Operator</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <atom:link href="https://azure.github.io/azure-service-operator/guide/diagnosing-problems/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ARM Throttling</title>
+      <link>https://azure.github.io/azure-service-operator/guide/diagnosing-problems/azure-throttling/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://azure.github.io/azure-service-operator/guide/diagnosing-problems/azure-throttling/</guid>
+      <description>&lt;p&gt;It was once fairly easy for Azure Service Operator (ASO) users to trigger Azure Resource Manager (ARM) throttling, but this is now much less common because ARM have lifted their service limits considerably.&lt;/p&gt;&#xA;&lt;p&gt;Under the old limits, a single subscription was limited to 600 PUT requests per hour in a given region. With ASO configured to reconcile every 15m, it was possible to hit the rate limit as soon as the number of resources being reconciled closed in on 150.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Reconciliation Frequencey</title>
+      <link>https://azure.github.io/azure-service-operator/guide/diagnosing-problems/reconciliation-frequency/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://azure.github.io/azure-service-operator/guide/diagnosing-problems/reconciliation-frequency/</guid>
+      <description>&lt;h2 id=&#34;aso-is-reconciling-too-often&#34;&gt;ASO is reconciling too often&lt;/h2&gt;&#xA;&lt;p&gt;ASO will continue actively reconciling resources, even after they have been created. This is by design, as ASO is a desired-state operator. It will continue to check the state of resources and update them if they are not in the desired state.&lt;/p&gt;&#xA;&lt;h3 id=&#34;action-change-reconciliation-interval&#34;&gt;Action: change reconciliation interval&lt;/h3&gt;&#xA;&lt;p&gt;By default, ASO will try to reconcile each resource once an hour once it has been successfully deployed.&lt;/p&gt;&#xA;&lt;p&gt;If it&amp;rsquo;s necessary to change ASO so that it reconciles less frequently, set the &lt;a href=&#34;https://azure.github.io/azure-service-operator/guide/aso-controller-settings-options/&#34;&gt;AZURE_SYNC_PERIOD&lt;/a&gt; environment variable to a longer value.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -32,9 +32,13 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/frequently-asked-questions/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/diagnosing-problems/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/adoption/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/annotations/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/diagnosing-problems/azure-throttling/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/authentication/</loc>
   </url><url>
@@ -46,8 +50,6 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/aso-controller-settings-options/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/guide/diagnosing-problems/</loc>
-  </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/expressions/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/secrets/</loc>
@@ -57,6 +59,8 @@
     <loc>https://azure.github.io/azure-service-operator/guide/metrics/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/ownership/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/diagnosing-problems/reconciliation-frequency/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/configmaps/</loc>
   </url><url>

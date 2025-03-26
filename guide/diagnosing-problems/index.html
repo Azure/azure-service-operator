@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="alternate" type="application/rss&#43;xml" href="https://azure.github.io/azure-service-operator/guide/diagnosing-problems/index.xml">
 <meta name="robots" content="index, follow">
 
 
@@ -18,9 +19,7 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>Diagnosing problems | Azure Service Operator</title>
-<meta name="description" content="Common mistakes ASO controller pod in Status CreateContainerConfigError $ kubectl get pods -n azureserviceoperator-system NAME READY STATUS RESTARTS AGE azureserviceoperator-controller-manager-69cbccd645-4s5wz 1/2 CreateContainerConfigError 0 7m49s Very likely that you forgot to create the aso-controller-settings secret. This secret must be in the same namespace as the pod.
-You can confirm this with kubectl describe pod -n azureserviceoperator-system --selector control-plane=controller-manager. Look for the &ldquo;Error: secret &ldquo;aso-controller-settings&rdquo; not found&rdquo; event in the describe output:
-Events: Type Reason Age From Message ---- ------ ---- ---- ------- ... Warning Failed 36s (x7 over 99s) kubelet Error: secret &#34;aso-controller-settings&#34; not found ... Helm installation via Argo missing ClusterRole and other resources See reference issue #4184.">
+<meta name="description" content="Powerful, extensible, and feature-packed frontend toolkit. Build and customize with Sass, utilize prebuilt grid system and components, and bring projects to life with powerful JavaScript plugins.">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/diagnosing-problems/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="Diagnosing problems">
@@ -28,8 +27,7 @@ Events: Type Reason Age From Message ---- ------ ---- ---- ------- ... Warning F
 You can confirm this with kubectl describe pod -n azureserviceoperator-system --selector control-plane=controller-manager. Look for the “Error: secret “aso-controller-settings” not found” event in the describe output:
 Events: Type Reason Age From Message ---- ------ ---- ---- ------- ... Warning Failed 36s (x7 over 99s) kubelet Error: secret &#34;aso-controller-settings&#34; not found ... Helm installation via Argo missing ClusterRole and other resources See reference issue #4184.">
   <meta property="og:locale" content="en_us">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="guide">
+  <meta property="og:type" content="website">
 
   <meta itemprop="name" content="Diagnosing problems">
   <meta itemprop="description" content="Common mistakes ASO controller pod in Status CreateContainerConfigError $ kubectl get pods -n azureserviceoperator-system NAME READY STATUS RESTARTS AGE azureserviceoperator-controller-manager-69cbccd645-4s5wz 1/2 CreateContainerConfigError 0 7m49s Very likely that you forgot to create the aso-controller-settings secret. This secret must be in the same namespace as the pod.
@@ -54,7 +52,7 @@ Events: Type Reason Age From Message ---- ------ ---- ---- ------- ... Warning F
   crossorigin="anonymous"></script>
 
   </head>
-  <body class="td-page">
+  <body class="td-section">
     <header>
       <nav class="td-navbar js-navbar-scroll" data-bs-theme="dark">
 <div class="container-fluid flex-column flex-md-row">
@@ -118,6 +116,15 @@ Events: Type Reason Age From Message ---- ------ ---- ---- ------- ... Warning F
   <a href="/azure-service-operator/guide/upgrading/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideupgrading"><span class="">Upgrading</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidefrequently-asked-questions-li">
   <a href="/azure-service-operator/guide/frequently-asked-questions/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidefrequently-asked-questions"><span class="">FAQ</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorguidediagnosing-problems-li">
+  <a href="/azure-service-operator/guide/diagnosing-problems/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidediagnosing-problems"><span class="td-sidebar-nav-active-item">Diagnosing problems</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidediagnosing-problemsazure-throttling-li">
+  <a href="/azure-service-operator/guide/diagnosing-problems/azure-throttling/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidediagnosing-problemsazure-throttling"><span class="">ARM Throttling</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidediagnosing-problemsreconciliation-frequency-li">
+  <a href="/azure-service-operator/guide/diagnosing-problems/reconciliation-frequency/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidediagnosing-problemsreconciliation-frequency"><span class="">Reconciliation Frequencey</span></a>
+</li>
+  </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideadoption-li">
   <a href="/azure-service-operator/guide/adoption/" title="Adopting existing Azure resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideadoption"><span class="">Adoption</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideannotations-li">
@@ -171,8 +178,6 @@ Events: Type Reason Age From Message ---- ------ ---- ---- ------- ... Warning F
   <a href="/azure-service-operator/guide/conditions/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideconditions"><span class="">Conditions</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideaso-controller-settings-options-li">
   <a href="/azure-service-operator/guide/aso-controller-settings-options/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideaso-controller-settings-options"><span class="">Configuring ASO</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorguidediagnosing-problems-li">
-  <a href="/azure-service-operator/guide/diagnosing-problems/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidediagnosing-problems"><span class="td-sidebar-nav-active-item">Diagnosing problems</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideexpressions-li">
   <a href="/azure-service-operator/guide/expressions/" title="CEL Expressions" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideexpressions"><span class="">Expressions</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidesecrets-li">
@@ -816,7 +821,7 @@ Events: Type Reason Age From Message ---- ------ ---- ---- ------- ... Warning F
             
 <div class="td-content">
 	<h1>Diagnosing problems</h1>
-	
+  
 	<header class="article-meta">
 		
 </header>
@@ -922,9 +927,24 @@ Without one it may be difficult to diagnose past failures.</p>
 <h2 id="fetching-controller-runtime-and-aso-metrics">Fetching controller runtime and ASO metrics</h2>
 <p>Follow the metrics <a href="https://github.com/Azure/azure-service-operator/blob/main/docs/hugo/content/guide/metrics.md">documentation</a> for more information on how to fetch, configure and understand ASO and controller runtime metrics.</p>
 
-	
+  <div class="section-index">
+    
+    
+    <hr class="panel-line">
+        <div class="entry">
+                <h5>
+                    <a href="/azure-service-operator/guide/diagnosing-problems/azure-throttling/">ARM Throttling</a>
+                </h5>
+                <p></p>
+            </div>
+        <div class="entry">
+                <h5>
+                    <a href="/azure-service-operator/guide/diagnosing-problems/reconciliation-frequency/">Reconciliation Frequencey</a>
+                </h5>
+                <p></p>
+            </div>
+        </div>
 </div>
-
 
           </main>
         </div>
