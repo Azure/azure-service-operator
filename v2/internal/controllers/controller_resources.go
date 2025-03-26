@@ -17,7 +17,6 @@ import (
 
 	"github.com/go-logr/logr"
 	"github.com/rotisserie/eris"
-	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/conversion"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -32,18 +31,22 @@ import (
 	mysqlv1webhook "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1/webhook"
 	postgresqlv1 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1"
 	postgresqlv1webhook "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1/webhook"
+	entra "github.com/Azure/azure-service-operator/v2/api/entra/v1"
 	azuresqlv1 "github.com/Azure/azure-service-operator/v2/api/sql/v1"
 	azuresqlv1webhook "github.com/Azure/azure-service-operator/v2/api/sql/v1/webhook"
+	azuresqlreconciler "github.com/Azure/azure-service-operator/v2/internal/reconcilers/azuresql"
+	entrareconciler "github.com/Azure/azure-service-operator/v2/internal/reconcilers/entra"
+	mysqlreconciler "github.com/Azure/azure-service-operator/v2/internal/reconcilers/mysql"
+	postgresqlreconciler "github.com/Azure/azure-service-operator/v2/internal/reconcilers/postgresql"
+	asocel "github.com/Azure/azure-service-operator/v2/internal/util/cel"
+	corev1 "k8s.io/api/core/v1"
+
 	"github.com/Azure/azure-service-operator/v2/internal/identity"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
-	azuresqlreconciler "github.com/Azure/azure-service-operator/v2/internal/reconcilers/azuresql"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/generic"
-	mysqlreconciler "github.com/Azure/azure-service-operator/v2/internal/reconcilers/mysql"
-	postgresqlreconciler "github.com/Azure/azure-service-operator/v2/internal/reconcilers/postgresql"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
-	asocel "github.com/Azure/azure-service-operator/v2/internal/util/cel"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -85,6 +88,7 @@ func GetKnownStorageTypes(
 		augmentWithPredicate(t)
 	}
 
+	// mysql
 	knownStorageTypes = append(
 		knownStorageTypes,
 		&registration.StorageType{
@@ -110,6 +114,8 @@ func GetKnownStorageTypes(
 				},
 			},
 		})
+
+	// dbforpostgresql
 	knownStorageTypes = append(
 		knownStorageTypes,
 		&registration.StorageType{
@@ -135,6 +141,7 @@ func GetKnownStorageTypes(
 			},
 		})
 
+	// azuresql
 	knownStorageTypes = append(
 		knownStorageTypes,
 		&registration.StorageType{
@@ -159,6 +166,22 @@ func GetKnownStorageTypes(
 					MakeEventHandler: watchSecretsFactory([]string{".spec.localUser.password"}, &azuresqlv1.UserList{}),
 				},
 			},
+		})
+
+	// entra
+	knownStorageTypes = append(
+		knownStorageTypes,
+		&registration.StorageType{
+			Obj:  &entra.SecurityGroup{},
+			Name: "entra_securitygroup",
+			Reconciler: entrareconciler.NewEntraSecurityGroupReconciler(
+				kubeClient,
+				resourceResolver,
+				positiveConditions,
+				options.Config),
+			Predicate: makeStandardPredicate(),
+			Indexes:   []registration.Index{},
+			Watches:   []registration.Watch{},
 		})
 
 	return knownStorageTypes, nil
@@ -275,6 +298,7 @@ func getControllerName(obj client.Object) (string, error) {
 func GetKnownTypes() []*registration.KnownType {
 	knownTypes := getKnownTypes()
 
+	// sql
 	knownTypes = append(
 		knownTypes,
 		&registration.KnownType{
@@ -282,6 +306,19 @@ func GetKnownTypes() []*registration.KnownType {
 			Defaulter: &mysqlv1webhook.User_Webhook{},
 			Validator: &mysqlv1webhook.User_Webhook{},
 		})
+		&azuresqlv1.User{})
+
+	// entra
+	knownTypes = append(
+		knownTypes,
+		&entra.SecurityGroup{})
+
+	// dbformysql
+	knownTypes = append(
+		knownTypes,
+		&mysqlv1.User{})
+
+	// dbforpostgresql
 	knownTypes = append(
 		knownTypes,
 		&registration.KnownType{
@@ -296,6 +333,7 @@ func GetKnownTypes() []*registration.KnownType {
 			Defaulter: &azuresqlv1webhook.User_Webhook{},
 			Validator: &azuresqlv1webhook.User_Webhook{},
 		})
+		&postgresqlv1.User{})
 	return knownTypes
 }
 
