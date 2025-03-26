@@ -11,8 +11,9 @@ import (
 
 	batch "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101"
 	batchstorage "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101/storage"
-	dbforpostgresqlstorage "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20221201/storage"
-	dbforpostgresql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20230601preview"
+	dbforpostgresqlpreview "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20230601preview"
+	dbforpostgresql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20240801"
+	dbforpostgresqlstorage "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20240801/storage"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	resourcesstorage "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601/storage"
 )
@@ -25,6 +26,7 @@ func CreateScheme() (*runtime.Scheme, error) {
 		batchstorage.AddToScheme,
 		resources.AddToScheme,
 		resourcesstorage.AddToScheme,
+		dbforpostgresqlpreview.AddToScheme,
 		// These dbforpostgresql resources are an example that illustrates
 		// https://github.com/Azure/azure-service-operator/issues/4316
 		dbforpostgresql.AddToScheme,
