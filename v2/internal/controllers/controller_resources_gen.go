@@ -501,7 +501,21 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(cdn_v20210601s.ProfilesEndpoint)})
 	result = append(result, &registration.StorageType{Obj: new(cdn_v20230501s.AfdCustomDomain)})
 	result = append(result, &registration.StorageType{Obj: new(cdn_v20230501s.AfdEndpoint)})
-	result = append(result, &registration.StorageType{Obj: new(cdn_v20230501s.AfdOrigin)})
+	result = append(result, &registration.StorageType{
+		Obj: new(cdn_v20230501s.AfdOrigin),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.hostNameFromConfig",
+				Func: indexCdnAfdOriginHostNameFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type:             &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory([]string{".spec.hostNameFromConfig"}, &cdn_v20230501s.AfdOriginList{}),
+			},
+		},
+	})
 	result = append(result, &registration.StorageType{Obj: new(cdn_v20230501s.AfdOriginGroup)})
 	result = append(result, &registration.StorageType{Obj: new(cdn_v20230501s.Profile)})
 	result = append(result, &registration.StorageType{Obj: new(cdn_v20230501s.Route)})
@@ -3708,6 +3722,18 @@ func indexAuthorizationRoleAssignmentPrincipalIdFromConfig(rawObj client.Object)
 		return nil
 	}
 	return obj.Spec.PrincipalIdFromConfig.Index()
+}
+
+// indexCdnAfdOriginHostNameFromConfig an index function for cdn_v20230501s.AfdOrigin .spec.hostNameFromConfig
+func indexCdnAfdOriginHostNameFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*cdn_v20230501s.AfdOrigin)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.HostNameFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.HostNameFromConfig.Index()
 }
 
 // indexComputeDiskEncryptionSetFederatedClientIdFromConfig an index function for compute_v20240302s.DiskEncryptionSet .spec.federatedClientIdFromConfig

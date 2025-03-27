@@ -154,7 +154,7 @@ AfdEndpoint: Resource
 
 AfdOrigin: Resource
 ├── Owner: AfdOriginGroup
-├── Spec: Object (13 properties)
+├── Spec: Object (14 properties)
 │   ├── AzureName: string
 │   ├── AzureOrigin: *Object (1 property)
 │   │   └── Reference: *genruntime.ResourceReference
@@ -163,6 +163,7 @@ AfdOrigin: Resource
 │   │   └── "Enabled"
 │   ├── EnforceCertificateNameCheck: *bool
 │   ├── HostName: *string
+│   ├── HostNameFromConfig: *genruntime.ConfigMapReference
 │   ├── HttpPort: Validated<*int> (2 rules)
 │   │   ├── Rule 0: Maximum: 65535
 │   │   └── Rule 1: Minimum: 1

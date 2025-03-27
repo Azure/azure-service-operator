@@ -1049,6 +1049,11 @@ func (in *AfdOrigin_Spec) DeepCopyInto(out *AfdOrigin_Spec) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.HostNameFromConfig != nil {
+		in, out := &in.HostNameFromConfig, &out.HostNameFromConfig
+		*out = new(genruntime.ConfigMapReference)
+		**out = **in
+	}
 	if in.HttpPort != nil {
 		in, out := &in.HttpPort, &out.HttpPort
 		*out = new(int)

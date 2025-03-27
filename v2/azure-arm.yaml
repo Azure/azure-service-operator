@@ -1508,6 +1508,9 @@ objectModelConfiguration:
       Profiles_Secret:
         $exportAs: Secret
         $supportedFrom: v2.6.0
+      AFDOriginProperties:
+        HostName:
+          $importConfigMapMode: optional
   compute:
     2020-09-30:
       CreationData:

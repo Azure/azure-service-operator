@@ -169,16 +169,17 @@ type AfdOriginList struct {
 type AfdOrigin_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName                   string                 `json:"azureName,omitempty"`
-	AzureOrigin                 *ResourceReference     `json:"azureOrigin,omitempty"`
-	EnabledState                *string                `json:"enabledState,omitempty"`
-	EnforceCertificateNameCheck *bool                  `json:"enforceCertificateNameCheck,omitempty"`
-	HostName                    *string                `json:"hostName,omitempty"`
-	HttpPort                    *int                   `json:"httpPort,omitempty"`
-	HttpsPort                   *int                   `json:"httpsPort,omitempty"`
-	OperatorSpec                *AfdOriginOperatorSpec `json:"operatorSpec,omitempty"`
-	OriginHostHeader            *string                `json:"originHostHeader,omitempty"`
-	OriginalVersion             string                 `json:"originalVersion,omitempty"`
+	AzureName                   string                         `json:"azureName,omitempty"`
+	AzureOrigin                 *ResourceReference             `json:"azureOrigin,omitempty"`
+	EnabledState                *string                        `json:"enabledState,omitempty"`
+	EnforceCertificateNameCheck *bool                          `json:"enforceCertificateNameCheck,omitempty"`
+	HostName                    *string                        `json:"hostName,omitempty" optionalConfigMapPair:"HostName"`
+	HostNameFromConfig          *genruntime.ConfigMapReference `json:"hostNameFromConfig,omitempty" optionalConfigMapPair:"HostName"`
+	HttpPort                    *int                           `json:"httpPort,omitempty"`
+	HttpsPort                   *int                           `json:"httpsPort,omitempty"`
+	OperatorSpec                *AfdOriginOperatorSpec         `json:"operatorSpec,omitempty"`
+	OriginHostHeader            *string                        `json:"originHostHeader,omitempty"`
+	OriginalVersion             string                         `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
