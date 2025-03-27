@@ -236,7 +236,7 @@ func (origin *AfdOrigin) ValidateUpdate(old runtime.Object) (admission.Warnings,
 
 // createValidations validates the creation of the resource
 func (origin *AfdOrigin) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){origin.validateResourceReferences, origin.validateOwnerReference, origin.validateSecretDestinations, origin.validateConfigMapDestinations}
+	return []func() (admission.Warnings, error){origin.validateResourceReferences, origin.validateOwnerReference, origin.validateSecretDestinations, origin.validateConfigMapDestinations, origin.validateOptionalConfigMapReferences}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -260,6 +260,9 @@ func (origin *AfdOrigin) updateValidations() []func(old runtime.Object) (admissi
 		func(old runtime.Object) (admission.Warnings, error) {
 			return origin.validateConfigMapDestinations()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return origin.validateOptionalConfigMapReferences()
+		},
 	}
 }
 
@@ -269,6 +272,15 @@ func (origin *AfdOrigin) validateConfigMapDestinations() (admission.Warnings, er
 		return nil, nil
 	}
 	return configmaps.ValidateDestinations(origin, nil, origin.Spec.OperatorSpec.ConfigMapExpressions)
+}
+
+// validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
+func (origin *AfdOrigin) validateOptionalConfigMapReferences() (admission.Warnings, error) {
+	refs, err := reflecthelpers.FindOptionalConfigMapReferences(&origin.Spec)
+	if err != nil {
+		return nil, err
+	}
+	return configmaps.ValidateOptionalReferences(refs)
 }
 
 // validateOwnerReference validates the owner field
@@ -391,7 +403,11 @@ type AfdOrigin_Spec struct {
 
 	// HostName: The address of the origin. Domain names, IPv4 addresses, and IPv6 addresses are supported.This should be
 	// unique across all origins in an endpoint.
-	HostName *string `json:"hostName,omitempty"`
+	HostName *string `json:"hostName,omitempty" optionalConfigMapPair:"HostName"`
+
+	// HostNameFromConfig: The address of the origin. Domain names, IPv4 addresses, and IPv6 addresses are supported.This
+	// should be unique across all origins in an endpoint.
+	HostNameFromConfig *genruntime.ConfigMapReference `json:"hostNameFromConfig,omitempty" optionalConfigMapPair:"HostName"`
 
 	// +kubebuilder:validation:Maximum=65535
 	// +kubebuilder:validation:Minimum=1
@@ -450,6 +466,7 @@ func (origin *AfdOrigin_Spec) ConvertToARM(resolved genruntime.ConvertToARMResol
 		origin.EnabledState != nil ||
 		origin.EnforceCertificateNameCheck != nil ||
 		origin.HostName != nil ||
+		origin.HostNameFromConfig != nil ||
 		origin.HttpPort != nil ||
 		origin.HttpsPort != nil ||
 		origin.OriginHostHeader != nil ||
@@ -478,6 +495,14 @@ func (origin *AfdOrigin_Spec) ConvertToARM(resolved genruntime.ConvertToARMResol
 	}
 	if origin.HostName != nil {
 		hostName := *origin.HostName
+		result.Properties.HostName = &hostName
+	}
+	if origin.HostNameFromConfig != nil {
+		hostNameValue, err := resolved.ResolvedConfigMaps.Lookup(*origin.HostNameFromConfig)
+		if err != nil {
+			return nil, eris.Wrap(err, "looking up configmap for property HostName")
+		}
+		hostName := hostNameValue
 		result.Properties.HostName = &hostName
 	}
 	if origin.HttpPort != nil {
@@ -568,6 +593,8 @@ func (origin *AfdOrigin_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 			origin.HostName = &hostName
 		}
 	}
+
+	// no assignment for property "HostNameFromConfig"
 
 	// Set property "HttpPort":
 	// copying flattened property:
@@ -728,6 +755,14 @@ func (origin *AfdOrigin_Spec) AssignProperties_From_AfdOrigin_Spec(source *stora
 	// HostName
 	origin.HostName = genruntime.ClonePointerToString(source.HostName)
 
+	// HostNameFromConfig
+	if source.HostNameFromConfig != nil {
+		hostNameFromConfig := source.HostNameFromConfig.Copy()
+		origin.HostNameFromConfig = &hostNameFromConfig
+	} else {
+		origin.HostNameFromConfig = nil
+	}
+
 	// HttpPort
 	if source.HttpPort != nil {
 		httpPort := *source.HttpPort
@@ -837,6 +872,14 @@ func (origin *AfdOrigin_Spec) AssignProperties_To_AfdOrigin_Spec(destination *st
 
 	// HostName
 	destination.HostName = genruntime.ClonePointerToString(origin.HostName)
+
+	// HostNameFromConfig
+	if origin.HostNameFromConfig != nil {
+		hostNameFromConfig := origin.HostNameFromConfig.Copy()
+		destination.HostNameFromConfig = &hostNameFromConfig
+	} else {
+		destination.HostNameFromConfig = nil
+	}
 
 	// HttpPort
 	if origin.HttpPort != nil {
