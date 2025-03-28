@@ -121,7 +121,7 @@ func addRoles(ctx context.Context, db *sql.DB, user SQLUser, roles set.Set[strin
 		}
 	}
 	toAdd := strings.Join(roles.Values(), ",")
-	_, err := db.ExecContext(ctx, fmt.Sprintf("GRANT %s TO \"%s\"", toAdd, user.Name))
+	_, err := db.ExecContext(ctx, fmt.Sprintf("GRANT %q TO %q", toAdd, user.Name))
 	if err != nil {
 		errorStrings = append(errorStrings, err.Error())
 	}
@@ -138,7 +138,7 @@ func deleteRoles(ctx context.Context, db *sql.DB, user SQLUser, roles set.Set[st
 	}
 
 	toDelete := strings.Join(roles.Values(), ",")
-	_, err := db.ExecContext(ctx, fmt.Sprintf("REVOKE %s FROM \"%s\"", toDelete, user.Name))
+	_, err := db.ExecContext(ctx, fmt.Sprintf("REVOKE %q FROM %q", toDelete, user.Name))
 
 	return err
 }

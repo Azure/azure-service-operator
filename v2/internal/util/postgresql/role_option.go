@@ -144,7 +144,7 @@ func setRoleOptions(ctx context.Context, db *sql.DB, user SQLUser, options set.S
 type RoleOption string
 
 // see https://www.postgresql.org/docs/current/sql-createrole.html
-var (
+const (
 	Login         = RoleOption("LOGIN")
 	CreateRole    = RoleOption("CREATEROLE")
 	CreateDb      = RoleOption("CREATEDB")

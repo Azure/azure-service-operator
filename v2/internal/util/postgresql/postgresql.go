@@ -114,13 +114,33 @@ func DatabaseExists(ctx context.Context, db *sql.DB, dbName string) (bool, error
 }
 
 // RoleExists checks if db contains role
-func RoleExists(ctx context.Context, db *sql.DB, rolname string) (bool, error) {
-	res, err := db.ExecContext(ctx, "SELECT * FROM pg_roles WHERE rolname = $1", rolname)
+func RoleExists(ctx context.Context, db *sql.DB, roleName string) (bool, error) {
+	res, err := db.ExecContext(ctx, "SELECT * FROM pg_roles WHERE rolname = $1", roleName)
 	if err != nil {
 		return false, err
 	}
 	rows, err := res.RowsAffected()
 	return rows > 0, err
+}
+
+// CreateRoleWithPermissions creates a role.
+// Note that this is not currently used except for test
+func CreateRoleWithPermissions(ctx context.Context, db *sql.DB, roleName string, permissions ...string) error {
+	if err := FindBadChars(roleName); err != nil {
+		return eris.Wrap(err, "problem found with roleName")
+	}
+
+	permissionString := strings.Join(permissions, " ")
+	if err := FindBadChars(permissionString); err != nil {
+		return eris.Wrap(err, "problem found with permissions")
+	}
+
+	_, err := db.ExecContext(ctx, fmt.Sprintf("CREATE ROLE %q WITH %s", roleName, permissionString))
+	if err != nil {
+		return eris.Wrap(err, "failed to create role")
+	}
+
+	return nil
 }
 
 // Use this type only for user, which are already checked
