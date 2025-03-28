@@ -51,11 +51,13 @@ interactions:
                 - CONFIG_NOCACHE
             X-Content-Type-Options:
                 - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11999"
             X-Msedge-Ref:
-                - 'Ref A: 776679A49A904D6B9326848EBAC998AA Ref B: CO6AA3150219035 Ref C: 2024-06-24T21:59:21Z'
+                - 'Ref A: 805369EBD37140EA8F411B1B07991F15 Ref B: MWH011020807031 Ref C: 2025-03-31T19:41:57Z'
         status: 201 Created
         code: 201
-        duration: 190.345767ms
+        duration: 1.305125345s
     - id: 1
       request:
         proto: HTTP/1.1
@@ -102,11 +104,13 @@ interactions:
                 - CONFIG_NOCACHE
             X-Content-Type-Options:
                 - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
             X-Msedge-Ref:
-                - 'Ref A: AD7EE3A7C1474F9FB825E8CB5FE7249F Ref B: CO6AA3150219035 Ref C: 2024-06-24T21:59:21Z'
+                - 'Ref A: E80EADFB1B7841B79D330EED03BAF38B Ref B: MWH011020807031 Ref C: 2025-03-31T19:42:00Z'
         status: 200 OK
         code: 200
-        duration: 74.519044ms
+        duration: 527.572058ms
     - id: 2
       request:
         proto: HTTP/1.1
@@ -125,7 +129,7 @@ interactions:
                 - application/json
             Test-Request-Attempt:
                 - "0"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.KeyVault/locations/westus2/deletedVaults/aso-kv-gs2?api-version=2023-07-01
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.KeyVault/locations/westus2/deletedVaults/aso-kv-gs2?api-version=2024-11-01
         method: GET
       response:
         proto: HTTP/2.0
@@ -133,14 +137,14 @@ interactions:
         proto_minor: 0
         transfer_encoding: []
         trailer: {}
-        content_length: 345
+        content_length: 466
         uncompressed: false
-        body: '{"error":{"code":"DeletedVaultNotFound","message":"The specified deleted vault ''aso-kv-gs2'' does not exist. Ensure that the vault was indeed deleted and that it is in recoverable state. If soft delete was not enabled then the vault is permanently deleted. Follow this link for more information: https://go.microsoft.com/fwlink/?linkid=2149745"}}'
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.KeyVault/locations/westus2/deletedVaults/aso-kv-gs2","name":"aso-kv-gs2","type":"Microsoft.KeyVault/deletedVaults","properties":{"vaultId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lqxexq/providers/Microsoft.KeyVault/vaults/aso-kv-gs2","location":"westus2","tags":{},"deletionDate":"2001-02-03T04:05:06Z","scheduledPurgeDate":"2001-02-03T04:05:06Z"}}'
         headers:
             Cache-Control:
                 - no-cache
             Content-Length:
-                - "345"
+                - "466"
             Content-Type:
                 - application/json; charset=utf-8
             Expires:
@@ -156,12 +160,16 @@ interactions:
             X-Content-Type-Options:
                 - nosniff
             X-Ms-Keyvault-Service-Version:
-                - 1.5.1215.0
+                - 2.2.45.0
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=f5d11ebc-8494-4b5f-a0fc-5fbbfd56f7bb/westus2/af93ffc3-1e30-4f9f-a004-11aa9d810a97
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
             X-Msedge-Ref:
-                - 'Ref A: B6ACF6243304451F961A73F2B41B6C95 Ref B: CO6AA3150219035 Ref C: 2024-06-24T21:59:24Z'
-        status: 404 Not Found
-        code: 404
-        duration: 51.6906ms
+                - 'Ref A: 62B90C9057484CB19E439D28B5E65F58 Ref B: MWH011020807031 Ref C: 2025-03-31T19:42:06Z'
+        status: 200 OK
+        code: 200
+        duration: 511.214643ms
     - id: 3
       request:
         proto: HTTP/1.1
@@ -180,7 +188,7 @@ interactions:
                 - application/json
             Test-Request-Attempt:
                 - "1"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.KeyVault/locations/westus2/deletedVaults/aso-kv-gs2?api-version=2023-07-01
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.KeyVault/locations/westus2/deletedVaults/aso-kv-gs2?api-version=2024-11-01
         method: GET
       response:
         proto: HTTP/2.0
@@ -188,14 +196,14 @@ interactions:
         proto_minor: 0
         transfer_encoding: []
         trailer: {}
-        content_length: 345
+        content_length: 466
         uncompressed: false
-        body: '{"error":{"code":"DeletedVaultNotFound","message":"The specified deleted vault ''aso-kv-gs2'' does not exist. Ensure that the vault was indeed deleted and that it is in recoverable state. If soft delete was not enabled then the vault is permanently deleted. Follow this link for more information: https://go.microsoft.com/fwlink/?linkid=2149745"}}'
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.KeyVault/locations/westus2/deletedVaults/aso-kv-gs2","name":"aso-kv-gs2","type":"Microsoft.KeyVault/deletedVaults","properties":{"vaultId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lqxexq/providers/Microsoft.KeyVault/vaults/aso-kv-gs2","location":"westus2","tags":{},"deletionDate":"2001-02-03T04:05:06Z","scheduledPurgeDate":"2001-02-03T04:05:06Z"}}'
         headers:
             Cache-Control:
                 - no-cache
             Content-Length:
-                - "345"
+                - "466"
             Content-Type:
                 - application/json; charset=utf-8
             Expires:
@@ -211,12 +219,16 @@ interactions:
             X-Content-Type-Options:
                 - nosniff
             X-Ms-Keyvault-Service-Version:
-                - 1.5.1215.0
+                - 2.2.45.0
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=f5d11ebc-8494-4b5f-a0fc-5fbbfd56f7bb/westus2/ba5007b4-6c5e-4c7b-8c9c-814c9f46fdba
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
             X-Msedge-Ref:
-                - 'Ref A: A52C45F84136482FBC111E081173E5EA Ref B: CO6AA3150219035 Ref C: 2024-06-24T21:59:25Z'
-        status: 404 Not Found
-        code: 404
-        duration: 42.255583ms
+                - 'Ref A: D475C84A7C614B37A5000D8E29CCF9EF Ref B: MWH011020807031 Ref C: 2025-03-31T19:42:08Z'
+        status: 200 OK
+        code: 200
+        duration: 575.997072ms
     - id: 4
       request:
         proto: HTTP/1.1
@@ -228,7 +240,7 @@ interactions:
         host: management.azure.com
         remote_addr: ""
         request_uri: ""
-        body: '{"location":"westus2","name":"aso-kv-gs2","properties":{"accessPolicies":[{"applicationId":"00000000-0000-0000-0000-000000000000","objectId":"00000000-0000-0000-0000-000000000000","permissions":{"certificates":["get"],"keys":["get","list"],"secrets":["get"],"storage":["get"]},"tenantId":"00000000-0000-0000-0000-000000000000"}],"createMode":"default","enableSoftDelete":true,"sku":{"family":"A","name":"standard"},"tenantId":"00000000-0000-0000-0000-000000000000"}}'
+        body: '{"location":"westus2","name":"aso-kv-gs2","properties":{"accessPolicies":[{"applicationId":"00000000-0000-0000-0000-000000000000","objectId":"00000000-0000-0000-0000-000000000000","permissions":{"certificates":["get"],"keys":["get","list"],"secrets":["get"],"storage":["get"]},"tenantId":"00000000-0000-0000-0000-000000000000"}],"createMode":"recover","enableSoftDelete":true,"sku":{"family":"A","name":"standard"},"tenantId":"00000000-0000-0000-0000-000000000000"}}'
         form: {}
         headers:
             Accept:
@@ -238,8 +250,8 @@ interactions:
             Content-Type:
                 - application/json
             Test-Request-Hash:
-                - a820044f179a556f4f788d2e227ea29347cedb29752d4db0a910cb11d664fd39
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lqxexq/providers/Microsoft.KeyVault/vaults/aso-kv-gs2?api-version=2021-04-01-preview
+                - 99d0a5a3e6d74bc68801611fa622201c780b21da906593a0a01e85041ad7307a
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lqxexq/providers/Microsoft.KeyVault/vaults/aso-kv-gs2?api-version=2023-07-01
         method: PUT
       response:
         proto: HTTP/2.0
@@ -247,14 +259,14 @@ interactions:
         proto_minor: 0
         transfer_encoding: []
         trailer: {}
-        content_length: 969
+        content_length: 1018
         uncompressed: false
-        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lqxexq/providers/Microsoft.KeyVault/vaults/aso-kv-gs2","name":"aso-kv-gs2","type":"Microsoft.KeyVault/vaults","location":"westus2","tags":{},"systemData":{"createdBy":"matthchr@microsoft.com","createdByType":"User","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"matthchr@microsoft.com","lastModifiedByType":"User","lastModifiedAt":"2001-02-03T04:05:06Z"},"properties":{"sku":{"family":"A","name":"standard"},"tenantId":"00000000-0000-0000-0000-000000000000","accessPolicies":[{"tenantId":"00000000-0000-0000-0000-000000000000","objectId":"00000000-0000-0000-0000-000000000000","applicationId":"00000000-0000-0000-0000-000000000000","permissions":{"certificates":["get"],"keys":["get","list"],"secrets":["get"],"storage":["get"]}}],"enabledForDeployment":false,"enableSoftDelete":true,"vaultUri":"https://aso-kv-gs2.vault.azure.net","provisioningState":"RegisteringDns"}}'
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lqxexq/providers/Microsoft.KeyVault/vaults/aso-kv-gs2","name":"aso-kv-gs2","type":"Microsoft.KeyVault/vaults","location":"westus2","tags":{},"systemData":{"createdBy":"09b48c49-da00-4e9c-be40-92f3a7c0d7d9","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"matthchr@microsoft.com","lastModifiedByType":"User","lastModifiedAt":"2001-02-03T04:05:06Z"},"properties":{"sku":{"family":"A","name":"standard"},"tenantId":"00000000-0000-0000-0000-000000000000","accessPolicies":[{"tenantId":"00000000-0000-0000-0000-000000000000","objectId":"00000000-0000-0000-0000-000000000000","applicationId":"00000000-0000-0000-0000-000000000000","permissions":{"certificates":["get"],"keys":["get","list"],"secrets":["get"],"storage":["get"]}}],"enabledForDeployment":false,"enableSoftDelete":true,"vaultUri":"https://aso-kv-gs2.vault.azure.net/","provisioningState":"Succeeded","publicNetworkAccess":"Enabled"}}'
         headers:
             Cache-Control:
                 - no-cache
             Content-Length:
-                - "969"
+                - "1018"
             Content-Type:
                 - application/json; charset=utf-8
             Expires:
@@ -270,12 +282,16 @@ interactions:
             X-Content-Type-Options:
                 - nosniff
             X-Ms-Keyvault-Service-Version:
-                - 1.5.1215.0
+                - 2.2.45.0
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=f5d11ebc-8494-4b5f-a0fc-5fbbfd56f7bb/westus2/22cc8cb6-5536-41d8-8d38-0b274621147f
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11999"
             X-Msedge-Ref:
-                - 'Ref A: B54CD486297D41E6A0DA7B05D6781149 Ref B: CO6AA3150219035 Ref C: 2024-06-24T21:59:25Z'
+                - 'Ref A: 50A128B5943E44E4999935C0C0ADD421 Ref B: MWH011020807031 Ref C: 2025-03-31T19:42:09Z'
         status: 200 OK
         code: 200
-        duration: 4.599014335s
+        duration: 3.492645727s
     - id: 5
       request:
         proto: HTTP/1.1
@@ -290,170 +306,11 @@ interactions:
         body: ""
         form: {}
         headers:
-            Test-Request-Attempt:
-                - "0"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lqxexq/providers/Microsoft.KeyVault/vaults/aso-kv-gs2?api-version=2021-04-01-preview
-        method: GET
-      response:
-        proto: HTTP/2.0
-        proto_major: 2
-        proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
-        content_length: 970
-        uncompressed: false
-        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lqxexq/providers/Microsoft.KeyVault/vaults/aso-kv-gs2","name":"aso-kv-gs2","type":"Microsoft.KeyVault/vaults","location":"westus2","tags":{},"systemData":{"createdBy":"matthchr@microsoft.com","createdByType":"User","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"matthchr@microsoft.com","lastModifiedByType":"User","lastModifiedAt":"2001-02-03T04:05:06Z"},"properties":{"sku":{"family":"A","name":"standard"},"tenantId":"00000000-0000-0000-0000-000000000000","accessPolicies":[{"tenantId":"00000000-0000-0000-0000-000000000000","objectId":"00000000-0000-0000-0000-000000000000","applicationId":"00000000-0000-0000-0000-000000000000","permissions":{"certificates":["get"],"keys":["get","list"],"secrets":["get"],"storage":["get"]}}],"enabledForDeployment":false,"enableSoftDelete":true,"vaultUri":"https://aso-kv-gs2.vault.azure.net/","provisioningState":"RegisteringDns"}}'
-        headers:
-            Cache-Control:
-                - no-cache
-            Content-Length:
-                - "970"
-            Content-Type:
-                - application/json; charset=utf-8
-            Expires:
-                - "-1"
-            Pragma:
-                - no-cache
-            Strict-Transport-Security:
-                - max-age=31536000; includeSubDomains
-            X-Aspnet-Version:
-                - 4.0.30319
-            X-Cache:
-                - CONFIG_NOCACHE
-            X-Content-Type-Options:
-                - nosniff
-            X-Ms-Keyvault-Service-Version:
-                - 1.5.1215.0
-            X-Msedge-Ref:
-                - 'Ref A: F7F214E6B4E84F9BB57172066A36ABF1 Ref B: CO6AA3150219035 Ref C: 2024-06-24T21:59:36Z'
-        status: 200 OK
-        code: 200
-        duration: 147.629398ms
-    - id: 6
-      request:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        content_length: 0
-        transfer_encoding: []
-        trailer: {}
-        host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
-        headers:
-            Test-Request-Attempt:
-                - "1"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lqxexq/providers/Microsoft.KeyVault/vaults/aso-kv-gs2?api-version=2021-04-01-preview
-        method: GET
-      response:
-        proto: HTTP/2.0
-        proto_major: 2
-        proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
-        content_length: 970
-        uncompressed: false
-        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lqxexq/providers/Microsoft.KeyVault/vaults/aso-kv-gs2","name":"aso-kv-gs2","type":"Microsoft.KeyVault/vaults","location":"westus2","tags":{},"systemData":{"createdBy":"matthchr@microsoft.com","createdByType":"User","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"matthchr@microsoft.com","lastModifiedByType":"User","lastModifiedAt":"2001-02-03T04:05:06Z"},"properties":{"sku":{"family":"A","name":"standard"},"tenantId":"00000000-0000-0000-0000-000000000000","accessPolicies":[{"tenantId":"00000000-0000-0000-0000-000000000000","objectId":"00000000-0000-0000-0000-000000000000","applicationId":"00000000-0000-0000-0000-000000000000","permissions":{"certificates":["get"],"keys":["get","list"],"secrets":["get"],"storage":["get"]}}],"enabledForDeployment":false,"enableSoftDelete":true,"vaultUri":"https://aso-kv-gs2.vault.azure.net/","provisioningState":"RegisteringDns"}}'
-        headers:
-            Cache-Control:
-                - no-cache
-            Content-Length:
-                - "970"
-            Content-Type:
-                - application/json; charset=utf-8
-            Expires:
-                - "-1"
-            Pragma:
-                - no-cache
-            Strict-Transport-Security:
-                - max-age=31536000; includeSubDomains
-            X-Aspnet-Version:
-                - 4.0.30319
-            X-Cache:
-                - CONFIG_NOCACHE
-            X-Content-Type-Options:
-                - nosniff
-            X-Ms-Keyvault-Service-Version:
-                - 1.5.1215.0
-            X-Msedge-Ref:
-                - 'Ref A: D3FF41A6CDE146B9803CD20F6F5324CD Ref B: CO6AA3150219035 Ref C: 2024-06-24T21:59:40Z'
-        status: 200 OK
-        code: 200
-        duration: 107.93462ms
-    - id: 7
-      request:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        content_length: 0
-        transfer_encoding: []
-        trailer: {}
-        host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
-        headers:
-            Test-Request-Attempt:
-                - "2"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lqxexq/providers/Microsoft.KeyVault/vaults/aso-kv-gs2?api-version=2021-04-01-preview
-        method: GET
-      response:
-        proto: HTTP/2.0
-        proto_major: 2
-        proto_minor: 0
-        transfer_encoding: []
-        trailer: {}
-        content_length: 965
-        uncompressed: false
-        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lqxexq/providers/Microsoft.KeyVault/vaults/aso-kv-gs2","name":"aso-kv-gs2","type":"Microsoft.KeyVault/vaults","location":"westus2","tags":{},"systemData":{"createdBy":"matthchr@microsoft.com","createdByType":"User","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"matthchr@microsoft.com","lastModifiedByType":"User","lastModifiedAt":"2001-02-03T04:05:06Z"},"properties":{"sku":{"family":"A","name":"standard"},"tenantId":"00000000-0000-0000-0000-000000000000","accessPolicies":[{"tenantId":"00000000-0000-0000-0000-000000000000","objectId":"00000000-0000-0000-0000-000000000000","applicationId":"00000000-0000-0000-0000-000000000000","permissions":{"certificates":["get"],"keys":["get","list"],"secrets":["get"],"storage":["get"]}}],"enabledForDeployment":false,"enableSoftDelete":true,"vaultUri":"https://aso-kv-gs2.vault.azure.net/","provisioningState":"Succeeded"}}'
-        headers:
-            Cache-Control:
-                - no-cache
-            Content-Length:
-                - "965"
-            Content-Type:
-                - application/json; charset=utf-8
-            Expires:
-                - "-1"
-            Pragma:
-                - no-cache
-            Strict-Transport-Security:
-                - max-age=31536000; includeSubDomains
-            X-Aspnet-Version:
-                - 4.0.30319
-            X-Cache:
-                - CONFIG_NOCACHE
-            X-Content-Type-Options:
-                - nosniff
-            X-Ms-Keyvault-Service-Version:
-                - 1.5.1215.0
-            X-Msedge-Ref:
-                - 'Ref A: CD77AD26E1DE4C51B99ADCB50294CB3E Ref B: CO6AA3150219035 Ref C: 2024-06-24T21:59:49Z'
-        status: 200 OK
-        code: 200
-        duration: 93.034994ms
-    - id: 8
-      request:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        content_length: 0
-        transfer_encoding: []
-        trailer: {}
-        host: management.azure.com
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
-        headers:
             Accept:
                 - application/json
             Test-Request-Attempt:
-                - "3"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lqxexq/providers/Microsoft.KeyVault/vaults/aso-kv-gs2?api-version=2021-04-01-preview
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lqxexq/providers/Microsoft.KeyVault/vaults/aso-kv-gs2?api-version=2023-07-01
         method: GET
       response:
         proto: HTTP/2.0
@@ -461,14 +318,14 @@ interactions:
         proto_minor: 0
         transfer_encoding: []
         trailer: {}
-        content_length: 965
+        content_length: 1018
         uncompressed: false
-        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lqxexq/providers/Microsoft.KeyVault/vaults/aso-kv-gs2","name":"aso-kv-gs2","type":"Microsoft.KeyVault/vaults","location":"westus2","tags":{},"systemData":{"createdBy":"matthchr@microsoft.com","createdByType":"User","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"matthchr@microsoft.com","lastModifiedByType":"User","lastModifiedAt":"2001-02-03T04:05:06Z"},"properties":{"sku":{"family":"A","name":"standard"},"tenantId":"00000000-0000-0000-0000-000000000000","accessPolicies":[{"tenantId":"00000000-0000-0000-0000-000000000000","objectId":"00000000-0000-0000-0000-000000000000","applicationId":"00000000-0000-0000-0000-000000000000","permissions":{"certificates":["get"],"keys":["get","list"],"secrets":["get"],"storage":["get"]}}],"enabledForDeployment":false,"enableSoftDelete":true,"vaultUri":"https://aso-kv-gs2.vault.azure.net/","provisioningState":"Succeeded"}}'
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lqxexq/providers/Microsoft.KeyVault/vaults/aso-kv-gs2","name":"aso-kv-gs2","type":"Microsoft.KeyVault/vaults","location":"westus2","tags":{},"systemData":{"createdBy":"09b48c49-da00-4e9c-be40-92f3a7c0d7d9","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"matthchr@microsoft.com","lastModifiedByType":"User","lastModifiedAt":"2001-02-03T04:05:06Z"},"properties":{"sku":{"family":"A","name":"standard"},"tenantId":"00000000-0000-0000-0000-000000000000","accessPolicies":[{"tenantId":"00000000-0000-0000-0000-000000000000","objectId":"00000000-0000-0000-0000-000000000000","applicationId":"00000000-0000-0000-0000-000000000000","permissions":{"certificates":["get"],"keys":["get","list"],"secrets":["get"],"storage":["get"]}}],"enabledForDeployment":false,"enableSoftDelete":true,"vaultUri":"https://aso-kv-gs2.vault.azure.net/","provisioningState":"Succeeded","publicNetworkAccess":"Enabled"}}'
         headers:
             Cache-Control:
                 - no-cache
             Content-Length:
-                - "965"
+                - "1018"
             Content-Type:
                 - application/json; charset=utf-8
             Expires:
@@ -484,13 +341,15 @@ interactions:
             X-Content-Type-Options:
                 - nosniff
             X-Ms-Keyvault-Service-Version:
-                - 1.5.1215.0
+                - 2.2.45.0
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
             X-Msedge-Ref:
-                - 'Ref A: 2A3E1FBEBD064A7585674D13171083BE Ref B: CO6AA3150219035 Ref C: 2024-06-24T21:59:49Z'
+                - 'Ref A: 9F3F4F70106348F99230609EF666D432 Ref B: MWH011020807031 Ref C: 2025-03-31T19:42:16Z'
         status: 200 OK
         code: 200
-        duration: 68.644043ms
-    - id: 9
+        duration: 441.05855ms
+    - id: 6
       request:
         proto: HTTP/1.1
         proto_major: 1
@@ -512,7 +371,7 @@ interactions:
                 - application/json
             Test-Request-Hash:
                 - 880eafeffb9e5082dfac151a497dfba7c6ad3aae617902c7f81cd45325ba9af3
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lqxexq/providers/Microsoft.KeyVault/vaults/aso-kv-gs2/keys/testkey?api-version=2023-07-01
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lqxexq/providers/Microsoft.KeyVault/vaults/aso-kv-gs2/keys/testkey?api-version=2024-11-01
         method: PUT
       response:
         proto: HTTP/2.0
@@ -522,7 +381,7 @@ interactions:
         trailer: {}
         content_length: 635
         uncompressed: false
-        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lqxexq/providers/Microsoft.KeyVault/vaults/aso-kv-gs2/keys/testkey","name":"testkey","type":"Microsoft.KeyVault/vaults/keys","location":"westus2","properties":{"attributes":{"enabled":true,"created":1719266394,"updated":1719266394,"recoveryLevel":"Recoverable+Purgeable","exportable":false},"kty":"RSA","keyOps":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"keySize":2048,"keyUri":"https://aso-kv-gs2.vault.azure.net/keys/testkey","keyUriWithVersion":"https://aso-kv-gs2.vault.azure.net/keys/testkey/d32ecbb04a784892a9265f0825662015"}}'
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lqxexq/providers/Microsoft.KeyVault/vaults/aso-kv-gs2/keys/testkey","name":"testkey","type":"Microsoft.KeyVault/vaults/keys","location":"westus2","properties":{"attributes":{"enabled":true,"created":1729447419,"updated":1729447419,"recoveryLevel":"Recoverable+Purgeable","exportable":false},"kty":"RSA","keyOps":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"keySize":2048,"keyUri":"https://aso-kv-gs2.vault.azure.net/keys/testkey","keyUriWithVersion":"https://aso-kv-gs2.vault.azure.net/keys/testkey/c5d10a13601843ba8925361e67954aa0"}}'
         headers:
             Cache-Control:
                 - no-cache
@@ -543,13 +402,17 @@ interactions:
             X-Content-Type-Options:
                 - nosniff
             X-Ms-Keyvault-Service-Version:
-                - 1.5.1215.0
+                - 2.2.45.0
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=f5d11ebc-8494-4b5f-a0fc-5fbbfd56f7bb/westus2/3055f7f6-5ce6-4e33-af3f-f3f6ed440246
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11999"
             X-Msedge-Ref:
-                - 'Ref A: 297FFDC4C78B47BBA2F9066526CD1854 Ref B: CO6AA3150219035 Ref C: 2024-06-24T21:59:53Z'
+                - 'Ref A: 6A01D84CA8F347519E94897C13634172 Ref B: MWH011020807031 Ref C: 2025-03-31T19:42:20Z'
         status: 200 OK
         code: 200
-        duration: 635.415944ms
-    - id: 10
+        duration: 864.211398ms
+    - id: 7
       request:
         proto: HTTP/1.1
         proto_major: 1
@@ -567,7 +430,7 @@ interactions:
                 - application/json
             Test-Request-Attempt:
                 - "0"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lqxexq/providers/Microsoft.KeyVault/vaults/aso-kv-gs2?api-version=2021-04-01-preview
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lqxexq/providers/Microsoft.KeyVault/vaults/aso-kv-gs2?api-version=2023-07-01
         method: DELETE
       response:
         proto: HTTP/2.0
@@ -596,13 +459,17 @@ interactions:
             X-Content-Type-Options:
                 - nosniff
             X-Ms-Keyvault-Service-Version:
-                - 1.5.1215.0
+                - 2.2.45.0
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=f5d11ebc-8494-4b5f-a0fc-5fbbfd56f7bb/westus2/a99d391d-c8df-43b5-a558-bf7dd4875598
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Deletes:
+                - "11999"
             X-Msedge-Ref:
-                - 'Ref A: A9FE90D1F0B74E11ABE811B686291EF2 Ref B: CO6AA3150219035 Ref C: 2024-06-24T21:59:55Z'
+                - 'Ref A: 5AEA663B378F4EC397B55F88D5BABE88 Ref B: MWH011020807031 Ref C: 2025-03-31T19:42:22Z'
         status: 200 OK
         code: 200
-        duration: 2.331699758s
-    - id: 11
+        duration: 5.44759348s
+    - id: 8
       request:
         proto: HTTP/1.1
         proto_major: 1
@@ -620,7 +487,7 @@ interactions:
                 - application/json
             Test-Request-Attempt:
                 - "2"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.KeyVault/locations/westus2/deletedVaults/aso-kv-gs2?api-version=2023-07-01
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.KeyVault/locations/westus2/deletedVaults/aso-kv-gs2?api-version=2024-11-01
         method: GET
       response:
         proto: HTTP/2.0
@@ -651,13 +518,17 @@ interactions:
             X-Content-Type-Options:
                 - nosniff
             X-Ms-Keyvault-Service-Version:
-                - 1.5.1215.0
+                - 2.2.45.0
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=f5d11ebc-8494-4b5f-a0fc-5fbbfd56f7bb/westus2/fd092141-9195-45ea-9f2d-06b8afa6ea79
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
             X-Msedge-Ref:
-                - 'Ref A: C2FBC6FA30404D56BA544BEA39509A05 Ref B: CO6AA3150219035 Ref C: 2024-06-24T22:00:01Z'
+                - 'Ref A: 2CD56DF894C349E0A93C520AA51228F7 Ref B: MWH011020807031 Ref C: 2025-03-31T19:42:38Z'
         status: 200 OK
         code: 200
-        duration: 60.609031ms
-    - id: 12
+        duration: 131.076586ms
+    - id: 9
       request:
         proto: HTTP/1.1
         proto_major: 1
@@ -675,7 +546,7 @@ interactions:
                 - application/json
             Test-Request-Attempt:
                 - "3"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.KeyVault/locations/westus2/deletedVaults/aso-kv-gs2?api-version=2023-07-01
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.KeyVault/locations/westus2/deletedVaults/aso-kv-gs2?api-version=2024-11-01
         method: GET
       response:
         proto: HTTP/2.0
@@ -706,13 +577,17 @@ interactions:
             X-Content-Type-Options:
                 - nosniff
             X-Ms-Keyvault-Service-Version:
-                - 1.5.1215.0
+                - 2.2.45.0
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=f5d11ebc-8494-4b5f-a0fc-5fbbfd56f7bb/westus2/d1a069a9-e0e3-4a4e-a51a-72054b81df51
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
             X-Msedge-Ref:
-                - 'Ref A: D0BC1D73CD944D149A31E48D3C14EFCF Ref B: CO6AA3150219035 Ref C: 2024-06-24T22:00:01Z'
+                - 'Ref A: AE69D757C27041E387BA989544B68164 Ref B: MWH011020807031 Ref C: 2025-03-31T19:42:39Z'
         status: 200 OK
         code: 200
-        duration: 49.831007ms
-    - id: 13
+        duration: 243.077709ms
+    - id: 10
       request:
         proto: HTTP/1.1
         proto_major: 1
@@ -734,7 +609,7 @@ interactions:
                 - application/json
             Test-Request-Hash:
                 - 99d0a5a3e6d74bc68801611fa622201c780b21da906593a0a01e85041ad7307a
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lqxexq/providers/Microsoft.KeyVault/vaults/aso-kv-gs2?api-version=2021-04-01-preview
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lqxexq/providers/Microsoft.KeyVault/vaults/aso-kv-gs2?api-version=2023-07-01
         method: PUT
       response:
         proto: HTTP/2.0
@@ -742,14 +617,14 @@ interactions:
         proto_minor: 0
         transfer_encoding: []
         trailer: {}
-        content_length: 965
+        content_length: 1018
         uncompressed: false
-        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lqxexq/providers/Microsoft.KeyVault/vaults/aso-kv-gs2","name":"aso-kv-gs2","type":"Microsoft.KeyVault/vaults","location":"westus2","tags":{},"systemData":{"createdBy":"matthchr@microsoft.com","createdByType":"User","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"matthchr@microsoft.com","lastModifiedByType":"User","lastModifiedAt":"2001-02-03T04:05:06Z"},"properties":{"sku":{"family":"A","name":"standard"},"tenantId":"00000000-0000-0000-0000-000000000000","accessPolicies":[{"tenantId":"00000000-0000-0000-0000-000000000000","objectId":"00000000-0000-0000-0000-000000000000","applicationId":"00000000-0000-0000-0000-000000000000","permissions":{"certificates":["get"],"keys":["get","list"],"secrets":["get"],"storage":["get"]}}],"enabledForDeployment":false,"enableSoftDelete":true,"vaultUri":"https://aso-kv-gs2.vault.azure.net/","provisioningState":"Succeeded"}}'
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lqxexq/providers/Microsoft.KeyVault/vaults/aso-kv-gs2","name":"aso-kv-gs2","type":"Microsoft.KeyVault/vaults","location":"westus2","tags":{},"systemData":{"createdBy":"09b48c49-da00-4e9c-be40-92f3a7c0d7d9","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"matthchr@microsoft.com","lastModifiedByType":"User","lastModifiedAt":"2001-02-03T04:05:06Z"},"properties":{"sku":{"family":"A","name":"standard"},"tenantId":"00000000-0000-0000-0000-000000000000","accessPolicies":[{"tenantId":"00000000-0000-0000-0000-000000000000","objectId":"00000000-0000-0000-0000-000000000000","applicationId":"00000000-0000-0000-0000-000000000000","permissions":{"certificates":["get"],"keys":["get","list"],"secrets":["get"],"storage":["get"]}}],"enabledForDeployment":false,"enableSoftDelete":true,"vaultUri":"https://aso-kv-gs2.vault.azure.net/","provisioningState":"Succeeded","publicNetworkAccess":"Enabled"}}'
         headers:
             Cache-Control:
                 - no-cache
             Content-Length:
-                - "965"
+                - "1018"
             Content-Type:
                 - application/json; charset=utf-8
             Expires:
@@ -765,13 +640,17 @@ interactions:
             X-Content-Type-Options:
                 - nosniff
             X-Ms-Keyvault-Service-Version:
-                - 1.5.1215.0
+                - 2.2.45.0
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=f5d11ebc-8494-4b5f-a0fc-5fbbfd56f7bb/westus2/ba6d7db4-d452-4533-9287-7932ad8b6987
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11999"
             X-Msedge-Ref:
-                - 'Ref A: DA18B3BA22044A5F807661B7AA49FDB4 Ref B: CO6AA3150219035 Ref C: 2024-06-24T22:00:01Z'
+                - 'Ref A: 2B5B2ABE1A6040DD95A1C05AFFD93023 Ref B: MWH011020807031 Ref C: 2025-03-31T19:42:39Z'
         status: 200 OK
         code: 200
-        duration: 1.198260889s
-    - id: 14
+        duration: 2.953713837s
+    - id: 11
       request:
         proto: HTTP/1.1
         proto_major: 1
@@ -788,8 +667,8 @@ interactions:
             Accept:
                 - application/json
             Test-Request-Attempt:
-                - "4"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lqxexq/providers/Microsoft.KeyVault/vaults/aso-kv-gs2?api-version=2021-04-01-preview
+                - "1"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lqxexq/providers/Microsoft.KeyVault/vaults/aso-kv-gs2?api-version=2023-07-01
         method: GET
       response:
         proto: HTTP/2.0
@@ -797,14 +676,14 @@ interactions:
         proto_minor: 0
         transfer_encoding: []
         trailer: {}
-        content_length: 965
+        content_length: 1018
         uncompressed: false
-        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lqxexq/providers/Microsoft.KeyVault/vaults/aso-kv-gs2","name":"aso-kv-gs2","type":"Microsoft.KeyVault/vaults","location":"westus2","tags":{},"systemData":{"createdBy":"matthchr@microsoft.com","createdByType":"User","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"matthchr@microsoft.com","lastModifiedByType":"User","lastModifiedAt":"2001-02-03T04:05:06Z"},"properties":{"sku":{"family":"A","name":"standard"},"tenantId":"00000000-0000-0000-0000-000000000000","accessPolicies":[{"tenantId":"00000000-0000-0000-0000-000000000000","objectId":"00000000-0000-0000-0000-000000000000","applicationId":"00000000-0000-0000-0000-000000000000","permissions":{"certificates":["get"],"keys":["get","list"],"secrets":["get"],"storage":["get"]}}],"enabledForDeployment":false,"enableSoftDelete":true,"vaultUri":"https://aso-kv-gs2.vault.azure.net/","provisioningState":"Succeeded"}}'
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lqxexq/providers/Microsoft.KeyVault/vaults/aso-kv-gs2","name":"aso-kv-gs2","type":"Microsoft.KeyVault/vaults","location":"westus2","tags":{},"systemData":{"createdBy":"09b48c49-da00-4e9c-be40-92f3a7c0d7d9","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"matthchr@microsoft.com","lastModifiedByType":"User","lastModifiedAt":"2001-02-03T04:05:06Z"},"properties":{"sku":{"family":"A","name":"standard"},"tenantId":"00000000-0000-0000-0000-000000000000","accessPolicies":[{"tenantId":"00000000-0000-0000-0000-000000000000","objectId":"00000000-0000-0000-0000-000000000000","applicationId":"00000000-0000-0000-0000-000000000000","permissions":{"certificates":["get"],"keys":["get","list"],"secrets":["get"],"storage":["get"]}}],"enabledForDeployment":false,"enableSoftDelete":true,"vaultUri":"https://aso-kv-gs2.vault.azure.net/","provisioningState":"Succeeded","publicNetworkAccess":"Enabled"}}'
         headers:
             Cache-Control:
                 - no-cache
             Content-Length:
-                - "965"
+                - "1018"
             Content-Type:
                 - application/json; charset=utf-8
             Expires:
@@ -820,13 +699,15 @@ interactions:
             X-Content-Type-Options:
                 - nosniff
             X-Ms-Keyvault-Service-Version:
-                - 1.5.1215.0
+                - 2.2.45.0
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
             X-Msedge-Ref:
-                - 'Ref A: 08CAE8FBBEA847CFA0164FEB7C89FDB4 Ref B: CO6AA3150219035 Ref C: 2024-06-24T22:00:04Z'
+                - 'Ref A: A26003898F2049BFB03B93752A26BBD2 Ref B: MWH011020807031 Ref C: 2025-03-31T19:42:45Z'
         status: 200 OK
         code: 200
-        duration: 1.164817332s
-    - id: 15
+        duration: 190.124896ms
+    - id: 12
       request:
         proto: HTTP/1.1
         proto_major: 1
@@ -863,7 +744,7 @@ interactions:
             Expires:
                 - "-1"
             Location:
-                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRMUVhFWFEtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638548632103955292&c=MIIHpTCCBo2gAwIBAgITfwM6vSxODJvqjFP4oQAEAzq9LDANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDIwHhcNMjQwNTE1MTI0NjQwWhcNMjUwNTEwMTI0NjQwWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAKa4cOTKf-wVpLKiG5Zei1-Oc5u5PvibFdqWIGFZDLmSA3G2jYrx6dKQ8NH10xxzVOMT_dqQOb2nPmPDhnS3CUlhwx_iI9VSftq8J182Ci01SlOzoieOj_kBg-1yQ4TB3DD7Rwgy40TMWgK-1lkliuLAgSHruwrRW8Kj8Q96A0oGxy1RQggyCNWVG8EsUp1ngtGu-yi1BZRa4Q-v_x9KFfbvtOc9KIfKRFs2r2zg4MWc4xCzQCYrRXIVfS-sFxEn1GbDqtYc4-y5T978_4OnKXidZCkJqT4v1ZRcgxKZpH8d4GmacrEfBoCqjg9ZayboCoIPz5wEIF9LOngoqXqnmYECAwEAAaOCBJIwggSOMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFggvX2K4Py0SACAWQCAQowggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDAyKDQpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MB0GA1UdDgQWBBRCKTJWBui0JqrIiMW81zJdA9-tSDAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwEwDAYKKwYBBAGCN3sEATAfBgNVHSMEGDAWgBSuecJrXSWIEwb2BwnDl3x7l48dVTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAGJpRHLgYBJ-Hg0664G6_TgQ8luNO24um3ktexLaPrnailsQdaNThyJ4w9TTpMvyG31DlS7euSnKy8IsfMzCDxu1mmgziF9Urf-OpUw3u-ze-9z_PmzXym0G-rk8OrPpWWdAeApaUIHmydJGO_yrSQURQDLY9ATNa4gS1c9rQLruie0ZkPwjhAJCwpdK615q7s9ssaQ_HZEXM9r3mojVMYMB6b7TQJcwlVHBvkRO5u4HnAI26O2e-pcDzgccXJ6mqM158VJM-AyU1D2gWCqHj4zml1U005Ot-Fx-C3N3HCVImLvAllBxeQdwzOTae6Br-eXo1NCFf1ahI2fP4G_nB7o&s=P4ooCvFsFC8FyFF1r_6aXhujIzf5IDBx2R3uNZeZRGzI45IAmzPl4njRKRPk3-bhqJgOkpP_tIO-Jf9wzTjzCa-_P6ZI5mrnDqvd-NEKKXqF9ul-qccnzllCYPNME6hiKqY_kbeI09y-HND8sMFGgOITf5hPdxqd9Xb0f8yfGYvxfsL5XkMbCFg1b5yCEDrL2Min_JsMyJ0rFGJcILkoGhFlnHdJq_54grcJRXEE2zWLt7WTuUAt4oMAHqeMSqRztJk9Ekmwrefiwqwzp_a7y-SttJff2qkNZpcnvY96XDULh5KhtTa9pwOTeznHEnKWnSqq9x7URXpQbxO80cDo0Q&h=8vjw_-nVBmTwSgEEb6RY75gvcspCKPZNar4G_87emCY
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRMUVhFWFEtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638790469673906866&c=MIIHpTCCBo2gAwIBAgITfwTYu0qoRwcN0bP8jwAEBNi7SjANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDIwHhcNMjUwMTIzMjA0ODUxWhcNMjUwNzIyMjA0ODUxWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALJiyUikcpMswfhvdsI_rXYHu5usdpZW7yAqWPwx7nyvDBbA6tYMOwIWDF3lmy48lA46kFg2__zl_gVcj_Jw_2ue8USufQFsjmlCYmhbryemgmCuZucLrVs0nOW_5HVAX7QY9eBRWotqXIDJPTRyoGqWrXm2qO_sMjVacTB19-WMO5gHXKvOrm3HRspddB5sJUi15aHoSTlGgepJ8Bc6vMEFWUSNkkRqGt-EtMDQGAf2PFA2rkeizLvEPyGwqA04f56eXcnvVc-9t6jGFggfFusEW3_EaE1CqF_Aemzi9kaAhLfj5fOyZHybExiqyzL3WDGLAe-mC9uhOggcp5HjtKECAwEAAaOCBJIwggSOMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDAyKDQpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MB0GA1UdDgQWBBTFiuatBch4getEuR5ddJpfuPsJ8DAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBSuecJrXSWIEwb2BwnDl3x7l48dVTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAIxmxJ5xNUiG8PRXsUSme6IbA37JinZso0lwEjfgtHmK1DZhhGugl-cdjEw10JLCVwaiKd-q2yljbccx_MpSj2rx5yGUNb32Cv2p40-HWzxtYMw0j9JGcrJWoP_apkjIELce110mKIOL4dJ3r8N5cXuhEatDvAPjNYjdG9YgGTE1s1CLy9MvJsLRVQnWtxDWlWsj_XgzlBhvgxwXILR7A48GZLe9ENWEJwEl_AmMGT_o5kKmBfcKl6mjYWjCchXL5bHKE5dnl9X3W2eQTdqqGqh2z2KAUwyCu2xOV5xh6Zjg6SDEuPHvcBqAHqMgqi3E38hUBBXw4AXVsmQhz5FyOg8&s=XwSBX5dhmrL_qgkT0xBkYEUXs198pB44nMHmpfcP9FhpTmGczmWUARL0LwAQdZkVTDs3MKuGZkrWuo2HTH1DGnDS8egTdkCQBsR2wcuGTblNDc09T0ppQgSfaCFUlnEiW6-OuMKnU1UBtvJwIGXjOWr9GLxrdxht_AVyfMT4x1Prp65o_P5o1W_ClO8efxL0t2obU9dUBnk6QwUT9DdTX38sGUGj5_Z14aH1istU_YhzfE_CRuAQTFGCExJj9k7pACj7xsmTm4SoZD8XzYy1sNVwWyLO5L_K0Olv7FzYS8gUDGHbOZt-P-_eIVB6-mXAtNdOSduiYmeMOSvSAuO79Q&h=0zlB5s4mrrnq4_56H9FDa_RQWdupNkwkonyALTcMbck
             Pragma:
                 - no-cache
             Retry-After:
@@ -874,12 +755,14 @@ interactions:
                 - CONFIG_NOCACHE
             X-Content-Type-Options:
                 - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Deletes:
+                - "11999"
             X-Msedge-Ref:
-                - 'Ref A: FE285FDA2EF94E0CB2F9A3F505E86B7E Ref B: CO6AA3150219035 Ref C: 2024-06-24T22:00:10Z'
+                - 'Ref A: 0B22AAC53C314B43829E4086604B1E67 Ref B: MWH011020807031 Ref C: 2025-03-31T19:42:47Z'
         status: 202 Accepted
         code: 202
-        duration: 283.886826ms
-    - id: 16
+        duration: 251.890981ms
+    - id: 13
       request:
         proto: HTTP/1.1
         proto_major: 1
@@ -897,7 +780,7 @@ interactions:
                 - application/json
             Test-Request-Attempt:
                 - "1"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lqxexq/providers/Microsoft.KeyVault/vaults/aso-kv-gs2?api-version=2021-04-01-preview
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lqxexq/providers/Microsoft.KeyVault/vaults/aso-kv-gs2?api-version=2023-07-01
         method: DELETE
       response:
         proto: HTTP/2.0
@@ -926,13 +809,17 @@ interactions:
             X-Content-Type-Options:
                 - nosniff
             X-Ms-Keyvault-Service-Version:
-                - 1.5.1215.0
+                - 2.2.45.0
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=f5d11ebc-8494-4b5f-a0fc-5fbbfd56f7bb/westus2/b86ef21a-e54a-49d9-919b-ec88ae150fe2
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Deletes:
+                - "11999"
             X-Msedge-Ref:
-                - 'Ref A: FBFE93BF855A43D4A99B6A881ED9F1D2 Ref B: CO6AA3150219035 Ref C: 2024-06-24T22:00:10Z'
+                - 'Ref A: B2354303747C404391FD1499B9441FA2 Ref B: MWH011020807031 Ref C: 2025-03-31T19:42:47Z'
         status: 200 OK
         code: 200
-        duration: 2.840082075s
-    - id: 17
+        duration: 5.372731859s
+    - id: 14
       request:
         proto: HTTP/1.1
         proto_major: 1
@@ -948,7 +835,7 @@ interactions:
         headers:
             Test-Request-Attempt:
                 - "0"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRMUVhFWFEtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638548632103955292&c=MIIHpTCCBo2gAwIBAgITfwM6vSxODJvqjFP4oQAEAzq9LDANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDIwHhcNMjQwNTE1MTI0NjQwWhcNMjUwNTEwMTI0NjQwWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAKa4cOTKf-wVpLKiG5Zei1-Oc5u5PvibFdqWIGFZDLmSA3G2jYrx6dKQ8NH10xxzVOMT_dqQOb2nPmPDhnS3CUlhwx_iI9VSftq8J182Ci01SlOzoieOj_kBg-1yQ4TB3DD7Rwgy40TMWgK-1lkliuLAgSHruwrRW8Kj8Q96A0oGxy1RQggyCNWVG8EsUp1ngtGu-yi1BZRa4Q-v_x9KFfbvtOc9KIfKRFs2r2zg4MWc4xCzQCYrRXIVfS-sFxEn1GbDqtYc4-y5T978_4OnKXidZCkJqT4v1ZRcgxKZpH8d4GmacrEfBoCqjg9ZayboCoIPz5wEIF9LOngoqXqnmYECAwEAAaOCBJIwggSOMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFggvX2K4Py0SACAWQCAQowggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDAyKDQpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MB0GA1UdDgQWBBRCKTJWBui0JqrIiMW81zJdA9-tSDAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwEwDAYKKwYBBAGCN3sEATAfBgNVHSMEGDAWgBSuecJrXSWIEwb2BwnDl3x7l48dVTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAGJpRHLgYBJ-Hg0664G6_TgQ8luNO24um3ktexLaPrnailsQdaNThyJ4w9TTpMvyG31DlS7euSnKy8IsfMzCDxu1mmgziF9Urf-OpUw3u-ze-9z_PmzXym0G-rk8OrPpWWdAeApaUIHmydJGO_yrSQURQDLY9ATNa4gS1c9rQLruie0ZkPwjhAJCwpdK615q7s9ssaQ_HZEXM9r3mojVMYMB6b7TQJcwlVHBvkRO5u4HnAI26O2e-pcDzgccXJ6mqM158VJM-AyU1D2gWCqHj4zml1U005Ot-Fx-C3N3HCVImLvAllBxeQdwzOTae6Br-eXo1NCFf1ahI2fP4G_nB7o&s=P4ooCvFsFC8FyFF1r_6aXhujIzf5IDBx2R3uNZeZRGzI45IAmzPl4njRKRPk3-bhqJgOkpP_tIO-Jf9wzTjzCa-_P6ZI5mrnDqvd-NEKKXqF9ul-qccnzllCYPNME6hiKqY_kbeI09y-HND8sMFGgOITf5hPdxqd9Xb0f8yfGYvxfsL5XkMbCFg1b5yCEDrL2Min_JsMyJ0rFGJcILkoGhFlnHdJq_54grcJRXEE2zWLt7WTuUAt4oMAHqeMSqRztJk9Ekmwrefiwqwzp_a7y-SttJff2qkNZpcnvY96XDULh5KhtTa9pwOTeznHEnKWnSqq9x7URXpQbxO80cDo0Q&h=8vjw_-nVBmTwSgEEb6RY75gvcspCKPZNar4G_87emCY
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRMUVhFWFEtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638790469673906866&c=MIIHpTCCBo2gAwIBAgITfwTYu0qoRwcN0bP8jwAEBNi7SjANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDIwHhcNMjUwMTIzMjA0ODUxWhcNMjUwNzIyMjA0ODUxWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALJiyUikcpMswfhvdsI_rXYHu5usdpZW7yAqWPwx7nyvDBbA6tYMOwIWDF3lmy48lA46kFg2__zl_gVcj_Jw_2ue8USufQFsjmlCYmhbryemgmCuZucLrVs0nOW_5HVAX7QY9eBRWotqXIDJPTRyoGqWrXm2qO_sMjVacTB19-WMO5gHXKvOrm3HRspddB5sJUi15aHoSTlGgepJ8Bc6vMEFWUSNkkRqGt-EtMDQGAf2PFA2rkeizLvEPyGwqA04f56eXcnvVc-9t6jGFggfFusEW3_EaE1CqF_Aemzi9kaAhLfj5fOyZHybExiqyzL3WDGLAe-mC9uhOggcp5HjtKECAwEAAaOCBJIwggSOMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDAyKDQpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MB0GA1UdDgQWBBTFiuatBch4getEuR5ddJpfuPsJ8DAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBSuecJrXSWIEwb2BwnDl3x7l48dVTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAIxmxJ5xNUiG8PRXsUSme6IbA37JinZso0lwEjfgtHmK1DZhhGugl-cdjEw10JLCVwaiKd-q2yljbccx_MpSj2rx5yGUNb32Cv2p40-HWzxtYMw0j9JGcrJWoP_apkjIELce110mKIOL4dJ3r8N5cXuhEatDvAPjNYjdG9YgGTE1s1CLy9MvJsLRVQnWtxDWlWsj_XgzlBhvgxwXILR7A48GZLe9ENWEJwEl_AmMGT_o5kKmBfcKl6mjYWjCchXL5bHKE5dnl9X3W2eQTdqqGqh2z2KAUwyCu2xOV5xh6Zjg6SDEuPHvcBqAHqMgqi3E38hUBBXw4AXVsmQhz5FyOg8&s=XwSBX5dhmrL_qgkT0xBkYEUXs198pB44nMHmpfcP9FhpTmGczmWUARL0LwAQdZkVTDs3MKuGZkrWuo2HTH1DGnDS8egTdkCQBsR2wcuGTblNDc09T0ppQgSfaCFUlnEiW6-OuMKnU1UBtvJwIGXjOWr9GLxrdxht_AVyfMT4x1Prp65o_P5o1W_ClO8efxL0t2obU9dUBnk6QwUT9DdTX38sGUGj5_Z14aH1istU_YhzfE_CRuAQTFGCExJj9k7pACj7xsmTm4SoZD8XzYy1sNVwWyLO5L_K0Olv7FzYS8gUDGHbOZt-P-_eIVB6-mXAtNdOSduiYmeMOSvSAuO79Q&h=0zlB5s4mrrnq4_56H9FDa_RQWdupNkwkonyALTcMbck
         method: GET
       response:
         proto: HTTP/2.0
@@ -974,8 +861,10 @@ interactions:
                 - CONFIG_NOCACHE
             X-Content-Type-Options:
                 - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
             X-Msedge-Ref:
-                - 'Ref A: 16DF0CA6CA8341E8B875D8CD930C6086 Ref B: CO6AA3150219035 Ref C: 2024-06-24T22:00:25Z'
+                - 'Ref A: 7838F67DC1C8439589480AC2D899F069 Ref B: MWH011020807031 Ref C: 2025-03-31T19:43:02Z'
         status: 200 OK
         code: 200
-        duration: 68.501457ms
+        duration: 21.34306ms

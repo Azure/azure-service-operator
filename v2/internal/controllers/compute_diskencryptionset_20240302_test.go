@@ -11,7 +11,7 @@ import (
 	. "github.com/onsi/gomega"
 
 	compute "github.com/Azure/azure-service-operator/v2/api/compute/v1api20240302"
-	keyvault "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401preview"
+	keyvault "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20230701"
 	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"

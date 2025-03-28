@@ -120,7 +120,7 @@ func newVault20230701(name string, tc *testcommon.KubePerTestContext, rg *resour
 					Name:   to.Ptr(keyvault.Sku_Name_Standard),
 				},
 				TenantId:   to.Ptr(tc.AzureTenant),
-				CreateMode: to.Ptr(keyvault.VaultProperties_CreateMode_PurgeThenCreate),
+				CreateMode: to.Ptr(keyvault.VaultProperties_CreateMode_CreateOrRecover),
 			},
 		},
 	}

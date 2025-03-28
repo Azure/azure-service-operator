@@ -73,7 +73,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.KeyVault/locations/westus2/deletedVaults/aso-kv-purge?api-version=2023-07-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.KeyVault/locations/westus2/deletedVaults/aso-kv-purge?api-version=2024-11-01
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.KeyVault/locations/westus2/deletedVaults/aso-kv-purge","name":"aso-kv-purge","type":"Microsoft.KeyVault/deletedVaults","properties":{"vaultId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkjygv/providers/Microsoft.KeyVault/vaults/aso-kv-purge","location":"westus2","tags":{},"deletionDate":"2001-02-03T04:05:06Z","scheduledPurgeDate":"2001-02-03T04:05:06Z"}}'
@@ -109,7 +109,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.KeyVault/locations/westus2/deletedVaults/aso-kv-purge?api-version=2023-07-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.KeyVault/locations/westus2/deletedVaults/aso-kv-purge?api-version=2024-11-01
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.KeyVault/locations/westus2/deletedVaults/aso-kv-purge","name":"aso-kv-purge","type":"Microsoft.KeyVault/deletedVaults","properties":{"vaultId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkjygv/providers/Microsoft.KeyVault/vaults/aso-kv-purge","location":"westus2","tags":{},"deletionDate":"2001-02-03T04:05:06Z","scheduledPurgeDate":"2001-02-03T04:05:06Z"}}'
@@ -149,7 +149,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkjygv/providers/Microsoft.KeyVault/vaults/aso-kv-purge?api-version=2021-04-01-preview
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkjygv/providers/Microsoft.KeyVault/vaults/aso-kv-purge?api-version=2023-07-01
     method: PUT
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkjygv/providers/Microsoft.KeyVault/vaults/aso-kv-purge","name":"aso-kv-purge","type":"Microsoft.KeyVault/vaults","location":"westus2","tags":{},"systemData":{"createdBy":"e5d772d8-b77f-4ed1-8dbb-3e8d433cbf46","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"e5d772d8-b77f-4ed1-8dbb-3e8d433cbf46","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"properties":{"sku":{"family":"A","name":"standard"},"tenantId":"00000000-0000-0000-0000-000000000000","accessPolicies":[{"tenantId":"00000000-0000-0000-0000-000000000000","objectId":"00000000-0000-0000-0000-000000000000","applicationId":"00000000-0000-0000-0000-000000000000","permissions":{"certificates":["get"],"keys":["get","list"],"secrets":["get"],"storage":["get"]}}],"enabledForDeployment":false,"enableSoftDelete":true,"vaultUri":"https://aso-kv-purge.vault.azure.net/","provisioningState":"Succeeded"}}'
@@ -185,7 +185,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkjygv/providers/Microsoft.KeyVault/vaults/aso-kv-purge?api-version=2021-04-01-preview
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkjygv/providers/Microsoft.KeyVault/vaults/aso-kv-purge?api-version=2023-07-01
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkjygv/providers/Microsoft.KeyVault/vaults/aso-kv-purge","name":"aso-kv-purge","type":"Microsoft.KeyVault/vaults","location":"westus2","tags":{},"systemData":{"createdBy":"e5d772d8-b77f-4ed1-8dbb-3e8d433cbf46","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"e5d772d8-b77f-4ed1-8dbb-3e8d433cbf46","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"properties":{"sku":{"family":"A","name":"standard"},"tenantId":"00000000-0000-0000-0000-000000000000","accessPolicies":[{"tenantId":"00000000-0000-0000-0000-000000000000","objectId":"00000000-0000-0000-0000-000000000000","applicationId":"00000000-0000-0000-0000-000000000000","permissions":{"certificates":["get"],"keys":["get","list"],"secrets":["get"],"storage":["get"]}}],"enabledForDeployment":false,"enableSoftDelete":true,"vaultUri":"https://aso-kv-purge.vault.azure.net/","provisioningState":"Succeeded"}}'
@@ -225,7 +225,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkjygv/providers/Microsoft.KeyVault/vaults/aso-kv-purge/keys/testkey?api-version=2023-07-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkjygv/providers/Microsoft.KeyVault/vaults/aso-kv-purge/keys/testkey?api-version=2024-11-01
     method: PUT
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkjygv/providers/Microsoft.KeyVault/vaults/aso-kv-purge/keys/testkey","name":"testkey","type":"Microsoft.KeyVault/vaults/keys","location":"westus2","properties":{"attributes":{"enabled":true,"created":1698869575,"updated":1698869575,"recoveryLevel":"Recoverable+Purgeable","exportable":false},"kty":"RSA","keyOps":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"keySize":2048,"keyUri":"https://aso-kv-purge.vault.azure.net/keys/testkey","keyUriWithVersion":"https://aso-kv-purge.vault.azure.net/keys/testkey/0645342c45ef455a9e65608a1a0ae340"}}'
@@ -261,7 +261,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkjygv/providers/Microsoft.KeyVault/vaults/aso-kv-purge?api-version=2021-04-01-preview
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkjygv/providers/Microsoft.KeyVault/vaults/aso-kv-purge?api-version=2023-07-01
     method: DELETE
   response:
     body: ""
@@ -295,7 +295,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.KeyVault/locations/westus2/deletedVaults/aso-kv-purge?api-version=2023-07-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.KeyVault/locations/westus2/deletedVaults/aso-kv-purge?api-version=2024-11-01
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.KeyVault/locations/westus2/deletedVaults/aso-kv-purge","name":"aso-kv-purge","type":"Microsoft.KeyVault/deletedVaults","properties":{"vaultId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkjygv/providers/Microsoft.KeyVault/vaults/aso-kv-purge","location":"westus2","tags":{},"deletionDate":"2001-02-03T04:05:06Z","scheduledPurgeDate":"2001-02-03T04:05:06Z"}}'
@@ -331,7 +331,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.KeyVault/locations/westus2/deletedVaults/aso-kv-purge/purge?api-version=2023-07-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.KeyVault/locations/westus2/deletedVaults/aso-kv-purge/purge?api-version=2024-11-01
     method: POST
   response:
     body: ""
@@ -343,7 +343,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.KeyVault/locations/westus2/operationResults/VVR8MDYzODM0NDY2MzgzNTY4MDEzM3xEQUJDMEIzMUM0MkI0M0E0OEQyOTg4MTFBMzRDRDcxNA?api-version=2023-07-01&t=638344663827222614&c=MIIHHjCCBgagAwIBAgITOgHdEa6m-L-OzhMS4gAEAd0RrjANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSU5GUkEgQ0EgMDEwHhcNMjMwODAyMTQ1MzE1WhcNMjQwNzI3MTQ1MzE1WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANZwl2fAfUN41eODFwhZ5XU6lxnkpD7FRxWcjhpkJocTtKImOU10mc31se-Jp1PfK7eCEbHeOH9xKczBN174-capaVbizm5duhy7wBUBpYg2Ris4MNKwXQrwTBzWSv7qZ6C5iDqF8js7KWEd4RsvuIPUPaVXwQ6v_dq_5C0vqifInuQ4x2ukMEIj_vRRrmA6p226Iq7-UU8KbwodqnNGkCCNfVDBqanrac252DXsuIt7c3P3ShuzzqrGhq2zcwfqVK3UOq5uYlBXfuUNx5vAZ1Wr_RggfUfST9zoLYgBmYi25qDz6o4NfrMiMLX5Kok7zsLmcal--0HViT9jisHlicUCAwEAAaOCBAswggQHMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFggvX2K4Py0SACAWQCAQowggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQlkyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMElORlJBJTIwQ0ElMjAwMSg0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JZMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CWTJQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSU5GUkElMjBDQSUyMDAxKDQpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQlkyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMElORlJBJTIwQ0ElMjAwMSg0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JZMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3J0MB0GA1UdDgQWBBRQBbPgul9vUs05iayDf3LG_114gDAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JsMBcGA1UdIAQQMA4wDAYKKwYBBAGCN3sBATAfBgNVHSMEGDAWgBTl2Ztn_PjsurvwwKidileIud8-YzAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBADhE6Zd4c8B695oGqePRy4A_yclGrrg-m817qKAc8RSbbgv_s7MDJJW8phCi2oUlkCAhbIf99zPfzCdIha3xsT3oQdghMXVWvcwGh5HS5zASc5AusFwSUvEPElql_j-TF_NASaL5DrNJnVSRrBrPFQE5K4dtEO5n4D7XuwDnVIcokYK4OL7t722SzyYlhiz-b8R84dc7Vt-5CAOPNfKDQgz1pQWl3TM5h9DImkZrqDtikgjGe6UpdFmNDqXsZh6YBgiUpjFi05tmi7SuMc_S4vsuyxrPScN-bpWIanU0ZBfrrd1e9Zxcsqr7ux9WcxeaEdsRIg6K4Jxupusq2BrwWT4&s=WUHp-kilgTWGgBhhE2Zju-bi2tGdcPmnaNLggjh6q9AzrQJVEIl5dHqKQLkHVHNPHtGGjQ0Kqu5GgolFfXgyQ_zXS1zCJDuFq5Ml60t5f8H9GJ1mf15FhmxID4b8n8NfXQ9vh_nnFc0qEcWFaR-ieYFAUMvatWzRuIwLw2p4QBrini52Ui4AbQabWWxGWpEUWD6SNYmDZ3ehOk7owhx4Vc1a1Sc2y1BgUTJDPk2NWd8tcv9vmlfc4uBhrKQ-Os5fuJdN7HrH4675r_UamO5yH7SNnANPPJevhfllcUAlL6sZ-lFvDhC4C1ZpvNfeNZBloTjt5k80DIXdG5Ehxn8tsg&h=7M6WS8fuvaZt0uzODvRxJ6V7o5tVUUz9CtVqgg5UxiE
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.KeyVault/locations/westus2/operationResults/VVR8MDYzODM0NDY2MzgzNTY4MDEzM3xEQUJDMEIzMUM0MkI0M0E0OEQyOTg4MTFBMzRDRDcxNA?api-version=2024-11-01&t=638344663827222614&c=MIIHHjCCBgagAwIBAgITOgHdEa6m-L-OzhMS4gAEAd0RrjANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSU5GUkEgQ0EgMDEwHhcNMjMwODAyMTQ1MzE1WhcNMjQwNzI3MTQ1MzE1WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANZwl2fAfUN41eODFwhZ5XU6lxnkpD7FRxWcjhpkJocTtKImOU10mc31se-Jp1PfK7eCEbHeOH9xKczBN174-capaVbizm5duhy7wBUBpYg2Ris4MNKwXQrwTBzWSv7qZ6C5iDqF8js7KWEd4RsvuIPUPaVXwQ6v_dq_5C0vqifInuQ4x2ukMEIj_vRRrmA6p226Iq7-UU8KbwodqnNGkCCNfVDBqanrac252DXsuIt7c3P3ShuzzqrGhq2zcwfqVK3UOq5uYlBXfuUNx5vAZ1Wr_RggfUfST9zoLYgBmYi25qDz6o4NfrMiMLX5Kok7zsLmcal--0HViT9jisHlicUCAwEAAaOCBAswggQHMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFggvX2K4Py0SACAWQCAQowggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQlkyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMElORlJBJTIwQ0ElMjAwMSg0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JZMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CWTJQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSU5GUkElMjBDQSUyMDAxKDQpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQlkyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMElORlJBJTIwQ0ElMjAwMSg0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JZMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3J0MB0GA1UdDgQWBBRQBbPgul9vUs05iayDf3LG_114gDAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JsMBcGA1UdIAQQMA4wDAYKKwYBBAGCN3sBATAfBgNVHSMEGDAWgBTl2Ztn_PjsurvwwKidileIud8-YzAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBADhE6Zd4c8B695oGqePRy4A_yclGrrg-m817qKAc8RSbbgv_s7MDJJW8phCi2oUlkCAhbIf99zPfzCdIha3xsT3oQdghMXVWvcwGh5HS5zASc5AusFwSUvEPElql_j-TF_NASaL5DrNJnVSRrBrPFQE5K4dtEO5n4D7XuwDnVIcokYK4OL7t722SzyYlhiz-b8R84dc7Vt-5CAOPNfKDQgz1pQWl3TM5h9DImkZrqDtikgjGe6UpdFmNDqXsZh6YBgiUpjFi05tmi7SuMc_S4vsuyxrPScN-bpWIanU0ZBfrrd1e9Zxcsqr7ux9WcxeaEdsRIg6K4Jxupusq2BrwWT4&s=WUHp-kilgTWGgBhhE2Zju-bi2tGdcPmnaNLggjh6q9AzrQJVEIl5dHqKQLkHVHNPHtGGjQ0Kqu5GgolFfXgyQ_zXS1zCJDuFq5Ml60t5f8H9GJ1mf15FhmxID4b8n8NfXQ9vh_nnFc0qEcWFaR-ieYFAUMvatWzRuIwLw2p4QBrini52Ui4AbQabWWxGWpEUWD6SNYmDZ3ehOk7owhx4Vc1a1Sc2y1BgUTJDPk2NWd8tcv9vmlfc4uBhrKQ-Os5fuJdN7HrH4675r_UamO5yH7SNnANPPJevhfllcUAlL6sZ-lFvDhC4C1ZpvNfeNZBloTjt5k80DIXdG5Ehxn8tsg&h=7M6WS8fuvaZt0uzODvRxJ6V7o5tVUUz9CtVqgg5UxiE
       Pragma:
       - no-cache
       Retry-After:
@@ -367,7 +367,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.KeyVault/locations/westus2/operationResults/VVR8MDYzODM0NDY2MzgzNTY4MDEzM3xEQUJDMEIzMUM0MkI0M0E0OEQyOTg4MTFBMzRDRDcxNA?api-version=2023-07-01&t=638344663827222614&c=MIIHHjCCBgagAwIBAgITOgHdEa6m-L-OzhMS4gAEAd0RrjANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSU5GUkEgQ0EgMDEwHhcNMjMwODAyMTQ1MzE1WhcNMjQwNzI3MTQ1MzE1WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANZwl2fAfUN41eODFwhZ5XU6lxnkpD7FRxWcjhpkJocTtKImOU10mc31se-Jp1PfK7eCEbHeOH9xKczBN174-capaVbizm5duhy7wBUBpYg2Ris4MNKwXQrwTBzWSv7qZ6C5iDqF8js7KWEd4RsvuIPUPaVXwQ6v_dq_5C0vqifInuQ4x2ukMEIj_vRRrmA6p226Iq7-UU8KbwodqnNGkCCNfVDBqanrac252DXsuIt7c3P3ShuzzqrGhq2zcwfqVK3UOq5uYlBXfuUNx5vAZ1Wr_RggfUfST9zoLYgBmYi25qDz6o4NfrMiMLX5Kok7zsLmcal--0HViT9jisHlicUCAwEAAaOCBAswggQHMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFggvX2K4Py0SACAWQCAQowggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQlkyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMElORlJBJTIwQ0ElMjAwMSg0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JZMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CWTJQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSU5GUkElMjBDQSUyMDAxKDQpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQlkyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMElORlJBJTIwQ0ElMjAwMSg0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JZMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3J0MB0GA1UdDgQWBBRQBbPgul9vUs05iayDf3LG_114gDAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JsMBcGA1UdIAQQMA4wDAYKKwYBBAGCN3sBATAfBgNVHSMEGDAWgBTl2Ztn_PjsurvwwKidileIud8-YzAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBADhE6Zd4c8B695oGqePRy4A_yclGrrg-m817qKAc8RSbbgv_s7MDJJW8phCi2oUlkCAhbIf99zPfzCdIha3xsT3oQdghMXVWvcwGh5HS5zASc5AusFwSUvEPElql_j-TF_NASaL5DrNJnVSRrBrPFQE5K4dtEO5n4D7XuwDnVIcokYK4OL7t722SzyYlhiz-b8R84dc7Vt-5CAOPNfKDQgz1pQWl3TM5h9DImkZrqDtikgjGe6UpdFmNDqXsZh6YBgiUpjFi05tmi7SuMc_S4vsuyxrPScN-bpWIanU0ZBfrrd1e9Zxcsqr7ux9WcxeaEdsRIg6K4Jxupusq2BrwWT4&s=WUHp-kilgTWGgBhhE2Zju-bi2tGdcPmnaNLggjh6q9AzrQJVEIl5dHqKQLkHVHNPHtGGjQ0Kqu5GgolFfXgyQ_zXS1zCJDuFq5Ml60t5f8H9GJ1mf15FhmxID4b8n8NfXQ9vh_nnFc0qEcWFaR-ieYFAUMvatWzRuIwLw2p4QBrini52Ui4AbQabWWxGWpEUWD6SNYmDZ3ehOk7owhx4Vc1a1Sc2y1BgUTJDPk2NWd8tcv9vmlfc4uBhrKQ-Os5fuJdN7HrH4675r_UamO5yH7SNnANPPJevhfllcUAlL6sZ-lFvDhC4C1ZpvNfeNZBloTjt5k80DIXdG5Ehxn8tsg&h=7M6WS8fuvaZt0uzODvRxJ6V7o5tVUUz9CtVqgg5UxiE
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.KeyVault/locations/westus2/operationResults/VVR8MDYzODM0NDY2MzgzNTY4MDEzM3xEQUJDMEIzMUM0MkI0M0E0OEQyOTg4MTFBMzRDRDcxNA?api-version=2024-11-01&t=638344663827222614&c=MIIHHjCCBgagAwIBAgITOgHdEa6m-L-OzhMS4gAEAd0RrjANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSU5GUkEgQ0EgMDEwHhcNMjMwODAyMTQ1MzE1WhcNMjQwNzI3MTQ1MzE1WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANZwl2fAfUN41eODFwhZ5XU6lxnkpD7FRxWcjhpkJocTtKImOU10mc31se-Jp1PfK7eCEbHeOH9xKczBN174-capaVbizm5duhy7wBUBpYg2Ris4MNKwXQrwTBzWSv7qZ6C5iDqF8js7KWEd4RsvuIPUPaVXwQ6v_dq_5C0vqifInuQ4x2ukMEIj_vRRrmA6p226Iq7-UU8KbwodqnNGkCCNfVDBqanrac252DXsuIt7c3P3ShuzzqrGhq2zcwfqVK3UOq5uYlBXfuUNx5vAZ1Wr_RggfUfST9zoLYgBmYi25qDz6o4NfrMiMLX5Kok7zsLmcal--0HViT9jisHlicUCAwEAAaOCBAswggQHMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFggvX2K4Py0SACAWQCAQowggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQlkyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMElORlJBJTIwQ0ElMjAwMSg0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JZMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CWTJQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSU5GUkElMjBDQSUyMDAxKDQpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQlkyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMElORlJBJTIwQ0ElMjAwMSg0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JZMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3J0MB0GA1UdDgQWBBRQBbPgul9vUs05iayDf3LG_114gDAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JsMBcGA1UdIAQQMA4wDAYKKwYBBAGCN3sBATAfBgNVHSMEGDAWgBTl2Ztn_PjsurvwwKidileIud8-YzAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBADhE6Zd4c8B695oGqePRy4A_yclGrrg-m817qKAc8RSbbgv_s7MDJJW8phCi2oUlkCAhbIf99zPfzCdIha3xsT3oQdghMXVWvcwGh5HS5zASc5AusFwSUvEPElql_j-TF_NASaL5DrNJnVSRrBrPFQE5K4dtEO5n4D7XuwDnVIcokYK4OL7t722SzyYlhiz-b8R84dc7Vt-5CAOPNfKDQgz1pQWl3TM5h9DImkZrqDtikgjGe6UpdFmNDqXsZh6YBgiUpjFi05tmi7SuMc_S4vsuyxrPScN-bpWIanU0ZBfrrd1e9Zxcsqr7ux9WcxeaEdsRIg6K4Jxupusq2BrwWT4&s=WUHp-kilgTWGgBhhE2Zju-bi2tGdcPmnaNLggjh6q9AzrQJVEIl5dHqKQLkHVHNPHtGGjQ0Kqu5GgolFfXgyQ_zXS1zCJDuFq5Ml60t5f8H9GJ1mf15FhmxID4b8n8NfXQ9vh_nnFc0qEcWFaR-ieYFAUMvatWzRuIwLw2p4QBrini52Ui4AbQabWWxGWpEUWD6SNYmDZ3ehOk7owhx4Vc1a1Sc2y1BgUTJDPk2NWd8tcv9vmlfc4uBhrKQ-Os5fuJdN7HrH4675r_UamO5yH7SNnANPPJevhfllcUAlL6sZ-lFvDhC4C1ZpvNfeNZBloTjt5k80DIXdG5Ehxn8tsg&h=7M6WS8fuvaZt0uzODvRxJ6V7o5tVUUz9CtVqgg5UxiE
     method: GET
   response:
     body: '{"createdDateTime":"2023-11-01 20:13:02Z","lastActionDateTime":"2023-11-01
@@ -404,7 +404,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.KeyVault/locations/westus2/deletedVaults/aso-kv-purge?api-version=2023-07-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.KeyVault/locations/westus2/deletedVaults/aso-kv-purge?api-version=2024-11-01
     method: GET
   response:
     body: '{"error":{"code":"DeletedVaultNotFound","message":"The specified deleted
@@ -447,7 +447,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkjygv/providers/Microsoft.KeyVault/vaults/aso-kv-purge?api-version=2021-04-01-preview
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkjygv/providers/Microsoft.KeyVault/vaults/aso-kv-purge?api-version=2023-07-01
     method: PUT
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkjygv/providers/Microsoft.KeyVault/vaults/aso-kv-purge","name":"aso-kv-purge","type":"Microsoft.KeyVault/vaults","location":"westus2","tags":{},"systemData":{"createdBy":"e5d772d8-b77f-4ed1-8dbb-3e8d433cbf46","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"e5d772d8-b77f-4ed1-8dbb-3e8d433cbf46","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"properties":{"sku":{"family":"A","name":"standard"},"tenantId":"00000000-0000-0000-0000-000000000000","accessPolicies":[{"tenantId":"00000000-0000-0000-0000-000000000000","objectId":"00000000-0000-0000-0000-000000000000","applicationId":"00000000-0000-0000-0000-000000000000","permissions":{"certificates":["get"],"keys":["get","list"],"secrets":["get"],"storage":["get"]}}],"enabledForDeployment":false,"enableSoftDelete":true,"vaultUri":"https://aso-kv-purge.vault.azure.net","provisioningState":"RegisteringDns"}}'
@@ -481,7 +481,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkjygv/providers/Microsoft.KeyVault/vaults/aso-kv-purge?api-version=2021-04-01-preview
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkjygv/providers/Microsoft.KeyVault/vaults/aso-kv-purge?api-version=2023-07-01
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkjygv/providers/Microsoft.KeyVault/vaults/aso-kv-purge","name":"aso-kv-purge","type":"Microsoft.KeyVault/vaults","location":"westus2","tags":{},"systemData":{"createdBy":"e5d772d8-b77f-4ed1-8dbb-3e8d433cbf46","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"e5d772d8-b77f-4ed1-8dbb-3e8d433cbf46","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"properties":{"sku":{"family":"A","name":"standard"},"tenantId":"00000000-0000-0000-0000-000000000000","accessPolicies":[{"tenantId":"00000000-0000-0000-0000-000000000000","objectId":"00000000-0000-0000-0000-000000000000","applicationId":"00000000-0000-0000-0000-000000000000","permissions":{"certificates":["get"],"keys":["get","list"],"secrets":["get"],"storage":["get"]}}],"enabledForDeployment":false,"enableSoftDelete":true,"vaultUri":"https://aso-kv-purge.vault.azure.net/","provisioningState":"RegisteringDns"}}'
@@ -515,7 +515,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkjygv/providers/Microsoft.KeyVault/vaults/aso-kv-purge?api-version=2021-04-01-preview
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkjygv/providers/Microsoft.KeyVault/vaults/aso-kv-purge?api-version=2023-07-01
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkjygv/providers/Microsoft.KeyVault/vaults/aso-kv-purge","name":"aso-kv-purge","type":"Microsoft.KeyVault/vaults","location":"westus2","tags":{},"systemData":{"createdBy":"e5d772d8-b77f-4ed1-8dbb-3e8d433cbf46","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"e5d772d8-b77f-4ed1-8dbb-3e8d433cbf46","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"properties":{"sku":{"family":"A","name":"standard"},"tenantId":"00000000-0000-0000-0000-000000000000","accessPolicies":[{"tenantId":"00000000-0000-0000-0000-000000000000","objectId":"00000000-0000-0000-0000-000000000000","applicationId":"00000000-0000-0000-0000-000000000000","permissions":{"certificates":["get"],"keys":["get","list"],"secrets":["get"],"storage":["get"]}}],"enabledForDeployment":false,"enableSoftDelete":true,"vaultUri":"https://aso-kv-purge.vault.azure.net/","provisioningState":"RegisteringDns"}}'
@@ -549,7 +549,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkjygv/providers/Microsoft.KeyVault/vaults/aso-kv-purge?api-version=2021-04-01-preview
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkjygv/providers/Microsoft.KeyVault/vaults/aso-kv-purge?api-version=2023-07-01
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkjygv/providers/Microsoft.KeyVault/vaults/aso-kv-purge","name":"aso-kv-purge","type":"Microsoft.KeyVault/vaults","location":"westus2","tags":{},"systemData":{"createdBy":"e5d772d8-b77f-4ed1-8dbb-3e8d433cbf46","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"e5d772d8-b77f-4ed1-8dbb-3e8d433cbf46","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"properties":{"sku":{"family":"A","name":"standard"},"tenantId":"00000000-0000-0000-0000-000000000000","accessPolicies":[{"tenantId":"00000000-0000-0000-0000-000000000000","objectId":"00000000-0000-0000-0000-000000000000","applicationId":"00000000-0000-0000-0000-000000000000","permissions":{"certificates":["get"],"keys":["get","list"],"secrets":["get"],"storage":["get"]}}],"enabledForDeployment":false,"enableSoftDelete":true,"vaultUri":"https://aso-kv-purge.vault.azure.net/","provisioningState":"RegisteringDns"}}'
@@ -583,7 +583,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "4"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkjygv/providers/Microsoft.KeyVault/vaults/aso-kv-purge?api-version=2021-04-01-preview
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkjygv/providers/Microsoft.KeyVault/vaults/aso-kv-purge?api-version=2023-07-01
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkjygv/providers/Microsoft.KeyVault/vaults/aso-kv-purge","name":"aso-kv-purge","type":"Microsoft.KeyVault/vaults","location":"westus2","tags":{},"systemData":{"createdBy":"e5d772d8-b77f-4ed1-8dbb-3e8d433cbf46","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"e5d772d8-b77f-4ed1-8dbb-3e8d433cbf46","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"properties":{"sku":{"family":"A","name":"standard"},"tenantId":"00000000-0000-0000-0000-000000000000","accessPolicies":[{"tenantId":"00000000-0000-0000-0000-000000000000","objectId":"00000000-0000-0000-0000-000000000000","applicationId":"00000000-0000-0000-0000-000000000000","permissions":{"certificates":["get"],"keys":["get","list"],"secrets":["get"],"storage":["get"]}}],"enabledForDeployment":false,"enableSoftDelete":true,"vaultUri":"https://aso-kv-purge.vault.azure.net/","provisioningState":"Succeeded"}}'
@@ -619,7 +619,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "5"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkjygv/providers/Microsoft.KeyVault/vaults/aso-kv-purge?api-version=2021-04-01-preview
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkjygv/providers/Microsoft.KeyVault/vaults/aso-kv-purge?api-version=2023-07-01
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkjygv/providers/Microsoft.KeyVault/vaults/aso-kv-purge","name":"aso-kv-purge","type":"Microsoft.KeyVault/vaults","location":"westus2","tags":{},"systemData":{"createdBy":"e5d772d8-b77f-4ed1-8dbb-3e8d433cbf46","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"e5d772d8-b77f-4ed1-8dbb-3e8d433cbf46","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"properties":{"sku":{"family":"A","name":"standard"},"tenantId":"00000000-0000-0000-0000-000000000000","accessPolicies":[{"tenantId":"00000000-0000-0000-0000-000000000000","objectId":"00000000-0000-0000-0000-000000000000","applicationId":"00000000-0000-0000-0000-000000000000","permissions":{"certificates":["get"],"keys":["get","list"],"secrets":["get"],"storage":["get"]}}],"enabledForDeployment":false,"enableSoftDelete":true,"vaultUri":"https://aso-kv-purge.vault.azure.net/","provisioningState":"Succeeded"}}'
@@ -833,7 +833,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkjygv/providers/Microsoft.KeyVault/vaults/aso-kv-purge?api-version=2021-04-01-preview
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkjygv/providers/Microsoft.KeyVault/vaults/aso-kv-purge?api-version=2023-07-01
     method: DELETE
   response:
     body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkjygv''

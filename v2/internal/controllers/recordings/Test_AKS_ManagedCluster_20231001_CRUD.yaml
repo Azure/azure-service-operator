@@ -3679,7 +3679,7 @@ interactions:
                 - application/json
             Test-Request-Attempt:
                 - "0"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.KeyVault/locations/westus2/deletedVaults/asotest-kv-setxmk?api-version=2023-07-01
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.KeyVault/locations/westus2/deletedVaults/asotest-kv-setxmk?api-version=2024-11-01
         method: GET
       response:
         proto: HTTP/2.0
@@ -3734,7 +3734,7 @@ interactions:
                 - application/json
             Test-Request-Attempt:
                 - "1"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.KeyVault/locations/westus2/deletedVaults/asotest-kv-setxmk?api-version=2023-07-01
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.KeyVault/locations/westus2/deletedVaults/asotest-kv-setxmk?api-version=2024-11-01
         method: GET
       response:
         proto: HTTP/2.0
