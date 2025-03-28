@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501preview/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501preview/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -15,10 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -84,29 +81,6 @@ func (versionSet *ApiVersionSet) ConvertTo(hub conversion.Hub) error {
 
 	return nil
 }
-
-// +kubebuilder:webhook:path=/mutate-apimanagement-azure-com-v1api20230501preview-apiversionset,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=apimanagement.azure.com,resources=apiversionsets,verbs=create;update,versions=v1api20230501preview,name=default.v1api20230501preview.apiversionsets.apimanagement.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &ApiVersionSet{}
-
-// Default applies defaults to the ApiVersionSet resource
-func (versionSet *ApiVersionSet) Default() {
-	versionSet.defaultImpl()
-	var temp any = versionSet
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (versionSet *ApiVersionSet) defaultAzureName() {
-	if versionSet.Spec.AzureName == "" {
-		versionSet.Spec.AzureName = versionSet.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the ApiVersionSet resource
-func (versionSet *ApiVersionSet) defaultImpl() { versionSet.defaultAzureName() }
 
 var _ configmaps.Exporter = &ApiVersionSet{}
 
@@ -202,109 +176,6 @@ func (versionSet *ApiVersionSet) SetStatus(status genruntime.ConvertibleStatus) 
 
 	versionSet.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-apimanagement-azure-com-v1api20230501preview-apiversionset,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=apimanagement.azure.com,resources=apiversionsets,verbs=create;update,versions=v1api20230501preview,name=validate.v1api20230501preview.apiversionsets.apimanagement.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &ApiVersionSet{}
-
-// ValidateCreate validates the creation of the resource
-func (versionSet *ApiVersionSet) ValidateCreate() (admission.Warnings, error) {
-	validations := versionSet.createValidations()
-	var temp any = versionSet
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (versionSet *ApiVersionSet) ValidateDelete() (admission.Warnings, error) {
-	validations := versionSet.deleteValidations()
-	var temp any = versionSet
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (versionSet *ApiVersionSet) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := versionSet.updateValidations()
-	var temp any = versionSet
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (versionSet *ApiVersionSet) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){versionSet.validateResourceReferences, versionSet.validateOwnerReference, versionSet.validateSecretDestinations, versionSet.validateConfigMapDestinations}
-}
-
-// deleteValidations validates the deletion of the resource
-func (versionSet *ApiVersionSet) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (versionSet *ApiVersionSet) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return versionSet.validateResourceReferences()
-		},
-		versionSet.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return versionSet.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return versionSet.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return versionSet.validateConfigMapDestinations()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (versionSet *ApiVersionSet) validateConfigMapDestinations() (admission.Warnings, error) {
-	if versionSet.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(versionSet, nil, versionSet.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOwnerReference validates the owner field
-func (versionSet *ApiVersionSet) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(versionSet)
-}
-
-// validateResourceReferences validates all resource references
-func (versionSet *ApiVersionSet) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&versionSet.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (versionSet *ApiVersionSet) validateSecretDestinations() (admission.Warnings, error) {
-	if versionSet.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(versionSet, nil, versionSet.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (versionSet *ApiVersionSet) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*ApiVersionSet)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, versionSet)
 }
 
 // AssignProperties_From_ApiVersionSet populates our ApiVersionSet from the provided source ApiVersionSet

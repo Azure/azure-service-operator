@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/storage/v1api20230101/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20230101/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -15,10 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -70,29 +67,6 @@ func (share *StorageAccountsFileServicesShare) ConvertTo(hub conversion.Hub) err
 
 	return share.AssignProperties_To_StorageAccountsFileServicesShare(destination)
 }
-
-// +kubebuilder:webhook:path=/mutate-storage-azure-com-v1api20230101-storageaccountsfileservicesshare,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=storage.azure.com,resources=storageaccountsfileservicesshares,verbs=create;update,versions=v1api20230101,name=default.v1api20230101.storageaccountsfileservicesshares.storage.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &StorageAccountsFileServicesShare{}
-
-// Default applies defaults to the StorageAccountsFileServicesShare resource
-func (share *StorageAccountsFileServicesShare) Default() {
-	share.defaultImpl()
-	var temp any = share
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (share *StorageAccountsFileServicesShare) defaultAzureName() {
-	if share.Spec.AzureName == "" {
-		share.Spec.AzureName = share.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the StorageAccountsFileServicesShare resource
-func (share *StorageAccountsFileServicesShare) defaultImpl() { share.defaultAzureName() }
 
 var _ configmaps.Exporter = &StorageAccountsFileServicesShare{}
 
@@ -198,109 +172,6 @@ func (share *StorageAccountsFileServicesShare) SetStatus(status genruntime.Conve
 
 	share.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-storage-azure-com-v1api20230101-storageaccountsfileservicesshare,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=storage.azure.com,resources=storageaccountsfileservicesshares,verbs=create;update,versions=v1api20230101,name=validate.v1api20230101.storageaccountsfileservicesshares.storage.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &StorageAccountsFileServicesShare{}
-
-// ValidateCreate validates the creation of the resource
-func (share *StorageAccountsFileServicesShare) ValidateCreate() (admission.Warnings, error) {
-	validations := share.createValidations()
-	var temp any = share
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (share *StorageAccountsFileServicesShare) ValidateDelete() (admission.Warnings, error) {
-	validations := share.deleteValidations()
-	var temp any = share
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (share *StorageAccountsFileServicesShare) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := share.updateValidations()
-	var temp any = share
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (share *StorageAccountsFileServicesShare) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){share.validateResourceReferences, share.validateOwnerReference, share.validateSecretDestinations, share.validateConfigMapDestinations}
-}
-
-// deleteValidations validates the deletion of the resource
-func (share *StorageAccountsFileServicesShare) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (share *StorageAccountsFileServicesShare) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return share.validateResourceReferences()
-		},
-		share.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return share.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return share.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return share.validateConfigMapDestinations()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (share *StorageAccountsFileServicesShare) validateConfigMapDestinations() (admission.Warnings, error) {
-	if share.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(share, nil, share.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOwnerReference validates the owner field
-func (share *StorageAccountsFileServicesShare) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(share)
-}
-
-// validateResourceReferences validates all resource references
-func (share *StorageAccountsFileServicesShare) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&share.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (share *StorageAccountsFileServicesShare) validateSecretDestinations() (admission.Warnings, error) {
-	if share.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(share, nil, share.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (share *StorageAccountsFileServicesShare) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*StorageAccountsFileServicesShare)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, share)
 }
 
 // AssignProperties_From_StorageAccountsFileServicesShare populates our StorageAccountsFileServicesShare from the provided source StorageAccountsFileServicesShare

@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -15,10 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -84,29 +81,6 @@ func (collection *MongodbDatabaseCollection) ConvertTo(hub conversion.Hub) error
 
 	return nil
 }
-
-// +kubebuilder:webhook:path=/mutate-documentdb-azure-com-v1api20231115-mongodbdatabasecollection,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=mongodbdatabasecollections,verbs=create;update,versions=v1api20231115,name=default.v1api20231115.mongodbdatabasecollections.documentdb.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &MongodbDatabaseCollection{}
-
-// Default applies defaults to the MongodbDatabaseCollection resource
-func (collection *MongodbDatabaseCollection) Default() {
-	collection.defaultImpl()
-	var temp any = collection
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (collection *MongodbDatabaseCollection) defaultAzureName() {
-	if collection.Spec.AzureName == "" {
-		collection.Spec.AzureName = collection.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the MongodbDatabaseCollection resource
-func (collection *MongodbDatabaseCollection) defaultImpl() { collection.defaultAzureName() }
 
 var _ configmaps.Exporter = &MongodbDatabaseCollection{}
 
@@ -201,109 +175,6 @@ func (collection *MongodbDatabaseCollection) SetStatus(status genruntime.Convert
 
 	collection.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-documentdb-azure-com-v1api20231115-mongodbdatabasecollection,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=mongodbdatabasecollections,verbs=create;update,versions=v1api20231115,name=validate.v1api20231115.mongodbdatabasecollections.documentdb.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &MongodbDatabaseCollection{}
-
-// ValidateCreate validates the creation of the resource
-func (collection *MongodbDatabaseCollection) ValidateCreate() (admission.Warnings, error) {
-	validations := collection.createValidations()
-	var temp any = collection
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (collection *MongodbDatabaseCollection) ValidateDelete() (admission.Warnings, error) {
-	validations := collection.deleteValidations()
-	var temp any = collection
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (collection *MongodbDatabaseCollection) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := collection.updateValidations()
-	var temp any = collection
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (collection *MongodbDatabaseCollection) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){collection.validateResourceReferences, collection.validateOwnerReference, collection.validateSecretDestinations, collection.validateConfigMapDestinations}
-}
-
-// deleteValidations validates the deletion of the resource
-func (collection *MongodbDatabaseCollection) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (collection *MongodbDatabaseCollection) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return collection.validateResourceReferences()
-		},
-		collection.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return collection.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return collection.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return collection.validateConfigMapDestinations()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (collection *MongodbDatabaseCollection) validateConfigMapDestinations() (admission.Warnings, error) {
-	if collection.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(collection, nil, collection.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOwnerReference validates the owner field
-func (collection *MongodbDatabaseCollection) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(collection)
-}
-
-// validateResourceReferences validates all resource references
-func (collection *MongodbDatabaseCollection) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&collection.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (collection *MongodbDatabaseCollection) validateSecretDestinations() (admission.Warnings, error) {
-	if collection.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(collection, nil, collection.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (collection *MongodbDatabaseCollection) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*MongodbDatabaseCollection)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, collection)
 }
 
 // AssignProperties_From_MongodbDatabaseCollection populates our MongodbDatabaseCollection from the provided source MongodbDatabaseCollection

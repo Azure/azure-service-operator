@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -15,10 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -70,22 +67,6 @@ func (administrator *ServersAdministrator) ConvertTo(hub conversion.Hub) error {
 
 	return administrator.AssignProperties_To_ServersAdministrator(destination)
 }
-
-// +kubebuilder:webhook:path=/mutate-sql-azure-com-v1api20211101-serversadministrator,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=sql.azure.com,resources=serversadministrators,verbs=create;update,versions=v1api20211101,name=default.v1api20211101.serversadministrators.sql.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &ServersAdministrator{}
-
-// Default applies defaults to the ServersAdministrator resource
-func (administrator *ServersAdministrator) Default() {
-	administrator.defaultImpl()
-	var temp any = administrator
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultImpl applies the code generated defaults to the ServersAdministrator resource
-func (administrator *ServersAdministrator) defaultImpl() {}
 
 var _ configmaps.Exporter = &ServersAdministrator{}
 
@@ -191,121 +172,6 @@ func (administrator *ServersAdministrator) SetStatus(status genruntime.Convertib
 
 	administrator.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-sql-azure-com-v1api20211101-serversadministrator,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=sql.azure.com,resources=serversadministrators,verbs=create;update,versions=v1api20211101,name=validate.v1api20211101.serversadministrators.sql.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &ServersAdministrator{}
-
-// ValidateCreate validates the creation of the resource
-func (administrator *ServersAdministrator) ValidateCreate() (admission.Warnings, error) {
-	validations := administrator.createValidations()
-	var temp any = administrator
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (administrator *ServersAdministrator) ValidateDelete() (admission.Warnings, error) {
-	validations := administrator.deleteValidations()
-	var temp any = administrator
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (administrator *ServersAdministrator) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := administrator.updateValidations()
-	var temp any = administrator
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (administrator *ServersAdministrator) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){administrator.validateResourceReferences, administrator.validateOwnerReference, administrator.validateSecretDestinations, administrator.validateConfigMapDestinations, administrator.validateOptionalConfigMapReferences}
-}
-
-// deleteValidations validates the deletion of the resource
-func (administrator *ServersAdministrator) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (administrator *ServersAdministrator) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return administrator.validateResourceReferences()
-		},
-		administrator.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return administrator.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return administrator.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return administrator.validateConfigMapDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return administrator.validateOptionalConfigMapReferences()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (administrator *ServersAdministrator) validateConfigMapDestinations() (admission.Warnings, error) {
-	if administrator.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(administrator, nil, administrator.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
-func (administrator *ServersAdministrator) validateOptionalConfigMapReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindOptionalConfigMapReferences(&administrator.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return configmaps.ValidateOptionalReferences(refs)
-}
-
-// validateOwnerReference validates the owner field
-func (administrator *ServersAdministrator) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(administrator)
-}
-
-// validateResourceReferences validates all resource references
-func (administrator *ServersAdministrator) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&administrator.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (administrator *ServersAdministrator) validateSecretDestinations() (admission.Warnings, error) {
-	if administrator.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(administrator, nil, administrator.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (administrator *ServersAdministrator) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*ServersAdministrator)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, administrator)
 }
 
 // AssignProperties_From_ServersAdministrator populates our ServersAdministrator from the provided source ServersAdministrator

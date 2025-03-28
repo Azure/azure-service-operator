@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240402preview/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240402preview/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -15,10 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -84,29 +81,6 @@ func (binding *TrustedAccessRoleBinding) ConvertTo(hub conversion.Hub) error {
 
 	return nil
 }
-
-// +kubebuilder:webhook:path=/mutate-containerservice-azure-com-v1api20240402preview-trustedaccessrolebinding,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=containerservice.azure.com,resources=trustedaccessrolebindings,verbs=create;update,versions=v1api20240402preview,name=default.v1api20240402preview.trustedaccessrolebindings.containerservice.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &TrustedAccessRoleBinding{}
-
-// Default applies defaults to the TrustedAccessRoleBinding resource
-func (binding *TrustedAccessRoleBinding) Default() {
-	binding.defaultImpl()
-	var temp any = binding
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (binding *TrustedAccessRoleBinding) defaultAzureName() {
-	if binding.Spec.AzureName == "" {
-		binding.Spec.AzureName = binding.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the TrustedAccessRoleBinding resource
-func (binding *TrustedAccessRoleBinding) defaultImpl() { binding.defaultAzureName() }
 
 var _ configmaps.Exporter = &TrustedAccessRoleBinding{}
 
@@ -201,109 +175,6 @@ func (binding *TrustedAccessRoleBinding) SetStatus(status genruntime.Convertible
 
 	binding.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-containerservice-azure-com-v1api20240402preview-trustedaccessrolebinding,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=containerservice.azure.com,resources=trustedaccessrolebindings,verbs=create;update,versions=v1api20240402preview,name=validate.v1api20240402preview.trustedaccessrolebindings.containerservice.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &TrustedAccessRoleBinding{}
-
-// ValidateCreate validates the creation of the resource
-func (binding *TrustedAccessRoleBinding) ValidateCreate() (admission.Warnings, error) {
-	validations := binding.createValidations()
-	var temp any = binding
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (binding *TrustedAccessRoleBinding) ValidateDelete() (admission.Warnings, error) {
-	validations := binding.deleteValidations()
-	var temp any = binding
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (binding *TrustedAccessRoleBinding) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := binding.updateValidations()
-	var temp any = binding
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (binding *TrustedAccessRoleBinding) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){binding.validateResourceReferences, binding.validateOwnerReference, binding.validateSecretDestinations, binding.validateConfigMapDestinations}
-}
-
-// deleteValidations validates the deletion of the resource
-func (binding *TrustedAccessRoleBinding) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (binding *TrustedAccessRoleBinding) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return binding.validateResourceReferences()
-		},
-		binding.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return binding.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return binding.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return binding.validateConfigMapDestinations()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (binding *TrustedAccessRoleBinding) validateConfigMapDestinations() (admission.Warnings, error) {
-	if binding.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(binding, nil, binding.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOwnerReference validates the owner field
-func (binding *TrustedAccessRoleBinding) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(binding)
-}
-
-// validateResourceReferences validates all resource references
-func (binding *TrustedAccessRoleBinding) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&binding.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (binding *TrustedAccessRoleBinding) validateSecretDestinations() (admission.Warnings, error) {
-	if binding.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(binding, nil, binding.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (binding *TrustedAccessRoleBinding) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*TrustedAccessRoleBinding)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, binding)
 }
 
 // AssignProperties_From_TrustedAccessRoleBinding populates our TrustedAccessRoleBinding from the provided source TrustedAccessRoleBinding

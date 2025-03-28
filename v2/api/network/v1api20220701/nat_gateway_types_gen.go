@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -15,10 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -84,29 +81,6 @@ func (gateway *NatGateway) ConvertTo(hub conversion.Hub) error {
 
 	return nil
 }
-
-// +kubebuilder:webhook:path=/mutate-network-azure-com-v1api20220701-natgateway,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=natgateways,verbs=create;update,versions=v1api20220701,name=default.v1api20220701.natgateways.network.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &NatGateway{}
-
-// Default applies defaults to the NatGateway resource
-func (gateway *NatGateway) Default() {
-	gateway.defaultImpl()
-	var temp any = gateway
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (gateway *NatGateway) defaultAzureName() {
-	if gateway.Spec.AzureName == "" {
-		gateway.Spec.AzureName = gateway.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the NatGateway resource
-func (gateway *NatGateway) defaultImpl() { gateway.defaultAzureName() }
 
 var _ configmaps.Exporter = &NatGateway{}
 
@@ -201,109 +175,6 @@ func (gateway *NatGateway) SetStatus(status genruntime.ConvertibleStatus) error 
 
 	gateway.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-network-azure-com-v1api20220701-natgateway,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=natgateways,verbs=create;update,versions=v1api20220701,name=validate.v1api20220701.natgateways.network.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &NatGateway{}
-
-// ValidateCreate validates the creation of the resource
-func (gateway *NatGateway) ValidateCreate() (admission.Warnings, error) {
-	validations := gateway.createValidations()
-	var temp any = gateway
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (gateway *NatGateway) ValidateDelete() (admission.Warnings, error) {
-	validations := gateway.deleteValidations()
-	var temp any = gateway
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (gateway *NatGateway) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := gateway.updateValidations()
-	var temp any = gateway
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (gateway *NatGateway) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){gateway.validateResourceReferences, gateway.validateOwnerReference, gateway.validateSecretDestinations, gateway.validateConfigMapDestinations}
-}
-
-// deleteValidations validates the deletion of the resource
-func (gateway *NatGateway) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (gateway *NatGateway) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return gateway.validateResourceReferences()
-		},
-		gateway.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return gateway.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return gateway.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return gateway.validateConfigMapDestinations()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (gateway *NatGateway) validateConfigMapDestinations() (admission.Warnings, error) {
-	if gateway.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(gateway, nil, gateway.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOwnerReference validates the owner field
-func (gateway *NatGateway) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(gateway)
-}
-
-// validateResourceReferences validates all resource references
-func (gateway *NatGateway) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&gateway.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (gateway *NatGateway) validateSecretDestinations() (admission.Warnings, error) {
-	if gateway.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(gateway, nil, gateway.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (gateway *NatGateway) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*NatGateway)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, gateway)
 }
 
 // AssignProperties_From_NatGateway populates our NatGateway from the provided source NatGateway

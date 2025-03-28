@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/app/v1api20240301/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/app/v1api20240301/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -15,10 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -70,29 +67,6 @@ func (environment *ManagedEnvironment) ConvertTo(hub conversion.Hub) error {
 
 	return environment.AssignProperties_To_ManagedEnvironment(destination)
 }
-
-// +kubebuilder:webhook:path=/mutate-app-azure-com-v1api20240301-managedenvironment,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=app.azure.com,resources=managedenvironments,verbs=create;update,versions=v1api20240301,name=default.v1api20240301.managedenvironments.app.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &ManagedEnvironment{}
-
-// Default applies defaults to the ManagedEnvironment resource
-func (environment *ManagedEnvironment) Default() {
-	environment.defaultImpl()
-	var temp any = environment
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (environment *ManagedEnvironment) defaultAzureName() {
-	if environment.Spec.AzureName == "" {
-		environment.Spec.AzureName = environment.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the ManagedEnvironment resource
-func (environment *ManagedEnvironment) defaultImpl() { environment.defaultAzureName() }
 
 var _ configmaps.Exporter = &ManagedEnvironment{}
 
@@ -198,109 +172,6 @@ func (environment *ManagedEnvironment) SetStatus(status genruntime.ConvertibleSt
 
 	environment.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-app-azure-com-v1api20240301-managedenvironment,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=app.azure.com,resources=managedenvironments,verbs=create;update,versions=v1api20240301,name=validate.v1api20240301.managedenvironments.app.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &ManagedEnvironment{}
-
-// ValidateCreate validates the creation of the resource
-func (environment *ManagedEnvironment) ValidateCreate() (admission.Warnings, error) {
-	validations := environment.createValidations()
-	var temp any = environment
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (environment *ManagedEnvironment) ValidateDelete() (admission.Warnings, error) {
-	validations := environment.deleteValidations()
-	var temp any = environment
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (environment *ManagedEnvironment) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := environment.updateValidations()
-	var temp any = environment
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (environment *ManagedEnvironment) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){environment.validateResourceReferences, environment.validateOwnerReference, environment.validateSecretDestinations, environment.validateConfigMapDestinations}
-}
-
-// deleteValidations validates the deletion of the resource
-func (environment *ManagedEnvironment) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (environment *ManagedEnvironment) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return environment.validateResourceReferences()
-		},
-		environment.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return environment.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return environment.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return environment.validateConfigMapDestinations()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (environment *ManagedEnvironment) validateConfigMapDestinations() (admission.Warnings, error) {
-	if environment.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(environment, nil, environment.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOwnerReference validates the owner field
-func (environment *ManagedEnvironment) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(environment)
-}
-
-// validateResourceReferences validates all resource references
-func (environment *ManagedEnvironment) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&environment.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (environment *ManagedEnvironment) validateSecretDestinations() (admission.Warnings, error) {
-	if environment.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(environment, nil, environment.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (environment *ManagedEnvironment) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*ManagedEnvironment)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, environment)
 }
 
 // AssignProperties_From_ManagedEnvironment populates our ManagedEnvironment from the provided source ManagedEnvironment

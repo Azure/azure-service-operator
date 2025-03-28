@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -15,10 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -84,29 +81,6 @@ func (queue *NamespacesQueue) ConvertTo(hub conversion.Hub) error {
 
 	return nil
 }
-
-// +kubebuilder:webhook:path=/mutate-servicebus-azure-com-v1api20210101preview-namespacesqueue,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=servicebus.azure.com,resources=namespacesqueues,verbs=create;update,versions=v1api20210101preview,name=default.v1api20210101preview.namespacesqueues.servicebus.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &NamespacesQueue{}
-
-// Default applies defaults to the NamespacesQueue resource
-func (queue *NamespacesQueue) Default() {
-	queue.defaultImpl()
-	var temp any = queue
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (queue *NamespacesQueue) defaultAzureName() {
-	if queue.Spec.AzureName == "" {
-		queue.Spec.AzureName = queue.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the NamespacesQueue resource
-func (queue *NamespacesQueue) defaultImpl() { queue.defaultAzureName() }
 
 var _ configmaps.Exporter = &NamespacesQueue{}
 
@@ -201,109 +175,6 @@ func (queue *NamespacesQueue) SetStatus(status genruntime.ConvertibleStatus) err
 
 	queue.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-servicebus-azure-com-v1api20210101preview-namespacesqueue,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=servicebus.azure.com,resources=namespacesqueues,verbs=create;update,versions=v1api20210101preview,name=validate.v1api20210101preview.namespacesqueues.servicebus.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &NamespacesQueue{}
-
-// ValidateCreate validates the creation of the resource
-func (queue *NamespacesQueue) ValidateCreate() (admission.Warnings, error) {
-	validations := queue.createValidations()
-	var temp any = queue
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (queue *NamespacesQueue) ValidateDelete() (admission.Warnings, error) {
-	validations := queue.deleteValidations()
-	var temp any = queue
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (queue *NamespacesQueue) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := queue.updateValidations()
-	var temp any = queue
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (queue *NamespacesQueue) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){queue.validateResourceReferences, queue.validateOwnerReference, queue.validateSecretDestinations, queue.validateConfigMapDestinations}
-}
-
-// deleteValidations validates the deletion of the resource
-func (queue *NamespacesQueue) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (queue *NamespacesQueue) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return queue.validateResourceReferences()
-		},
-		queue.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return queue.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return queue.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return queue.validateConfigMapDestinations()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (queue *NamespacesQueue) validateConfigMapDestinations() (admission.Warnings, error) {
-	if queue.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(queue, nil, queue.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOwnerReference validates the owner field
-func (queue *NamespacesQueue) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(queue)
-}
-
-// validateResourceReferences validates all resource references
-func (queue *NamespacesQueue) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&queue.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (queue *NamespacesQueue) validateSecretDestinations() (admission.Warnings, error) {
-	if queue.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(queue, nil, queue.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (queue *NamespacesQueue) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*NamespacesQueue)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, queue)
 }
 
 // AssignProperties_From_NamespacesQueue populates our NamespacesQueue from the provided source NamespacesQueue

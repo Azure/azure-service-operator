@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/insights/v1api20220615/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/insights/v1api20220615/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -15,10 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -70,29 +67,6 @@ func (webtest *Webtest) ConvertTo(hub conversion.Hub) error {
 
 	return webtest.AssignProperties_To_Webtest(destination)
 }
-
-// +kubebuilder:webhook:path=/mutate-insights-azure-com-v1api20220615-webtest,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=insights.azure.com,resources=webtests,verbs=create;update,versions=v1api20220615,name=default.v1api20220615.webtests.insights.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &Webtest{}
-
-// Default applies defaults to the Webtest resource
-func (webtest *Webtest) Default() {
-	webtest.defaultImpl()
-	var temp any = webtest
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (webtest *Webtest) defaultAzureName() {
-	if webtest.Spec.AzureName == "" {
-		webtest.Spec.AzureName = webtest.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the Webtest resource
-func (webtest *Webtest) defaultImpl() { webtest.defaultAzureName() }
 
 var _ configmaps.Exporter = &Webtest{}
 
@@ -198,109 +172,6 @@ func (webtest *Webtest) SetStatus(status genruntime.ConvertibleStatus) error {
 
 	webtest.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-insights-azure-com-v1api20220615-webtest,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=insights.azure.com,resources=webtests,verbs=create;update,versions=v1api20220615,name=validate.v1api20220615.webtests.insights.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &Webtest{}
-
-// ValidateCreate validates the creation of the resource
-func (webtest *Webtest) ValidateCreate() (admission.Warnings, error) {
-	validations := webtest.createValidations()
-	var temp any = webtest
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (webtest *Webtest) ValidateDelete() (admission.Warnings, error) {
-	validations := webtest.deleteValidations()
-	var temp any = webtest
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (webtest *Webtest) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := webtest.updateValidations()
-	var temp any = webtest
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (webtest *Webtest) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){webtest.validateResourceReferences, webtest.validateOwnerReference, webtest.validateSecretDestinations, webtest.validateConfigMapDestinations}
-}
-
-// deleteValidations validates the deletion of the resource
-func (webtest *Webtest) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (webtest *Webtest) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return webtest.validateResourceReferences()
-		},
-		webtest.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return webtest.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return webtest.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return webtest.validateConfigMapDestinations()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (webtest *Webtest) validateConfigMapDestinations() (admission.Warnings, error) {
-	if webtest.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(webtest, nil, webtest.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOwnerReference validates the owner field
-func (webtest *Webtest) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(webtest)
-}
-
-// validateResourceReferences validates all resource references
-func (webtest *Webtest) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&webtest.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (webtest *Webtest) validateSecretDestinations() (admission.Warnings, error) {
-	if webtest.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(webtest, nil, webtest.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (webtest *Webtest) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*Webtest)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, webtest)
 }
 
 // AssignProperties_From_Webtest populates our Webtest from the provided source Webtest

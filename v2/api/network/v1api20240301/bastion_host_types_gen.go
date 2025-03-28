@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -15,10 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -70,29 +67,6 @@ func (host *BastionHost) ConvertTo(hub conversion.Hub) error {
 
 	return host.AssignProperties_To_BastionHost(destination)
 }
-
-// +kubebuilder:webhook:path=/mutate-network-azure-com-v1api20240301-bastionhost,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=bastionhosts,verbs=create;update,versions=v1api20240301,name=default.v1api20240301.bastionhosts.network.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &BastionHost{}
-
-// Default applies defaults to the BastionHost resource
-func (host *BastionHost) Default() {
-	host.defaultImpl()
-	var temp any = host
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (host *BastionHost) defaultAzureName() {
-	if host.Spec.AzureName == "" {
-		host.Spec.AzureName = host.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the BastionHost resource
-func (host *BastionHost) defaultImpl() { host.defaultAzureName() }
 
 var _ configmaps.Exporter = &BastionHost{}
 
@@ -198,109 +172,6 @@ func (host *BastionHost) SetStatus(status genruntime.ConvertibleStatus) error {
 
 	host.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-network-azure-com-v1api20240301-bastionhost,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=bastionhosts,verbs=create;update,versions=v1api20240301,name=validate.v1api20240301.bastionhosts.network.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &BastionHost{}
-
-// ValidateCreate validates the creation of the resource
-func (host *BastionHost) ValidateCreate() (admission.Warnings, error) {
-	validations := host.createValidations()
-	var temp any = host
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (host *BastionHost) ValidateDelete() (admission.Warnings, error) {
-	validations := host.deleteValidations()
-	var temp any = host
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (host *BastionHost) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := host.updateValidations()
-	var temp any = host
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (host *BastionHost) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){host.validateResourceReferences, host.validateOwnerReference, host.validateSecretDestinations, host.validateConfigMapDestinations}
-}
-
-// deleteValidations validates the deletion of the resource
-func (host *BastionHost) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (host *BastionHost) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return host.validateResourceReferences()
-		},
-		host.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return host.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return host.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return host.validateConfigMapDestinations()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (host *BastionHost) validateConfigMapDestinations() (admission.Warnings, error) {
-	if host.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(host, nil, host.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOwnerReference validates the owner field
-func (host *BastionHost) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(host)
-}
-
-// validateResourceReferences validates all resource references
-func (host *BastionHost) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&host.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (host *BastionHost) validateSecretDestinations() (admission.Warnings, error) {
-	if host.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(host, nil, host.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (host *BastionHost) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*BastionHost)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, host)
 }
 
 // AssignProperties_From_BastionHost populates our BastionHost from the provided source BastionHost

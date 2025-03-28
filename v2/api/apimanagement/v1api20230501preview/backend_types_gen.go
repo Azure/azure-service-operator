@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501preview/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501preview/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -15,10 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -84,29 +81,6 @@ func (backend *Backend) ConvertTo(hub conversion.Hub) error {
 
 	return nil
 }
-
-// +kubebuilder:webhook:path=/mutate-apimanagement-azure-com-v1api20230501preview-backend,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=apimanagement.azure.com,resources=backends,verbs=create;update,versions=v1api20230501preview,name=default.v1api20230501preview.backends.apimanagement.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &Backend{}
-
-// Default applies defaults to the Backend resource
-func (backend *Backend) Default() {
-	backend.defaultImpl()
-	var temp any = backend
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (backend *Backend) defaultAzureName() {
-	if backend.Spec.AzureName == "" {
-		backend.Spec.AzureName = backend.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the Backend resource
-func (backend *Backend) defaultImpl() { backend.defaultAzureName() }
 
 var _ configmaps.Exporter = &Backend{}
 
@@ -202,109 +176,6 @@ func (backend *Backend) SetStatus(status genruntime.ConvertibleStatus) error {
 
 	backend.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-apimanagement-azure-com-v1api20230501preview-backend,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=apimanagement.azure.com,resources=backends,verbs=create;update,versions=v1api20230501preview,name=validate.v1api20230501preview.backends.apimanagement.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &Backend{}
-
-// ValidateCreate validates the creation of the resource
-func (backend *Backend) ValidateCreate() (admission.Warnings, error) {
-	validations := backend.createValidations()
-	var temp any = backend
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (backend *Backend) ValidateDelete() (admission.Warnings, error) {
-	validations := backend.deleteValidations()
-	var temp any = backend
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (backend *Backend) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := backend.updateValidations()
-	var temp any = backend
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (backend *Backend) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){backend.validateResourceReferences, backend.validateOwnerReference, backend.validateSecretDestinations, backend.validateConfigMapDestinations}
-}
-
-// deleteValidations validates the deletion of the resource
-func (backend *Backend) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (backend *Backend) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return backend.validateResourceReferences()
-		},
-		backend.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return backend.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return backend.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return backend.validateConfigMapDestinations()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (backend *Backend) validateConfigMapDestinations() (admission.Warnings, error) {
-	if backend.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(backend, nil, backend.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOwnerReference validates the owner field
-func (backend *Backend) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(backend)
-}
-
-// validateResourceReferences validates all resource references
-func (backend *Backend) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&backend.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (backend *Backend) validateSecretDestinations() (admission.Warnings, error) {
-	if backend.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(backend, nil, backend.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (backend *Backend) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*Backend)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, backend)
 }
 
 // AssignProperties_From_Backend populates our Backend from the provided source Backend

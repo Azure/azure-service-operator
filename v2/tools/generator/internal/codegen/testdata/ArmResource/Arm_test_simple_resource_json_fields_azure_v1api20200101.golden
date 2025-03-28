@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/testing/test/v1api20200101/arm"
 	storage "github.com/Azure/azure-service-operator/testing/test/v1api20200101/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -16,10 +15,8 @@ import (
 	"github.com/rotisserie/eris"
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -67,29 +64,6 @@ func (resource *FakeResource) ConvertTo(hub conversion.Hub) error {
 
 	return resource.AssignProperties_To_FakeResource(destination)
 }
-
-// +kubebuilder:webhook:path=/mutate-test-azure-com-v1api20200101-fakeresource,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=fakeresources,verbs=create;update,versions=v1api20200101,name=default.v1api20200101.fakeresources.test.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &FakeResource{}
-
-// Default applies defaults to the FakeResource resource
-func (resource *FakeResource) Default() {
-	resource.defaultImpl()
-	var temp any = resource
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (resource *FakeResource) defaultAzureName() {
-	if resource.Spec.AzureName == "" {
-		resource.Spec.AzureName = resource.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the FakeResource resource
-func (resource *FakeResource) defaultImpl() { resource.defaultAzureName() }
 
 var _ configmaps.Exporter = &FakeResource{}
 
@@ -155,109 +129,6 @@ func (resource *FakeResource) Owner() *genruntime.ResourceReference {
 
 	group, kind := genruntime.LookupOwnerGroupKind(resource.Spec)
 	return resource.Spec.Owner.AsResourceReference(group, kind)
-}
-
-// +kubebuilder:webhook:path=/validate-test-azure-com-v1api20200101-fakeresource,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=fakeresources,verbs=create;update,versions=v1api20200101,name=validate.v1api20200101.fakeresources.test.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &FakeResource{}
-
-// ValidateCreate validates the creation of the resource
-func (resource *FakeResource) ValidateCreate() (admission.Warnings, error) {
-	validations := resource.createValidations()
-	var temp any = resource
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (resource *FakeResource) ValidateDelete() (admission.Warnings, error) {
-	validations := resource.deleteValidations()
-	var temp any = resource
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (resource *FakeResource) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := resource.updateValidations()
-	var temp any = resource
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (resource *FakeResource) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){resource.validateResourceReferences, resource.validateOwnerReference, resource.validateSecretDestinations, resource.validateConfigMapDestinations}
-}
-
-// deleteValidations validates the deletion of the resource
-func (resource *FakeResource) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (resource *FakeResource) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return resource.validateResourceReferences()
-		},
-		resource.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return resource.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return resource.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return resource.validateConfigMapDestinations()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (resource *FakeResource) validateConfigMapDestinations() (admission.Warnings, error) {
-	if resource.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(resource, nil, resource.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOwnerReference validates the owner field
-func (resource *FakeResource) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(resource)
-}
-
-// validateResourceReferences validates all resource references
-func (resource *FakeResource) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&resource.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (resource *FakeResource) validateSecretDestinations() (admission.Warnings, error) {
-	if resource.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(resource, nil, resource.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (resource *FakeResource) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*FakeResource)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, resource)
 }
 
 // AssignProperties_From_FakeResource populates our FakeResource from the provided source FakeResource

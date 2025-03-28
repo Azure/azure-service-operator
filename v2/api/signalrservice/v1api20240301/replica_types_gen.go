@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1api20240301/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1api20240301/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -15,10 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -70,29 +67,6 @@ func (replica *Replica) ConvertTo(hub conversion.Hub) error {
 
 	return replica.AssignProperties_To_Replica(destination)
 }
-
-// +kubebuilder:webhook:path=/mutate-signalrservice-azure-com-v1api20240301-replica,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=signalrservice.azure.com,resources=replicas,verbs=create;update,versions=v1api20240301,name=default.v1api20240301.replicas.signalrservice.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &Replica{}
-
-// Default applies defaults to the Replica resource
-func (replica *Replica) Default() {
-	replica.defaultImpl()
-	var temp any = replica
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (replica *Replica) defaultAzureName() {
-	if replica.Spec.AzureName == "" {
-		replica.Spec.AzureName = replica.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the Replica resource
-func (replica *Replica) defaultImpl() { replica.defaultAzureName() }
 
 var _ configmaps.Exporter = &Replica{}
 
@@ -198,109 +172,6 @@ func (replica *Replica) SetStatus(status genruntime.ConvertibleStatus) error {
 
 	replica.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-signalrservice-azure-com-v1api20240301-replica,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=signalrservice.azure.com,resources=replicas,verbs=create;update,versions=v1api20240301,name=validate.v1api20240301.replicas.signalrservice.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &Replica{}
-
-// ValidateCreate validates the creation of the resource
-func (replica *Replica) ValidateCreate() (admission.Warnings, error) {
-	validations := replica.createValidations()
-	var temp any = replica
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (replica *Replica) ValidateDelete() (admission.Warnings, error) {
-	validations := replica.deleteValidations()
-	var temp any = replica
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (replica *Replica) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := replica.updateValidations()
-	var temp any = replica
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (replica *Replica) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){replica.validateResourceReferences, replica.validateOwnerReference, replica.validateSecretDestinations, replica.validateConfigMapDestinations}
-}
-
-// deleteValidations validates the deletion of the resource
-func (replica *Replica) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (replica *Replica) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return replica.validateResourceReferences()
-		},
-		replica.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return replica.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return replica.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return replica.validateConfigMapDestinations()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (replica *Replica) validateConfigMapDestinations() (admission.Warnings, error) {
-	if replica.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(replica, nil, replica.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOwnerReference validates the owner field
-func (replica *Replica) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(replica)
-}
-
-// validateResourceReferences validates all resource references
-func (replica *Replica) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&replica.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (replica *Replica) validateSecretDestinations() (admission.Warnings, error) {
-	if replica.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(replica, nil, replica.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (replica *Replica) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*Replica)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, replica)
 }
 
 // AssignProperties_From_Replica populates our Replica from the provided source Replica

@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/compute/v1api20240302/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/compute/v1api20240302/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -15,10 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -70,29 +67,6 @@ func (encryptionSet *DiskEncryptionSet) ConvertTo(hub conversion.Hub) error {
 
 	return encryptionSet.AssignProperties_To_DiskEncryptionSet(destination)
 }
-
-// +kubebuilder:webhook:path=/mutate-compute-azure-com-v1api20240302-diskencryptionset,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=compute.azure.com,resources=diskencryptionsets,verbs=create;update,versions=v1api20240302,name=default.v1api20240302.diskencryptionsets.compute.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &DiskEncryptionSet{}
-
-// Default applies defaults to the DiskEncryptionSet resource
-func (encryptionSet *DiskEncryptionSet) Default() {
-	encryptionSet.defaultImpl()
-	var temp any = encryptionSet
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (encryptionSet *DiskEncryptionSet) defaultAzureName() {
-	if encryptionSet.Spec.AzureName == "" {
-		encryptionSet.Spec.AzureName = encryptionSet.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the DiskEncryptionSet resource
-func (encryptionSet *DiskEncryptionSet) defaultImpl() { encryptionSet.defaultAzureName() }
 
 var _ configmaps.Exporter = &DiskEncryptionSet{}
 
@@ -198,121 +172,6 @@ func (encryptionSet *DiskEncryptionSet) SetStatus(status genruntime.ConvertibleS
 
 	encryptionSet.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-compute-azure-com-v1api20240302-diskencryptionset,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=compute.azure.com,resources=diskencryptionsets,verbs=create;update,versions=v1api20240302,name=validate.v1api20240302.diskencryptionsets.compute.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &DiskEncryptionSet{}
-
-// ValidateCreate validates the creation of the resource
-func (encryptionSet *DiskEncryptionSet) ValidateCreate() (admission.Warnings, error) {
-	validations := encryptionSet.createValidations()
-	var temp any = encryptionSet
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (encryptionSet *DiskEncryptionSet) ValidateDelete() (admission.Warnings, error) {
-	validations := encryptionSet.deleteValidations()
-	var temp any = encryptionSet
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (encryptionSet *DiskEncryptionSet) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := encryptionSet.updateValidations()
-	var temp any = encryptionSet
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (encryptionSet *DiskEncryptionSet) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){encryptionSet.validateResourceReferences, encryptionSet.validateOwnerReference, encryptionSet.validateSecretDestinations, encryptionSet.validateConfigMapDestinations, encryptionSet.validateOptionalConfigMapReferences}
-}
-
-// deleteValidations validates the deletion of the resource
-func (encryptionSet *DiskEncryptionSet) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (encryptionSet *DiskEncryptionSet) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return encryptionSet.validateResourceReferences()
-		},
-		encryptionSet.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return encryptionSet.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return encryptionSet.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return encryptionSet.validateConfigMapDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return encryptionSet.validateOptionalConfigMapReferences()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (encryptionSet *DiskEncryptionSet) validateConfigMapDestinations() (admission.Warnings, error) {
-	if encryptionSet.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(encryptionSet, nil, encryptionSet.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
-func (encryptionSet *DiskEncryptionSet) validateOptionalConfigMapReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindOptionalConfigMapReferences(&encryptionSet.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return configmaps.ValidateOptionalReferences(refs)
-}
-
-// validateOwnerReference validates the owner field
-func (encryptionSet *DiskEncryptionSet) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(encryptionSet)
-}
-
-// validateResourceReferences validates all resource references
-func (encryptionSet *DiskEncryptionSet) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&encryptionSet.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (encryptionSet *DiskEncryptionSet) validateSecretDestinations() (admission.Warnings, error) {
-	if encryptionSet.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(encryptionSet, nil, encryptionSet.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (encryptionSet *DiskEncryptionSet) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*DiskEncryptionSet)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, encryptionSet)
 }
 
 // AssignProperties_From_DiskEncryptionSet populates our DiskEncryptionSet from the provided source DiskEncryptionSet

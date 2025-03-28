@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/v1api20241101/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/v1api20241101/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -15,10 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -70,29 +67,6 @@ func (configuration *FluxConfiguration) ConvertTo(hub conversion.Hub) error {
 
 	return configuration.AssignProperties_To_FluxConfiguration(destination)
 }
-
-// +kubebuilder:webhook:path=/mutate-kubernetesconfiguration-azure-com-v1api20241101-fluxconfiguration,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=kubernetesconfiguration.azure.com,resources=fluxconfigurations,verbs=create;update,versions=v1api20241101,name=default.v1api20241101.fluxconfigurations.kubernetesconfiguration.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &FluxConfiguration{}
-
-// Default applies defaults to the FluxConfiguration resource
-func (configuration *FluxConfiguration) Default() {
-	configuration.defaultImpl()
-	var temp any = configuration
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (configuration *FluxConfiguration) defaultAzureName() {
-	if configuration.Spec.AzureName == "" {
-		configuration.Spec.AzureName = configuration.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the FluxConfiguration resource
-func (configuration *FluxConfiguration) defaultImpl() { configuration.defaultAzureName() }
 
 var _ configmaps.Exporter = &FluxConfiguration{}
 
@@ -197,113 +171,6 @@ func (configuration *FluxConfiguration) SetStatus(status genruntime.ConvertibleS
 
 	configuration.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-kubernetesconfiguration-azure-com-v1api20241101-fluxconfiguration,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=kubernetesconfiguration.azure.com,resources=fluxconfigurations,verbs=create;update,versions=v1api20241101,name=validate.v1api20241101.fluxconfigurations.kubernetesconfiguration.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &FluxConfiguration{}
-
-// ValidateCreate validates the creation of the resource
-func (configuration *FluxConfiguration) ValidateCreate() (admission.Warnings, error) {
-	validations := configuration.createValidations()
-	var temp any = configuration
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (configuration *FluxConfiguration) ValidateDelete() (admission.Warnings, error) {
-	validations := configuration.deleteValidations()
-	var temp any = configuration
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (configuration *FluxConfiguration) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := configuration.updateValidations()
-	var temp any = configuration
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (configuration *FluxConfiguration) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){configuration.validateResourceReferences, configuration.validateSecretDestinations, configuration.validateConfigMapDestinations, configuration.validateOptionalConfigMapReferences}
-}
-
-// deleteValidations validates the deletion of the resource
-func (configuration *FluxConfiguration) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (configuration *FluxConfiguration) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return configuration.validateResourceReferences()
-		},
-		configuration.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return configuration.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return configuration.validateConfigMapDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return configuration.validateOptionalConfigMapReferences()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (configuration *FluxConfiguration) validateConfigMapDestinations() (admission.Warnings, error) {
-	if configuration.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(configuration, nil, configuration.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
-func (configuration *FluxConfiguration) validateOptionalConfigMapReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindOptionalConfigMapReferences(&configuration.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return configmaps.ValidateOptionalReferences(refs)
-}
-
-// validateResourceReferences validates all resource references
-func (configuration *FluxConfiguration) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&configuration.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (configuration *FluxConfiguration) validateSecretDestinations() (admission.Warnings, error) {
-	if configuration.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(configuration, nil, configuration.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (configuration *FluxConfiguration) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*FluxConfiguration)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, configuration)
 }
 
 // AssignProperties_From_FluxConfiguration populates our FluxConfiguration from the provided source FluxConfiguration

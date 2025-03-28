@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20240101/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20240101/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -15,10 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -70,29 +67,6 @@ func (topic *NamespacesTopic) ConvertTo(hub conversion.Hub) error {
 
 	return topic.AssignProperties_To_NamespacesTopic(destination)
 }
-
-// +kubebuilder:webhook:path=/mutate-servicebus-azure-com-v1api20240101-namespacestopic,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=servicebus.azure.com,resources=namespacestopics,verbs=create;update,versions=v1api20240101,name=default.v1api20240101.namespacestopics.servicebus.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &NamespacesTopic{}
-
-// Default applies defaults to the NamespacesTopic resource
-func (topic *NamespacesTopic) Default() {
-	topic.defaultImpl()
-	var temp any = topic
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (topic *NamespacesTopic) defaultAzureName() {
-	if topic.Spec.AzureName == "" {
-		topic.Spec.AzureName = topic.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the NamespacesTopic resource
-func (topic *NamespacesTopic) defaultImpl() { topic.defaultAzureName() }
 
 var _ configmaps.Exporter = &NamespacesTopic{}
 
@@ -198,109 +172,6 @@ func (topic *NamespacesTopic) SetStatus(status genruntime.ConvertibleStatus) err
 
 	topic.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-servicebus-azure-com-v1api20240101-namespacestopic,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=servicebus.azure.com,resources=namespacestopics,verbs=create;update,versions=v1api20240101,name=validate.v1api20240101.namespacestopics.servicebus.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &NamespacesTopic{}
-
-// ValidateCreate validates the creation of the resource
-func (topic *NamespacesTopic) ValidateCreate() (admission.Warnings, error) {
-	validations := topic.createValidations()
-	var temp any = topic
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (topic *NamespacesTopic) ValidateDelete() (admission.Warnings, error) {
-	validations := topic.deleteValidations()
-	var temp any = topic
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (topic *NamespacesTopic) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := topic.updateValidations()
-	var temp any = topic
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (topic *NamespacesTopic) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){topic.validateResourceReferences, topic.validateOwnerReference, topic.validateSecretDestinations, topic.validateConfigMapDestinations}
-}
-
-// deleteValidations validates the deletion of the resource
-func (topic *NamespacesTopic) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (topic *NamespacesTopic) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return topic.validateResourceReferences()
-		},
-		topic.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return topic.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return topic.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return topic.validateConfigMapDestinations()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (topic *NamespacesTopic) validateConfigMapDestinations() (admission.Warnings, error) {
-	if topic.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(topic, nil, topic.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOwnerReference validates the owner field
-func (topic *NamespacesTopic) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(topic)
-}
-
-// validateResourceReferences validates all resource references
-func (topic *NamespacesTopic) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&topic.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (topic *NamespacesTopic) validateSecretDestinations() (admission.Warnings, error) {
-	if topic.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(topic, nil, topic.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (topic *NamespacesTopic) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*NamespacesTopic)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, topic)
 }
 
 // AssignProperties_From_NamespacesTopic populates our NamespacesTopic from the provided source NamespacesTopic

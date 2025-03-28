@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1api20211001/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1api20211001/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -15,10 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -84,29 +81,6 @@ func (signalR *SignalR) ConvertTo(hub conversion.Hub) error {
 
 	return nil
 }
-
-// +kubebuilder:webhook:path=/mutate-signalrservice-azure-com-v1api20211001-signalr,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=signalrservice.azure.com,resources=signalrs,verbs=create;update,versions=v1api20211001,name=default.v1api20211001.signalrs.signalrservice.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &SignalR{}
-
-// Default applies defaults to the SignalR resource
-func (signalR *SignalR) Default() {
-	signalR.defaultImpl()
-	var temp any = signalR
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (signalR *SignalR) defaultAzureName() {
-	if signalR.Spec.AzureName == "" {
-		signalR.Spec.AzureName = signalR.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the SignalR resource
-func (signalR *SignalR) defaultImpl() { signalR.defaultAzureName() }
 
 var _ configmaps.Exporter = &SignalR{}
 
@@ -201,118 +175,6 @@ func (signalR *SignalR) SetStatus(status genruntime.ConvertibleStatus) error {
 
 	signalR.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-signalrservice-azure-com-v1api20211001-signalr,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=signalrservice.azure.com,resources=signalrs,verbs=create;update,versions=v1api20211001,name=validate.v1api20211001.signalrs.signalrservice.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &SignalR{}
-
-// ValidateCreate validates the creation of the resource
-func (signalR *SignalR) ValidateCreate() (admission.Warnings, error) {
-	validations := signalR.createValidations()
-	var temp any = signalR
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (signalR *SignalR) ValidateDelete() (admission.Warnings, error) {
-	validations := signalR.deleteValidations()
-	var temp any = signalR
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (signalR *SignalR) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := signalR.updateValidations()
-	var temp any = signalR
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (signalR *SignalR) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){signalR.validateResourceReferences, signalR.validateOwnerReference, signalR.validateSecretDestinations, signalR.validateConfigMapDestinations}
-}
-
-// deleteValidations validates the deletion of the resource
-func (signalR *SignalR) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (signalR *SignalR) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return signalR.validateResourceReferences()
-		},
-		signalR.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return signalR.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return signalR.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return signalR.validateConfigMapDestinations()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (signalR *SignalR) validateConfigMapDestinations() (admission.Warnings, error) {
-	if signalR.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(signalR, nil, signalR.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOwnerReference validates the owner field
-func (signalR *SignalR) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(signalR)
-}
-
-// validateResourceReferences validates all resource references
-func (signalR *SignalR) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&signalR.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (signalR *SignalR) validateSecretDestinations() (admission.Warnings, error) {
-	if signalR.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	var toValidate []*genruntime.SecretDestination
-	if signalR.Spec.OperatorSpec.Secrets != nil {
-		toValidate = []*genruntime.SecretDestination{
-			signalR.Spec.OperatorSpec.Secrets.PrimaryConnectionString,
-			signalR.Spec.OperatorSpec.Secrets.PrimaryKey,
-			signalR.Spec.OperatorSpec.Secrets.SecondaryConnectionString,
-			signalR.Spec.OperatorSpec.Secrets.SecondaryKey,
-		}
-	}
-	return secrets.ValidateDestinations(signalR, toValidate, signalR.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (signalR *SignalR) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*SignalR)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, signalR)
 }
 
 // AssignProperties_From_SignalR populates our SignalR from the provided source SignalR

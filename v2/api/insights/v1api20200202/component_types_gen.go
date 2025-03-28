@@ -9,7 +9,6 @@ import (
 	arm "github.com/Azure/azure-service-operator/v2/api/insights/v1api20200202/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/insights/v1api20200202/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -18,11 +17,9 @@ import (
 	"github.com/go-logr/logr"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -74,29 +71,6 @@ func (component *Component) ConvertTo(hub conversion.Hub) error {
 
 	return component.AssignProperties_To_Component(destination)
 }
-
-// +kubebuilder:webhook:path=/mutate-insights-azure-com-v1api20200202-component,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=insights.azure.com,resources=components,verbs=create;update,versions=v1api20200202,name=default.v1api20200202.components.insights.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &Component{}
-
-// Default applies defaults to the Component resource
-func (component *Component) Default() {
-	component.defaultImpl()
-	var temp any = component
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (component *Component) defaultAzureName() {
-	if component.Spec.AzureName == "" {
-		component.Spec.AzureName = component.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the Component resource
-func (component *Component) defaultImpl() { component.defaultAzureName() }
 
 var _ configmaps.Exporter = &Component{}
 
@@ -224,116 +198,6 @@ func (component *Component) SetStatus(status genruntime.ConvertibleStatus) error
 
 	component.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-insights-azure-com-v1api20200202-component,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=insights.azure.com,resources=components,verbs=create;update,versions=v1api20200202,name=validate.v1api20200202.components.insights.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &Component{}
-
-// ValidateCreate validates the creation of the resource
-func (component *Component) ValidateCreate() (admission.Warnings, error) {
-	validations := component.createValidations()
-	var temp any = component
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (component *Component) ValidateDelete() (admission.Warnings, error) {
-	validations := component.deleteValidations()
-	var temp any = component
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (component *Component) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := component.updateValidations()
-	var temp any = component
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (component *Component) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){component.validateResourceReferences, component.validateOwnerReference, component.validateSecretDestinations, component.validateConfigMapDestinations}
-}
-
-// deleteValidations validates the deletion of the resource
-func (component *Component) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (component *Component) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return component.validateResourceReferences()
-		},
-		component.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return component.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return component.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return component.validateConfigMapDestinations()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (component *Component) validateConfigMapDestinations() (admission.Warnings, error) {
-	if component.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	var toValidate []*genruntime.ConfigMapDestination
-	if component.Spec.OperatorSpec.ConfigMaps != nil {
-		toValidate = []*genruntime.ConfigMapDestination{
-			component.Spec.OperatorSpec.ConfigMaps.ConnectionString,
-			component.Spec.OperatorSpec.ConfigMaps.InstrumentationKey,
-		}
-	}
-	return configmaps.ValidateDestinations(component, toValidate, component.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOwnerReference validates the owner field
-func (component *Component) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(component)
-}
-
-// validateResourceReferences validates all resource references
-func (component *Component) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&component.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (component *Component) validateSecretDestinations() (admission.Warnings, error) {
-	if component.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(component, nil, component.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (component *Component) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*Component)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, component)
 }
 
 // AssignProperties_From_Component populates our Component from the provided source Component

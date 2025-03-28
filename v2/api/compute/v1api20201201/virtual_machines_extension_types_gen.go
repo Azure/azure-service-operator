@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -16,10 +15,8 @@ import (
 	"github.com/rotisserie/eris"
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -85,29 +82,6 @@ func (extension *VirtualMachinesExtension) ConvertTo(hub conversion.Hub) error {
 
 	return nil
 }
-
-// +kubebuilder:webhook:path=/mutate-compute-azure-com-v1api20201201-virtualmachinesextension,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=compute.azure.com,resources=virtualmachinesextensions,verbs=create;update,versions=v1api20201201,name=default.v1api20201201.virtualmachinesextensions.compute.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &VirtualMachinesExtension{}
-
-// Default applies defaults to the VirtualMachinesExtension resource
-func (extension *VirtualMachinesExtension) Default() {
-	extension.defaultImpl()
-	var temp any = extension
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (extension *VirtualMachinesExtension) defaultAzureName() {
-	if extension.Spec.AzureName == "" {
-		extension.Spec.AzureName = extension.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the VirtualMachinesExtension resource
-func (extension *VirtualMachinesExtension) defaultImpl() { extension.defaultAzureName() }
 
 var _ configmaps.Exporter = &VirtualMachinesExtension{}
 
@@ -202,109 +176,6 @@ func (extension *VirtualMachinesExtension) SetStatus(status genruntime.Convertib
 
 	extension.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-compute-azure-com-v1api20201201-virtualmachinesextension,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=compute.azure.com,resources=virtualmachinesextensions,verbs=create;update,versions=v1api20201201,name=validate.v1api20201201.virtualmachinesextensions.compute.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &VirtualMachinesExtension{}
-
-// ValidateCreate validates the creation of the resource
-func (extension *VirtualMachinesExtension) ValidateCreate() (admission.Warnings, error) {
-	validations := extension.createValidations()
-	var temp any = extension
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (extension *VirtualMachinesExtension) ValidateDelete() (admission.Warnings, error) {
-	validations := extension.deleteValidations()
-	var temp any = extension
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (extension *VirtualMachinesExtension) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := extension.updateValidations()
-	var temp any = extension
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (extension *VirtualMachinesExtension) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){extension.validateResourceReferences, extension.validateOwnerReference, extension.validateSecretDestinations, extension.validateConfigMapDestinations}
-}
-
-// deleteValidations validates the deletion of the resource
-func (extension *VirtualMachinesExtension) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (extension *VirtualMachinesExtension) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return extension.validateResourceReferences()
-		},
-		extension.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return extension.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return extension.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return extension.validateConfigMapDestinations()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (extension *VirtualMachinesExtension) validateConfigMapDestinations() (admission.Warnings, error) {
-	if extension.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(extension, nil, extension.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOwnerReference validates the owner field
-func (extension *VirtualMachinesExtension) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(extension)
-}
-
-// validateResourceReferences validates all resource references
-func (extension *VirtualMachinesExtension) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&extension.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (extension *VirtualMachinesExtension) validateSecretDestinations() (admission.Warnings, error) {
-	if extension.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(extension, nil, extension.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (extension *VirtualMachinesExtension) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*VirtualMachinesExtension)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, extension)
 }
 
 // AssignProperties_From_VirtualMachinesExtension populates our VirtualMachinesExtension from the provided source VirtualMachinesExtension

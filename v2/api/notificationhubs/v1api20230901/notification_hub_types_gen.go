@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/notificationhubs/v1api20230901/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/notificationhubs/v1api20230901/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -15,10 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -70,29 +67,6 @@ func (notificationHub *NotificationHub) ConvertTo(hub conversion.Hub) error {
 
 	return notificationHub.AssignProperties_To_NotificationHub(destination)
 }
-
-// +kubebuilder:webhook:path=/mutate-notificationhubs-azure-com-v1api20230901-notificationhub,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=notificationhubs.azure.com,resources=notificationhubs,verbs=create;update,versions=v1api20230901,name=default.v1api20230901.notificationhubs.notificationhubs.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &NotificationHub{}
-
-// Default applies defaults to the NotificationHub resource
-func (notificationHub *NotificationHub) Default() {
-	notificationHub.defaultImpl()
-	var temp any = notificationHub
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (notificationHub *NotificationHub) defaultAzureName() {
-	if notificationHub.Spec.AzureName == "" {
-		notificationHub.Spec.AzureName = notificationHub.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the NotificationHub resource
-func (notificationHub *NotificationHub) defaultImpl() { notificationHub.defaultAzureName() }
 
 var _ configmaps.Exporter = &NotificationHub{}
 
@@ -198,118 +172,6 @@ func (notificationHub *NotificationHub) SetStatus(status genruntime.ConvertibleS
 
 	notificationHub.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-notificationhubs-azure-com-v1api20230901-notificationhub,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=notificationhubs.azure.com,resources=notificationhubs,verbs=create;update,versions=v1api20230901,name=validate.v1api20230901.notificationhubs.notificationhubs.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &NotificationHub{}
-
-// ValidateCreate validates the creation of the resource
-func (notificationHub *NotificationHub) ValidateCreate() (admission.Warnings, error) {
-	validations := notificationHub.createValidations()
-	var temp any = notificationHub
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (notificationHub *NotificationHub) ValidateDelete() (admission.Warnings, error) {
-	validations := notificationHub.deleteValidations()
-	var temp any = notificationHub
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (notificationHub *NotificationHub) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := notificationHub.updateValidations()
-	var temp any = notificationHub
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (notificationHub *NotificationHub) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){notificationHub.validateResourceReferences, notificationHub.validateOwnerReference, notificationHub.validateSecretDestinations, notificationHub.validateConfigMapDestinations}
-}
-
-// deleteValidations validates the deletion of the resource
-func (notificationHub *NotificationHub) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (notificationHub *NotificationHub) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return notificationHub.validateResourceReferences()
-		},
-		notificationHub.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return notificationHub.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return notificationHub.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return notificationHub.validateConfigMapDestinations()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (notificationHub *NotificationHub) validateConfigMapDestinations() (admission.Warnings, error) {
-	if notificationHub.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(notificationHub, nil, notificationHub.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOwnerReference validates the owner field
-func (notificationHub *NotificationHub) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(notificationHub)
-}
-
-// validateResourceReferences validates all resource references
-func (notificationHub *NotificationHub) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&notificationHub.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (notificationHub *NotificationHub) validateSecretDestinations() (admission.Warnings, error) {
-	if notificationHub.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	var toValidate []*genruntime.SecretDestination
-	if notificationHub.Spec.OperatorSpec.Secrets != nil {
-		toValidate = []*genruntime.SecretDestination{
-			notificationHub.Spec.OperatorSpec.Secrets.PrimaryConnectionString,
-			notificationHub.Spec.OperatorSpec.Secrets.PrimaryKey,
-			notificationHub.Spec.OperatorSpec.Secrets.SecondaryConnectionString,
-			notificationHub.Spec.OperatorSpec.Secrets.SecondaryKey,
-		}
-	}
-	return secrets.ValidateDestinations(notificationHub, toValidate, notificationHub.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (notificationHub *NotificationHub) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*NotificationHub)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, notificationHub)
 }
 
 // AssignProperties_From_NotificationHub populates our NotificationHub from the provided source NotificationHub

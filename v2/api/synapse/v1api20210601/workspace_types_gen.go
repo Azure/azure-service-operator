@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -16,10 +15,8 @@ import (
 	"github.com/rotisserie/eris"
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -71,29 +68,6 @@ func (workspace *Workspace) ConvertTo(hub conversion.Hub) error {
 
 	return workspace.AssignProperties_To_Workspace(destination)
 }
-
-// +kubebuilder:webhook:path=/mutate-synapse-azure-com-v1api20210601-workspace,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=synapse.azure.com,resources=workspaces,verbs=create;update,versions=v1api20210601,name=default.v1api20210601.workspaces.synapse.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &Workspace{}
-
-// Default applies defaults to the Workspace resource
-func (workspace *Workspace) Default() {
-	workspace.defaultImpl()
-	var temp any = workspace
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (workspace *Workspace) defaultAzureName() {
-	if workspace.Spec.AzureName == "" {
-		workspace.Spec.AzureName = workspace.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the Workspace resource
-func (workspace *Workspace) defaultImpl() { workspace.defaultAzureName() }
 
 var _ configmaps.Exporter = &Workspace{}
 
@@ -199,121 +173,6 @@ func (workspace *Workspace) SetStatus(status genruntime.ConvertibleStatus) error
 
 	workspace.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-synapse-azure-com-v1api20210601-workspace,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=synapse.azure.com,resources=workspaces,verbs=create;update,versions=v1api20210601,name=validate.v1api20210601.workspaces.synapse.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &Workspace{}
-
-// ValidateCreate validates the creation of the resource
-func (workspace *Workspace) ValidateCreate() (admission.Warnings, error) {
-	validations := workspace.createValidations()
-	var temp any = workspace
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (workspace *Workspace) ValidateDelete() (admission.Warnings, error) {
-	validations := workspace.deleteValidations()
-	var temp any = workspace
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (workspace *Workspace) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := workspace.updateValidations()
-	var temp any = workspace
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (workspace *Workspace) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){workspace.validateResourceReferences, workspace.validateOwnerReference, workspace.validateSecretDestinations, workspace.validateConfigMapDestinations, workspace.validateOptionalConfigMapReferences}
-}
-
-// deleteValidations validates the deletion of the resource
-func (workspace *Workspace) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (workspace *Workspace) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return workspace.validateResourceReferences()
-		},
-		workspace.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return workspace.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return workspace.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return workspace.validateConfigMapDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return workspace.validateOptionalConfigMapReferences()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (workspace *Workspace) validateConfigMapDestinations() (admission.Warnings, error) {
-	if workspace.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(workspace, nil, workspace.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
-func (workspace *Workspace) validateOptionalConfigMapReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindOptionalConfigMapReferences(&workspace.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return configmaps.ValidateOptionalReferences(refs)
-}
-
-// validateOwnerReference validates the owner field
-func (workspace *Workspace) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(workspace)
-}
-
-// validateResourceReferences validates all resource references
-func (workspace *Workspace) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&workspace.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (workspace *Workspace) validateSecretDestinations() (admission.Warnings, error) {
-	if workspace.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(workspace, nil, workspace.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (workspace *Workspace) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*Workspace)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, workspace)
 }
 
 // AssignProperties_From_Workspace populates our Workspace from the provided source Workspace

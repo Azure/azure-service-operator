@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20210601/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20210601/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -15,10 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -84,29 +81,6 @@ func (profile *Profile) ConvertTo(hub conversion.Hub) error {
 
 	return nil
 }
-
-// +kubebuilder:webhook:path=/mutate-cdn-azure-com-v1api20210601-profile,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=cdn.azure.com,resources=profiles,verbs=create;update,versions=v1api20210601,name=default.v1api20210601.profiles.cdn.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &Profile{}
-
-// Default applies defaults to the Profile resource
-func (profile *Profile) Default() {
-	profile.defaultImpl()
-	var temp any = profile
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (profile *Profile) defaultAzureName() {
-	if profile.Spec.AzureName == "" {
-		profile.Spec.AzureName = profile.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the Profile resource
-func (profile *Profile) defaultImpl() { profile.defaultAzureName() }
 
 var _ configmaps.Exporter = &Profile{}
 
@@ -201,109 +175,6 @@ func (profile *Profile) SetStatus(status genruntime.ConvertibleStatus) error {
 
 	profile.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-cdn-azure-com-v1api20210601-profile,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=cdn.azure.com,resources=profiles,verbs=create;update,versions=v1api20210601,name=validate.v1api20210601.profiles.cdn.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &Profile{}
-
-// ValidateCreate validates the creation of the resource
-func (profile *Profile) ValidateCreate() (admission.Warnings, error) {
-	validations := profile.createValidations()
-	var temp any = profile
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (profile *Profile) ValidateDelete() (admission.Warnings, error) {
-	validations := profile.deleteValidations()
-	var temp any = profile
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (profile *Profile) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := profile.updateValidations()
-	var temp any = profile
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (profile *Profile) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){profile.validateResourceReferences, profile.validateOwnerReference, profile.validateSecretDestinations, profile.validateConfigMapDestinations}
-}
-
-// deleteValidations validates the deletion of the resource
-func (profile *Profile) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (profile *Profile) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return profile.validateResourceReferences()
-		},
-		profile.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return profile.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return profile.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return profile.validateConfigMapDestinations()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (profile *Profile) validateConfigMapDestinations() (admission.Warnings, error) {
-	if profile.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(profile, nil, profile.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOwnerReference validates the owner field
-func (profile *Profile) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(profile)
-}
-
-// validateResourceReferences validates all resource references
-func (profile *Profile) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&profile.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (profile *Profile) validateSecretDestinations() (admission.Warnings, error) {
-	if profile.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(profile, nil, profile.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (profile *Profile) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*Profile)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, profile)
 }
 
 // AssignProperties_From_Profile populates our Profile from the provided source Profile

@@ -9,7 +9,6 @@ import (
 	arm "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -18,11 +17,9 @@ import (
 	"github.com/go-logr/logr"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -88,29 +85,6 @@ func (identity *UserAssignedIdentity) ConvertTo(hub conversion.Hub) error {
 
 	return nil
 }
-
-// +kubebuilder:webhook:path=/mutate-managedidentity-azure-com-v1api20181130-userassignedidentity,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=managedidentity.azure.com,resources=userassignedidentities,verbs=create;update,versions=v1api20181130,name=default.v1api20181130.userassignedidentities.managedidentity.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &UserAssignedIdentity{}
-
-// Default applies defaults to the UserAssignedIdentity resource
-func (identity *UserAssignedIdentity) Default() {
-	identity.defaultImpl()
-	var temp any = identity
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (identity *UserAssignedIdentity) defaultAzureName() {
-	if identity.Spec.AzureName == "" {
-		identity.Spec.AzureName = identity.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the UserAssignedIdentity resource
-func (identity *UserAssignedIdentity) defaultImpl() { identity.defaultAzureName() }
 
 var _ configmaps.Exporter = &UserAssignedIdentity{}
 
@@ -232,117 +206,6 @@ func (identity *UserAssignedIdentity) SetStatus(status genruntime.ConvertibleSta
 
 	identity.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-managedidentity-azure-com-v1api20181130-userassignedidentity,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=managedidentity.azure.com,resources=userassignedidentities,verbs=create;update,versions=v1api20181130,name=validate.v1api20181130.userassignedidentities.managedidentity.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &UserAssignedIdentity{}
-
-// ValidateCreate validates the creation of the resource
-func (identity *UserAssignedIdentity) ValidateCreate() (admission.Warnings, error) {
-	validations := identity.createValidations()
-	var temp any = identity
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (identity *UserAssignedIdentity) ValidateDelete() (admission.Warnings, error) {
-	validations := identity.deleteValidations()
-	var temp any = identity
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (identity *UserAssignedIdentity) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := identity.updateValidations()
-	var temp any = identity
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (identity *UserAssignedIdentity) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){identity.validateResourceReferences, identity.validateOwnerReference, identity.validateSecretDestinations, identity.validateConfigMapDestinations}
-}
-
-// deleteValidations validates the deletion of the resource
-func (identity *UserAssignedIdentity) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (identity *UserAssignedIdentity) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return identity.validateResourceReferences()
-		},
-		identity.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return identity.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return identity.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return identity.validateConfigMapDestinations()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (identity *UserAssignedIdentity) validateConfigMapDestinations() (admission.Warnings, error) {
-	if identity.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	var toValidate []*genruntime.ConfigMapDestination
-	if identity.Spec.OperatorSpec.ConfigMaps != nil {
-		toValidate = []*genruntime.ConfigMapDestination{
-			identity.Spec.OperatorSpec.ConfigMaps.ClientId,
-			identity.Spec.OperatorSpec.ConfigMaps.PrincipalId,
-			identity.Spec.OperatorSpec.ConfigMaps.TenantId,
-		}
-	}
-	return configmaps.ValidateDestinations(identity, toValidate, identity.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOwnerReference validates the owner field
-func (identity *UserAssignedIdentity) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(identity)
-}
-
-// validateResourceReferences validates all resource references
-func (identity *UserAssignedIdentity) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&identity.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (identity *UserAssignedIdentity) validateSecretDestinations() (admission.Warnings, error) {
-	if identity.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(identity, nil, identity.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (identity *UserAssignedIdentity) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*UserAssignedIdentity)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, identity)
 }
 
 // AssignProperties_From_UserAssignedIdentity populates our UserAssignedIdentity from the provided source UserAssignedIdentity

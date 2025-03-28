@@ -11,6 +11,7 @@ import (
 
 	"github.com/dave/dst"
 	"github.com/rotisserie/eris"
+	"golang.org/x/exp/maps"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
@@ -27,6 +28,10 @@ type ResourceRegistrationFile struct {
 	indexFunctions          map[astmodel.InternalTypeName][]*functions.IndexRegistrationFunction
 	secretPropertyKeys      map[astmodel.InternalTypeName][]string
 	configMapPropertyKeys   map[astmodel.InternalTypeName][]string
+	validatingWebhooks      map[astmodel.InternalTypeName]astmodel.InternalTypeName
+	mutatingWebhooks        map[astmodel.InternalTypeName]astmodel.InternalTypeName
+
+	storageVersionToVersionMap map[astmodel.InternalTypeName][]astmodel.InternalTypeName
 }
 
 var _ astmodel.GoSourceFile = &ResourceRegistrationFile{}
@@ -40,6 +45,8 @@ func NewResourceRegistrationFile(
 	secretPropertyKeys map[astmodel.InternalTypeName][]string,
 	configMapPropertyKeys map[astmodel.InternalTypeName][]string,
 	resourceExtensions []astmodel.InternalTypeName,
+	validatingWebhooks map[astmodel.InternalTypeName]astmodel.InternalTypeName,
+	mutatingWebhooks map[astmodel.InternalTypeName]astmodel.InternalTypeName,
 ) *ResourceRegistrationFile {
 	return &ResourceRegistrationFile{
 		resources:               resources,
@@ -48,6 +55,8 @@ func NewResourceRegistrationFile(
 		secretPropertyKeys:      secretPropertyKeys,
 		configMapPropertyKeys:   configMapPropertyKeys,
 		resourceExtensions:      resourceExtensions,
+		validatingWebhooks:      validatingWebhooks,
+		mutatingWebhooks:        mutatingWebhooks,
 	}
 }
 
@@ -64,6 +73,8 @@ func (r *ResourceRegistrationFile) AsAst() (*dst.File, error) {
 		astmodel.MakeLocalPackageReference("", "controllers", "", ""), // TODO: This should come from a config
 		packageReferences,
 		nil)
+
+	r.storageVersionToVersionMap = r.getStorageVersionToVersionsMap(codeGenContext)
 
 	// Create import header if needed
 	thing := packageReferences.AsImportSpecs()
@@ -88,7 +99,7 @@ func (r *ResourceRegistrationFile) AsAst() (*dst.File, error) {
 	decls = append(decls, knownStorageTypes)
 
 	// getKnownTypes() function
-	knownTypes, err := createGetKnownTypesFunc(codeGenContext, r.resources)
+	knownTypes, err := r.createGetKnownTypesFunc(codeGenContext, r.resources)
 	if err != nil {
 		return nil, err
 	}
@@ -139,12 +150,44 @@ func (r *ResourceRegistrationFile) AsAst() (*dst.File, error) {
 	return result, nil
 }
 
+func (r *ResourceRegistrationFile) getStorageVersionToVersionsMap(codeGenerationContext *astmodel.CodeGenerationContext) map[astmodel.InternalTypeName][]astmodel.InternalTypeName {
+	result := make(map[astmodel.InternalTypeName][]astmodel.InternalTypeName, len(r.storageVersionResources))
+
+	for _, storageVersion := range r.storageVersionResources {
+		result[storageVersion] = []astmodel.InternalTypeName{}
+
+		group := storageVersion.InternalPackageReference().Group()
+
+		for _, version := range r.resources {
+			// Dont include storage versions here
+			if astmodel.IsStoragePackageReference(version.InternalPackageReference()) {
+				continue
+			}
+
+			ref := version.InternalPackageReference()
+			// Only match types whose group is the same and whose name is the same
+			if ref.Group() != group || storageVersion.Name() != version.Name() {
+				continue
+			}
+
+			result[storageVersion] = append(result[storageVersion], version)
+		}
+
+		// Sort the versions for a deterministic file layout
+		sort.Slice(result[storageVersion], orderByImportedTypeName(codeGenerationContext, result[storageVersion]))
+	}
+
+	return result
+}
+
 // generateImports generates the PackageImportSet containing the imports required for the resources
 // in the ResourceRegistrationFile.
 func (r *ResourceRegistrationFile) generateImports() *astmodel.PackageImportSet {
 	requiredImports := astmodel.NewPackageImportSet()
 	typeSet := append(r.resources, r.storageVersionResources...)
 	typeSet = append(typeSet, r.resourceExtensions...)
+	typeSet = append(typeSet, maps.Values(r.mutatingWebhooks)...)
+	typeSet = append(typeSet, maps.Values(r.validatingWebhooks)...)
 	for _, typeName := range typeSet {
 		requiredImports.AddImportOfReference(typeName.PackageReference())
 	}
@@ -190,31 +233,32 @@ func orderByFunctionName(functions []*functions.IndexRegistrationFunction) func(
 	}
 }
 
-// createGetKnownTypesFunc creates a getKnownTypes function that returns all known types:
+// createGetKnownTypesFunc creates a getKnownTypes function that returns all known types.
+// The registration.KnownType object also contains details about that objects (== GVK) webooks.
 //
-//	func getKnownTypes() []client.Object {
-//		var result []client.Object
-//		result = append(result, new(<package>.<resource>))
-//		result = append(result, new(<package>.<resource>))
-//		result = append(result, new(<package>.<resource>))
+//	func getKnownTypes() []&registration.KnownType {
+//		var result []*registration.KnownType
+//		result = append(result, &registration.KnownType{Obj: new(<package>.<resource>)})
+//		result = append(result, &registration.KnownType{Obj: new(<package>.<resource>)})
+//		result = append(result, &registration.KnownType{Obj: new(<package>.<resource>)})
 //		...
 //		return result
 //	}
-func createGetKnownTypesFunc(
+func (r *ResourceRegistrationFile) createGetKnownTypesFunc(
 	codeGenerationContext *astmodel.CodeGenerationContext,
 	resources []astmodel.InternalTypeName,
 ) (dst.Decl, error) {
 	funcName := "getKnownTypes"
-	funcComment := "returns the list of all types."
+	funcComment := "returns the list of all types and their webhooks"
 
-	client, err := codeGenerationContext.GetImportedPackageName(astmodel.ControllerRuntimeClient)
+	webhookRegistrationType, err := astmodel.KnownTypeRegistrationType.AsTypeExpr(codeGenerationContext)
 	if err != nil {
-		return nil, err
+		return nil, eris.Wrap(err, "creating type expression for WebhookRegistrationType")
 	}
 
 	resultIdent := dst.NewIdent("result")
 	resultType := &dst.ArrayType{
-		Elt: astbuilder.Selector(dst.NewIdent(client), "Object"),
+		Elt: astbuilder.PointerTo(webhookRegistrationType),
 	}
 	resultVar := astbuilder.LocalVariableDeclaration(resultIdent.String(), resultType, "")
 
@@ -236,7 +280,33 @@ func createGetKnownTypesFunc(
 			return nil, eris.Wrapf(err, "creating type expression for %s", typeName.Name())
 		}
 
-		batch = append(batch, astbuilder.CallFunc("new", typeNameExpr))
+		litBuilder := astbuilder.NewCompositeLiteralBuilder(webhookRegistrationType)
+		litBuilder.AddField("Obj", astbuilder.CallFunc("new", typeNameExpr))
+
+		mutatingWebhook, hasMutatingWebhook := r.mutatingWebhooks[typeName]
+		validatingWebhook, hasValidatingWebhook := r.validatingWebhooks[typeName]
+
+		var mutatingWebhookExpr dst.Expr
+		var validatingWebhookExpr dst.Expr
+
+		if hasMutatingWebhook {
+			mutatingWebhookExpr, err = mutatingWebhook.AsTypeExpr(codeGenerationContext)
+			if err != nil {
+				return nil, eris.Wrapf(err, "creating mutating webhook expression for %s", mutatingWebhook)
+			}
+
+			litBuilder.AddField("Defaulter", astbuilder.AddrOf(&dst.CompositeLit{Type: mutatingWebhookExpr}))
+		}
+		if hasValidatingWebhook {
+			validatingWebhookExpr, err = validatingWebhook.AsTypeExpr(codeGenerationContext)
+			if err != nil {
+				return nil, eris.Wrapf(err, "creating validating webhook expression for %s", validatingWebhook)
+			}
+
+			litBuilder.AddField("Validator", astbuilder.AddrOf(&dst.CompositeLit{Type: validatingWebhookExpr}))
+		}
+
+		batch = append(batch, astbuilder.AddrOf(litBuilder.Build()))
 		lastPkg = typeName.PackageReference()
 	}
 
@@ -359,7 +429,6 @@ func (r *ResourceRegistrationFile) createGetKnownStorageTypesFunc(
 		if err != nil {
 			return nil, eris.Wrapf(err, "creating watches expression for %s", typeName.Name())
 		}
-
 		if watches != nil {
 			newStorageTypeBuilder.AddField("Watches", watches)
 		}

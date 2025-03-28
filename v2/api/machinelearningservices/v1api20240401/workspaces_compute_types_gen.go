@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20240401/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20240401/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -16,10 +15,8 @@ import (
 	"github.com/rotisserie/eris"
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -71,29 +68,6 @@ func (compute *WorkspacesCompute) ConvertTo(hub conversion.Hub) error {
 
 	return compute.AssignProperties_To_WorkspacesCompute(destination)
 }
-
-// +kubebuilder:webhook:path=/mutate-machinelearningservices-azure-com-v1api20240401-workspacescompute,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=machinelearningservices.azure.com,resources=workspacescomputes,verbs=create;update,versions=v1api20240401,name=default.v1api20240401.workspacescomputes.machinelearningservices.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &WorkspacesCompute{}
-
-// Default applies defaults to the WorkspacesCompute resource
-func (compute *WorkspacesCompute) Default() {
-	compute.defaultImpl()
-	var temp any = compute
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (compute *WorkspacesCompute) defaultAzureName() {
-	if compute.Spec.AzureName == "" {
-		compute.Spec.AzureName = compute.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the WorkspacesCompute resource
-func (compute *WorkspacesCompute) defaultImpl() { compute.defaultAzureName() }
 
 var _ configmaps.Exporter = &WorkspacesCompute{}
 
@@ -199,121 +173,6 @@ func (compute *WorkspacesCompute) SetStatus(status genruntime.ConvertibleStatus)
 
 	compute.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-machinelearningservices-azure-com-v1api20240401-workspacescompute,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=machinelearningservices.azure.com,resources=workspacescomputes,verbs=create;update,versions=v1api20240401,name=validate.v1api20240401.workspacescomputes.machinelearningservices.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &WorkspacesCompute{}
-
-// ValidateCreate validates the creation of the resource
-func (compute *WorkspacesCompute) ValidateCreate() (admission.Warnings, error) {
-	validations := compute.createValidations()
-	var temp any = compute
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (compute *WorkspacesCompute) ValidateDelete() (admission.Warnings, error) {
-	validations := compute.deleteValidations()
-	var temp any = compute
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (compute *WorkspacesCompute) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := compute.updateValidations()
-	var temp any = compute
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (compute *WorkspacesCompute) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){compute.validateResourceReferences, compute.validateOwnerReference, compute.validateSecretDestinations, compute.validateConfigMapDestinations, compute.validateOptionalConfigMapReferences}
-}
-
-// deleteValidations validates the deletion of the resource
-func (compute *WorkspacesCompute) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (compute *WorkspacesCompute) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return compute.validateResourceReferences()
-		},
-		compute.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return compute.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return compute.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return compute.validateConfigMapDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return compute.validateOptionalConfigMapReferences()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (compute *WorkspacesCompute) validateConfigMapDestinations() (admission.Warnings, error) {
-	if compute.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(compute, nil, compute.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
-func (compute *WorkspacesCompute) validateOptionalConfigMapReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindOptionalConfigMapReferences(&compute.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return configmaps.ValidateOptionalReferences(refs)
-}
-
-// validateOwnerReference validates the owner field
-func (compute *WorkspacesCompute) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(compute)
-}
-
-// validateResourceReferences validates all resource references
-func (compute *WorkspacesCompute) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&compute.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (compute *WorkspacesCompute) validateSecretDestinations() (admission.Warnings, error) {
-	if compute.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(compute, nil, compute.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (compute *WorkspacesCompute) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*WorkspacesCompute)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, compute)
 }
 
 // AssignProperties_From_WorkspacesCompute populates our WorkspacesCompute from the provided source WorkspacesCompute

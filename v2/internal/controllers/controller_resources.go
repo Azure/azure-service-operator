@@ -29,8 +29,11 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 
 	mysqlv1 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1"
+	mysqlv1webhook "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1/webhook"
 	postgresqlv1 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1"
+	postgresqlv1webhook "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1/webhook"
 	azuresqlv1 "github.com/Azure/azure-service-operator/v2/api/sql/v1"
+	azuresqlv1webhook "github.com/Azure/azure-service-operator/v2/api/sql/v1/webhook"
 	"github.com/Azure/azure-service-operator/v2/internal/identity"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
@@ -269,18 +272,30 @@ func getControllerName(obj client.Object) (string, error) {
 	return name, nil
 }
 
-func GetKnownTypes() []client.Object {
+func GetKnownTypes() []*registration.KnownType {
 	knownTypes := getKnownTypes()
 
 	knownTypes = append(
 		knownTypes,
-		&mysqlv1.User{})
+		&registration.KnownType{
+			Obj:       &mysqlv1.User{},
+			Defaulter: &mysqlv1webhook.User_Webhook{},
+			Validator: &mysqlv1webhook.User_Webhook{},
+		})
 	knownTypes = append(
 		knownTypes,
-		&postgresqlv1.User{})
+		&registration.KnownType{
+			Obj:       &postgresqlv1.User{},
+			Defaulter: &postgresqlv1webhook.User_Webhook{},
+			Validator: &postgresqlv1webhook.User_Webhook{},
+		})
 	knownTypes = append(
 		knownTypes,
-		&azuresqlv1.User{})
+		&registration.KnownType{
+			Obj:       &azuresqlv1.User{},
+			Defaulter: &azuresqlv1webhook.User_Webhook{},
+			Validator: &azuresqlv1webhook.User_Webhook{},
+		})
 	return knownTypes
 }
 

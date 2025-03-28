@@ -43,6 +43,7 @@ var (
 
 	ClientGoSchemeReference     = MakeExternalPackageReference("k8s.io/client-go/kubernetes/scheme")
 	ControllerRuntimeAdmission  = MakeExternalPackageReference("sigs.k8s.io/controller-runtime/pkg/webhook/admission")
+	ControllerRuntimeWebhook    = MakeExternalPackageReference("sigs.k8s.io/controller-runtime/pkg/webhook")
 	ControllerRuntimeConversion = MakeExternalPackageReference("sigs.k8s.io/controller-runtime/pkg/conversion")
 	ControllerSchemeReference   = MakeExternalPackageReference("sigs.k8s.io/controller-runtime/pkg/scheme")
 	ControllerRuntimeClient     = MakeExternalPackageReference("sigs.k8s.io/controller-runtime/pkg/client")
@@ -113,6 +114,7 @@ var (
 	StorageTypeRegistrationType = MakeExternalTypeName(GenRuntimeRegistrationReference, "StorageType")
 	IndexRegistrationType       = MakeExternalTypeName(GenRuntimeRegistrationReference, "Index")
 	WatchRegistrationType       = MakeExternalTypeName(GenRuntimeRegistrationReference, "Watch")
+	KnownTypeRegistrationType   = MakeExternalTypeName(GenRuntimeRegistrationReference, "KnownType")
 
 	ConditionType   = MakeExternalTypeName(GenRuntimeConditionsReference, "Condition")
 	ConditionsType  = MakeExternalTypeName(GenRuntimeConditionsReference, "Conditions")
@@ -121,6 +123,7 @@ var (
 	// Type names - API Machinery
 	GroupVersionKindType = MakeExternalTypeName(APIMachinerySchemaReference, "GroupVersionKind")
 	SchemeType           = MakeExternalTypeName(APIMachineryRuntimeReference, "Scheme")
+	APIMachineryObject   = MakeExternalTypeName(APIMachineryRuntimeReference, "Object")
 	JSONType             = MakeExternalTypeName(APIExtensionsReference, "JSON")
 	ObjectMetaType       = MakeExternalTypeName(MetaV1Reference, "ObjectMeta")
 
@@ -128,8 +131,8 @@ var (
 	ConvertibleInterface        = MakeExternalTypeName(ControllerRuntimeConversion, "Convertible")
 	HubInterface                = MakeExternalTypeName(ControllerRuntimeConversion, "Hub")
 	ControllerRuntimeObjectType = MakeExternalTypeName(ControllerRuntimeClient, "Object")
-	DefaulterInterfaceName      = MakeExternalTypeName(ControllerRuntimeAdmission, "Defaulter")
-	ValidatorInterfaceName      = MakeExternalTypeName(ControllerRuntimeAdmission, "Validator")
+	DefaulterInterfaceName      = MakeExternalTypeName(ControllerRuntimeWebhook, "CustomDefaulter")
+	ValidatorInterfaceName      = MakeExternalTypeName(ControllerRuntimeWebhook, "CustomValidator")
 
 	// Type names - Core types
 	SecretType    = MakeExternalTypeName(CoreV1Reference, "Secret")

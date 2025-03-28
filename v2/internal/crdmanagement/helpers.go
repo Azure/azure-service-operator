@@ -11,7 +11,6 @@ import (
 	apiextensions "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
 
 	"github.com/Azure/azure-service-operator/v2/internal/set"
@@ -67,18 +66,18 @@ func FilterKnownTypesByReadyCRDs(
 	logger logr.Logger,
 	scheme *runtime.Scheme,
 	include map[string]apiextensions.CustomResourceDefinition,
-	knownTypes []client.Object,
-) ([]client.Object, error) {
+	knownTypes []*registration.KnownType,
+) ([]*registration.KnownType, error) {
 	// include map key is by CRD name, but we need it to be by kind
 	includeKinds := set.Make[schema.GroupKind]()
 	for _, crd := range include {
 		includeKinds.Add(schema.GroupKind{Group: crd.Spec.Group, Kind: crd.Spec.Names.Kind})
 	}
 
-	result := make([]client.Object, 0, len(knownTypes))
+	result := make([]*registration.KnownType, 0, len(knownTypes))
 	for _, knownType := range knownTypes {
 		// Use the provided GVK to construct a new runtime object of the desired concrete type.
-		gvk, err := apiutil.GVKForObject(knownType, scheme)
+		gvk, err := apiutil.GVKForObject(knownType.Obj, scheme)
 		if err != nil {
 			return nil, eris.Wrapf(err, "creating GVK for obj %T", knownType)
 		}

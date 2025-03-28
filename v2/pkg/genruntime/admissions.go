@@ -6,6 +6,8 @@
 package genruntime
 
 import (
+	"context"
+
 	"github.com/rotisserie/eris"
 	"k8s.io/apimachinery/pkg/runtime"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
@@ -14,20 +16,20 @@ import (
 
 // Validator is similar to controller-runtime/pkg/webhook/admission Validator. Implementing this interface
 // allows you to hook into the code generated validations and add custom handcrafted validations.
-type Validator interface {
+type Validator[T runtime.Object] interface {
 	// CreateValidations returns validation functions that should be run on create.
-	CreateValidations() []func() (admission.Warnings, error)
+	CreateValidations() []func(ctx context.Context, obj T) (admission.Warnings, error)
 	// UpdateValidations returns validation functions that should be run on update.
-	UpdateValidations() []func(old runtime.Object) (admission.Warnings, error)
+	UpdateValidations() []func(ctx context.Context, oldObj T, newObj T) (admission.Warnings, error)
 	// DeleteValidations returns validation functions that should be run on delete.
-	DeleteValidations() []func() (admission.Warnings, error)
+	DeleteValidations() []func(ctx context.Context, obj T) (admission.Warnings, error)
 }
 
 // Defaulter is similar to controller-runtime/pkg/webhook/admission Defaulter. Implementing this interface
 // allows you to hook into the code generated defaults and add custom handcrafted defaults.
 type Defaulter interface {
 	// CustomDefault performs custom defaults that are run in addition to the code generated defaults.
-	CustomDefault()
+	CustomDefault(ctx context.Context, obj runtime.Object) error
 }
 
 // ValidateWriteOnceProperties function validates the update on WriteOnce properties.
@@ -78,11 +80,11 @@ func ValidateWriteOnceProperties(oldObj ARMMetaObject, newObj ARMMetaObject) (ad
 	return nil, kerrors.NewAggregate(errs)
 }
 
-func ValidateCreate(validations []func() (admission.Warnings, error)) (admission.Warnings, error) {
+func ValidateCreate[T runtime.Object](ctx context.Context, resource T, validations []func(ctx context.Context, resource T) (admission.Warnings, error)) (admission.Warnings, error) {
 	var errs []error
 	var warnings admission.Warnings
 	for _, validation := range validations {
-		warning, err := validation()
+		warning, err := validation(ctx, resource)
 		if warning != nil {
 			warnings = append(warnings, warning...)
 		}
@@ -93,11 +95,11 @@ func ValidateCreate(validations []func() (admission.Warnings, error)) (admission
 	return warnings, kerrors.NewAggregate(errs)
 }
 
-func ValidateDelete(validations []func() (admission.Warnings, error)) (admission.Warnings, error) {
+func ValidateDelete[T runtime.Object](ctx context.Context, resource T, validations []func(ctx context.Context, resource T) (admission.Warnings, error)) (admission.Warnings, error) {
 	var errs []error
 	var warnings admission.Warnings
 	for _, validation := range validations {
-		warning, err := validation()
+		warning, err := validation(ctx, resource)
 		if warning != nil {
 			warnings = append(warnings, warning...)
 		}
@@ -108,11 +110,11 @@ func ValidateDelete(validations []func() (admission.Warnings, error)) (admission
 	return warnings, kerrors.NewAggregate(errs)
 }
 
-func ValidateUpdate(old runtime.Object, validations []func(old runtime.Object) (admission.Warnings, error)) (admission.Warnings, error) {
+func ValidateUpdate[T runtime.Object](ctx context.Context, old T, new T, validations []func(ctx context.Context, old T, new T) (admission.Warnings, error)) (admission.Warnings, error) {
 	var errs []error
 	var warnings admission.Warnings
 	for _, validation := range validations {
-		warning, err := validation(old)
+		warning, err := validation(ctx, old, new)
 		if warning != nil {
 			warnings = append(warnings, warning...)
 		}

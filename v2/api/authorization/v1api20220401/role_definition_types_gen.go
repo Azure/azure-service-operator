@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -15,10 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -70,22 +67,6 @@ func (definition *RoleDefinition) ConvertTo(hub conversion.Hub) error {
 
 	return definition.AssignProperties_To_RoleDefinition(destination)
 }
-
-// +kubebuilder:webhook:path=/mutate-authorization-azure-com-v1api20220401-roledefinition,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=authorization.azure.com,resources=roledefinitions,verbs=create;update,versions=v1api20220401,name=default.v1api20220401.roledefinitions.authorization.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &RoleDefinition{}
-
-// Default applies defaults to the RoleDefinition resource
-func (definition *RoleDefinition) Default() {
-	definition.defaultImpl()
-	var temp any = definition
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultImpl applies the code generated defaults to the RoleDefinition resource
-func (definition *RoleDefinition) defaultImpl() {}
 
 var _ configmaps.Exporter = &RoleDefinition{}
 
@@ -190,101 +171,6 @@ func (definition *RoleDefinition) SetStatus(status genruntime.ConvertibleStatus)
 
 	definition.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-authorization-azure-com-v1api20220401-roledefinition,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=authorization.azure.com,resources=roledefinitions,verbs=create;update,versions=v1api20220401,name=validate.v1api20220401.roledefinitions.authorization.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &RoleDefinition{}
-
-// ValidateCreate validates the creation of the resource
-func (definition *RoleDefinition) ValidateCreate() (admission.Warnings, error) {
-	validations := definition.createValidations()
-	var temp any = definition
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (definition *RoleDefinition) ValidateDelete() (admission.Warnings, error) {
-	validations := definition.deleteValidations()
-	var temp any = definition
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (definition *RoleDefinition) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := definition.updateValidations()
-	var temp any = definition
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (definition *RoleDefinition) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){definition.validateResourceReferences, definition.validateSecretDestinations, definition.validateConfigMapDestinations}
-}
-
-// deleteValidations validates the deletion of the resource
-func (definition *RoleDefinition) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (definition *RoleDefinition) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return definition.validateResourceReferences()
-		},
-		definition.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return definition.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return definition.validateConfigMapDestinations()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (definition *RoleDefinition) validateConfigMapDestinations() (admission.Warnings, error) {
-	if definition.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(definition, nil, definition.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateResourceReferences validates all resource references
-func (definition *RoleDefinition) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&definition.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (definition *RoleDefinition) validateSecretDestinations() (admission.Warnings, error) {
-	if definition.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(definition, nil, definition.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (definition *RoleDefinition) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*RoleDefinition)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, definition)
 }
 
 // AssignProperties_From_RoleDefinition populates our RoleDefinition from the provided source RoleDefinition

@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -15,10 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -70,22 +67,6 @@ func (setting *ServersDatabasesAuditingSetting) ConvertTo(hub conversion.Hub) er
 
 	return setting.AssignProperties_To_ServersDatabasesAuditingSetting(destination)
 }
-
-// +kubebuilder:webhook:path=/mutate-sql-azure-com-v1api20211101-serversdatabasesauditingsetting,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=sql.azure.com,resources=serversdatabasesauditingsettings,verbs=create;update,versions=v1api20211101,name=default.v1api20211101.serversdatabasesauditingsettings.sql.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &ServersDatabasesAuditingSetting{}
-
-// Default applies defaults to the ServersDatabasesAuditingSetting resource
-func (setting *ServersDatabasesAuditingSetting) Default() {
-	setting.defaultImpl()
-	var temp any = setting
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultImpl applies the code generated defaults to the ServersDatabasesAuditingSetting resource
-func (setting *ServersDatabasesAuditingSetting) defaultImpl() {}
 
 var _ configmaps.Exporter = &ServersDatabasesAuditingSetting{}
 
@@ -190,109 +171,6 @@ func (setting *ServersDatabasesAuditingSetting) SetStatus(status genruntime.Conv
 
 	setting.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-sql-azure-com-v1api20211101-serversdatabasesauditingsetting,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=sql.azure.com,resources=serversdatabasesauditingsettings,verbs=create;update,versions=v1api20211101,name=validate.v1api20211101.serversdatabasesauditingsettings.sql.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &ServersDatabasesAuditingSetting{}
-
-// ValidateCreate validates the creation of the resource
-func (setting *ServersDatabasesAuditingSetting) ValidateCreate() (admission.Warnings, error) {
-	validations := setting.createValidations()
-	var temp any = setting
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (setting *ServersDatabasesAuditingSetting) ValidateDelete() (admission.Warnings, error) {
-	validations := setting.deleteValidations()
-	var temp any = setting
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (setting *ServersDatabasesAuditingSetting) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := setting.updateValidations()
-	var temp any = setting
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (setting *ServersDatabasesAuditingSetting) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){setting.validateResourceReferences, setting.validateOwnerReference, setting.validateSecretDestinations, setting.validateConfigMapDestinations}
-}
-
-// deleteValidations validates the deletion of the resource
-func (setting *ServersDatabasesAuditingSetting) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (setting *ServersDatabasesAuditingSetting) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return setting.validateResourceReferences()
-		},
-		setting.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return setting.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return setting.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return setting.validateConfigMapDestinations()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (setting *ServersDatabasesAuditingSetting) validateConfigMapDestinations() (admission.Warnings, error) {
-	if setting.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(setting, nil, setting.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOwnerReference validates the owner field
-func (setting *ServersDatabasesAuditingSetting) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(setting)
-}
-
-// validateResourceReferences validates all resource references
-func (setting *ServersDatabasesAuditingSetting) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&setting.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (setting *ServersDatabasesAuditingSetting) validateSecretDestinations() (admission.Warnings, error) {
-	if setting.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(setting, nil, setting.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (setting *ServersDatabasesAuditingSetting) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*ServersDatabasesAuditingSetting)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, setting)
 }
 
 // AssignProperties_From_ServersDatabasesAuditingSetting populates our ServersDatabasesAuditingSetting from the provided source ServersDatabasesAuditingSetting

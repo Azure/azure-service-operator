@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/datafactory/v1api20180601/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/datafactory/v1api20180601/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -16,10 +15,8 @@ import (
 	"github.com/rotisserie/eris"
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -71,29 +68,6 @@ func (factory *Factory) ConvertTo(hub conversion.Hub) error {
 
 	return factory.AssignProperties_To_Factory(destination)
 }
-
-// +kubebuilder:webhook:path=/mutate-datafactory-azure-com-v1api20180601-factory,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=datafactory.azure.com,resources=factories,verbs=create;update,versions=v1api20180601,name=default.v1api20180601.factories.datafactory.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &Factory{}
-
-// Default applies defaults to the Factory resource
-func (factory *Factory) Default() {
-	factory.defaultImpl()
-	var temp any = factory
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (factory *Factory) defaultAzureName() {
-	if factory.Spec.AzureName == "" {
-		factory.Spec.AzureName = factory.Name
-	}
-}
-
-// defaultImpl applies the code generated defaults to the Factory resource
-func (factory *Factory) defaultImpl() { factory.defaultAzureName() }
 
 var _ configmaps.Exporter = &Factory{}
 
@@ -199,109 +173,6 @@ func (factory *Factory) SetStatus(status genruntime.ConvertibleStatus) error {
 
 	factory.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-datafactory-azure-com-v1api20180601-factory,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=datafactory.azure.com,resources=factories,verbs=create;update,versions=v1api20180601,name=validate.v1api20180601.factories.datafactory.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &Factory{}
-
-// ValidateCreate validates the creation of the resource
-func (factory *Factory) ValidateCreate() (admission.Warnings, error) {
-	validations := factory.createValidations()
-	var temp any = factory
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (factory *Factory) ValidateDelete() (admission.Warnings, error) {
-	validations := factory.deleteValidations()
-	var temp any = factory
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (factory *Factory) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := factory.updateValidations()
-	var temp any = factory
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (factory *Factory) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){factory.validateResourceReferences, factory.validateOwnerReference, factory.validateSecretDestinations, factory.validateConfigMapDestinations}
-}
-
-// deleteValidations validates the deletion of the resource
-func (factory *Factory) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (factory *Factory) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return factory.validateResourceReferences()
-		},
-		factory.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return factory.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return factory.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return factory.validateConfigMapDestinations()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (factory *Factory) validateConfigMapDestinations() (admission.Warnings, error) {
-	if factory.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(factory, nil, factory.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOwnerReference validates the owner field
-func (factory *Factory) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(factory)
-}
-
-// validateResourceReferences validates all resource references
-func (factory *Factory) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&factory.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (factory *Factory) validateSecretDestinations() (admission.Warnings, error) {
-	if factory.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(factory, nil, factory.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (factory *Factory) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*Factory)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, factory)
 }
 
 // AssignProperties_From_Factory populates our Factory from the provided source Factory

@@ -7,7 +7,6 @@ import (
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -15,10 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -84,22 +81,6 @@ func (administrator *FlexibleServersAdministrator) ConvertTo(hub conversion.Hub)
 
 	return nil
 }
-
-// +kubebuilder:webhook:path=/mutate-dbformysql-azure-com-v1api20220101-flexibleserversadministrator,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbformysql.azure.com,resources=flexibleserversadministrators,verbs=create;update,versions=v1api20220101,name=default.v1api20220101.flexibleserversadministrators.dbformysql.azure.com,admissionReviewVersions=v1
-
-var _ admission.Defaulter = &FlexibleServersAdministrator{}
-
-// Default applies defaults to the FlexibleServersAdministrator resource
-func (administrator *FlexibleServersAdministrator) Default() {
-	administrator.defaultImpl()
-	var temp any = administrator
-	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		runtimeDefaulter.CustomDefault()
-	}
-}
-
-// defaultImpl applies the code generated defaults to the FlexibleServersAdministrator resource
-func (administrator *FlexibleServersAdministrator) defaultImpl() {}
 
 var _ configmaps.Exporter = &FlexibleServersAdministrator{}
 
@@ -194,121 +175,6 @@ func (administrator *FlexibleServersAdministrator) SetStatus(status genruntime.C
 
 	administrator.Status = st
 	return nil
-}
-
-// +kubebuilder:webhook:path=/validate-dbformysql-azure-com-v1api20220101-flexibleserversadministrator,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbformysql.azure.com,resources=flexibleserversadministrators,verbs=create;update,versions=v1api20220101,name=validate.v1api20220101.flexibleserversadministrators.dbformysql.azure.com,admissionReviewVersions=v1
-
-var _ admission.Validator = &FlexibleServersAdministrator{}
-
-// ValidateCreate validates the creation of the resource
-func (administrator *FlexibleServersAdministrator) ValidateCreate() (admission.Warnings, error) {
-	validations := administrator.createValidations()
-	var temp any = administrator
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.CreateValidations()...)
-	}
-	return genruntime.ValidateCreate(validations)
-}
-
-// ValidateDelete validates the deletion of the resource
-func (administrator *FlexibleServersAdministrator) ValidateDelete() (admission.Warnings, error) {
-	validations := administrator.deleteValidations()
-	var temp any = administrator
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.DeleteValidations()...)
-	}
-	return genruntime.ValidateDelete(validations)
-}
-
-// ValidateUpdate validates an update of the resource
-func (administrator *FlexibleServersAdministrator) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := administrator.updateValidations()
-	var temp any = administrator
-	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-		validations = append(validations, runtimeValidator.UpdateValidations()...)
-	}
-	return genruntime.ValidateUpdate(old, validations)
-}
-
-// createValidations validates the creation of the resource
-func (administrator *FlexibleServersAdministrator) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){administrator.validateResourceReferences, administrator.validateOwnerReference, administrator.validateSecretDestinations, administrator.validateConfigMapDestinations, administrator.validateOptionalConfigMapReferences}
-}
-
-// deleteValidations validates the deletion of the resource
-func (administrator *FlexibleServersAdministrator) deleteValidations() []func() (admission.Warnings, error) {
-	return nil
-}
-
-// updateValidations validates the update of the resource
-func (administrator *FlexibleServersAdministrator) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
-	return []func(old runtime.Object) (admission.Warnings, error){
-		func(old runtime.Object) (admission.Warnings, error) {
-			return administrator.validateResourceReferences()
-		},
-		administrator.validateWriteOnceProperties,
-		func(old runtime.Object) (admission.Warnings, error) {
-			return administrator.validateOwnerReference()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return administrator.validateSecretDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return administrator.validateConfigMapDestinations()
-		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return administrator.validateOptionalConfigMapReferences()
-		},
-	}
-}
-
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (administrator *FlexibleServersAdministrator) validateConfigMapDestinations() (admission.Warnings, error) {
-	if administrator.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return configmaps.ValidateDestinations(administrator, nil, administrator.Spec.OperatorSpec.ConfigMapExpressions)
-}
-
-// validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
-func (administrator *FlexibleServersAdministrator) validateOptionalConfigMapReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindOptionalConfigMapReferences(&administrator.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return configmaps.ValidateOptionalReferences(refs)
-}
-
-// validateOwnerReference validates the owner field
-func (administrator *FlexibleServersAdministrator) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(administrator)
-}
-
-// validateResourceReferences validates all resource references
-func (administrator *FlexibleServersAdministrator) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&administrator.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (administrator *FlexibleServersAdministrator) validateSecretDestinations() (admission.Warnings, error) {
-	if administrator.Spec.OperatorSpec == nil {
-		return nil, nil
-	}
-	return secrets.ValidateDestinations(administrator, nil, administrator.Spec.OperatorSpec.SecretExpressions)
-}
-
-// validateWriteOnceProperties validates all WriteOnce properties
-func (administrator *FlexibleServersAdministrator) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*FlexibleServersAdministrator)
-	if !ok {
-		return nil, nil
-	}
-
-	return genruntime.ValidateWriteOnceProperties(oldObj, administrator)
 }
 
 // AssignProperties_From_FlexibleServersAdministrator populates our FlexibleServersAdministrator from the provided source FlexibleServersAdministrator
