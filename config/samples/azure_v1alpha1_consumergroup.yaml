@@ -1,9 +1,0 @@
-apiVersion: azure.microsoft.com/v1alpha1
-kind: ConsumerGroup
-metadata:
-  name: consumergroup-sample-1
-spec:
-  # Add fields here
-  resourceGroup: resourcegroup-azure-operators
-  namespace: "eventhubnamespace-sample-1"
-  eventHub: "eventhub-sample-1"

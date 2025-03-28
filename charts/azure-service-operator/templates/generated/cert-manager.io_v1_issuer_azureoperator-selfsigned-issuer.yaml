@@ -1,7 +1,0 @@
-apiVersion: {{ .Values.certManagerResourcesAPIVersion }}
-kind: Issuer
-metadata:
-  name: azureoperator-selfsigned-issuer
-  namespace: {{ .Release.Namespace }}
-spec:
-  selfSigned: {}

@@ -1,7 +1,0 @@
-apiVersion: azure.microsoft.com/v1alpha1
-kind: PostgreSQLDatabase
-metadata:
-  name: postgresqldatabase-sample
-spec:
-  resourceGroup: resourcegroup-azure-operators
-  server: postgresqlserver-sample
