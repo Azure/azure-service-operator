@@ -1,6 +1,0 @@
-apiVersion: azure.microsoft.com/v1alpha1
-kind: ResourceGroup
-metadata:
-  name: resourcegroup-azure-operators
-spec:
-  location: "westus"
