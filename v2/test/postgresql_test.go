@@ -169,7 +169,6 @@ func PostgreSQL_User_Helpers(tc *testcommon.KubePerTestContext, fqdn string, adm
 	// Test setting some user roles
 	expectedUserRoles := []string{"azure_pg_admin"}
 	tc.Expect(postgresqlutil.ReconcileUserServerRoles(ctx, db, postgresqlutil.SQLUser{Name: username}, expectedUserRoles)).To(Succeed())
-
 	userRoles, err = postgresqlutil.GetUserServerRoles(ctx, db, postgresqlutil.SQLUser{Name: username})
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(userRoles).To(Equal(set.Make[string](expectedUserRoles...)))
@@ -177,7 +176,21 @@ func PostgreSQL_User_Helpers(tc *testcommon.KubePerTestContext, fqdn string, adm
 	// Update user roles to add some and remove some
 	expectedUserRoles = []string{"pg_read_all_stats"}
 	tc.Expect(postgresqlutil.ReconcileUserServerRoles(ctx, db, postgresqlutil.SQLUser{Name: username}, expectedUserRoles)).To(Succeed())
+	userRoles, err = postgresqlutil.GetUserServerRoles(ctx, db, postgresqlutil.SQLUser{Name: username})
+	tc.Expect(err).ToNot(HaveOccurred())
+	tc.Expect(userRoles).To(Equal(set.Make[string](expectedUserRoles...)))
 
+	// Update user roles to add a role with an uppercase character in it (ensure it works!)
+	tc.Expect(postgresqlutil.CreateRoleWithPermissions(ctx, db, "myRole", "LOGIN", "CREATEDB", "CREATEROLE")).To(Succeed())
+	expectedUserRoles = []string{"pg_read_all_stats", "myRole"}
+	tc.Expect(postgresqlutil.ReconcileUserServerRoles(ctx, db, postgresqlutil.SQLUser{Name: username}, expectedUserRoles)).To(Succeed())
+	userRoles, err = postgresqlutil.GetUserServerRoles(ctx, db, postgresqlutil.SQLUser{Name: username})
+	tc.Expect(err).ToNot(HaveOccurred())
+	tc.Expect(userRoles).To(Equal(set.Make[string](expectedUserRoles...)))
+
+	// Update user roles to remove a role with an uppercase character in it (ensure it works!)
+	expectedUserRoles = []string{"pg_read_all_stats"}
+	tc.Expect(postgresqlutil.ReconcileUserServerRoles(ctx, db, postgresqlutil.SQLUser{Name: username}, expectedUserRoles)).To(Succeed())
 	userRoles, err = postgresqlutil.GetUserServerRoles(ctx, db, postgresqlutil.SQLUser{Name: username})
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(userRoles).To(Equal(set.Make[string](expectedUserRoles...)))
