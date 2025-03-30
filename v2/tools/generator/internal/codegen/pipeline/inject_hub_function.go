@@ -27,8 +27,7 @@ func InjectHubFunction(idFactory astmodel.IdentifierFactory) *Stage {
 			injector := astmodel.NewFunctionInjector()
 			result := definitions.Copy()
 
-			resources := astmodel.FindResourceDefinitions(definitions)
-			for name, def := range resources {
+			for name, def := range definitions.AllResources() {
 				rt, ok := astmodel.AsResourceType(def.Type())
 				if !ok {
 					return nil, eris.Errorf("expected %s to be a resource type (should never happen)", name)

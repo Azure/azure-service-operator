@@ -113,8 +113,7 @@ func (c *armTypeCreator) createARMTypes() (astmodel.TypeDefinitionSet, error) {
 	// For OneOf types to end up correctly shaped, we must do both spec and status before we do any
 	// other types, so that we discover any properties needing to be pushed from root to leaf
 	// before we create the leaf types.
-	resourceDefs := astmodel.FindResourceDefinitions(c.definitions)
-	for _, def := range resourceDefs {
+	for _, def := range c.definitions.AllResources() {
 		err := c.createARMTypesForResource(def)
 		if err != nil {
 			// No need to wrap as it already identifies the resource

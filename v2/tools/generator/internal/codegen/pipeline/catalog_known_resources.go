@@ -19,11 +19,9 @@ func CatalogKnownResources() *Stage {
 		CatalogKnownResourcesStageID,
 		"Catalog known resources",
 		func(ctx context.Context, state *State) (*State, error) {
-			rsrcs := astmodel.FindResourceDefinitions(state.Definitions())
-
 			// catalog contains a set of all known resources for each group
 			catalog := make(map[string]astmodel.TypeNameSet)
-			for _, rsrc := range rsrcs {
+			for _, rsrc := range state.Definitions().AllResources() {
 				group := rsrc.Name().InternalPackageReference().Group()
 				rsrcsInGroup, ok := catalog[group]
 				if !ok {

@@ -37,8 +37,7 @@ func StripDocumentation(configuration *config.Configuration, log logr.Logger) *S
 			//}
 
 			result := make(astmodel.TypeDefinitionSet)
-			resources := astmodel.FindResourceDefinitions(state.Definitions())
-			for _, def := range resources {
+			for _, def := range state.Definitions().AllResources() {
 				group := def.Name().InternalPackageReference().Group()
 				name := def.Name().Name()
 

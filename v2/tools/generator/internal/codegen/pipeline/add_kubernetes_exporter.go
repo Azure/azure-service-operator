@@ -29,7 +29,7 @@ func AddKubernetesExporter(idFactory astmodel.IdentifierFactory) *Stage {
 				return nil, eris.Wrapf(err, "couldn't find exported config maps")
 			}
 
-			for _, def := range astmodel.FindResourceDefinitions(defs) {
+			for _, def := range defs.AllResources() {
 				resourceType, ok := astmodel.AsResourceType(def.Type())
 				if !ok {
 					return nil, eris.Errorf("%s definition type wasn't a resource", def.Name())

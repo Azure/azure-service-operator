@@ -28,8 +28,7 @@ func InjectOriginalGVKFunction(idFactory astmodel.IdentifierFactory) *Stage {
 			injector := astmodel.NewFunctionInjector()
 			result := definitions.Copy()
 
-			resources := astmodel.FindResourceDefinitions(definitions)
-			for name, def := range resources {
+			for name, def := range definitions.AllResources() {
 				var fn *functions.OriginalGVKFunction
 				if astmodel.IsStoragePackageReference(name.PackageReference()) {
 					fn = functions.NewOriginalGVKFunction(functions.ReadProperty, idFactory)
