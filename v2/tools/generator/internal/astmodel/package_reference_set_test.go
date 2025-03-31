@@ -135,16 +135,14 @@ func TestPackageReferenceSet_AsSlice_WhenEmpty_ReturnsEmptySlice(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 	set := NewPackageReferenceSet()
-	slice := set.AsSlice()
-	g.Expect(slice).To(HaveLen(0))
+	g.Expect(set.All()).To(HaveLen(0))
 }
 
 func TestPackageReferenceSet_AsSlice_WhenSetPopulated_ReturnsExpectedSlice(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 	set := NewPackageReferenceSet(simpleTestRef, pathTestRef)
-	slice := set.AsSlice()
-	g.Expect(slice).To(HaveLen(2))
+	g.Expect(set.All()).To(HaveLen(2))
 }
 
 /*

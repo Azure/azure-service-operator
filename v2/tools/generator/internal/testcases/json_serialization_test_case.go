@@ -149,7 +149,7 @@ func (o *JSONSerializationTestCase) RequiredImports() *astmodel.PackageImportSet
 
 	// Merge references required for properties
 	o.container.Properties().ForEach(func(prop *astmodel.PropertyDefinition) {
-		for _, ref := range prop.PropertyType().RequiredPackageReferences().AsSlice() {
+		for ref := range prop.PropertyType().RequiredPackageReferences().All() {
 			result.AddImportOfReference(ref)
 		}
 	})

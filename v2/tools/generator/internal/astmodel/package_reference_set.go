@@ -6,6 +6,8 @@
 package astmodel
 
 import (
+	"iter"
+
 	"golang.org/x/exp/slices"
 )
 
@@ -64,6 +66,17 @@ func (set *PackageReferenceSet) AsSlice() []PackageReference {
 	}
 
 	return result
+}
+
+// All returns an iterator over all the references in the set
+func (set *PackageReferenceSet) All() iter.Seq[PackageReference] {
+	return func(yield func(ref PackageReference) bool) {
+		for ref := range set.references {
+			if !yield(ref) {
+				break
+			}
+		}
+	}
 }
 
 // AsSortedSlice return a sorted slice containing all the references
