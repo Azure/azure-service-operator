@@ -9,7 +9,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -47,15 +46,6 @@ func (r *SimpleExtensionResource) GetStatus() genruntime.ConvertibleStatus {
 
 func (r *SimpleExtensionResource) GetAPIVersion() string {
 	return "2020-01-01"
-}
-
-var _ admission.Defaulter = &SimpleExtensionResource{}
-
-// Default defaults the Azure name of the resource to the Kubernetes name
-func (r *SimpleExtensionResource) Default() {
-	if r.Spec.AzureName == "" {
-		r.Spec.AzureName = r.Name
-	}
 }
 
 var _ conditions.Conditioner = &SimpleExtensionResource{}

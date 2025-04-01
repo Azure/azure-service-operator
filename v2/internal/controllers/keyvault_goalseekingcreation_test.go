@@ -12,7 +12,7 @@ import (
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	keyvault "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401preview"
+	keyvault "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20230701"
 	"github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
@@ -50,6 +50,10 @@ func Test_KeyVault_WhenRecoverSpecified_RecoversSuccessfully(t *testing.T) {
 func Test_KeyVault_WhenPurgeSpecified_PurgesSuccessfully(t *testing.T) {
 	t.Parallel()
 
+	if *isLive {
+		t.Skip("can't run in live mode, blocked by KV policy")
+	}
+
 	tc := globalTestContext.ForTest(t)
 
 	// Create our Resource Group for testing
@@ -69,7 +73,7 @@ func Test_KeyVault_WhenPurgeSpecified_PurgesSuccessfully(t *testing.T) {
 	tc.DeleteResourceAndWait(vault)
 
 	// Create our replacement KeyVault by purging the one we just deleted
-	tc.LogSectionf("Recover original KeyVault")
+	tc.LogSectionf("Purge original KeyVault and make a new one")
 	replacementVault := newSoftDeletingKeyVault(tc, rg, "aso-kv-purge", to.Ptr(keyvault.VaultProperties_CreateMode_PurgeThenCreate))
 
 	tc.CreateResourceAndWait(replacementVault)

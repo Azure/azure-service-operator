@@ -14,8 +14,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/keyvault/armkeyvault"
 
 	compute "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220702"
-	"github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401preview"
-	keyvault "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401preview"
+	keyvault "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20230701"
 	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
@@ -126,6 +125,7 @@ func newVaultForDiskEncryptionSet(name string, tc *testcommon.KubePerTestContext
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Properties: &keyvault.VaultProperties{
+				CreateMode: to.Ptr(keyvault.VaultProperties_CreateMode_CreateOrRecover),
 				Sku: &keyvault.Sku{
 					Family: to.Ptr(keyvault.Sku_Family_A),
 					Name:   to.Ptr(keyvault.Sku_Name_Standard),
@@ -140,7 +140,7 @@ func newVaultForDiskEncryptionSet(name string, tc *testcommon.KubePerTestContext
 
 // TODO: Hacking this around for now. We currently don't support Keyvault/Keys resource.
 // TODO: Should be good to replace this with an actual resource once https://github.com/Azure/azure-service-operator/issues/3188 is resolved.
-func createKeyVaultKey(tc *testcommon.KubePerTestContext, kv *v1api20210401preview.Vault, rg *resources.ResourceGroup) armkeyvault.Key {
+func createKeyVaultKey(tc *testcommon.KubePerTestContext, kv *keyvault.Vault, rg *resources.ResourceGroup) armkeyvault.Key {
 	client, err := armkeyvault.NewKeysClient(tc.AzureSubscription, tc.AzureClient.Creds(), tc.AzureClient.ClientOptions())
 	tc.Expect(err).To(BeNil())
 

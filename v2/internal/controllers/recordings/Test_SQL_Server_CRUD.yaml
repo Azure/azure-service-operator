@@ -537,7 +537,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Storage/storageAccounts/asoteststordrufmq/listKeys?api-version=2023-05-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Storage/storageAccounts/asoteststordrufmq/listKeys?api-version=2024-01-01
     method: POST
   response:
     body: '{"keys":[{"creationTime":"2001-02-03T04:05:06Z","keyName":"key1","value":"{KEY}","permissions":"FULL"},{"creationTime":"2001-02-03T04:05:06Z","keyName":"key2","value":"{KEY}","permissions":"FULL"}]}'

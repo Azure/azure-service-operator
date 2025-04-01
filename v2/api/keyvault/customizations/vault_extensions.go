@@ -177,6 +177,7 @@ func (ex *VaultExtension) handlePurgeThenCreate(
 			return eris.Wrapf(err, "failed to begin purging deleted KeyVault %s", kv.Name)
 		}
 
+		// TODO: This polling speed is not configurable for our tests
 		_, err = poller.PollUntilDone(ctx, &runtime.PollUntilDoneOptions{Frequency: 10 * time.Second})
 		if err != nil {
 			return eris.Wrapf(err, "failed to purge deleted KeyVault %s", kv.Name)
