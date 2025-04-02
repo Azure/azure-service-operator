@@ -2,7 +2,7 @@ module github.com/Azure/azure-service-operator/v2
 
 go 1.23.0
 
-toolchain go1.23.4
+toolchain go1.24.1
 
 require (
 	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.17.1
@@ -31,7 +31,7 @@ require (
 	github.com/go-logr/logr v1.4.2
 	github.com/go-logr/zapr v1.3.0
 	github.com/go-sql-driver/mysql v1.9.1
-	github.com/google/cel-go v0.22.1
+	github.com/google/cel-go v0.24.1
 	github.com/google/go-cmp v0.7.0
 	github.com/google/uuid v1.6.0
 	github.com/hbollon/go-edlib v1.6.0
@@ -41,7 +41,7 @@ require (
 	github.com/kylelemons/godebug v1.1.0
 	github.com/leanovate/gopter v0.2.11
 	github.com/microsoft/go-mssqldb v1.8.0
-	github.com/onsi/gomega v1.36.3
+	github.com/onsi/gomega v1.37.0
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/prometheus/client_golang v1.21.1
 	github.com/rotisserie/eris v0.5.4

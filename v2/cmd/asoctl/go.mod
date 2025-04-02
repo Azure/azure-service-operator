@@ -14,7 +14,7 @@ require (
 	github.com/Azure/azure-service-operator/v2 v2.12.0
 	github.com/go-logr/logr v1.4.2
 	github.com/go-logr/zerologr v1.2.3
-	github.com/onsi/gomega v1.36.3
+	github.com/onsi/gomega v1.37.0
 	github.com/rotisserie/eris v0.5.4
 	github.com/rs/zerolog v1.34.0
 	github.com/sourcegraph/conc v0.3.0
