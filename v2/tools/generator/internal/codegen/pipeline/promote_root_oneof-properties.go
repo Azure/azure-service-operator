@@ -64,9 +64,8 @@ func (p *rootPropertyPromoter) modifyDefinitions() (astmodel.TypeDefinitionSet, 
 	result := make(astmodel.TypeDefinitionSet)
 
 	// Find any OneOf types that are directly referenced by resources
-	resources := astmodel.FindResourceDefinitions(p.definitions)
 	var errs []error
-	for _, r := range resources {
+	for _, r := range p.definitions.AllResources() {
 		info, err := p.definitions.ResolveResourceSpecAndStatus(r)
 		if err != nil {
 			errs = append(errs, err)

@@ -23,10 +23,8 @@ func CollapseCrossGroupReferences(idFactory astmodel.IdentifierFactory) *Stage {
 		CollapseCrossGroupReferencesStageID,
 		"Find and remove cross group references",
 		func(ctx context.Context, state *State) (*State, error) {
-			resources := astmodel.FindResourceDefinitions(state.Definitions())
 			result := make(astmodel.TypeDefinitionSet)
-
-			for name, def := range resources {
+			for name, def := range state.Definitions().AllResources() {
 				walker := newTypeWalker(idFactory, state.Definitions(), name)
 				updatedTypes, err := walker.Walk(def)
 				if err != nil {

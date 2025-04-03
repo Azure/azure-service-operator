@@ -39,8 +39,7 @@ func AddStatusConditions(idFactory astmodel.IdentifierFactory) *Stage {
 				result.Add(updatedDef)
 			}
 
-			resourceDefs := astmodel.FindResourceDefinitions(defs)
-			for _, def := range resourceDefs {
+			for _, def := range defs.AllResources() {
 				resourceType := def.Type().(*astmodel.ResourceType)
 
 				conditionerImpl, err := NewConditionerInterfaceImpl(idFactory, resourceType)

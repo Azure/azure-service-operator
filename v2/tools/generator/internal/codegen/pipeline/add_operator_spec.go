@@ -31,7 +31,7 @@ func AddOperatorSpec(configuration *config.Configuration, idFactory astmodel.Ide
 			// ConfigMappings
 			exportedTypeNameConfigMaps := NewExportedTypeNameProperties()
 
-			for _, resource := range astmodel.FindResourceDefinitions(defs) {
+			for _, resource := range defs.AllResources() {
 				newDefs, exportedConfigMaps, err := createOperatorSpecIfNeeded(defs, configuration, idFactory, resource)
 				if err != nil {
 					return nil, err

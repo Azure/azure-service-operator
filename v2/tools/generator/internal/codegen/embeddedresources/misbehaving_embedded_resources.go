@@ -81,7 +81,7 @@ func findMisbehavingResources(
 		return ctx, nil
 	}
 
-	for _, def := range astmodel.FindResourceDefinitions(defs) {
+	for _, def := range defs.AllResources() {
 		_, err := typeWalker.Walk(def)
 		if err != nil {
 			return nil, eris.Wrapf(err, "failed to walk type %s", def.Name())

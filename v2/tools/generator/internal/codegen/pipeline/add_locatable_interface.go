@@ -21,7 +21,7 @@ func AddLocatableInterface(idFactory astmodel.IdentifierFactory) *Stage {
 		func(ctx context.Context, state *State) (*State, error) {
 			updatedDefs := make(astmodel.TypeDefinitionSet)
 
-			for _, def := range astmodel.FindResourceDefinitions(state.Definitions()) {
+			for _, def := range state.Definitions().AllResources() {
 				rt := def.Type().(*astmodel.ResourceType)
 
 				if rt.Scope() == astmodel.ResourceScopeLocation {

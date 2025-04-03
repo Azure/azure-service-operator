@@ -203,8 +203,11 @@ func (p *PackageDefinition) createVersion(ref InternalPackageReference) string {
 
 // containsResources returns true if this package contains any resources
 func (p *PackageDefinition) containsResources() bool {
-	rsrcs := FindResourceDefinitions(p.definitions)
-	return len(rsrcs) > 0
+	for range p.definitions.AllResources() {
+		return true
+	}
+
+	return false
 }
 
 // emitGroupVersionFile writes a `groupversion_info.go` file for the package

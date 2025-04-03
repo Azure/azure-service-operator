@@ -28,7 +28,7 @@ func ApplyKubernetesResourceInterface(
 		func(ctx context.Context, state *State) (*State, error) {
 			updatedDefs := make(astmodel.TypeDefinitionSet)
 
-			for typeName, typeDef := range astmodel.FindResourceDefinitions(state.Definitions()) {
+			for typeName, typeDef := range state.Definitions().AllResources() {
 				newDefs, err := interfaces.AddKubernetesResourceInterfaceImpls(
 					typeDef,
 					idFactory,
