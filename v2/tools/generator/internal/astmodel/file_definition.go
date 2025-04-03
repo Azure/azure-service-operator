@@ -151,7 +151,7 @@ func (file *FileDefinition) generateImports() *PackageImportSet {
 
 	// Create the set of imports
 	requiredImports := NewPackageImportSet()
-	requiredImports.AddImportsOfReferences(allReferences.AsSlice()...)
+	requiredImports.AddImportsForPackageReferenceSet(allReferences)
 
 	// TODO: Make this configurable
 	requiredImports.ApplyName(MetaV1Reference, "metav1")
