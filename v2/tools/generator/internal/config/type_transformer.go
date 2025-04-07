@@ -316,6 +316,12 @@ func (transformer *TypeTransformer) transformProperties(
 				return nil, eris.Wrapf(err, "transforming property %s", propertyName)
 			}
 
+			if transformer.Target.Optional {
+				prop = prop.MakeOptional()
+			} else if transformer.Target.Required {
+				prop = prop.MakeRequired()
+			}
+
 			objectType = objectType.WithProperty(prop.WithType(propertyType))
 		}
 	}
