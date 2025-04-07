@@ -264,22 +264,38 @@ func stringHandler(_ context.Context, _ *SchemaScanner, schema Schema, log logr.
 	return t, nil
 }
 
-// copied from ARM implementation
-var uuidRegex = regexp.MustCompile("^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$")
+var (
+	// copied from ARM implementation
+	uuidRegex   = regexp.MustCompile("^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$")
+	base64Regex = regexp.MustCompile("^[-A-Za-z0-9+/]+={0,3}$")
+	uriRegex    = regexp.MustCompile(`^[a-zA-Z][a-zA-Z0-9+-.]*:[^\s]*$`)
+	urlRegex    = regexp.MustCompile(`^https?://[^\s]+$`)
+)
 
 func formatToPattern(format string, log logr.Logger) *regexp.Regexp {
 	switch format {
 	case "uuid":
 		return uuidRegex
-	case "date-time", "date", "duration", "date-time-rfc1123", "arm-id":
+	case "arm-id",
+		"byte",
+		"date-time",
+		"date",
+		"duration",
+		"date-time-rfc1123":
 		// TODO: don’t bother validating for now
 		return nil
 	case "password":
 		// This is handled later in the status_augment phase of processing, so just
 		// ignore it for now
 		return nil
+	case "base64url":
+		return base64Regex
+	case "uri":
+		return uriRegex
+	case "url":
+		return urlRegex
 	default:
-		log.V(1).Info(
+		log.V(0).Info(
 			"Unknown property format",
 			"format", format)
 		return nil
