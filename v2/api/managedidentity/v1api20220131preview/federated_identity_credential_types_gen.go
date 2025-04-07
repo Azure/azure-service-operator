@@ -262,6 +262,7 @@ type FederatedIdentityCredential_Spec struct {
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
+	// +kubebuilder:validation:Pattern="^[a-zA-Z][a-zA-Z0-9+-.]*:[^\\s]*$"
 	// Issuer: The URL of the issuer to be trusted.
 	Issuer *string `json:"issuer,omitempty" optionalConfigMapPair:"Issuer"`
 
