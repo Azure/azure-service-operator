@@ -545,12 +545,7 @@ func (share *StorageAccountsFileServicesShare_Spec) AssignProperties_From_Storag
 	}
 
 	// ShareQuota
-	if source.ShareQuota != nil {
-		shareQuota := *source.ShareQuota
-		share.ShareQuota = &shareQuota
-	} else {
-		share.ShareQuota = nil
-	}
+	share.ShareQuota = genruntime.ClonePointerToInt(source.ShareQuota)
 
 	// SignedIdentifiers
 	if source.SignedIdentifiers != nil {
@@ -633,12 +628,7 @@ func (share *StorageAccountsFileServicesShare_Spec) AssignProperties_To_StorageA
 	}
 
 	// ShareQuota
-	if share.ShareQuota != nil {
-		shareQuota := *share.ShareQuota
-		destination.ShareQuota = &shareQuota
-	} else {
-		destination.ShareQuota = nil
-	}
+	destination.ShareQuota = genruntime.ClonePointerToInt(share.ShareQuota)
 
 	// SignedIdentifiers
 	if share.SignedIdentifiers != nil {
@@ -700,12 +690,7 @@ func (share *StorageAccountsFileServicesShare_Spec) Initialize_From_StorageAccou
 	}
 
 	// ShareQuota
-	if source.ShareQuota != nil {
-		shareQuota := *source.ShareQuota
-		share.ShareQuota = &shareQuota
-	} else {
-		share.ShareQuota = nil
-	}
+	share.ShareQuota = genruntime.ClonePointerToInt(source.ShareQuota)
 
 	// SignedIdentifiers
 	if source.SignedIdentifiers != nil {

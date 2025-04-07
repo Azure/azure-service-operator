@@ -466,12 +466,7 @@ func (profile *Profile_Spec) AssignProperties_From_Profile_Spec(source *storage.
 	}
 
 	// OriginResponseTimeoutSeconds
-	if source.OriginResponseTimeoutSeconds != nil {
-		originResponseTimeoutSecond := *source.OriginResponseTimeoutSeconds
-		profile.OriginResponseTimeoutSeconds = &originResponseTimeoutSecond
-	} else {
-		profile.OriginResponseTimeoutSeconds = nil
-	}
+	profile.OriginResponseTimeoutSeconds = genruntime.ClonePointerToInt(source.OriginResponseTimeoutSeconds)
 
 	// Owner
 	if source.Owner != nil {
@@ -524,12 +519,7 @@ func (profile *Profile_Spec) AssignProperties_To_Profile_Spec(destination *stora
 	}
 
 	// OriginResponseTimeoutSeconds
-	if profile.OriginResponseTimeoutSeconds != nil {
-		originResponseTimeoutSecond := *profile.OriginResponseTimeoutSeconds
-		destination.OriginResponseTimeoutSeconds = &originResponseTimeoutSecond
-	} else {
-		destination.OriginResponseTimeoutSeconds = nil
-	}
+	destination.OriginResponseTimeoutSeconds = genruntime.ClonePointerToInt(profile.OriginResponseTimeoutSeconds)
 
 	// OriginalVersion
 	destination.OriginalVersion = profile.OriginalVersion()

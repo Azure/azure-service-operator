@@ -817,12 +817,7 @@ func (group *ActionGroup_Spec) AssignProperties_From_ActionGroup_Spec(source *st
 	}
 
 	// GroupShortName
-	if source.GroupShortName != nil {
-		groupShortName := *source.GroupShortName
-		group.GroupShortName = &groupShortName
-	} else {
-		group.GroupShortName = nil
-	}
+	group.GroupShortName = genruntime.ClonePointerToString(source.GroupShortName)
 
 	// ItsmReceivers
 	if source.ItsmReceivers != nil {
@@ -1069,12 +1064,7 @@ func (group *ActionGroup_Spec) AssignProperties_To_ActionGroup_Spec(destination 
 	}
 
 	// GroupShortName
-	if group.GroupShortName != nil {
-		groupShortName := *group.GroupShortName
-		destination.GroupShortName = &groupShortName
-	} else {
-		destination.GroupShortName = nil
-	}
+	destination.GroupShortName = genruntime.ClonePointerToString(group.GroupShortName)
 
 	// ItsmReceivers
 	if group.ItsmReceivers != nil {
@@ -1326,12 +1316,7 @@ func (group *ActionGroup_Spec) Initialize_From_ActionGroupResource_STATUS(source
 	}
 
 	// GroupShortName
-	if source.GroupShortName != nil {
-		groupShortName := *source.GroupShortName
-		group.GroupShortName = &groupShortName
-	} else {
-		group.GroupShortName = nil
-	}
+	group.GroupShortName = genruntime.ClonePointerToString(source.GroupShortName)
 
 	// ItsmReceivers
 	if source.ItsmReceivers != nil {

@@ -3437,12 +3437,7 @@ func (info *CloningInfo) AssignProperties_From_CloningInfo(source *storage.Cloni
 	}
 
 	// CorrelationId
-	if source.CorrelationId != nil {
-		correlationId := *source.CorrelationId
-		info.CorrelationId = &correlationId
-	} else {
-		info.CorrelationId = nil
-	}
+	info.CorrelationId = genruntime.ClonePointerToString(source.CorrelationId)
 
 	// HostingEnvironment
 	info.HostingEnvironment = genruntime.ClonePointerToString(source.HostingEnvironment)
@@ -3514,12 +3509,7 @@ func (info *CloningInfo) AssignProperties_To_CloningInfo(destination *storage.Cl
 	}
 
 	// CorrelationId
-	if info.CorrelationId != nil {
-		correlationId := *info.CorrelationId
-		destination.CorrelationId = &correlationId
-	} else {
-		destination.CorrelationId = nil
-	}
+	destination.CorrelationId = genruntime.ClonePointerToString(info.CorrelationId)
 
 	// HostingEnvironment
 	destination.HostingEnvironment = genruntime.ClonePointerToString(info.HostingEnvironment)
@@ -3596,12 +3586,7 @@ func (info *CloningInfo) Initialize_From_CloningInfo_STATUS(source *CloningInfo_
 	}
 
 	// CorrelationId
-	if source.CorrelationId != nil {
-		correlationId := *source.CorrelationId
-		info.CorrelationId = &correlationId
-	} else {
-		info.CorrelationId = nil
-	}
+	info.CorrelationId = genruntime.ClonePointerToString(source.CorrelationId)
 
 	// HostingEnvironment
 	info.HostingEnvironment = genruntime.ClonePointerToString(source.HostingEnvironment)
@@ -6104,12 +6089,7 @@ func (config *SiteConfig) AssignProperties_From_SiteConfig(source *storage.SiteC
 	}
 
 	// FunctionAppScaleLimit
-	if source.FunctionAppScaleLimit != nil {
-		functionAppScaleLimit := *source.FunctionAppScaleLimit
-		config.FunctionAppScaleLimit = &functionAppScaleLimit
-	} else {
-		config.FunctionAppScaleLimit = nil
-	}
+	config.FunctionAppScaleLimit = genruntime.ClonePointerToInt(source.FunctionAppScaleLimit)
 
 	// FunctionsRuntimeScaleMonitoringEnabled
 	if source.FunctionsRuntimeScaleMonitoringEnabled != nil {
@@ -6243,12 +6223,7 @@ func (config *SiteConfig) AssignProperties_From_SiteConfig(source *storage.SiteC
 	}
 
 	// MinimumElasticInstanceCount
-	if source.MinimumElasticInstanceCount != nil {
-		minimumElasticInstanceCount := *source.MinimumElasticInstanceCount
-		config.MinimumElasticInstanceCount = &minimumElasticInstanceCount
-	} else {
-		config.MinimumElasticInstanceCount = nil
-	}
+	config.MinimumElasticInstanceCount = genruntime.ClonePointerToInt(source.MinimumElasticInstanceCount)
 
 	// NetFrameworkVersion
 	config.NetFrameworkVersion = genruntime.ClonePointerToString(source.NetFrameworkVersion)
@@ -6266,12 +6241,7 @@ func (config *SiteConfig) AssignProperties_From_SiteConfig(source *storage.SiteC
 	config.PowerShellVersion = genruntime.ClonePointerToString(source.PowerShellVersion)
 
 	// PreWarmedInstanceCount
-	if source.PreWarmedInstanceCount != nil {
-		preWarmedInstanceCount := *source.PreWarmedInstanceCount
-		config.PreWarmedInstanceCount = &preWarmedInstanceCount
-	} else {
-		config.PreWarmedInstanceCount = nil
-	}
+	config.PreWarmedInstanceCount = genruntime.ClonePointerToInt(source.PreWarmedInstanceCount)
 
 	// PublicNetworkAccess
 	config.PublicNetworkAccess = genruntime.ClonePointerToString(source.PublicNetworkAccess)
@@ -6599,12 +6569,7 @@ func (config *SiteConfig) AssignProperties_To_SiteConfig(destination *storage.Si
 	}
 
 	// FunctionAppScaleLimit
-	if config.FunctionAppScaleLimit != nil {
-		functionAppScaleLimit := *config.FunctionAppScaleLimit
-		destination.FunctionAppScaleLimit = &functionAppScaleLimit
-	} else {
-		destination.FunctionAppScaleLimit = nil
-	}
+	destination.FunctionAppScaleLimit = genruntime.ClonePointerToInt(config.FunctionAppScaleLimit)
 
 	// FunctionsRuntimeScaleMonitoringEnabled
 	if config.FunctionsRuntimeScaleMonitoringEnabled != nil {
@@ -6735,12 +6700,7 @@ func (config *SiteConfig) AssignProperties_To_SiteConfig(destination *storage.Si
 	}
 
 	// MinimumElasticInstanceCount
-	if config.MinimumElasticInstanceCount != nil {
-		minimumElasticInstanceCount := *config.MinimumElasticInstanceCount
-		destination.MinimumElasticInstanceCount = &minimumElasticInstanceCount
-	} else {
-		destination.MinimumElasticInstanceCount = nil
-	}
+	destination.MinimumElasticInstanceCount = genruntime.ClonePointerToInt(config.MinimumElasticInstanceCount)
 
 	// NetFrameworkVersion
 	destination.NetFrameworkVersion = genruntime.ClonePointerToString(config.NetFrameworkVersion)
@@ -6758,12 +6718,7 @@ func (config *SiteConfig) AssignProperties_To_SiteConfig(destination *storage.Si
 	destination.PowerShellVersion = genruntime.ClonePointerToString(config.PowerShellVersion)
 
 	// PreWarmedInstanceCount
-	if config.PreWarmedInstanceCount != nil {
-		preWarmedInstanceCount := *config.PreWarmedInstanceCount
-		destination.PreWarmedInstanceCount = &preWarmedInstanceCount
-	} else {
-		destination.PreWarmedInstanceCount = nil
-	}
+	destination.PreWarmedInstanceCount = genruntime.ClonePointerToInt(config.PreWarmedInstanceCount)
 
 	// PublicNetworkAccess
 	destination.PublicNetworkAccess = genruntime.ClonePointerToString(config.PublicNetworkAccess)
@@ -7094,12 +7049,7 @@ func (config *SiteConfig) Initialize_From_SiteConfig_STATUS(source *SiteConfig_S
 	}
 
 	// FunctionAppScaleLimit
-	if source.FunctionAppScaleLimit != nil {
-		functionAppScaleLimit := *source.FunctionAppScaleLimit
-		config.FunctionAppScaleLimit = &functionAppScaleLimit
-	} else {
-		config.FunctionAppScaleLimit = nil
-	}
+	config.FunctionAppScaleLimit = genruntime.ClonePointerToInt(source.FunctionAppScaleLimit)
 
 	// FunctionsRuntimeScaleMonitoringEnabled
 	if source.FunctionsRuntimeScaleMonitoringEnabled != nil {
@@ -7230,12 +7180,7 @@ func (config *SiteConfig) Initialize_From_SiteConfig_STATUS(source *SiteConfig_S
 	}
 
 	// MinimumElasticInstanceCount
-	if source.MinimumElasticInstanceCount != nil {
-		minimumElasticInstanceCount := *source.MinimumElasticInstanceCount
-		config.MinimumElasticInstanceCount = &minimumElasticInstanceCount
-	} else {
-		config.MinimumElasticInstanceCount = nil
-	}
+	config.MinimumElasticInstanceCount = genruntime.ClonePointerToInt(source.MinimumElasticInstanceCount)
 
 	// NetFrameworkVersion
 	config.NetFrameworkVersion = genruntime.ClonePointerToString(source.NetFrameworkVersion)
@@ -7253,12 +7198,7 @@ func (config *SiteConfig) Initialize_From_SiteConfig_STATUS(source *SiteConfig_S
 	config.PowerShellVersion = genruntime.ClonePointerToString(source.PowerShellVersion)
 
 	// PreWarmedInstanceCount
-	if source.PreWarmedInstanceCount != nil {
-		preWarmedInstanceCount := *source.PreWarmedInstanceCount
-		config.PreWarmedInstanceCount = &preWarmedInstanceCount
-	} else {
-		config.PreWarmedInstanceCount = nil
-	}
+	config.PreWarmedInstanceCount = genruntime.ClonePointerToInt(source.PreWarmedInstanceCount)
 
 	// PublicNetworkAccess
 	config.PublicNetworkAccess = genruntime.ClonePointerToString(source.PublicNetworkAccess)

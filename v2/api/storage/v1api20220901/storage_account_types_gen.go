@@ -7615,12 +7615,7 @@ func (properties *AccountImmutabilityPolicyProperties) AssignProperties_From_Acc
 	}
 
 	// ImmutabilityPeriodSinceCreationInDays
-	if source.ImmutabilityPeriodSinceCreationInDays != nil {
-		immutabilityPeriodSinceCreationInDay := *source.ImmutabilityPeriodSinceCreationInDays
-		properties.ImmutabilityPeriodSinceCreationInDays = &immutabilityPeriodSinceCreationInDay
-	} else {
-		properties.ImmutabilityPeriodSinceCreationInDays = nil
-	}
+	properties.ImmutabilityPeriodSinceCreationInDays = genruntime.ClonePointerToInt(source.ImmutabilityPeriodSinceCreationInDays)
 
 	// State
 	if source.State != nil {
@@ -7649,12 +7644,7 @@ func (properties *AccountImmutabilityPolicyProperties) AssignProperties_To_Accou
 	}
 
 	// ImmutabilityPeriodSinceCreationInDays
-	if properties.ImmutabilityPeriodSinceCreationInDays != nil {
-		immutabilityPeriodSinceCreationInDay := *properties.ImmutabilityPeriodSinceCreationInDays
-		destination.ImmutabilityPeriodSinceCreationInDays = &immutabilityPeriodSinceCreationInDay
-	} else {
-		destination.ImmutabilityPeriodSinceCreationInDays = nil
-	}
+	destination.ImmutabilityPeriodSinceCreationInDays = genruntime.ClonePointerToInt(properties.ImmutabilityPeriodSinceCreationInDays)
 
 	// State
 	if properties.State != nil {

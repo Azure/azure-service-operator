@@ -516,20 +516,10 @@ func (product *Product_Spec) AssignProperties_From_Product_Spec(source *storage.
 	product.AzureName = source.AzureName
 
 	// Description
-	if source.Description != nil {
-		description := *source.Description
-		product.Description = &description
-	} else {
-		product.Description = nil
-	}
+	product.Description = genruntime.ClonePointerToString(source.Description)
 
 	// DisplayName
-	if source.DisplayName != nil {
-		displayName := *source.DisplayName
-		product.DisplayName = &displayName
-	} else {
-		product.DisplayName = nil
-	}
+	product.DisplayName = genruntime.ClonePointerToString(source.DisplayName)
 
 	// OperatorSpec
 	if source.OperatorSpec != nil {
@@ -595,20 +585,10 @@ func (product *Product_Spec) AssignProperties_To_Product_Spec(destination *stora
 	destination.AzureName = product.AzureName
 
 	// Description
-	if product.Description != nil {
-		description := *product.Description
-		destination.Description = &description
-	} else {
-		destination.Description = nil
-	}
+	destination.Description = genruntime.ClonePointerToString(product.Description)
 
 	// DisplayName
-	if product.DisplayName != nil {
-		displayName := *product.DisplayName
-		destination.DisplayName = &displayName
-	} else {
-		destination.DisplayName = nil
-	}
+	destination.DisplayName = genruntime.ClonePointerToString(product.DisplayName)
 
 	// OperatorSpec
 	if product.OperatorSpec != nil {

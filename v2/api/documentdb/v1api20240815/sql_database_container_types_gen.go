@@ -2142,12 +2142,7 @@ func (policy *ClientEncryptionPolicy) AssignProperties_From_ClientEncryptionPoli
 	}
 
 	// PolicyFormatVersion
-	if source.PolicyFormatVersion != nil {
-		policyFormatVersion := *source.PolicyFormatVersion
-		policy.PolicyFormatVersion = &policyFormatVersion
-	} else {
-		policy.PolicyFormatVersion = nil
-	}
+	policy.PolicyFormatVersion = genruntime.ClonePointerToInt(source.PolicyFormatVersion)
 
 	// No error
 	return nil
@@ -2177,12 +2172,7 @@ func (policy *ClientEncryptionPolicy) AssignProperties_To_ClientEncryptionPolicy
 	}
 
 	// PolicyFormatVersion
-	if policy.PolicyFormatVersion != nil {
-		policyFormatVersion := *policy.PolicyFormatVersion
-		destination.PolicyFormatVersion = &policyFormatVersion
-	} else {
-		destination.PolicyFormatVersion = nil
-	}
+	destination.PolicyFormatVersion = genruntime.ClonePointerToInt(policy.PolicyFormatVersion)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2217,12 +2207,7 @@ func (policy *ClientEncryptionPolicy) Initialize_From_ClientEncryptionPolicy_STA
 	}
 
 	// PolicyFormatVersion
-	if source.PolicyFormatVersion != nil {
-		policyFormatVersion := *source.PolicyFormatVersion
-		policy.PolicyFormatVersion = &policyFormatVersion
-	} else {
-		policy.PolicyFormatVersion = nil
-	}
+	policy.PolicyFormatVersion = genruntime.ClonePointerToInt(source.PolicyFormatVersion)
 
 	// No error
 	return nil
@@ -2869,12 +2854,7 @@ func (partitionKey *ContainerPartitionKey) AssignProperties_From_ContainerPartit
 	partitionKey.Paths = genruntime.CloneSliceOfString(source.Paths)
 
 	// Version
-	if source.Version != nil {
-		version := *source.Version
-		partitionKey.Version = &version
-	} else {
-		partitionKey.Version = nil
-	}
+	partitionKey.Version = genruntime.ClonePointerToInt(source.Version)
 
 	// No error
 	return nil
@@ -2897,12 +2877,7 @@ func (partitionKey *ContainerPartitionKey) AssignProperties_To_ContainerPartitio
 	destination.Paths = genruntime.CloneSliceOfString(partitionKey.Paths)
 
 	// Version
-	if partitionKey.Version != nil {
-		version := *partitionKey.Version
-		destination.Version = &version
-	} else {
-		destination.Version = nil
-	}
+	destination.Version = genruntime.ClonePointerToInt(partitionKey.Version)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2930,12 +2905,7 @@ func (partitionKey *ContainerPartitionKey) Initialize_From_ContainerPartitionKey
 	partitionKey.Paths = genruntime.CloneSliceOfString(source.Paths)
 
 	// Version
-	if source.Version != nil {
-		version := *source.Version
-		partitionKey.Version = &version
-	} else {
-		partitionKey.Version = nil
-	}
+	partitionKey.Version = genruntime.ClonePointerToInt(source.Version)
 
 	// No error
 	return nil

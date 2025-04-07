@@ -704,12 +704,7 @@ func (setting *ServersAuditingSetting_Spec) AssignProperties_From_ServersAuditin
 	}
 
 	// StorageAccountSubscriptionId
-	if source.StorageAccountSubscriptionId != nil {
-		storageAccountSubscriptionId := *source.StorageAccountSubscriptionId
-		setting.StorageAccountSubscriptionId = &storageAccountSubscriptionId
-	} else {
-		setting.StorageAccountSubscriptionId = nil
-	}
+	setting.StorageAccountSubscriptionId = genruntime.ClonePointerToString(source.StorageAccountSubscriptionId)
 
 	// StorageEndpoint
 	setting.StorageEndpoint = genruntime.ClonePointerToString(source.StorageEndpoint)
@@ -804,12 +799,7 @@ func (setting *ServersAuditingSetting_Spec) AssignProperties_To_ServersAuditingS
 	}
 
 	// StorageAccountSubscriptionId
-	if setting.StorageAccountSubscriptionId != nil {
-		storageAccountSubscriptionId := *setting.StorageAccountSubscriptionId
-		destination.StorageAccountSubscriptionId = &storageAccountSubscriptionId
-	} else {
-		destination.StorageAccountSubscriptionId = nil
-	}
+	destination.StorageAccountSubscriptionId = genruntime.ClonePointerToString(setting.StorageAccountSubscriptionId)
 
 	// StorageEndpoint
 	destination.StorageEndpoint = genruntime.ClonePointerToString(setting.StorageEndpoint)
@@ -878,12 +868,7 @@ func (setting *ServersAuditingSetting_Spec) Initialize_From_ServersAuditingSetti
 	}
 
 	// StorageAccountSubscriptionId
-	if source.StorageAccountSubscriptionId != nil {
-		storageAccountSubscriptionId := *source.StorageAccountSubscriptionId
-		setting.StorageAccountSubscriptionId = &storageAccountSubscriptionId
-	} else {
-		setting.StorageAccountSubscriptionId = nil
-	}
+	setting.StorageAccountSubscriptionId = genruntime.ClonePointerToString(source.StorageAccountSubscriptionId)
 
 	// StorageEndpoint
 	setting.StorageEndpoint = genruntime.ClonePointerToString(source.StorageEndpoint)

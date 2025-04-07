@@ -4262,12 +4262,7 @@ func (profile *AgentPoolGatewayProfile) PopulateFromARM(owner genruntime.Arbitra
 func (profile *AgentPoolGatewayProfile) AssignProperties_From_AgentPoolGatewayProfile(source *storage.AgentPoolGatewayProfile) error {
 
 	// PublicIPPrefixSize
-	if source.PublicIPPrefixSize != nil {
-		publicIPPrefixSize := *source.PublicIPPrefixSize
-		profile.PublicIPPrefixSize = &publicIPPrefixSize
-	} else {
-		profile.PublicIPPrefixSize = nil
-	}
+	profile.PublicIPPrefixSize = genruntime.ClonePointerToInt(source.PublicIPPrefixSize)
 
 	// No error
 	return nil
@@ -4279,12 +4274,7 @@ func (profile *AgentPoolGatewayProfile) AssignProperties_To_AgentPoolGatewayProf
 	propertyBag := genruntime.NewPropertyBag()
 
 	// PublicIPPrefixSize
-	if profile.PublicIPPrefixSize != nil {
-		publicIPPrefixSize := *profile.PublicIPPrefixSize
-		destination.PublicIPPrefixSize = &publicIPPrefixSize
-	} else {
-		destination.PublicIPPrefixSize = nil
-	}
+	destination.PublicIPPrefixSize = genruntime.ClonePointerToInt(profile.PublicIPPrefixSize)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -5338,23 +5328,13 @@ func (settings *AgentPoolUpgradeSettings) PopulateFromARM(owner genruntime.Arbit
 func (settings *AgentPoolUpgradeSettings) AssignProperties_From_AgentPoolUpgradeSettings(source *storage.AgentPoolUpgradeSettings) error {
 
 	// DrainTimeoutInMinutes
-	if source.DrainTimeoutInMinutes != nil {
-		drainTimeoutInMinute := *source.DrainTimeoutInMinutes
-		settings.DrainTimeoutInMinutes = &drainTimeoutInMinute
-	} else {
-		settings.DrainTimeoutInMinutes = nil
-	}
+	settings.DrainTimeoutInMinutes = genruntime.ClonePointerToInt(source.DrainTimeoutInMinutes)
 
 	// MaxSurge
 	settings.MaxSurge = genruntime.ClonePointerToString(source.MaxSurge)
 
 	// NodeSoakDurationInMinutes
-	if source.NodeSoakDurationInMinutes != nil {
-		nodeSoakDurationInMinute := *source.NodeSoakDurationInMinutes
-		settings.NodeSoakDurationInMinutes = &nodeSoakDurationInMinute
-	} else {
-		settings.NodeSoakDurationInMinutes = nil
-	}
+	settings.NodeSoakDurationInMinutes = genruntime.ClonePointerToInt(source.NodeSoakDurationInMinutes)
 
 	// UndrainableNodeBehavior
 	if source.UndrainableNodeBehavior != nil {
@@ -5375,23 +5355,13 @@ func (settings *AgentPoolUpgradeSettings) AssignProperties_To_AgentPoolUpgradeSe
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DrainTimeoutInMinutes
-	if settings.DrainTimeoutInMinutes != nil {
-		drainTimeoutInMinute := *settings.DrainTimeoutInMinutes
-		destination.DrainTimeoutInMinutes = &drainTimeoutInMinute
-	} else {
-		destination.DrainTimeoutInMinutes = nil
-	}
+	destination.DrainTimeoutInMinutes = genruntime.ClonePointerToInt(settings.DrainTimeoutInMinutes)
 
 	// MaxSurge
 	destination.MaxSurge = genruntime.ClonePointerToString(settings.MaxSurge)
 
 	// NodeSoakDurationInMinutes
-	if settings.NodeSoakDurationInMinutes != nil {
-		nodeSoakDurationInMinute := *settings.NodeSoakDurationInMinutes
-		destination.NodeSoakDurationInMinutes = &nodeSoakDurationInMinute
-	} else {
-		destination.NodeSoakDurationInMinutes = nil
-	}
+	destination.NodeSoakDurationInMinutes = genruntime.ClonePointerToInt(settings.NodeSoakDurationInMinutes)
 
 	// UndrainableNodeBehavior
 	if settings.UndrainableNodeBehavior != nil {
@@ -5944,12 +5914,7 @@ func (config *KubeletConfig) AssignProperties_From_KubeletConfig(source *storage
 	config.AllowedUnsafeSysctls = genruntime.CloneSliceOfString(source.AllowedUnsafeSysctls)
 
 	// ContainerLogMaxFiles
-	if source.ContainerLogMaxFiles != nil {
-		containerLogMaxFile := *source.ContainerLogMaxFiles
-		config.ContainerLogMaxFiles = &containerLogMaxFile
-	} else {
-		config.ContainerLogMaxFiles = nil
-	}
+	config.ContainerLogMaxFiles = genruntime.ClonePointerToInt(source.ContainerLogMaxFiles)
 
 	// ContainerLogMaxSizeMB
 	config.ContainerLogMaxSizeMB = genruntime.ClonePointerToInt(source.ContainerLogMaxSizeMB)
@@ -6001,12 +5966,7 @@ func (config *KubeletConfig) AssignProperties_To_KubeletConfig(destination *stor
 	destination.AllowedUnsafeSysctls = genruntime.CloneSliceOfString(config.AllowedUnsafeSysctls)
 
 	// ContainerLogMaxFiles
-	if config.ContainerLogMaxFiles != nil {
-		containerLogMaxFile := *config.ContainerLogMaxFiles
-		destination.ContainerLogMaxFiles = &containerLogMaxFile
-	} else {
-		destination.ContainerLogMaxFiles = nil
-	}
+	destination.ContainerLogMaxFiles = genruntime.ClonePointerToInt(config.ContainerLogMaxFiles)
 
 	// ContainerLogMaxSizeMB
 	destination.ContainerLogMaxSizeMB = genruntime.ClonePointerToInt(config.ContainerLogMaxSizeMB)
@@ -7743,20 +7703,10 @@ func (portRange *PortRange) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 func (portRange *PortRange) AssignProperties_From_PortRange(source *storage.PortRange) error {
 
 	// PortEnd
-	if source.PortEnd != nil {
-		portEnd := *source.PortEnd
-		portRange.PortEnd = &portEnd
-	} else {
-		portRange.PortEnd = nil
-	}
+	portRange.PortEnd = genruntime.ClonePointerToInt(source.PortEnd)
 
 	// PortStart
-	if source.PortStart != nil {
-		portStart := *source.PortStart
-		portRange.PortStart = &portStart
-	} else {
-		portRange.PortStart = nil
-	}
+	portRange.PortStart = genruntime.ClonePointerToInt(source.PortStart)
 
 	// Protocol
 	if source.Protocol != nil {
@@ -7777,20 +7727,10 @@ func (portRange *PortRange) AssignProperties_To_PortRange(destination *storage.P
 	propertyBag := genruntime.NewPropertyBag()
 
 	// PortEnd
-	if portRange.PortEnd != nil {
-		portEnd := *portRange.PortEnd
-		destination.PortEnd = &portEnd
-	} else {
-		destination.PortEnd = nil
-	}
+	destination.PortEnd = genruntime.ClonePointerToInt(portRange.PortEnd)
 
 	// PortStart
-	if portRange.PortStart != nil {
-		portStart := *portRange.PortStart
-		destination.PortStart = &portStart
-	} else {
-		destination.PortStart = nil
-	}
+	destination.PortStart = genruntime.ClonePointerToInt(portRange.PortStart)
 
 	// Protocol
 	if portRange.Protocol != nil {
@@ -8773,28 +8713,13 @@ func (config *SysctlConfig) AssignProperties_From_SysctlConfig(source *storage.S
 	}
 
 	// NetIpv4TcpkeepaliveIntvl
-	if source.NetIpv4TcpkeepaliveIntvl != nil {
-		netIpv4TcpkeepaliveIntvl := *source.NetIpv4TcpkeepaliveIntvl
-		config.NetIpv4TcpkeepaliveIntvl = &netIpv4TcpkeepaliveIntvl
-	} else {
-		config.NetIpv4TcpkeepaliveIntvl = nil
-	}
+	config.NetIpv4TcpkeepaliveIntvl = genruntime.ClonePointerToInt(source.NetIpv4TcpkeepaliveIntvl)
 
 	// NetNetfilterNfConntrackBuckets
-	if source.NetNetfilterNfConntrackBuckets != nil {
-		netNetfilterNfConntrackBucket := *source.NetNetfilterNfConntrackBuckets
-		config.NetNetfilterNfConntrackBuckets = &netNetfilterNfConntrackBucket
-	} else {
-		config.NetNetfilterNfConntrackBuckets = nil
-	}
+	config.NetNetfilterNfConntrackBuckets = genruntime.ClonePointerToInt(source.NetNetfilterNfConntrackBuckets)
 
 	// NetNetfilterNfConntrackMax
-	if source.NetNetfilterNfConntrackMax != nil {
-		netNetfilterNfConntrackMax := *source.NetNetfilterNfConntrackMax
-		config.NetNetfilterNfConntrackMax = &netNetfilterNfConntrackMax
-	} else {
-		config.NetNetfilterNfConntrackMax = nil
-	}
+	config.NetNetfilterNfConntrackMax = genruntime.ClonePointerToInt(source.NetNetfilterNfConntrackMax)
 
 	// VmMaxMapCount
 	config.VmMaxMapCount = genruntime.ClonePointerToInt(source.VmMaxMapCount)
@@ -8886,28 +8811,13 @@ func (config *SysctlConfig) AssignProperties_To_SysctlConfig(destination *storag
 	}
 
 	// NetIpv4TcpkeepaliveIntvl
-	if config.NetIpv4TcpkeepaliveIntvl != nil {
-		netIpv4TcpkeepaliveIntvl := *config.NetIpv4TcpkeepaliveIntvl
-		destination.NetIpv4TcpkeepaliveIntvl = &netIpv4TcpkeepaliveIntvl
-	} else {
-		destination.NetIpv4TcpkeepaliveIntvl = nil
-	}
+	destination.NetIpv4TcpkeepaliveIntvl = genruntime.ClonePointerToInt(config.NetIpv4TcpkeepaliveIntvl)
 
 	// NetNetfilterNfConntrackBuckets
-	if config.NetNetfilterNfConntrackBuckets != nil {
-		netNetfilterNfConntrackBucket := *config.NetNetfilterNfConntrackBuckets
-		destination.NetNetfilterNfConntrackBuckets = &netNetfilterNfConntrackBucket
-	} else {
-		destination.NetNetfilterNfConntrackBuckets = nil
-	}
+	destination.NetNetfilterNfConntrackBuckets = genruntime.ClonePointerToInt(config.NetNetfilterNfConntrackBuckets)
 
 	// NetNetfilterNfConntrackMax
-	if config.NetNetfilterNfConntrackMax != nil {
-		netNetfilterNfConntrackMax := *config.NetNetfilterNfConntrackMax
-		destination.NetNetfilterNfConntrackMax = &netNetfilterNfConntrackMax
-	} else {
-		destination.NetNetfilterNfConntrackMax = nil
-	}
+	destination.NetNetfilterNfConntrackMax = genruntime.ClonePointerToInt(config.NetNetfilterNfConntrackMax)
 
 	// VmMaxMapCount
 	destination.VmMaxMapCount = genruntime.ClonePointerToInt(config.VmMaxMapCount)

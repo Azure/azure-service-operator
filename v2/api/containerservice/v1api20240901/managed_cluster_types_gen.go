@@ -4723,12 +4723,7 @@ func (profile *ContainerServiceLinuxProfile) PopulateFromARM(owner genruntime.Ar
 func (profile *ContainerServiceLinuxProfile) AssignProperties_From_ContainerServiceLinuxProfile(source *storage.ContainerServiceLinuxProfile) error {
 
 	// AdminUsername
-	if source.AdminUsername != nil {
-		adminUsername := *source.AdminUsername
-		profile.AdminUsername = &adminUsername
-	} else {
-		profile.AdminUsername = nil
-	}
+	profile.AdminUsername = genruntime.ClonePointerToString(source.AdminUsername)
 
 	// Ssh
 	if source.Ssh != nil {
@@ -4752,12 +4747,7 @@ func (profile *ContainerServiceLinuxProfile) AssignProperties_To_ContainerServic
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AdminUsername
-	if profile.AdminUsername != nil {
-		adminUsername := *profile.AdminUsername
-		destination.AdminUsername = &adminUsername
-	} else {
-		destination.AdminUsername = nil
-	}
+	destination.AdminUsername = genruntime.ClonePointerToString(profile.AdminUsername)
 
 	// Ssh
 	if profile.Ssh != nil {
@@ -4786,12 +4776,7 @@ func (profile *ContainerServiceLinuxProfile) AssignProperties_To_ContainerServic
 func (profile *ContainerServiceLinuxProfile) Initialize_From_ContainerServiceLinuxProfile_STATUS(source *ContainerServiceLinuxProfile_STATUS) error {
 
 	// AdminUsername
-	if source.AdminUsername != nil {
-		adminUsername := *source.AdminUsername
-		profile.AdminUsername = &adminUsername
-	} else {
-		profile.AdminUsername = nil
-	}
+	profile.AdminUsername = genruntime.ClonePointerToString(source.AdminUsername)
 
 	// Ssh
 	if source.Ssh != nil {
@@ -5257,12 +5242,7 @@ func (profile *ContainerServiceNetworkProfile) AssignProperties_From_ContainerSe
 	}
 
 	// DnsServiceIP
-	if source.DnsServiceIP != nil {
-		dnsServiceIP := *source.DnsServiceIP
-		profile.DnsServiceIP = &dnsServiceIP
-	} else {
-		profile.DnsServiceIP = nil
-	}
+	profile.DnsServiceIP = genruntime.ClonePointerToString(source.DnsServiceIP)
 
 	// IpFamilies
 	if source.IpFamilies != nil {
@@ -5365,23 +5345,13 @@ func (profile *ContainerServiceNetworkProfile) AssignProperties_From_ContainerSe
 	}
 
 	// PodCidr
-	if source.PodCidr != nil {
-		podCidr := *source.PodCidr
-		profile.PodCidr = &podCidr
-	} else {
-		profile.PodCidr = nil
-	}
+	profile.PodCidr = genruntime.ClonePointerToString(source.PodCidr)
 
 	// PodCidrs
 	profile.PodCidrs = genruntime.CloneSliceOfString(source.PodCidrs)
 
 	// ServiceCidr
-	if source.ServiceCidr != nil {
-		serviceCidr := *source.ServiceCidr
-		profile.ServiceCidr = &serviceCidr
-	} else {
-		profile.ServiceCidr = nil
-	}
+	profile.ServiceCidr = genruntime.ClonePointerToString(source.ServiceCidr)
 
 	// ServiceCidrs
 	profile.ServiceCidrs = genruntime.CloneSliceOfString(source.ServiceCidrs)
@@ -5408,12 +5378,7 @@ func (profile *ContainerServiceNetworkProfile) AssignProperties_To_ContainerServ
 	}
 
 	// DnsServiceIP
-	if profile.DnsServiceIP != nil {
-		dnsServiceIP := *profile.DnsServiceIP
-		destination.DnsServiceIP = &dnsServiceIP
-	} else {
-		destination.DnsServiceIP = nil
-	}
+	destination.DnsServiceIP = genruntime.ClonePointerToString(profile.DnsServiceIP)
 
 	// IpFamilies
 	if profile.IpFamilies != nil {
@@ -5509,23 +5474,13 @@ func (profile *ContainerServiceNetworkProfile) AssignProperties_To_ContainerServ
 	}
 
 	// PodCidr
-	if profile.PodCidr != nil {
-		podCidr := *profile.PodCidr
-		destination.PodCidr = &podCidr
-	} else {
-		destination.PodCidr = nil
-	}
+	destination.PodCidr = genruntime.ClonePointerToString(profile.PodCidr)
 
 	// PodCidrs
 	destination.PodCidrs = genruntime.CloneSliceOfString(profile.PodCidrs)
 
 	// ServiceCidr
-	if profile.ServiceCidr != nil {
-		serviceCidr := *profile.ServiceCidr
-		destination.ServiceCidr = &serviceCidr
-	} else {
-		destination.ServiceCidr = nil
-	}
+	destination.ServiceCidr = genruntime.ClonePointerToString(profile.ServiceCidr)
 
 	// ServiceCidrs
 	destination.ServiceCidrs = genruntime.CloneSliceOfString(profile.ServiceCidrs)
@@ -5557,12 +5512,7 @@ func (profile *ContainerServiceNetworkProfile) Initialize_From_ContainerServiceN
 	}
 
 	// DnsServiceIP
-	if source.DnsServiceIP != nil {
-		dnsServiceIP := *source.DnsServiceIP
-		profile.DnsServiceIP = &dnsServiceIP
-	} else {
-		profile.DnsServiceIP = nil
-	}
+	profile.DnsServiceIP = genruntime.ClonePointerToString(source.DnsServiceIP)
 
 	// IpFamilies
 	if source.IpFamilies != nil {
@@ -5659,23 +5609,13 @@ func (profile *ContainerServiceNetworkProfile) Initialize_From_ContainerServiceN
 	}
 
 	// PodCidr
-	if source.PodCidr != nil {
-		podCidr := *source.PodCidr
-		profile.PodCidr = &podCidr
-	} else {
-		profile.PodCidr = nil
-	}
+	profile.PodCidr = genruntime.ClonePointerToString(source.PodCidr)
 
 	// PodCidrs
 	profile.PodCidrs = genruntime.CloneSliceOfString(source.PodCidrs)
 
 	// ServiceCidr
-	if source.ServiceCidr != nil {
-		serviceCidr := *source.ServiceCidr
-		profile.ServiceCidr = &serviceCidr
-	} else {
-		profile.ServiceCidr = nil
-	}
+	profile.ServiceCidr = genruntime.ClonePointerToString(source.ServiceCidr)
 
 	// ServiceCidrs
 	profile.ServiceCidrs = genruntime.CloneSliceOfString(source.ServiceCidrs)
@@ -8067,12 +8007,7 @@ func (profile *ManagedClusterAgentPoolProfile) AssignProperties_From_ManagedClus
 	}
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		profile.Name = &name
-	} else {
-		profile.Name = nil
-	}
+	profile.Name = genruntime.ClonePointerToString(source.Name)
 
 	// NetworkProfile
 	if source.NetworkProfile != nil {
@@ -8410,12 +8345,7 @@ func (profile *ManagedClusterAgentPoolProfile) AssignProperties_To_ManagedCluste
 	}
 
 	// Name
-	if profile.Name != nil {
-		name := *profile.Name
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(profile.Name)
 
 	// NetworkProfile
 	if profile.NetworkProfile != nil {
@@ -8734,12 +8664,7 @@ func (profile *ManagedClusterAgentPoolProfile) Initialize_From_ManagedClusterAge
 	}
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		profile.Name = &name
-	} else {
-		profile.Name = nil
-	}
+	profile.Name = genruntime.ClonePointerToString(source.Name)
 
 	// NetworkProfile
 	if source.NetworkProfile != nil {
@@ -18440,12 +18365,7 @@ func (resource *DelegatedResource) AssignProperties_From_DelegatedResource(sourc
 	}
 
 	// TenantId
-	if source.TenantId != nil {
-		tenantId := *source.TenantId
-		resource.TenantId = &tenantId
-	} else {
-		resource.TenantId = nil
-	}
+	resource.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
 	// No error
 	return nil
@@ -18471,12 +18391,7 @@ func (resource *DelegatedResource) AssignProperties_To_DelegatedResource(destina
 	}
 
 	// TenantId
-	if resource.TenantId != nil {
-		tenantId := *resource.TenantId
-		destination.TenantId = &tenantId
-	} else {
-		destination.TenantId = nil
-	}
+	destination.TenantId = genruntime.ClonePointerToString(resource.TenantId)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -18507,12 +18422,7 @@ func (resource *DelegatedResource) Initialize_From_DelegatedResource_STATUS(sour
 	}
 
 	// TenantId
-	if source.TenantId != nil {
-		tenantId := *source.TenantId
-		resource.TenantId = &tenantId
-	} else {
-		resource.TenantId = nil
-	}
+	resource.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
 	// No error
 	return nil
@@ -18766,17 +18676,7 @@ func (mesh *IstioServiceMesh) AssignProperties_From_IstioServiceMesh(source *sto
 	}
 
 	// Revisions
-	if source.Revisions != nil {
-		revisionList := make([]string, len(source.Revisions))
-		for revisionIndex, revisionItem := range source.Revisions {
-			// Shadow the loop variable to avoid aliasing
-			revisionItem := revisionItem
-			revisionList[revisionIndex] = revisionItem
-		}
-		mesh.Revisions = revisionList
-	} else {
-		mesh.Revisions = nil
-	}
+	mesh.Revisions = genruntime.CloneSliceOfString(source.Revisions)
 
 	// No error
 	return nil
@@ -18812,17 +18712,7 @@ func (mesh *IstioServiceMesh) AssignProperties_To_IstioServiceMesh(destination *
 	}
 
 	// Revisions
-	if mesh.Revisions != nil {
-		revisionList := make([]string, len(mesh.Revisions))
-		for revisionIndex, revisionItem := range mesh.Revisions {
-			// Shadow the loop variable to avoid aliasing
-			revisionItem := revisionItem
-			revisionList[revisionIndex] = revisionItem
-		}
-		destination.Revisions = revisionList
-	} else {
-		destination.Revisions = nil
-	}
+	destination.Revisions = genruntime.CloneSliceOfString(mesh.Revisions)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -18863,17 +18753,7 @@ func (mesh *IstioServiceMesh) Initialize_From_IstioServiceMesh_STATUS(source *Is
 	}
 
 	// Revisions
-	if source.Revisions != nil {
-		revisionList := make([]string, len(source.Revisions))
-		for revisionIndex, revisionItem := range source.Revisions {
-			// Shadow the loop variable to avoid aliasing
-			revisionItem := revisionItem
-			revisionList[revisionIndex] = revisionItem
-		}
-		mesh.Revisions = revisionList
-	} else {
-		mesh.Revisions = nil
-	}
+	mesh.Revisions = genruntime.CloneSliceOfString(source.Revisions)
 
 	// No error
 	return nil
@@ -20107,12 +19987,7 @@ func (profile *ManagedClusterLoadBalancerProfile) PopulateFromARM(owner genrunti
 func (profile *ManagedClusterLoadBalancerProfile) AssignProperties_From_ManagedClusterLoadBalancerProfile(source *storage.ManagedClusterLoadBalancerProfile) error {
 
 	// AllocatedOutboundPorts
-	if source.AllocatedOutboundPorts != nil {
-		allocatedOutboundPort := *source.AllocatedOutboundPorts
-		profile.AllocatedOutboundPorts = &allocatedOutboundPort
-	} else {
-		profile.AllocatedOutboundPorts = nil
-	}
+	profile.AllocatedOutboundPorts = genruntime.ClonePointerToInt(source.AllocatedOutboundPorts)
 
 	// BackendPoolType
 	if source.BackendPoolType != nil {
@@ -20150,12 +20025,7 @@ func (profile *ManagedClusterLoadBalancerProfile) AssignProperties_From_ManagedC
 	}
 
 	// IdleTimeoutInMinutes
-	if source.IdleTimeoutInMinutes != nil {
-		idleTimeoutInMinute := *source.IdleTimeoutInMinutes
-		profile.IdleTimeoutInMinutes = &idleTimeoutInMinute
-	} else {
-		profile.IdleTimeoutInMinutes = nil
-	}
+	profile.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(source.IdleTimeoutInMinutes)
 
 	// ManagedOutboundIPs
 	if source.ManagedOutboundIPs != nil {
@@ -20203,12 +20073,7 @@ func (profile *ManagedClusterLoadBalancerProfile) AssignProperties_To_ManagedClu
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AllocatedOutboundPorts
-	if profile.AllocatedOutboundPorts != nil {
-		allocatedOutboundPort := *profile.AllocatedOutboundPorts
-		destination.AllocatedOutboundPorts = &allocatedOutboundPort
-	} else {
-		destination.AllocatedOutboundPorts = nil
-	}
+	destination.AllocatedOutboundPorts = genruntime.ClonePointerToInt(profile.AllocatedOutboundPorts)
 
 	// BackendPoolType
 	if profile.BackendPoolType != nil {
@@ -20245,12 +20110,7 @@ func (profile *ManagedClusterLoadBalancerProfile) AssignProperties_To_ManagedClu
 	}
 
 	// IdleTimeoutInMinutes
-	if profile.IdleTimeoutInMinutes != nil {
-		idleTimeoutInMinute := *profile.IdleTimeoutInMinutes
-		destination.IdleTimeoutInMinutes = &idleTimeoutInMinute
-	} else {
-		destination.IdleTimeoutInMinutes = nil
-	}
+	destination.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(profile.IdleTimeoutInMinutes)
 
 	// ManagedOutboundIPs
 	if profile.ManagedOutboundIPs != nil {
@@ -20303,12 +20163,7 @@ func (profile *ManagedClusterLoadBalancerProfile) AssignProperties_To_ManagedClu
 func (profile *ManagedClusterLoadBalancerProfile) Initialize_From_ManagedClusterLoadBalancerProfile_STATUS(source *ManagedClusterLoadBalancerProfile_STATUS) error {
 
 	// AllocatedOutboundPorts
-	if source.AllocatedOutboundPorts != nil {
-		allocatedOutboundPort := *source.AllocatedOutboundPorts
-		profile.AllocatedOutboundPorts = &allocatedOutboundPort
-	} else {
-		profile.AllocatedOutboundPorts = nil
-	}
+	profile.AllocatedOutboundPorts = genruntime.ClonePointerToInt(source.AllocatedOutboundPorts)
 
 	// BackendPoolType
 	if source.BackendPoolType != nil {
@@ -20345,12 +20200,7 @@ func (profile *ManagedClusterLoadBalancerProfile) Initialize_From_ManagedCluster
 	}
 
 	// IdleTimeoutInMinutes
-	if source.IdleTimeoutInMinutes != nil {
-		idleTimeoutInMinute := *source.IdleTimeoutInMinutes
-		profile.IdleTimeoutInMinutes = &idleTimeoutInMinute
-	} else {
-		profile.IdleTimeoutInMinutes = nil
-	}
+	profile.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(source.IdleTimeoutInMinutes)
 
 	// ManagedOutboundIPs
 	if source.ManagedOutboundIPs != nil {
@@ -20800,12 +20650,7 @@ func (profile *ManagedClusterNATGatewayProfile) AssignProperties_From_ManagedClu
 	}
 
 	// IdleTimeoutInMinutes
-	if source.IdleTimeoutInMinutes != nil {
-		idleTimeoutInMinute := *source.IdleTimeoutInMinutes
-		profile.IdleTimeoutInMinutes = &idleTimeoutInMinute
-	} else {
-		profile.IdleTimeoutInMinutes = nil
-	}
+	profile.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(source.IdleTimeoutInMinutes)
 
 	// ManagedOutboundIPProfile
 	if source.ManagedOutboundIPProfile != nil {
@@ -20847,12 +20692,7 @@ func (profile *ManagedClusterNATGatewayProfile) AssignProperties_To_ManagedClust
 	}
 
 	// IdleTimeoutInMinutes
-	if profile.IdleTimeoutInMinutes != nil {
-		idleTimeoutInMinute := *profile.IdleTimeoutInMinutes
-		destination.IdleTimeoutInMinutes = &idleTimeoutInMinute
-	} else {
-		destination.IdleTimeoutInMinutes = nil
-	}
+	destination.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(profile.IdleTimeoutInMinutes)
 
 	// ManagedOutboundIPProfile
 	if profile.ManagedOutboundIPProfile != nil {
@@ -20899,12 +20739,7 @@ func (profile *ManagedClusterNATGatewayProfile) Initialize_From_ManagedClusterNA
 	}
 
 	// IdleTimeoutInMinutes
-	if source.IdleTimeoutInMinutes != nil {
-		idleTimeoutInMinute := *source.IdleTimeoutInMinutes
-		profile.IdleTimeoutInMinutes = &idleTimeoutInMinute
-	} else {
-		profile.IdleTimeoutInMinutes = nil
-	}
+	profile.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(source.IdleTimeoutInMinutes)
 
 	// ManagedOutboundIPProfile
 	if source.ManagedOutboundIPProfile != nil {
@@ -25479,20 +25314,10 @@ func (iPs *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs) PopulateFromARM
 func (iPs *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs) AssignProperties_From_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs(source *storage.ManagedClusterLoadBalancerProfile_ManagedOutboundIPs) error {
 
 	// Count
-	if source.Count != nil {
-		count := *source.Count
-		iPs.Count = &count
-	} else {
-		iPs.Count = nil
-	}
+	iPs.Count = genruntime.ClonePointerToInt(source.Count)
 
 	// CountIPv6
-	if source.CountIPv6 != nil {
-		countIPv6 := *source.CountIPv6
-		iPs.CountIPv6 = &countIPv6
-	} else {
-		iPs.CountIPv6 = nil
-	}
+	iPs.CountIPv6 = genruntime.ClonePointerToInt(source.CountIPv6)
 
 	// No error
 	return nil
@@ -25504,20 +25329,10 @@ func (iPs *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs) AssignPropertie
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Count
-	if iPs.Count != nil {
-		count := *iPs.Count
-		destination.Count = &count
-	} else {
-		destination.Count = nil
-	}
+	destination.Count = genruntime.ClonePointerToInt(iPs.Count)
 
 	// CountIPv6
-	if iPs.CountIPv6 != nil {
-		countIPv6 := *iPs.CountIPv6
-		destination.CountIPv6 = &countIPv6
-	} else {
-		destination.CountIPv6 = nil
-	}
+	destination.CountIPv6 = genruntime.ClonePointerToInt(iPs.CountIPv6)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -25534,20 +25349,10 @@ func (iPs *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs) AssignPropertie
 func (iPs *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs) Initialize_From_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS(source *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS) error {
 
 	// Count
-	if source.Count != nil {
-		count := *source.Count
-		iPs.Count = &count
-	} else {
-		iPs.Count = nil
-	}
+	iPs.Count = genruntime.ClonePointerToInt(source.Count)
 
 	// CountIPv6
-	if source.CountIPv6 != nil {
-		countIPv6 := *source.CountIPv6
-		iPs.CountIPv6 = &countIPv6
-	} else {
-		iPs.CountIPv6 = nil
-	}
+	iPs.CountIPv6 = genruntime.ClonePointerToInt(source.CountIPv6)
 
 	// No error
 	return nil
@@ -26134,12 +25939,7 @@ func (profile *ManagedClusterManagedOutboundIPProfile) PopulateFromARM(owner gen
 func (profile *ManagedClusterManagedOutboundIPProfile) AssignProperties_From_ManagedClusterManagedOutboundIPProfile(source *storage.ManagedClusterManagedOutboundIPProfile) error {
 
 	// Count
-	if source.Count != nil {
-		count := *source.Count
-		profile.Count = &count
-	} else {
-		profile.Count = nil
-	}
+	profile.Count = genruntime.ClonePointerToInt(source.Count)
 
 	// No error
 	return nil
@@ -26151,12 +25951,7 @@ func (profile *ManagedClusterManagedOutboundIPProfile) AssignProperties_To_Manag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Count
-	if profile.Count != nil {
-		count := *profile.Count
-		destination.Count = &count
-	} else {
-		destination.Count = nil
-	}
+	destination.Count = genruntime.ClonePointerToInt(profile.Count)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -26173,12 +25968,7 @@ func (profile *ManagedClusterManagedOutboundIPProfile) AssignProperties_To_Manag
 func (profile *ManagedClusterManagedOutboundIPProfile) Initialize_From_ManagedClusterManagedOutboundIPProfile_STATUS(source *ManagedClusterManagedOutboundIPProfile_STATUS) error {
 
 	// Count
-	if source.Count != nil {
-		count := *source.Count
-		profile.Count = &count
-	} else {
-		profile.Count = nil
-	}
+	profile.Count = genruntime.ClonePointerToInt(source.Count)
 
 	// No error
 	return nil

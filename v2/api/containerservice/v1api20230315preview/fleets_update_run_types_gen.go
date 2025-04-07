@@ -1966,12 +1966,7 @@ func (stage *UpdateStage) AssignProperties_From_UpdateStage(source *storage.Upda
 	}
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		stage.Name = &name
-	} else {
-		stage.Name = nil
-	}
+	stage.Name = genruntime.ClonePointerToString(source.Name)
 
 	// No error
 	return nil
@@ -2004,12 +1999,7 @@ func (stage *UpdateStage) AssignProperties_To_UpdateStage(destination *storage.U
 	}
 
 	// Name
-	if stage.Name != nil {
-		name := *stage.Name
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(stage.Name)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2047,12 +2037,7 @@ func (stage *UpdateStage) Initialize_From_UpdateStage_STATUS(source *UpdateStage
 	}
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		stage.Name = &name
-	} else {
-		stage.Name = nil
-	}
+	stage.Name = genruntime.ClonePointerToString(source.Name)
 
 	// No error
 	return nil
@@ -2777,12 +2762,7 @@ func (group *UpdateGroup) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 func (group *UpdateGroup) AssignProperties_From_UpdateGroup(source *storage.UpdateGroup) error {
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		group.Name = &name
-	} else {
-		group.Name = nil
-	}
+	group.Name = genruntime.ClonePointerToString(source.Name)
 
 	// No error
 	return nil
@@ -2794,12 +2774,7 @@ func (group *UpdateGroup) AssignProperties_To_UpdateGroup(destination *storage.U
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	if group.Name != nil {
-		name := *group.Name
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(group.Name)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2816,12 +2791,7 @@ func (group *UpdateGroup) AssignProperties_To_UpdateGroup(destination *storage.U
 func (group *UpdateGroup) Initialize_From_UpdateGroup_STATUS(source *UpdateGroup_STATUS) error {
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		group.Name = &name
-	} else {
-		group.Name = nil
-	}
+	group.Name = genruntime.ClonePointerToString(source.Name)
 
 	// No error
 	return nil

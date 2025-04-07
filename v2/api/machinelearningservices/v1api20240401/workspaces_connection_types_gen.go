@@ -12218,12 +12218,7 @@ func (auth2 *WorkspaceConnectionOAuth2) AssignProperties_From_WorkspaceConnectio
 	auth2.AuthUrl = genruntime.ClonePointerToString(source.AuthUrl)
 
 	// ClientId
-	if source.ClientId != nil {
-		clientId := *source.ClientId
-		auth2.ClientId = &clientId
-	} else {
-		auth2.ClientId = nil
-	}
+	auth2.ClientId = genruntime.ClonePointerToString(source.ClientId)
 
 	// ClientIdFromConfig
 	if source.ClientIdFromConfig != nil {
@@ -12292,12 +12287,7 @@ func (auth2 *WorkspaceConnectionOAuth2) AssignProperties_To_WorkspaceConnectionO
 	destination.AuthUrl = genruntime.ClonePointerToString(auth2.AuthUrl)
 
 	// ClientId
-	if auth2.ClientId != nil {
-		clientId := *auth2.ClientId
-		destination.ClientId = &clientId
-	} else {
-		destination.ClientId = nil
-	}
+	destination.ClientId = genruntime.ClonePointerToString(auth2.ClientId)
 
 	// ClientIdFromConfig
 	if auth2.ClientIdFromConfig != nil {
@@ -12371,12 +12361,7 @@ func (auth2 *WorkspaceConnectionOAuth2) Initialize_From_WorkspaceConnectionOAuth
 	auth2.AuthUrl = genruntime.ClonePointerToString(source.AuthUrl)
 
 	// ClientId
-	if source.ClientId != nil {
-		clientId := *source.ClientId
-		auth2.ClientId = &clientId
-	} else {
-		auth2.ClientId = nil
-	}
+	auth2.ClientId = genruntime.ClonePointerToString(source.ClientId)
 
 	// TenantId
 	auth2.TenantId = genruntime.ClonePointerToString(source.TenantId)

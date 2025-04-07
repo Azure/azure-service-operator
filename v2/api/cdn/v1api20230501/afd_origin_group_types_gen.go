@@ -510,12 +510,7 @@ func (group *AfdOriginGroup_Spec) AssignProperties_From_AfdOriginGroup_Spec(sour
 	}
 
 	// TrafficRestorationTimeToHealedOrNewEndpointsInMinutes
-	if source.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes != nil {
-		trafficRestorationTimeToHealedOrNewEndpointsInMinute := *source.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes
-		group.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes = &trafficRestorationTimeToHealedOrNewEndpointsInMinute
-	} else {
-		group.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes = nil
-	}
+	group.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes = genruntime.ClonePointerToInt(source.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes)
 
 	// No error
 	return nil
@@ -585,12 +580,7 @@ func (group *AfdOriginGroup_Spec) AssignProperties_To_AfdOriginGroup_Spec(destin
 	}
 
 	// TrafficRestorationTimeToHealedOrNewEndpointsInMinutes
-	if group.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes != nil {
-		trafficRestorationTimeToHealedOrNewEndpointsInMinute := *group.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes
-		destination.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes = &trafficRestorationTimeToHealedOrNewEndpointsInMinute
-	} else {
-		destination.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes = nil
-	}
+	destination.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes = genruntime.ClonePointerToInt(group.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -639,12 +629,7 @@ func (group *AfdOriginGroup_Spec) Initialize_From_AfdOriginGroup_STATUS(source *
 	}
 
 	// TrafficRestorationTimeToHealedOrNewEndpointsInMinutes
-	if source.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes != nil {
-		trafficRestorationTimeToHealedOrNewEndpointsInMinute := *source.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes
-		group.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes = &trafficRestorationTimeToHealedOrNewEndpointsInMinute
-	} else {
-		group.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes = nil
-	}
+	group.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes = genruntime.ClonePointerToInt(source.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes)
 
 	// No error
 	return nil
@@ -1327,12 +1312,7 @@ func (parameters *HealthProbeParameters) PopulateFromARM(owner genruntime.Arbitr
 func (parameters *HealthProbeParameters) AssignProperties_From_HealthProbeParameters(source *storage.HealthProbeParameters) error {
 
 	// ProbeIntervalInSeconds
-	if source.ProbeIntervalInSeconds != nil {
-		probeIntervalInSecond := *source.ProbeIntervalInSeconds
-		parameters.ProbeIntervalInSeconds = &probeIntervalInSecond
-	} else {
-		parameters.ProbeIntervalInSeconds = nil
-	}
+	parameters.ProbeIntervalInSeconds = genruntime.ClonePointerToInt(source.ProbeIntervalInSeconds)
 
 	// ProbePath
 	parameters.ProbePath = genruntime.ClonePointerToString(source.ProbePath)
@@ -1365,12 +1345,7 @@ func (parameters *HealthProbeParameters) AssignProperties_To_HealthProbeParamete
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ProbeIntervalInSeconds
-	if parameters.ProbeIntervalInSeconds != nil {
-		probeIntervalInSecond := *parameters.ProbeIntervalInSeconds
-		destination.ProbeIntervalInSeconds = &probeIntervalInSecond
-	} else {
-		destination.ProbeIntervalInSeconds = nil
-	}
+	destination.ProbeIntervalInSeconds = genruntime.ClonePointerToInt(parameters.ProbeIntervalInSeconds)
 
 	// ProbePath
 	destination.ProbePath = genruntime.ClonePointerToString(parameters.ProbePath)
@@ -1406,12 +1381,7 @@ func (parameters *HealthProbeParameters) AssignProperties_To_HealthProbeParamete
 func (parameters *HealthProbeParameters) Initialize_From_HealthProbeParameters_STATUS(source *HealthProbeParameters_STATUS) error {
 
 	// ProbeIntervalInSeconds
-	if source.ProbeIntervalInSeconds != nil {
-		probeIntervalInSecond := *source.ProbeIntervalInSeconds
-		parameters.ProbeIntervalInSeconds = &probeIntervalInSecond
-	} else {
-		parameters.ProbeIntervalInSeconds = nil
-	}
+	parameters.ProbeIntervalInSeconds = genruntime.ClonePointerToInt(source.ProbeIntervalInSeconds)
 
 	// ProbePath
 	parameters.ProbePath = genruntime.ClonePointerToString(source.ProbePath)

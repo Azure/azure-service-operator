@@ -489,12 +489,7 @@ func (administrator *ServersAdministrator_Spec) AssignProperties_From_ServersAdm
 	}
 
 	// Sid
-	if source.Sid != nil {
-		sid := *source.Sid
-		administrator.Sid = &sid
-	} else {
-		administrator.Sid = nil
-	}
+	administrator.Sid = genruntime.ClonePointerToString(source.Sid)
 
 	// SidFromConfig
 	if source.SidFromConfig != nil {
@@ -505,12 +500,7 @@ func (administrator *ServersAdministrator_Spec) AssignProperties_From_ServersAdm
 	}
 
 	// TenantId
-	if source.TenantId != nil {
-		tenantId := *source.TenantId
-		administrator.TenantId = &tenantId
-	} else {
-		administrator.TenantId = nil
-	}
+	administrator.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
 	// TenantIdFromConfig
 	if source.TenantIdFromConfig != nil {
@@ -564,12 +554,7 @@ func (administrator *ServersAdministrator_Spec) AssignProperties_To_ServersAdmin
 	}
 
 	// Sid
-	if administrator.Sid != nil {
-		sid := *administrator.Sid
-		destination.Sid = &sid
-	} else {
-		destination.Sid = nil
-	}
+	destination.Sid = genruntime.ClonePointerToString(administrator.Sid)
 
 	// SidFromConfig
 	if administrator.SidFromConfig != nil {
@@ -580,12 +565,7 @@ func (administrator *ServersAdministrator_Spec) AssignProperties_To_ServersAdmin
 	}
 
 	// TenantId
-	if administrator.TenantId != nil {
-		tenantId := *administrator.TenantId
-		destination.TenantId = &tenantId
-	} else {
-		destination.TenantId = nil
-	}
+	destination.TenantId = genruntime.ClonePointerToString(administrator.TenantId)
 
 	// TenantIdFromConfig
 	if administrator.TenantIdFromConfig != nil {
@@ -621,20 +601,10 @@ func (administrator *ServersAdministrator_Spec) Initialize_From_ServersAdministr
 	administrator.Login = genruntime.ClonePointerToString(source.Login)
 
 	// Sid
-	if source.Sid != nil {
-		sid := *source.Sid
-		administrator.Sid = &sid
-	} else {
-		administrator.Sid = nil
-	}
+	administrator.Sid = genruntime.ClonePointerToString(source.Sid)
 
 	// TenantId
-	if source.TenantId != nil {
-		tenantId := *source.TenantId
-		administrator.TenantId = &tenantId
-	} else {
-		administrator.TenantId = nil
-	}
+	administrator.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
 	// No error
 	return nil

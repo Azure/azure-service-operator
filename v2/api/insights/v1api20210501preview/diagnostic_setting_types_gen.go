@@ -2285,12 +2285,7 @@ func (policy *RetentionPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 func (policy *RetentionPolicy) AssignProperties_From_RetentionPolicy(source *storage.RetentionPolicy) error {
 
 	// Days
-	if source.Days != nil {
-		day := *source.Days
-		policy.Days = &day
-	} else {
-		policy.Days = nil
-	}
+	policy.Days = genruntime.ClonePointerToInt(source.Days)
 
 	// Enabled
 	if source.Enabled != nil {
@@ -2310,12 +2305,7 @@ func (policy *RetentionPolicy) AssignProperties_To_RetentionPolicy(destination *
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Days
-	if policy.Days != nil {
-		day := *policy.Days
-		destination.Days = &day
-	} else {
-		destination.Days = nil
-	}
+	destination.Days = genruntime.ClonePointerToInt(policy.Days)
 
 	// Enabled
 	if policy.Enabled != nil {
@@ -2340,12 +2330,7 @@ func (policy *RetentionPolicy) AssignProperties_To_RetentionPolicy(destination *
 func (policy *RetentionPolicy) Initialize_From_RetentionPolicy_STATUS(source *RetentionPolicy_STATUS) error {
 
 	// Days
-	if source.Days != nil {
-		day := *source.Days
-		policy.Days = &day
-	} else {
-		policy.Days = nil
-	}
+	policy.Days = genruntime.ClonePointerToInt(source.Days)
 
 	// Enabled
 	if source.Enabled != nil {

@@ -1988,12 +1988,7 @@ func (settings *PolicySettings) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 func (settings *PolicySettings) AssignProperties_From_PolicySettings(source *storage.PolicySettings) error {
 
 	// CustomBlockResponseBody
-	if source.CustomBlockResponseBody != nil {
-		customBlockResponseBody := *source.CustomBlockResponseBody
-		settings.CustomBlockResponseBody = &customBlockResponseBody
-	} else {
-		settings.CustomBlockResponseBody = nil
-	}
+	settings.CustomBlockResponseBody = genruntime.ClonePointerToString(source.CustomBlockResponseBody)
 
 	// CustomBlockResponseStatusCode
 	settings.CustomBlockResponseStatusCode = genruntime.ClonePointerToInt(source.CustomBlockResponseStatusCode)
@@ -2038,12 +2033,7 @@ func (settings *PolicySettings) AssignProperties_To_PolicySettings(destination *
 	propertyBag := genruntime.NewPropertyBag()
 
 	// CustomBlockResponseBody
-	if settings.CustomBlockResponseBody != nil {
-		customBlockResponseBody := *settings.CustomBlockResponseBody
-		destination.CustomBlockResponseBody = &customBlockResponseBody
-	} else {
-		destination.CustomBlockResponseBody = nil
-	}
+	destination.CustomBlockResponseBody = genruntime.ClonePointerToString(settings.CustomBlockResponseBody)
 
 	// CustomBlockResponseStatusCode
 	destination.CustomBlockResponseStatusCode = genruntime.ClonePointerToInt(settings.CustomBlockResponseStatusCode)
@@ -2090,12 +2080,7 @@ func (settings *PolicySettings) AssignProperties_To_PolicySettings(destination *
 func (settings *PolicySettings) Initialize_From_PolicySettings_STATUS(source *PolicySettings_STATUS) error {
 
 	// CustomBlockResponseBody
-	if source.CustomBlockResponseBody != nil {
-		customBlockResponseBody := *source.CustomBlockResponseBody
-		settings.CustomBlockResponseBody = &customBlockResponseBody
-	} else {
-		settings.CustomBlockResponseBody = nil
-	}
+	settings.CustomBlockResponseBody = genruntime.ClonePointerToString(source.CustomBlockResponseBody)
 
 	// CustomBlockResponseStatusCode
 	settings.CustomBlockResponseStatusCode = genruntime.ClonePointerToInt(source.CustomBlockResponseStatusCode)
@@ -2941,31 +2926,16 @@ func (rule *CustomRule) AssignProperties_From_CustomRule(source *storage.CustomR
 	}
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		rule.Name = &name
-	} else {
-		rule.Name = nil
-	}
+	rule.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Priority
 	rule.Priority = genruntime.ClonePointerToInt(source.Priority)
 
 	// RateLimitDurationInMinutes
-	if source.RateLimitDurationInMinutes != nil {
-		rateLimitDurationInMinute := *source.RateLimitDurationInMinutes
-		rule.RateLimitDurationInMinutes = &rateLimitDurationInMinute
-	} else {
-		rule.RateLimitDurationInMinutes = nil
-	}
+	rule.RateLimitDurationInMinutes = genruntime.ClonePointerToInt(source.RateLimitDurationInMinutes)
 
 	// RateLimitThreshold
-	if source.RateLimitThreshold != nil {
-		rateLimitThreshold := *source.RateLimitThreshold
-		rule.RateLimitThreshold = &rateLimitThreshold
-	} else {
-		rule.RateLimitThreshold = nil
-	}
+	rule.RateLimitThreshold = genruntime.ClonePointerToInt(source.RateLimitThreshold)
 
 	// RuleType
 	if source.RuleType != nil {
@@ -3020,31 +2990,16 @@ func (rule *CustomRule) AssignProperties_To_CustomRule(destination *storage.Cust
 	}
 
 	// Name
-	if rule.Name != nil {
-		name := *rule.Name
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(rule.Name)
 
 	// Priority
 	destination.Priority = genruntime.ClonePointerToInt(rule.Priority)
 
 	// RateLimitDurationInMinutes
-	if rule.RateLimitDurationInMinutes != nil {
-		rateLimitDurationInMinute := *rule.RateLimitDurationInMinutes
-		destination.RateLimitDurationInMinutes = &rateLimitDurationInMinute
-	} else {
-		destination.RateLimitDurationInMinutes = nil
-	}
+	destination.RateLimitDurationInMinutes = genruntime.ClonePointerToInt(rule.RateLimitDurationInMinutes)
 
 	// RateLimitThreshold
-	if rule.RateLimitThreshold != nil {
-		rateLimitThreshold := *rule.RateLimitThreshold
-		destination.RateLimitThreshold = &rateLimitThreshold
-	} else {
-		destination.RateLimitThreshold = nil
-	}
+	destination.RateLimitThreshold = genruntime.ClonePointerToInt(rule.RateLimitThreshold)
 
 	// RuleType
 	if rule.RuleType != nil {
@@ -3103,31 +3058,16 @@ func (rule *CustomRule) Initialize_From_CustomRule_STATUS(source *CustomRule_STA
 	}
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		rule.Name = &name
-	} else {
-		rule.Name = nil
-	}
+	rule.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Priority
 	rule.Priority = genruntime.ClonePointerToInt(source.Priority)
 
 	// RateLimitDurationInMinutes
-	if source.RateLimitDurationInMinutes != nil {
-		rateLimitDurationInMinute := *source.RateLimitDurationInMinutes
-		rule.RateLimitDurationInMinutes = &rateLimitDurationInMinute
-	} else {
-		rule.RateLimitDurationInMinutes = nil
-	}
+	rule.RateLimitDurationInMinutes = genruntime.ClonePointerToInt(source.RateLimitDurationInMinutes)
 
 	// RateLimitThreshold
-	if source.RateLimitThreshold != nil {
-		rateLimitThreshold := *source.RateLimitThreshold
-		rule.RateLimitThreshold = &rateLimitThreshold
-	} else {
-		rule.RateLimitThreshold = nil
-	}
+	rule.RateLimitThreshold = genruntime.ClonePointerToInt(source.RateLimitThreshold)
 
 	// RuleType
 	if source.RuleType != nil {

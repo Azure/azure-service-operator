@@ -3471,23 +3471,13 @@ func (filter *TagFilter) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 func (filter *TagFilter) AssignProperties_From_TagFilter(source *storage.TagFilter) error {
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		filter.Name = &name
-	} else {
-		filter.Name = nil
-	}
+	filter.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Op
 	filter.Op = genruntime.ClonePointerToString(source.Op)
 
 	// Value
-	if source.Value != nil {
-		value := *source.Value
-		filter.Value = &value
-	} else {
-		filter.Value = nil
-	}
+	filter.Value = genruntime.ClonePointerToString(source.Value)
 
 	// No error
 	return nil
@@ -3499,23 +3489,13 @@ func (filter *TagFilter) AssignProperties_To_TagFilter(destination *storage.TagF
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	if filter.Name != nil {
-		name := *filter.Name
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(filter.Name)
 
 	// Op
 	destination.Op = genruntime.ClonePointerToString(filter.Op)
 
 	// Value
-	if filter.Value != nil {
-		value := *filter.Value
-		destination.Value = &value
-	} else {
-		destination.Value = nil
-	}
+	destination.Value = genruntime.ClonePointerToString(filter.Value)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3670,12 +3650,7 @@ func (creation *DateAfterCreation) PopulateFromARM(owner genruntime.ArbitraryOwn
 func (creation *DateAfterCreation) AssignProperties_From_DateAfterCreation(source *storage.DateAfterCreation) error {
 
 	// DaysAfterCreationGreaterThan
-	if source.DaysAfterCreationGreaterThan != nil {
-		daysAfterCreationGreaterThan := *source.DaysAfterCreationGreaterThan
-		creation.DaysAfterCreationGreaterThan = &daysAfterCreationGreaterThan
-	} else {
-		creation.DaysAfterCreationGreaterThan = nil
-	}
+	creation.DaysAfterCreationGreaterThan = genruntime.ClonePointerToInt(source.DaysAfterCreationGreaterThan)
 
 	// No error
 	return nil
@@ -3687,12 +3662,7 @@ func (creation *DateAfterCreation) AssignProperties_To_DateAfterCreation(destina
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DaysAfterCreationGreaterThan
-	if creation.DaysAfterCreationGreaterThan != nil {
-		daysAfterCreationGreaterThan := *creation.DaysAfterCreationGreaterThan
-		destination.DaysAfterCreationGreaterThan = &daysAfterCreationGreaterThan
-	} else {
-		destination.DaysAfterCreationGreaterThan = nil
-	}
+	destination.DaysAfterCreationGreaterThan = genruntime.ClonePointerToInt(creation.DaysAfterCreationGreaterThan)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3844,20 +3814,10 @@ func (modification *DateAfterModification) PopulateFromARM(owner genruntime.Arbi
 func (modification *DateAfterModification) AssignProperties_From_DateAfterModification(source *storage.DateAfterModification) error {
 
 	// DaysAfterLastAccessTimeGreaterThan
-	if source.DaysAfterLastAccessTimeGreaterThan != nil {
-		daysAfterLastAccessTimeGreaterThan := *source.DaysAfterLastAccessTimeGreaterThan
-		modification.DaysAfterLastAccessTimeGreaterThan = &daysAfterLastAccessTimeGreaterThan
-	} else {
-		modification.DaysAfterLastAccessTimeGreaterThan = nil
-	}
+	modification.DaysAfterLastAccessTimeGreaterThan = genruntime.ClonePointerToInt(source.DaysAfterLastAccessTimeGreaterThan)
 
 	// DaysAfterModificationGreaterThan
-	if source.DaysAfterModificationGreaterThan != nil {
-		daysAfterModificationGreaterThan := *source.DaysAfterModificationGreaterThan
-		modification.DaysAfterModificationGreaterThan = &daysAfterModificationGreaterThan
-	} else {
-		modification.DaysAfterModificationGreaterThan = nil
-	}
+	modification.DaysAfterModificationGreaterThan = genruntime.ClonePointerToInt(source.DaysAfterModificationGreaterThan)
 
 	// No error
 	return nil
@@ -3869,20 +3829,10 @@ func (modification *DateAfterModification) AssignProperties_To_DateAfterModifica
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DaysAfterLastAccessTimeGreaterThan
-	if modification.DaysAfterLastAccessTimeGreaterThan != nil {
-		daysAfterLastAccessTimeGreaterThan := *modification.DaysAfterLastAccessTimeGreaterThan
-		destination.DaysAfterLastAccessTimeGreaterThan = &daysAfterLastAccessTimeGreaterThan
-	} else {
-		destination.DaysAfterLastAccessTimeGreaterThan = nil
-	}
+	destination.DaysAfterLastAccessTimeGreaterThan = genruntime.ClonePointerToInt(modification.DaysAfterLastAccessTimeGreaterThan)
 
 	// DaysAfterModificationGreaterThan
-	if modification.DaysAfterModificationGreaterThan != nil {
-		daysAfterModificationGreaterThan := *modification.DaysAfterModificationGreaterThan
-		destination.DaysAfterModificationGreaterThan = &daysAfterModificationGreaterThan
-	} else {
-		destination.DaysAfterModificationGreaterThan = nil
-	}
+	destination.DaysAfterModificationGreaterThan = genruntime.ClonePointerToInt(modification.DaysAfterModificationGreaterThan)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
