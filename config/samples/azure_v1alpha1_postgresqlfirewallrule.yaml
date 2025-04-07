@@ -1,9 +1,0 @@
-apiVersion: azure.microsoft.com/v1alpha1
-kind: PostgreSQLFirewallRule
-metadata:
-  name: postgresqlfirewallrule-sample
-spec:
-  resourceGroup: resourcegroup-azure-operators
-  server: postgresqlserver-sample
-  startIpAddress: 0.0.0.0
-  endIpAddress: 0.0.0.0
