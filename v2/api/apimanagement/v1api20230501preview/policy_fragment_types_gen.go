@@ -428,12 +428,7 @@ func (fragment *PolicyFragment_Spec) AssignProperties_From_PolicyFragment_Spec(s
 	fragment.AzureName = source.AzureName
 
 	// Description
-	if source.Description != nil {
-		description := *source.Description
-		fragment.Description = &description
-	} else {
-		fragment.Description = nil
-	}
+	fragment.Description = genruntime.ClonePointerToString(source.Description)
 
 	// Format
 	if source.Format != nil {
@@ -480,12 +475,7 @@ func (fragment *PolicyFragment_Spec) AssignProperties_To_PolicyFragment_Spec(des
 	destination.AzureName = fragment.AzureName
 
 	// Description
-	if fragment.Description != nil {
-		description := *fragment.Description
-		destination.Description = &description
-	} else {
-		destination.Description = nil
-	}
+	destination.Description = genruntime.ClonePointerToString(fragment.Description)
 
 	// Format
 	if fragment.Format != nil {

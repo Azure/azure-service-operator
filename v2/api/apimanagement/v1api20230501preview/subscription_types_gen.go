@@ -500,12 +500,7 @@ func (subscription *Subscription_Spec) AssignProperties_From_Subscription_Spec(s
 	subscription.AzureName = source.AzureName
 
 	// DisplayName
-	if source.DisplayName != nil {
-		displayName := *source.DisplayName
-		subscription.DisplayName = &displayName
-	} else {
-		subscription.DisplayName = nil
-	}
+	subscription.DisplayName = genruntime.ClonePointerToString(source.DisplayName)
 
 	// OperatorSpec
 	if source.OperatorSpec != nil {
@@ -584,12 +579,7 @@ func (subscription *Subscription_Spec) AssignProperties_To_Subscription_Spec(des
 	destination.AzureName = subscription.AzureName
 
 	// DisplayName
-	if subscription.DisplayName != nil {
-		displayName := *subscription.DisplayName
-		destination.DisplayName = &displayName
-	} else {
-		destination.DisplayName = nil
-	}
+	destination.DisplayName = genruntime.ClonePointerToString(subscription.DisplayName)
 
 	// OperatorSpec
 	if subscription.OperatorSpec != nil {

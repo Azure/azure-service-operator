@@ -577,12 +577,7 @@ func (backend *Backend_Spec) AssignProperties_From_Backend_Spec(source *storage.
 	}
 
 	// Description
-	if source.Description != nil {
-		description := *source.Description
-		backend.Description = &description
-	} else {
-		backend.Description = nil
-	}
+	backend.Description = genruntime.ClonePointerToString(source.Description)
 
 	// OperatorSpec
 	if source.OperatorSpec != nil {
@@ -646,12 +641,7 @@ func (backend *Backend_Spec) AssignProperties_From_Backend_Spec(source *storage.
 	}
 
 	// Title
-	if source.Title != nil {
-		title := *source.Title
-		backend.Title = &title
-	} else {
-		backend.Title = nil
-	}
+	backend.Title = genruntime.ClonePointerToString(source.Title)
 
 	// Tls
 	if source.Tls != nil {
@@ -666,12 +656,7 @@ func (backend *Backend_Spec) AssignProperties_From_Backend_Spec(source *storage.
 	}
 
 	// Url
-	if source.Url != nil {
-		url := *source.Url
-		backend.Url = &url
-	} else {
-		backend.Url = nil
-	}
+	backend.Url = genruntime.ClonePointerToString(source.Url)
 
 	// No error
 	return nil
@@ -698,12 +683,7 @@ func (backend *Backend_Spec) AssignProperties_To_Backend_Spec(destination *stora
 	}
 
 	// Description
-	if backend.Description != nil {
-		description := *backend.Description
-		destination.Description = &description
-	} else {
-		destination.Description = nil
-	}
+	destination.Description = genruntime.ClonePointerToString(backend.Description)
 
 	// OperatorSpec
 	if backend.OperatorSpec != nil {
@@ -769,12 +749,7 @@ func (backend *Backend_Spec) AssignProperties_To_Backend_Spec(destination *stora
 	}
 
 	// Title
-	if backend.Title != nil {
-		title := *backend.Title
-		destination.Title = &title
-	} else {
-		destination.Title = nil
-	}
+	destination.Title = genruntime.ClonePointerToString(backend.Title)
 
 	// Tls
 	if backend.Tls != nil {
@@ -789,12 +764,7 @@ func (backend *Backend_Spec) AssignProperties_To_Backend_Spec(destination *stora
 	}
 
 	// Url
-	if backend.Url != nil {
-		url := *backend.Url
-		destination.Url = &url
-	} else {
-		destination.Url = nil
-	}
+	destination.Url = genruntime.ClonePointerToString(backend.Url)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -823,12 +793,7 @@ func (backend *Backend_Spec) Initialize_From_Backend_STATUS(source *Backend_STAT
 	}
 
 	// Description
-	if source.Description != nil {
-		description := *source.Description
-		backend.Description = &description
-	} else {
-		backend.Description = nil
-	}
+	backend.Description = genruntime.ClonePointerToString(source.Description)
 
 	// Properties
 	if source.Properties != nil {
@@ -871,12 +836,7 @@ func (backend *Backend_Spec) Initialize_From_Backend_STATUS(source *Backend_STAT
 	}
 
 	// Title
-	if source.Title != nil {
-		title := *source.Title
-		backend.Title = &title
-	} else {
-		backend.Title = nil
-	}
+	backend.Title = genruntime.ClonePointerToString(source.Title)
 
 	// Tls
 	if source.Tls != nil {
@@ -891,12 +851,7 @@ func (backend *Backend_Spec) Initialize_From_Backend_STATUS(source *Backend_STAT
 	}
 
 	// Url
-	if source.Url != nil {
-		url := *source.Url
-		backend.Url = &url
-	} else {
-		backend.Url = nil
-	}
+	backend.Url = genruntime.ClonePointerToString(source.Url)
 
 	// No error
 	return nil
@@ -1507,30 +1462,10 @@ func (contract *BackendCredentialsContract) AssignProperties_From_BackendCredent
 	}
 
 	// Certificate
-	if source.Certificate != nil {
-		certificateList := make([]string, len(source.Certificate))
-		for certificateIndex, certificateItem := range source.Certificate {
-			// Shadow the loop variable to avoid aliasing
-			certificateItem := certificateItem
-			certificateList[certificateIndex] = certificateItem
-		}
-		contract.Certificate = certificateList
-	} else {
-		contract.Certificate = nil
-	}
+	contract.Certificate = genruntime.CloneSliceOfString(source.Certificate)
 
 	// CertificateIds
-	if source.CertificateIds != nil {
-		certificateIdList := make([]string, len(source.CertificateIds))
-		for certificateIdIndex, certificateIdItem := range source.CertificateIds {
-			// Shadow the loop variable to avoid aliasing
-			certificateIdItem := certificateIdItem
-			certificateIdList[certificateIdIndex] = certificateIdItem
-		}
-		contract.CertificateIds = certificateIdList
-	} else {
-		contract.CertificateIds = nil
-	}
+	contract.CertificateIds = genruntime.CloneSliceOfString(source.CertificateIds)
 
 	// Header
 	if source.Header != nil {
@@ -1580,30 +1515,10 @@ func (contract *BackendCredentialsContract) AssignProperties_To_BackendCredentia
 	}
 
 	// Certificate
-	if contract.Certificate != nil {
-		certificateList := make([]string, len(contract.Certificate))
-		for certificateIndex, certificateItem := range contract.Certificate {
-			// Shadow the loop variable to avoid aliasing
-			certificateItem := certificateItem
-			certificateList[certificateIndex] = certificateItem
-		}
-		destination.Certificate = certificateList
-	} else {
-		destination.Certificate = nil
-	}
+	destination.Certificate = genruntime.CloneSliceOfString(contract.Certificate)
 
 	// CertificateIds
-	if contract.CertificateIds != nil {
-		certificateIdList := make([]string, len(contract.CertificateIds))
-		for certificateIdIndex, certificateIdItem := range contract.CertificateIds {
-			// Shadow the loop variable to avoid aliasing
-			certificateIdItem := certificateIdItem
-			certificateIdList[certificateIdIndex] = certificateIdItem
-		}
-		destination.CertificateIds = certificateIdList
-	} else {
-		destination.CertificateIds = nil
-	}
+	destination.CertificateIds = genruntime.CloneSliceOfString(contract.CertificateIds)
 
 	// Header
 	if contract.Header != nil {
@@ -1658,30 +1573,10 @@ func (contract *BackendCredentialsContract) Initialize_From_BackendCredentialsCo
 	}
 
 	// Certificate
-	if source.Certificate != nil {
-		certificateList := make([]string, len(source.Certificate))
-		for certificateIndex, certificateItem := range source.Certificate {
-			// Shadow the loop variable to avoid aliasing
-			certificateItem := certificateItem
-			certificateList[certificateIndex] = certificateItem
-		}
-		contract.Certificate = certificateList
-	} else {
-		contract.Certificate = nil
-	}
+	contract.Certificate = genruntime.CloneSliceOfString(source.Certificate)
 
 	// CertificateIds
-	if source.CertificateIds != nil {
-		certificateIdList := make([]string, len(source.CertificateIds))
-		for certificateIdIndex, certificateIdItem := range source.CertificateIds {
-			// Shadow the loop variable to avoid aliasing
-			certificateIdItem := certificateIdItem
-			certificateIdList[certificateIdIndex] = certificateIdItem
-		}
-		contract.CertificateIds = certificateIdList
-	} else {
-		contract.CertificateIds = nil
-	}
+	contract.CertificateIds = genruntime.CloneSliceOfString(source.CertificateIds)
 
 	// Header
 	if source.Header != nil {
@@ -2302,12 +2197,7 @@ func (contract *BackendProxyContract) AssignProperties_From_BackendProxyContract
 	}
 
 	// Url
-	if source.Url != nil {
-		url := *source.Url
-		contract.Url = &url
-	} else {
-		contract.Url = nil
-	}
+	contract.Url = genruntime.ClonePointerToString(source.Url)
 
 	// Username
 	contract.Username = genruntime.ClonePointerToString(source.Username)
@@ -2330,12 +2220,7 @@ func (contract *BackendProxyContract) AssignProperties_To_BackendProxyContract(d
 	}
 
 	// Url
-	if contract.Url != nil {
-		url := *contract.Url
-		destination.Url = &url
-	} else {
-		destination.Url = nil
-	}
+	destination.Url = genruntime.ClonePointerToString(contract.Url)
 
 	// Username
 	destination.Username = genruntime.ClonePointerToString(contract.Username)
@@ -2355,12 +2240,7 @@ func (contract *BackendProxyContract) AssignProperties_To_BackendProxyContract(d
 func (contract *BackendProxyContract) Initialize_From_BackendProxyContract_STATUS(source *BackendProxyContract_STATUS) error {
 
 	// Url
-	if source.Url != nil {
-		url := *source.Url
-		contract.Url = &url
-	} else {
-		contract.Url = nil
-	}
+	contract.Url = genruntime.ClonePointerToString(source.Url)
 
 	// Username
 	contract.Username = genruntime.ClonePointerToString(source.Username)
@@ -2750,20 +2630,10 @@ func (credentials *BackendAuthorizationHeaderCredentials) PopulateFromARM(owner 
 func (credentials *BackendAuthorizationHeaderCredentials) AssignProperties_From_BackendAuthorizationHeaderCredentials(source *storage.BackendAuthorizationHeaderCredentials) error {
 
 	// Parameter
-	if source.Parameter != nil {
-		parameter := *source.Parameter
-		credentials.Parameter = &parameter
-	} else {
-		credentials.Parameter = nil
-	}
+	credentials.Parameter = genruntime.ClonePointerToString(source.Parameter)
 
 	// Scheme
-	if source.Scheme != nil {
-		scheme := *source.Scheme
-		credentials.Scheme = &scheme
-	} else {
-		credentials.Scheme = nil
-	}
+	credentials.Scheme = genruntime.ClonePointerToString(source.Scheme)
 
 	// No error
 	return nil
@@ -2775,20 +2645,10 @@ func (credentials *BackendAuthorizationHeaderCredentials) AssignProperties_To_Ba
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Parameter
-	if credentials.Parameter != nil {
-		parameter := *credentials.Parameter
-		destination.Parameter = &parameter
-	} else {
-		destination.Parameter = nil
-	}
+	destination.Parameter = genruntime.ClonePointerToString(credentials.Parameter)
 
 	// Scheme
-	if credentials.Scheme != nil {
-		scheme := *credentials.Scheme
-		destination.Scheme = &scheme
-	} else {
-		destination.Scheme = nil
-	}
+	destination.Scheme = genruntime.ClonePointerToString(credentials.Scheme)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2805,20 +2665,10 @@ func (credentials *BackendAuthorizationHeaderCredentials) AssignProperties_To_Ba
 func (credentials *BackendAuthorizationHeaderCredentials) Initialize_From_BackendAuthorizationHeaderCredentials_STATUS(source *BackendAuthorizationHeaderCredentials_STATUS) error {
 
 	// Parameter
-	if source.Parameter != nil {
-		parameter := *source.Parameter
-		credentials.Parameter = &parameter
-	} else {
-		credentials.Parameter = nil
-	}
+	credentials.Parameter = genruntime.ClonePointerToString(source.Parameter)
 
 	// Scheme
-	if source.Scheme != nil {
-		scheme := *source.Scheme
-		credentials.Scheme = &scheme
-	} else {
-		credentials.Scheme = nil
-	}
+	credentials.Scheme = genruntime.ClonePointerToString(source.Scheme)
 
 	// No error
 	return nil

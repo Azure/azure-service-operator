@@ -167,6 +167,20 @@ func AsResourceType(aType Type) (*ResourceType, bool) {
 	return nil, false
 }
 
+// AsValidatedType unwraps any wrappers around the provided type and returns either the underlying ValidatedType and true,
+// or a nil and false.
+func AsValidatedType(aType Type) (*ValidatedType, bool) {
+	if validated, ok := aType.(*ValidatedType); ok {
+		return validated, true
+	}
+
+	if wrapper, ok := aType.(MetaType); ok {
+		return AsValidatedType(wrapper.Unwrap())
+	}
+
+	return nil, false
+}
+
 func MustBeResourceType(aType Type) *ResourceType {
 	result, ok := AsResourceType(aType)
 	if !ok {

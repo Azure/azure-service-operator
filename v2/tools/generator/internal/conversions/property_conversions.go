@@ -1143,8 +1143,20 @@ func assignHandcraftedImplementations(
 	conversionFound := false
 	var conversion handCraftedConversion
 	for _, impl := range handCraftedConversions {
-		if astmodel.TypeEquals(sourceEndpoint.Type(), impl.fromType) &&
-			astmodel.TypeEquals(destinationEndpoint.Type(), impl.toType) {
+		sourceType := sourceEndpoint.Type()
+		if vt, ok := astmodel.AsValidatedType(sourceType); ok {
+			// If the source is a validated type, we need to use the underlying type
+			sourceType = vt.ElementType()
+		}
+
+		destinationType := destinationEndpoint.Type()
+		if vt, ok := astmodel.AsValidatedType(destinationType); ok {
+			// If the destination is a validated type, we need to use the underlying type
+			destinationType = vt.ElementType()
+		}
+
+		if astmodel.TypeEquals(sourceType, impl.fromType) &&
+			astmodel.TypeEquals(destinationType, impl.toType) {
 			conversion = impl
 			conversionFound = true
 			break

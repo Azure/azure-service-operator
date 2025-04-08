@@ -431,12 +431,7 @@ func (provider *AuthorizationProvider_Spec) AssignProperties_From_AuthorizationP
 	provider.AzureName = source.AzureName
 
 	// DisplayName
-	if source.DisplayName != nil {
-		displayName := *source.DisplayName
-		provider.DisplayName = &displayName
-	} else {
-		provider.DisplayName = nil
-	}
+	provider.DisplayName = genruntime.ClonePointerToString(source.DisplayName)
 
 	// IdentityProvider
 	provider.IdentityProvider = genruntime.ClonePointerToString(source.IdentityProvider)
@@ -486,12 +481,7 @@ func (provider *AuthorizationProvider_Spec) AssignProperties_To_AuthorizationPro
 	destination.AzureName = provider.AzureName
 
 	// DisplayName
-	if provider.DisplayName != nil {
-		displayName := *provider.DisplayName
-		destination.DisplayName = &displayName
-	} else {
-		destination.DisplayName = nil
-	}
+	destination.DisplayName = genruntime.ClonePointerToString(provider.DisplayName)
 
 	// IdentityProvider
 	destination.IdentityProvider = genruntime.ClonePointerToString(provider.IdentityProvider)

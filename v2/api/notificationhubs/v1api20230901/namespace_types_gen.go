@@ -4265,12 +4265,7 @@ func (rule *IpRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, ar
 func (rule *IpRule) AssignProperties_From_IpRule(source *storage.IpRule) error {
 
 	// IpMask
-	if source.IpMask != nil {
-		ipMask := *source.IpMask
-		rule.IpMask = &ipMask
-	} else {
-		rule.IpMask = nil
-	}
+	rule.IpMask = genruntime.ClonePointerToString(source.IpMask)
 
 	// Rights
 	if source.Rights != nil {
@@ -4295,12 +4290,7 @@ func (rule *IpRule) AssignProperties_To_IpRule(destination *storage.IpRule) erro
 	propertyBag := genruntime.NewPropertyBag()
 
 	// IpMask
-	if rule.IpMask != nil {
-		ipMask := *rule.IpMask
-		destination.IpMask = &ipMask
-	} else {
-		destination.IpMask = nil
-	}
+	destination.IpMask = genruntime.ClonePointerToString(rule.IpMask)
 
 	// Rights
 	if rule.Rights != nil {
@@ -4330,12 +4320,7 @@ func (rule *IpRule) AssignProperties_To_IpRule(destination *storage.IpRule) erro
 func (rule *IpRule) Initialize_From_IpRule_STATUS(source *IpRule_STATUS) error {
 
 	// IpMask
-	if source.IpMask != nil {
-		ipMask := *source.IpMask
-		rule.IpMask = &ipMask
-	} else {
-		rule.IpMask = nil
-	}
+	rule.IpMask = genruntime.ClonePointerToString(source.IpMask)
 
 	// Rights
 	if source.Rights != nil {

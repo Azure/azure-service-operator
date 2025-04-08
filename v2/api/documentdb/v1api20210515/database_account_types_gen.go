@@ -3663,20 +3663,10 @@ func (policy *ConsistencyPolicy) AssignProperties_From_ConsistencyPolicy(source 
 	}
 
 	// MaxIntervalInSeconds
-	if source.MaxIntervalInSeconds != nil {
-		maxIntervalInSecond := *source.MaxIntervalInSeconds
-		policy.MaxIntervalInSeconds = &maxIntervalInSecond
-	} else {
-		policy.MaxIntervalInSeconds = nil
-	}
+	policy.MaxIntervalInSeconds = genruntime.ClonePointerToInt(source.MaxIntervalInSeconds)
 
 	// MaxStalenessPrefix
-	if source.MaxStalenessPrefix != nil {
-		maxStalenessPrefix := *source.MaxStalenessPrefix
-		policy.MaxStalenessPrefix = &maxStalenessPrefix
-	} else {
-		policy.MaxStalenessPrefix = nil
-	}
+	policy.MaxStalenessPrefix = genruntime.ClonePointerToInt(source.MaxStalenessPrefix)
 
 	// No error
 	return nil
@@ -3696,20 +3686,10 @@ func (policy *ConsistencyPolicy) AssignProperties_To_ConsistencyPolicy(destinati
 	}
 
 	// MaxIntervalInSeconds
-	if policy.MaxIntervalInSeconds != nil {
-		maxIntervalInSecond := *policy.MaxIntervalInSeconds
-		destination.MaxIntervalInSeconds = &maxIntervalInSecond
-	} else {
-		destination.MaxIntervalInSeconds = nil
-	}
+	destination.MaxIntervalInSeconds = genruntime.ClonePointerToInt(policy.MaxIntervalInSeconds)
 
 	// MaxStalenessPrefix
-	if policy.MaxStalenessPrefix != nil {
-		maxStalenessPrefix := *policy.MaxStalenessPrefix
-		destination.MaxStalenessPrefix = &maxStalenessPrefix
-	} else {
-		destination.MaxStalenessPrefix = nil
-	}
+	destination.MaxStalenessPrefix = genruntime.ClonePointerToInt(policy.MaxStalenessPrefix)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3953,12 +3933,7 @@ func (policy *CorsPolicy) AssignProperties_From_CorsPolicy(source *storage.CorsP
 	policy.ExposedHeaders = genruntime.ClonePointerToString(source.ExposedHeaders)
 
 	// MaxAgeInSeconds
-	if source.MaxAgeInSeconds != nil {
-		maxAgeInSecond := *source.MaxAgeInSeconds
-		policy.MaxAgeInSeconds = &maxAgeInSecond
-	} else {
-		policy.MaxAgeInSeconds = nil
-	}
+	policy.MaxAgeInSeconds = genruntime.ClonePointerToInt(source.MaxAgeInSeconds)
 
 	// No error
 	return nil
@@ -3982,12 +3957,7 @@ func (policy *CorsPolicy) AssignProperties_To_CorsPolicy(destination *storage.Co
 	destination.ExposedHeaders = genruntime.ClonePointerToString(policy.ExposedHeaders)
 
 	// MaxAgeInSeconds
-	if policy.MaxAgeInSeconds != nil {
-		maxAgeInSecond := *policy.MaxAgeInSeconds
-		destination.MaxAgeInSeconds = &maxAgeInSecond
-	} else {
-		destination.MaxAgeInSeconds = nil
-	}
+	destination.MaxAgeInSeconds = genruntime.ClonePointerToInt(policy.MaxAgeInSeconds)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4616,12 +4586,7 @@ func (location *Location) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 func (location *Location) AssignProperties_From_Location(source *storage.Location) error {
 
 	// FailoverPriority
-	if source.FailoverPriority != nil {
-		failoverPriority := *source.FailoverPriority
-		location.FailoverPriority = &failoverPriority
-	} else {
-		location.FailoverPriority = nil
-	}
+	location.FailoverPriority = genruntime.ClonePointerToInt(source.FailoverPriority)
 
 	// IsZoneRedundant
 	if source.IsZoneRedundant != nil {
@@ -4644,12 +4609,7 @@ func (location *Location) AssignProperties_To_Location(destination *storage.Loca
 	propertyBag := genruntime.NewPropertyBag()
 
 	// FailoverPriority
-	if location.FailoverPriority != nil {
-		failoverPriority := *location.FailoverPriority
-		destination.FailoverPriority = &failoverPriority
-	} else {
-		destination.FailoverPriority = nil
-	}
+	destination.FailoverPriority = genruntime.ClonePointerToInt(location.FailoverPriority)
 
 	// IsZoneRedundant
 	if location.IsZoneRedundant != nil {
@@ -6309,20 +6269,10 @@ func (properties *PeriodicModeProperties) PopulateFromARM(owner genruntime.Arbit
 func (properties *PeriodicModeProperties) AssignProperties_From_PeriodicModeProperties(source *storage.PeriodicModeProperties) error {
 
 	// BackupIntervalInMinutes
-	if source.BackupIntervalInMinutes != nil {
-		backupIntervalInMinute := *source.BackupIntervalInMinutes
-		properties.BackupIntervalInMinutes = &backupIntervalInMinute
-	} else {
-		properties.BackupIntervalInMinutes = nil
-	}
+	properties.BackupIntervalInMinutes = genruntime.ClonePointerToInt(source.BackupIntervalInMinutes)
 
 	// BackupRetentionIntervalInHours
-	if source.BackupRetentionIntervalInHours != nil {
-		backupRetentionIntervalInHour := *source.BackupRetentionIntervalInHours
-		properties.BackupRetentionIntervalInHours = &backupRetentionIntervalInHour
-	} else {
-		properties.BackupRetentionIntervalInHours = nil
-	}
+	properties.BackupRetentionIntervalInHours = genruntime.ClonePointerToInt(source.BackupRetentionIntervalInHours)
 
 	// No error
 	return nil
@@ -6334,20 +6284,10 @@ func (properties *PeriodicModeProperties) AssignProperties_To_PeriodicModeProper
 	propertyBag := genruntime.NewPropertyBag()
 
 	// BackupIntervalInMinutes
-	if properties.BackupIntervalInMinutes != nil {
-		backupIntervalInMinute := *properties.BackupIntervalInMinutes
-		destination.BackupIntervalInMinutes = &backupIntervalInMinute
-	} else {
-		destination.BackupIntervalInMinutes = nil
-	}
+	destination.BackupIntervalInMinutes = genruntime.ClonePointerToInt(properties.BackupIntervalInMinutes)
 
 	// BackupRetentionIntervalInHours
-	if properties.BackupRetentionIntervalInHours != nil {
-		backupRetentionIntervalInHour := *properties.BackupRetentionIntervalInHours
-		destination.BackupRetentionIntervalInHours = &backupRetentionIntervalInHour
-	} else {
-		destination.BackupRetentionIntervalInHours = nil
-	}
+	destination.BackupRetentionIntervalInHours = genruntime.ClonePointerToInt(properties.BackupRetentionIntervalInHours)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

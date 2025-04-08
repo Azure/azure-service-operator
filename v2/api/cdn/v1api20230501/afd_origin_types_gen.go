@@ -623,20 +623,10 @@ func (origin *AfdOrigin_Spec) AssignProperties_From_AfdOrigin_Spec(source *stora
 	}
 
 	// HttpPort
-	if source.HttpPort != nil {
-		httpPort := *source.HttpPort
-		origin.HttpPort = &httpPort
-	} else {
-		origin.HttpPort = nil
-	}
+	origin.HttpPort = genruntime.ClonePointerToInt(source.HttpPort)
 
 	// HttpsPort
-	if source.HttpsPort != nil {
-		httpsPort := *source.HttpsPort
-		origin.HttpsPort = &httpsPort
-	} else {
-		origin.HttpsPort = nil
-	}
+	origin.HttpsPort = genruntime.ClonePointerToInt(source.HttpsPort)
 
 	// OperatorSpec
 	if source.OperatorSpec != nil {
@@ -662,12 +652,7 @@ func (origin *AfdOrigin_Spec) AssignProperties_From_AfdOrigin_Spec(source *stora
 	}
 
 	// Priority
-	if source.Priority != nil {
-		priority := *source.Priority
-		origin.Priority = &priority
-	} else {
-		origin.Priority = nil
-	}
+	origin.Priority = genruntime.ClonePointerToInt(source.Priority)
 
 	// SharedPrivateLinkResource
 	if source.SharedPrivateLinkResource != nil {
@@ -682,12 +667,7 @@ func (origin *AfdOrigin_Spec) AssignProperties_From_AfdOrigin_Spec(source *stora
 	}
 
 	// Weight
-	if source.Weight != nil {
-		weight := *source.Weight
-		origin.Weight = &weight
-	} else {
-		origin.Weight = nil
-	}
+	origin.Weight = genruntime.ClonePointerToInt(source.Weight)
 
 	// No error
 	return nil
@@ -741,20 +721,10 @@ func (origin *AfdOrigin_Spec) AssignProperties_To_AfdOrigin_Spec(destination *st
 	}
 
 	// HttpPort
-	if origin.HttpPort != nil {
-		httpPort := *origin.HttpPort
-		destination.HttpPort = &httpPort
-	} else {
-		destination.HttpPort = nil
-	}
+	destination.HttpPort = genruntime.ClonePointerToInt(origin.HttpPort)
 
 	// HttpsPort
-	if origin.HttpsPort != nil {
-		httpsPort := *origin.HttpsPort
-		destination.HttpsPort = &httpsPort
-	} else {
-		destination.HttpsPort = nil
-	}
+	destination.HttpsPort = genruntime.ClonePointerToInt(origin.HttpsPort)
 
 	// OperatorSpec
 	if origin.OperatorSpec != nil {
@@ -783,12 +753,7 @@ func (origin *AfdOrigin_Spec) AssignProperties_To_AfdOrigin_Spec(destination *st
 	}
 
 	// Priority
-	if origin.Priority != nil {
-		priority := *origin.Priority
-		destination.Priority = &priority
-	} else {
-		destination.Priority = nil
-	}
+	destination.Priority = genruntime.ClonePointerToInt(origin.Priority)
 
 	// SharedPrivateLinkResource
 	if origin.SharedPrivateLinkResource != nil {
@@ -803,12 +768,7 @@ func (origin *AfdOrigin_Spec) AssignProperties_To_AfdOrigin_Spec(destination *st
 	}
 
 	// Weight
-	if origin.Weight != nil {
-		weight := *origin.Weight
-		destination.Weight = &weight
-	} else {
-		destination.Weight = nil
-	}
+	destination.Weight = genruntime.ClonePointerToInt(origin.Weight)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -856,31 +816,16 @@ func (origin *AfdOrigin_Spec) Initialize_From_AfdOrigin_STATUS(source *AfdOrigin
 	origin.HostName = genruntime.ClonePointerToString(source.HostName)
 
 	// HttpPort
-	if source.HttpPort != nil {
-		httpPort := *source.HttpPort
-		origin.HttpPort = &httpPort
-	} else {
-		origin.HttpPort = nil
-	}
+	origin.HttpPort = genruntime.ClonePointerToInt(source.HttpPort)
 
 	// HttpsPort
-	if source.HttpsPort != nil {
-		httpsPort := *source.HttpsPort
-		origin.HttpsPort = &httpsPort
-	} else {
-		origin.HttpsPort = nil
-	}
+	origin.HttpsPort = genruntime.ClonePointerToInt(source.HttpsPort)
 
 	// OriginHostHeader
 	origin.OriginHostHeader = genruntime.ClonePointerToString(source.OriginHostHeader)
 
 	// Priority
-	if source.Priority != nil {
-		priority := *source.Priority
-		origin.Priority = &priority
-	} else {
-		origin.Priority = nil
-	}
+	origin.Priority = genruntime.ClonePointerToInt(source.Priority)
 
 	// SharedPrivateLinkResource
 	if source.SharedPrivateLinkResource != nil {
@@ -895,12 +840,7 @@ func (origin *AfdOrigin_Spec) Initialize_From_AfdOrigin_STATUS(source *AfdOrigin
 	}
 
 	// Weight
-	if source.Weight != nil {
-		weight := *source.Weight
-		origin.Weight = &weight
-	} else {
-		origin.Weight = nil
-	}
+	origin.Weight = genruntime.ClonePointerToInt(source.Weight)
 
 	// No error
 	return nil

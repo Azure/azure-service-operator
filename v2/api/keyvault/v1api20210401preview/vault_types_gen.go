@@ -1477,12 +1477,7 @@ func (properties *VaultProperties) AssignProperties_From_VaultProperties(source 
 	properties.SoftDeleteRetentionInDays = genruntime.ClonePointerToInt(source.SoftDeleteRetentionInDays)
 
 	// TenantId
-	if source.TenantId != nil {
-		tenantId := *source.TenantId
-		properties.TenantId = &tenantId
-	} else {
-		properties.TenantId = nil
-	}
+	properties.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
 	// TenantIdFromConfig
 	if source.TenantIdFromConfig != nil {
@@ -1614,12 +1609,7 @@ func (properties *VaultProperties) AssignProperties_To_VaultProperties(destinati
 	destination.SoftDeleteRetentionInDays = genruntime.ClonePointerToInt(properties.SoftDeleteRetentionInDays)
 
 	// TenantId
-	if properties.TenantId != nil {
-		tenantId := *properties.TenantId
-		destination.TenantId = &tenantId
-	} else {
-		destination.TenantId = nil
-	}
+	destination.TenantId = genruntime.ClonePointerToString(properties.TenantId)
 
 	// TenantIdFromConfig
 	if properties.TenantIdFromConfig != nil {
@@ -2290,12 +2280,7 @@ func (entry *AccessPolicyEntry) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 func (entry *AccessPolicyEntry) AssignProperties_From_AccessPolicyEntry(source *storage.AccessPolicyEntry) error {
 
 	// ApplicationId
-	if source.ApplicationId != nil {
-		applicationId := *source.ApplicationId
-		entry.ApplicationId = &applicationId
-	} else {
-		entry.ApplicationId = nil
-	}
+	entry.ApplicationId = genruntime.ClonePointerToString(source.ApplicationId)
 
 	// ApplicationIdFromConfig
 	if source.ApplicationIdFromConfig != nil {
@@ -2329,12 +2314,7 @@ func (entry *AccessPolicyEntry) AssignProperties_From_AccessPolicyEntry(source *
 	}
 
 	// TenantId
-	if source.TenantId != nil {
-		tenantId := *source.TenantId
-		entry.TenantId = &tenantId
-	} else {
-		entry.TenantId = nil
-	}
+	entry.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
 	// TenantIdFromConfig
 	if source.TenantIdFromConfig != nil {
@@ -2354,12 +2334,7 @@ func (entry *AccessPolicyEntry) AssignProperties_To_AccessPolicyEntry(destinatio
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ApplicationId
-	if entry.ApplicationId != nil {
-		applicationId := *entry.ApplicationId
-		destination.ApplicationId = &applicationId
-	} else {
-		destination.ApplicationId = nil
-	}
+	destination.ApplicationId = genruntime.ClonePointerToString(entry.ApplicationId)
 
 	// ApplicationIdFromConfig
 	if entry.ApplicationIdFromConfig != nil {
@@ -2393,12 +2368,7 @@ func (entry *AccessPolicyEntry) AssignProperties_To_AccessPolicyEntry(destinatio
 	}
 
 	// TenantId
-	if entry.TenantId != nil {
-		tenantId := *entry.TenantId
-		destination.TenantId = &tenantId
-	} else {
-		destination.TenantId = nil
-	}
+	destination.TenantId = genruntime.ClonePointerToString(entry.TenantId)
 
 	// TenantIdFromConfig
 	if entry.TenantIdFromConfig != nil {

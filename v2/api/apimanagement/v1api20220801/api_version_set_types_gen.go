@@ -467,12 +467,7 @@ func (versionSet *ApiVersionSet_Spec) AssignProperties_From_ApiVersionSet_Spec(s
 	versionSet.Description = genruntime.ClonePointerToString(source.Description)
 
 	// DisplayName
-	if source.DisplayName != nil {
-		displayName := *source.DisplayName
-		versionSet.DisplayName = &displayName
-	} else {
-		versionSet.DisplayName = nil
-	}
+	versionSet.DisplayName = genruntime.ClonePointerToString(source.DisplayName)
 
 	// OperatorSpec
 	if source.OperatorSpec != nil {
@@ -495,20 +490,10 @@ func (versionSet *ApiVersionSet_Spec) AssignProperties_From_ApiVersionSet_Spec(s
 	}
 
 	// VersionHeaderName
-	if source.VersionHeaderName != nil {
-		versionHeaderName := *source.VersionHeaderName
-		versionSet.VersionHeaderName = &versionHeaderName
-	} else {
-		versionSet.VersionHeaderName = nil
-	}
+	versionSet.VersionHeaderName = genruntime.ClonePointerToString(source.VersionHeaderName)
 
 	// VersionQueryName
-	if source.VersionQueryName != nil {
-		versionQueryName := *source.VersionQueryName
-		versionSet.VersionQueryName = &versionQueryName
-	} else {
-		versionSet.VersionQueryName = nil
-	}
+	versionSet.VersionQueryName = genruntime.ClonePointerToString(source.VersionQueryName)
 
 	// VersioningScheme
 	if source.VersioningScheme != nil {
@@ -535,12 +520,7 @@ func (versionSet *ApiVersionSet_Spec) AssignProperties_To_ApiVersionSet_Spec(des
 	destination.Description = genruntime.ClonePointerToString(versionSet.Description)
 
 	// DisplayName
-	if versionSet.DisplayName != nil {
-		displayName := *versionSet.DisplayName
-		destination.DisplayName = &displayName
-	} else {
-		destination.DisplayName = nil
-	}
+	destination.DisplayName = genruntime.ClonePointerToString(versionSet.DisplayName)
 
 	// OperatorSpec
 	if versionSet.OperatorSpec != nil {
@@ -566,20 +546,10 @@ func (versionSet *ApiVersionSet_Spec) AssignProperties_To_ApiVersionSet_Spec(des
 	}
 
 	// VersionHeaderName
-	if versionSet.VersionHeaderName != nil {
-		versionHeaderName := *versionSet.VersionHeaderName
-		destination.VersionHeaderName = &versionHeaderName
-	} else {
-		destination.VersionHeaderName = nil
-	}
+	destination.VersionHeaderName = genruntime.ClonePointerToString(versionSet.VersionHeaderName)
 
 	// VersionQueryName
-	if versionSet.VersionQueryName != nil {
-		versionQueryName := *versionSet.VersionQueryName
-		destination.VersionQueryName = &versionQueryName
-	} else {
-		destination.VersionQueryName = nil
-	}
+	destination.VersionQueryName = genruntime.ClonePointerToString(versionSet.VersionQueryName)
 
 	// VersioningScheme
 	if versionSet.VersioningScheme != nil {
@@ -607,28 +577,13 @@ func (versionSet *ApiVersionSet_Spec) Initialize_From_ApiVersionSet_STATUS(sourc
 	versionSet.Description = genruntime.ClonePointerToString(source.Description)
 
 	// DisplayName
-	if source.DisplayName != nil {
-		displayName := *source.DisplayName
-		versionSet.DisplayName = &displayName
-	} else {
-		versionSet.DisplayName = nil
-	}
+	versionSet.DisplayName = genruntime.ClonePointerToString(source.DisplayName)
 
 	// VersionHeaderName
-	if source.VersionHeaderName != nil {
-		versionHeaderName := *source.VersionHeaderName
-		versionSet.VersionHeaderName = &versionHeaderName
-	} else {
-		versionSet.VersionHeaderName = nil
-	}
+	versionSet.VersionHeaderName = genruntime.ClonePointerToString(source.VersionHeaderName)
 
 	// VersionQueryName
-	if source.VersionQueryName != nil {
-		versionQueryName := *source.VersionQueryName
-		versionSet.VersionQueryName = &versionQueryName
-	} else {
-		versionSet.VersionQueryName = nil
-	}
+	versionSet.VersionQueryName = genruntime.ClonePointerToString(source.VersionQueryName)
 
 	// VersioningScheme
 	if source.VersioningScheme != nil {

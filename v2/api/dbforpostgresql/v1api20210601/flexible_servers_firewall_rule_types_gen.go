@@ -403,12 +403,7 @@ func (rule *FlexibleServersFirewallRule_Spec) AssignProperties_From_FlexibleServ
 	rule.AzureName = source.AzureName
 
 	// EndIpAddress
-	if source.EndIpAddress != nil {
-		endIpAddress := *source.EndIpAddress
-		rule.EndIpAddress = &endIpAddress
-	} else {
-		rule.EndIpAddress = nil
-	}
+	rule.EndIpAddress = genruntime.ClonePointerToString(source.EndIpAddress)
 
 	// OperatorSpec
 	if source.OperatorSpec != nil {
@@ -431,12 +426,7 @@ func (rule *FlexibleServersFirewallRule_Spec) AssignProperties_From_FlexibleServ
 	}
 
 	// StartIpAddress
-	if source.StartIpAddress != nil {
-		startIpAddress := *source.StartIpAddress
-		rule.StartIpAddress = &startIpAddress
-	} else {
-		rule.StartIpAddress = nil
-	}
+	rule.StartIpAddress = genruntime.ClonePointerToString(source.StartIpAddress)
 
 	// No error
 	return nil
@@ -451,12 +441,7 @@ func (rule *FlexibleServersFirewallRule_Spec) AssignProperties_To_FlexibleServer
 	destination.AzureName = rule.AzureName
 
 	// EndIpAddress
-	if rule.EndIpAddress != nil {
-		endIpAddress := *rule.EndIpAddress
-		destination.EndIpAddress = &endIpAddress
-	} else {
-		destination.EndIpAddress = nil
-	}
+	destination.EndIpAddress = genruntime.ClonePointerToString(rule.EndIpAddress)
 
 	// OperatorSpec
 	if rule.OperatorSpec != nil {
@@ -482,12 +467,7 @@ func (rule *FlexibleServersFirewallRule_Spec) AssignProperties_To_FlexibleServer
 	}
 
 	// StartIpAddress
-	if rule.StartIpAddress != nil {
-		startIpAddress := *rule.StartIpAddress
-		destination.StartIpAddress = &startIpAddress
-	} else {
-		destination.StartIpAddress = nil
-	}
+	destination.StartIpAddress = genruntime.ClonePointerToString(rule.StartIpAddress)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

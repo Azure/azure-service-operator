@@ -1902,20 +1902,10 @@ func (settings *PolicySettings) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 func (settings *PolicySettings) AssignProperties_From_PolicySettings(source *storage.PolicySettings) error {
 
 	// CustomBlockResponseBody
-	if source.CustomBlockResponseBody != nil {
-		customBlockResponseBody := *source.CustomBlockResponseBody
-		settings.CustomBlockResponseBody = &customBlockResponseBody
-	} else {
-		settings.CustomBlockResponseBody = nil
-	}
+	settings.CustomBlockResponseBody = genruntime.ClonePointerToString(source.CustomBlockResponseBody)
 
 	// CustomBlockResponseStatusCode
-	if source.CustomBlockResponseStatusCode != nil {
-		customBlockResponseStatusCode := *source.CustomBlockResponseStatusCode
-		settings.CustomBlockResponseStatusCode = &customBlockResponseStatusCode
-	} else {
-		settings.CustomBlockResponseStatusCode = nil
-	}
+	settings.CustomBlockResponseStatusCode = genruntime.ClonePointerToInt(source.CustomBlockResponseStatusCode)
 
 	// FileUploadEnforcement
 	if source.FileUploadEnforcement != nil {
@@ -1926,20 +1916,10 @@ func (settings *PolicySettings) AssignProperties_From_PolicySettings(source *sto
 	}
 
 	// FileUploadLimitInMb
-	if source.FileUploadLimitInMb != nil {
-		fileUploadLimitInMb := *source.FileUploadLimitInMb
-		settings.FileUploadLimitInMb = &fileUploadLimitInMb
-	} else {
-		settings.FileUploadLimitInMb = nil
-	}
+	settings.FileUploadLimitInMb = genruntime.ClonePointerToInt(source.FileUploadLimitInMb)
 
 	// JsChallengeCookieExpirationInMins
-	if source.JsChallengeCookieExpirationInMins != nil {
-		jsChallengeCookieExpirationInMin := *source.JsChallengeCookieExpirationInMins
-		settings.JsChallengeCookieExpirationInMins = &jsChallengeCookieExpirationInMin
-	} else {
-		settings.JsChallengeCookieExpirationInMins = nil
-	}
+	settings.JsChallengeCookieExpirationInMins = genruntime.ClonePointerToInt(source.JsChallengeCookieExpirationInMins)
 
 	// LogScrubbing
 	if source.LogScrubbing != nil {
@@ -1954,12 +1934,7 @@ func (settings *PolicySettings) AssignProperties_From_PolicySettings(source *sto
 	}
 
 	// MaxRequestBodySizeInKb
-	if source.MaxRequestBodySizeInKb != nil {
-		maxRequestBodySizeInKb := *source.MaxRequestBodySizeInKb
-		settings.MaxRequestBodySizeInKb = &maxRequestBodySizeInKb
-	} else {
-		settings.MaxRequestBodySizeInKb = nil
-	}
+	settings.MaxRequestBodySizeInKb = genruntime.ClonePointerToInt(source.MaxRequestBodySizeInKb)
 
 	// Mode
 	if source.Mode != nil {
@@ -2008,20 +1983,10 @@ func (settings *PolicySettings) AssignProperties_To_PolicySettings(destination *
 	propertyBag := genruntime.NewPropertyBag()
 
 	// CustomBlockResponseBody
-	if settings.CustomBlockResponseBody != nil {
-		customBlockResponseBody := *settings.CustomBlockResponseBody
-		destination.CustomBlockResponseBody = &customBlockResponseBody
-	} else {
-		destination.CustomBlockResponseBody = nil
-	}
+	destination.CustomBlockResponseBody = genruntime.ClonePointerToString(settings.CustomBlockResponseBody)
 
 	// CustomBlockResponseStatusCode
-	if settings.CustomBlockResponseStatusCode != nil {
-		customBlockResponseStatusCode := *settings.CustomBlockResponseStatusCode
-		destination.CustomBlockResponseStatusCode = &customBlockResponseStatusCode
-	} else {
-		destination.CustomBlockResponseStatusCode = nil
-	}
+	destination.CustomBlockResponseStatusCode = genruntime.ClonePointerToInt(settings.CustomBlockResponseStatusCode)
 
 	// FileUploadEnforcement
 	if settings.FileUploadEnforcement != nil {
@@ -2032,20 +1997,10 @@ func (settings *PolicySettings) AssignProperties_To_PolicySettings(destination *
 	}
 
 	// FileUploadLimitInMb
-	if settings.FileUploadLimitInMb != nil {
-		fileUploadLimitInMb := *settings.FileUploadLimitInMb
-		destination.FileUploadLimitInMb = &fileUploadLimitInMb
-	} else {
-		destination.FileUploadLimitInMb = nil
-	}
+	destination.FileUploadLimitInMb = genruntime.ClonePointerToInt(settings.FileUploadLimitInMb)
 
 	// JsChallengeCookieExpirationInMins
-	if settings.JsChallengeCookieExpirationInMins != nil {
-		jsChallengeCookieExpirationInMin := *settings.JsChallengeCookieExpirationInMins
-		destination.JsChallengeCookieExpirationInMins = &jsChallengeCookieExpirationInMin
-	} else {
-		destination.JsChallengeCookieExpirationInMins = nil
-	}
+	destination.JsChallengeCookieExpirationInMins = genruntime.ClonePointerToInt(settings.JsChallengeCookieExpirationInMins)
 
 	// LogScrubbing
 	if settings.LogScrubbing != nil {
@@ -2060,12 +2015,7 @@ func (settings *PolicySettings) AssignProperties_To_PolicySettings(destination *
 	}
 
 	// MaxRequestBodySizeInKb
-	if settings.MaxRequestBodySizeInKb != nil {
-		maxRequestBodySizeInKb := *settings.MaxRequestBodySizeInKb
-		destination.MaxRequestBodySizeInKb = &maxRequestBodySizeInKb
-	} else {
-		destination.MaxRequestBodySizeInKb = nil
-	}
+	destination.MaxRequestBodySizeInKb = genruntime.ClonePointerToInt(settings.MaxRequestBodySizeInKb)
 
 	// Mode
 	if settings.Mode != nil {
@@ -2117,20 +2067,10 @@ func (settings *PolicySettings) AssignProperties_To_PolicySettings(destination *
 func (settings *PolicySettings) Initialize_From_PolicySettings_STATUS(source *PolicySettings_STATUS) error {
 
 	// CustomBlockResponseBody
-	if source.CustomBlockResponseBody != nil {
-		customBlockResponseBody := *source.CustomBlockResponseBody
-		settings.CustomBlockResponseBody = &customBlockResponseBody
-	} else {
-		settings.CustomBlockResponseBody = nil
-	}
+	settings.CustomBlockResponseBody = genruntime.ClonePointerToString(source.CustomBlockResponseBody)
 
 	// CustomBlockResponseStatusCode
-	if source.CustomBlockResponseStatusCode != nil {
-		customBlockResponseStatusCode := *source.CustomBlockResponseStatusCode
-		settings.CustomBlockResponseStatusCode = &customBlockResponseStatusCode
-	} else {
-		settings.CustomBlockResponseStatusCode = nil
-	}
+	settings.CustomBlockResponseStatusCode = genruntime.ClonePointerToInt(source.CustomBlockResponseStatusCode)
 
 	// FileUploadEnforcement
 	if source.FileUploadEnforcement != nil {
@@ -2141,20 +2081,10 @@ func (settings *PolicySettings) Initialize_From_PolicySettings_STATUS(source *Po
 	}
 
 	// FileUploadLimitInMb
-	if source.FileUploadLimitInMb != nil {
-		fileUploadLimitInMb := *source.FileUploadLimitInMb
-		settings.FileUploadLimitInMb = &fileUploadLimitInMb
-	} else {
-		settings.FileUploadLimitInMb = nil
-	}
+	settings.FileUploadLimitInMb = genruntime.ClonePointerToInt(source.FileUploadLimitInMb)
 
 	// JsChallengeCookieExpirationInMins
-	if source.JsChallengeCookieExpirationInMins != nil {
-		jsChallengeCookieExpirationInMin := *source.JsChallengeCookieExpirationInMins
-		settings.JsChallengeCookieExpirationInMins = &jsChallengeCookieExpirationInMin
-	} else {
-		settings.JsChallengeCookieExpirationInMins = nil
-	}
+	settings.JsChallengeCookieExpirationInMins = genruntime.ClonePointerToInt(source.JsChallengeCookieExpirationInMins)
 
 	// LogScrubbing
 	if source.LogScrubbing != nil {
@@ -2169,12 +2099,7 @@ func (settings *PolicySettings) Initialize_From_PolicySettings_STATUS(source *Po
 	}
 
 	// MaxRequestBodySizeInKb
-	if source.MaxRequestBodySizeInKb != nil {
-		maxRequestBodySizeInKb := *source.MaxRequestBodySizeInKb
-		settings.MaxRequestBodySizeInKb = &maxRequestBodySizeInKb
-	} else {
-		settings.MaxRequestBodySizeInKb = nil
-	}
+	settings.MaxRequestBodySizeInKb = genruntime.ClonePointerToInt(source.MaxRequestBodySizeInKb)
 
 	// Mode
 	if source.Mode != nil {
@@ -2827,12 +2752,7 @@ func (rule *WebApplicationFirewallCustomRule) AssignProperties_From_WebApplicati
 	}
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		rule.Name = &name
-	} else {
-		rule.Name = nil
-	}
+	rule.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Priority
 	rule.Priority = genruntime.ClonePointerToInt(source.Priority)
@@ -2921,12 +2841,7 @@ func (rule *WebApplicationFirewallCustomRule) AssignProperties_To_WebApplication
 	}
 
 	// Name
-	if rule.Name != nil {
-		name := *rule.Name
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(rule.Name)
 
 	// Priority
 	destination.Priority = genruntime.ClonePointerToInt(rule.Priority)
@@ -3017,12 +2932,7 @@ func (rule *WebApplicationFirewallCustomRule) Initialize_From_WebApplicationFire
 	}
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		rule.Name = &name
-	} else {
-		rule.Name = nil
-	}
+	rule.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Priority
 	rule.Priority = genruntime.ClonePointerToInt(source.Priority)

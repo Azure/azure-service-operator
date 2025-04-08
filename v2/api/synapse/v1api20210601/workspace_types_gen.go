@@ -4065,12 +4065,7 @@ func (configuration *WorkspaceRepositoryConfiguration) AssignProperties_From_Wor
 	configuration.RootFolder = genruntime.ClonePointerToString(source.RootFolder)
 
 	// TenantId
-	if source.TenantId != nil {
-		tenantId := *source.TenantId
-		configuration.TenantId = &tenantId
-	} else {
-		configuration.TenantId = nil
-	}
+	configuration.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
 	// Type
 	configuration.Type = genruntime.ClonePointerToString(source.Type)
@@ -4106,12 +4101,7 @@ func (configuration *WorkspaceRepositoryConfiguration) AssignProperties_To_Works
 	destination.RootFolder = genruntime.ClonePointerToString(configuration.RootFolder)
 
 	// TenantId
-	if configuration.TenantId != nil {
-		tenantId := *configuration.TenantId
-		destination.TenantId = &tenantId
-	} else {
-		destination.TenantId = nil
-	}
+	destination.TenantId = genruntime.ClonePointerToString(configuration.TenantId)
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(configuration.Type)
@@ -4152,12 +4142,7 @@ func (configuration *WorkspaceRepositoryConfiguration) Initialize_From_Workspace
 	configuration.RootFolder = genruntime.ClonePointerToString(source.RootFolder)
 
 	// TenantId
-	if source.TenantId != nil {
-		tenantId := *source.TenantId
-		configuration.TenantId = &tenantId
-	} else {
-		configuration.TenantId = nil
-	}
+	configuration.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
 	// Type
 	configuration.Type = genruntime.ClonePointerToString(source.Type)

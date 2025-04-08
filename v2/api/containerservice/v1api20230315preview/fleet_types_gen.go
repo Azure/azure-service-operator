@@ -929,12 +929,7 @@ func (profile *FleetHubProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 func (profile *FleetHubProfile) AssignProperties_From_FleetHubProfile(source *storage.FleetHubProfile) error {
 
 	// DnsPrefix
-	if source.DnsPrefix != nil {
-		dnsPrefix := *source.DnsPrefix
-		profile.DnsPrefix = &dnsPrefix
-	} else {
-		profile.DnsPrefix = nil
-	}
+	profile.DnsPrefix = genruntime.ClonePointerToString(source.DnsPrefix)
 
 	// No error
 	return nil
@@ -946,12 +941,7 @@ func (profile *FleetHubProfile) AssignProperties_To_FleetHubProfile(destination 
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DnsPrefix
-	if profile.DnsPrefix != nil {
-		dnsPrefix := *profile.DnsPrefix
-		destination.DnsPrefix = &dnsPrefix
-	} else {
-		destination.DnsPrefix = nil
-	}
+	destination.DnsPrefix = genruntime.ClonePointerToString(profile.DnsPrefix)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -968,12 +958,7 @@ func (profile *FleetHubProfile) AssignProperties_To_FleetHubProfile(destination 
 func (profile *FleetHubProfile) Initialize_From_FleetHubProfile_STATUS(source *FleetHubProfile_STATUS) error {
 
 	// DnsPrefix
-	if source.DnsPrefix != nil {
-		dnsPrefix := *source.DnsPrefix
-		profile.DnsPrefix = &dnsPrefix
-	} else {
-		profile.DnsPrefix = nil
-	}
+	profile.DnsPrefix = genruntime.ClonePointerToString(source.DnsPrefix)
 
 	// No error
 	return nil

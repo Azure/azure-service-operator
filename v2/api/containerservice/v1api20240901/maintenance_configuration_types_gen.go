@@ -1258,12 +1258,7 @@ func (window *MaintenanceWindow) PopulateFromARM(owner genruntime.ArbitraryOwner
 func (window *MaintenanceWindow) AssignProperties_From_MaintenanceWindow(source *storage.MaintenanceWindow) error {
 
 	// DurationHours
-	if source.DurationHours != nil {
-		durationHour := *source.DurationHours
-		window.DurationHours = &durationHour
-	} else {
-		window.DurationHours = nil
-	}
+	window.DurationHours = genruntime.ClonePointerToInt(source.DurationHours)
 
 	// NotAllowedDates
 	if source.NotAllowedDates != nil {
@@ -1299,20 +1294,10 @@ func (window *MaintenanceWindow) AssignProperties_From_MaintenanceWindow(source 
 	window.StartDate = genruntime.ClonePointerToString(source.StartDate)
 
 	// StartTime
-	if source.StartTime != nil {
-		startTime := *source.StartTime
-		window.StartTime = &startTime
-	} else {
-		window.StartTime = nil
-	}
+	window.StartTime = genruntime.ClonePointerToString(source.StartTime)
 
 	// UtcOffset
-	if source.UtcOffset != nil {
-		utcOffset := *source.UtcOffset
-		window.UtcOffset = &utcOffset
-	} else {
-		window.UtcOffset = nil
-	}
+	window.UtcOffset = genruntime.ClonePointerToString(source.UtcOffset)
 
 	// No error
 	return nil
@@ -1324,12 +1309,7 @@ func (window *MaintenanceWindow) AssignProperties_To_MaintenanceWindow(destinati
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DurationHours
-	if window.DurationHours != nil {
-		durationHour := *window.DurationHours
-		destination.DurationHours = &durationHour
-	} else {
-		destination.DurationHours = nil
-	}
+	destination.DurationHours = genruntime.ClonePointerToInt(window.DurationHours)
 
 	// NotAllowedDates
 	if window.NotAllowedDates != nil {
@@ -1365,20 +1345,10 @@ func (window *MaintenanceWindow) AssignProperties_To_MaintenanceWindow(destinati
 	destination.StartDate = genruntime.ClonePointerToString(window.StartDate)
 
 	// StartTime
-	if window.StartTime != nil {
-		startTime := *window.StartTime
-		destination.StartTime = &startTime
-	} else {
-		destination.StartTime = nil
-	}
+	destination.StartTime = genruntime.ClonePointerToString(window.StartTime)
 
 	// UtcOffset
-	if window.UtcOffset != nil {
-		utcOffset := *window.UtcOffset
-		destination.UtcOffset = &utcOffset
-	} else {
-		destination.UtcOffset = nil
-	}
+	destination.UtcOffset = genruntime.ClonePointerToString(window.UtcOffset)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1395,12 +1365,7 @@ func (window *MaintenanceWindow) AssignProperties_To_MaintenanceWindow(destinati
 func (window *MaintenanceWindow) Initialize_From_MaintenanceWindow_STATUS(source *MaintenanceWindow_STATUS) error {
 
 	// DurationHours
-	if source.DurationHours != nil {
-		durationHour := *source.DurationHours
-		window.DurationHours = &durationHour
-	} else {
-		window.DurationHours = nil
-	}
+	window.DurationHours = genruntime.ClonePointerToInt(source.DurationHours)
 
 	// NotAllowedDates
 	if source.NotAllowedDates != nil {
@@ -1436,20 +1401,10 @@ func (window *MaintenanceWindow) Initialize_From_MaintenanceWindow_STATUS(source
 	window.StartDate = genruntime.ClonePointerToString(source.StartDate)
 
 	// StartTime
-	if source.StartTime != nil {
-		startTime := *source.StartTime
-		window.StartTime = &startTime
-	} else {
-		window.StartTime = nil
-	}
+	window.StartTime = genruntime.ClonePointerToString(source.StartTime)
 
 	// UtcOffset
-	if source.UtcOffset != nil {
-		utcOffset := *source.UtcOffset
-		window.UtcOffset = &utcOffset
-	} else {
-		window.UtcOffset = nil
-	}
+	window.UtcOffset = genruntime.ClonePointerToString(source.UtcOffset)
 
 	// No error
 	return nil
@@ -3098,20 +3053,10 @@ func (schedule *AbsoluteMonthlySchedule) PopulateFromARM(owner genruntime.Arbitr
 func (schedule *AbsoluteMonthlySchedule) AssignProperties_From_AbsoluteMonthlySchedule(source *storage.AbsoluteMonthlySchedule) error {
 
 	// DayOfMonth
-	if source.DayOfMonth != nil {
-		dayOfMonth := *source.DayOfMonth
-		schedule.DayOfMonth = &dayOfMonth
-	} else {
-		schedule.DayOfMonth = nil
-	}
+	schedule.DayOfMonth = genruntime.ClonePointerToInt(source.DayOfMonth)
 
 	// IntervalMonths
-	if source.IntervalMonths != nil {
-		intervalMonth := *source.IntervalMonths
-		schedule.IntervalMonths = &intervalMonth
-	} else {
-		schedule.IntervalMonths = nil
-	}
+	schedule.IntervalMonths = genruntime.ClonePointerToInt(source.IntervalMonths)
 
 	// No error
 	return nil
@@ -3123,20 +3068,10 @@ func (schedule *AbsoluteMonthlySchedule) AssignProperties_To_AbsoluteMonthlySche
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DayOfMonth
-	if schedule.DayOfMonth != nil {
-		dayOfMonth := *schedule.DayOfMonth
-		destination.DayOfMonth = &dayOfMonth
-	} else {
-		destination.DayOfMonth = nil
-	}
+	destination.DayOfMonth = genruntime.ClonePointerToInt(schedule.DayOfMonth)
 
 	// IntervalMonths
-	if schedule.IntervalMonths != nil {
-		intervalMonth := *schedule.IntervalMonths
-		destination.IntervalMonths = &intervalMonth
-	} else {
-		destination.IntervalMonths = nil
-	}
+	destination.IntervalMonths = genruntime.ClonePointerToInt(schedule.IntervalMonths)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3153,20 +3088,10 @@ func (schedule *AbsoluteMonthlySchedule) AssignProperties_To_AbsoluteMonthlySche
 func (schedule *AbsoluteMonthlySchedule) Initialize_From_AbsoluteMonthlySchedule_STATUS(source *AbsoluteMonthlySchedule_STATUS) error {
 
 	// DayOfMonth
-	if source.DayOfMonth != nil {
-		dayOfMonth := *source.DayOfMonth
-		schedule.DayOfMonth = &dayOfMonth
-	} else {
-		schedule.DayOfMonth = nil
-	}
+	schedule.DayOfMonth = genruntime.ClonePointerToInt(source.DayOfMonth)
 
 	// IntervalMonths
-	if source.IntervalMonths != nil {
-		intervalMonth := *source.IntervalMonths
-		schedule.IntervalMonths = &intervalMonth
-	} else {
-		schedule.IntervalMonths = nil
-	}
+	schedule.IntervalMonths = genruntime.ClonePointerToInt(source.IntervalMonths)
 
 	// No error
 	return nil
@@ -3298,12 +3223,7 @@ func (schedule *DailySchedule) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 func (schedule *DailySchedule) AssignProperties_From_DailySchedule(source *storage.DailySchedule) error {
 
 	// IntervalDays
-	if source.IntervalDays != nil {
-		intervalDay := *source.IntervalDays
-		schedule.IntervalDays = &intervalDay
-	} else {
-		schedule.IntervalDays = nil
-	}
+	schedule.IntervalDays = genruntime.ClonePointerToInt(source.IntervalDays)
 
 	// No error
 	return nil
@@ -3315,12 +3235,7 @@ func (schedule *DailySchedule) AssignProperties_To_DailySchedule(destination *st
 	propertyBag := genruntime.NewPropertyBag()
 
 	// IntervalDays
-	if schedule.IntervalDays != nil {
-		intervalDay := *schedule.IntervalDays
-		destination.IntervalDays = &intervalDay
-	} else {
-		destination.IntervalDays = nil
-	}
+	destination.IntervalDays = genruntime.ClonePointerToInt(schedule.IntervalDays)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3337,12 +3252,7 @@ func (schedule *DailySchedule) AssignProperties_To_DailySchedule(destination *st
 func (schedule *DailySchedule) Initialize_From_DailySchedule_STATUS(source *DailySchedule_STATUS) error {
 
 	// IntervalDays
-	if source.IntervalDays != nil {
-		intervalDay := *source.IntervalDays
-		schedule.IntervalDays = &intervalDay
-	} else {
-		schedule.IntervalDays = nil
-	}
+	schedule.IntervalDays = genruntime.ClonePointerToInt(source.IntervalDays)
 
 	// No error
 	return nil
@@ -3508,12 +3418,7 @@ func (schedule *RelativeMonthlySchedule) AssignProperties_From_RelativeMonthlySc
 	}
 
 	// IntervalMonths
-	if source.IntervalMonths != nil {
-		intervalMonth := *source.IntervalMonths
-		schedule.IntervalMonths = &intervalMonth
-	} else {
-		schedule.IntervalMonths = nil
-	}
+	schedule.IntervalMonths = genruntime.ClonePointerToInt(source.IntervalMonths)
 
 	// WeekIndex
 	if source.WeekIndex != nil {
@@ -3542,12 +3447,7 @@ func (schedule *RelativeMonthlySchedule) AssignProperties_To_RelativeMonthlySche
 	}
 
 	// IntervalMonths
-	if schedule.IntervalMonths != nil {
-		intervalMonth := *schedule.IntervalMonths
-		destination.IntervalMonths = &intervalMonth
-	} else {
-		destination.IntervalMonths = nil
-	}
+	destination.IntervalMonths = genruntime.ClonePointerToInt(schedule.IntervalMonths)
 
 	// WeekIndex
 	if schedule.WeekIndex != nil {
@@ -3580,12 +3480,7 @@ func (schedule *RelativeMonthlySchedule) Initialize_From_RelativeMonthlySchedule
 	}
 
 	// IntervalMonths
-	if source.IntervalMonths != nil {
-		intervalMonth := *source.IntervalMonths
-		schedule.IntervalMonths = &intervalMonth
-	} else {
-		schedule.IntervalMonths = nil
-	}
+	schedule.IntervalMonths = genruntime.ClonePointerToInt(source.IntervalMonths)
 
 	// WeekIndex
 	if source.WeekIndex != nil {
@@ -3795,12 +3690,7 @@ func (schedule *WeeklySchedule) AssignProperties_From_WeeklySchedule(source *sto
 	}
 
 	// IntervalWeeks
-	if source.IntervalWeeks != nil {
-		intervalWeek := *source.IntervalWeeks
-		schedule.IntervalWeeks = &intervalWeek
-	} else {
-		schedule.IntervalWeeks = nil
-	}
+	schedule.IntervalWeeks = genruntime.ClonePointerToInt(source.IntervalWeeks)
 
 	// No error
 	return nil
@@ -3820,12 +3710,7 @@ func (schedule *WeeklySchedule) AssignProperties_To_WeeklySchedule(destination *
 	}
 
 	// IntervalWeeks
-	if schedule.IntervalWeeks != nil {
-		intervalWeek := *schedule.IntervalWeeks
-		destination.IntervalWeeks = &intervalWeek
-	} else {
-		destination.IntervalWeeks = nil
-	}
+	destination.IntervalWeeks = genruntime.ClonePointerToInt(schedule.IntervalWeeks)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3850,12 +3735,7 @@ func (schedule *WeeklySchedule) Initialize_From_WeeklySchedule_STATUS(source *We
 	}
 
 	// IntervalWeeks
-	if source.IntervalWeeks != nil {
-		intervalWeek := *source.IntervalWeeks
-		schedule.IntervalWeeks = &intervalWeek
-	} else {
-		schedule.IntervalWeeks = nil
-	}
+	schedule.IntervalWeeks = genruntime.ClonePointerToInt(source.IntervalWeeks)
 
 	// No error
 	return nil

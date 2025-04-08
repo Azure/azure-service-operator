@@ -726,12 +726,7 @@ func (service *SearchService_Spec) AssignProperties_From_SearchService_Spec(sour
 	}
 
 	// PartitionCount
-	if source.PartitionCount != nil {
-		partitionCount := *source.PartitionCount
-		service.PartitionCount = &partitionCount
-	} else {
-		service.PartitionCount = nil
-	}
+	service.PartitionCount = genruntime.ClonePointerToInt(source.PartitionCount)
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
@@ -743,12 +738,7 @@ func (service *SearchService_Spec) AssignProperties_From_SearchService_Spec(sour
 	}
 
 	// ReplicaCount
-	if source.ReplicaCount != nil {
-		replicaCount := *source.ReplicaCount
-		service.ReplicaCount = &replicaCount
-	} else {
-		service.ReplicaCount = nil
-	}
+	service.ReplicaCount = genruntime.ClonePointerToInt(source.ReplicaCount)
 
 	// Sku
 	if source.Sku != nil {
@@ -868,12 +858,7 @@ func (service *SearchService_Spec) AssignProperties_To_SearchService_Spec(destin
 	}
 
 	// PartitionCount
-	if service.PartitionCount != nil {
-		partitionCount := *service.PartitionCount
-		destination.PartitionCount = &partitionCount
-	} else {
-		destination.PartitionCount = nil
-	}
+	destination.PartitionCount = genruntime.ClonePointerToInt(service.PartitionCount)
 
 	// PublicNetworkAccess
 	if service.PublicNetworkAccess != nil {
@@ -884,12 +869,7 @@ func (service *SearchService_Spec) AssignProperties_To_SearchService_Spec(destin
 	}
 
 	// ReplicaCount
-	if service.ReplicaCount != nil {
-		replicaCount := *service.ReplicaCount
-		destination.ReplicaCount = &replicaCount
-	} else {
-		destination.ReplicaCount = nil
-	}
+	destination.ReplicaCount = genruntime.ClonePointerToInt(service.ReplicaCount)
 
 	// Sku
 	if service.Sku != nil {
@@ -988,12 +968,7 @@ func (service *SearchService_Spec) Initialize_From_SearchService_STATUS(source *
 	}
 
 	// PartitionCount
-	if source.PartitionCount != nil {
-		partitionCount := *source.PartitionCount
-		service.PartitionCount = &partitionCount
-	} else {
-		service.PartitionCount = nil
-	}
+	service.PartitionCount = genruntime.ClonePointerToInt(source.PartitionCount)
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
@@ -1004,12 +979,7 @@ func (service *SearchService_Spec) Initialize_From_SearchService_STATUS(source *
 	}
 
 	// ReplicaCount
-	if source.ReplicaCount != nil {
-		replicaCount := *source.ReplicaCount
-		service.ReplicaCount = &replicaCount
-	} else {
-		service.ReplicaCount = nil
-	}
+	service.ReplicaCount = genruntime.ClonePointerToInt(source.ReplicaCount)
 
 	// Sku
 	if source.Sku != nil {

@@ -872,28 +872,13 @@ func (api *Api_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error
 func (api *Api_Spec) AssignProperties_From_Api_Spec(source *storage.Api_Spec) error {
 
 	// APIVersion
-	if source.APIVersion != nil {
-		apiVersion := *source.APIVersion
-		api.APIVersion = &apiVersion
-	} else {
-		api.APIVersion = nil
-	}
+	api.APIVersion = genruntime.ClonePointerToString(source.APIVersion)
 
 	// ApiRevision
-	if source.ApiRevision != nil {
-		apiRevision := *source.ApiRevision
-		api.ApiRevision = &apiRevision
-	} else {
-		api.ApiRevision = nil
-	}
+	api.ApiRevision = genruntime.ClonePointerToString(source.ApiRevision)
 
 	// ApiRevisionDescription
-	if source.ApiRevisionDescription != nil {
-		apiRevisionDescription := *source.ApiRevisionDescription
-		api.ApiRevisionDescription = &apiRevisionDescription
-	} else {
-		api.ApiRevisionDescription = nil
-	}
+	api.ApiRevisionDescription = genruntime.ClonePointerToString(source.ApiRevisionDescription)
 
 	// ApiType
 	if source.ApiType != nil {
@@ -905,12 +890,7 @@ func (api *Api_Spec) AssignProperties_From_Api_Spec(source *storage.Api_Spec) er
 	}
 
 	// ApiVersionDescription
-	if source.ApiVersionDescription != nil {
-		apiVersionDescription := *source.ApiVersionDescription
-		api.ApiVersionDescription = &apiVersionDescription
-	} else {
-		api.ApiVersionDescription = nil
-	}
+	api.ApiVersionDescription = genruntime.ClonePointerToString(source.ApiVersionDescription)
 
 	// ApiVersionSet
 	if source.ApiVersionSet != nil {
@@ -963,12 +943,7 @@ func (api *Api_Spec) AssignProperties_From_Api_Spec(source *storage.Api_Spec) er
 	api.Description = genruntime.ClonePointerToString(source.Description)
 
 	// DisplayName
-	if source.DisplayName != nil {
-		displayName := *source.DisplayName
-		api.DisplayName = &displayName
-	} else {
-		api.DisplayName = nil
-	}
+	api.DisplayName = genruntime.ClonePointerToString(source.DisplayName)
 
 	// Format
 	if source.Format != nil {
@@ -1020,12 +995,7 @@ func (api *Api_Spec) AssignProperties_From_Api_Spec(source *storage.Api_Spec) er
 	}
 
 	// Path
-	if source.Path != nil {
-		path := *source.Path
-		api.Path = &path
-	} else {
-		api.Path = nil
-	}
+	api.Path = genruntime.ClonePointerToString(source.Path)
 
 	// Protocols
 	if source.Protocols != nil {
@@ -1041,12 +1011,7 @@ func (api *Api_Spec) AssignProperties_From_Api_Spec(source *storage.Api_Spec) er
 	}
 
 	// ServiceUrl
-	if source.ServiceUrl != nil {
-		serviceUrl := *source.ServiceUrl
-		api.ServiceUrl = &serviceUrl
-	} else {
-		api.ServiceUrl = nil
-	}
+	api.ServiceUrl = genruntime.ClonePointerToString(source.ServiceUrl)
 
 	// SourceApiReference
 	if source.SourceApiReference != nil {
@@ -1122,28 +1087,13 @@ func (api *Api_Spec) AssignProperties_To_Api_Spec(destination *storage.Api_Spec)
 	propertyBag := genruntime.NewPropertyBag()
 
 	// APIVersion
-	if api.APIVersion != nil {
-		apiVersion := *api.APIVersion
-		destination.APIVersion = &apiVersion
-	} else {
-		destination.APIVersion = nil
-	}
+	destination.APIVersion = genruntime.ClonePointerToString(api.APIVersion)
 
 	// ApiRevision
-	if api.ApiRevision != nil {
-		apiRevision := *api.ApiRevision
-		destination.ApiRevision = &apiRevision
-	} else {
-		destination.ApiRevision = nil
-	}
+	destination.ApiRevision = genruntime.ClonePointerToString(api.ApiRevision)
 
 	// ApiRevisionDescription
-	if api.ApiRevisionDescription != nil {
-		apiRevisionDescription := *api.ApiRevisionDescription
-		destination.ApiRevisionDescription = &apiRevisionDescription
-	} else {
-		destination.ApiRevisionDescription = nil
-	}
+	destination.ApiRevisionDescription = genruntime.ClonePointerToString(api.ApiRevisionDescription)
 
 	// ApiType
 	if api.ApiType != nil {
@@ -1154,12 +1104,7 @@ func (api *Api_Spec) AssignProperties_To_Api_Spec(destination *storage.Api_Spec)
 	}
 
 	// ApiVersionDescription
-	if api.ApiVersionDescription != nil {
-		apiVersionDescription := *api.ApiVersionDescription
-		destination.ApiVersionDescription = &apiVersionDescription
-	} else {
-		destination.ApiVersionDescription = nil
-	}
+	destination.ApiVersionDescription = genruntime.ClonePointerToString(api.ApiVersionDescription)
 
 	// ApiVersionSet
 	if api.ApiVersionSet != nil {
@@ -1212,12 +1157,7 @@ func (api *Api_Spec) AssignProperties_To_Api_Spec(destination *storage.Api_Spec)
 	destination.Description = genruntime.ClonePointerToString(api.Description)
 
 	// DisplayName
-	if api.DisplayName != nil {
-		displayName := *api.DisplayName
-		destination.DisplayName = &displayName
-	} else {
-		destination.DisplayName = nil
-	}
+	destination.DisplayName = genruntime.ClonePointerToString(api.DisplayName)
 
 	// Format
 	if api.Format != nil {
@@ -1271,12 +1211,7 @@ func (api *Api_Spec) AssignProperties_To_Api_Spec(destination *storage.Api_Spec)
 	}
 
 	// Path
-	if api.Path != nil {
-		path := *api.Path
-		destination.Path = &path
-	} else {
-		destination.Path = nil
-	}
+	destination.Path = genruntime.ClonePointerToString(api.Path)
 
 	// Protocols
 	if api.Protocols != nil {
@@ -1292,12 +1227,7 @@ func (api *Api_Spec) AssignProperties_To_Api_Spec(destination *storage.Api_Spec)
 	}
 
 	// ServiceUrl
-	if api.ServiceUrl != nil {
-		serviceUrl := *api.ServiceUrl
-		destination.ServiceUrl = &serviceUrl
-	} else {
-		destination.ServiceUrl = nil
-	}
+	destination.ServiceUrl = genruntime.ClonePointerToString(api.ServiceUrl)
 
 	// SourceApiReference
 	if api.SourceApiReference != nil {
@@ -1376,36 +1306,16 @@ func (api *Api_Spec) AssignProperties_To_Api_Spec(destination *storage.Api_Spec)
 func (api *Api_Spec) Initialize_From_Api_STATUS(source *Api_STATUS) error {
 
 	// APIVersion
-	if source.APIVersion != nil {
-		apiVersion := *source.APIVersion
-		api.APIVersion = &apiVersion
-	} else {
-		api.APIVersion = nil
-	}
+	api.APIVersion = genruntime.ClonePointerToString(source.APIVersion)
 
 	// ApiRevision
-	if source.ApiRevision != nil {
-		apiRevision := *source.ApiRevision
-		api.ApiRevision = &apiRevision
-	} else {
-		api.ApiRevision = nil
-	}
+	api.ApiRevision = genruntime.ClonePointerToString(source.ApiRevision)
 
 	// ApiRevisionDescription
-	if source.ApiRevisionDescription != nil {
-		apiRevisionDescription := *source.ApiRevisionDescription
-		api.ApiRevisionDescription = &apiRevisionDescription
-	} else {
-		api.ApiRevisionDescription = nil
-	}
+	api.ApiRevisionDescription = genruntime.ClonePointerToString(source.ApiRevisionDescription)
 
 	// ApiVersionDescription
-	if source.ApiVersionDescription != nil {
-		apiVersionDescription := *source.ApiVersionDescription
-		api.ApiVersionDescription = &apiVersionDescription
-	} else {
-		api.ApiVersionDescription = nil
-	}
+	api.ApiVersionDescription = genruntime.ClonePointerToString(source.ApiVersionDescription)
 
 	// ApiVersionSet
 	if source.ApiVersionSet != nil {
@@ -1455,12 +1365,7 @@ func (api *Api_Spec) Initialize_From_Api_STATUS(source *Api_STATUS) error {
 	api.Description = genruntime.ClonePointerToString(source.Description)
 
 	// DisplayName
-	if source.DisplayName != nil {
-		displayName := *source.DisplayName
-		api.DisplayName = &displayName
-	} else {
-		api.DisplayName = nil
-	}
+	api.DisplayName = genruntime.ClonePointerToString(source.DisplayName)
 
 	// IsCurrent
 	if source.IsCurrent != nil {
@@ -1483,12 +1388,7 @@ func (api *Api_Spec) Initialize_From_Api_STATUS(source *Api_STATUS) error {
 	}
 
 	// Path
-	if source.Path != nil {
-		path := *source.Path
-		api.Path = &path
-	} else {
-		api.Path = nil
-	}
+	api.Path = genruntime.ClonePointerToString(source.Path)
 
 	// Protocols
 	if source.Protocols != nil {
@@ -1505,12 +1405,7 @@ func (api *Api_Spec) Initialize_From_Api_STATUS(source *Api_STATUS) error {
 	}
 
 	// ServiceUrl
-	if source.ServiceUrl != nil {
-		serviceUrl := *source.ServiceUrl
-		api.ServiceUrl = &serviceUrl
-	} else {
-		api.ServiceUrl = nil
-	}
+	api.ServiceUrl = genruntime.ClonePointerToString(source.ServiceUrl)
 
 	// SourceApiReference
 	if source.SourceApiId != nil {

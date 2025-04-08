@@ -2737,12 +2737,7 @@ func (embedded *NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbe
 	embedded.PrivateIPAddress = genruntime.ClonePointerToString(source.PrivateIPAddress)
 
 	// PrivateIPAddressPrefixLength
-	if source.PrivateIPAddressPrefixLength != nil {
-		privateIPAddressPrefixLength := *source.PrivateIPAddressPrefixLength
-		embedded.PrivateIPAddressPrefixLength = &privateIPAddressPrefixLength
-	} else {
-		embedded.PrivateIPAddressPrefixLength = nil
-	}
+	embedded.PrivateIPAddressPrefixLength = genruntime.ClonePointerToInt(source.PrivateIPAddressPrefixLength)
 
 	// PrivateIPAddressVersion
 	if source.PrivateIPAddressVersion != nil {
@@ -2912,12 +2907,7 @@ func (embedded *NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbe
 	destination.PrivateIPAddress = genruntime.ClonePointerToString(embedded.PrivateIPAddress)
 
 	// PrivateIPAddressPrefixLength
-	if embedded.PrivateIPAddressPrefixLength != nil {
-		privateIPAddressPrefixLength := *embedded.PrivateIPAddressPrefixLength
-		destination.PrivateIPAddressPrefixLength = &privateIPAddressPrefixLength
-	} else {
-		destination.PrivateIPAddressPrefixLength = nil
-	}
+	destination.PrivateIPAddressPrefixLength = genruntime.ClonePointerToInt(embedded.PrivateIPAddressPrefixLength)
 
 	// PrivateIPAddressVersion
 	if embedded.PrivateIPAddressVersion != nil {
@@ -3090,12 +3080,7 @@ func (embedded *NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbe
 	embedded.PrivateIPAddress = genruntime.ClonePointerToString(source.PrivateIPAddress)
 
 	// PrivateIPAddressPrefixLength
-	if source.PrivateIPAddressPrefixLength != nil {
-		privateIPAddressPrefixLength := *source.PrivateIPAddressPrefixLength
-		embedded.PrivateIPAddressPrefixLength = &privateIPAddressPrefixLength
-	} else {
-		embedded.PrivateIPAddressPrefixLength = nil
-	}
+	embedded.PrivateIPAddressPrefixLength = genruntime.ClonePointerToInt(source.PrivateIPAddressPrefixLength)
 
 	// PrivateIPAddressVersion
 	if source.PrivateIPAddressVersion != nil {

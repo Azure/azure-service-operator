@@ -1033,12 +1033,7 @@ func (service *Service_Spec) AssignProperties_From_Service_Spec(source *storage.
 	}
 
 	// NotificationSenderEmail
-	if source.NotificationSenderEmail != nil {
-		notificationSenderEmail := *source.NotificationSenderEmail
-		service.NotificationSenderEmail = &notificationSenderEmail
-	} else {
-		service.NotificationSenderEmail = nil
-	}
+	service.NotificationSenderEmail = genruntime.ClonePointerToString(source.NotificationSenderEmail)
 
 	// OperatorSpec
 	if source.OperatorSpec != nil {
@@ -1078,20 +1073,10 @@ func (service *Service_Spec) AssignProperties_From_Service_Spec(source *storage.
 	}
 
 	// PublisherEmail
-	if source.PublisherEmail != nil {
-		publisherEmail := *source.PublisherEmail
-		service.PublisherEmail = &publisherEmail
-	} else {
-		service.PublisherEmail = nil
-	}
+	service.PublisherEmail = genruntime.ClonePointerToString(source.PublisherEmail)
 
 	// PublisherName
-	if source.PublisherName != nil {
-		publisherName := *source.PublisherName
-		service.PublisherName = &publisherName
-	} else {
-		service.PublisherName = nil
-	}
+	service.PublisherName = genruntime.ClonePointerToString(source.PublisherName)
 
 	// Restore
 	if source.Restore != nil {
@@ -1289,12 +1274,7 @@ func (service *Service_Spec) AssignProperties_To_Service_Spec(destination *stora
 	}
 
 	// NotificationSenderEmail
-	if service.NotificationSenderEmail != nil {
-		notificationSenderEmail := *service.NotificationSenderEmail
-		destination.NotificationSenderEmail = &notificationSenderEmail
-	} else {
-		destination.NotificationSenderEmail = nil
-	}
+	destination.NotificationSenderEmail = genruntime.ClonePointerToString(service.NotificationSenderEmail)
 
 	// OperatorSpec
 	if service.OperatorSpec != nil {
@@ -1336,20 +1316,10 @@ func (service *Service_Spec) AssignProperties_To_Service_Spec(destination *stora
 	}
 
 	// PublisherEmail
-	if service.PublisherEmail != nil {
-		publisherEmail := *service.PublisherEmail
-		destination.PublisherEmail = &publisherEmail
-	} else {
-		destination.PublisherEmail = nil
-	}
+	destination.PublisherEmail = genruntime.ClonePointerToString(service.PublisherEmail)
 
 	// PublisherName
-	if service.PublisherName != nil {
-		publisherName := *service.PublisherName
-		destination.PublisherName = &publisherName
-	} else {
-		destination.PublisherName = nil
-	}
+	destination.PublisherName = genruntime.ClonePointerToString(service.PublisherName)
 
 	// Restore
 	if service.Restore != nil {

@@ -4933,20 +4933,10 @@ func (configuration *ApplicationGatewayAutoscaleConfiguration) PopulateFromARM(o
 func (configuration *ApplicationGatewayAutoscaleConfiguration) AssignProperties_From_ApplicationGatewayAutoscaleConfiguration(source *storage.ApplicationGatewayAutoscaleConfiguration) error {
 
 	// MaxCapacity
-	if source.MaxCapacity != nil {
-		maxCapacity := *source.MaxCapacity
-		configuration.MaxCapacity = &maxCapacity
-	} else {
-		configuration.MaxCapacity = nil
-	}
+	configuration.MaxCapacity = genruntime.ClonePointerToInt(source.MaxCapacity)
 
 	// MinCapacity
-	if source.MinCapacity != nil {
-		minCapacity := *source.MinCapacity
-		configuration.MinCapacity = &minCapacity
-	} else {
-		configuration.MinCapacity = nil
-	}
+	configuration.MinCapacity = genruntime.ClonePointerToInt(source.MinCapacity)
 
 	// No error
 	return nil
@@ -4958,20 +4948,10 @@ func (configuration *ApplicationGatewayAutoscaleConfiguration) AssignProperties_
 	propertyBag := genruntime.NewPropertyBag()
 
 	// MaxCapacity
-	if configuration.MaxCapacity != nil {
-		maxCapacity := *configuration.MaxCapacity
-		destination.MaxCapacity = &maxCapacity
-	} else {
-		destination.MaxCapacity = nil
-	}
+	destination.MaxCapacity = genruntime.ClonePointerToInt(configuration.MaxCapacity)
 
 	// MinCapacity
-	if configuration.MinCapacity != nil {
-		minCapacity := *configuration.MinCapacity
-		destination.MinCapacity = &minCapacity
-	} else {
-		destination.MinCapacity = nil
-	}
+	destination.MinCapacity = genruntime.ClonePointerToInt(configuration.MinCapacity)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4988,20 +4968,10 @@ func (configuration *ApplicationGatewayAutoscaleConfiguration) AssignProperties_
 func (configuration *ApplicationGatewayAutoscaleConfiguration) Initialize_From_ApplicationGatewayAutoscaleConfiguration_STATUS(source *ApplicationGatewayAutoscaleConfiguration_STATUS) error {
 
 	// MaxCapacity
-	if source.MaxCapacity != nil {
-		maxCapacity := *source.MaxCapacity
-		configuration.MaxCapacity = &maxCapacity
-	} else {
-		configuration.MaxCapacity = nil
-	}
+	configuration.MaxCapacity = genruntime.ClonePointerToInt(source.MaxCapacity)
 
 	// MinCapacity
-	if source.MinCapacity != nil {
-		minCapacity := *source.MinCapacity
-		configuration.MinCapacity = &minCapacity
-	} else {
-		configuration.MinCapacity = nil
-	}
+	configuration.MinCapacity = genruntime.ClonePointerToInt(source.MinCapacity)
 
 	// No error
 	return nil
@@ -9331,12 +9301,7 @@ func (probe *ApplicationGatewayProbe) AssignProperties_From_ApplicationGatewayPr
 	}
 
 	// Port
-	if source.Port != nil {
-		port := *source.Port
-		probe.Port = &port
-	} else {
-		probe.Port = nil
-	}
+	probe.Port = genruntime.ClonePointerToInt(source.Port)
 
 	// Protocol
 	if source.Protocol != nil {
@@ -9406,12 +9371,7 @@ func (probe *ApplicationGatewayProbe) AssignProperties_To_ApplicationGatewayProb
 	}
 
 	// Port
-	if probe.Port != nil {
-		port := *probe.Port
-		destination.Port = &port
-	} else {
-		destination.Port = nil
-	}
+	destination.Port = genruntime.ClonePointerToInt(probe.Port)
 
 	// Protocol
 	if probe.Protocol != nil {
@@ -10366,12 +10326,7 @@ func (rule *ApplicationGatewayRequestRoutingRule) AssignProperties_From_Applicat
 	rule.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Priority
-	if source.Priority != nil {
-		priority := *source.Priority
-		rule.Priority = &priority
-	} else {
-		rule.Priority = nil
-	}
+	rule.Priority = genruntime.ClonePointerToInt(source.Priority)
 
 	// RedirectConfiguration
 	if source.RedirectConfiguration != nil {
@@ -10479,12 +10434,7 @@ func (rule *ApplicationGatewayRequestRoutingRule) AssignProperties_To_Applicatio
 	destination.Name = genruntime.ClonePointerToString(rule.Name)
 
 	// Priority
-	if rule.Priority != nil {
-		priority := *rule.Priority
-		destination.Priority = &priority
-	} else {
-		destination.Priority = nil
-	}
+	destination.Priority = genruntime.ClonePointerToInt(rule.Priority)
 
 	// RedirectConfiguration
 	if rule.RedirectConfiguration != nil {
@@ -11022,12 +10972,7 @@ func (rule *ApplicationGatewayRoutingRule) AssignProperties_From_ApplicationGate
 	rule.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Priority
-	if source.Priority != nil {
-		priority := *source.Priority
-		rule.Priority = &priority
-	} else {
-		rule.Priority = nil
-	}
+	rule.Priority = genruntime.ClonePointerToInt(source.Priority)
 
 	// RuleType
 	if source.RuleType != nil {
@@ -11087,12 +11032,7 @@ func (rule *ApplicationGatewayRoutingRule) AssignProperties_To_ApplicationGatewa
 	destination.Name = genruntime.ClonePointerToString(rule.Name)
 
 	// Priority
-	if rule.Priority != nil {
-		priority := *rule.Priority
-		destination.Priority = &priority
-	} else {
-		destination.Priority = nil
-	}
+	destination.Priority = genruntime.ClonePointerToInt(rule.Priority)
 
 	// RuleType
 	if rule.RuleType != nil {
@@ -13582,12 +13522,7 @@ func (configuration *ApplicationGatewayWebApplicationFirewallConfiguration) Assi
 	}
 
 	// FileUploadLimitInMb
-	if source.FileUploadLimitInMb != nil {
-		fileUploadLimitInMb := *source.FileUploadLimitInMb
-		configuration.FileUploadLimitInMb = &fileUploadLimitInMb
-	} else {
-		configuration.FileUploadLimitInMb = nil
-	}
+	configuration.FileUploadLimitInMb = genruntime.ClonePointerToInt(source.FileUploadLimitInMb)
 
 	// FirewallMode
 	if source.FirewallMode != nil {
@@ -13599,20 +13534,10 @@ func (configuration *ApplicationGatewayWebApplicationFirewallConfiguration) Assi
 	}
 
 	// MaxRequestBodySize
-	if source.MaxRequestBodySize != nil {
-		maxRequestBodySize := *source.MaxRequestBodySize
-		configuration.MaxRequestBodySize = &maxRequestBodySize
-	} else {
-		configuration.MaxRequestBodySize = nil
-	}
+	configuration.MaxRequestBodySize = genruntime.ClonePointerToInt(source.MaxRequestBodySize)
 
 	// MaxRequestBodySizeInKb
-	if source.MaxRequestBodySizeInKb != nil {
-		maxRequestBodySizeInKb := *source.MaxRequestBodySizeInKb
-		configuration.MaxRequestBodySizeInKb = &maxRequestBodySizeInKb
-	} else {
-		configuration.MaxRequestBodySizeInKb = nil
-	}
+	configuration.MaxRequestBodySizeInKb = genruntime.ClonePointerToInt(source.MaxRequestBodySizeInKb)
 
 	// RequestBodyCheck
 	if source.RequestBodyCheck != nil {
@@ -13682,12 +13607,7 @@ func (configuration *ApplicationGatewayWebApplicationFirewallConfiguration) Assi
 	}
 
 	// FileUploadLimitInMb
-	if configuration.FileUploadLimitInMb != nil {
-		fileUploadLimitInMb := *configuration.FileUploadLimitInMb
-		destination.FileUploadLimitInMb = &fileUploadLimitInMb
-	} else {
-		destination.FileUploadLimitInMb = nil
-	}
+	destination.FileUploadLimitInMb = genruntime.ClonePointerToInt(configuration.FileUploadLimitInMb)
 
 	// FirewallMode
 	if configuration.FirewallMode != nil {
@@ -13698,20 +13618,10 @@ func (configuration *ApplicationGatewayWebApplicationFirewallConfiguration) Assi
 	}
 
 	// MaxRequestBodySize
-	if configuration.MaxRequestBodySize != nil {
-		maxRequestBodySize := *configuration.MaxRequestBodySize
-		destination.MaxRequestBodySize = &maxRequestBodySize
-	} else {
-		destination.MaxRequestBodySize = nil
-	}
+	destination.MaxRequestBodySize = genruntime.ClonePointerToInt(configuration.MaxRequestBodySize)
 
 	// MaxRequestBodySizeInKb
-	if configuration.MaxRequestBodySizeInKb != nil {
-		maxRequestBodySizeInKb := *configuration.MaxRequestBodySizeInKb
-		destination.MaxRequestBodySizeInKb = &maxRequestBodySizeInKb
-	} else {
-		destination.MaxRequestBodySizeInKb = nil
-	}
+	destination.MaxRequestBodySizeInKb = genruntime.ClonePointerToInt(configuration.MaxRequestBodySizeInKb)
 
 	// RequestBodyCheck
 	if configuration.RequestBodyCheck != nil {
@@ -13786,12 +13696,7 @@ func (configuration *ApplicationGatewayWebApplicationFirewallConfiguration) Init
 	}
 
 	// FileUploadLimitInMb
-	if source.FileUploadLimitInMb != nil {
-		fileUploadLimitInMb := *source.FileUploadLimitInMb
-		configuration.FileUploadLimitInMb = &fileUploadLimitInMb
-	} else {
-		configuration.FileUploadLimitInMb = nil
-	}
+	configuration.FileUploadLimitInMb = genruntime.ClonePointerToInt(source.FileUploadLimitInMb)
 
 	// FirewallMode
 	if source.FirewallMode != nil {
@@ -13802,20 +13707,10 @@ func (configuration *ApplicationGatewayWebApplicationFirewallConfiguration) Init
 	}
 
 	// MaxRequestBodySize
-	if source.MaxRequestBodySize != nil {
-		maxRequestBodySize := *source.MaxRequestBodySize
-		configuration.MaxRequestBodySize = &maxRequestBodySize
-	} else {
-		configuration.MaxRequestBodySize = nil
-	}
+	configuration.MaxRequestBodySize = genruntime.ClonePointerToInt(source.MaxRequestBodySize)
 
 	// MaxRequestBodySizeInKb
-	if source.MaxRequestBodySizeInKb != nil {
-		maxRequestBodySizeInKb := *source.MaxRequestBodySizeInKb
-		configuration.MaxRequestBodySizeInKb = &maxRequestBodySizeInKb
-	} else {
-		configuration.MaxRequestBodySizeInKb = nil
-	}
+	configuration.MaxRequestBodySizeInKb = genruntime.ClonePointerToInt(source.MaxRequestBodySizeInKb)
 
 	// RequestBodyCheck
 	if source.RequestBodyCheck != nil {
@@ -14919,12 +14814,7 @@ func (draining *ApplicationGatewayConnectionDraining) PopulateFromARM(owner genr
 func (draining *ApplicationGatewayConnectionDraining) AssignProperties_From_ApplicationGatewayConnectionDraining(source *storage.ApplicationGatewayConnectionDraining) error {
 
 	// DrainTimeoutInSec
-	if source.DrainTimeoutInSec != nil {
-		drainTimeoutInSec := *source.DrainTimeoutInSec
-		draining.DrainTimeoutInSec = &drainTimeoutInSec
-	} else {
-		draining.DrainTimeoutInSec = nil
-	}
+	draining.DrainTimeoutInSec = genruntime.ClonePointerToInt(source.DrainTimeoutInSec)
 
 	// Enabled
 	if source.Enabled != nil {
@@ -14944,12 +14834,7 @@ func (draining *ApplicationGatewayConnectionDraining) AssignProperties_To_Applic
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DrainTimeoutInSec
-	if draining.DrainTimeoutInSec != nil {
-		drainTimeoutInSec := *draining.DrainTimeoutInSec
-		destination.DrainTimeoutInSec = &drainTimeoutInSec
-	} else {
-		destination.DrainTimeoutInSec = nil
-	}
+	destination.DrainTimeoutInSec = genruntime.ClonePointerToInt(draining.DrainTimeoutInSec)
 
 	// Enabled
 	if draining.Enabled != nil {

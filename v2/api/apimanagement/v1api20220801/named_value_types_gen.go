@@ -465,12 +465,7 @@ func (value *NamedValue_Spec) AssignProperties_From_NamedValue_Spec(source *stor
 	value.AzureName = source.AzureName
 
 	// DisplayName
-	if source.DisplayName != nil {
-		displayName := *source.DisplayName
-		value.DisplayName = &displayName
-	} else {
-		value.DisplayName = nil
-	}
+	value.DisplayName = genruntime.ClonePointerToString(source.DisplayName)
 
 	// KeyVault
 	if source.KeyVault != nil {
@@ -513,25 +508,10 @@ func (value *NamedValue_Spec) AssignProperties_From_NamedValue_Spec(source *stor
 	}
 
 	// Tags
-	if source.Tags != nil {
-		tagList := make([]string, len(source.Tags))
-		for tagIndex, tagItem := range source.Tags {
-			// Shadow the loop variable to avoid aliasing
-			tagItem := tagItem
-			tagList[tagIndex] = tagItem
-		}
-		value.Tags = tagList
-	} else {
-		value.Tags = nil
-	}
+	value.Tags = genruntime.CloneSliceOfString(source.Tags)
 
 	// Value
-	if source.Value != nil {
-		valueTemp := *source.Value
-		value.Value = &valueTemp
-	} else {
-		value.Value = nil
-	}
+	value.Value = genruntime.ClonePointerToString(source.Value)
 
 	// No error
 	return nil
@@ -546,12 +526,7 @@ func (value *NamedValue_Spec) AssignProperties_To_NamedValue_Spec(destination *s
 	destination.AzureName = value.AzureName
 
 	// DisplayName
-	if value.DisplayName != nil {
-		displayName := *value.DisplayName
-		destination.DisplayName = &displayName
-	} else {
-		destination.DisplayName = nil
-	}
+	destination.DisplayName = genruntime.ClonePointerToString(value.DisplayName)
 
 	// KeyVault
 	if value.KeyVault != nil {
@@ -597,25 +572,10 @@ func (value *NamedValue_Spec) AssignProperties_To_NamedValue_Spec(destination *s
 	}
 
 	// Tags
-	if value.Tags != nil {
-		tagList := make([]string, len(value.Tags))
-		for tagIndex, tagItem := range value.Tags {
-			// Shadow the loop variable to avoid aliasing
-			tagItem := tagItem
-			tagList[tagIndex] = tagItem
-		}
-		destination.Tags = tagList
-	} else {
-		destination.Tags = nil
-	}
+	destination.Tags = genruntime.CloneSliceOfString(value.Tags)
 
 	// Value
-	if value.Value != nil {
-		valueTemp := *value.Value
-		destination.Value = &valueTemp
-	} else {
-		destination.Value = nil
-	}
+	destination.Value = genruntime.ClonePointerToString(value.Value)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -632,12 +592,7 @@ func (value *NamedValue_Spec) AssignProperties_To_NamedValue_Spec(destination *s
 func (value *NamedValue_Spec) Initialize_From_NamedValue_STATUS(source *NamedValue_STATUS) error {
 
 	// DisplayName
-	if source.DisplayName != nil {
-		displayName := *source.DisplayName
-		value.DisplayName = &displayName
-	} else {
-		value.DisplayName = nil
-	}
+	value.DisplayName = genruntime.ClonePointerToString(source.DisplayName)
 
 	// KeyVault
 	if source.KeyVault != nil {
@@ -660,25 +615,10 @@ func (value *NamedValue_Spec) Initialize_From_NamedValue_STATUS(source *NamedVal
 	}
 
 	// Tags
-	if source.Tags != nil {
-		tagList := make([]string, len(source.Tags))
-		for tagIndex, tagItem := range source.Tags {
-			// Shadow the loop variable to avoid aliasing
-			tagItem := tagItem
-			tagList[tagIndex] = tagItem
-		}
-		value.Tags = tagList
-	} else {
-		value.Tags = nil
-	}
+	value.Tags = genruntime.CloneSliceOfString(source.Tags)
 
 	// Value
-	if source.Value != nil {
-		valueTemp := *source.Value
-		value.Value = &valueTemp
-	} else {
-		value.Value = nil
-	}
+	value.Value = genruntime.ClonePointerToString(source.Value)
 
 	// No error
 	return nil

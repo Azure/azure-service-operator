@@ -3945,12 +3945,7 @@ func (properties *CloudToDeviceProperties) AssignProperties_From_CloudToDevicePr
 	}
 
 	// MaxDeliveryCount
-	if source.MaxDeliveryCount != nil {
-		maxDeliveryCount := *source.MaxDeliveryCount
-		properties.MaxDeliveryCount = &maxDeliveryCount
-	} else {
-		properties.MaxDeliveryCount = nil
-	}
+	properties.MaxDeliveryCount = genruntime.ClonePointerToInt(source.MaxDeliveryCount)
 
 	// No error
 	return nil
@@ -3977,12 +3972,7 @@ func (properties *CloudToDeviceProperties) AssignProperties_To_CloudToDeviceProp
 	}
 
 	// MaxDeliveryCount
-	if properties.MaxDeliveryCount != nil {
-		maxDeliveryCount := *properties.MaxDeliveryCount
-		destination.MaxDeliveryCount = &maxDeliveryCount
-	} else {
-		destination.MaxDeliveryCount = nil
-	}
+	destination.MaxDeliveryCount = genruntime.ClonePointerToInt(properties.MaxDeliveryCount)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4014,12 +4004,7 @@ func (properties *CloudToDeviceProperties) Initialize_From_CloudToDeviceProperti
 	}
 
 	// MaxDeliveryCount
-	if source.MaxDeliveryCount != nil {
-		maxDeliveryCount := *source.MaxDeliveryCount
-		properties.MaxDeliveryCount = &maxDeliveryCount
-	} else {
-		properties.MaxDeliveryCount = nil
-	}
+	properties.MaxDeliveryCount = genruntime.ClonePointerToInt(source.MaxDeliveryCount)
 
 	// No error
 	return nil
@@ -5142,12 +5127,7 @@ func (properties *MessagingEndpointProperties) AssignProperties_From_MessagingEn
 	properties.LockDurationAsIso8601 = genruntime.ClonePointerToString(source.LockDurationAsIso8601)
 
 	// MaxDeliveryCount
-	if source.MaxDeliveryCount != nil {
-		maxDeliveryCount := *source.MaxDeliveryCount
-		properties.MaxDeliveryCount = &maxDeliveryCount
-	} else {
-		properties.MaxDeliveryCount = nil
-	}
+	properties.MaxDeliveryCount = genruntime.ClonePointerToInt(source.MaxDeliveryCount)
 
 	// TtlAsIso8601
 	properties.TtlAsIso8601 = genruntime.ClonePointerToString(source.TtlAsIso8601)
@@ -5165,12 +5145,7 @@ func (properties *MessagingEndpointProperties) AssignProperties_To_MessagingEndp
 	destination.LockDurationAsIso8601 = genruntime.ClonePointerToString(properties.LockDurationAsIso8601)
 
 	// MaxDeliveryCount
-	if properties.MaxDeliveryCount != nil {
-		maxDeliveryCount := *properties.MaxDeliveryCount
-		destination.MaxDeliveryCount = &maxDeliveryCount
-	} else {
-		destination.MaxDeliveryCount = nil
-	}
+	destination.MaxDeliveryCount = genruntime.ClonePointerToInt(properties.MaxDeliveryCount)
 
 	// TtlAsIso8601
 	destination.TtlAsIso8601 = genruntime.ClonePointerToString(properties.TtlAsIso8601)
@@ -5193,12 +5168,7 @@ func (properties *MessagingEndpointProperties) Initialize_From_MessagingEndpoint
 	properties.LockDurationAsIso8601 = genruntime.ClonePointerToString(source.LockDurationAsIso8601)
 
 	// MaxDeliveryCount
-	if source.MaxDeliveryCount != nil {
-		maxDeliveryCount := *source.MaxDeliveryCount
-		properties.MaxDeliveryCount = &maxDeliveryCount
-	} else {
-		properties.MaxDeliveryCount = nil
-	}
+	properties.MaxDeliveryCount = genruntime.ClonePointerToInt(source.MaxDeliveryCount)
 
 	// TtlAsIso8601
 	properties.TtlAsIso8601 = genruntime.ClonePointerToString(source.TtlAsIso8601)
@@ -7043,17 +7013,7 @@ func (properties *EnrichmentProperties) PopulateFromARM(owner genruntime.Arbitra
 func (properties *EnrichmentProperties) AssignProperties_From_EnrichmentProperties(source *storage.EnrichmentProperties) error {
 
 	// EndpointNames
-	if source.EndpointNames != nil {
-		endpointNameList := make([]string, len(source.EndpointNames))
-		for endpointNameIndex, endpointNameItem := range source.EndpointNames {
-			// Shadow the loop variable to avoid aliasing
-			endpointNameItem := endpointNameItem
-			endpointNameList[endpointNameIndex] = endpointNameItem
-		}
-		properties.EndpointNames = endpointNameList
-	} else {
-		properties.EndpointNames = nil
-	}
+	properties.EndpointNames = genruntime.CloneSliceOfString(source.EndpointNames)
 
 	// Key
 	properties.Key = genruntime.ClonePointerToString(source.Key)
@@ -7071,17 +7031,7 @@ func (properties *EnrichmentProperties) AssignProperties_To_EnrichmentProperties
 	propertyBag := genruntime.NewPropertyBag()
 
 	// EndpointNames
-	if properties.EndpointNames != nil {
-		endpointNameList := make([]string, len(properties.EndpointNames))
-		for endpointNameIndex, endpointNameItem := range properties.EndpointNames {
-			// Shadow the loop variable to avoid aliasing
-			endpointNameItem := endpointNameItem
-			endpointNameList[endpointNameIndex] = endpointNameItem
-		}
-		destination.EndpointNames = endpointNameList
-	} else {
-		destination.EndpointNames = nil
-	}
+	destination.EndpointNames = genruntime.CloneSliceOfString(properties.EndpointNames)
 
 	// Key
 	destination.Key = genruntime.ClonePointerToString(properties.Key)
@@ -7104,17 +7054,7 @@ func (properties *EnrichmentProperties) AssignProperties_To_EnrichmentProperties
 func (properties *EnrichmentProperties) Initialize_From_EnrichmentProperties_STATUS(source *EnrichmentProperties_STATUS) error {
 
 	// EndpointNames
-	if source.EndpointNames != nil {
-		endpointNameList := make([]string, len(source.EndpointNames))
-		for endpointNameIndex, endpointNameItem := range source.EndpointNames {
-			// Shadow the loop variable to avoid aliasing
-			endpointNameItem := endpointNameItem
-			endpointNameList[endpointNameIndex] = endpointNameItem
-		}
-		properties.EndpointNames = endpointNameList
-	} else {
-		properties.EndpointNames = nil
-	}
+	properties.EndpointNames = genruntime.CloneSliceOfString(source.EndpointNames)
 
 	// Key
 	properties.Key = genruntime.ClonePointerToString(source.Key)
@@ -7337,17 +7277,7 @@ func (properties *FallbackRouteProperties) AssignProperties_From_FallbackRoutePr
 	properties.Condition = genruntime.ClonePointerToString(source.Condition)
 
 	// EndpointNames
-	if source.EndpointNames != nil {
-		endpointNameList := make([]string, len(source.EndpointNames))
-		for endpointNameIndex, endpointNameItem := range source.EndpointNames {
-			// Shadow the loop variable to avoid aliasing
-			endpointNameItem := endpointNameItem
-			endpointNameList[endpointNameIndex] = endpointNameItem
-		}
-		properties.EndpointNames = endpointNameList
-	} else {
-		properties.EndpointNames = nil
-	}
+	properties.EndpointNames = genruntime.CloneSliceOfString(source.EndpointNames)
 
 	// IsEnabled
 	if source.IsEnabled != nil {
@@ -7382,17 +7312,7 @@ func (properties *FallbackRouteProperties) AssignProperties_To_FallbackRouteProp
 	destination.Condition = genruntime.ClonePointerToString(properties.Condition)
 
 	// EndpointNames
-	if properties.EndpointNames != nil {
-		endpointNameList := make([]string, len(properties.EndpointNames))
-		for endpointNameIndex, endpointNameItem := range properties.EndpointNames {
-			// Shadow the loop variable to avoid aliasing
-			endpointNameItem := endpointNameItem
-			endpointNameList[endpointNameIndex] = endpointNameItem
-		}
-		destination.EndpointNames = endpointNameList
-	} else {
-		destination.EndpointNames = nil
-	}
+	destination.EndpointNames = genruntime.CloneSliceOfString(properties.EndpointNames)
 
 	// IsEnabled
 	if properties.IsEnabled != nil {
@@ -7431,17 +7351,7 @@ func (properties *FallbackRouteProperties) Initialize_From_FallbackRouteProperti
 	properties.Condition = genruntime.ClonePointerToString(source.Condition)
 
 	// EndpointNames
-	if source.EndpointNames != nil {
-		endpointNameList := make([]string, len(source.EndpointNames))
-		for endpointNameIndex, endpointNameItem := range source.EndpointNames {
-			// Shadow the loop variable to avoid aliasing
-			endpointNameItem := endpointNameItem
-			endpointNameList[endpointNameIndex] = endpointNameItem
-		}
-		properties.EndpointNames = endpointNameList
-	} else {
-		properties.EndpointNames = nil
-	}
+	properties.EndpointNames = genruntime.CloneSliceOfString(source.EndpointNames)
 
 	// IsEnabled
 	if source.IsEnabled != nil {
@@ -7698,12 +7608,7 @@ func (properties *FeedbackProperties) AssignProperties_From_FeedbackProperties(s
 	properties.LockDurationAsIso8601 = genruntime.ClonePointerToString(source.LockDurationAsIso8601)
 
 	// MaxDeliveryCount
-	if source.MaxDeliveryCount != nil {
-		maxDeliveryCount := *source.MaxDeliveryCount
-		properties.MaxDeliveryCount = &maxDeliveryCount
-	} else {
-		properties.MaxDeliveryCount = nil
-	}
+	properties.MaxDeliveryCount = genruntime.ClonePointerToInt(source.MaxDeliveryCount)
 
 	// TtlAsIso8601
 	properties.TtlAsIso8601 = genruntime.ClonePointerToString(source.TtlAsIso8601)
@@ -7721,12 +7626,7 @@ func (properties *FeedbackProperties) AssignProperties_To_FeedbackProperties(des
 	destination.LockDurationAsIso8601 = genruntime.ClonePointerToString(properties.LockDurationAsIso8601)
 
 	// MaxDeliveryCount
-	if properties.MaxDeliveryCount != nil {
-		maxDeliveryCount := *properties.MaxDeliveryCount
-		destination.MaxDeliveryCount = &maxDeliveryCount
-	} else {
-		destination.MaxDeliveryCount = nil
-	}
+	destination.MaxDeliveryCount = genruntime.ClonePointerToInt(properties.MaxDeliveryCount)
 
 	// TtlAsIso8601
 	destination.TtlAsIso8601 = genruntime.ClonePointerToString(properties.TtlAsIso8601)
@@ -7749,12 +7649,7 @@ func (properties *FeedbackProperties) Initialize_From_FeedbackProperties_STATUS(
 	properties.LockDurationAsIso8601 = genruntime.ClonePointerToString(source.LockDurationAsIso8601)
 
 	// MaxDeliveryCount
-	if source.MaxDeliveryCount != nil {
-		maxDeliveryCount := *source.MaxDeliveryCount
-		properties.MaxDeliveryCount = &maxDeliveryCount
-	} else {
-		properties.MaxDeliveryCount = nil
-	}
+	properties.MaxDeliveryCount = genruntime.ClonePointerToInt(source.MaxDeliveryCount)
 
 	// TtlAsIso8601
 	properties.TtlAsIso8601 = genruntime.ClonePointerToString(source.TtlAsIso8601)
@@ -8445,17 +8340,7 @@ func (properties *RouteProperties) AssignProperties_From_RouteProperties(source 
 	properties.Condition = genruntime.ClonePointerToString(source.Condition)
 
 	// EndpointNames
-	if source.EndpointNames != nil {
-		endpointNameList := make([]string, len(source.EndpointNames))
-		for endpointNameIndex, endpointNameItem := range source.EndpointNames {
-			// Shadow the loop variable to avoid aliasing
-			endpointNameItem := endpointNameItem
-			endpointNameList[endpointNameIndex] = endpointNameItem
-		}
-		properties.EndpointNames = endpointNameList
-	} else {
-		properties.EndpointNames = nil
-	}
+	properties.EndpointNames = genruntime.CloneSliceOfString(source.EndpointNames)
 
 	// IsEnabled
 	if source.IsEnabled != nil {
@@ -8466,12 +8351,7 @@ func (properties *RouteProperties) AssignProperties_From_RouteProperties(source 
 	}
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		properties.Name = &name
-	} else {
-		properties.Name = nil
-	}
+	properties.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Source
 	if source.Source != nil {
@@ -8495,17 +8375,7 @@ func (properties *RouteProperties) AssignProperties_To_RouteProperties(destinati
 	destination.Condition = genruntime.ClonePointerToString(properties.Condition)
 
 	// EndpointNames
-	if properties.EndpointNames != nil {
-		endpointNameList := make([]string, len(properties.EndpointNames))
-		for endpointNameIndex, endpointNameItem := range properties.EndpointNames {
-			// Shadow the loop variable to avoid aliasing
-			endpointNameItem := endpointNameItem
-			endpointNameList[endpointNameIndex] = endpointNameItem
-		}
-		destination.EndpointNames = endpointNameList
-	} else {
-		destination.EndpointNames = nil
-	}
+	destination.EndpointNames = genruntime.CloneSliceOfString(properties.EndpointNames)
 
 	// IsEnabled
 	if properties.IsEnabled != nil {
@@ -8516,12 +8386,7 @@ func (properties *RouteProperties) AssignProperties_To_RouteProperties(destinati
 	}
 
 	// Name
-	if properties.Name != nil {
-		name := *properties.Name
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(properties.Name)
 
 	// Source
 	if properties.Source != nil {
@@ -8549,17 +8414,7 @@ func (properties *RouteProperties) Initialize_From_RouteProperties_STATUS(source
 	properties.Condition = genruntime.ClonePointerToString(source.Condition)
 
 	// EndpointNames
-	if source.EndpointNames != nil {
-		endpointNameList := make([]string, len(source.EndpointNames))
-		for endpointNameIndex, endpointNameItem := range source.EndpointNames {
-			// Shadow the loop variable to avoid aliasing
-			endpointNameItem := endpointNameItem
-			endpointNameList[endpointNameIndex] = endpointNameItem
-		}
-		properties.EndpointNames = endpointNameList
-	} else {
-		properties.EndpointNames = nil
-	}
+	properties.EndpointNames = genruntime.CloneSliceOfString(source.EndpointNames)
 
 	// IsEnabled
 	if source.IsEnabled != nil {
@@ -8570,12 +8425,7 @@ func (properties *RouteProperties) Initialize_From_RouteProperties_STATUS(source
 	}
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		properties.Name = &name
-	} else {
-		properties.Name = nil
-	}
+	properties.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Source
 	if source.Source != nil {
@@ -9755,12 +9605,7 @@ func (properties *RoutingEventHubProperties) AssignProperties_From_RoutingEventH
 	}
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		properties.Name = &name
-	} else {
-		properties.Name = nil
-	}
+	properties.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Reference
 	if source.Reference != nil {
@@ -9820,12 +9665,7 @@ func (properties *RoutingEventHubProperties) AssignProperties_To_RoutingEventHub
 	}
 
 	// Name
-	if properties.Name != nil {
-		name := *properties.Name
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(properties.Name)
 
 	// Reference
 	if properties.Reference != nil {
@@ -9882,12 +9722,7 @@ func (properties *RoutingEventHubProperties) Initialize_From_RoutingEventHubProp
 	}
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		properties.Name = &name
-	} else {
-		properties.Name = nil
-	}
+	properties.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Reference
 	if source.Id != nil {
@@ -10330,12 +10165,7 @@ func (properties *RoutingServiceBusQueueEndpointProperties) AssignProperties_Fro
 	}
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		properties.Name = &name
-	} else {
-		properties.Name = nil
-	}
+	properties.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Reference
 	if source.Reference != nil {
@@ -10395,12 +10225,7 @@ func (properties *RoutingServiceBusQueueEndpointProperties) AssignProperties_To_
 	}
 
 	// Name
-	if properties.Name != nil {
-		name := *properties.Name
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(properties.Name)
 
 	// Reference
 	if properties.Reference != nil {
@@ -10457,12 +10282,7 @@ func (properties *RoutingServiceBusQueueEndpointProperties) Initialize_From_Rout
 	}
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		properties.Name = &name
-	} else {
-		properties.Name = nil
-	}
+	properties.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Reference
 	if source.Id != nil {
@@ -10905,12 +10725,7 @@ func (properties *RoutingServiceBusTopicEndpointProperties) AssignProperties_Fro
 	}
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		properties.Name = &name
-	} else {
-		properties.Name = nil
-	}
+	properties.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Reference
 	if source.Reference != nil {
@@ -10970,12 +10785,7 @@ func (properties *RoutingServiceBusTopicEndpointProperties) AssignProperties_To_
 	}
 
 	// Name
-	if properties.Name != nil {
-		name := *properties.Name
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(properties.Name)
 
 	// Reference
 	if properties.Reference != nil {
@@ -11032,12 +10842,7 @@ func (properties *RoutingServiceBusTopicEndpointProperties) Initialize_From_Rout
 	}
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		properties.Name = &name
-	} else {
-		properties.Name = nil
-	}
+	properties.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Reference
 	if source.Id != nil {
@@ -11527,12 +11332,7 @@ func (properties *RoutingStorageContainerProperties) AssignProperties_From_Routi
 	}
 
 	// BatchFrequencyInSeconds
-	if source.BatchFrequencyInSeconds != nil {
-		batchFrequencyInSecond := *source.BatchFrequencyInSeconds
-		properties.BatchFrequencyInSeconds = &batchFrequencyInSecond
-	} else {
-		properties.BatchFrequencyInSeconds = nil
-	}
+	properties.BatchFrequencyInSeconds = genruntime.ClonePointerToInt(source.BatchFrequencyInSeconds)
 
 	// ConnectionString
 	if source.ConnectionString != nil {
@@ -11573,20 +11373,10 @@ func (properties *RoutingStorageContainerProperties) AssignProperties_From_Routi
 	}
 
 	// MaxChunkSizeInBytes
-	if source.MaxChunkSizeInBytes != nil {
-		maxChunkSizeInByte := *source.MaxChunkSizeInBytes
-		properties.MaxChunkSizeInBytes = &maxChunkSizeInByte
-	} else {
-		properties.MaxChunkSizeInBytes = nil
-	}
+	properties.MaxChunkSizeInBytes = genruntime.ClonePointerToInt(source.MaxChunkSizeInBytes)
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		properties.Name = &name
-	} else {
-		properties.Name = nil
-	}
+	properties.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Reference
 	if source.Reference != nil {
@@ -11620,12 +11410,7 @@ func (properties *RoutingStorageContainerProperties) AssignProperties_To_Routing
 	}
 
 	// BatchFrequencyInSeconds
-	if properties.BatchFrequencyInSeconds != nil {
-		batchFrequencyInSecond := *properties.BatchFrequencyInSeconds
-		destination.BatchFrequencyInSeconds = &batchFrequencyInSecond
-	} else {
-		destination.BatchFrequencyInSeconds = nil
-	}
+	destination.BatchFrequencyInSeconds = genruntime.ClonePointerToInt(properties.BatchFrequencyInSeconds)
 
 	// ConnectionString
 	if properties.ConnectionString != nil {
@@ -11665,20 +11450,10 @@ func (properties *RoutingStorageContainerProperties) AssignProperties_To_Routing
 	}
 
 	// MaxChunkSizeInBytes
-	if properties.MaxChunkSizeInBytes != nil {
-		maxChunkSizeInByte := *properties.MaxChunkSizeInBytes
-		destination.MaxChunkSizeInBytes = &maxChunkSizeInByte
-	} else {
-		destination.MaxChunkSizeInBytes = nil
-	}
+	destination.MaxChunkSizeInBytes = genruntime.ClonePointerToInt(properties.MaxChunkSizeInBytes)
 
 	// Name
-	if properties.Name != nil {
-		name := *properties.Name
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(properties.Name)
 
 	// Reference
 	if properties.Reference != nil {
@@ -11717,12 +11492,7 @@ func (properties *RoutingStorageContainerProperties) Initialize_From_RoutingStor
 	}
 
 	// BatchFrequencyInSeconds
-	if source.BatchFrequencyInSeconds != nil {
-		batchFrequencyInSecond := *source.BatchFrequencyInSeconds
-		properties.BatchFrequencyInSeconds = &batchFrequencyInSecond
-	} else {
-		properties.BatchFrequencyInSeconds = nil
-	}
+	properties.BatchFrequencyInSeconds = genruntime.ClonePointerToInt(source.BatchFrequencyInSeconds)
 
 	// ContainerName
 	properties.ContainerName = genruntime.ClonePointerToString(source.ContainerName)
@@ -11754,20 +11524,10 @@ func (properties *RoutingStorageContainerProperties) Initialize_From_RoutingStor
 	}
 
 	// MaxChunkSizeInBytes
-	if source.MaxChunkSizeInBytes != nil {
-		maxChunkSizeInByte := *source.MaxChunkSizeInBytes
-		properties.MaxChunkSizeInBytes = &maxChunkSizeInByte
-	} else {
-		properties.MaxChunkSizeInBytes = nil
-	}
+	properties.MaxChunkSizeInBytes = genruntime.ClonePointerToInt(source.MaxChunkSizeInBytes)
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		properties.Name = &name
-	} else {
-		properties.Name = nil
-	}
+	properties.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Reference
 	if source.Id != nil {

@@ -53,12 +53,7 @@ func (test *Test) AssignProperties_From_Test(source *storage.Test) error {
 	}
 
 	// Duck
-	if source.Duck != nil {
-		duck := *source.Duck
-		test.Duck = &duck
-	} else {
-		test.Duck = nil
-	}
+	test.Duck = genruntime.ClonePointerToString(source.Duck)
 
 	// Moon
 	if source.Moon != nil {
@@ -69,12 +64,7 @@ func (test *Test) AssignProperties_From_Test(source *storage.Test) error {
 	}
 
 	// Sun
-	if source.Sun != nil {
-		sun := *source.Sun
-		test.Sun = &sun
-	} else {
-		test.Sun = nil
-	}
+	test.Sun = genruntime.ClonePointerToInt(source.Sun)
 
 	// No error
 	return nil
@@ -99,12 +89,7 @@ func (test *Test) AssignProperties_To_Test(destination *storage.Test) error {
 	}
 
 	// Duck
-	if test.Duck != nil {
-		duck := *test.Duck
-		destination.Duck = &duck
-	} else {
-		destination.Duck = nil
-	}
+	destination.Duck = genruntime.ClonePointerToString(test.Duck)
 
 	// Moon
 	if test.Moon != nil {
@@ -115,12 +100,7 @@ func (test *Test) AssignProperties_To_Test(destination *storage.Test) error {
 	}
 
 	// Sun
-	if test.Sun != nil {
-		sun := *test.Sun
-		destination.Sun = &sun
-	} else {
-		destination.Sun = nil
-	}
+	destination.Sun = genruntime.ClonePointerToInt(test.Sun)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

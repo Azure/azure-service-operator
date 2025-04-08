@@ -962,12 +962,7 @@ func (database *ServersDatabase_Spec) AssignProperties_From_ServersDatabase_Spec
 	}
 
 	// FederatedClientId
-	if source.FederatedClientId != nil {
-		federatedClientId := *source.FederatedClientId
-		database.FederatedClientId = &federatedClientId
-	} else {
-		database.FederatedClientId = nil
-	}
+	database.FederatedClientId = genruntime.ClonePointerToString(source.FederatedClientId)
 
 	// HighAvailabilityReplicaCount
 	database.HighAvailabilityReplicaCount = genruntime.ClonePointerToInt(source.HighAvailabilityReplicaCount)
@@ -1194,12 +1189,7 @@ func (database *ServersDatabase_Spec) AssignProperties_To_ServersDatabase_Spec(d
 	}
 
 	// FederatedClientId
-	if database.FederatedClientId != nil {
-		federatedClientId := *database.FederatedClientId
-		destination.FederatedClientId = &federatedClientId
-	} else {
-		destination.FederatedClientId = nil
-	}
+	destination.FederatedClientId = genruntime.ClonePointerToString(database.FederatedClientId)
 
 	// HighAvailabilityReplicaCount
 	destination.HighAvailabilityReplicaCount = genruntime.ClonePointerToInt(database.HighAvailabilityReplicaCount)
@@ -1426,12 +1416,7 @@ func (database *ServersDatabase_Spec) Initialize_From_ServersDatabase_STATUS(sou
 	}
 
 	// FederatedClientId
-	if source.FederatedClientId != nil {
-		federatedClientId := *source.FederatedClientId
-		database.FederatedClientId = &federatedClientId
-	} else {
-		database.FederatedClientId = nil
-	}
+	database.FederatedClientId = genruntime.ClonePointerToString(source.FederatedClientId)
 
 	// HighAvailabilityReplicaCount
 	database.HighAvailabilityReplicaCount = genruntime.ClonePointerToInt(source.HighAvailabilityReplicaCount)

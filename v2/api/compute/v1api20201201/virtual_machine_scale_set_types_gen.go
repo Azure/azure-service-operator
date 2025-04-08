@@ -4833,28 +4833,13 @@ func (policy *RollingUpgradePolicy) AssignProperties_From_RollingUpgradePolicy(s
 	}
 
 	// MaxBatchInstancePercent
-	if source.MaxBatchInstancePercent != nil {
-		maxBatchInstancePercent := *source.MaxBatchInstancePercent
-		policy.MaxBatchInstancePercent = &maxBatchInstancePercent
-	} else {
-		policy.MaxBatchInstancePercent = nil
-	}
+	policy.MaxBatchInstancePercent = genruntime.ClonePointerToInt(source.MaxBatchInstancePercent)
 
 	// MaxUnhealthyInstancePercent
-	if source.MaxUnhealthyInstancePercent != nil {
-		maxUnhealthyInstancePercent := *source.MaxUnhealthyInstancePercent
-		policy.MaxUnhealthyInstancePercent = &maxUnhealthyInstancePercent
-	} else {
-		policy.MaxUnhealthyInstancePercent = nil
-	}
+	policy.MaxUnhealthyInstancePercent = genruntime.ClonePointerToInt(source.MaxUnhealthyInstancePercent)
 
 	// MaxUnhealthyUpgradedInstancePercent
-	if source.MaxUnhealthyUpgradedInstancePercent != nil {
-		maxUnhealthyUpgradedInstancePercent := *source.MaxUnhealthyUpgradedInstancePercent
-		policy.MaxUnhealthyUpgradedInstancePercent = &maxUnhealthyUpgradedInstancePercent
-	} else {
-		policy.MaxUnhealthyUpgradedInstancePercent = nil
-	}
+	policy.MaxUnhealthyUpgradedInstancePercent = genruntime.ClonePointerToInt(source.MaxUnhealthyUpgradedInstancePercent)
 
 	// PauseTimeBetweenBatches
 	policy.PauseTimeBetweenBatches = genruntime.ClonePointerToString(source.PauseTimeBetweenBatches)
@@ -4885,28 +4870,13 @@ func (policy *RollingUpgradePolicy) AssignProperties_To_RollingUpgradePolicy(des
 	}
 
 	// MaxBatchInstancePercent
-	if policy.MaxBatchInstancePercent != nil {
-		maxBatchInstancePercent := *policy.MaxBatchInstancePercent
-		destination.MaxBatchInstancePercent = &maxBatchInstancePercent
-	} else {
-		destination.MaxBatchInstancePercent = nil
-	}
+	destination.MaxBatchInstancePercent = genruntime.ClonePointerToInt(policy.MaxBatchInstancePercent)
 
 	// MaxUnhealthyInstancePercent
-	if policy.MaxUnhealthyInstancePercent != nil {
-		maxUnhealthyInstancePercent := *policy.MaxUnhealthyInstancePercent
-		destination.MaxUnhealthyInstancePercent = &maxUnhealthyInstancePercent
-	} else {
-		destination.MaxUnhealthyInstancePercent = nil
-	}
+	destination.MaxUnhealthyInstancePercent = genruntime.ClonePointerToInt(policy.MaxUnhealthyInstancePercent)
 
 	// MaxUnhealthyUpgradedInstancePercent
-	if policy.MaxUnhealthyUpgradedInstancePercent != nil {
-		maxUnhealthyUpgradedInstancePercent := *policy.MaxUnhealthyUpgradedInstancePercent
-		destination.MaxUnhealthyUpgradedInstancePercent = &maxUnhealthyUpgradedInstancePercent
-	} else {
-		destination.MaxUnhealthyUpgradedInstancePercent = nil
-	}
+	destination.MaxUnhealthyUpgradedInstancePercent = genruntime.ClonePointerToInt(policy.MaxUnhealthyUpgradedInstancePercent)
 
 	// PauseTimeBetweenBatches
 	destination.PauseTimeBetweenBatches = genruntime.ClonePointerToString(policy.PauseTimeBetweenBatches)

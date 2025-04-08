@@ -3337,12 +3337,7 @@ func (feature *SignalRFeature) AssignProperties_From_SignalRFeature(source *stor
 	feature.Properties = genruntime.CloneMapOfStringToString(source.Properties)
 
 	// Value
-	if source.Value != nil {
-		value := *source.Value
-		feature.Value = &value
-	} else {
-		feature.Value = nil
-	}
+	feature.Value = genruntime.ClonePointerToString(source.Value)
 
 	// No error
 	return nil
@@ -3365,12 +3360,7 @@ func (feature *SignalRFeature) AssignProperties_To_SignalRFeature(destination *s
 	destination.Properties = genruntime.CloneMapOfStringToString(feature.Properties)
 
 	// Value
-	if feature.Value != nil {
-		value := *feature.Value
-		destination.Value = &value
-	} else {
-		destination.Value = nil
-	}
+	destination.Value = genruntime.ClonePointerToString(feature.Value)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

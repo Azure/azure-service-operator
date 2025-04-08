@@ -802,12 +802,7 @@ func (redis *Redis_Spec) AssignProperties_From_Redis_Spec(source *storage.Redis_
 	}
 
 	// StaticIP
-	if source.StaticIP != nil {
-		staticIP := *source.StaticIP
-		redis.StaticIP = &staticIP
-	} else {
-		redis.StaticIP = nil
-	}
+	redis.StaticIP = genruntime.ClonePointerToString(source.StaticIP)
 
 	// SubnetReference
 	if source.SubnetReference != nil {
@@ -946,12 +941,7 @@ func (redis *Redis_Spec) AssignProperties_To_Redis_Spec(destination *storage.Red
 	}
 
 	// StaticIP
-	if redis.StaticIP != nil {
-		staticIP := *redis.StaticIP
-		destination.StaticIP = &staticIP
-	} else {
-		destination.StaticIP = nil
-	}
+	destination.StaticIP = genruntime.ClonePointerToString(redis.StaticIP)
 
 	// SubnetReference
 	if redis.SubnetReference != nil {
@@ -1068,12 +1058,7 @@ func (redis *Redis_Spec) Initialize_From_Redis_STATUS(source *Redis_STATUS) erro
 	}
 
 	// StaticIP
-	if source.StaticIP != nil {
-		staticIP := *source.StaticIP
-		redis.StaticIP = &staticIP
-	} else {
-		redis.StaticIP = nil
-	}
+	redis.StaticIP = genruntime.ClonePointerToString(source.StaticIP)
 
 	// SubnetReference
 	if source.SubnetId != nil {
