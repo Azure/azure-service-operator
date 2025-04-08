@@ -21,6 +21,7 @@ type TransformResult struct {
 	Version  FieldMatcher `yaml:"version,omitempty"`
 	Name     FieldMatcher `yaml:",omitempty"`
 	Optional bool         `yaml:",omitempty"`
+	Required bool         `yaml:",omitempty"`
 	Map      *MapResult   `yaml:",omitempty"`
 	Enum     *EnumResult  `yaml:",omitempty"`
 }
@@ -245,7 +246,8 @@ func (tr *TransformResult) validate() error {
 	if !tr.Name.IsRestrictive() &&
 		tr.Map == nil &&
 		tr.Enum == nil &&
-		tr.Optional == false {
+		tr.Optional == false &&
+		tr.Required == false {
 		return eris.Errorf("no result transformation specified")
 	}
 

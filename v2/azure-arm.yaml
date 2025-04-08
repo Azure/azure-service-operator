@@ -623,6 +623,13 @@ typeTransformers:
     remove: true
     because: This shouldn't be here, it's supposed to be on the Properties type (and is already). They somehow accidentally duplicated it.
 
+  - group: signalrservice
+    name: SignalR_Replica_Spec
+    property: Sku
+    target: 
+      required: true
+    because: This property should be marked required in Swagger
+
 status:
 
   overrides: [

@@ -277,6 +277,7 @@ type Replica_Spec struct {
 	// When it's false, the data plane of the resource is started.
 	ResourceStopped *string `json:"resourceStopped,omitempty"`
 
+	// +kubebuilder:validation:Required
 	// Sku: The billing information of the resource.
 	Sku *ResourceSku `json:"sku,omitempty"`
 
