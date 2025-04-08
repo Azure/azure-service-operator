@@ -220,6 +220,7 @@ import (
 	kusto_customizations "github.com/Azure/azure-service-operator/v2/api/kusto/customizations"
 	kusto_v20230815 "github.com/Azure/azure-service-operator/v2/api/kusto/v1api20230815"
 	kusto_v20230815s "github.com/Azure/azure-service-operator/v2/api/kusto/v1api20230815/storage"
+	kusto_v20230815w "github.com/Azure/azure-service-operator/v2/api/kusto/v1api20230815/webhook"
 	machinelearningservices_customizations "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/customizations"
 	machinelearningservices_v20210701 "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701"
 	machinelearningservices_v20210701s "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701/storage"
@@ -1078,6 +1079,22 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
+	result = append(result, &registration.StorageType{
+		Obj: new(kusto_v20230815s.Cluster),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.virtualClusterGraduationProperties",
+				Func: indexKustoClusterVirtualClusterGraduationProperties,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type:             &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory([]string{".spec.virtualClusterGraduationProperties"}, &kusto_v20230815s.ClusterList{}),
+			},
+		},
+	})
+	result = append(result, &registration.StorageType{Obj: new(kusto_v20230815s.Database)})
 	result = append(result, &registration.StorageType{Obj: new(machinelearningservices_v20240401s.Registry)})
 	result = append(result, &registration.StorageType{
 		Obj: new(machinelearningservices_v20240401s.Workspace),
@@ -3310,6 +3327,16 @@ func getKnownTypes() []*registration.KnownType {
 		Validator: &kubernetesconfiguration_v20241101w.FluxConfiguration{},
 	})
 	result = append(result, &registration.KnownType{Obj: new(kubernetesconfiguration_v20241101s.Extension)}, &registration.KnownType{Obj: new(kubernetesconfiguration_v20241101s.FluxConfiguration)})
+	result = append(result, &registration.KnownType{
+		Obj:       new(kusto_v20230815.Cluster),
+		Defaulter: &kusto_v20230815w.Cluster{},
+		Validator: &kusto_v20230815w.Cluster{},
+	}, &registration.KnownType{
+		Obj:       new(kusto_v20230815.Database),
+		Defaulter: &kusto_v20230815w.Database{},
+		Validator: &kusto_v20230815w.Database{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(kusto_v20230815s.Cluster)}, &registration.KnownType{Obj: new(kusto_v20230815s.Database)})
 	result = append(
 		result,
 		&registration.KnownType{
@@ -4789,6 +4816,8 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &keyvault_customizations.VaultExtension{})
 	result = append(result, &kubernetesconfiguration_customizations.ExtensionExtension{})
 	result = append(result, &kubernetesconfiguration_customizations.FluxConfigurationExtension{})
+	result = append(result, &kusto_customizations.ClusterExtension{})
+	result = append(result, &kusto_customizations.DatabaseExtension{})
 	result = append(result, &machinelearningservices_customizations.RegistryExtension{})
 	result = append(result, &machinelearningservices_customizations.WorkspaceExtension{})
 	result = append(result, &machinelearningservices_customizations.WorkspacesComputeExtension{})
@@ -6107,6 +6136,18 @@ func indexKubernetesconfigurationFluxConfigurationTlsConfigPrivateKey(rawObj cli
 		return nil
 	}
 	return obj.Spec.OciRepository.TlsConfig.PrivateKey.Index()
+}
+
+// indexKustoClusterVirtualClusterGraduationProperties an index function for kusto_v20230815s.Cluster .spec.virtualClusterGraduationProperties
+func indexKustoClusterVirtualClusterGraduationProperties(rawObj client.Object) []string {
+	obj, ok := rawObj.(*kusto_v20230815s.Cluster)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.VirtualClusterGraduationProperties == nil {
+		return nil
+	}
+	return obj.Spec.VirtualClusterGraduationProperties.Index()
 }
 
 // indexMachinelearningservicesWorkspaceIdentityClientIdFromConfig an index function for machinelearningservices_v20240401s.Workspace .spec.encryption.keyVaultProperties.identityClientIdFromConfig

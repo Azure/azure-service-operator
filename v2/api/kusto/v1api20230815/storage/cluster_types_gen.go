@@ -6,7 +6,10 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -44,6 +47,26 @@ func (cluster *Cluster) SetConditions(conditions conditions.Conditions) {
 	cluster.Status.Conditions = conditions
 }
 
+var _ configmaps.Exporter = &Cluster{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (cluster *Cluster) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if cluster.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return cluster.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &Cluster{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (cluster *Cluster) SecretDestinationExpressions() []*core.DestinationExpression {
+	if cluster.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return cluster.Spec.OperatorSpec.SecretExpressions
+}
+
 var _ genruntime.KubernetesResource = &Cluster{}
 
 // AzureName returns the Azure name of the resource
@@ -53,7 +76,7 @@ func (cluster *Cluster) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2023-08-15"
 func (cluster Cluster) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2023-08-15"
 }
 
 // GetResourceScope returns the scope of the resource
@@ -92,6 +115,10 @@ func (cluster *Cluster) NewEmptyStatus() genruntime.ConvertibleStatus {
 
 // Owner returns the ResourceReference of the owner
 func (cluster *Cluster) Owner() *genruntime.ResourceReference {
+	if cluster.Spec.Owner == nil {
+		return nil
+	}
+
 	group, kind := genruntime.LookupOwnerGroupKind(cluster.Spec)
 	return cluster.Spec.Owner.AsResourceReference(group, kind)
 }
@@ -108,7 +135,7 @@ func (cluster *Cluster) SetStatus(status genruntime.ConvertibleStatus) error {
 	var st Cluster_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
-		return errors.Wrap(err, "failed to convert status")
+		return eris.Wrap(err, "failed to convert status")
 	}
 
 	cluster.Status = st
@@ -163,6 +190,7 @@ type Cluster_Spec struct {
 	KeyVaultProperties     *KeyVaultProperties     `json:"keyVaultProperties,omitempty"`
 	LanguageExtensions     *LanguageExtensionsList `json:"languageExtensions,omitempty"`
 	Location               *string                 `json:"location,omitempty"`
+	OperatorSpec           *ClusterOperatorSpec    `json:"operatorSpec,omitempty"`
 	OptimizedAutoscale     *OptimizedAutoscale     `json:"optimizedAutoscale,omitempty"`
 	OriginalVersion        string                  `json:"originalVersion,omitempty"`
 
@@ -188,7 +216,7 @@ var _ genruntime.ConvertibleSpec = &Cluster_Spec{}
 // ConvertSpecFrom populates our Cluster_Spec from the provided source
 func (cluster *Cluster_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == cluster {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(cluster)
@@ -197,7 +225,7 @@ func (cluster *Cluster_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) 
 // ConvertSpecTo populates the provided destination from our Cluster_Spec
 func (cluster *Cluster_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == cluster {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(cluster)
@@ -249,7 +277,7 @@ var _ genruntime.ConvertibleStatus = &Cluster_STATUS{}
 // ConvertStatusFrom populates our Cluster_STATUS from the provided source
 func (cluster *Cluster_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == cluster {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(cluster)
@@ -258,7 +286,7 @@ func (cluster *Cluster_STATUS) ConvertStatusFrom(source genruntime.ConvertibleSt
 // ConvertStatusTo populates the provided destination from our Cluster_STATUS
 func (cluster *Cluster_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == cluster {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(cluster)
@@ -294,6 +322,14 @@ type AzureSku_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Tier        *string                `json:"tier,omitempty"`
+}
+
+// Storage version of v1api20230815.ClusterOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type ClusterOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20230815.Identity

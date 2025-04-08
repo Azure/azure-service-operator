@@ -2910,7 +2910,7 @@ objectModelConfiguration:
     2023-08-15:
       Cluster:
         $export: true
-        $supportedFrom: v2.10.0
+        $supportedFrom: v2.13.0
       VirtualNetworkConfiguration:
         DataManagementPublicIpId:
           $referenceType: arm
@@ -2922,8 +2922,8 @@ objectModelConfiguration:
         UserIdentity:
           $referenceType: arm
       Clusters_Database:
-        $export: true
-        $supportedFrom: v2.10.0
+        $exportAs: Database
+        $supportedFrom: v2.13.0
       ReadOnlyFollowingDatabase:
         $resourceEmbeddedInParent: Clusters_Database
       ReadOnlyFollowingDatabase_STATUS:
