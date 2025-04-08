@@ -124,7 +124,7 @@ func (builder *convertToARMBuilder) functionBodyStatements() ([]dst.Stmt, error)
 	// Find all (any!) properties where their values need to be demoted into the nested ARM type.
 	// The set of demotions is the same as the set of promotions (as ConvertToARM and
 	// ConvertFromARM must be symmetric) so we reuse the same factory.
-	demotions := builder.findPromotions(builder.destinationType, builder.sourceType)
+	demotions := builder.findPromotions(builder.sourceType, builder.destinationType)
 
 	// Each ARM object property needs to be filled out
 	conversions, err := generateTypeConversionAssignments(
