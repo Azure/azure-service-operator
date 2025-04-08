@@ -6,7 +6,7 @@
 package astmodel
 
 import (
-	"golang.org/x/exp/slices"
+	"iter"
 )
 
 // PackageReferenceSet represents a set of distinct PackageReferences
@@ -56,29 +56,15 @@ func (set *PackageReferenceSet) Contains(ref PackageReference) bool {
 	return ok
 }
 
-// AsSlice returns a slice containing all the imports
-func (set *PackageReferenceSet) AsSlice() []PackageReference {
-	result := make([]PackageReference, 0, len(set.references))
-	for ref := range set.references {
-		result = append(result, ref)
+// All returns an iterator over all the references in the set
+func (set *PackageReferenceSet) All() iter.Seq[PackageReference] {
+	return func(yield func(ref PackageReference) bool) {
+		for ref := range set.references {
+			if !yield(ref) {
+				break
+			}
+		}
 	}
-
-	return result
-}
-
-// AsSortedSlice return a sorted slice containing all the references
-// less specifies how to order the imports
-func (set *PackageReferenceSet) AsSortedSlice(
-	compare func(PackageReference, PackageReference) int,
-) []PackageReference {
-	result := set.AsSlice()
-	slices.SortFunc(
-		result,
-		func(left PackageReference, right PackageReference) int {
-			return compare(left, right)
-		})
-
-	return result
 }
 
 // Length returns the number of unique imports in this set

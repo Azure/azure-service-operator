@@ -55,6 +55,15 @@ func (set *PackageImportSet) AddImportsOfReferences(refs ...PackageReference) {
 	}
 }
 
+// AddImportsForPackageReferenceSet ensures this set includes an import of all the references in
+// the specified set.
+// Adding a reference already in the set is fine.
+func (set *PackageImportSet) AddImportsForPackageReferenceSet(refs *PackageReferenceSet) {
+	for ref := range refs.All() {
+		set.AddImportOfReference(ref)
+	}
+}
+
 // Merge ensures that all imports specified in other are included
 func (set *PackageImportSet) Merge(other *PackageImportSet) {
 	for _, imp := range other.imports {

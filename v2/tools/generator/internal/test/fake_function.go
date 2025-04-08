@@ -103,7 +103,7 @@ func (fake *FakeFunction) Equals(f astmodel.Function, _ astmodel.EqualityOverrid
 		return false
 	}
 
-	for _, imp := range fake.Imported.AsSlice() {
+	for imp := range fake.Imported.All() {
 		if !fn.Imported.Contains(imp) {
 			return false
 		}

@@ -40,7 +40,7 @@ func filterTypes(
 	log logr.Logger,
 ) (*State, error) {
 	resourcesToExport := make(astmodel.TypeDefinitionSet)
-	for _, def := range astmodel.FindResourceDefinitions(state.Definitions()) {
+	for _, def := range state.Definitions().AllResources() {
 		defName := def.Name()
 
 		export := shouldExport(defName, configuration)

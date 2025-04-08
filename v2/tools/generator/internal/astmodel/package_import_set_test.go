@@ -135,6 +135,39 @@ func TestAddImportsOfReferences_WhenAddingReferencesAlreadyPresent_LeavesSetSame
 	g.Expect(set.imports).To(HaveLen(size))
 }
 
+func TestAddImportsForPackageReferenceSet_WhenAddingSingleReference_SetThenContainsReference(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	// Arrange
+	refs := NewPackageReferenceSet(simpleTestRef)
+	set := NewPackageImportSet()
+
+	// Act
+	set.AddImportsForPackageReferenceSet(refs)
+
+	// Assert
+	g.Expect(set.imports).To(HaveLen(1))
+	g.Expect(set.imports).To(HaveKey(simpleTestRef))
+}
+
+func TestAddImportsForPackageReferenceSet_WhenAddingMultipleReferences_SetThenContainsExpectedImports(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	// Arrange
+	refs := NewPackageReferenceSet(simpleTestRef, pathTestRef)
+	set := NewPackageImportSet()
+
+	// Act
+	set.AddImportsForPackageReferenceSet(refs)
+
+	// Assert
+	g.Expect(set.imports).To(HaveLen(2))
+	g.Expect(set.imports).To(HaveKey(simpleTestRef))
+	g.Expect(set.imports).To(HaveKey(pathTestRef))
+}
+
 /*
  * Merge() tests
  */

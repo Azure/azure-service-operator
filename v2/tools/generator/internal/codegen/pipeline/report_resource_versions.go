@@ -170,8 +170,7 @@ func (report *ResourceVersionsReport) loadFragments() error {
 
 // summarize collates a list of all resources, grouped by package
 func (report *ResourceVersionsReport) summarize(definitions astmodel.TypeDefinitionSet) error {
-	resources := astmodel.FindResourceDefinitions(definitions)
-	for _, rsrc := range resources {
+	for _, rsrc := range definitions.AllResources() {
 		name := rsrc.Name()
 		pkg := name.PackageReference()
 
