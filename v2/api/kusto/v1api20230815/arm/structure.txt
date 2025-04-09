@@ -327,6 +327,293 @@ Cluster_Spec: Object (7 properties)
 ├── Tags: map[string]string
 └── Zones: string[]
 
+DataConnection_STATUS: Object (5 properties)
+├── CosmosDb: *Object (6 properties)
+│   ├── Id: *string
+│   ├── Kind: Enum (1 value)
+│   │   └── "CosmosDb"
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Properties: *Object (9 properties)
+│   │   ├── CosmosDbAccountResourceId: *string
+│   │   ├── CosmosDbContainer: *string
+│   │   ├── CosmosDbDatabase: *string
+│   │   ├── ManagedIdentityObjectId: *string
+│   │   ├── ManagedIdentityResourceId: *string
+│   │   ├── MappingRuleName: *string
+│   │   ├── ProvisioningState: *Enum (7 values)
+│   │   │   ├── "Canceled"
+│   │   │   ├── "Creating"
+│   │   │   ├── "Deleting"
+│   │   │   ├── "Failed"
+│   │   │   ├── "Moving"
+│   │   │   ├── "Running"
+│   │   │   └── "Succeeded"
+│   │   ├── RetrievalStartDate: *string
+│   │   └── TableName: *string
+│   └── Type: *string
+├── EventGrid: *Object (6 properties)
+│   ├── Id: *string
+│   ├── Kind: Enum (1 value)
+│   │   └── "EventGrid"
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Properties: *Object (13 properties)
+│   │   ├── BlobStorageEventType: *Enum (2 values)
+│   │   │   ├── "Microsoft.Storage.BlobCreated"
+│   │   │   └── "Microsoft.Storage.BlobRenamed"
+│   │   ├── ConsumerGroup: *string
+│   │   ├── DataFormat: *Enum (16 values)
+│   │   │   ├── "APACHEAVRO"
+│   │   │   ├── "AVRO"
+│   │   │   ├── "CSV"
+│   │   │   ├── "JSON"
+│   │   │   ├── "MULTIJSON"
+│   │   │   ├── "ORC"
+│   │   │   ├── "PARQUET"
+│   │   │   ├── "PSV"
+│   │   │   ├── "RAW"
+│   │   │   ├── "SCSV"
+│   │   │   ├── "SINGLEJSON"
+│   │   │   ├── "SOHSV"
+│   │   │   ├── "TSV"
+│   │   │   ├── "TSVE"
+│   │   │   ├── "TXT"
+│   │   │   └── "W3CLOGFILE"
+│   │   ├── DatabaseRouting: *Enum (2 values)
+│   │   │   ├── "Multi"
+│   │   │   └── "Single"
+│   │   ├── EventGridResourceId: *string
+│   │   ├── EventHubResourceId: *string
+│   │   ├── IgnoreFirstRecord: *bool
+│   │   ├── ManagedIdentityObjectId: *string
+│   │   ├── ManagedIdentityResourceId: *string
+│   │   ├── MappingRuleName: *string
+│   │   ├── ProvisioningState: *Enum (7 values)
+│   │   │   ├── "Canceled"
+│   │   │   ├── "Creating"
+│   │   │   ├── "Deleting"
+│   │   │   ├── "Failed"
+│   │   │   ├── "Moving"
+│   │   │   ├── "Running"
+│   │   │   └── "Succeeded"
+│   │   ├── StorageAccountResourceId: *string
+│   │   └── TableName: *string
+│   └── Type: *string
+├── EventHub: *Object (6 properties)
+│   ├── Id: *string
+│   ├── Kind: Enum (1 value)
+│   │   └── "EventHub"
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Properties: *Object (12 properties)
+│   │   ├── Compression: *Enum (2 values)
+│   │   │   ├── "GZip"
+│   │   │   └── "None"
+│   │   ├── ConsumerGroup: *string
+│   │   ├── DataFormat: *Enum (16 values)
+│   │   │   ├── "APACHEAVRO"
+│   │   │   ├── "AVRO"
+│   │   │   ├── "CSV"
+│   │   │   ├── "JSON"
+│   │   │   ├── "MULTIJSON"
+│   │   │   ├── "ORC"
+│   │   │   ├── "PARQUET"
+│   │   │   ├── "PSV"
+│   │   │   ├── "RAW"
+│   │   │   ├── "SCSV"
+│   │   │   ├── "SINGLEJSON"
+│   │   │   ├── "SOHSV"
+│   │   │   ├── "TSV"
+│   │   │   ├── "TSVE"
+│   │   │   ├── "TXT"
+│   │   │   └── "W3CLOGFILE"
+│   │   ├── DatabaseRouting: *Enum (2 values)
+│   │   │   ├── "Multi"
+│   │   │   └── "Single"
+│   │   ├── EventHubResourceId: *string
+│   │   ├── EventSystemProperties: string[]
+│   │   ├── ManagedIdentityObjectId: *string
+│   │   ├── ManagedIdentityResourceId: *string
+│   │   ├── MappingRuleName: *string
+│   │   ├── ProvisioningState: *Enum (7 values)
+│   │   │   ├── "Canceled"
+│   │   │   ├── "Creating"
+│   │   │   ├── "Deleting"
+│   │   │   ├── "Failed"
+│   │   │   ├── "Moving"
+│   │   │   ├── "Running"
+│   │   │   └── "Succeeded"
+│   │   ├── RetrievalStartDate: *string
+│   │   └── TableName: *string
+│   └── Type: *string
+├── IotHub: *Object (6 properties)
+│   ├── Id: *string
+│   ├── Kind: Enum (1 value)
+│   │   └── "IotHub"
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Properties: *Object (10 properties)
+│   │   ├── ConsumerGroup: *string
+│   │   ├── DataFormat: *Enum (16 values)
+│   │   │   ├── "APACHEAVRO"
+│   │   │   ├── "AVRO"
+│   │   │   ├── "CSV"
+│   │   │   ├── "JSON"
+│   │   │   ├── "MULTIJSON"
+│   │   │   ├── "ORC"
+│   │   │   ├── "PARQUET"
+│   │   │   ├── "PSV"
+│   │   │   ├── "RAW"
+│   │   │   ├── "SCSV"
+│   │   │   ├── "SINGLEJSON"
+│   │   │   ├── "SOHSV"
+│   │   │   ├── "TSV"
+│   │   │   ├── "TSVE"
+│   │   │   ├── "TXT"
+│   │   │   └── "W3CLOGFILE"
+│   │   ├── DatabaseRouting: *Enum (2 values)
+│   │   │   ├── "Multi"
+│   │   │   └── "Single"
+│   │   ├── EventSystemProperties: string[]
+│   │   ├── IotHubResourceId: *string
+│   │   ├── MappingRuleName: *string
+│   │   ├── ProvisioningState: *Enum (7 values)
+│   │   │   ├── "Canceled"
+│   │   │   ├── "Creating"
+│   │   │   ├── "Deleting"
+│   │   │   ├── "Failed"
+│   │   │   ├── "Moving"
+│   │   │   ├── "Running"
+│   │   │   └── "Succeeded"
+│   │   ├── RetrievalStartDate: *string
+│   │   ├── SharedAccessPolicyName: *string
+│   │   └── TableName: *string
+│   └── Type: *string
+└── Name: *string
+
+DataConnection_Spec: Object (5 properties)
+├── CosmosDb: *Object (4 properties)
+│   ├── Kind: Enum (1 value)
+│   │   └── "CosmosDb"
+│   ├── Location: *string
+│   ├── Name: string
+│   └── Properties: *Object (7 properties)
+│       ├── CosmosDbAccountResourceId: *string
+│       ├── CosmosDbContainer: *string
+│       ├── CosmosDbDatabase: *string
+│       ├── ManagedIdentityResourceId: *string
+│       ├── MappingRuleName: *string
+│       ├── RetrievalStartDate: *string
+│       └── TableName: *string
+├── EventGrid: *Object (4 properties)
+│   ├── Kind: Enum (1 value)
+│   │   └── "EventGrid"
+│   ├── Location: *string
+│   ├── Name: string
+│   └── Properties: *Object (11 properties)
+│       ├── BlobStorageEventType: *Enum (2 values)
+│       │   ├── "Microsoft.Storage.BlobCreated"
+│       │   └── "Microsoft.Storage.BlobRenamed"
+│       ├── ConsumerGroup: *string
+│       ├── DataFormat: *Enum (16 values)
+│       │   ├── "APACHEAVRO"
+│       │   ├── "AVRO"
+│       │   ├── "CSV"
+│       │   ├── "JSON"
+│       │   ├── "MULTIJSON"
+│       │   ├── "ORC"
+│       │   ├── "PARQUET"
+│       │   ├── "PSV"
+│       │   ├── "RAW"
+│       │   ├── "SCSV"
+│       │   ├── "SINGLEJSON"
+│       │   ├── "SOHSV"
+│       │   ├── "TSV"
+│       │   ├── "TSVE"
+│       │   ├── "TXT"
+│       │   └── "W3CLOGFILE"
+│       ├── DatabaseRouting: *Enum (2 values)
+│       │   ├── "Multi"
+│       │   └── "Single"
+│       ├── EventGridResourceId: *string
+│       ├── EventHubResourceId: *string
+│       ├── IgnoreFirstRecord: *bool
+│       ├── ManagedIdentityResourceId: *string
+│       ├── MappingRuleName: *string
+│       ├── StorageAccountResourceId: *string
+│       └── TableName: *string
+├── EventHub: *Object (4 properties)
+│   ├── Kind: Enum (1 value)
+│   │   └── "EventHub"
+│   ├── Location: *string
+│   ├── Name: string
+│   └── Properties: *Object (10 properties)
+│       ├── Compression: *Enum (2 values)
+│       │   ├── "GZip"
+│       │   └── "None"
+│       ├── ConsumerGroup: *string
+│       ├── DataFormat: *Enum (16 values)
+│       │   ├── "APACHEAVRO"
+│       │   ├── "AVRO"
+│       │   ├── "CSV"
+│       │   ├── "JSON"
+│       │   ├── "MULTIJSON"
+│       │   ├── "ORC"
+│       │   ├── "PARQUET"
+│       │   ├── "PSV"
+│       │   ├── "RAW"
+│       │   ├── "SCSV"
+│       │   ├── "SINGLEJSON"
+│       │   ├── "SOHSV"
+│       │   ├── "TSV"
+│       │   ├── "TSVE"
+│       │   ├── "TXT"
+│       │   └── "W3CLOGFILE"
+│       ├── DatabaseRouting: *Enum (2 values)
+│       │   ├── "Multi"
+│       │   └── "Single"
+│       ├── EventHubResourceId: *string
+│       ├── EventSystemProperties: string[]
+│       ├── ManagedIdentityResourceId: *string
+│       ├── MappingRuleName: *string
+│       ├── RetrievalStartDate: *string
+│       └── TableName: *string
+├── IotHub: *Object (4 properties)
+│   ├── Kind: Enum (1 value)
+│   │   └── "IotHub"
+│   ├── Location: *string
+│   ├── Name: string
+│   └── Properties: *Object (9 properties)
+│       ├── ConsumerGroup: *string
+│       ├── DataFormat: *Enum (16 values)
+│       │   ├── "APACHEAVRO"
+│       │   ├── "AVRO"
+│       │   ├── "CSV"
+│       │   ├── "JSON"
+│       │   ├── "MULTIJSON"
+│       │   ├── "ORC"
+│       │   ├── "PARQUET"
+│       │   ├── "PSV"
+│       │   ├── "RAW"
+│       │   ├── "SCSV"
+│       │   ├── "SINGLEJSON"
+│       │   ├── "SOHSV"
+│       │   ├── "TSV"
+│       │   ├── "TSVE"
+│       │   ├── "TXT"
+│       │   └── "W3CLOGFILE"
+│       ├── DatabaseRouting: *Enum (2 values)
+│       │   ├── "Multi"
+│       │   └── "Single"
+│       ├── EventSystemProperties: string[]
+│       ├── IotHubResourceId: *string
+│       ├── MappingRuleName: *string
+│       ├── RetrievalStartDate: *string
+│       ├── SharedAccessPolicyName: *string
+│       └── TableName: *string
+└── Name: string
+
 Database_STATUS: Object (3 properties)
 ├── Name: *string
 ├── ReadOnlyFollowing: *Object (6 properties)

@@ -1094,6 +1094,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
+	result = append(result, &registration.StorageType{Obj: new(kusto_v20230815s.DataConnection)})
 	result = append(result, &registration.StorageType{Obj: new(kusto_v20230815s.Database)})
 	result = append(result, &registration.StorageType{Obj: new(machinelearningservices_v20240401s.Registry)})
 	result = append(result, &registration.StorageType{
@@ -3327,16 +3328,28 @@ func getKnownTypes() []*registration.KnownType {
 		Validator: &kubernetesconfiguration_v20241101w.FluxConfiguration{},
 	})
 	result = append(result, &registration.KnownType{Obj: new(kubernetesconfiguration_v20241101s.Extension)}, &registration.KnownType{Obj: new(kubernetesconfiguration_v20241101s.FluxConfiguration)})
-	result = append(result, &registration.KnownType{
-		Obj:       new(kusto_v20230815.Cluster),
-		Defaulter: &kusto_v20230815w.Cluster{},
-		Validator: &kusto_v20230815w.Cluster{},
-	}, &registration.KnownType{
-		Obj:       new(kusto_v20230815.Database),
-		Defaulter: &kusto_v20230815w.Database{},
-		Validator: &kusto_v20230815w.Database{},
-	})
-	result = append(result, &registration.KnownType{Obj: new(kusto_v20230815s.Cluster)}, &registration.KnownType{Obj: new(kusto_v20230815s.Database)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(kusto_v20230815.Cluster),
+			Defaulter: &kusto_v20230815w.Cluster{},
+			Validator: &kusto_v20230815w.Cluster{},
+		},
+		&registration.KnownType{
+			Obj:       new(kusto_v20230815.DataConnection),
+			Defaulter: &kusto_v20230815w.DataConnection{},
+			Validator: &kusto_v20230815w.DataConnection{},
+		},
+		&registration.KnownType{
+			Obj:       new(kusto_v20230815.Database),
+			Defaulter: &kusto_v20230815w.Database{},
+			Validator: &kusto_v20230815w.Database{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(kusto_v20230815s.Cluster)},
+		&registration.KnownType{Obj: new(kusto_v20230815s.DataConnection)},
+		&registration.KnownType{Obj: new(kusto_v20230815s.Database)})
 	result = append(
 		result,
 		&registration.KnownType{
@@ -4817,6 +4830,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &kubernetesconfiguration_customizations.ExtensionExtension{})
 	result = append(result, &kubernetesconfiguration_customizations.FluxConfigurationExtension{})
 	result = append(result, &kusto_customizations.ClusterExtension{})
+	result = append(result, &kusto_customizations.DataConnectionExtension{})
 	result = append(result, &kusto_customizations.DatabaseExtension{})
 	result = append(result, &machinelearningservices_customizations.RegistryExtension{})
 	result = append(result, &machinelearningservices_customizations.WorkspaceExtension{})

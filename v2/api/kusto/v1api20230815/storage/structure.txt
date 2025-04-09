@@ -161,6 +161,143 @@ Cluster: Resource
     │   └── SubnetId: *string
     └── Zones: string[]
 
+DataConnection: Resource
+├── Owner: kusto/v1api20230815.Database
+├── Spec: Object (9 properties)
+│   ├── AzureName: string
+│   ├── CosmosDb: *Object (10 properties)
+│   │   ├── CosmosDbAccountResourceReference: *genruntime.ResourceReference
+│   │   ├── CosmosDbContainer: *string
+│   │   ├── CosmosDbDatabase: *string
+│   │   ├── Kind: *string
+│   │   ├── Location: *string
+│   │   ├── ManagedIdentityResourceReference: *genruntime.ResourceReference
+│   │   ├── MappingRuleName: *string
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── RetrievalStartDate: *string
+│   │   └── TableName: *string
+│   ├── EventGrid: *Object (14 properties)
+│   │   ├── BlobStorageEventType: *string
+│   │   ├── ConsumerGroup: *string
+│   │   ├── DataFormat: *string
+│   │   ├── DatabaseRouting: *string
+│   │   ├── EventGridResourceReference: *genruntime.ResourceReference
+│   │   ├── EventHubResourceReference: *genruntime.ResourceReference
+│   │   ├── IgnoreFirstRecord: *bool
+│   │   ├── Kind: *string
+│   │   ├── Location: *string
+│   │   ├── ManagedIdentityResourceReference: *genruntime.ResourceReference
+│   │   ├── MappingRuleName: *string
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── StorageAccountResourceReference: *genruntime.ResourceReference
+│   │   └── TableName: *string
+│   ├── EventHub: *Object (13 properties)
+│   │   ├── Compression: *string
+│   │   ├── ConsumerGroup: *string
+│   │   ├── DataFormat: *string
+│   │   ├── DatabaseRouting: *string
+│   │   ├── EventHubResourceReference: *genruntime.ResourceReference
+│   │   ├── EventSystemProperties: string[]
+│   │   ├── Kind: *string
+│   │   ├── Location: *string
+│   │   ├── ManagedIdentityResourceReference: *genruntime.ResourceReference
+│   │   ├── MappingRuleName: *string
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── RetrievalStartDate: *string
+│   │   └── TableName: *string
+│   ├── IotHub: *Object (12 properties)
+│   │   ├── ConsumerGroup: *string
+│   │   ├── DataFormat: *string
+│   │   ├── DatabaseRouting: *string
+│   │   ├── EventSystemProperties: string[]
+│   │   ├── IotHubResourceReference: *genruntime.ResourceReference
+│   │   ├── Kind: *string
+│   │   ├── Location: *string
+│   │   ├── MappingRuleName: *string
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── RetrievalStartDate: *string
+│   │   ├── SharedAccessPolicyName: *string
+│   │   └── TableName: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
+│   ├── OriginalVersion: string
+│   ├── Owner: *genruntime.KnownResourceReference
+│   └── PropertyBag: genruntime.PropertyBag
+└── Status: Object (7 properties)
+    ├── Conditions: conditions.Condition[]
+    ├── CosmosDb: *Object (14 properties)
+    │   ├── CosmosDbAccountResourceId: *string
+    │   ├── CosmosDbContainer: *string
+    │   ├── CosmosDbDatabase: *string
+    │   ├── Id: *string
+    │   ├── Kind: *string
+    │   ├── Location: *string
+    │   ├── ManagedIdentityObjectId: *string
+    │   ├── ManagedIdentityResourceId: *string
+    │   ├── MappingRuleName: *string
+    │   ├── PropertyBag: genruntime.PropertyBag
+    │   ├── ProvisioningState: *string
+    │   ├── RetrievalStartDate: *string
+    │   ├── TableName: *string
+    │   └── Type: *string
+    ├── EventGrid: *Object (18 properties)
+    │   ├── BlobStorageEventType: *string
+    │   ├── ConsumerGroup: *string
+    │   ├── DataFormat: *string
+    │   ├── DatabaseRouting: *string
+    │   ├── EventGridResourceId: *string
+    │   ├── EventHubResourceId: *string
+    │   ├── Id: *string
+    │   ├── IgnoreFirstRecord: *bool
+    │   ├── Kind: *string
+    │   ├── Location: *string
+    │   ├── ManagedIdentityObjectId: *string
+    │   ├── ManagedIdentityResourceId: *string
+    │   ├── MappingRuleName: *string
+    │   ├── PropertyBag: genruntime.PropertyBag
+    │   ├── ProvisioningState: *string
+    │   ├── StorageAccountResourceId: *string
+    │   ├── TableName: *string
+    │   └── Type: *string
+    ├── EventHub: *Object (17 properties)
+    │   ├── Compression: *string
+    │   ├── ConsumerGroup: *string
+    │   ├── DataFormat: *string
+    │   ├── DatabaseRouting: *string
+    │   ├── EventHubResourceId: *string
+    │   ├── EventSystemProperties: string[]
+    │   ├── Id: *string
+    │   ├── Kind: *string
+    │   ├── Location: *string
+    │   ├── ManagedIdentityObjectId: *string
+    │   ├── ManagedIdentityResourceId: *string
+    │   ├── MappingRuleName: *string
+    │   ├── PropertyBag: genruntime.PropertyBag
+    │   ├── ProvisioningState: *string
+    │   ├── RetrievalStartDate: *string
+    │   ├── TableName: *string
+    │   └── Type: *string
+    ├── IotHub: *Object (15 properties)
+    │   ├── ConsumerGroup: *string
+    │   ├── DataFormat: *string
+    │   ├── DatabaseRouting: *string
+    │   ├── EventSystemProperties: string[]
+    │   ├── Id: *string
+    │   ├── IotHubResourceId: *string
+    │   ├── Kind: *string
+    │   ├── Location: *string
+    │   ├── MappingRuleName: *string
+    │   ├── PropertyBag: genruntime.PropertyBag
+    │   ├── ProvisioningState: *string
+    │   ├── RetrievalStartDate: *string
+    │   ├── SharedAccessPolicyName: *string
+    │   ├── TableName: *string
+    │   └── Type: *string
+    ├── Name: *string
+    └── PropertyBag: genruntime.PropertyBag
+
 Database: Resource
 ├── Owner: kusto/v1api20230815.Cluster
 ├── Spec: Object (7 properties)

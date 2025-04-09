@@ -288,6 +288,7 @@ func (database *Database_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		}
 		readOnlyFollowing := *readOnlyFollowing_ARM.(*arm.ReadOnlyFollowingDatabase)
 		result.ReadOnlyFollowing = &readOnlyFollowing
+		result.ReadOnlyFollowing.Name = database.AzureName
 	}
 
 	// Set property "ReadWrite":
@@ -298,6 +299,7 @@ func (database *Database_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		}
 		readWrite := *readWrite_ARM.(*arm.ReadWriteDatabase)
 		result.ReadWrite = &readWrite
+		result.ReadWrite.Name = database.AzureName
 	}
 	return result, nil
 }
