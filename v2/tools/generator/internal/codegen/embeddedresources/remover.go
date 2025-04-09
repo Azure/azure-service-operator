@@ -373,7 +373,8 @@ func findResourcesEmbeddedInParent(
 
 		parentTypeName := name.WithName(parentResource)
 		if !defs.Contains(parentTypeName) {
-			errs = append(errs, eris.Errorf("cannot find %s parent %s", name, parentTypeName))
+			err := eris.Errorf("in package %s cannot find %s parent %s", name.InternalPackageReference(), name.Name(), parentTypeName.Name())
+			errs = append(errs, err)
 			continue
 		}
 
