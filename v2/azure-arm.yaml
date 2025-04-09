@@ -2870,6 +2870,7 @@ objectModelConfiguration:
       VirtualNetworkRule:
         Id:
           $referenceType: arm
+          
   kubernetesconfiguration:
     2023-05-01:
       Extension:
@@ -2911,6 +2912,75 @@ objectModelConfiguration:
       GitRepositoryDefinition:
         HttpsCACert:
           $isSecret: true
+
+  kusto:
+    2023-08-15:
+      Cluster:
+        $export: true
+        $supportedFrom: v2.13.0
+      VirtualNetworkConfiguration:
+        DataManagementPublicIpId:
+          $referenceType: arm
+        SubnetId:
+          $referenceType: arm
+        EnginePublicIpId:
+          $referenceType: arm
+      KeyVaultProperties:
+        UserIdentity:
+          $referenceType: arm
+      Clusters_Database:
+        $exportAs: Database
+        $supportedFrom: v2.13.0
+      ReadOnlyFollowingDatabase:
+        $resourceEmbeddedInParent: Clusters_Database
+      ReadOnlyFollowingDatabase_STATUS:
+        $resourceEmbeddedInParent: Clusters_Database
+      ReadWriteDatabase:
+        $resourceEmbeddedInParent: Clusters_Database
+      ReadWriteDatabase_STATUS:
+        $resourceEmbeddedInParent: Clusters_Database
+      Clusters_Databases_DataConnection:
+        $exportAs: DataConnection
+        $supportedFrom: v2.13.0
+      CosmosDbDataConnection:
+        $resourceEmbeddedInParent: Clusters_Databases_DataConnection
+      CosmosDbDataConnection_STATUS:
+        $resourceEmbeddedInParent: Clusters_Databases_DataConnection
+      CosmosDbDataConnectionProperties:
+        ManagedIdentityResourceId:
+          $referenceType: arm
+        CosmosDbAccountResourceId:
+          $referenceType: arm
+      EventGridDataConnection:
+        $resourceEmbeddedInParent: Clusters_Databases_DataConnection
+      EventGridDataConnection_STATUS:
+        $resourceEmbeddedInParent: Clusters_Databases_DataConnection
+      EventGridConnectionProperties:
+        EventGridResourceId:
+          $referenceType: arm
+        ManagedIdentityResourceId:
+          $referenceType: arm
+        EventHubResourceId:
+          $referenceType: arm
+        StorageAccountResourceId:
+          $referenceType: arm
+      EventHubDataConnection:
+        $resourceEmbeddedInParent: Clusters_Databases_DataConnection
+      EventHubDataConnection_STATUS:
+        $resourceEmbeddedInParent: Clusters_Databases_DataConnection
+      EventHubConnectionProperties:
+        EventHubResourceId:
+          $referenceType: arm
+        ManagedIdentityResourceId:
+          $referenceType: arm
+      IotHubDataConnection:
+        $resourceEmbeddedInParent: Clusters_Databases_DataConnection
+      IotHubDataConnection_STATUS:
+        $resourceEmbeddedInParent: Clusters_Databases_DataConnection
+      IotHubConnectionProperties:
+        IotHubResourceId:
+          $referenceType: arm
+
   managedidentity:
     2018-11-30:
       UserAssignedIdentity:
