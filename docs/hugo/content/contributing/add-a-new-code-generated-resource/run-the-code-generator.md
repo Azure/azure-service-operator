@@ -1,6 +1,6 @@
 ---
-title: Running the code generator
-linktitle: Running Codegen
+title: Generating your resource with the code generator
+linktitle: Generating code
 weight: 20
 ---
 
