@@ -9,19 +9,12 @@ type Database_STATUS struct {
 	// Name: The name of the resource
 	Name *string `conversion:"pushtoleaf" json:"name,omitempty"`
 
-	// ReadOnlyFollowing: Mutually exclusive with all other properties
-	ReadOnlyFollowing *ReadOnlyFollowingDatabase_STATUS `json:"readOnlyFollowing,omitempty"`
-
 	// ReadWrite: Mutually exclusive with all other properties
 	ReadWrite *ReadWriteDatabase_STATUS `json:"readWrite,omitempty"`
 }
 
 // MarshalJSON defers JSON marshaling to the first non-nil property, because Database_STATUS represents a discriminated union (JSON OneOf)
 func (database Database_STATUS) MarshalJSON() ([]byte, error) {
-	if database.ReadOnlyFollowing != nil {
-		return json.Marshal(database.ReadOnlyFollowing)
-	}
-
 	if database.ReadWrite != nil {
 		return json.Marshal(database.ReadWrite)
 	}
@@ -37,10 +30,6 @@ func (database *Database_STATUS) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	discriminator := rawJson["kind"]
-	if discriminator == "ReadOnlyFollowing" {
-		database.ReadOnlyFollowing = &ReadOnlyFollowingDatabase_STATUS{}
-		return json.Unmarshal(data, database.ReadOnlyFollowing)
-	}
 	if discriminator == "ReadWrite" {
 		database.ReadWrite = &ReadWriteDatabase_STATUS{}
 		return json.Unmarshal(data, database.ReadWrite)
@@ -48,27 +37,6 @@ func (database *Database_STATUS) UnmarshalJSON(data []byte) error {
 
 	// No error
 	return nil
-}
-
-type ReadOnlyFollowingDatabase_STATUS struct {
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	// Kind: Kind of the database
-	Kind ReadOnlyFollowingDatabase_Kind_STATUS `json:"kind,omitempty"`
-
-	// Location: Resource location.
-	Location *string `json:"location,omitempty"`
-
-	// Name: The name of the resource
-	Name *string `conversion:"noarmconversion" json:"name,omitempty"`
-
-	// Properties: The database properties.
-	Properties *ReadOnlyFollowingDatabaseProperties_STATUS `json:"properties,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
 }
 
 type ReadWriteDatabase_STATUS struct {
@@ -90,52 +58,6 @@ type ReadWriteDatabase_STATUS struct {
 
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
-}
-
-type ReadOnlyFollowingDatabase_Kind_STATUS string
-
-const ReadOnlyFollowingDatabase_Kind_STATUS_ReadOnlyFollowing = ReadOnlyFollowingDatabase_Kind_STATUS("ReadOnlyFollowing")
-
-// Mapping from string to ReadOnlyFollowingDatabase_Kind_STATUS
-var readOnlyFollowingDatabase_Kind_STATUS_Values = map[string]ReadOnlyFollowingDatabase_Kind_STATUS{
-	"readonlyfollowing": ReadOnlyFollowingDatabase_Kind_STATUS_ReadOnlyFollowing,
-}
-
-// Class representing the Kusto database properties.
-type ReadOnlyFollowingDatabaseProperties_STATUS struct {
-	// AttachedDatabaseConfigurationName: The name of the attached database configuration cluster
-	AttachedDatabaseConfigurationName *string `json:"attachedDatabaseConfigurationName,omitempty"`
-
-	// DatabaseShareOrigin: The origin of the following setup.
-	DatabaseShareOrigin *DatabaseShareOrigin_STATUS `json:"databaseShareOrigin,omitempty"`
-
-	// HotCachePeriod: The time the data should be kept in cache for fast queries in TimeSpan.
-	HotCachePeriod *string `json:"hotCachePeriod,omitempty"`
-
-	// LeaderClusterResourceId: The name of the leader cluster
-	LeaderClusterResourceId *string `json:"leaderClusterResourceId,omitempty"`
-
-	// OriginalDatabaseName: The original database name, before databaseNameOverride or databaseNamePrefix where applied.
-	OriginalDatabaseName *string `json:"originalDatabaseName,omitempty"`
-
-	// PrincipalsModificationKind: The principals modification kind of the database
-	PrincipalsModificationKind *ReadOnlyFollowingDatabaseProperties_PrincipalsModificationKind_STATUS `json:"principalsModificationKind,omitempty"`
-
-	// ProvisioningState: The provisioned state of the resource.
-	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// SoftDeletePeriod: The time the data should be kept before it stops being accessible to queries in TimeSpan.
-	SoftDeletePeriod *string `json:"softDeletePeriod,omitempty"`
-
-	// Statistics: The statistics of the database.
-	Statistics *DatabaseStatistics_STATUS `json:"statistics,omitempty"`
-
-	// SuspensionDetails: The database suspension details. If the database is suspended, this object contains information
-	// related to the database's suspension state.
-	SuspensionDetails *SuspensionDetails_STATUS `json:"suspensionDetails,omitempty"`
-
-	// TableLevelSharingProperties: Table level sharing specifications
-	TableLevelSharingProperties *TableLevelSharingProperties_STATUS `json:"tableLevelSharingProperties,omitempty"`
 }
 
 type ReadWriteDatabase_Kind_STATUS string
@@ -172,41 +94,10 @@ type ReadWriteDatabaseProperties_STATUS struct {
 	SuspensionDetails *SuspensionDetails_STATUS `json:"suspensionDetails,omitempty"`
 }
 
-// The origin of the following setup.
-type DatabaseShareOrigin_STATUS string
-
-const (
-	DatabaseShareOrigin_STATUS_DataShare = DatabaseShareOrigin_STATUS("DataShare")
-	DatabaseShareOrigin_STATUS_Direct    = DatabaseShareOrigin_STATUS("Direct")
-	DatabaseShareOrigin_STATUS_Other     = DatabaseShareOrigin_STATUS("Other")
-)
-
-// Mapping from string to DatabaseShareOrigin_STATUS
-var databaseShareOrigin_STATUS_Values = map[string]DatabaseShareOrigin_STATUS{
-	"datashare": DatabaseShareOrigin_STATUS_DataShare,
-	"direct":    DatabaseShareOrigin_STATUS_Direct,
-	"other":     DatabaseShareOrigin_STATUS_Other,
-}
-
 // A class that contains database statistics information.
 type DatabaseStatistics_STATUS struct {
 	// Size: The database size - the total size of compressed data and index in bytes.
 	Size *float64 `json:"size,omitempty"`
-}
-
-type ReadOnlyFollowingDatabaseProperties_PrincipalsModificationKind_STATUS string
-
-const (
-	ReadOnlyFollowingDatabaseProperties_PrincipalsModificationKind_STATUS_None    = ReadOnlyFollowingDatabaseProperties_PrincipalsModificationKind_STATUS("None")
-	ReadOnlyFollowingDatabaseProperties_PrincipalsModificationKind_STATUS_Replace = ReadOnlyFollowingDatabaseProperties_PrincipalsModificationKind_STATUS("Replace")
-	ReadOnlyFollowingDatabaseProperties_PrincipalsModificationKind_STATUS_Union   = ReadOnlyFollowingDatabaseProperties_PrincipalsModificationKind_STATUS("Union")
-)
-
-// Mapping from string to ReadOnlyFollowingDatabaseProperties_PrincipalsModificationKind_STATUS
-var readOnlyFollowingDatabaseProperties_PrincipalsModificationKind_STATUS_Values = map[string]ReadOnlyFollowingDatabaseProperties_PrincipalsModificationKind_STATUS{
-	"none":    ReadOnlyFollowingDatabaseProperties_PrincipalsModificationKind_STATUS_None,
-	"replace": ReadOnlyFollowingDatabaseProperties_PrincipalsModificationKind_STATUS_Replace,
-	"union":   ReadOnlyFollowingDatabaseProperties_PrincipalsModificationKind_STATUS_Union,
 }
 
 // The database suspension details. If the database is suspended, this object contains information related to the
@@ -214,31 +105,4 @@ var readOnlyFollowingDatabaseProperties_PrincipalsModificationKind_STATUS_Values
 type SuspensionDetails_STATUS struct {
 	// SuspensionStartDate: The starting date and time of the suspension state.
 	SuspensionStartDate *string `json:"suspensionStartDate,omitempty"`
-}
-
-// Tables that will be included and excluded in the follower database
-type TableLevelSharingProperties_STATUS struct {
-	// ExternalTablesToExclude: List of external tables to exclude from the follower database
-	ExternalTablesToExclude []string `json:"externalTablesToExclude,omitempty"`
-
-	// ExternalTablesToInclude: List of external tables to include in the follower database
-	ExternalTablesToInclude []string `json:"externalTablesToInclude,omitempty"`
-
-	// FunctionsToExclude: List of functions to exclude from the follower database
-	FunctionsToExclude []string `json:"functionsToExclude,omitempty"`
-
-	// FunctionsToInclude: List of functions to include in the follower database
-	FunctionsToInclude []string `json:"functionsToInclude,omitempty"`
-
-	// MaterializedViewsToExclude: List of materialized views to exclude from the follower database
-	MaterializedViewsToExclude []string `json:"materializedViewsToExclude,omitempty"`
-
-	// MaterializedViewsToInclude: List of materialized views to include in the follower database
-	MaterializedViewsToInclude []string `json:"materializedViewsToInclude,omitempty"`
-
-	// TablesToExclude: List of tables to exclude from the follower database
-	TablesToExclude []string `json:"tablesToExclude,omitempty"`
-
-	// TablesToInclude: List of tables to include in the follower database
-	TablesToInclude []string `json:"tablesToInclude,omitempty"`
 }

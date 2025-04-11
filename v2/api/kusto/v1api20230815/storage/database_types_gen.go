@@ -177,10 +177,9 @@ type Database_Spec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a kusto.azure.com/Cluster resource
-	Owner             *genruntime.KnownResourceReference `group:"kusto.azure.com" json:"owner,omitempty" kind:"Cluster"`
-	PropertyBag       genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	ReadOnlyFollowing *ReadOnlyFollowingDatabase         `json:"readOnlyFollowingDatabase,omitempty"`
-	ReadWrite         *ReadWriteDatabase                 `json:"readWriteDatabase,omitempty"`
+	Owner       *genruntime.KnownResourceReference `group:"kusto.azure.com" json:"owner,omitempty" kind:"Cluster"`
+	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	ReadWrite   *ReadWriteDatabase                 `json:"readWriteDatabase,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &Database_Spec{}
@@ -205,11 +204,10 @@ func (database *Database_Spec) ConvertSpecTo(destination genruntime.ConvertibleS
 
 // Storage version of v1api20230815.Database_STATUS
 type Database_STATUS struct {
-	Conditions        []conditions.Condition            `json:"conditions,omitempty"`
-	Name              *string                           `json:"name,omitempty"`
-	PropertyBag       genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	ReadOnlyFollowing *ReadOnlyFollowingDatabase_STATUS `json:"readOnlyFollowing,omitempty"`
-	ReadWrite         *ReadWriteDatabase_STATUS         `json:"readWrite,omitempty"`
+	Conditions  []conditions.Condition    `json:"conditions,omitempty"`
+	Name        *string                   `json:"name,omitempty"`
+	PropertyBag genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
+	ReadWrite   *ReadWriteDatabase_STATUS `json:"readWrite,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &Database_STATUS{}
@@ -238,35 +236,6 @@ type DatabaseOperatorSpec struct {
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
 	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
-}
-
-// Storage version of v1api20230815.ReadOnlyFollowingDatabase
-type ReadOnlyFollowingDatabase struct {
-	DatabaseShareOrigin *string                `json:"databaseShareOrigin,omitempty"`
-	HotCachePeriod      *string                `json:"hotCachePeriod,omitempty"`
-	Kind                *string                `json:"kind,omitempty"`
-	Location            *string                `json:"location,omitempty"`
-	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v1api20230815.ReadOnlyFollowingDatabase_STATUS
-type ReadOnlyFollowingDatabase_STATUS struct {
-	AttachedDatabaseConfigurationName *string                             `json:"attachedDatabaseConfigurationName,omitempty"`
-	DatabaseShareOrigin               *string                             `json:"databaseShareOrigin,omitempty"`
-	HotCachePeriod                    *string                             `json:"hotCachePeriod,omitempty"`
-	Id                                *string                             `json:"id,omitempty"`
-	Kind                              *string                             `json:"kind,omitempty"`
-	LeaderClusterResourceId           *string                             `json:"leaderClusterResourceId,omitempty"`
-	Location                          *string                             `json:"location,omitempty"`
-	OriginalDatabaseName              *string                             `json:"originalDatabaseName,omitempty"`
-	PrincipalsModificationKind        *string                             `json:"principalsModificationKind,omitempty"`
-	PropertyBag                       genruntime.PropertyBag              `json:"$propertyBag,omitempty"`
-	ProvisioningState                 *string                             `json:"provisioningState,omitempty"`
-	SoftDeletePeriod                  *string                             `json:"softDeletePeriod,omitempty"`
-	Statistics                        *DatabaseStatistics_STATUS          `json:"statistics,omitempty"`
-	SuspensionDetails                 *SuspensionDetails_STATUS           `json:"suspensionDetails,omitempty"`
-	TableLevelSharingProperties       *TableLevelSharingProperties_STATUS `json:"tableLevelSharingProperties,omitempty"`
-	Type                              *string                             `json:"type,omitempty"`
 }
 
 // Storage version of v1api20230815.ReadWriteDatabase
@@ -308,20 +277,6 @@ type DatabaseStatistics_STATUS struct {
 type SuspensionDetails_STATUS struct {
 	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SuspensionStartDate *string                `json:"suspensionStartDate,omitempty"`
-}
-
-// Storage version of v1api20230815.TableLevelSharingProperties_STATUS
-// Tables that will be included and excluded in the follower database
-type TableLevelSharingProperties_STATUS struct {
-	ExternalTablesToExclude    []string               `json:"externalTablesToExclude,omitempty"`
-	ExternalTablesToInclude    []string               `json:"externalTablesToInclude,omitempty"`
-	FunctionsToExclude         []string               `json:"functionsToExclude,omitempty"`
-	FunctionsToInclude         []string               `json:"functionsToInclude,omitempty"`
-	MaterializedViewsToExclude []string               `json:"materializedViewsToExclude,omitempty"`
-	MaterializedViewsToInclude []string               `json:"materializedViewsToInclude,omitempty"`
-	PropertyBag                genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	TablesToExclude            []string               `json:"tablesToExclude,omitempty"`
-	TablesToInclude            []string               `json:"tablesToInclude,omitempty"`
 }
 
 func init() {

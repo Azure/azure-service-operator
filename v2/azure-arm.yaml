@@ -288,6 +288,12 @@ typeTransformers:
     remove: true
     because: This property should be marked readonly in Swagger
 
+  # The Kusto API doesn't permit creating a ReadyOnlyFollowingDatabase directly, so we prune it from the Database resource
+  - group: kusto
+    name: Clusters_Database_Spec;Database_STATUS
+    property: ReadOnlyFollowing
+    remove: true
+    because: This database kind that cannot be created directly
   #
   # In the group 'compute',
   # remove the enum restrictions from the vmSize property of VirtualMachine
@@ -2924,10 +2930,6 @@ objectModelConfiguration:
       Clusters_Database:
         $exportAs: Database
         $supportedFrom: v2.13.0
-      ReadOnlyFollowingDatabase:
-        $resourceEmbeddedInParent: Clusters_Database
-      ReadOnlyFollowingDatabase_STATUS:
-        $resourceEmbeddedInParent: Clusters_Database
       ReadWriteDatabase:
         $resourceEmbeddedInParent: Clusters_Database
       ReadWriteDatabase_STATUS:

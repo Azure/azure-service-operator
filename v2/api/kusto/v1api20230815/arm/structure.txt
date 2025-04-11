@@ -614,50 +614,8 @@ DataConnection_Spec: Object (5 properties)
 │       └── TableName: *string
 └── Name: string
 
-Database_STATUS: Object (3 properties)
+Database_STATUS: Object (2 properties)
 ├── Name: *string
-├── ReadOnlyFollowing: *Object (6 properties)
-│   ├── Id: *string
-│   ├── Kind: Enum (1 value)
-│   │   └── "ReadOnlyFollowing"
-│   ├── Location: *string
-│   ├── Name: *string
-│   ├── Properties: *Object (11 properties)
-│   │   ├── AttachedDatabaseConfigurationName: *string
-│   │   ├── DatabaseShareOrigin: *Enum (3 values)
-│   │   │   ├── "DataShare"
-│   │   │   ├── "Direct"
-│   │   │   └── "Other"
-│   │   ├── HotCachePeriod: *string
-│   │   ├── LeaderClusterResourceId: *string
-│   │   ├── OriginalDatabaseName: *string
-│   │   ├── PrincipalsModificationKind: *Enum (3 values)
-│   │   │   ├── "None"
-│   │   │   ├── "Replace"
-│   │   │   └── "Union"
-│   │   ├── ProvisioningState: *Enum (7 values)
-│   │   │   ├── "Canceled"
-│   │   │   ├── "Creating"
-│   │   │   ├── "Deleting"
-│   │   │   ├── "Failed"
-│   │   │   ├── "Moving"
-│   │   │   ├── "Running"
-│   │   │   └── "Succeeded"
-│   │   ├── SoftDeletePeriod: *string
-│   │   ├── Statistics: *Object (1 property)
-│   │   │   └── Size: *float64
-│   │   ├── SuspensionDetails: *Object (1 property)
-│   │   │   └── SuspensionStartDate: *string
-│   │   └── TableLevelSharingProperties: *Object (8 properties)
-│   │       ├── ExternalTablesToExclude: string[]
-│   │       ├── ExternalTablesToInclude: string[]
-│   │       ├── FunctionsToExclude: string[]
-│   │       ├── FunctionsToInclude: string[]
-│   │       ├── MaterializedViewsToExclude: string[]
-│   │       ├── MaterializedViewsToInclude: string[]
-│   │       ├── TablesToExclude: string[]
-│   │       └── TablesToInclude: string[]
-│   └── Type: *string
 └── ReadWrite: *Object (6 properties)
     ├── Id: *string
     ├── Kind: Enum (1 value)
@@ -687,19 +645,8 @@ Database_STATUS: Object (3 properties)
     │       └── SuspensionStartDate: *string
     └── Type: *string
 
-Database_Spec: Object (3 properties)
+Database_Spec: Object (2 properties)
 ├── Name: string
-├── ReadOnlyFollowing: *Object (4 properties)
-│   ├── Kind: Enum (1 value)
-│   │   └── "ReadOnlyFollowing"
-│   ├── Location: *string
-│   ├── Name: string
-│   └── Properties: *Object (2 properties)
-│       ├── DatabaseShareOrigin: *Enum (3 values)
-│       │   ├── "DataShare"
-│       │   ├── "Direct"
-│       │   └── "Other"
-│       └── HotCachePeriod: *string
 └── ReadWrite: *Object (4 properties)
     ├── Kind: Enum (1 value)
     │   └── "ReadWrite"

@@ -47,18 +47,7 @@ func Test_Kusto_Cluster_20230815_CRUD(t *testing.T) {
 		},
 	}
 
-	rodatabase := &kusto.Database{
-		ObjectMeta: tc.MakeObjectMeta("rodatabase"),
-		Spec: kusto.Database_Spec{
-			Owner: testcommon.AsOwner(cluster),
-			ReadOnlyFollowing: &kusto.ReadOnlyFollowingDatabase{
-				Kind:     to.Ptr(kusto.ReadOnlyFollowingDatabase_Kind_ReadOnlyFollowing),
-				Location: tc.AzureRegion,
-			},
-		},
-	}
-
-	tc.CreateResourcesAndWait(cluster, rwdatabase, rodatabase)
+	tc.CreateResourcesAndWait(cluster, rwdatabase)
 	tc.Expect(cluster.Status.Id).ToNot(BeNil())
 	armId := *cluster.Status.Id
 

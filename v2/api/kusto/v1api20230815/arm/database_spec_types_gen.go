@@ -11,9 +11,6 @@ import (
 type Database_Spec struct {
 	Name string `conversion:"pushtoleaf" json:"name,omitempty"`
 
-	// ReadOnlyFollowing: Mutually exclusive with all other properties
-	ReadOnlyFollowing *ReadOnlyFollowingDatabase `json:"readOnlyFollowingDatabase,omitempty"`
-
 	// ReadWrite: Mutually exclusive with all other properties
 	ReadWrite *ReadWriteDatabase `json:"readWriteDatabase,omitempty"`
 }
@@ -37,10 +34,6 @@ func (database *Database_Spec) GetType() string {
 
 // MarshalJSON defers JSON marshaling to the first non-nil property, because Database_Spec represents a discriminated union (JSON OneOf)
 func (database Database_Spec) MarshalJSON() ([]byte, error) {
-	if database.ReadOnlyFollowing != nil {
-		return json.Marshal(database.ReadOnlyFollowing)
-	}
-
 	if database.ReadWrite != nil {
 		return json.Marshal(database.ReadWrite)
 	}
@@ -56,10 +49,6 @@ func (database *Database_Spec) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	discriminator := rawJson["kind"]
-	if discriminator == "ReadOnlyFollowing" {
-		database.ReadOnlyFollowing = &ReadOnlyFollowingDatabase{}
-		return json.Unmarshal(data, database.ReadOnlyFollowing)
-	}
 	if discriminator == "ReadWrite" {
 		database.ReadWrite = &ReadWriteDatabase{}
 		return json.Unmarshal(data, database.ReadWrite)
@@ -67,18 +56,6 @@ func (database *Database_Spec) UnmarshalJSON(data []byte) error {
 
 	// No error
 	return nil
-}
-
-type ReadOnlyFollowingDatabase struct {
-	// Kind: Kind of the database
-	Kind ReadOnlyFollowingDatabase_Kind `json:"kind,omitempty"`
-
-	// Location: Resource location.
-	Location *string `json:"location,omitempty"`
-	Name     string  `conversion:"noarmconversion" json:"name,omitempty"`
-
-	// Properties: The database properties.
-	Properties *ReadOnlyFollowingDatabaseProperties `json:"properties,omitempty"`
 }
 
 type ReadWriteDatabase struct {
@@ -91,25 +68,6 @@ type ReadWriteDatabase struct {
 
 	// Properties: The database properties.
 	Properties *ReadWriteDatabaseProperties `json:"properties,omitempty"`
-}
-
-// +kubebuilder:validation:Enum={"ReadOnlyFollowing"}
-type ReadOnlyFollowingDatabase_Kind string
-
-const ReadOnlyFollowingDatabase_Kind_ReadOnlyFollowing = ReadOnlyFollowingDatabase_Kind("ReadOnlyFollowing")
-
-// Mapping from string to ReadOnlyFollowingDatabase_Kind
-var readOnlyFollowingDatabase_Kind_Values = map[string]ReadOnlyFollowingDatabase_Kind{
-	"readonlyfollowing": ReadOnlyFollowingDatabase_Kind_ReadOnlyFollowing,
-}
-
-// Class representing the Kusto database properties.
-type ReadOnlyFollowingDatabaseProperties struct {
-	// DatabaseShareOrigin: The origin of the following setup.
-	DatabaseShareOrigin *DatabaseShareOrigin `json:"databaseShareOrigin,omitempty"`
-
-	// HotCachePeriod: The time the data should be kept in cache for fast queries in TimeSpan.
-	HotCachePeriod *string `json:"hotCachePeriod,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"ReadWrite"}
@@ -132,21 +90,4 @@ type ReadWriteDatabaseProperties struct {
 
 	// SoftDeletePeriod: The time the data should be kept before it stops being accessible to queries in TimeSpan.
 	SoftDeletePeriod *string `json:"softDeletePeriod,omitempty"`
-}
-
-// The origin of the following setup.
-// +kubebuilder:validation:Enum={"DataShare","Direct","Other"}
-type DatabaseShareOrigin string
-
-const (
-	DatabaseShareOrigin_DataShare = DatabaseShareOrigin("DataShare")
-	DatabaseShareOrigin_Direct    = DatabaseShareOrigin("Direct")
-	DatabaseShareOrigin_Other     = DatabaseShareOrigin("Other")
-)
-
-// Mapping from string to DatabaseShareOrigin
-var databaseShareOrigin_Values = map[string]DatabaseShareOrigin{
-	"datashare": DatabaseShareOrigin_DataShare,
-	"direct":    DatabaseShareOrigin_Direct,
-	"other":     DatabaseShareOrigin_Other,
 }

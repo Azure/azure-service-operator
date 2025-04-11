@@ -300,7 +300,7 @@ DataConnection: Resource
 
 Database: Resource
 ├── Owner: kusto/v1api20230815.Cluster
-├── Spec: Object (7 properties)
+├── Spec: Object (6 properties)
 │   ├── AzureName: string
 │   ├── OperatorSpec: *Object (3 properties)
 │   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
@@ -309,12 +309,6 @@ Database: Resource
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
-│   ├── ReadOnlyFollowing: *Object (5 properties)
-│   │   ├── DatabaseShareOrigin: *string
-│   │   ├── HotCachePeriod: *string
-│   │   ├── Kind: *string
-│   │   ├── Location: *string
-│   │   └── PropertyBag: genruntime.PropertyBag
 │   └── ReadWrite: *Object (6 properties)
 │       ├── HotCachePeriod: *string
 │       ├── KeyVaultProperties: *Object (5 properties)
@@ -327,40 +321,10 @@ Database: Resource
 │       ├── Location: *string
 │       ├── PropertyBag: genruntime.PropertyBag
 │       └── SoftDeletePeriod: *string
-└── Status: Object (5 properties)
+└── Status: Object (4 properties)
     ├── Conditions: conditions.Condition[]
     ├── Name: *string
     ├── PropertyBag: genruntime.PropertyBag
-    ├── ReadOnlyFollowing: *Object (16 properties)
-    │   ├── AttachedDatabaseConfigurationName: *string
-    │   ├── DatabaseShareOrigin: *string
-    │   ├── HotCachePeriod: *string
-    │   ├── Id: *string
-    │   ├── Kind: *string
-    │   ├── LeaderClusterResourceId: *string
-    │   ├── Location: *string
-    │   ├── OriginalDatabaseName: *string
-    │   ├── PrincipalsModificationKind: *string
-    │   ├── PropertyBag: genruntime.PropertyBag
-    │   ├── ProvisioningState: *string
-    │   ├── SoftDeletePeriod: *string
-    │   ├── Statistics: *Object (2 properties)
-    │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   └── Size: *float64
-    │   ├── SuspensionDetails: *Object (2 properties)
-    │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   └── SuspensionStartDate: *string
-    │   ├── TableLevelSharingProperties: *Object (9 properties)
-    │   │   ├── ExternalTablesToExclude: string[]
-    │   │   ├── ExternalTablesToInclude: string[]
-    │   │   ├── FunctionsToExclude: string[]
-    │   │   ├── FunctionsToInclude: string[]
-    │   │   ├── MaterializedViewsToExclude: string[]
-    │   │   ├── MaterializedViewsToInclude: string[]
-    │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   ├── TablesToExclude: string[]
-    │   │   └── TablesToInclude: string[]
-    │   └── Type: *string
     └── ReadWrite: *Object (12 properties)
         ├── HotCachePeriod: *string
         ├── Id: *string
