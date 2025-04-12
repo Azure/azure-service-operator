@@ -15,17 +15,17 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 )
 
-var _ extensions.ErrorClassifier = &RouteExtension{}
+var _ extensions.ErrorClassifier = &RuleExtension{}
 
 // ClassifyError evaluates the provided error, returning whether it is fatal or can be retried.
-// A BadRequest error (400) is normally fatal, but for AFD Routes, it is returned if a route is attempted to be
+// A BadRequest error (400) is normally fatal, but for AFD Rules, it is returned if a rule is attempted to be
 // added to an originGroup that doesn't exist or doesn't have any origins added. This error is not actually fatal
 // so we retry on it.
 // cloudError is the error returned from ARM.
 // apiVersion is the ARM API version used for the request.
 // log is a logger than can be used for telemetry.
 // next is the next implementation to call.
-func (e *RouteExtension) ClassifyError(
+func (e *RuleExtension) ClassifyError(
 	cloudError *genericarmclient.CloudError,
 	apiVersion string,
 	log logr.Logger,
@@ -36,15 +36,15 @@ func (e *RouteExtension) ClassifyError(
 		return core.CloudErrorDetails{}, err
 	}
 
-	if isRouteRetryableBadRequest(cloudError) {
+	if isRuleRetryableBadRequest(cloudError) {
 		details.Classification = core.ErrorRetryable
 	}
 
 	return details, nil
 }
 
-// isRouteRetryableBadRequest checks the passed error to see if it is a retryable error, returning true if it is.
-func isRouteRetryableBadRequest(err *genericarmclient.CloudError) bool {
+// isRuleRetryableBadRequest checks the passed error to see if it is a retryable error, returning true if it is.
+func isRuleRetryableBadRequest(err *genericarmclient.CloudError) bool {
 	if err == nil {
 		return false
 	}
