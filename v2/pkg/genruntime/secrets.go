@@ -30,8 +30,8 @@ type SecretReference struct {
 
 var _ Indexer = SecretReference{}
 
-func (c SecretReference) Index() []string {
-	return []string{c.Name}
+func (s SecretReference) Index() []string {
+	return []string{s.Name}
 }
 
 // Copy makes an independent copy of the SecretReference
@@ -81,8 +81,8 @@ type SecretMapReference struct {
 
 var _ Indexer = SecretMapReference{}
 
-func (c SecretMapReference) Index() []string {
-	return []string{c.Name}
+func (s SecretMapReference) Index() []string {
+	return []string{s.Name}
 }
 
 // Copy makes an independent copy of the SecretMapReference

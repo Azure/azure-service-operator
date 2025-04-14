@@ -67,7 +67,7 @@ func makeResourceConversionTestCaseFactory(idFactory astmodel.IdentifierFactory)
 }
 
 // NeedsTest will return true if the passed TypeDefinition is a resource implementing conversion.Convertible
-func (_ *resourceConversionTestCaseFactory) NeedsTest(def astmodel.TypeDefinition) bool {
+func (*resourceConversionTestCaseFactory) NeedsTest(def astmodel.TypeDefinition) bool {
 	resourceType, ok := astmodel.AsResourceType(def.Type())
 	if !ok {
 		return false
