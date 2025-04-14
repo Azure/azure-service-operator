@@ -148,7 +148,15 @@ func ServiceBus_Topic_v1api20240101_CRUD(tc *testcommon.KubePerTestContext, sbNa
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "Subscription CRUD",
-			Test: func(tc *testcommon.KubePerTestContext) { ServiceBus_Subscription_v1api20240101_CRUD(tc, topic) },
+			Test: func(tc *testcommon.KubePerTestContext) {
+				ServiceBus_Subscription_v1api20240101_CRUD(tc, topic)
+			},
+		},
+		testcommon.Subtest{
+			Name: "AuthorizationRule CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				ServiceBus_Topic_AuthorizationRule_v1api20240101_CRUD(tc, topic)
+			},
 		},
 	)
 }
@@ -196,4 +204,22 @@ func ServiceBus_Subscriptions_Rule_v1api20240101_CRUD(tc *testcommon.KubePerTest
 	tc.DeleteResourceAndWait(rule)
 	// Ensure that the resource was really deleted in Azure
 	tc.ExpectResourceIsDeletedInAzure(armId, string(servicebus.APIVersion_Value))
+}
+
+func ServiceBus_Topic_AuthorizationRule_v1api20240101_CRUD(tc *testcommon.KubePerTestContext, sbTopic client.Object) {
+	rule := &servicebus.TopicAuthorizationRule{
+		ObjectMeta: tc.MakeObjectMeta("rule"),
+		Spec: servicebus.TopicAuthorizationRule_Spec{
+			Owner: testcommon.AsOwner(sbTopic),
+			Rights: []servicebus.TopicAuthorizationRuleRights_Spec{
+				servicebus.TopicAuthorizationRuleRights_Spec_Listen,
+				servicebus.TopicAuthorizationRuleRights_Spec_Send,
+			},
+		},
+	}
+
+	tc.CreateResourceAndWait(rule)
+	defer tc.DeleteResourceAndWait(rule)
+
+	tc.Expect(rule.Status.Rights).To(HaveLen(2))
 }
