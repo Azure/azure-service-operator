@@ -323,7 +323,7 @@ tasks:
     dir: "{{.CONTROLLER_ROOT}}"
     cmds:
       # Setting GOGC to increase how much debris is tolerated before running GC
-      - GOGC=200 golangci-lint run --verbose --fix --fast=false --timeout 20m ./...
+      - GOGC=200 golangci-lint run --verbose --fix --timeout 20m ./...
 
   controller:verify-samples:
     desc: Verify that a sample exists for each supported resource
