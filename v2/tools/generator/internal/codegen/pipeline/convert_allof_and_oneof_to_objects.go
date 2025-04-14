@@ -538,7 +538,8 @@ func (s synthesizer) handleResourceResource(leftResource *astmodel.ResourceType,
 }
 
 func (s synthesizer) handleResourceType(leftResource *astmodel.ResourceType, right astmodel.Type) (astmodel.Type, error) {
-	if s.specOrStatus == chooseStatus {
+	switch s.specOrStatus {
+	case chooseStatus:
 		if leftResource.StatusType() != nil {
 			newT, err := s.intersectTypes(leftResource.StatusType(), right)
 			if err != nil {
@@ -549,14 +550,14 @@ func (s synthesizer) handleResourceType(leftResource *astmodel.ResourceType, rig
 		} else {
 			return leftResource.WithStatus(right), nil
 		}
-	} else if s.specOrStatus == chooseSpec {
+	case chooseSpec:
 		newT, err := s.intersectTypes(leftResource.SpecType(), right)
 		if err != nil {
 			return nil, err
 		}
 
 		return leftResource.WithSpec(newT), nil
-	} else {
+	default:
 		panic("invalid specOrStatus")
 	}
 }

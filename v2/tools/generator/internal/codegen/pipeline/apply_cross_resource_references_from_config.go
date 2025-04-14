@@ -148,7 +148,8 @@ func MakeARMIDPropertyTypeVisitor(
 		var newProps []*astmodel.PropertyDefinition
 		it.Properties().ForEach(func(prop *astmodel.PropertyDefinition) {
 			classification := visitor.isPropertyAnARMReference(ctx, prop)
-			if classification == ARMIDPropertyClassificationSet {
+			switch classification {
+			case ARMIDPropertyClassificationSet:
 				log.V(1).Info(
 					"Transforming property",
 					"definition", ctx,
@@ -156,7 +157,7 @@ func MakeARMIDPropertyTypeVisitor(
 					"was", prop.PropertyType(),
 					"now", "astmodel.ARMID")
 				prop = makeARMIDProperty(prop)
-			} else if classification == ARMIDPropertyClassificationUnset {
+			case ARMIDPropertyClassificationUnset:
 				log.V(1).Info(
 					"Transforming property",
 					"definition", ctx,
@@ -164,6 +165,8 @@ func MakeARMIDPropertyTypeVisitor(
 					"was", prop.PropertyType(),
 					"now", "string")
 				prop = unsetARMIDProperty(prop)
+			case ARMIDPropertyClassificationUnspecified:
+				// Do nothing, we don't know what this is
 			}
 
 			newProps = append(newProps, prop)
