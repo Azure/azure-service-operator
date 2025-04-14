@@ -87,8 +87,8 @@ func (extension *PrivateEndpointExtension) ExportKubernetesConfigMaps(
 	// the hub type has been changed but this extension has not
 	var _ conversion.Hub = endpoint
 
-	hasIpConfiguration := hasConfigMaps(endpoint)
-	if !hasIpConfiguration {
+	hasIPConfiguration := hasConfigMaps(endpoint)
+	if !hasIPConfiguration {
 		log.V(Debug).Info("no configmap retrieval to perform as operatorSpec is empty")
 		return nil, nil
 	}
