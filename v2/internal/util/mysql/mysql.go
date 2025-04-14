@@ -12,7 +12,6 @@ import (
 	"time"
 
 	"github.com/go-sql-driver/mysql"
-	_ "github.com/go-sql-driver/mysql" // mysql drive link
 	"github.com/rotisserie/eris"
 )
 

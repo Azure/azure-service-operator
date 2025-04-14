@@ -17,7 +17,6 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/cloud"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/policy"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/runtime"
-	azcoreruntime "github.com/Azure/azure-sdk-for-go/sdk/azcore/runtime"
 	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/internal/metrics"
@@ -152,7 +151,7 @@ func (client *GenericClient) BeginCreateOrUpdateByID(
 		ErrorHandler: client.handleError,
 	}
 
-	pt, err := azcoreruntime.NewPoller[GenericResource](resp, client.pl, nil)
+	pt, err := runtime.NewPoller[GenericResource](resp, client.pl, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -458,7 +457,7 @@ func (client *GenericClient) BeginDeleteByID(ctx context.Context, resourceID str
 		ID:           DeletePollerID,
 		ErrorHandler: client.handleError,
 	}
-	pt, err := azcoreruntime.NewPoller[GenericDeleteResponse](resp, client.pl, nil)
+	pt, err := runtime.NewPoller[GenericDeleteResponse](resp, client.pl, nil)
 	if err != nil {
 		return nil, err
 	}
