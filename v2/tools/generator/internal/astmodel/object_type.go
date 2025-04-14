@@ -33,7 +33,7 @@ type ObjectType struct {
 // for want of a better place for this to live…
 var (
 	AdditionalPropertiesPropertyName = PropertyName("AdditionalProperties")
-	AdditionalPropertiesJsonName     = "additionalProperties"
+	AdditionalPropertiesJSONName     = "additionalProperties"
 )
 
 // EmptyObjectType is an empty object

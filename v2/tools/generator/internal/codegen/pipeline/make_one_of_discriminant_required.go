@@ -86,13 +86,13 @@ func makeOneOfDiscriminantTypeRequired(
 	}
 
 	result := make(astmodel.TypeDefinitionSet)
-	discriminantJson, values, err := astmodel.DetermineDiscriminantAndValues(objectType, defs)
+	discriminantJSON, values, err := astmodel.DetermineDiscriminantAndValues(objectType, defs)
 	if err != nil {
 		return nil, err
 	}
 
 	astmodel.NewPropertyInjector()
-	remover := newPropertyModifier(discriminantJson)
+	remover := newPropertyModifier(discriminantJSON)
 
 	for _, value := range values {
 		def, err := defs.GetDefinition(value.TypeName)

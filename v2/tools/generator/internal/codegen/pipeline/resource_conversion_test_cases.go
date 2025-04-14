@@ -46,8 +46,8 @@ func InjectResourceConversionTestCases(idFactory astmodel.IdentifierFactory) *St
 
 	stage.RequiresPrerequisiteStages(
 		InjectPropertyAssignmentFunctionsStageID, // Need PropertyAssignmentFunctions to test
-		InjectJsonSerializationTestsID)           // We reuse the generators from the JSON tests
 		ImplementConvertibleInterfaceStageID,     // Need the conversions.Convertible interface to be present
+		InjectJSONSerializationTestsID)           // We reuse the generators from the JSON tests
 
 	return stage
 }

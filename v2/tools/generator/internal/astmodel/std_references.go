@@ -14,7 +14,7 @@ var (
 	// References to standard Go Libraries
 	ErrorsReference  = MakeExternalPackageReference("errors")
 	FmtReference     = MakeExternalPackageReference("fmt")
-	JsonReference    = MakeExternalPackageReference("encoding/json")
+	JSONReference    = MakeExternalPackageReference("encoding/json")
 	OSReference      = MakeExternalPackageReference("os")
 	ReflectReference = MakeExternalPackageReference("reflect")
 	StringsReference = MakeExternalPackageReference("strings")

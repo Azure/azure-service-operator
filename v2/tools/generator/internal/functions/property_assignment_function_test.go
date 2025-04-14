@@ -338,7 +338,7 @@ func (factory *StorageConversionPropertyTestCaseFactory) createPathBasedTestCase
 		return prop.
 			WithName(propertiesTypeProperty.PropertyName()+astmodel.OptionalConfigMapReferenceSuffix).
 			WithType(astmodel.ConfigMapReferenceType).
-			WithJsonName("propertiesType"+astmodel.OptionalConfigMapReferenceSuffix).
+			WithJSONName("propertiesType"+astmodel.OptionalConfigMapReferenceSuffix).
 			WithTag(astmodel.OptionalConfigMapPairTag, string(prop.PropertyName())).
 			MakeOptional().
 			MakeTypeOptional()

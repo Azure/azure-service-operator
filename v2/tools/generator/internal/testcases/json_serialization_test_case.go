@@ -135,7 +135,7 @@ func (o *JSONSerializationTestCase) RequiredImports() *astmodel.PackageImportSet
 
 	// Standard Go Packages
 	result.AddImportsOfReferences(
-		astmodel.JsonReference, astmodel.OSReference, astmodel.ReflectReference, astmodel.TestingReference)
+		astmodel.JSONReference, astmodel.OSReference, astmodel.ReflectReference, astmodel.TestingReference)
 
 	// Cmp
 	result.AddImportsOfReferences(astmodel.CmpReference, astmodel.CmpOptsReference)
@@ -276,7 +276,7 @@ func (o *JSONSerializationTestCase) createTestMethod(codegenContext *astmodel.Co
 		errID        = "err"
 	)
 
-	jsonPackage := codegenContext.MustGetImportedPackageName(astmodel.JsonReference)
+	jsonPackage := codegenContext.MustGetImportedPackageName(astmodel.JSONReference)
 	cmpPackage := codegenContext.MustGetImportedPackageName(astmodel.CmpReference)
 	cmpoptsPackage := codegenContext.MustGetImportedPackageName(astmodel.CmpOptsReference)
 	prettyPackage := codegenContext.MustGetImportedPackageName(astmodel.PrettyReference)

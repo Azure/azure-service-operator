@@ -569,7 +569,7 @@ func getProperties(
 				// TODO: for JSON serialization this needs to be unpacked into "parent"
 				additionalProperties := astmodel.NewPropertyDefinition(
 					astmodel.AdditionalPropertiesPropertyName,
-					astmodel.AdditionalPropertiesJsonName,
+					astmodel.AdditionalPropertiesJSONName,
 					astmodel.NewStringMapType(astmodel.AnyType))
 
 				properties = append(properties, additionalProperties)
@@ -601,7 +601,7 @@ func getProperties(
 
 			additionalProperties := astmodel.NewPropertyDefinition(
 				astmodel.AdditionalPropertiesPropertyName,
-				astmodel.AdditionalPropertiesJsonName,
+				astmodel.AdditionalPropertiesJSONName,
 				astmodel.NewStringMapType(additionalPropsType))
 
 			properties = append(properties, additionalProperties)

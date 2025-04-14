@@ -890,7 +890,7 @@ func (synthesizer) handleMapObject(leftMap *astmodel.MapType, rightObj *astmodel
 
 		additionalProps := astmodel.NewPropertyDefinition(
 			astmodel.AdditionalPropertiesPropertyName,
-			astmodel.AdditionalPropertiesJsonName,
+			astmodel.AdditionalPropertiesJSONName,
 			leftMap)
 
 		return rightObj.WithProperties(additionalProps), nil
