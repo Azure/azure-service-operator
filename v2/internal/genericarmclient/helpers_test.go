@@ -31,7 +31,7 @@ func TestParseHttpDate(t *testing.T) {
 		"Sun Nov  6 08:49:37 1994",       // obs-date (asctime-date)
 		"Sun Nov 06 08:49:37 1994",       // modified version of last to have 2 digits
 	} {
-		parsed, err := parseHttpDate(dateFormat)
+		parsed, err := parseHTTPDate(dateFormat)
 		g.Expect(err).ToNot(HaveOccurred())
 		// can't use gomega assertion here as .Equal must be called
 		g.Expect(parsed.Equal(expected)).To(BeTrue())

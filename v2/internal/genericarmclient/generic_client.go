@@ -43,7 +43,7 @@ type GenericClient struct {
 // TODO: Need to do retryAfter detection in each call?
 
 type GenericClientOptions struct {
-	HttpClient        *http.Client
+	HTTPClient        *http.Client
 	Metrics           *metrics.ARMClientMetrics
 	UserAgent         string
 	AdditionalTenants []string
@@ -91,10 +91,10 @@ func NewGenericClient(
 	// We assign this HTTPClient like this because if we actually set it to nil, due to the way
 	// go interfaces wrap values, the subsequent if httpClient == nil check returns false (even though
 	// the value IN the interface IS nil).
-	if options.HttpClient != nil {
-		opts.Transport = options.HttpClient
+	if options.HTTPClient != nil {
+		opts.Transport = options.HTTPClient
 	} else {
-		opts.Transport = defaultHttpClient
+		opts.Transport = defaultHTTPClient
 	}
 
 	rpRegistrationPolicy, err := NewRPRegistrationPolicy(

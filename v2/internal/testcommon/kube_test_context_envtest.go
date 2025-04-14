@@ -522,7 +522,7 @@ func createEnvtestContext() (BaseTestContextFactory, context.CancelFunc) {
 				credentialProvider,
 				envtest.KubeClient,
 				cfg.Cloud(),
-				perTestContext.HttpClient,
+				perTestContext.HTTPClient,
 				metrics.NewARMClientMetrics())
 
 			resources := &perNamespace{
