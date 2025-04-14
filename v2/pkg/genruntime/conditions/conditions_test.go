@@ -406,9 +406,12 @@ func Test_SetConditionReasonAware_OverwritesAsExpected(t *testing.T) {
 
 func makeFriendlyString(condition conditions.Condition) string {
 	result := string(condition.Severity)
-	if condition.Status == metav1.ConditionTrue {
+	switch condition.Status {
+	case metav1.ConditionTrue:
 		result = "True"
-	} else if condition.Status == metav1.ConditionUnknown {
+	case metav1.ConditionFalse:
+		result = "False"
+	case metav1.ConditionUnknown:
 		result = "Unknown"
 	}
 

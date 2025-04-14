@@ -70,9 +70,9 @@ func kvListFormat(b *bytes.Buffer, keysAndValues ...interface{}) {
 		}
 		b.WriteByte(' ')
 		if _, ok := v.(fmt.Stringer); ok {
-			b.WriteString(fmt.Sprintf("%s=%q", k, v))
+			fmt.Fprintf(b, "%s=%q", k, v)
 		} else {
-			b.WriteString(fmt.Sprintf("%s=%#v", k, v))
+			fmt.Fprintf(b, "%s=%#v", k, v)
 		}
 	}
 }

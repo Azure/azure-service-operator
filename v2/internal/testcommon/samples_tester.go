@@ -411,7 +411,7 @@ func (t *SamplesTester) replaceString(field reflect.Value, old string, new strin
 	}
 
 	val := field.String()
-	val = strings.Replace(val, old, new, -1)
+	val = strings.ReplaceAll(val, old, new)
 	field.SetString(val)
 }
 
