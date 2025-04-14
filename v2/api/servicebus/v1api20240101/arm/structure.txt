@@ -446,3 +446,37 @@ NamespacesTopicsSubscriptionsRule_Spec: Object (2 properties)
         ├── RequiresPreprocessing: *bool
         └── SqlExpression: *string
 
+TopicAuthorizationRule_STATUS: Object (6 properties)
+├── Id: *string
+├── Location: *string
+├── Name: *string
+├── Properties: *Object (1 property)
+│   └── Rights: Enum (3 values)[]
+│       ├── "Listen"
+│       ├── "Manage"
+│       └── "Send"
+├── SystemData: *Object (6 properties)
+│   ├── CreatedAt: *string
+│   ├── CreatedBy: *string
+│   ├── CreatedByType: *Enum (4 values)
+│   │   ├── "Application"
+│   │   ├── "Key"
+│   │   ├── "ManagedIdentity"
+│   │   └── "User"
+│   ├── LastModifiedAt: *string
+│   ├── LastModifiedBy: *string
+│   └── LastModifiedByType: *Enum (4 values)
+│       ├── "Application"
+│       ├── "Key"
+│       ├── "ManagedIdentity"
+│       └── "User"
+└── Type: *string
+
+TopicAuthorizationRule_Spec: Object (2 properties)
+├── Name: string
+└── Properties: *Object (1 property)
+    └── Rights: Enum (3 values)[]
+        ├── "Listen"
+        ├── "Manage"
+        └── "Send"
+
