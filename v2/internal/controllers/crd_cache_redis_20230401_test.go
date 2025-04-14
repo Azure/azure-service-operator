@@ -114,7 +114,7 @@ func Redis_LinkedServer_20230401_CRUD(tc *testcommon.KubePerTestContext, _ *reso
 	// secondary server.
 	serverRole := cache.RedisLinkedServerCreateProperties_ServerRole_Secondary
 	linkedServer := cache.RedisLinkedServer{
-		ObjectMeta: tc.MakeObjectMetaWithName(redis2.ObjectMeta.Name),
+		ObjectMeta: tc.MakeObjectMetaWithName(redis2.Name),
 		Spec: cache.RedisLinkedServer_Spec{
 			Owner:                     testcommon.AsOwner(redis1),
 			LinkedRedisCacheLocation:  tc.AzureRegion,

@@ -156,7 +156,7 @@ func (r *AzureDeploymentReconciler) Claim(
 		return err
 	}
 
-	claimer := extensions.CreateClaimer(r.Extension, r.ARMOwnedResourceReconcilerCommon.ClaimResource)
+	claimer := extensions.CreateClaimer(r.Extension, r.ClaimResource)
 	err = claimer(ctx, log, typedObj)
 	if err != nil {
 		return err
