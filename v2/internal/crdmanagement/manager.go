@@ -220,7 +220,7 @@ func (m *Manager) FindMatchingCRDs(
 
 		equal := true
 		for _, c := range comparators {
-			if c(existingCRD, goalCRD) == false { //nolint: gosimple
+			if !c(existingCRD, goalCRD) { //nolint: gosimple
 				equal = false
 				break
 			}

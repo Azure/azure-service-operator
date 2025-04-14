@@ -140,7 +140,7 @@ func configByName(log logr.Logger, nic armnetwork.Interface) map[string]string {
 				continue
 			}
 
-			if to.Value(ipConfiguration.Properties.Primary) == false {
+			if !to.Value(ipConfiguration.Properties.Primary) {
 				// This ipConfiguration is not primary
 				continue
 			}
