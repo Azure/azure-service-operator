@@ -16,9 +16,9 @@ type SupportedResourcesReport struct {
 	OutputFolder string `yaml:"outputFolder,omitempty"`
 	// FragmentPath is a folder path for markdown fragments to inject into the file
 	FragmentPath string `yaml:"fragmentPath,omitempty"`
-	// ResourceUrlTemplate is a template for URL to the API docs for a resource
+	// ResourceURLTemplate is a template for URL to the API docs for a resource
 	// It may use the placeholders {group} {version} and {kind}
-	ResourceUrlTemplate string `yaml:"resourceUrlTemplate"`
+	ResourceURLTemplate string `yaml:"resourceUrlTemplate"`
 	// ResourcePathTemplate is a template used for generating a file path for checking whether docs for a resource have been generated
 	// specified relative to the directory of outputPath
 	ResourcePathTemplate string `yaml:"resourcePathTemplate"`

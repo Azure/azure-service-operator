@@ -72,7 +72,7 @@ func ReportResourceVersions(configuration *config.Configuration) *Stage {
 type ResourceVersionsReport struct {
 	reportConfiguration      *config.SupportedResourcesReport
 	objectModelConfiguration *config.ObjectModelConfiguration
-	rootUrl                  string
+	rootURL                  string
 	samplesPath              string
 	availableFragments       map[string]string                                      // A collection of the fragments to use in the report
 	groups                   set.Set[string]                                        // A set of all our groups
@@ -102,7 +102,7 @@ func NewResourceVersionsReport(
 	result := &ResourceVersionsReport{
 		reportConfiguration:      cfg.SupportedResourcesReport,
 		objectModelConfiguration: cfg.ObjectModelConfiguration,
-		rootUrl:                  cfg.RootURL,
+		rootURL:                  cfg.RootURL,
 		samplesPath:              cfg.FullSamplesPath(),
 		availableFragments:       make(map[string]string),
 		groups:                   set.Make[string](),
@@ -620,10 +620,10 @@ func (report *ResourceVersionsReport) createTable(
 
 func (report *ResourceVersionsReport) FindSampleLinks(group string) (map[string]string, error) {
 	result := make(map[string]string)
-	if report.rootUrl != "" {
-		parsedRootURL, err := url.Parse(report.rootUrl)
+	if report.rootURL != "" {
+		parsedRootURL, err := url.Parse(report.rootURL)
 		if err != nil {
-			return nil, eris.Wrapf(err, "parsing rootUrl %s", report.rootUrl)
+			return nil, eris.Wrapf(err, "parsing rootUrl %s", report.rootURL)
 		}
 
 		// We look for samples within only the subfolder for this group - this avoids getting sample links wrong
@@ -683,7 +683,7 @@ func (report *ResourceVersionsReport) generateAPILink(
 	name astmodel.InternalTypeName,
 ) string {
 	crdKind := name.Name()
-	linkTemplate := report.reportConfiguration.ResourceUrlTemplate
+	linkTemplate := report.reportConfiguration.ResourceURLTemplate
 	pathTemplate := report.reportConfiguration.ResourcePathTemplate
 	if linkTemplate == "" || pathTemplate == "" {
 		// One or both of LinkTemplate and PathTemplate are not set, so we can't generate a link

@@ -652,7 +652,7 @@ func generateDefinitionsFor(
 		return nil, err
 	}
 
-	schemaUrl := schema.url()
+	schemaURL := schema.url()
 
 	// see if we already generated something for this ref
 	if _, ok := scanner.findTypeDefinition(typeName); ok {
@@ -671,7 +671,7 @@ func generateDefinitionsFor(
 	// TODO: This code and below does nothing in the Swagger path as schema.url() is always empty.
 	// TODO: It's still used in the JSON schema path for golden tests and should be removed once those
 	// TODO: are retired.
-	resourceType := categorizeResourceType(schemaUrl)
+	resourceType := categorizeResourceType(schemaURL)
 	if resourceType != nil {
 		result = astmodel.NewAzureResourceType(result, nil, typeName, *resourceType, nil)
 	}
