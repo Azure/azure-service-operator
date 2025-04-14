@@ -563,7 +563,7 @@ func (objectType *ObjectType) WithInterface(iface *InterfaceImplementation) *Obj
 
 // WithoutInterface removes the specified interface
 func (objectType *ObjectType) WithoutInterface(name TypeName) *ObjectType {
-	if _, found := objectType.InterfaceImplementer.FindInterface(name); !found {
+	if _, found := objectType.FindInterface(name); !found {
 		return objectType
 	}
 

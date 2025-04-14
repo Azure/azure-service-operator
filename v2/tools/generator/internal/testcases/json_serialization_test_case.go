@@ -792,7 +792,7 @@ func (o *JSONSerializationTestCase) createRelatedGenerator(
 						Body: astbuilder.StatementBlock(astbuilder.Returns(astbuilder.AddrOf(dst.NewIdent("it")))),
 					})
 
-				genMap.Decs.NodeDecs.End = []string{"// generate one case for OneOf type"}
+				genMap.Decs.End = []string{"// generate one case for OneOf type"}
 
 				return genMap
 			}

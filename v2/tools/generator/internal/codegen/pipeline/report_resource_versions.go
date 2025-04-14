@@ -288,7 +288,7 @@ func (report *ResourceVersionsReport) WriteAllResourcesReportToBuffer(
 		items := report.items[grp]
 
 		info := report.groupInfo(grp, items)
-		buffer.WriteString(fmt.Sprintf("## %s\n\n", info.Title))
+		fmt.Fprintf(buffer, "## %s\n\n", info.Title)
 
 		// Include our group fragment
 		err := report.writeFragment("group-header", info, buffer)
@@ -711,9 +711,9 @@ func (report *ResourceVersionsReport) expandPlaceholders(template string, rsrc a
 	crdGroup, crdVersion := rsrc.InternalPackageReference().GroupVersion()
 
 	result := template
-	result = strings.Replace(result, "{group}", crdGroup, -1)
-	result = strings.Replace(result, "{version}", crdVersion, -1)
-	result = strings.Replace(result, "{kind}", crdKind, -1)
+	result = strings.ReplaceAll(result, "{group}", crdGroup)
+	result = strings.ReplaceAll(result, "{version}", crdVersion)
+	result = strings.ReplaceAll(result, "{kind}", crdKind)
 	return result
 }
 

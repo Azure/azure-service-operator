@@ -517,7 +517,7 @@ func getProperties(
 		}
 
 		// add flattening
-		property = property.SetFlatten(propSchema.extensionAsBool("x-ms-client-flatten") == true)
+		property = property.SetFlatten(propSchema.extensionAsBool("x-ms-client-flatten"))
 
 		// add secret flag
 		hasSecretExtension := propSchema.extensionAsBool("x-ms-secret")

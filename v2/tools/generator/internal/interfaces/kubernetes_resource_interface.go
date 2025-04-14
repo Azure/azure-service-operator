@@ -336,7 +336,7 @@ func fixedValueGetAzureNameFunction(fixedValue string) functions.ObjectFunctionH
 		panic("cannot created fixed value AzureName function with empty fixed value")
 	}
 
-	if !(fixedValue[0] == '"' && fixedValue[len(fixedValue)-1] == '"') {
+	if fixedValue[0] != '"' || fixedValue[len(fixedValue)-1] != '"' {
 		fixedValue = fmt.Sprintf("%q", fixedValue)
 	}
 

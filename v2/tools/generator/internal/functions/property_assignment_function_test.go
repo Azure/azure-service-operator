@@ -502,12 +502,12 @@ func TestGolden_PropertyAssignmentFunction_AsFunc(t *testing.T) {
 		c := c
 		t.Run(n, func(t *testing.T) {
 			t.Parallel()
-			runTestPropertyAssignmentFunction_AsFunc(c, t)
+			runTestPropertyAssignmentFunctionAsFunc(c, t)
 		})
 	}
 }
 
-func runTestPropertyAssignmentFunction_AsFunc(c *StorageConversionPropertyTestCase, t *testing.T) {
+func runTestPropertyAssignmentFunctionAsFunc(c *StorageConversionPropertyTestCase, t *testing.T) {
 	g := NewGomegaWithT(t)
 	idFactory := astmodel.NewIdentifierFactory()
 
