@@ -33,7 +33,7 @@ func NewRedactor(azureIDs creds.AzureIDs) *Redactor {
 	redactor.AddLiteralRedaction(azureIDs.TenantID, nilGuid)
 	redactor.AddLiteralRedaction(azureIDs.SubscriptionID, nilGuid)
 	if azureIDs.BillingInvoiceID != "" {
-		redactor.AddLiteralRedaction(azureIDs.BillingInvoiceID, creds.DummyBillingId)
+		redactor.AddLiteralRedaction(azureIDs.BillingInvoiceID, creds.DummyBillingID)
 	}
 
 	return redactor

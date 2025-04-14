@@ -780,7 +780,7 @@ func assignToEnumeration(
 		if dstEnum.NeedsMappingConversion(dstName) {
 			// We need to use the values mapping to convert the value in a case-insensitive way
 
-			mapperId := dstEnum.MapperVariableName(dstName)
+			mapperID := dstEnum.MapperVariableName(dstName)
 			genruntimePkg := generationContext.MustGetImportedPackageName(astmodel.GenRuntimeReference)
 
 			// genruntime.ToEnum(<actualReader>, <mapperId>)
@@ -788,7 +788,7 @@ func assignToEnumeration(
 				genruntimePkg,
 				"ToEnum",
 				actualReader,
-				dst.NewIdent(mapperId))
+				dst.NewIdent(mapperID))
 
 			convert, err := conversion(
 				toEnum,
@@ -1330,10 +1330,10 @@ func assignArrayFromArray(
 		// These suffixes must not overlap with those used for map conversion. (If these suffixes overlap, the naming
 		// becomes difficult to read when converting maps containing slices or vice versa.)
 		branchLocals := knownLocals.Clone()
-		tempId := branchLocals.CreateSingularLocal(sourceEndpoint.Name(), "List")
+		tempID := branchLocals.CreateSingularLocal(sourceEndpoint.Name(), "List")
 		loopLocals := branchLocals.Clone() // Clone after tempId is created so that it's visible within the loop
-		itemId := loopLocals.CreateSingularLocal(sourceEndpoint.Name(), "Item")
-		indexId := loopLocals.CreateSingularLocal(sourceEndpoint.Name(), "Index")
+		itemID := loopLocals.CreateSingularLocal(sourceEndpoint.Name(), "Item")
+		indexID := loopLocals.CreateSingularLocal(sourceEndpoint.Name(), "Index")
 
 		destinationArrayExpr, err := destinationArray.AsTypeExpr(generationContext)
 		if err != nil {
@@ -1345,25 +1345,25 @@ func assignArrayFromArray(
 		}
 
 		declaration := astbuilder.ShortDeclaration(
-			tempId,
+			tempID,
 			astbuilder.MakeSlice(destinationArrayExpr, astbuilder.CallFunc("len", actualReader)))
 
 		writeToElement := func(expr dst.Expr) []dst.Stmt {
 			return astbuilder.Statements(
 				astbuilder.SimpleAssignment(
 					&dst.IndexExpr{
-						X:     dst.NewIdent(tempId),
-						Index: dst.NewIdent(indexId),
+						X:     dst.NewIdent(tempID),
+						Index: dst.NewIdent(indexID),
 					},
 					expr),
 			)
 		}
 
-		avoidAliasing := astbuilder.ShortDeclaration(itemId, dst.NewIdent(itemId))
+		avoidAliasing := astbuilder.ShortDeclaration(itemID, dst.NewIdent(itemID))
 		avoidAliasing.Decs.Start.Append("// Shadow the loop variable to avoid aliasing")
 		avoidAliasing.Decs.Before = dst.NewLine
 
-		elemConv, err := conversion(dst.NewIdent(itemId), writeToElement, loopLocals, generationContext)
+		elemConv, err := conversion(dst.NewIdent(itemID), writeToElement, loopLocals, generationContext)
 		if err != nil {
 			return nil, eris.Wrapf(
 				err,
@@ -1374,8 +1374,8 @@ func assignArrayFromArray(
 
 		loopBody := astbuilder.Statements(avoidAliasing, elemConv)
 
-		assignValue := writer(dst.NewIdent(tempId))
-		loop := astbuilder.IterateOverSliceWithIndex(indexId, itemId, reader, loopBody...)
+		assignValue := writer(dst.NewIdent(tempID))
+		loop := astbuilder.IterateOverSliceWithIndex(indexID, itemID, reader, loopBody...)
 		trueBranch := astbuilder.Statements(declaration, loop, assignValue)
 
 		assignZero := writer(astbuilder.Nil())
@@ -1482,10 +1482,10 @@ func assignMapFromMap(
 		// These suffixes must not overlap with those used for array conversion. (If these suffixes overlap, the naming
 		// becomes difficult to read when converting maps containing slices or vice versa.)
 		branchLocals := knownLocals.Clone()
-		tempId := branchLocals.CreateSingularLocal(sourceEndpoint.Name(), "Map")
+		tempID := branchLocals.CreateSingularLocal(sourceEndpoint.Name(), "Map")
 		loopLocals := branchLocals.Clone() // Clone after tempId is created so that it's visible within the loop
-		itemId := loopLocals.CreateSingularLocal(sourceEndpoint.Name(), "Value")
-		keyId := loopLocals.CreateSingularLocal(sourceEndpoint.Name(), "Key")
+		itemID := loopLocals.CreateSingularLocal(sourceEndpoint.Name(), "Value")
+		keyID := loopLocals.CreateSingularLocal(sourceEndpoint.Name(), "Key")
 
 		keyTypeExpr, err := destinationMap.KeyType().AsTypeExpr(generationContext)
 		if err != nil {
@@ -1504,7 +1504,7 @@ func assignMapFromMap(
 		}
 
 		declaration := astbuilder.ShortDeclaration(
-			tempId,
+			tempID,
 			astbuilder.MakeMapWithCapacity(
 				keyTypeExpr,
 				valueTypeExpr,
@@ -1514,18 +1514,18 @@ func assignMapFromMap(
 			return astbuilder.Statements(
 				astbuilder.SimpleAssignment(
 					&dst.IndexExpr{
-						X:     dst.NewIdent(tempId),
-						Index: dst.NewIdent(keyId),
+						X:     dst.NewIdent(tempID),
+						Index: dst.NewIdent(keyID),
 					},
 					expr),
 			)
 		}
 
-		avoidAliasing := astbuilder.ShortDeclaration(itemId, dst.NewIdent(itemId))
+		avoidAliasing := astbuilder.ShortDeclaration(itemID, dst.NewIdent(itemID))
 		avoidAliasing.Decs.Start.Append("// Shadow the loop variable to avoid aliasing")
 		avoidAliasing.Decs.Before = dst.NewLine
 
-		elemConv, err := conversion(dst.NewIdent(itemId), assignToItem, loopLocals, generationContext)
+		elemConv, err := conversion(dst.NewIdent(itemID), assignToItem, loopLocals, generationContext)
 		if err != nil {
 			return nil, eris.Wrapf(
 				err,
@@ -1536,8 +1536,8 @@ func assignMapFromMap(
 
 		loopBody := astbuilder.Statements(avoidAliasing, elemConv)
 
-		loop := astbuilder.IterateOverMapWithValue(keyId, itemId, actualReader, loopBody...)
-		assignMap := writer(dst.NewIdent(tempId))
+		loop := astbuilder.IterateOverMapWithValue(keyID, itemID, actualReader, loopBody...)
+		assignMap := writer(dst.NewIdent(tempID))
 		trueBranch := astbuilder.Statements(declaration, loop, assignMap)
 
 		assignNil := writer(astbuilder.Nil())
@@ -1630,7 +1630,7 @@ func assignUserAssignedIdentityMapFromArray(
 		generationContext *astmodel.CodeGenerationContext,
 	) ([]dst.Stmt, error) {
 		// <source>List := make([]<type>, 0, len(<source>)
-		tempId := knownLocals.CreateSingularLocal(sourceEndpoint.Name(), "List")
+		tempID := knownLocals.CreateSingularLocal(sourceEndpoint.Name(), "List")
 		destinationArrayExpr, err := destinationArray.AsTypeExpr(generationContext)
 		if err != nil {
 			return nil, eris.Wrapf(
@@ -1641,7 +1641,7 @@ func assignUserAssignedIdentityMapFromArray(
 		}
 
 		declaration := astbuilder.ShortDeclaration(
-			tempId,
+			tempID,
 			astbuilder.MakeEmptySlice(destinationArrayExpr, astbuilder.CallFunc("len", reader)))
 
 		loopLocals := knownLocals.Clone()
@@ -1680,7 +1680,7 @@ func assignUserAssignedIdentityMapFromArray(
 
 		loopBody := astbuilder.Statements(
 			elemConv,
-			astbuilder.AppendItemToSlice(dst.NewIdent(tempId), uaiBuilder.Build()),
+			astbuilder.AppendItemToSlice(dst.NewIdent(tempID), uaiBuilder.Build()),
 		)
 		loop := astbuilder.IterateOverMapWithKey(
 			keyID,
@@ -1695,7 +1695,7 @@ func assignUserAssignedIdentityMapFromArray(
 		assignNil := writer(astbuilder.Nil())
 
 		// <writer> = <arr>
-		assignValue := writer(dst.NewIdent(tempId))
+		assignValue := writer(dst.NewIdent(tempID))
 
 		// if source.UserAssignedIdentities != nil {
 		//     <loop>
@@ -1774,7 +1774,7 @@ func assignEnumFromEnum(
 		if destinationEnum.NeedsMappingConversion(destinationName) {
 			// We need to use the values mapping to convert the value in a case-insensitive manner
 
-			mapperId := destinationEnum.MapperVariableName(destinationName)
+			mapperID := destinationEnum.MapperVariableName(destinationName)
 			genruntimePkg := generationContext.MustGetImportedPackageName(astmodel.GenRuntimeReference)
 
 			// genruntime.ToEnum(<actualReader>, <mapperId>)
@@ -1782,7 +1782,7 @@ func assignEnumFromEnum(
 				genruntimePkg,
 				"ToEnum",
 				astbuilder.CallFunc("string", reader),
-				dst.NewIdent(mapperId))
+				dst.NewIdent(mapperID))
 
 			declare = astbuilder.ShortDeclaration(local, toEnum)
 		} else {
@@ -1947,7 +1947,7 @@ func assignObjectDirectlyFromObject(
 			tok = token.DEFINE
 		}
 
-		localId := dst.NewIdent(copyVar)
+		localID := dst.NewIdent(copyVar)
 		errLocal := dst.NewIdent("err")
 
 		errorsPackageName := generationContext.MustGetImportedPackageName(astmodel.ErisReference)
@@ -1960,7 +1960,7 @@ func assignObjectDirectlyFromObject(
 		conversion := astbuilder.AssignmentStatement(
 			errLocal,
 			tok,
-			astbuilder.CallExpr(localId, functionName, astbuilder.AsReference(reader)))
+			astbuilder.CallExpr(localID, functionName, astbuilder.AsReference(reader)))
 
 		checkForError := astbuilder.ReturnIfNotNil(
 			errLocal,
@@ -1970,7 +1970,7 @@ func assignObjectDirectlyFromObject(
 				functionName,
 				describeAssignment(sourceEndpoint, destinationEndpoint)))
 
-		assignment := writer(localId)
+		assignment := writer(localID)
 		return astbuilder.Statements(declaration, conversion, checkForError, assignment), nil
 	}, nil
 }
@@ -2072,7 +2072,7 @@ func assignObjectDirectlyToObject(
 			tok = token.DEFINE
 		}
 
-		localId := dst.NewIdent(copyVar)
+		localID := dst.NewIdent(copyVar)
 		errLocal := dst.NewIdent("err")
 
 		errorsPackageName := generationContext.MustGetImportedPackageName(astmodel.ErisReference)
@@ -2084,7 +2084,7 @@ func assignObjectDirectlyToObject(
 		conversion := astbuilder.AssignmentStatement(
 			errLocal,
 			tok,
-			astbuilder.CallExpr(reader, functionName, astbuilder.AddrOf(localId)))
+			astbuilder.CallExpr(reader, functionName, astbuilder.AddrOf(localID)))
 
 		checkForError := astbuilder.ReturnIfNotNil(
 			errLocal,

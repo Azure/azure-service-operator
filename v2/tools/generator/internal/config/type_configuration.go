@@ -156,16 +156,16 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 	}
 
 	tc.properties = make(map[string]*PropertyConfiguration)
-	var lastId string
+	var lastID string
 
 	for i, c := range value.Content {
 		// Grab identifiers and loop to handle the associated value
 		if i%2 == 0 {
-			lastId = c.Value
+			lastID = c.Value
 			continue
 		}
 
-		if strings.EqualFold(lastId, generatedConfigsTag) && c.Kind == yaml.MappingNode {
+		if strings.EqualFold(lastID, generatedConfigsTag) && c.Kind == yaml.MappingNode {
 			azureGeneratedConfigs := make(map[string]string)
 
 			idx := 0
@@ -204,24 +204,24 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 
 		// Handle nested property metadata
 		if c.Kind == yaml.MappingNode {
-			p := NewPropertyConfiguration(lastId)
+			p := NewPropertyConfiguration(lastID)
 			err := c.Decode(p)
 			if err != nil {
-				return eris.Wrapf(err, "decoding yaml for %q", lastId)
+				return eris.Wrapf(err, "decoding yaml for %q", lastID)
 			}
 
-			tc.addProperty(lastId, p)
+			tc.addProperty(lastID, p)
 			continue
 		}
 
 		// $nameInNextVersion: <string>
-		if strings.EqualFold(lastId, nameInNextVersionTag) && c.Kind == yaml.ScalarNode {
+		if strings.EqualFold(lastID, nameInNextVersionTag) && c.Kind == yaml.ScalarNode {
 			tc.NameInNextVersion.Set(c.Value)
 			continue
 		}
 
 		// $export: <bool>
-		if strings.EqualFold(lastId, exportTag) && c.Kind == yaml.ScalarNode {
+		if strings.EqualFold(lastID, exportTag) && c.Kind == yaml.ScalarNode {
 			var export bool
 			err := c.Decode(&export)
 			if err != nil {
@@ -233,7 +233,7 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 		}
 
 		// $exportAs: <string>
-		if strings.EqualFold(lastId, exportAsTag) && c.Kind == yaml.ScalarNode {
+		if strings.EqualFold(lastID, exportAsTag) && c.Kind == yaml.ScalarNode {
 			tc.ExportAs.Set(c.Value)
 			continue
 		}
@@ -241,7 +241,7 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 		// $azureGeneratedSecrets:
 		// - secret1
 		// - secret2
-		if strings.EqualFold(lastId, azureGeneratedSecretsTag) && c.Kind == yaml.SequenceNode {
+		if strings.EqualFold(lastID, azureGeneratedSecretsTag) && c.Kind == yaml.SequenceNode {
 			var azureGeneratedSecrets []string
 			for _, content := range c.Content {
 				if content.Kind == yaml.ScalarNode {
@@ -262,7 +262,7 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 		// $manualConfigs
 		// - config1
 		// - config2
-		if strings.EqualFold(lastId, manualConfigsTag) && c.Kind == yaml.SequenceNode {
+		if strings.EqualFold(lastID, manualConfigsTag) && c.Kind == yaml.SequenceNode {
 			manualAzureGeneratedConfigs := make([]string, 0, len(c.Content))
 			for _, content := range c.Content {
 				if content.Kind == yaml.ScalarNode {
@@ -281,7 +281,7 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 		}
 
 		// $stripDocumentation
-		if strings.EqualFold(lastId, stripDocumentationTag) && c.Kind == yaml.ScalarNode {
+		if strings.EqualFold(lastID, stripDocumentationTag) && c.Kind == yaml.ScalarNode {
 			var stripDocs bool
 			err := c.Decode(&stripDocs)
 			if err != nil {
@@ -293,13 +293,13 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 		}
 
 		// $supportedFrom
-		if strings.EqualFold(lastId, supportedFromTag) && c.Kind == yaml.ScalarNode {
+		if strings.EqualFold(lastID, supportedFromTag) && c.Kind == yaml.ScalarNode {
 			tc.SupportedFrom.Set(c.Value)
 			continue
 		}
 
 		// $renameTo: <string>
-		if strings.EqualFold(lastId, renameTo) && c.Kind == yaml.ScalarNode {
+		if strings.EqualFold(lastID, renameTo) && c.Kind == yaml.ScalarNode {
 			var renameTo string
 			err := c.Decode(&renameTo)
 			if err != nil {
@@ -311,7 +311,7 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 		}
 
 		// $resourceEmbeddedInParent: <string>
-		if strings.EqualFold(lastId, resourceEmbeddedInParentTag) && c.Kind == yaml.ScalarNode {
+		if strings.EqualFold(lastID, resourceEmbeddedInParentTag) && c.Kind == yaml.ScalarNode {
 			var resourceEmbeddedInParent string
 			err := c.Decode(&resourceEmbeddedInParent)
 			if err != nil {
@@ -323,7 +323,7 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 		}
 
 		// $isResource: <bool>
-		if strings.EqualFold(lastId, isResourceTag) && c.Kind == yaml.ScalarNode {
+		if strings.EqualFold(lastID, isResourceTag) && c.Kind == yaml.ScalarNode {
 			var isResource bool
 			err := c.Decode(&isResource)
 			if err != nil {
@@ -335,7 +335,7 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 		}
 
 		// $importable: <bool>
-		if strings.EqualFold(lastId, importableTag) && c.Kind == yaml.ScalarNode {
+		if strings.EqualFold(lastID, importableTag) && c.Kind == yaml.ScalarNode {
 			var importable bool
 			err := c.Decode(&importable)
 			if err != nil {
@@ -347,7 +347,7 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 		}
 
 		// $defaultAzureName: <bool>
-		if strings.EqualFold(lastId, defaultAzureNameTag) && c.Kind == yaml.ScalarNode {
+		if strings.EqualFold(lastID, defaultAzureNameTag) && c.Kind == yaml.ScalarNode {
 			var defaultAzureName bool
 			err := c.Decode(&defaultAzureName)
 			if err != nil {
@@ -364,7 +364,7 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 		//   description:
 		//   - Line 1
 		//   - Line 2
-		if strings.EqualFold(lastId, operatorSpecPropertiesTag) && c.Kind == yaml.SequenceNode {
+		if strings.EqualFold(lastID, operatorSpecPropertiesTag) && c.Kind == yaml.SequenceNode {
 			properties := make([]OperatorSpecPropertyConfiguration, 0, len(c.Content))
 			for _, content := range c.Content {
 				if content.Kind == yaml.MappingNode {
@@ -390,7 +390,7 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 
 		// No handler for this value, return an error
 		return eris.Errorf(
-			"type configuration, unexpected yaml value %s: %s (line %d col %d)", lastId, c.Value, c.Line, c.Column)
+			"type configuration, unexpected yaml value %s: %s (line %d col %d)", lastID, c.Value, c.Line, c.Column)
 
 	}
 

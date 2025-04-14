@@ -65,7 +65,7 @@ func NewTestPlayer(
 	credentials = creds.MockTokenCredential{}
 	azureIDs.TenantID = uuid.Nil.String()
 	azureIDs.SubscriptionID = uuid.Nil.String()
-	azureIDs.BillingInvoiceID = creds.DummyBillingId
+	azureIDs.BillingInvoiceID = creds.DummyBillingID
 
 	// Force these values to be the default
 	cfg.ResourceManagerEndpoint = asocloud.DefaultEndpoint

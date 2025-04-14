@@ -13,14 +13,14 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
-// MakeOneOfDiscriminantRequiredStageId is the unique identifier for this pipeline stage
-const MakeOneOfDiscriminantRequiredStageId = "makeOneOfDiscriminantRequired"
+// MakeOneOfDiscriminantRequiredStageID is the unique identifier for this pipeline stage
+const MakeOneOfDiscriminantRequiredStageID = "makeOneOfDiscriminantRequired"
 
 // MakeOneOfDiscriminantRequired walks the type graph and builds new types for communicating
 // with ARM
 func MakeOneOfDiscriminantRequired() *Stage {
 	return NewStage(
-		MakeOneOfDiscriminantRequiredStageId,
+		MakeOneOfDiscriminantRequiredStageID,
 		"Fix one of types to a discriminator which is not omitempty/optional",
 		func(ctx context.Context, state *State) (*State, error) {
 			updatedDefs := make(astmodel.TypeDefinitionSet)

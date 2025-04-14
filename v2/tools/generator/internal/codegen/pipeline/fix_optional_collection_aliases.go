@@ -13,11 +13,11 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
-const FixOptionalCollectionAliasesStageId = "fixOptionalCollectionAliases"
+const FixOptionalCollectionAliasesStageID = "fixOptionalCollectionAliases"
 
 func FixOptionalCollectionAliases() *Stage {
 	return NewStage(
-		FixOptionalCollectionAliasesStageId,
+		FixOptionalCollectionAliasesStageID,
 		"Replace types which are optional aliases to collections with just the collection alias",
 		func(ctx context.Context, state *State) (*State, error) {
 			fixer := optionalCollectionAliasFixer{

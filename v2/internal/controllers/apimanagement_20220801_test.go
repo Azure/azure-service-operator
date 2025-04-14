@@ -583,7 +583,7 @@ func APIM_AuthorizationProviders_Authorizations_AccessPolicy_CRUD(tc *testcommon
 	tc.CreateResourceAndWait(&authorization)
 
 	configMapName := "my-configmap"
-	principalIdKey := "principalId"
+	principalIDKey := "principalId"
 	tenantIDKey := "tenantId"
 
 	// Create a managed identity to use as the AAD administrator
@@ -596,7 +596,7 @@ func APIM_AuthorizationProviders_Authorizations_AccessPolicy_CRUD(tc *testcommon
 				ConfigMaps: &managedidentity.UserAssignedIdentityOperatorConfigMaps{
 					PrincipalId: &genruntime.ConfigMapDestination{
 						Name: configMapName,
-						Key:  principalIdKey,
+						Key:  principalIDKey,
 					},
 					TenantId: &genruntime.ConfigMapDestination{
 						Name: configMapName,
@@ -621,7 +621,7 @@ func APIM_AuthorizationProviders_Authorizations_AccessPolicy_CRUD(tc *testcommon
 			},
 			ObjectIdFromConfig: &genruntime.ConfigMapReference{
 				Name: configMapName,
-				Key:  principalIdKey,
+				Key:  principalIDKey,
 			},
 		},
 	}
@@ -680,14 +680,14 @@ func Subscription_SecretsWrittenToDifferentKubeSecrets(tc *testcommon.KubePerTes
 }
 
 func createAuthorizationProviderSecrets(tc *testcommon.KubePerTestContext, name string) genruntime.SecretMapReference {
-	clientId := tc.Namer.GeneratePasswordOfLength(10)
+	clientID := tc.Namer.GeneratePasswordOfLength(10)
 	clientSecret := tc.Namer.GeneratePasswordOfLength(10)
 
-	clientIdKey := "clientId"
+	clientIDKey := "clientId"
 	clientSecretKey := "clientSecret"
 
 	stringData := map[string]string{
-		clientIdKey:     clientId,
+		clientIDKey:     clientID,
 		clientSecretKey: clientSecret,
 		"ResourceUri":   "https://www.contoso.com",
 	}

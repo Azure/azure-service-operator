@@ -15,11 +15,11 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
-const FlattenPropertiesStageId = "flattenProperties"
+const FlattenPropertiesStageID = "flattenProperties"
 
 func FlattenProperties(log logr.Logger) *Stage {
 	return NewStage(
-		FlattenPropertiesStageId,
+		FlattenPropertiesStageID,
 		"Apply flattening to properties marked for flattening",
 		func(ctx context.Context, state *State) (*State, error) {
 			defs := state.Definitions()

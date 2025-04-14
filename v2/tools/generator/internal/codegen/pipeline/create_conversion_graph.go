@@ -19,8 +19,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 )
 
-// CreateConversionGraphStageId is the unique identifier for this stage
-const CreateConversionGraphStageId = "createConversionGraph"
+// CreateConversionGraphStageID is the unique identifier for this stage
+const CreateConversionGraphStageID = "createConversionGraph"
 
 // CreateConversionGraph walks the set of available types and creates a graph of conversions that will be used to
 // convert resources to/from the designated storage (or hub) version
@@ -29,7 +29,7 @@ func CreateConversionGraph(
 	generatorPrefix string,
 ) *Stage {
 	stage := NewStage(
-		CreateConversionGraphStageId,
+		CreateConversionGraphStageID,
 		"Create the graph of conversions between versions of each resource group",
 		func(ctx context.Context, state *State) (*State, error) {
 			// Collect all distinct references

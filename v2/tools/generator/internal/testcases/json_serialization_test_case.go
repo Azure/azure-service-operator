@@ -266,14 +266,14 @@ func (o *JSONSerializationTestCase) createTestRunner(codegenContext *astmodel.Co
 // createTestMethod generates the AST for a method to run a single test of JSON serialization
 func (o *JSONSerializationTestCase) createTestMethod(codegenContext *astmodel.CodeGenerationContext) dst.Decl {
 	const (
-		binId        = "bin"
-		actualId     = "actual"
-		actualFmtId  = "actualFmt"
-		matchId      = "match"
-		subjectId    = "subject"
-		subjectFmtId = "subjectFmt"
-		resultId     = "result"
-		errId        = "err"
+		binID        = "bin"
+		actualID     = "actual"
+		actualFmtID  = "actualFmt"
+		matchID      = "match"
+		subjectID    = "subject"
+		subjectFmtID = "subjectFmt"
+		resultID     = "result"
+		errID        = "err"
 	)
 
 	jsonPackage := codegenContext.MustGetImportedPackageName(astmodel.JsonReference)
@@ -284,19 +284,19 @@ func (o *JSONSerializationTestCase) createTestMethod(codegenContext *astmodel.Co
 
 	// bin, err := json.Marshal(subject)
 	serialize := astbuilder.SimpleAssignmentWithErr(
-		dst.NewIdent(binId),
+		dst.NewIdent(binID),
 		token.DEFINE,
-		astbuilder.CallQualifiedFunc(jsonPackage, "Marshal", dst.NewIdent(subjectId)))
+		astbuilder.CallQualifiedFunc(jsonPackage, "Marshal", dst.NewIdent(subjectID)))
 	astbuilder.AddComment(&serialize.Decs.Start, "// Serialize to JSON")
 	serialize.Decorations().Before = dst.NewLine
 
 	// if err != nil { return err.Error() }
 	serializeFailed := astbuilder.ReturnIfNotNil(
-		dst.NewIdent(errId),
+		dst.NewIdent(errID),
 		astbuilder.CallQualifiedFunc("err", "Error"))
 
 	// var actual X
-	declare := astbuilder.NewVariable(actualId, o.subject.Name())
+	declare := astbuilder.NewVariable(actualID, o.subject.Name())
 	declare.Decorations().Before = dst.EmptyLine
 	astbuilder.AddComment(&declare.Decorations().Start, "// Deserialize back into memory")
 
@@ -304,50 +304,50 @@ func (o *JSONSerializationTestCase) createTestMethod(codegenContext *astmodel.Co
 	deserialize := astbuilder.SimpleAssignment(
 		dst.NewIdent("err"),
 		astbuilder.CallQualifiedFunc(jsonPackage, "Unmarshal",
-			dst.NewIdent(binId),
-			astbuilder.AddrOf(dst.NewIdent(actualId))))
+			dst.NewIdent(binID),
+			astbuilder.AddrOf(dst.NewIdent(actualID))))
 
 	// if err != nil { return err.Error() }
 	deserializeFailed := astbuilder.ReturnIfNotNil(
-		dst.NewIdent(errId),
+		dst.NewIdent(errID),
 		astbuilder.CallQualifiedFunc("err", "Error"))
 
 	// match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	// We include cmpopts.EquateEmpty() to allow empty slices and maps to match nil values
 	equateEmpty := astbuilder.CallQualifiedFunc(cmpoptsPackage, "EquateEmpty")
 	compare := astbuilder.ShortDeclaration(
-		matchId,
+		matchID,
 		astbuilder.CallQualifiedFunc(cmpPackage, "Equal",
-			dst.NewIdent(subjectId),
-			dst.NewIdent(actualId),
+			dst.NewIdent(subjectID),
+			dst.NewIdent(actualID),
 			equateEmpty))
 	compare.Decorations().Before = dst.EmptyLine
 	astbuilder.AddComment(&compare.Decorations().Start, "// Check for outcome")
 
 	// actualFmt := pretty.Sprint(actual)
 	declareActual := astbuilder.ShortDeclaration(
-		actualFmtId,
-		astbuilder.CallQualifiedFunc(prettyPackage, "Sprint", dst.NewIdent(actualId)))
+		actualFmtID,
+		astbuilder.CallQualifiedFunc(prettyPackage, "Sprint", dst.NewIdent(actualID)))
 
 	// subjectFmt := pretty.Sprint(subject)
 	declareSubject := astbuilder.ShortDeclaration(
-		subjectFmtId,
-		astbuilder.CallQualifiedFunc(prettyPackage, "Sprint", dst.NewIdent(subjectId)))
+		subjectFmtID,
+		astbuilder.CallQualifiedFunc(prettyPackage, "Sprint", dst.NewIdent(subjectID)))
 
 	// diff := diff.Diff(subjectFmt, actualFmt)
 	declareDiff := astbuilder.ShortDeclaration(
-		resultId,
-		astbuilder.CallQualifiedFunc(diffPackage, "Diff", dst.NewIdent(subjectFmtId), dst.NewIdent(actualFmtId)))
+		resultID,
+		astbuilder.CallQualifiedFunc(diffPackage, "Diff", dst.NewIdent(subjectFmtID), dst.NewIdent(actualFmtID)))
 
 	// return diff
-	returnDiff := astbuilder.Returns(dst.NewIdent(resultId))
+	returnDiff := astbuilder.Returns(dst.NewIdent(resultID))
 
 	// if !match {
 	//     result := diff.Diff(subject, actual);
 	//     return result
 	// }
 	prettyPrint := astbuilder.SimpleIf(
-		astbuilder.NotExpr(dst.NewIdent(matchId)),
+		astbuilder.NotExpr(dst.NewIdent(matchID)),
 		declareActual,
 		declareSubject,
 		declareDiff,
@@ -402,7 +402,7 @@ func (o *JSONSerializationTestCase) createGeneratorMethod(ctx *astmodel.CodeGene
 	genPkg := ctx.MustGetImportedPackageName(astmodel.GopterGenReference)
 	reflectPkg := ctx.MustGetImportedPackageName(astmodel.ReflectReference)
 
-	mapId := "generators"
+	mapID := "generators"
 
 	// Name of the global variable in which we cache our generator
 	generatorGlobalID := o.idOfSubjectGeneratorGlobal()
@@ -436,7 +436,7 @@ func (o *JSONSerializationTestCase) createGeneratorMethod(ctx *astmodel.CodeGene
 		genPkg,
 		"Struct",
 		astbuilder.CallQualifiedFunc(reflectPkg, "TypeOf", &dst.CompositeLit{Type: o.Subject()}),
-		dst.NewIdent(mapId))
+		dst.NewIdent(mapID))
 
 	var oneOfStmts []dst.Stmt
 
@@ -458,7 +458,7 @@ func (o *JSONSerializationTestCase) createGeneratorMethod(ctx *astmodel.CodeGene
 			Key:   dst.NewIdent("propName"),
 			Value: dst.NewIdent("propGen"),
 			Tok:   token.DEFINE,
-			X:     dst.NewIdent(mapId),
+			X:     dst.NewIdent(mapID),
 			Body: astbuilder.StatementBlock(
 				astbuilder.SimpleAssignment(dst.NewIdent(gensName), astbuilder.CallFunc("append", dst.NewIdent(gensName),
 					astbuilder.CallQualifiedFunc(
@@ -506,7 +506,7 @@ func (o *JSONSerializationTestCase) createGeneratorMethod(ctx *astmodel.CodeGene
 	//
 	// generators := make(map[string]gopter.Gen)
 	//
-	declareMap := astbuilder.ShortDeclaration(mapId, createMap)
+	declareMap := astbuilder.ShortDeclaration(mapID, createMap)
 	declareMap.Decorations().Before = dst.EmptyLine
 
 	fn.AddStatements(earlyReturn, declareMap)
@@ -516,7 +516,7 @@ func (o *JSONSerializationTestCase) createGeneratorMethod(ctx *astmodel.CodeGene
 		//
 		// AddIndependentPropertyGeneratorsFor<Type>(generators)
 		//
-		addGenerators := astbuilder.CallFuncAsStmt(o.idOfIndependentGeneratorsFactoryMethod(), dst.NewIdent(mapId))
+		addGenerators := astbuilder.CallFuncAsStmt(o.idOfIndependentGeneratorsFactoryMethod(), dst.NewIdent(mapID))
 
 		fn.AddStatements(addGenerators)
 	}
@@ -541,7 +541,7 @@ func (o *JSONSerializationTestCase) createGeneratorMethod(ctx *astmodel.CodeGene
 		//
 		// generators = make(map[string]gopter.Gen
 		//
-		assignMap := astbuilder.SimpleAssignment(dst.NewIdent(mapId), createMap)
+		assignMap := astbuilder.SimpleAssignment(dst.NewIdent(mapID), createMap)
 		assignMap.Decorations().Before = dst.EmptyLine
 		assignMap.Decs.Start.Append("// The above call to gen.Struct() captures the map, so create a new one")
 
@@ -549,7 +549,7 @@ func (o *JSONSerializationTestCase) createGeneratorMethod(ctx *astmodel.CodeGene
 		//
 		// AddIndependentPropertyGeneratorsFor<Type>(generators)
 		//
-		addGenerators := astbuilder.CallFuncAsStmt(o.idOfIndependentGeneratorsFactoryMethod(), dst.NewIdent(mapId))
+		addGenerators := astbuilder.CallFuncAsStmt(o.idOfIndependentGeneratorsFactoryMethod(), dst.NewIdent(mapID))
 
 		fn.AddStatements(assignGenerator, assignMap, addGenerators)
 	}
@@ -559,7 +559,7 @@ func (o *JSONSerializationTestCase) createGeneratorMethod(ctx *astmodel.CodeGene
 		//
 		// AddRelatedPropertyGeneratorsFor<Type>(generators)
 		//
-		addRelatedGenerators := astbuilder.CallFuncAsStmt(o.idOfRelatedGeneratorsFactoryMethod(), dst.NewIdent(mapId))
+		addRelatedGenerators := astbuilder.CallFuncAsStmt(o.idOfRelatedGeneratorsFactoryMethod(), dst.NewIdent(mapID))
 		fn.AddStatements(addRelatedGenerators)
 	}
 
@@ -884,7 +884,7 @@ func (o *JSONSerializationTestCase) createEnumGenerator(enumName string, genPack
 	opts := enum.Options()
 	values := make([]dst.Expr, 0, len(opts))
 	for _, o := range opts {
-		id := astmodel.GetEnumValueId(enumName, o)
+		id := astmodel.GetEnumValueID(enumName, o)
 		values = append(values, dst.NewIdent(id))
 	}
 

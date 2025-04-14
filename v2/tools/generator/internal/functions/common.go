@@ -38,7 +38,7 @@ func createBodyReturningValue(
 		receiver astmodel.TypeName,
 		methodName string,
 	) (*dst.FuncDecl, error) {
-		receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
+		receiverIdent := k.IDFactory().CreateReceiver(receiver.Name())
 
 		// Support both ptr and non-ptr receivers
 		var receiverType astmodel.Type

@@ -16,13 +16,13 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/reporting"
 )
 
-// ReportResourceStructureStageId is the unique identifier for this stage
-const ReportResourceStructureStageId = "reportResourceStructure"
+// ReportResourceStructureStageID is the unique identifier for this stage
+const ReportResourceStructureStageID = "reportResourceStructure"
 
 // ReportResourceStructure creates a pipeline stage that reports the structure of resources in each package
 func ReportResourceStructure(configuration *config.Configuration) *Stage {
 	return NewStage(
-		ReportResourceStructureStageId,
+		ReportResourceStructureStageID,
 		"Reports the structure of resources in each package",
 		func(ctx context.Context, state *State) (*State, error) {
 			report := NewResourceStructureReport(state.Definitions())

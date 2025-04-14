@@ -43,7 +43,7 @@ func TestRemoveStages_RemovesSpecifiedStages(t *testing.T) {
 
 	gen.RemoveStages("foo", "baz")
 	g.Expect(gen.pipeline).To(HaveLen(1))
-	g.Expect(gen.pipeline[0].HasId("bar")).To(BeTrue())
+	g.Expect(gen.pipeline[0].HasID("bar")).To(BeTrue())
 }
 
 func TestRemoveStages_PanicsForUnknownStage(t *testing.T) {

@@ -574,7 +574,7 @@ func APIM_AuthorizationProviders_Authorizations_AccessPolicy20230501preview_CRUD
 	tc.CreateResourceAndWait(&authorization)
 
 	configMapName := "my-configmap"
-	principalIdKey := "principalId"
+	principalIDKey := "principalId"
 	tenantIDKey := "tenantId"
 
 	// Create a managed identity to use as the AAD administrator
@@ -587,7 +587,7 @@ func APIM_AuthorizationProviders_Authorizations_AccessPolicy20230501preview_CRUD
 				ConfigMaps: &managedidentity.UserAssignedIdentityOperatorConfigMaps{
 					PrincipalId: &genruntime.ConfigMapDestination{
 						Name: configMapName,
-						Key:  principalIdKey,
+						Key:  principalIDKey,
 					},
 					TenantId: &genruntime.ConfigMapDestination{
 						Name: configMapName,
@@ -612,7 +612,7 @@ func APIM_AuthorizationProviders_Authorizations_AccessPolicy20230501preview_CRUD
 			},
 			ObjectIdFromConfig: &genruntime.ConfigMapReference{
 				Name: configMapName,
-				Key:  principalIdKey,
+				Key:  principalIDKey,
 			},
 		},
 	}

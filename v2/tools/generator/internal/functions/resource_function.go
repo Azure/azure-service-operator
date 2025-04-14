@@ -55,7 +55,7 @@ func (fn *ResourceFunction) Name() string {
 	return fn.name
 }
 
-func (fn *ResourceFunction) IdFactory() astmodel.IdentifierFactory {
+func (fn *ResourceFunction) IDFactory() astmodel.IdentifierFactory {
 	return fn.idFactory
 }
 
