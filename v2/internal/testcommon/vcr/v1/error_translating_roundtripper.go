@@ -97,7 +97,7 @@ func (w errorTranslation) RoundTrip(req *http.Request) (*http.Response, error) {
 				w.cassetteName,
 				req.Method,
 				req.URL.String(),
-				req.Header.Get(COUNT_HEADER)),
+				req.Header.Get(CountHeader)),
 
 			conditions.ConditionSeverityError,
 			conditions.ReasonReconciliationFailedPermanently)
@@ -129,8 +129,8 @@ func (w errorTranslation) findMatchingBodies(r *http.Request) []string {
 	urlString := r.URL.String()
 	var result []string
 	for _, interaction := range w.ensureCassette().Interactions {
-		if urlString == interaction.URL && r.Method == interaction.Request.Method &&
-			r.Header.Get(COUNT_HEADER) == interaction.Request.Headers.Get(COUNT_HEADER) {
+		if urlString == interaction.URL && r.Method == interaction.Method &&
+			r.Header.Get(CountHeader) == interaction.Request.Headers.Get(CountHeader) {
 			result = append(result, interaction.Request.Body)
 		}
 	}

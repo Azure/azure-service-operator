@@ -17,11 +17,11 @@ import (
 )
 
 const (
-	// COUNT_HEADER is the name of the header used to record the sequence number of a request
-	COUNT_HEADER = "TEST-REQUEST-ATTEMPT"
+	// CountHeader is the name of the header used to record the sequence number of a request
+	CountHeader = "TEST-REQUEST-ATTEMPT"
 
-	// HASH_HEADER is the name of the header used to record the hash of a request body
-	HASH_HEADER = "TEST-REQUEST-HASH"
+	// HashHeader is the name of the header used to record the hash of a request body
+	HashHeader = "TEST-REQUEST-HASH"
 )
 
 // Wraps an inner HTTP roundtripper to add a
@@ -82,7 +82,7 @@ func (rt *requestCounter) addCountHeader(req *http.Request) {
 	rt.countsMutex.Unlock()
 
 	// Apply the header
-	req.Header.Set(COUNT_HEADER, fmt.Sprintf("%d", count))
+	req.Header.Set(CountHeader, fmt.Sprintf("%d", count))
 }
 
 // addHashHeader adds a header to the request based on a hash of the content of the request body
@@ -106,7 +106,7 @@ func (rt *requestCounter) addHashHeader(request *http.Request) {
 		request.Header = make(http.Header)
 	}
 
-	request.Header.Set(HASH_HEADER, fmt.Sprintf("%x", hash))
+	request.Header.Set(HashHeader, fmt.Sprintf("%x", hash))
 
 	// Reset the body so it can be read again
 	request.Body = io.NopCloser(&body)

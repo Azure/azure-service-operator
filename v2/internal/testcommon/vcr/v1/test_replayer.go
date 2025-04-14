@@ -81,7 +81,7 @@ func NewTestPlayer(
 		}
 
 		// verify custom request count header (see counting_roundtripper.go)
-		if r.Header.Get(COUNT_HEADER) != i.Headers.Get(COUNT_HEADER) {
+		if r.Header.Get(CountHeader) != i.Headers.Get(CountHeader) {
 			return false
 		}
 
