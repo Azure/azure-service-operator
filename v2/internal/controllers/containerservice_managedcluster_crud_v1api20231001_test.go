@@ -126,6 +126,7 @@ func NewManagedCluster20231001(tc *testcommon.KubePerTestContext, rg *v1api20200
 	return cluster
 }
 
+//nolint:staticcheck // Underscores are ok in test names
 func AKS_ManagedCluster_AgentPool_20231001_CRUD(tc *testcommon.KubePerTestContext, cluster *aks.ManagedCluster) {
 	osType := aks.OSType_Linux
 	agentPoolMode := aks.AgentPoolMode_System
@@ -170,6 +171,7 @@ func AKS_ManagedCluster_AgentPool_20231001_CRUD(tc *testcommon.KubePerTestContex
 	tc.Expect(agentPool.Status.NodeLabels).To(BeEmpty())
 }
 
+//nolint:staticcheck // Underscores are ok in test names
 func AKS_ManagedCluster_Kubeconfig_20231001_OperatorSpec(tc *testcommon.KubePerTestContext, cluster *aks.ManagedCluster) {
 	old := cluster.DeepCopy()
 	secret := "kubeconfig"
@@ -188,6 +190,7 @@ func AKS_ManagedCluster_Kubeconfig_20231001_OperatorSpec(tc *testcommon.KubePerT
 	tc.ExpectConfigMapHasKeysAndValues("oidc", "issuer", *cluster.Status.OidcIssuerProfile.IssuerURL)
 }
 
+//nolint:staticcheck // Underscores are ok in test names
 func AKS_ManagedCluster_TrustedAccessRoleBinding_20231001_CRUD(
 	tc *testcommon.KubePerTestContext,
 	resourceGroup *v1api20200601.ResourceGroup,

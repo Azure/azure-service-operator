@@ -113,6 +113,7 @@ type LocalUserSpec struct {
 	Password *genruntime.SecretReference `json:"password,omitempty"`
 }
 
+//nolint:staticcheck // Can't rename fields in published CRDs
 type RoleOptionsSpec struct {
 	// +kubebuilder:validation:Optional
 	// +kubebuilder:default=true
