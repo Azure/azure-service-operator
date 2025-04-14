@@ -23,18 +23,18 @@
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/asov1-asov2-migration/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="ASOv1 to ASOv2 migration guide">
-  <meta property="og:description" content="ASOv1 is deprecated. We strongly recommend migrating to ASOv2 to continue getting new features and support.
+  <meta property="og:description" content="ASOv1 has been deleted. We strongly recommend migrating to ASOv2 to continue getting new features and support.
 Assumptions Migrating a single cluster. If you have ASOv1 installed on multiple clusters, apply these steps to each cluster. ASOv1 is installed in its default namespace azureoperator-system. If it is installed into a different namespace, replace all occurrences of azureoperator-system in this document with the namespace it’s installed into. ASOv2 is not yet installed in the cluster. ASOv1 is managing a single subscription, so ASOv2 will also be managing that same single subscription via a single global credential. See ASOv2 credential scope for other credential scopes that allow for managing multiple subscriptions and/or using multiple identities. Performing the migration Check the version of cert-manager Ensure the version of cert-manager in your cluster supports v1 resources.">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="website">
 
   <meta itemprop="name" content="ASOv1 to ASOv2 migration guide">
-  <meta itemprop="description" content="ASOv1 is deprecated. We strongly recommend migrating to ASOv2 to continue getting new features and support.
+  <meta itemprop="description" content="ASOv1 has been deleted. We strongly recommend migrating to ASOv2 to continue getting new features and support.
 Assumptions Migrating a single cluster. If you have ASOv1 installed on multiple clusters, apply these steps to each cluster. ASOv1 is installed in its default namespace azureoperator-system. If it is installed into a different namespace, replace all occurrences of azureoperator-system in this document with the namespace it’s installed into. ASOv2 is not yet installed in the cluster. ASOv1 is managing a single subscription, so ASOv2 will also be managing that same single subscription via a single global credential. See ASOv2 credential scope for other credential scopes that allow for managing multiple subscriptions and/or using multiple identities. Performing the migration Check the version of cert-manager Ensure the version of cert-manager in your cluster supports v1 resources.">
-  <meta itemprop="wordCount" content="2006">
+  <meta itemprop="wordCount" content="2007">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="ASOv1 to ASOv2 migration guide">
-  <meta name="twitter:description" content="ASOv1 is deprecated. We strongly recommend migrating to ASOv2 to continue getting new features and support.
+  <meta name="twitter:description" content="ASOv1 has been deleted. We strongly recommend migrating to ASOv2 to continue getting new features and support.
 Assumptions Migrating a single cluster. If you have ASOv1 installed on multiple clusters, apply these steps to each cluster. ASOv1 is installed in its default namespace azureoperator-system. If it is installed into a different namespace, replace all occurrences of azureoperator-system in this document with the namespace it’s installed into. ASOv2 is not yet installed in the cluster. ASOv1 is managing a single subscription, so ASOv2 will also be managing that same single subscription via a single global credential. See ASOv2 credential scope for other credential scopes that allow for managing multiple subscriptions and/or using multiple identities. Performing the migration Check the version of cert-manager Ensure the version of cert-manager in your cluster supports v1 resources.">
 
 
@@ -490,6 +490,8 @@ Assumptions Migrating a single cluster. If you have ASOv1 installed on multiple 
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencekubernetesconfigurationv1api20230501-li">
   <a href="/azure-service-operator/reference/kubernetesconfiguration/v1api20230501/" title="kubernetesconfiguration.azure.com/v1api20230501" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekubernetesconfigurationv1api20230501"><span class="">v1api20230501</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencekubernetesconfigurationv1api20241101-li">
+  <a href="/azure-service-operator/reference/kubernetesconfiguration/v1api20241101/" title="kubernetesconfiguration.azure.com/v1api20241101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekubernetesconfigurationv1api20241101"><span class="">v1api20241101</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencemachinelearningservices-li">
@@ -821,7 +823,7 @@ Assumptions Migrating a single cluster. If you have ASOv1 installed on multiple 
 	<header class="article-meta">
 		
 </header>
-	<p>ASOv1 is <a href="https://github.com/Azure/azure-service-operator/blob/main/README.md#aso-v1">deprecated</a>.
+	<p>ASOv1 has been <a href="https://github.com/Azure/azure-service-operator/blob/main/README.md#aso-v1">deleted</a>.
 We strongly recommend migrating to ASOv2 to continue getting new features and support.</p>
 <h2 id="assumptions">Assumptions</h2>
 <ul>
@@ -1002,7 +1004,7 @@ modifying the YAML, using a tool such as Kustomize, or using the <code>--namespa
 <h3 id="configure-resourcesyaml-to-export-the-secrets-you-need-from-azure">Configure <code>resources.yaml</code> to export the secrets you need from Azure</h3>
 <p>These are secrets such as storage account keys which ASOv1 has automatically exported into a Kubernetes secret.</p>
 <p>ASOv1 exports secrets from Azure according to the
-<a href="https://github.com/Azure/azure-service-operator/blob/main/docs/v1/howto/secrets.md#secret-naming">Secret naming</a>
+<a href="https://github.com/Azure/azure-service-operator/blob/asov1/docs/v1/howto/secrets.md#secret-naming">Secret naming</a>
 rules. ASOv1 always exports these secrets, there is no user configuration required on either the name of the secret or its values.
 In contrast, ASOv2 requires the user to opt-in to secret export, via the <code>spec.operatorSpec.secrets</code> property.</p>
 

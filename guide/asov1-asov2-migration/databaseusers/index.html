@@ -519,6 +519,8 @@ ASOv2 dbformysql.azure.com/User in AAD configuration example.">
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencekubernetesconfigurationv1api20230501-li">
   <a href="/azure-service-operator/reference/kubernetesconfiguration/v1api20230501/" title="kubernetesconfiguration.azure.com/v1api20230501" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekubernetesconfigurationv1api20230501"><span class="">v1api20230501</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencekubernetesconfigurationv1api20241101-li">
+  <a href="/azure-service-operator/reference/kubernetesconfiguration/v1api20241101/" title="kubernetesconfiguration.azure.com/v1api20241101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekubernetesconfigurationv1api20241101"><span class="">v1api20241101</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencemachinelearningservices-li">
@@ -847,11 +849,11 @@ that <code>asoctl</code> will not import them.</p>
 <p>To migrate database users from ASOv1 to ASOv2, you must manually transform the ASOv1 DatabaseUser shape
 into the ASOv2 shape.</p>
 <h2 id="azure-sql">Azure SQL</h2>
-<p>ASOv1 <code>AzureSQLUser</code> <a href="https://github.com/Azure/azure-service-operator/blob/main/config/samples/azure_v1alpha1_azuresqluser.yaml">example</a>.</p>
+<p>ASOv1 <code>AzureSQLUser</code> <a href="https://github.com/Azure/azure-service-operator/blob/asov1/config/samples/azure_v1alpha1_azuresqluser.yaml">example</a>.</p>
 <p>ASOv2 <code>sql.azure.com/User</code> <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/samples/sql/v1api/v1api/v1_user.yaml">example</a>.</p>
 <h2 id="mysql">MySQL</h2>
-<p>ASOv1 <code>MySQLUser</code> <a href="https://github.com/Azure/azure-service-operator/blob/main/config/samples/azure_v1alpha2_mysqluser.yaml">example</a>.</p>
-<p>ASOv1 <code>MySQLAADUser</code> <a href="https://github.com/Azure/azure-service-operator/blob/main/config/samples/azure_v1alpha2_mysqlaaduser.yaml">example</a>.</p>
+<p>ASOv1 <code>MySQLUser</code> <a href="https://github.com/Azure/azure-service-operator/blob/asov1/config/samples/azure_v1alpha2_mysqluser.yaml">example</a>.</p>
+<p>ASOv1 <code>MySQLAADUser</code> <a href="https://github.com/Azure/azure-service-operator/blob/asov1/config/samples/azure_v1alpha2_mysqlaaduser.yaml">example</a>.</p>
 <p>ASOv2 <code>dbformysql.azure.com/User</code> <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/samples/dbformysql/v1api/v1_user.yaml">example</a>.</p>
 <p>ASOv2 <code>dbformysql.azure.com/User</code> in AAD configuration <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/samples/dbformysql/v1api/v1_user_aad.yaml">example</a>.</p>
 <ul>
@@ -860,7 +862,7 @@ So not only do you need to create the user in ASOv2 you must also ensure that th
 <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/samples/dbformysql/v1api20230630/v1api20230630_flexibleserversadministrator.yaml">FlexibleServerAdministrator</a> configured, with the right permissions.</li>
 </ul>
 <h2 id="postgresql">PostgreSQL</h2>
-<p>ASOv1 <code>PostgreSQLUser</code> <a href="https://github.com/Azure/azure-service-operator/blob/main/config/samples/azure_v1alpha1_postgresqluser.yaml">example</a>.</p>
+<p>ASOv1 <code>PostgreSQLUser</code> <a href="https://github.com/Azure/azure-service-operator/blob/asov1/config/samples/azure_v1alpha1_postgresqluser.yaml">example</a>.</p>
 <p>ASOv2 <code>dbforpostgresql.azure.com/User</code> <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/samples/dbforpostgresql/v1api/v1_user.yaml">example</a>.</p>
 
 	

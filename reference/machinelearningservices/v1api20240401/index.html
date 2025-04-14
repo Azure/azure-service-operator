@@ -35,7 +35,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
   <meta itemprop="description" content=" APIVersion Value Description “2024-04-01” Registry Generator information: - Generated from: /machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/registries.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.MachineLearningServices/registries/{registryName}
 Used by: RegistryList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOptional status RegistryTrackedResource_STATUSOptional Registry_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional discoveryUrl Discovery URL for the Registry stringOptional identity Managed service identity (system assigned and/or user assigned identities) ManagedServiceIdentityOptional intellectualPropertyPublisher IntellectualPropertyPublisher for the registry stringOptional kind Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. stringOptional location The geo-location where the resource lives stringRequired managedResourceGroup ResourceId of the managed RG if the registry has system created resources ArmResourceIdOptional mlFlowRegistryUri MLFlow Registry URI for the Registry stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure RegistryOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired publicNetworkAccess Is the Registry accessible from the internet? Possible values: “Enabled” or “Disabled” stringOptional regionDetails Details of each region the registry is in RegistryRegionArmDetails[]Optional registryPrivateEndpointConnections Private endpoint connections info used for pending connections in private link portal RegistryPrivateEndpointConnection[]Optional sku Sku details required for ARM contract for Autoscaling. SkuOptional tags Resource tags. map[string]stringOptional RegistryTrackedResource_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional discoveryUrl Discovery URL for the Registry stringOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional identity Managed service identity (system assigned and/or user assigned identities) ManagedServiceIdentity_STATUSOptional intellectualPropertyPublisher IntellectualPropertyPublisher for the registry stringOptional kind Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. stringOptional location The geo-location where the resource lives stringOptional managedResourceGroup ResourceId of the managed RG if the registry has system created resources ArmResourceId_STATUSOptional mlFlowRegistryUri MLFlow Registry URI for the Registry stringOptional name The name of the resource stringOptional publicNetworkAccess Is the Registry accessible from the internet? Possible values: “Enabled” or “Disabled” stringOptional regionDetails Details of each region the registry is in RegistryRegionArmDetails_STATUS[]Optional registryPrivateEndpointConnections Private endpoint connections info used for pending connections in private link portal RegistryPrivateEndpointConnection_STATUS[]Optional sku Sku details required for ARM contract for Autoscaling. Sku_STATUSOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional RegistryList Generator information: - Generated from: /machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/registries.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.MachineLearningServices/registries/{registryName}">
-  <meta itemprop="wordCount" content="17547">
+  <meta itemprop="wordCount" content="17430">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="machinelearningservices.azure.com/v1api20240401">
   <meta name="twitter:description" content=" APIVersion Value Description “2024-04-01” Registry Generator information: - Generated from: /machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/registries.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.MachineLearningServices/registries/{registryName}
@@ -495,6 +495,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencekubernetesconfigurationv1api20230501-li">
   <a href="/azure-service-operator/reference/kubernetesconfiguration/v1api20230501/" title="kubernetesconfiguration.azure.com/v1api20230501" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekubernetesconfigurationv1api20230501"><span class="">v1api20230501</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencekubernetesconfigurationv1api20241101-li">
+  <a href="/azure-service-operator/reference/kubernetesconfiguration/v1api20241101/" title="kubernetesconfiguration.azure.com/v1api20241101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekubernetesconfigurationv1api20241101"><span class="">v1api20241101</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreferencemachinelearningservices-li">
@@ -1043,10 +1045,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
     <li><a href="#SystemCreatedAcrAccount_STATUS">SystemCreatedAcrAccount_STATUS</a></li>
     <li><a href="#SystemCreatedStorageAccount">SystemCreatedStorageAccount</a></li>
     <li><a href="#SystemCreatedStorageAccount_STATUS">SystemCreatedStorageAccount_STATUS</a></li>
-    <li><a href="#UserCreatedAcrAccount">UserCreatedAcrAccount</a></li>
-    <li><a href="#UserCreatedAcrAccount_STATUS">UserCreatedAcrAccount_STATUS</a></li>
-    <li><a href="#UserCreatedStorageAccount">UserCreatedStorageAccount</a></li>
-    <li><a href="#UserCreatedStorageAccount_STATUS">UserCreatedStorageAccount_STATUS</a></li>
     <li><a href="#UsernamePasswordAuthTypeWorkspaceConnectionProperties_AuthType">UsernamePasswordAuthTypeWorkspaceConnectionProperties_AuthType</a></li>
     <li><a href="#UsernamePasswordAuthTypeWorkspaceConnectionProperties_AuthType_STATUS">UsernamePasswordAuthTypeWorkspaceConnectionProperties_AuthType_STATUS</a></li>
     <li><a href="#UsernamePasswordAuthTypeWorkspaceConnectionProperties_ValueFormat">UsernamePasswordAuthTypeWorkspaceConnectionProperties_ValueFormat</a></li>
@@ -3041,7 +3039,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 </table>
 <h2 id="ArmResourceId">ArmResourceId</h2>
 <p>ARM ResourceId of a resource</p>
-<p>Used by: <a href="#Registry_Spec">Registry_Spec</a>, <a href="#UserCreatedAcrAccount">UserCreatedAcrAccount</a>, and <a href="#UserCreatedStorageAccount">UserCreatedStorageAccount</a>.</p>
+<p>Used by: <a href="#Registry_Spec">Registry_Spec</a>.</p>
 <table>
   <thead>
       <tr>
@@ -3060,7 +3058,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 </table>
 <h2 id="ArmResourceId_STATUS">ArmResourceId_STATUS</h2>
 <p>ARM ResourceId of a resource</p>
-<p>Used by: <a href="#RegistryTrackedResource_STATUS">RegistryTrackedResource_STATUS</a>, <a href="#SystemCreatedAcrAccount_STATUS">SystemCreatedAcrAccount_STATUS</a>, <a href="#SystemCreatedStorageAccount_STATUS">SystemCreatedStorageAccount_STATUS</a>, <a href="#UserCreatedAcrAccount_STATUS">UserCreatedAcrAccount_STATUS</a>, and <a href="#UserCreatedStorageAccount_STATUS">UserCreatedStorageAccount_STATUS</a>.</p>
+<p>Used by: <a href="#RegistryTrackedResource_STATUS">RegistryTrackedResource_STATUS</a>, <a href="#SystemCreatedAcrAccount_STATUS">SystemCreatedAcrAccount_STATUS</a>, and <a href="#SystemCreatedStorageAccount_STATUS">SystemCreatedStorageAccount_STATUS</a>.</p>
 <table>
   <thead>
       <tr>
@@ -4701,11 +4699,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
           <td style="text-align: left">Details of system created ACR account to be used for the Registry</td>
           <td style="text-align: left"><a href="#SystemCreatedAcrAccount">SystemCreatedAcrAccount</a><br/><small>Optional</small></td>
       </tr>
-      <tr>
-          <td style="text-align: left">userCreatedAcrAccount</td>
-          <td style="text-align: left">Details of user created ACR account to be used for the Registry</td>
-          <td style="text-align: left"><a href="#UserCreatedAcrAccount">UserCreatedAcrAccount</a><br/><small>Optional</small></td>
-      </tr>
   </tbody>
 </table>
 <h2 id="AcrDetails_STATUS">AcrDetails_STATUS</h2>
@@ -4724,11 +4717,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
           <td style="text-align: left">systemCreatedAcrAccount</td>
           <td style="text-align: left">Details of system created ACR account to be used for the Registry</td>
           <td style="text-align: left"><a href="#SystemCreatedAcrAccount_STATUS">SystemCreatedAcrAccount_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td style="text-align: left">userCreatedAcrAccount</td>
-          <td style="text-align: left">Details of user created ACR account to be used for the Registry</td>
-          <td style="text-align: left"><a href="#UserCreatedAcrAccount_STATUS">UserCreatedAcrAccount_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -7381,11 +7369,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
           <td style="text-align: left">Details of system created storage account to be used for the registry</td>
           <td style="text-align: left"><a href="#SystemCreatedStorageAccount">SystemCreatedStorageAccount</a><br/><small>Optional</small></td>
       </tr>
-      <tr>
-          <td style="text-align: left">userCreatedStorageAccount</td>
-          <td style="text-align: left">Details of user created storage account to be used for the registry</td>
-          <td style="text-align: left"><a href="#UserCreatedStorageAccount">UserCreatedStorageAccount</a><br/><small>Optional</small></td>
-      </tr>
   </tbody>
 </table>
 <h2 id="StorageAccountDetails_STATUS">StorageAccountDetails_STATUS</h2>
@@ -7404,11 +7387,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
           <td style="text-align: left">systemCreatedStorageAccount</td>
           <td style="text-align: left">Details of system created storage account to be used for the registry</td>
           <td style="text-align: left"><a href="#SystemCreatedStorageAccount_STATUS">SystemCreatedStorageAccount_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td style="text-align: left">userCreatedStorageAccount</td>
-          <td style="text-align: left">Details of user created storage account to be used for the registry</td>
-          <td style="text-align: left"><a href="#UserCreatedStorageAccount_STATUS">UserCreatedStorageAccount_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -11454,78 +11432,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
           <td style="text-align: left">storageAccountType</td>
           <td style="text-align: left">Allowed values: &ldquo;Standard_LRS&rdquo;, &ldquo;Standard_GRS&rdquo;, &ldquo;Standard_RAGRS&rdquo;, &ldquo;Standard_ZRS&rdquo;, &ldquo;Standard_GZRS&rdquo;, &ldquo;Standard_RAGZRS&rdquo;, &ldquo;Premium_LRS&rdquo;, &ldquo;Premium_ZRS&rdquo;</td>
           <td style="text-align: left">string<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="UserCreatedAcrAccount">UserCreatedAcrAccount</h2>
-<p>Used by: <a href="#AcrDetails">AcrDetails</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">armResourceId</td>
-          <td style="text-align: left">ARM ResourceId of a resource</td>
-          <td style="text-align: left"><a href="#ArmResourceId">ArmResourceId</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="UserCreatedAcrAccount_STATUS">UserCreatedAcrAccount_STATUS</h2>
-<p>Used by: <a href="#AcrDetails_STATUS">AcrDetails_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">armResourceId</td>
-          <td style="text-align: left">ARM ResourceId of a resource</td>
-          <td style="text-align: left"><a href="#ArmResourceId_STATUS">ArmResourceId_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="UserCreatedStorageAccount">UserCreatedStorageAccount</h2>
-<p>Used by: <a href="#StorageAccountDetails">StorageAccountDetails</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">armResourceId</td>
-          <td style="text-align: left">ARM ResourceId of a resource</td>
-          <td style="text-align: left"><a href="#ArmResourceId">ArmResourceId</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="UserCreatedStorageAccount_STATUS">UserCreatedStorageAccount_STATUS</h2>
-<p>Used by: <a href="#StorageAccountDetails_STATUS">StorageAccountDetails_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">armResourceId</td>
-          <td style="text-align: left">ARM ResourceId of a resource</td>
-          <td style="text-align: left"><a href="#ArmResourceId_STATUS">ArmResourceId_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>

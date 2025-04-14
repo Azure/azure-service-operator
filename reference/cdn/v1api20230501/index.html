@@ -35,7 +35,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AfdCustomDomain
   <meta itemprop="description" content=" AfdCustomDomain Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/profiles/{profileName}/customDomains/{customDomainName}
 Used by: AfdCustomDomainList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AfdCustomDomain_SpecOptional status AfdCustomDomain_STATUSOptional AfdCustomDomain_Spec Property Description Type azureDnsZone Resource reference to the Azure DNS zone ResourceReferenceOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional extendedProperties Key-Value pair representing migration properties for domains. map[string]stringOptional hostName The host name of the domain. Must be a domain name. stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure AfdCustomDomainOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a cdn.azure.com/Profile resource genruntime.KnownResourceReferenceRequired preValidatedCustomDomainResourceId Resource reference to the Azure resource where custom domain ownership was prevalidated ResourceReferenceOptional tlsSettings The configuration specifying how to enable HTTPS for the domain - using AzureFrontDoor managed certificate or user’s own certificate. If not specified, enabling ssl uses AzureFrontDoor managed certificate by default. AFDDomainHttpsParametersOptional AfdCustomDomain_STATUS Property Description Type azureDnsZone Resource reference to the Azure DNS zone ResourceReference_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional deploymentStatus AFDDomainProperties_DeploymentStatus_STATUSOptional domainValidationState Provisioning substate shows the progress of custom HTTPS enabling/disabling process step by step. DCV stands for DomainControlValidation. AFDDomainProperties_DomainValidationState_STATUSOptional extendedProperties Key-Value pair representing migration properties for domains. map[string]stringOptional hostName The host name of the domain. Must be a domain name. stringOptional id Resource ID. stringOptional name Resource name. stringOptional preValidatedCustomDomainResourceId Resource reference to the Azure resource where custom domain ownership was prevalidated ResourceReference_STATUSOptional profileName The name of the profile which holds the domain. stringOptional provisioningState Provisioning status AFDDomainProperties_ProvisioningState_STATUSOptional systemData Read only system data SystemData_STATUSOptional tlsSettings The configuration specifying how to enable HTTPS for the domain - using AzureFrontDoor managed certificate or user’s own certificate. If not specified, enabling ssl uses AzureFrontDoor managed certificate by default. AFDDomainHttpsParameters_STATUSOptional type Resource type. stringOptional validationProperties Values the customer needs to validate domain ownership DomainValidationProperties_STATUSOptional AfdCustomDomainList Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/profiles/{profileName}/customDomains/{customDomainName}">
-  <meta itemprop="wordCount" content="17048">
+  <meta itemprop="wordCount" content="17098">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="cdn.azure.com/v1api20230501">
   <meta name="twitter:description" content=" AfdCustomDomain Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/profiles/{profileName}/customDomains/{customDomainName}
@@ -495,6 +495,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AfdCustomDomain
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencekubernetesconfigurationv1api20230501-li">
   <a href="/azure-service-operator/reference/kubernetesconfiguration/v1api20230501/" title="kubernetesconfiguration.azure.com/v1api20230501" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekubernetesconfigurationv1api20230501"><span class="">v1api20230501</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencekubernetesconfigurationv1api20241101-li">
+  <a href="/azure-service-operator/reference/kubernetesconfiguration/v1api20241101/" title="kubernetesconfiguration.azure.com/v1api20241101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekubernetesconfigurationv1api20241101"><span class="">v1api20241101</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemachinelearningservices-li">
@@ -1777,6 +1779,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AfdCustomDomain
           <td style="text-align: left">hostName</td>
           <td style="text-align: left">The address of the origin. Domain names, IPv4 addresses, and IPv6 addresses are supported.This should be unique across all origins in an endpoint.</td>
           <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">hostNameFromConfig</td>
+          <td style="text-align: left">The address of the origin. Domain names, IPv4 addresses, and IPv6 addresses are supported.This should be unique across all origins in an endpoint.</td>
+          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">genruntime.ConfigMapReference</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td style="text-align: left">httpPort</td>
@@ -3524,6 +3531,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AfdCustomDomain
           <td style="text-align: left">hostName</td>
           <td style="text-align: left">The address of the origin. Domain names, IPv4 addresses, and IPv6 addresses are supported.This should be unique across all origins in an endpoint.</td>
           <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">hostNameFromConfig</td>
+          <td style="text-align: left">The address of the origin. Domain names, IPv4 addresses, and IPv6 addresses are supported.This should be unique across all origins in an endpoint.</td>
+          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">genruntime.ConfigMapReference</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td style="text-align: left">httpPort</td>
