@@ -1143,7 +1143,7 @@ tasks:
     desc: Run mangle-test fast lint checks.
     dir: '{{.MANGLE_ROOT}}'
     cmds:
-      - golangci-lint run --verbose --fix --fast=false --timeout 5m ./...  
+      - golangci-lint run --verbose --fix --timeout 5m ./...  
 
   ############### Crossplane targets ###############
 
