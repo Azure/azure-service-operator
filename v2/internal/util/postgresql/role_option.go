@@ -59,9 +59,9 @@ func DiffCurrentAndExpectedSQLRoleOptions(currentRoleOptions RoleOptions, expect
 	}
 	if currentRoleOptions.CreateDb != expectedRoleOptions.CreateDb {
 		if expectedRoleOptions.CreateDb {
-			result.ChangedRoleOptions.Add(CreateDb)
+			result.ChangedRoleOptions.Add(CreateDB)
 		} else {
-			result.ChangedRoleOptions.Add(NoCreateDb)
+			result.ChangedRoleOptions.Add(NoCreateDB)
 		}
 	}
 	if currentRoleOptions.Replication != expectedRoleOptions.Replication {
@@ -148,10 +148,10 @@ type RoleOption string
 const (
 	Login         = RoleOption("LOGIN")
 	CreateRole    = RoleOption("CREATEROLE")
-	CreateDb      = RoleOption("CREATEDB")
+	CreateDB      = RoleOption("CREATEDB")
 	Replication   = RoleOption("REPLICATION")
 	NoLogin       = RoleOption("NOLOGIN")
 	NoCreateRole  = RoleOption("NOCREATEROLE")
-	NoCreateDb    = RoleOption("NOCREATEDB")
+	NoCreateDB    = RoleOption("NOCREATEDB")
 	NoReplication = RoleOption("NOREPLICATION")
 )

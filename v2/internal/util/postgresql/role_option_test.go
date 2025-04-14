@@ -32,19 +32,19 @@ func TestDiffCurrentAndExpectedSQLRoleOptions(t *testing.T) {
 			name:                       "Expected has single option more than current",
 			currentRoleOptions:         RoleOptions{Login: true, CreateRole: false, CreateDb: false, Replication: false},
 			expectedRoleOptions:        RoleOptions{Login: true, CreateDb: true},
-			expectedChangedRoleOptions: set.Set[RoleOption]{CreateDb: {}},
+			expectedChangedRoleOptions: set.Set[RoleOption]{CreateDB: {}},
 		},
 		{
 			name:                       "Expected all new values are set",
 			currentRoleOptions:         RoleOptions{Login: true, CreateRole: false, CreateDb: false, Replication: false},
 			expectedRoleOptions:        RoleOptions{Login: false, CreateRole: true, CreateDb: true, Replication: true},
-			expectedChangedRoleOptions: set.Set[RoleOption]{NoLogin: {}, CreateRole: {}, CreateDb: {}, Replication: {}},
+			expectedChangedRoleOptions: set.Set[RoleOption]{NoLogin: {}, CreateRole: {}, CreateDB: {}, Replication: {}},
 		},
 		{
 			name:                       "Expected all new values are set (non defaults)",
 			currentRoleOptions:         RoleOptions{Login: false, CreateRole: true, CreateDb: true, Replication: true},
 			expectedRoleOptions:        RoleOptions{Login: true, CreateRole: false, CreateDb: false, Replication: false},
-			expectedChangedRoleOptions: set.Set[RoleOption]{Login: {}, NoCreateRole: {}, NoCreateDb: {}, NoReplication: {}},
+			expectedChangedRoleOptions: set.Set[RoleOption]{Login: {}, NoCreateRole: {}, NoCreateDB: {}, NoReplication: {}},
 		},
 		{
 			name:                       "Nothing changed if current is equal",
@@ -68,7 +68,7 @@ func TestDiffCurrentAndExpectedSQLRoleOptions(t *testing.T) {
 			name:                       "Test CreateDb changed",
 			currentRoleOptions:         RoleOptions{},
 			expectedRoleOptions:        RoleOptions{CreateDb: true},
-			expectedChangedRoleOptions: set.Set[RoleOption]{CreateDb: {}},
+			expectedChangedRoleOptions: set.Set[RoleOption]{CreateDB: {}},
 		},
 		{
 			name:                       "Test Replication changed",
