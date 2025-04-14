@@ -363,6 +363,7 @@ func Test_PackageSet_OrderImports(t *testing.T) {
  * Import name assignment tests
  */
 
+//nolint:staticcheck // We use underscores in test identifiers to make them easier to read
 func TestPackageImportSet_GivenSet_AssignsExpectedAliases(t *testing.T) {
 	t.Parallel()
 
