@@ -263,7 +263,7 @@ tasks:
     desc: Run {{.GENERATOR_APP}} lint checks.
     dir: '{{.GENERATOR_ROOT}}'
     cmds:
-      - golangci-lint run --verbose --fix --fast=false
+      - golangci-lint run --verbose --fix
 
   generator:build:
     desc: Generate the {{.GENERATOR_APP}} binary.
