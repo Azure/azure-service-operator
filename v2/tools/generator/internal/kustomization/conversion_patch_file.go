@@ -38,7 +38,7 @@ import (
 //	                name: webhook-service
 //	                path: /convert
 type ConversionPatchFile struct {
-	ApiVersion string                  `yaml:"apiVersion"`
+	APIVersion string                  `yaml:"apiVersion"`
 	Kind       string                  `yaml:"kind"`
 	Metadata   conversionPatchMetadata `yaml:"metadata"`
 	Spec       conversionPatchSpec     `yaml:"spec"`
@@ -46,7 +46,7 @@ type ConversionPatchFile struct {
 
 func NewConversionPatchFile(resourceName string) *ConversionPatchFile {
 	return &ConversionPatchFile{
-		ApiVersion: "apiextensions.k8s.io/v1",
+		APIVersion: "apiextensions.k8s.io/v1",
 		Kind:       "CustomResourceDefinition",
 		Metadata: conversionPatchMetadata{
 			Name: resourceName,

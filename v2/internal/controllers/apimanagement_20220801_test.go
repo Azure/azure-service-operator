@@ -413,7 +413,7 @@ func APIM_Product_Api_CRUD(tc *testcommon.KubePerTestContext, service client.Obj
 	tc.CreateResourceAndWait(&api)
 
 	// Now link the display name of the api to the product
-	productApi := apim.ProductApi{
+	productAPI := apim.ProductApi{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("productapi")),
 		Spec: apim.ProductApi_Spec{
 			Owner:     testcommon.AsOwner(&product),
@@ -422,12 +422,12 @@ func APIM_Product_Api_CRUD(tc *testcommon.KubePerTestContext, service client.Obj
 	}
 
 	tc.T.Log("creating apim product api")
-	tc.CreateResourceAndWait(&productApi)
+	tc.CreateResourceAndWait(&productAPI)
 
-	tc.Expect(productApi.Status).ToNot(BeNil())
+	tc.Expect(productAPI.Status).ToNot(BeNil())
 
 	defer tc.DeleteResourceAndWait(&product)
-	defer tc.DeleteResourceAndWait(&productApi)
+	defer tc.DeleteResourceAndWait(&productAPI)
 
 	tc.T.Log("cleaning up product")
 }

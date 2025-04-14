@@ -131,11 +131,11 @@ func (gc *GroupConfiguration) findVersion(ref astmodel.PackageReference) *Versio
 
 // findVersion uses the provided LocalPackageReference to work out which nested VersionConfiguration should be used
 func (gc *GroupConfiguration) findVersionForLocalPackageReference(ref astmodel.LocalPackageReference) *VersionConfiguration {
-	gc.advisor.AddTerm(ref.ApiVersion())
+	gc.advisor.AddTerm(ref.APIVersion())
 	gc.advisor.AddTerm(ref.PackageName())
 
 	// Check based on the ApiVersion alone
-	apiKey := strings.ToLower(ref.ApiVersion())
+	apiKey := strings.ToLower(ref.APIVersion())
 	if version, ok := gc.versions[apiKey]; ok {
 		// make sure there's an exact match on the actual version name, so we don't generate a recommendation
 		gc.advisor.AddTerm(version.name)
