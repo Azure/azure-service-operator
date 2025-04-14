@@ -18,6 +18,8 @@ IgnoreURLs:
   - "/azure-workload-identity/docs/topics/service-account-labels-and-annotations.html#service-account" # Actually starts with 'https://azure.github.io' but gets treated as internal link, which fails. Checked 2025-02-14
   - "/azure-workload-identity/docs/installation/mutating-admission-webhook.html" # Actually starts with 'https://azure.github.io' but gets treated as internal link, which fails. Checked 2025-02-14
   - "https://slack.k8s.io/" # Causing timeouts as of 2025-02-14
+  - "https://cert-manager.io/" # Causing timeouts as of 2025-04-14
+  - "https://book.kubebuilder.io/" # Causing timeouts as of 2025-04-14
   # These suppressions no longer seem to be required, but keeping them here for easy reinstatement if required
   #  - "https://code.visualstudio.com/docs/devcontainers/containers" # Returns 403 even though valid. Checked 2025-02-14
   #  - "https://stackoverflow.com/questions/55503893/helm-patch-default-service-account" # Returns 403, even though valid. Checked 2025-02-14
