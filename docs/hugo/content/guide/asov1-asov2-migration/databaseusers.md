@@ -15,15 +15,15 @@ into the ASOv2 shape.
 
 ## Azure SQL
 
-ASOv1 `AzureSQLUser` [example](https://github.com/Azure/azure-service-operator/blob/main/config/samples/azure_v1alpha1_azuresqluser.yaml).
+ASOv1 `AzureSQLUser` [example](https://github.com/Azure/azure-service-operator/blob/asov1/config/samples/azure_v1alpha1_azuresqluser.yaml).
 
 ASOv2 `sql.azure.com/User` [example](https://github.com/Azure/azure-service-operator/blob/main/v2/samples/sql/v1api/v1api/v1_user.yaml).
 
 ## MySQL
 
-ASOv1 `MySQLUser` [example](https://github.com/Azure/azure-service-operator/blob/main/config/samples/azure_v1alpha2_mysqluser.yaml).
+ASOv1 `MySQLUser` [example](https://github.com/Azure/azure-service-operator/blob/asov1/config/samples/azure_v1alpha2_mysqluser.yaml).
 
-ASOv1 `MySQLAADUser` [example](https://github.com/Azure/azure-service-operator/blob/main/config/samples/azure_v1alpha2_mysqlaaduser.yaml).
+ASOv1 `MySQLAADUser` [example](https://github.com/Azure/azure-service-operator/blob/asov1/config/samples/azure_v1alpha2_mysqlaaduser.yaml).
 
 ASOv2 `dbformysql.azure.com/User` [example](https://github.com/Azure/azure-service-operator/blob/main/v2/samples/dbformysql/v1api/v1_user.yaml).
 
@@ -34,6 +34,6 @@ ASOv2 `dbformysql.azure.com/User` in AAD configuration [example](https://github.
 
 ## PostgreSQL
 
-ASOv1 `PostgreSQLUser` [example](https://github.com/Azure/azure-service-operator/blob/main/config/samples/azure_v1alpha1_postgresqluser.yaml).
+ASOv1 `PostgreSQLUser` [example](https://github.com/Azure/azure-service-operator/blob/asov1/config/samples/azure_v1alpha1_postgresqluser.yaml).
 
 ASOv2 `dbforpostgresql.azure.com/User` [example](https://github.com/Azure/azure-service-operator/blob/main/v2/samples/dbforpostgresql/v1api/v1_user.yaml).
