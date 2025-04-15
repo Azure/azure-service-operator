@@ -722,7 +722,6 @@ func AssignToAliasOfPrimitive(
 	// ... and it is a primitive type ...
 	dstPrim, ok := AsPrimitiveType(dstDef.Type())
 	if !ok {
-
 		return nil, nil
 	}
 
