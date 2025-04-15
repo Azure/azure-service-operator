@@ -1,10 +1,25 @@
 ---
 title: Final checks
 linktitle: Final checks
-weight: 60
+weight: 70
 ---
 
-We recommend you run a final check to catch any issues before you submit your PR. Running `task` with no parameters runs a quick set of checks that will catch most issues. 
+We recommend you run a few final checks to catch any issues before you submit your PR.
+
+## Check your PR contents
+
+Double check that everything you expect to include in your PR is actually included. You should have:
+
+* Configuration changes to `asure-arm.yaml`.
+* Generated code changes, mostly in the `v2/api` folder.
+* Generated documentation updates in the `docs` folder 
+* Any hand-coded extensions you implemented, in the `v2/api/<group>/customizations` folder.
+* A test for the resource in the `v2/internal/controllers` folder, with a recording for playback testing.
+* A sample for the resource in the `v2/samples` folder, also with a recording.
+
+## Check it builds
+
+Running `task` with no parameters runs a quick set of checks that will catch most issues. 
 
 ``` bash
 task

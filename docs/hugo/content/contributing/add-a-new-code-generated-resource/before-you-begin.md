@@ -8,45 +8,68 @@ weight: 10
 
 The first step in adding a new code-generated resource is to determine which resource you want to add. 
 
-Any ARM resource can be generated. If you're not sure if the resource you are interested in is an ARM resource, check if it is defined in a `resource-manager` folder in the [Azure REST API specs](https://github.com/Azure/azure-rest-api-specs/tree/main/specification) repo.
+Any ARM resource can be generated, provided you know the Azure type of the resource, and the version of the API you want to use.
 
-If it is, it's an ARM resource.
+To unambigously identify the resource you want to add, you need to know the Azure type, and the version of the API you want to use. We will walk through an example of adding Azure Synapse Workspace.
 
-To unambigously identify the resource you want to add, you need to know its _**group**_, _**version**_, and _**kind**_ (aka GVK).
+### Find the Azure type of the resource
 
-We work out these by reviewing the [Azure REST API specs](https://github.com/Azure/azure-rest-api-specs/tree/main/specification) repo. We will walk through an example of adding Azure Synapse Workspace.
+The Azure type of a resource consists of a resource provider and a name. For example, the Azure type of a Synapse Workspace is `Microsoft.Synapse/workspaces` - the resource provider is `Microsoft.Synapse` and the name is `workspaces`.
 
-### Kind
+If you're not sure of the Azure type for the resource you want to add, one approach is to search for an ARM or Bicep template that deploys the resource. These templates state the Azure type and version of the resource near the top.
 
-Also known as the _name_ of the resource, you usually know this going in. In our example above, the name of the resource is `workspace`. 
+E.g. for an ARM template:
+``` json
+{
+  "type": "Microsoft.Synapse/workspaces",
+  "apiVersion": "2021-06-01",
+  ...
+```
 
-If you're not sure, one approach is to look in the Swagger/OpenAPI specification file for the service and find the documented PUT for the resource you're interested in. The resource name will be the
-[second to last section of the URL](https://github.com/Azure/azure-rest-api-specs/blob/main/specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/workspace.json#L71).
+or for a Bicep template:
+``` bicep
+resource synapse 'Microsoft.Synapse/workspaces@2021-06-01' = {
+    ...
+}
+```
 
-Another approach is to search for the ARM documentation of the resource. Including the search terms `Azure` `ARM` and `Bicep` will help you find the right documentation. For example, we can search for [`Azure ARM Bicep Synapse Workspaces`](https://www.google.com/search?q=azure+arm+bicep+synapse+workspaces&oq=azure+arm+bicep+synapse+workspaces) and (at least at the time of writing) the first result is the [Azure Synapse Workspace](https://learn.microsoft.com/en-us/azure/templates/microsoft.synapse/workspaces?pivots=deployment-language-arm-template) resource.
+An alternative is to search for the `ARM` or `Bicep` documentation of the resource. Including the search terms `Azure` `ARM` and `Bicep` in your search will help you find the right documentation. For example, we can search for [`Azure ARM Bicep Synapse Workspaces`](https://www.google.com/search?q=azure+arm+bicep+synapse+workspaces&oq=azure+arm+bicep+synapse+workspaces) and (at least at the time of writing) the first result is [Microsoft.Synapse workspaces](https://learn.microsoft.com/en-us/azure/templates/microsoft.synapse/workspaces?pivots=deployment-language-arm-template).
 
-**Note**: ARM almost exclusively uses plural names for resources. ASO uses singular forms, aligning with the usual practices in Kubernetes. For example, the Azure Synapse Workspace resource is called `workspaces` in ARM and `workspace` in ASO.
+Another approach is to check if it is defined in a `resource-manager` folder in the [Azure REST API specs](https://github.com/Azure/azure-rest-api-specs/tree/main/specification) repo. (Though, sometimes this can be difficult because of the deep folder structure.) This repo is the authorative source for Azure resources and versions, and is used by the Azure CLI, Azure SDKs, and other tools.
 
-### Group
+### Select a version
 
-This is named after the Azure service, for example `resources` or `documentdb`.
+The Azure version of a resource is known as `api-version`, and is usually a date, sometimes with a `-preview` suffix. For example, available versions for a Synapse Workspace are `2021-06-01`, `2021-04-01-preview` and `2020-12-01`. 
 
-In our example, this is `synapse` (from `Microsoft.Synapse`, the provider documented in the resource URL).
+It is _strongly_ recommended that you use the latest available non-preview `api-version` when choosing the version of the resource to add. This is usually the first version listed in the documentation. Sometimes, a feature you want to have is only available in a preview version, in which case you can use that version.
 
-### Version
+In the Azure documentation, available versions are shown by the `API Versions` selector; in the `azure-rest-api-specs` repo, they found as sibling folders under either `stable` or `preview` parent directories.
 
-The version is the `api-version` of the resource. This is usually a date, sometimes with a `-preview` suffix. 
 
-In our example entry from above, this is `2021-06-01`.
+### Define the GVK
 
-**Note**: In most cases there will be multiple API versions for a given resource, you can see this in the
-[Synapse](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/synapse/resource-manager/Microsoft.Synapse/stable)
-folder for example, there are 4 API versions as of April 2023. It is _strongly_ recommended that you use the latest
-available non-preview `api-version` when choosing the version of the resource to add.
+Kubernetes resources are identified by their _**group**_, _**version**_, and _**kind**_ (aka GVK). 
+
+For the resource you're adding, the GVK is derived from the Azure type and version, as follows:
+
+* **group**: Based on the resource provider, with the `Microsoft.` prefix removed, and lowercased. For example, `Microsoft.Synapse` becomes `synapse`.
+* **version**: The constant prefix `v1api` followed by the Azure `api-version`, with non-alphanumeric characters removed. For example, `2021-06-01` becomes `v1api20210601` and `2021-04-01-preview` becomes `v1api20210401preview`.
+* **kind**: The Azure type, with the resource provider prefix removed and the plural form converted to singular. For example, `Microsoft.Synapse/workspaces` becomes `workspace`.
+
+
+To illustrate, here are some examples of GVKs for common resources:
+
+| Azure Type | API Version | Group | Version | Kind |
+|------------|-------------|-------|---------|------|
+| Microsoft.Synapse/workspaces | 2021-06-01 | synapse | v1api20210601 | workspace |
+| Microsoft.Storage/storageAccounts | 2021-04-01 | storage | v1api20210401 | storageaccount |
+| Microsoft.Storage/storageAccounts | 2021-04-01-preview | storage | v1api20210401preview | storageaccount |
+| Microsoft.ContainerService/managedClusters | 2021-03-01 | containerservice | v1api20210301 | managedcluster |
+
 
 ## Development Environment
 
-With the resource identified, you should ensure your [development environment]({{< relref "developer-setup" >}}) is set up to add the resource.
+With the resource identified, you should ensure your development environment is set up to add the resource. (See our [developer-setup]({{< relref "developer-setup" >}}) docs for more detailed information.)
 
 While it _**is**_ possible to do this using just `go`, you end up doing a lot of manual work that we've automated using `task` and other tools.
 

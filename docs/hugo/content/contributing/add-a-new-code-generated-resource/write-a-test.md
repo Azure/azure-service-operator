@@ -1,28 +1,18 @@
 ---
 title: Write a test for the resource
 linktitle: Write a test
-weight: 40
+weight: 50
 ---
 
 Every new resource should have a handwritten test as there is always the possibility of a resource behaving in a subtly different way than expected. This also applies to _new versions_ of existing resources.
 
+These handwritten tests should validate that the controller can create, update, and delete the resource. Often, they also validate that related resoruces can be created at the same time.
+
 All these tests live in the [`v2/internal/controllers`](https://github.com/Azure/azure-service-operator/tree/main/v2/internal/controllers). There's a readme in that folder that describes the test structure and naming conventions.
 
-For each test there's a recording in the `recordings` folder that records the HTTP interactions between the test and Azure allowing for rapid replay for future runs.
+For each test there's a [recording]({{< relref "testing">}}#recordreplay) in the `recordings` folder that records the HTTP interactions between the operator and Azure allowing for rapid replay for future runs. We create these recordings using [go-vcr](https://github.com/dnaeon/go-vcr).
 
-One good approach is to start from an [existing test](https://github.com/Azure/azure-service-operator/blob/main/v2/internal/controllers/documentdb_mongodb_crud_v20231115_test.go) and modify it to work for your resource. It can also be helpful to refer to examples in the [ARM templates GitHub repo](https://github.com/Azure/azure-quickstart-templates).
-
-## Resource extensions
-
-There are some variations in the way different product groups implement their resources. To support these variations, there are a number of available extension points for resources that allow the behaviour to be modified. 
-
-For example, some resources will return a `BadRequest` error when one prerequisite is not met. Normally, ASO will treat `BadRequest` as a permanent failure, but this can be reclassified as a warning by using the [`ErrorClassifier`](https://github.com/Azure/azure-service-operator/blob/main/v2/pkg/genruntime/extensions/error_classifier.go#L19) extension point.
-
-Other extension points allow blocking reconciliation attempts until a prerequisite is met, additional API calls after a successful reconciliation, or even modifying the resource before it is sent to Azure.
-
-For most resource extensions, any implementation will go in the `customizations` folder generated for each resource group.
-
-Reach out to us if you want some guidance on which (if any) extension points are appropriate for your resource.
+One good approach is to start from an [existing test](https://github.com/Azure/azure-service-operator/blob/main/v2/internal/controllers/documentdb_mongodb_crud_v20231115_test.go) and modify it to work for your resource. It can also be helpful to refer to existing ARM template examples for the resource in the [ARM templates GitHub repo](https://github.com/Azure/azure-quickstart-templates) to get an idea of how the resource is expected to behave.
 
 ## Record the test passing
 
@@ -32,17 +22,37 @@ Once you're finished, include the recording file in your PR. This is important b
 
 See [the code generator test README](../testing/#running-envtest-integration-tests) for more information on how to run tests and record their HTTP interactions to allow replay.
 
-## Test volumes
+## Consider removing old tests
 
-These integration tests can take a few minutes to run from recordings, and we're starting to see issues due to the large number of resources we're testing. 
+Each of these integration tests can take up to a few minutes to run from recordings, and we're starting to see issues due to the large number of resources we're testing. 
 
-If you are adding a new version of an already supported resource, we may request that you remove tests for older versions of the resource as a part of your PR. 
+If you are adding a new version for resource that already has _several_ supported versions, we _may_ request that you remove tests for older versions of the resource as a part of your PR. 
 
 As an absolute minimum, we want to have tests for
 
 * the latest `stable` version of the resource;
 * the prior `stable` version of the resource; and
 * the latest `preview` version of the resource.
+
+In most cases you won't need to worry about this.
+
+### Prefer CreateResourcesAndWait
+
+If your rest needs to create multiple resources, prefer using `CreateResourcesAndWait` (note the plural `Resources`) to create all the resources at once, rather than calling `CreateResourceAndWait` (singular `Resource`) once for each resource in turn.
+
+When a user applies a YAML file containing multiple resources, ASO will be expected to handle creating all the resources in the correct order. Simluating this in the test by calling `CreateResourcesAndWait` to create all the resources at once is a good way to ensure that the test is realistic.
+
+### Prefer Parallel tests
+
+Operation of ASO in a cluster is inherently concurrent, with a lot going on and an expectation that the state of the cluster will converge to the desired state.
+
+It can be useful to break independent subtests up into parallel tests to simulate this concurrency. Check out the use of `RunParallelSubtests` in existing tests to see how this is done.
+
+### Consider extensions
+
+Odd behaviour in your test, this _may_ indicate you need to [implement an extension]({{< relref "implement-textensions" >}}) to customize the behaviour of the resource.
+
+If you think this may be applicable, please reach out to us for help. We can help you identify the right extension point and how to implement it. In most cases, exensions aren't needed, but they are essential for some resources.
 
 ----
 

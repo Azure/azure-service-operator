@@ -5,7 +5,14 @@ weight: 20
 ---
 
 The ASO code generator is our secret sauce - it lowers the amount of effort required to add new Azure resources from several weeks to just a few days (or a few hours if you're lucky and you've done it before).
-The code generator is a Go program that reads the Azure API definitions from the `azure-rest-api-specs` repository and generates the code for the resource in ASO.
+
+## What does the code generator do?
+
+The code generator is a Go program that reads the Azure API definitions from the `azure-rest-api-specs` repository and generates most of the code required to suport a resource.
+
+The Swagger/OpenAPI definitions in that repo are transformed by the code generator into two forms - once for the `spec`, defining the desired state of the resource, and once for the `status`, defining the observed state of the resource.
+
+Some background: Azure resources are extremely consistent in their structures and behaviours, and the code required to support them is thus also very consistent and repetitive. The code generator is designed to take advantage of this consistency to generate the bulk of the code required for a new resource.
 
 ## Adding the resource to the code generation configuration file
 
@@ -18,8 +25,7 @@ To add a new resource to this file, find the `objectModelConfiguration` section 
 Then, find the configuration for the `group` you want; if it's not there, create a new one, inserting it into the existing list in alphabetical order. Within the group, find the `version` you want; again, create a new one if it's not already there, and keep things in numerical order as you do so.
 
 Add your new resource to the list for that version, including the directive `$exportAs: <name>` nested beneath.
-You must also include the `$supportedFrom:` annotation. This should be the _next release_ which will contain support
-for the resource in question. You can determine the name of the next ASO release by looking at our
+You must also include the `$supportedFrom:` annotation. This should be the _next release_ of ASO, as that's the version what will support your resource. You can determine the name of the next ASO release by looking at our
 [milestones](https://github.com/Azure/azure-service-operator/milestones).
 
 The final result should look like this:
@@ -44,8 +50,7 @@ synapse:
 
 **Tip:** The `$exportAs` directive allows the name of the resource to be changed. We typically use this to simplify the name, relying on the **group** to disambiguate things. For example, if the original resource name was `SynapseWorkspace` we'd prefer to use `Workspace` to avoid stuttering.
 
-If ASO was already configured to generate resources from this group (or version), you will need to add your new
-configuration around the existing values.
+If ASO was already configured to generate resources from this group (or version), be careful when adding your new resource that you don't break any existing configuration. 
 
 ## Run the code generator
 
@@ -57,14 +62,14 @@ task
 
 If you want to run the code generator manually, work from the `v2` folder and first build the generator yourself:
 
-``` bash
+```bash
 cd v2
 pushd ./tools/generator; go build -o aso-gen; popd
 ```
 
 Then run the generator:
 
-``` bash
+```bash
 ./tools/generator/aso-gen gen-types azure-arm.yaml
 ```
 
@@ -95,7 +100,9 @@ To fix this, determine whether the property in question is an ARM ID or not, and
 
 * Find the section you added earlier
 * Add a new object if it's not already present
-* Adding your property with an `$referenceType:` declaration nested below.
+* Adding your property with a `$referenceType:` declaration nested below.
+
+(Just above the `objectModelConfiguration` section, there is a large comment that details all the available configuration options.)
 
 If the property is an ARM ID, use `$referenceType: arm` to flag that property as a reference:
 
@@ -103,7 +110,6 @@ If the property is an ARM ID, use `$referenceType: arm` to flag that property as
 network:
   2020-11-01:
     NetworkSecurityGroup:
-      $export: true
       PrivateLinkResource: 
         $referenceType: arm # the property IS an ARM reference
 ```
@@ -187,9 +193,9 @@ It's possible the submodule `v2/specs/azure-rest-api-specs` is out of date. Try 
 
 Sometimes it is useful to see what each stage of the generator pipeline has produced and/or changed. 
 
-To write detailed debug logs detailing internal stage after each stage of the pipeline has run, use the `--debug` flag to specify which type definitions to include.
+Use the `--debug` flag to write detailed debug logs detailing internal state of the code generator (including all available data types) after each stage of the pipeline has run.
 
-To see debug output including all types in the `network` group, run:
+To use it, specify which group(s) or version(s) you want included in the debug output. For example, to see debug output including all types in the `network` group, run:
 
 ``` bash
 ./tools/generator/aso-gen gen-types azure-arm.yaml --debug network
