@@ -25,7 +25,7 @@ func (extension *DnsForwardingRulesetExtension) ClassifyError(
 		return core.CloudErrorDetails{}, err
 	}
 
-	if isRetryableConflict(cloudError) || isRetryableBadRequest(cloudError) {
+	if isRetryableBadRequest(cloudError) {
 		details.Classification = core.ErrorRetryable
 	}
 
