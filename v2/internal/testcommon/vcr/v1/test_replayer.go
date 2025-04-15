@@ -65,7 +65,7 @@ func NewTestPlayer(
 	credentials = creds.MockTokenCredential{}
 	azureIDs.TenantID = uuid.Nil.String()
 	azureIDs.SubscriptionID = uuid.Nil.String()
-	azureIDs.BillingInvoiceID = creds.DummyBillingId
+	azureIDs.BillingInvoiceID = creds.DummyBillingID
 
 	// Force these values to be the default
 	cfg.ResourceManagerEndpoint = asocloud.DefaultEndpoint
@@ -81,7 +81,7 @@ func NewTestPlayer(
 		}
 
 		// verify custom request count header (see counting_roundtripper.go)
-		if r.Header.Get(COUNT_HEADER) != i.Headers.Get(COUNT_HEADER) {
+		if r.Header.Get(CountHeader) != i.Headers.Get(CountHeader) {
 			return false
 		}
 

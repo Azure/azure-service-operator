@@ -93,9 +93,9 @@ func (w errorTranslation) RoundTrip(req *http.Request) (*http.Response, error) {
 
 	if len(matchingBodies) == 0 {
 		var discriminator string
-		if header := req.Header.Get(COUNT_HEADER); header != "" {
+		if header := req.Header.Get(CountHeader); header != "" {
 			discriminator = fmt.Sprintf(" (attempt: %s)", header)
-		} else if header := req.Header.Get(HASH_HEADER); header != "" {
+		} else if header := req.Header.Get(HashHeader); header != "" {
 			discriminator = fmt.Sprintf(" (hash: %s)", header)
 		}
 
@@ -139,7 +139,7 @@ func (w errorTranslation) findMatchingBodies(r *http.Request) []string {
 	var result []string
 	for _, interaction := range w.ensureCassette().Interactions {
 		if urlString == interaction.Request.URL && r.Method == interaction.Request.Method &&
-			r.Header.Get(COUNT_HEADER) == interaction.Request.Headers.Get(COUNT_HEADER) {
+			r.Header.Get(CountHeader) == interaction.Request.Headers.Get(CountHeader) {
 			result = append(result, interaction.Request.Body)
 		}
 	}

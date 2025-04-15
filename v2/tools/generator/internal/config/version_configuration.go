@@ -123,30 +123,30 @@ func (vc *VersionConfiguration) UnmarshalYAML(value *yaml.Node) error {
 	}
 
 	vc.types = make(map[string]*TypeConfiguration)
-	var lastId string
+	var lastID string
 
 	for i, c := range value.Content {
 		// Grab identifiers and loop to handle the associated value
 		if i%2 == 0 {
-			lastId = c.Value
+			lastID = c.Value
 			continue
 		}
 
 		// Handle nested kind metadata
 		if c.Kind == yaml.MappingNode {
-			tc := NewTypeConfiguration(lastId)
+			tc := NewTypeConfiguration(lastID)
 			err := c.Decode(&tc)
 			if err != nil {
-				return eris.Wrapf(err, "decoding yaml for %q", lastId)
+				return eris.Wrapf(err, "decoding yaml for %q", lastID)
 			}
 
-			vc.addType(lastId, tc)
+			vc.addType(lastID, tc)
 			continue
 		}
 
 		// No handler for this value, return an error
 		return eris.Errorf(
-			"version configuration, unexpected yaml value %s: %s (line %d col %d)", lastId, c.Value, c.Line, c.Column)
+			"version configuration, unexpected yaml value %s: %s (line %d col %d)", lastID, c.Value, c.Line, c.Column)
 
 	}
 

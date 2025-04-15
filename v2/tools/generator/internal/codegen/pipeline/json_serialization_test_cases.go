@@ -15,12 +15,12 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/testcases"
 )
 
-// InjectJsonSerializationTestsID is the unique identifier for this pipeline stage
-const InjectJsonSerializationTestsID = "injectJSONTestCases"
+// InjectJSONSerializationTestsID is the unique identifier for this pipeline stage
+const InjectJSONSerializationTestsID = "injectJSONTestCases"
 
-func InjectJsonSerializationTests(idFactory astmodel.IdentifierFactory) *Stage {
+func InjectJSONSerializationTests(idFactory astmodel.IdentifierFactory) *Stage {
 	stage := NewStage(
-		InjectJsonSerializationTestsID,
+		InjectJSONSerializationTestsID,
 		"Add test cases to verify JSON serialization",
 		func(ctx context.Context, state *State) (*State, error) {
 			factory := makeObjectSerializationTestCaseFactory(idFactory)

@@ -224,7 +224,7 @@ func addPrivileges(ctx context.Context, db *sql.DB, database string, user string
 	// We say //nolint:gosec below because gosec is trying to tell us this is a dangerous SQL query with a risk of SQL
 	// injection. The user effectively has admin access to the DB through the operator already the minute that they can
 	// create users with arbitrary permission levels.
-	_, err := db.ExecContext(ctx, fmt.Sprintf("GRANT %s ON %s TO ?", toAdd, asGrantTarget(database)), user) //nolint:gosec
+	_, err := db.ExecContext(ctx, fmt.Sprintf("GRANT %s ON %s TO ?", toAdd, asGrantTarget(database)), user)
 
 	return err
 }

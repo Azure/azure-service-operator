@@ -159,10 +159,7 @@ func findRefsAndCreateSecrets(tc *testcommon.KubePerTestContext, resources []cli
 	// Find orphaned references
 	orphanRefs := set.Make[genruntime.SecretReference]()
 	for _, ref := range allReferences.Values() {
-		matchingDestination := genruntime.SecretDestination{
-			Name: ref.Name,
-			Key:  ref.Key,
-		}
+		matchingDestination := genruntime.SecretDestination(ref)
 		matchingSecret := fmt.Sprintf("%s/%s", tc.Namespace, ref.Name)
 		if allSecrets.Contains(matchingSecret) {
 			continue

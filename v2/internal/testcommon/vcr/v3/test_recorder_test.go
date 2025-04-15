@@ -21,7 +21,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon/vcr"
 )
 
-//nolint:paralleltest
 func TestRecorder_WhenRecordingAndRecordingDoesNotExist_MakesRecording(t *testing.T) {
 	// NB: Can't run tests using Setenv() in parallel
 	t.Setenv("AZURE_SUBSCRIPTION_ID", "00000000-0000-0000-0000-000000000000")

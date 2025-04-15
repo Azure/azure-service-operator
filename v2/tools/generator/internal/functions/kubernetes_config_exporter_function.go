@@ -84,7 +84,7 @@ func (d *KubernetesConfigExporterBuilder) exportKubernetesConfigMaps(
 	receiver astmodel.TypeName,
 	methodName string,
 ) (*dst.FuncDecl, error) {
-	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
+	receiverIdent := k.IDFactory().CreateReceiver(receiver.Name())
 	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
 	if err != nil {
 		return nil, eris.Wrap(err, "creating receiver type expression")

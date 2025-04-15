@@ -118,7 +118,7 @@ func (ts *TransformSelector) appliesToTypeName(tn astmodel.InternalTypeName) boo
 		// Need to handle both full (v1beta20200101) and API (2020-01-01) formats
 		switch ref := tn.PackageReference().(type) {
 		case astmodel.LocalPackageReference:
-			if !ref.HasApiVersion(ts.Version.String()) && !ts.Version.Matches(ver).Matched {
+			if !ref.HasAPIVersion(ts.Version.String()) && !ts.Version.Matches(ver).Matched {
 				return false
 			}
 		default:

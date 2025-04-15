@@ -223,7 +223,7 @@ func (transformer *TypeTransformer) RequiredPropertiesWereMatched() error {
 		return eris.Wrapf(
 			err,
 			"%s matched types but all properties were excluded by name or type",
-			transformer.TypeMatcher.String())
+			transformer.String())
 	}
 
 	return nil

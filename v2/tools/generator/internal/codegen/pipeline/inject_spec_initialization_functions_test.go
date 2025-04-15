@@ -80,7 +80,7 @@ func TestGolden_InjectSpecInitializationFunctions(t *testing.T) {
 		"personReference",
 		astmodel.ResourceReferenceType)
 
-	personIdProperty := astmodel.NewPropertyDefinition(
+	personIDProperty := astmodel.NewPropertyDefinition(
 		"PersonId",
 		"personId",
 		astmodel.StringType)
@@ -104,7 +104,7 @@ func TestGolden_InjectSpecInitializationFunctions(t *testing.T) {
 		test.KnownAsProperty,
 		addressesStatusProperty,
 		locationsStatusProperty,
-		personIdProperty,
+		personIDProperty,
 	)
 
 	resource := test.CreateResource(test.Pkg2020, "Person", spec, status)

@@ -47,7 +47,7 @@ type PerTestContext struct {
 	AzureTenant           string
 	AzureBillingInvoiceID string
 	AzureMatch            *ARMMatcher
-	HttpClient            *http.Client
+	HTTPClient            *http.Client
 	Namer                 ResourceNamer
 	NoSpaceNamer          ResourceNamer
 	TestName              string
@@ -108,7 +108,7 @@ func (tc TestContext) ForTest(t *testing.T, cfg config.Values) (PerTestContext, 
 	var globalARMClient *genericarmclient.GenericClient
 	options := &genericarmclient.GenericClientOptions{
 		Metrics:    metrics.NewARMClientMetrics(),
-		HttpClient: httpClient,
+		HTTPClient: httpClient,
 	}
 	globalARMClient, err = genericarmclient.NewGenericClient(cfg.Cloud(), details.Creds(), options)
 	if err != nil {
@@ -155,7 +155,7 @@ func (tc TestContext) ForTest(t *testing.T, cfg config.Values) (PerTestContext, 
 		AzureBillingInvoiceID: details.IDs().BillingInvoiceID,
 		AzureMatch:            NewARMMatcher(globalARMClient),
 		AzureClientRecorder:   details,
-		HttpClient:            httpClient,
+		HTTPClient:            httpClient,
 		TestName:              t.Name(),
 		Namespace:             createTestNamespaceName(t),
 		Ctx:                   context,

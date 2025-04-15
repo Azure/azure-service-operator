@@ -40,7 +40,7 @@ func (fi *TestCaseInjector) Inject(def TypeDefinition, cases ...TestCase) (TypeD
 
 // injectTestCaseIntoObject takes the function provided as a context and includes it on the
 // provided object type
-func (_ *TestCaseInjector) injectTestCaseIntoObject(
+func (*TestCaseInjector) injectTestCaseIntoObject(
 	_ *TypeVisitor[any], ot *ObjectType, ctx any,
 ) (Type, error) {
 	fn := ctx.(TestCase)
@@ -49,7 +49,7 @@ func (_ *TestCaseInjector) injectTestCaseIntoObject(
 
 // injectTestCaseIntoResource takes the function provided as a context and includes it on the
 // provided resource type
-func (_ *TestCaseInjector) injectTestCaseIntoResource(
+func (*TestCaseInjector) injectTestCaseIntoResource(
 	_ *TypeVisitor[any], rt *ResourceType, ctx any,
 ) (Type, error) {
 	fn := ctx.(TestCase)

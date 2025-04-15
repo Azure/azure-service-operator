@@ -365,7 +365,7 @@ func (extractor *SwaggerTypeExtractor) findARMResourceSchema(op spec.PathItem, r
 		}
 	}
 
-	if isResource == false && op.Head != nil {
+	if !isResource && op.Head != nil {
 		// assume this is a resource. It's possible this is too permissive and classifies some things as resources
 		// when they really aren't, but that's OK because anyway we only generate the resources we name in the configuration
 		// and classifying something as a resource here just makes it a candidate for mention in the config.
@@ -447,7 +447,7 @@ func (extractor *SwaggerTypeExtractor) schemaFromParameter(param spec.Parameter)
 	var result Schema
 	if param.Schema == nil {
 		// We're dealing with a simple schema here
-		if param.SimpleSchema.Type == "" {
+		if param.Type == "" {
 			return nil
 		}
 
@@ -935,7 +935,7 @@ type schemaAndValidations struct {
 }
 
 func makeSchemaFromSimpleSchemaParam(param schemaAndValidations) *spec.Schema {
-	if param.SimpleSchema.Type == "" {
+	if param.Type == "" {
 		panic("cannot make schema from simple schema for non-simple-schema param")
 	}
 	var itemsSchema *spec.Schema
@@ -946,13 +946,13 @@ func makeSchemaFromSimpleSchemaParam(param schemaAndValidations) *spec.Schema {
 
 	schema := &spec.Schema{
 		SchemaProps: spec.SchemaProps{
-			Type:    spec.StringOrArray{param.SimpleSchema.Type},
-			Default: param.SimpleSchema.Default,
-			Format:  param.SimpleSchema.Format,
+			Type:    spec.StringOrArray{param.Type},
+			Default: param.Default,
+			Format:  param.Format,
 			Items: &spec.SchemaOrArray{
 				Schema: itemsSchema,
 			},
-			Nullable: param.SimpleSchema.Nullable,
+			Nullable: param.Nullable,
 		},
 	}
 	schema = schema.WithValidations(param.Validations())

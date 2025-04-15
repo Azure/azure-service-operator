@@ -147,7 +147,7 @@ func (t *TypeConverter) tryConvertToStoragePackage(name astmodel.InternalTypeNam
 
 // descriptionForStorageVariant creates a description for a storage variant, indicating which
 // original type it is based upon
-func (_ *TypeConverter) descriptionForStorageVariant(definition astmodel.TypeDefinition) []string {
+func (*TypeConverter) descriptionForStorageVariant(definition astmodel.TypeDefinition) []string {
 	pkg := definition.Name().PackageReference().PackageName()
 
 	result := []string{

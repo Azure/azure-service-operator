@@ -28,8 +28,8 @@ func TestStateCheckFinalState_WhenExpectationSatisfied_ReturnsNoError(t *testing
 	g := NewGomegaWithT(t)
 
 	state := NewState().
-		WithExpectation(firstStageId, lastStageId).
-		WithSeenStage(lastStageId)
+		WithExpectation(firstStageID, lastStageID).
+		WithSeenStage(lastStageID)
 
 	g.Expect(state.CheckFinalState()).To(BeNil())
 }
@@ -39,12 +39,12 @@ func TestStateCheckFinalState_WhenExpectationNotSatisfied_ReturnsExpectedError(t
 	g := NewGomegaWithT(t)
 
 	state := NewState().
-		WithExpectation(firstStageId, lastStageId)
+		WithExpectation(firstStageID, lastStageID)
 
 	err := state.CheckFinalState()
 	g.Expect(err).ToNot(BeNil())
-	g.Expect(err.Error()).To(ContainSubstring(firstStageId))
-	g.Expect(err.Error()).To(ContainSubstring(lastStageId))
+	g.Expect(err.Error()).To(ContainSubstring(firstStageID))
+	g.Expect(err.Error()).To(ContainSubstring(lastStageID))
 }
 
 func TestStateInfo_WhenValueStored_CanBeRetrieved(t *testing.T) {

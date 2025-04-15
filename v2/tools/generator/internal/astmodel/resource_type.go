@@ -232,7 +232,7 @@ func (resource *ResourceType) WithStatus(statusType Type) *ResourceType {
 }
 
 func (resource *ResourceType) WithoutInterface(name TypeName) *ResourceType {
-	if _, found := resource.InterfaceImplementer.FindInterface(name); !found {
+	if _, found := resource.FindInterface(name); !found {
 		return resource
 	}
 

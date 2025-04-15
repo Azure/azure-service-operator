@@ -76,7 +76,7 @@ func Test_SamplesTester_UpdatesSubscriptionID(t *testing.T) {
 	}
 
 	sample := &sampleResource{
-		SubscriptionID: emptyGuid,
+		SubscriptionID: emptyGUID,
 	}
 
 	err := tester.updateFieldsForTest(sample)
@@ -95,7 +95,7 @@ func Test_SamplesTester_UpdatesTenantID(t *testing.T) {
 	}
 
 	sample := &sampleResource{
-		TenantID: emptyGuid,
+		TenantID: emptyGUID,
 	}
 
 	err := tester.updateFieldsForTest(sample)

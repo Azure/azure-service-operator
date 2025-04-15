@@ -9,10 +9,9 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/dave/dst"
 	"github.com/rotisserie/eris"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
-
-	"github.com/dave/dst"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"

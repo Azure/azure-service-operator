@@ -19,13 +19,13 @@ import (
 
 const resourcesPropertyName = astmodel.PropertyName("Resources")
 
-const DetermineResourceOwnershipStageId = "determineResourceOwnership"
+const DetermineResourceOwnershipStageID = "determineResourceOwnership"
 
 func DetermineResourceOwnership(
 	configuration *config.Configuration,
 ) *Stage {
 	return NewStage(
-		DetermineResourceOwnershipStageId,
+		DetermineResourceOwnershipStageID,
 		"Determine ARM resource relationships",
 		func(ctx context.Context, state *State) (*State, error) {
 			determiner := newOwnershipStage(configuration, state.Definitions())

@@ -210,7 +210,7 @@ func (*Result) writeTo(resources []ImportedResource, destination io.Writer) erro
 // starting with empty `status { }` blocks from the yaml.
 func redact(data []byte) []byte {
 	content := string(data)
-	content = strings.Replace(content, "status: {}", "", -1)
+	content = strings.ReplaceAll(content, "status: {}", "")
 	content = strings.TrimSuffix(content, "\n")
 	return []byte(content)
 }
