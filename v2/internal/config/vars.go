@@ -105,6 +105,9 @@ type Values struct {
 	// DefaultReconcilePolicy allows to override the default reconcile policy that should be used by ASO
 	// when the annotation serviceoperator.azure.com/reconcile-policy is omitted
 	DefaultReconcilePolicy annotations.ReconcilePolicyValue
+
+	// ReadReconciliationPolicyFromNamespace boolean is used to determine if reconciliation policy should be read from namespace object
+	ReadReconciliationPolicyFromNamespace bool
 }
 
 type RateLimitMode string
@@ -186,6 +189,7 @@ func (v Values) String() string {
 	builder.WriteString(fmt.Sprintf("MaxConcurrentReconciles:%d/", v.MaxConcurrentReconciles))
 	builder.WriteString(fmt.Sprintf("RateLimit:[%s]", v.RateLimit.String()))
 	builder.WriteString(fmt.Sprintf("DefaultReconcilePolicy:[%s]", v.DefaultReconcilePolicy))
+	builder.WriteString(fmt.Sprintf("ReadReconciliationPolicyFromNamespace:%t", v.ReadReconciliationPolicyFromNamespace))
 
 	return builder.String()
 }
@@ -254,6 +258,7 @@ func ReadFromEnvironment() (Values, error) {
 	}
 	result.DefaultReconcilePolicy = annotations.ReconcilePolicyValue(envOrDefault(config.DefaultReconcilePolicy, string(annotations.ReconcilePolicyManage)))
 
+	result.ReadReconciliationPolicyFromNamespace, _ = strconv.ParseBool(os.Getenv(config.ReadReconciliationPolicyFromNamespace))
 	// Not calling validate here to support using from tests where we
 	// don't require consistent settings.
 	return result, nil
