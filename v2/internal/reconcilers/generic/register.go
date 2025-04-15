@@ -13,14 +13,21 @@ import (
 
 	"github.com/go-logr/logr"
 	"github.com/rotisserie/eris"
+	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/conversion"
+	"k8s.io/apimachinery/pkg/runtime/schema"
+	"k8s.io/apimachinery/pkg/types"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	ctrl "sigs.k8s.io/controller-runtime"
 	ctrlbuilder "sigs.k8s.io/controller-runtime/pkg/builder"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
+	"sigs.k8s.io/controller-runtime/pkg/handler"
+	"sigs.k8s.io/controller-runtime/pkg/predicate"
+	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/util/interval"
@@ -94,6 +101,7 @@ func RegisterAll(
 
 	var errs []error
 	for _, obj := range objs {
+		options.LogConstructor(nil).V(Info).Info("Registering", "objectName", obj.Name)
 		// TODO: Consider pulling some of the construction of things out of register (gvk, etc), so that we can pass in just
 		// TODO: the applicable extensions rather than a map of all of them
 		if err := register(mgr, kubeClient, positiveConditions, obj, options); err != nil {
@@ -130,6 +138,7 @@ func register(
 	eventRecorder := mgr.GetEventRecorderFor(info.Name)
 
 	options.LogConstructor(nil).V(Status).Info("Registering", "GVK", gvk)
+	// options.LogConstructor(nil).V(Status).Info("Registering watcher for", "name", info.Name)
 
 	reconciler := &GenericReconciler{
 		Reconciler:                info.Reconciler,
@@ -143,15 +152,19 @@ func register(
 		PanicHandler:              options.PanicHandler,
 	}
 
+	// tHis registers the reconciler for the given resource
 	builder := ctrl.NewControllerManagedBy(mgr).
 		For(info.Obj, ctrlbuilder.WithPredicates(info.Predicate)).
 		WithOptions(options.Options)
 	builder.Named(info.Name)
 
+	builder = builder.Watches(&corev1.Namespace{}, handler.EnqueueRequestsFromMapFunc(registerNamespaceWatcher(options, kubeClient, info.Obj, gvk)), ctrlbuilder.WithPredicates(predicate.AnnotationChangedPredicate{}))
+
 	for _, watch := range info.Watches {
 		builder = builder.Watches(watch.Type, watch.MakeEventHandler(kubeClient, options.LogConstructor(nil).WithName(info.Name)))
 	}
 
+	//Complete builds the application controller in charge of the reconcile process
 	err = builder.Complete(reconciler)
 	if err != nil {
 		return eris.Wrap(err, "unable to build controllers / reconciler")
@@ -159,3 +172,37 @@ func register(
 
 	return nil
 }
+
+// This registers a watcher on the namespace for the watched resource
+func registerNamespaceWatcher(options Options, kubeclient kubeclient.Client, object client.Object, gvk schema.GroupVersionKind) func(ctx context.Context, obj client.Object) []reconcile.Request {
+	options.LogConstructor(nil).V(Status).Info("Handler for resource object", "name", object.GetName(), "object.namespace", object.GetNamespace(), "object.kind", gvk.Kind)
+	return func(ctx context.Context, obj client.Object) []reconcile.Request {
+		// options.LogConstructor(nil).V(Info).Info("Registering namespace watcher for resource", obj, "to reconcile", obj.GetName(), "in namespace", obj.GetNamespace())
+		// Trigger reconciliation for the BackupBusybox in the same namespace
+		// here we can be a bit more clever trying to reconcile the resource only if the namespace has the annotation to reconcile
+		aList := &unstructured.UnstructuredList{}
+		aList.SetGroupVersionKind(gvk)
+		// options.LogConstructor(nil).V(Status).Info("Registering watcher for", obj.GetName(), "in namespace", obj.GetNamespace())
+		if err := kubeclient.List(ctx, aList, &client.ListOptions{Namespace: obj.GetName()}); err != nil {
+			return []reconcile.Request{}
+		}
+		// list the objects for the current kind
+		for _, el := range aList.Items {
+			// shall we check here if the namespace has required annotation annotation?
+			if _, ok := obj.GetAnnotations()["serviceoperator.azure.com/reconcile-policy"]; ok {
+				options.LogConstructor(nil).V(Status).Info("Reconciling object", el.GetName())
+				return []reconcile.Request{
+					{
+						NamespacedName: types.NamespacedName{
+							Name:      el.GetName(),      // Reconcile the resource upon change of namespace
+							Namespace: el.GetNamespace(), // Use the namespace of the changed Busybox
+						},
+					},
+				}
+			}
+		}
+		return []reconcile.Request{}
+	}
+}
+
+// }))

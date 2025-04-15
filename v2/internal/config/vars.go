@@ -252,6 +252,7 @@ func ReadFromEnvironment() (Values, error) {
 	if err != nil {
 		return result, err
 	}
+	// Here we read the default reconcile policy from environment variable DEFAULT_RECONCILE_POLICY, if missing we force it to 'manage'
 	result.DefaultReconcilePolicy = annotations.ReconcilePolicyValue(envOrDefault(config.DefaultReconcilePolicy, string(annotations.ReconcilePolicyManage)))
 
 	// Not calling validate here to support using from tests where we
