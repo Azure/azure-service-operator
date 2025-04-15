@@ -6,8 +6,7 @@ weight: 50
 
 Every new resource should have a handwritten test as there is always the possibility of a resource behaving in a subtly different way than expected. This also applies to _new versions_ of existing resources.
 
-These handwritten tests should validate that the controller can create, update, and delete the resource. Often, they also validate that related resoruces can be created at the same time.
-
+These handwritten tests should validate that the controller can create, update, and delete the resource. Often, they also validate that related resources can be created at the same time.
 All these tests live in the [`v2/internal/controllers`](https://github.com/Azure/azure-service-operator/tree/main/v2/internal/controllers). There's a readme in that folder that describes the test structure and naming conventions.
 
 For each test there's a [recording]({{< relref "testing">}}#recordreplay) in the `recordings` folder that records the HTTP interactions between the operator and Azure allowing for rapid replay for future runs. We create these recordings using [go-vcr](https://github.com/dnaeon/go-vcr).
@@ -40,8 +39,7 @@ In most cases you won't need to worry about this.
 
 If your rest needs to create multiple resources, prefer using `CreateResourcesAndWait` (note the plural `Resources`) to create all the resources at once, rather than calling `CreateResourceAndWait` (singular `Resource`) once for each resource in turn.
 
-When a user applies a YAML file containing multiple resources, ASO will be expected to handle creating all the resources in the correct order. Simluating this in the test by calling `CreateResourcesAndWait` to create all the resources at once is a good way to ensure that the test is realistic.
-
+When a user applies a YAML file containing multiple resources, ASO will be expected to handle creating all the resources in the correct order. Simulating this in the test by calling `CreateResourcesAndWait` to create all the resources at once is a good way to ensure that the test is realistic.
 ### Prefer Parallel tests
 
 Operation of ASO in a cluster is inherently concurrent, with a lot going on and an expectation that the state of the cluster will converge to the desired state.
@@ -52,8 +50,7 @@ It can be useful to break independent subtests up into parallel tests to simulat
 
 Odd behaviour in your test, this _may_ indicate you need to [implement an extension]({{< relref "implement-textensions" >}}) to customize the behaviour of the resource.
 
-If you think this may be applicable, please reach out to us for help. We can help you identify the right extension point and how to implement it. In most cases, exensions aren't needed, but they are essential for some resources.
-
+If you think this may be applicable, please reach out to us for help. We can help you identify the right extension point and how to implement it. In most cases, extensions aren't needed, but they are essential for some resources.
 ----
 
 With a successful test demonstrating the resource working, it's time to [create a sample]({{< relref "create-a-sample" >}}) to show other users how to use the resource.

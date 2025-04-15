@@ -10,8 +10,7 @@ The first step in adding a new code-generated resource is to determine which res
 
 Any ARM resource can be generated, provided you know the Azure type of the resource, and the version of the API you want to use.
 
-To unambigously identify the resource you want to add, you need to know the Azure type, and the version of the API you want to use. We will walk through an example of adding Azure Synapse Workspace.
-
+To unambiguously identify the resource you want to add, you need to know the Azure type, and the version of the API you want to use. We will walk through an example of adding Azure Synapse Workspace.
 ### Find the Azure type of the resource
 
 The Azure type of a resource consists of a resource provider and a name. For example, the Azure type of a Synapse Workspace is `Microsoft.Synapse/workspaces` - the resource provider is `Microsoft.Synapse` and the name is `workspaces`.

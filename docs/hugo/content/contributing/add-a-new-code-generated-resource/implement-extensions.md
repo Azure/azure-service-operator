@@ -14,8 +14,7 @@ Other extension points allow blocking reconciliation attempts until a prerequisi
 
 For most resource extensions, any implementation will go in the `customizations` folder generated for each resource group.
 
-It's often unclear which extensions are needed until you start testing the resoruce. The best approach is to start with the generated resource, and then add extensions as needed.
-
+It's often unclear which extensions are needed until you start testing the resource. The best approach is to start with the generated resource, and then add extensions as needed.
 Reach out to us if you want some guidance on which (if any) extension points are appropriate for your resource.
 
 ----

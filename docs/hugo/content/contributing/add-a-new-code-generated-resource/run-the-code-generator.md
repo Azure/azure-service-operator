@@ -8,8 +8,7 @@ The ASO code generator is our secret sauce - it lowers the amount of effort requ
 
 ## What does the code generator do?
 
-The code generator is a Go program that reads the Azure API definitions from the `azure-rest-api-specs` repository and generates most of the code required to suport a resource.
-
+The code generator is a Go program that reads the Azure API definitions from the `azure-rest-api-specs` repository and generates most of the code required to support a resource.
 The Swagger/OpenAPI definitions in that repo are transformed by the code generator into two forms - once for the `spec`, defining the desired state of the resource, and once for the `status`, defining the observed state of the resource.
 
 Some background: Azure resources are extremely consistent in their structures and behaviours, and the code required to support them is thus also very consistent and repetitive. The code generator is designed to take advantage of this consistency to generate the bulk of the code required for a new resource.
