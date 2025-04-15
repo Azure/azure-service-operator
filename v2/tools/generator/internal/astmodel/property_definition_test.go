@@ -16,7 +16,7 @@ import (
 var (
 	propertyName        = PropertyName("FullName")
 	propertyType        = StringType
-	propertyJsonName    = "family-name"
+	propertyJSONName    = "family-name"
 	propertyDescription = "description"
 )
 
@@ -28,13 +28,13 @@ func Test_NewPropertyDefinition_GivenValues_ReturnsInstanceWithExpectedFields(t 
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	property := NewPropertyDefinition(propertyName, propertyJsonName, propertyType)
+	property := NewPropertyDefinition(propertyName, propertyJSONName, propertyType)
 
 	g.Expect(property.propertyName).To(Equal(propertyName))
 	g.Expect(property.propertyType).To(Equal(propertyType))
 	jsonTags, ok := property.tags.Get("json")
 	g.Expect(ok).To(BeTrue())
-	g.Expect(jsonTags).To(Equal([]string{propertyJsonName, "omitempty"}))
+	g.Expect(jsonTags).To(Equal([]string{propertyJSONName, "omitempty"}))
 	g.Expect(property.description).To(BeEmpty())
 }
 
@@ -42,7 +42,7 @@ func Test_NewPropertyDefinition_GivenValues_ReturnsInstanceWithExpectedGetters(t
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	property := NewPropertyDefinition(propertyName, propertyJsonName, propertyType)
+	property := NewPropertyDefinition(propertyName, propertyJSONName, propertyType)
 
 	g.Expect(property.PropertyName()).To(Equal(propertyName))
 	g.Expect(property.PropertyType()).To(Equal(propertyType))
@@ -55,18 +55,18 @@ func Test_PropertyDefinition_TagsAdded_TagsAreRenderedAsExpected(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType)
+	original := NewPropertyDefinition(propertyName, propertyJSONName, propertyType)
 	updated := original.WithTag("key", "value")
 
 	g.Expect(updated).NotTo(Equal(original))
-	g.Expect(updated.renderedTags()).To(Equal(fmt.Sprintf("json:\"%s,omitempty\" key:\"value\"", propertyJsonName)))
+	g.Expect(updated.renderedTags()).To(Equal(fmt.Sprintf("json:\"%s,omitempty\" key:\"value\"", propertyJSONName)))
 }
 
 func Test_PropertyDefinition_TagsAdded_TagsCanBeRetrieved(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType)
+	original := NewPropertyDefinition(propertyName, propertyJSONName, propertyType)
 	updated := original.WithTag("key", "value")
 
 	g.Expect(updated).NotTo(Equal(original))
@@ -81,7 +81,7 @@ func Test_PropertyDefinition_TagDoesntExist_TagsReturnsFalse(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType)
+	original := NewPropertyDefinition(propertyName, propertyJSONName, propertyType)
 
 	_, ok := original.Tag("key")
 	g.Expect(ok).To(BeFalse())
@@ -91,28 +91,28 @@ func Test_PropertyDefinition_MultipleTagsAdded_TagsAreRenderedCommaSeparated(t *
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType)
+	original := NewPropertyDefinition(propertyName, propertyJSONName, propertyType)
 	updated := original.WithTag("key", "value").WithTag("key", "value2").WithTag("key", "value3")
 
-	g.Expect(updated.renderedTags()).To(Equal(fmt.Sprintf("json:\"%s,omitempty\" key:\"value,value2,value3\"", propertyJsonName)))
+	g.Expect(updated.renderedTags()).To(Equal(fmt.Sprintf("json:\"%s,omitempty\" key:\"value,value2,value3\"", propertyJSONName)))
 }
 
 func Test_PropertyDefinition_ExistingTagAdded_TagsAreNotDuplicated(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType)
-	updated := original.WithTag("json", propertyJsonName)
+	original := NewPropertyDefinition(propertyName, propertyJSONName, propertyType)
+	updated := original.WithTag("json", propertyJSONName)
 
 	g.Expect(updated).To(Equal(original))
-	g.Expect(updated.renderedTags()).To(Equal(fmt.Sprintf("json:\"%s,omitempty\"", propertyJsonName)))
+	g.Expect(updated.renderedTags()).To(Equal(fmt.Sprintf("json:\"%s,omitempty\"", propertyJSONName)))
 }
 
 func Test_PropertyDefinition_TagKeyRemoved_TagIsNotRendered(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType)
+	original := NewPropertyDefinition(propertyName, propertyJSONName, propertyType)
 	updated := original.WithoutTag("json", "")
 
 	g.Expect(updated).NotTo(Equal(original))
@@ -123,8 +123,8 @@ func Test_PropertyDefinition_LastTagValueRemoved_TagIsNotRendered(t *testing.T) 
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType)
-	updated := original.WithoutTag("json", propertyJsonName).WithoutTag("json", "omitempty")
+	original := NewPropertyDefinition(propertyName, propertyJSONName, propertyType)
+	updated := original.WithoutTag("json", propertyJSONName).WithoutTag("json", "omitempty")
 
 	g.Expect(updated).NotTo(Equal(original))
 	g.Expect(updated.renderedTags()).To(Equal(""))
@@ -134,36 +134,36 @@ func Test_PropertyDefinition_TagValueRemoved_RemainingTagsAreRenderedAsExpected(
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).
+	original := NewPropertyDefinition(propertyName, propertyJSONName, propertyType).
 		WithTag("key", "value1").
 		WithTag("key", "value2").
 		WithTag("key", "value3")
 	updated := original.WithoutTag("key", "value2")
 
 	g.Expect(updated).ToNot(Equal(original))
-	g.Expect(updated.renderedTags()).To(Equal(fmt.Sprintf("json:\"%s,omitempty\" key:\"value1,value3\"", propertyJsonName)))
+	g.Expect(updated.renderedTags()).To(Equal(fmt.Sprintf("json:\"%s,omitempty\" key:\"value1,value3\"", propertyJSONName)))
 }
 
 func Test_PropertyDefinition_NonExistentTagKeyRemoved_TagsAreRenderedAsExpected(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType)
+	original := NewPropertyDefinition(propertyName, propertyJSONName, propertyType)
 	updated := original.WithoutTag("doesntexist", "")
 
 	g.Expect(updated).To(Equal(original))
-	g.Expect(updated.renderedTags()).To(Equal(fmt.Sprintf("json:\"%s,omitempty\"", propertyJsonName)))
+	g.Expect(updated.renderedTags()).To(Equal(fmt.Sprintf("json:\"%s,omitempty\"", propertyJSONName)))
 }
 
 func Test_PropertyDefinition_NonExistentTagValueRemoved_TagsAreRenderedAsExpected(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType)
+	original := NewPropertyDefinition(propertyName, propertyJSONName, propertyType)
 	updated := original.WithoutTag("doesntexist", "val")
 
 	g.Expect(updated).To(Equal(original))
-	g.Expect(updated.renderedTags()).To(Equal(fmt.Sprintf("json:\"%s,omitempty\"", propertyJsonName)))
+	g.Expect(updated.renderedTags()).To(Equal(fmt.Sprintf("json:\"%s,omitempty\"", propertyJSONName)))
 }
 
 /*
@@ -174,7 +174,7 @@ func Test_PropertyDefinitionWithDescription_GivenDescription_SetsField(t *testin
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	property := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).WithDescription(propertyDescription)
+	property := NewPropertyDefinition(propertyName, propertyJSONName, propertyType).WithDescription(propertyDescription)
 
 	g.Expect(property.description).To(Equal(propertyDescription))
 }
@@ -183,7 +183,7 @@ func Test_PropertyDefinitionWithDescription_GivenDescription_ReturnsDifferentRef
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType)
+	original := NewPropertyDefinition(propertyName, propertyJSONName, propertyType)
 	updated := original.WithDescription(propertyDescription)
 
 	g.Expect(updated).NotTo(Equal(original))
@@ -193,7 +193,7 @@ func Test_PropertyDefinitionWithDescription_GivenDescription_DoesNotModifyOrigin
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType)
+	original := NewPropertyDefinition(propertyName, propertyJSONName, propertyType)
 	updated := original.WithDescription(propertyDescription)
 
 	g.Expect(updated.description).NotTo(Equal(original.description))
@@ -203,7 +203,7 @@ func Test_PropertyDefinitionWithDescription_GivenEmptyDescription_ReturnsDiffere
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).WithDescription(propertyDescription)
+	original := NewPropertyDefinition(propertyName, propertyJSONName, propertyType).WithDescription(propertyDescription)
 	updated := original.WithDescription("")
 
 	g.Expect(updated).NotTo(Equal(original))
@@ -213,7 +213,7 @@ func Test_PropertyDefinitionWithNoDescription_GivenEmptyDescription_ReturnsSameR
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType)
+	original := NewPropertyDefinition(propertyName, propertyJSONName, propertyType)
 	updated := original.WithDescription("")
 
 	g.Expect(updated).To(Equal(original))
@@ -223,7 +223,7 @@ func Test_PropertyDefinitionWithDescription_GivenSameDescription_ReturnsSameRefe
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).WithDescription(propertyDescription)
+	original := NewPropertyDefinition(propertyName, propertyJSONName, propertyType).WithDescription(propertyDescription)
 	updated := original.WithDescription(propertyDescription)
 
 	g.Expect(updated).To(Equal(original))
@@ -237,7 +237,7 @@ func Test_PropertyDefinitionWithType_GivenNewType_SetsFieldOnResult(t *testing.T
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType)
+	original := NewPropertyDefinition(propertyName, propertyJSONName, propertyType)
 	updated := original.WithType(IntType)
 
 	g.Expect(updated.propertyType).To(Equal(IntType))
@@ -247,7 +247,7 @@ func Test_PropertyDefinitionWithType_GivenNewType_DoesNotModifyOriginal(t *testi
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType)
+	original := NewPropertyDefinition(propertyName, propertyJSONName, propertyType)
 	_ = original.WithType(IntType)
 
 	g.Expect(original.propertyType).To(Equal(propertyType))
@@ -257,7 +257,7 @@ func Test_PropertyDefinitionWithType_GivenNewType_ReturnsDifferentReference(t *t
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType)
+	original := NewPropertyDefinition(propertyName, propertyJSONName, propertyType)
 	updated := original.WithType(IntType)
 
 	g.Expect(updated).NotTo(Equal(original))
@@ -267,7 +267,7 @@ func Test_PropertyDefinitionWithType_GivenSameType_ReturnsExistingReference(t *t
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType)
+	original := NewPropertyDefinition(propertyName, propertyJSONName, propertyType)
 	updated := original.WithType(propertyType)
 
 	g.Expect(updated).To(BeIdenticalTo(original))
@@ -281,18 +281,18 @@ func Test_PropertyDefinitionMakeRequired_WhenOptional_ReturnsDifferentReference(
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).MakeTypeOptional().MakeOptional()
+	original := NewPropertyDefinition(propertyName, propertyJSONName, propertyType).MakeTypeOptional().MakeOptional()
 	updated := original.MakeRequired()
 
 	g.Expect(updated).NotTo(BeIdenticalTo(original))
-	g.Expect(updated.renderedTags()).To(Equal(fmt.Sprintf("json:\"%s,omitempty\"", propertyJsonName)))
+	g.Expect(updated.renderedTags()).To(Equal(fmt.Sprintf("json:\"%s,omitempty\"", propertyJSONName)))
 }
 
 func TestPropertyDefinitionMakeRequired_WhenOptional_ReturnsTypeWithIsRequiredTrue(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).MakeTypeOptional().MakeOptional()
+	original := NewPropertyDefinition(propertyName, propertyJSONName, propertyType).MakeTypeOptional().MakeOptional()
 	updated := original.MakeRequired()
 
 	g.Expect(updated.IsRequired()).To(BeTrue())
@@ -302,7 +302,7 @@ func Test_PropertyDefinitionMakeRequired_WhenRequired_ReturnsExistingReference(t
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).MakeTypeOptional().MakeRequired()
+	original := NewPropertyDefinition(propertyName, propertyJSONName, propertyType).MakeTypeOptional().MakeRequired()
 	updated := original.MakeRequired()
 
 	g.Expect(updated).To(BeIdenticalTo(original))
@@ -312,7 +312,7 @@ func Test_PropertyDefinitionMakeRequired_WhenTypeIsOptional_Panics(t *testing.T)
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).MakeTypeRequired()
+	original := NewPropertyDefinition(propertyName, propertyJSONName, propertyType).MakeTypeRequired()
 	g.Expect(func() { original.MakeRequired() }).To(
 		PanicWith(
 			MatchError(
@@ -328,18 +328,18 @@ func TestPropertyDefinitionMakeOptional_WhenRequired_ReturnsDifferentReference(t
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).MakeTypeOptional().MakeRequired()
+	original := NewPropertyDefinition(propertyName, propertyJSONName, propertyType).MakeTypeOptional().MakeRequired()
 	updated := original.MakeOptional()
 
 	g.Expect(updated).NotTo(BeIdenticalTo(original))
-	g.Expect(updated.renderedTags()).To(Equal(fmt.Sprintf("json:\"%s,omitempty\"", propertyJsonName)))
+	g.Expect(updated.renderedTags()).To(Equal(fmt.Sprintf("json:\"%s,omitempty\"", propertyJSONName)))
 }
 
 func TestPropertyDefinitionMakeOptional_WhenRequired_ReturnsTypeWithIsRequiredFalse(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).MakeTypeOptional().MakeRequired()
+	original := NewPropertyDefinition(propertyName, propertyJSONName, propertyType).MakeTypeOptional().MakeRequired()
 	updated := original.MakeOptional()
 
 	g.Expect(updated.IsRequired()).NotTo(BeTrue())
@@ -349,7 +349,7 @@ func Test_PropertyDefinitionMakeOptional_WhenOptional_ReturnsExistingReference(t
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).MakeTypeOptional().MakeOptional()
+	original := NewPropertyDefinition(propertyName, propertyJSONName, propertyType).MakeTypeOptional().MakeOptional()
 	updated := original.MakeOptional()
 
 	g.Expect(updated).To(BeIdenticalTo(original))
@@ -359,7 +359,7 @@ func Test_PropertyDefinitionMakeOptional_WhenRequiredFalse_ReturnsSelf(t *testin
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType)
+	original := NewPropertyDefinition(propertyName, propertyJSONName, propertyType)
 	updated := original.MakeOptional()
 
 	g.Expect(updated).To(BeIdenticalTo(original))
@@ -373,18 +373,18 @@ func Test_PropertyDefinitionMakeTypeRequired_WhenOptional_ReturnsDifferentRefere
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).MakeTypeOptional()
+	original := NewPropertyDefinition(propertyName, propertyJSONName, propertyType).MakeTypeOptional()
 	updated := original.MakeTypeRequired()
 
 	g.Expect(updated).NotTo(BeIdenticalTo(original))
-	g.Expect(updated.renderedTags()).To(Equal(fmt.Sprintf("json:\"%s,omitempty\"", propertyJsonName)))
+	g.Expect(updated.renderedTags()).To(Equal(fmt.Sprintf("json:\"%s,omitempty\"", propertyJSONName)))
 }
 
 func TestPropertyDefinitionMakeTypeRequired_WhenOptional_ReturnsNonOptionalType(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).MakeTypeOptional()
+	original := NewPropertyDefinition(propertyName, propertyJSONName, propertyType).MakeTypeOptional()
 	updated := original.MakeTypeRequired()
 
 	g.Expect(updated.PropertyType()).To(Equal(propertyType))
@@ -394,7 +394,7 @@ func Test_PropertyDefinitionMakeTypeRequired_WhenRequired_ReturnsExistingReferen
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).MakeTypeRequired()
+	original := NewPropertyDefinition(propertyName, propertyJSONName, propertyType).MakeTypeRequired()
 	updated := original.MakeTypeRequired()
 
 	g.Expect(updated).To(BeIdenticalTo(original))
@@ -417,14 +417,14 @@ func Test_PropertyDefinitionMakeTypeRequired_PropertyTypeArrayAndMap(t *testing.
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
-			original := NewPropertyDefinition(propertyName, propertyJsonName, c.propertyType)
+			original := NewPropertyDefinition(propertyName, propertyJSONName, c.propertyType)
 			updated := original.MakeTypeRequired()
 
 			g.Expect(updated).To(BeIdenticalTo(original))
 			// g.Expect(updated.IsRequired()).To(BeFalse())
 			// g.Expect(updated.propertyType).To(BeIdenticalTo(original.propertyType))
 
-			g.Expect(updated.renderedTags()).To(Equal(fmt.Sprintf("json:\"%s,omitempty\"", propertyJsonName)))
+			g.Expect(updated.renderedTags()).To(Equal(fmt.Sprintf("json:\"%s,omitempty\"", propertyJSONName)))
 		})
 	}
 }
@@ -437,18 +437,18 @@ func TestPropertyDefinitionMakeTypeOptional_WhenRequired_ReturnsDifferentReferen
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).MakeTypeRequired()
+	original := NewPropertyDefinition(propertyName, propertyJSONName, propertyType).MakeTypeRequired()
 	updated := original.MakeTypeOptional()
 
 	g.Expect(updated).NotTo(BeIdenticalTo(original))
-	g.Expect(updated.renderedTags()).To(Equal(fmt.Sprintf("json:\"%s,omitempty\"", propertyJsonName)))
+	g.Expect(updated.renderedTags()).To(Equal(fmt.Sprintf("json:\"%s,omitempty\"", propertyJSONName)))
 }
 
 func TestPropertyDefinitionMakeTypeOptional_WhenRequired_ReturnsOptionalType(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).MakeTypeRequired()
+	original := NewPropertyDefinition(propertyName, propertyJSONName, propertyType).MakeTypeRequired()
 	updated := original.MakeTypeOptional()
 
 	g.Expect(updated.PropertyType()).To(BeAssignableToTypeOf(&OptionalType{}))
@@ -458,7 +458,7 @@ func Test_PropertyDefinitionMakeTypeOptional_WhenOptional_ReturnsExistingReferen
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).MakeTypeOptional()
+	original := NewPropertyDefinition(propertyName, propertyJSONName, propertyType).MakeTypeOptional()
 	updated := original.MakeTypeOptional()
 
 	g.Expect(updated).To(BeIdenticalTo(original))
@@ -486,19 +486,19 @@ func Test_PropertyDefinitionMakeTypeOptional_PropertyTypeArrayAndMap(t *testing.
 			g := NewGomegaWithT(t)
 
 			if c.propertyRequiredFirst {
-				original := NewPropertyDefinition(propertyName, propertyJsonName, c.propertyType)
+				original := NewPropertyDefinition(propertyName, propertyJSONName, c.propertyType)
 				required := original.MakeTypeRequired()
 				updated := required.MakeTypeOptional()
 
 				g.Expect(updated).To(BeIdenticalTo(original))
 				g.Expect(updated.IsRequired()).To(BeFalse())
-				g.Expect(updated.renderedTags()).To(Equal(fmt.Sprintf("json:\"%s,omitempty\"", propertyJsonName)))
+				g.Expect(updated.renderedTags()).To(Equal(fmt.Sprintf("json:\"%s,omitempty\"", propertyJSONName)))
 			} else {
-				original := NewPropertyDefinition(propertyName, propertyJsonName, c.propertyType)
+				original := NewPropertyDefinition(propertyName, propertyJSONName, c.propertyType)
 				updated := original.MakeTypeOptional()
 
 				g.Expect(updated).To(Equal(original))
-				g.Expect(updated.renderedTags()).To(Equal(fmt.Sprintf("json:\"%s,omitempty\"", propertyJsonName)))
+				g.Expect(updated.renderedTags()).To(Equal(fmt.Sprintf("json:\"%s,omitempty\"", propertyJSONName)))
 			}
 		})
 	}
@@ -512,7 +512,7 @@ func Test_PropertyDefinitionAsAst_GivenValidField_ReturnsNonNilResult(t *testing
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).
+	original := NewPropertyDefinition(propertyName, propertyJSONName, propertyType).
 		MakeTypeOptional().
 		MakeRequired().
 		WithDescription(propertyDescription)

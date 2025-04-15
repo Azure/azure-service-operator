@@ -20,7 +20,7 @@ import (
 // URIFromVersion creates an ASO template URI from a version
 func URIFromVersion(version string) string {
 	tmpl := "https://github.com/Azure/azure-service-operator/releases/download/%s/azureserviceoperator_%s.yaml"
-	return strings.Replace(tmpl, "%s", version, -1)
+	return strings.ReplaceAll(tmpl, "%s", version)
 }
 
 // Get retrieves a template as a string either from a URL or local path
@@ -31,11 +31,12 @@ func Get(ctx context.Context, uri string) (string, error) {
 		return "", eris.Wrapf(err, "failed to parse URI %s", uri)
 	}
 
-	if parsedURI.Scheme == "" { // Assume that this is a local file?
+	switch parsedURI.Scheme {
+	case "": // Assume that this is a local file?
 		return load(uri)
-	} else if parsedURI.Scheme == "http" || parsedURI.Scheme == "https" {
+	case "http", "https":
 		return download(ctx, uri)
-	} else {
+	default:
 		return "", eris.Errorf("unknown URI scheme %s", parsedURI.Scheme)
 	}
 }

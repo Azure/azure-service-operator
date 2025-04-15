@@ -140,7 +140,7 @@ func (scanner *SchemaScanner) RunHandlersForSchemas(ctx context.Context, schemas
 				}
 			}
 
-			errs = append(errs, eris.Wrapf(err, "unable to handle schema %s", schema.Id()))
+			errs = append(errs, eris.Wrapf(err, "unable to handle schema %s", schema.ID()))
 		}
 
 		if t != nil {
@@ -517,7 +517,7 @@ func getProperties(
 		}
 
 		// add flattening
-		property = property.SetFlatten(propSchema.extensionAsBool("x-ms-client-flatten") == true)
+		property = property.SetFlatten(propSchema.extensionAsBool("x-ms-client-flatten"))
 
 		// add secret flag
 		hasSecretExtension := propSchema.extensionAsBool("x-ms-secret")
@@ -569,7 +569,7 @@ func getProperties(
 				// TODO: for JSON serialization this needs to be unpacked into "parent"
 				additionalProperties := astmodel.NewPropertyDefinition(
 					astmodel.AdditionalPropertiesPropertyName,
-					astmodel.AdditionalPropertiesJsonName,
+					astmodel.AdditionalPropertiesJSONName,
 					astmodel.NewStringMapType(astmodel.AnyType))
 
 				properties = append(properties, additionalProperties)
@@ -601,7 +601,7 @@ func getProperties(
 
 			additionalProperties := astmodel.NewPropertyDefinition(
 				astmodel.AdditionalPropertiesPropertyName,
-				astmodel.AdditionalPropertiesJsonName,
+				astmodel.AdditionalPropertiesJSONName,
 				astmodel.NewStringMapType(additionalPropsType))
 
 			properties = append(properties, additionalProperties)
@@ -652,7 +652,7 @@ func generateDefinitionsFor(
 		return nil, err
 	}
 
-	schemaUrl := schema.url()
+	schemaURL := schema.url()
 
 	// see if we already generated something for this ref
 	if _, ok := scanner.findTypeDefinition(typeName); ok {
@@ -671,7 +671,7 @@ func generateDefinitionsFor(
 	// TODO: This code and below does nothing in the Swagger path as schema.url() is always empty.
 	// TODO: It's still used in the JSON schema path for golden tests and should be removed once those
 	// TODO: are retired.
-	resourceType := categorizeResourceType(schemaUrl)
+	resourceType := categorizeResourceType(schemaURL)
 	if resourceType != nil {
 		result = astmodel.NewAzureResourceType(result, nil, typeName, *resourceType, nil)
 	}
@@ -728,7 +728,7 @@ func oneOfHandler(ctx context.Context, scanner *SchemaScanner, schema Schema, _ 
 	ctx, span := tab.StartSpan(ctx, "oneOfHandler")
 	defer span.End()
 
-	result := astmodel.NewOneOfType(schema.Id())
+	result := astmodel.NewOneOfType(schema.ID())
 
 	// Capture the discriminator property name, if we have one
 	if schema.discriminator() != "" {
@@ -744,7 +744,7 @@ func oneOfHandler(ctx context.Context, scanner *SchemaScanner, schema Schema, _ 
 	// These will each be either a TypeName or an Object
 	types, err := scanner.RunHandlersForSchemas(ctx, schema.oneOf())
 	if err != nil {
-		return nil, eris.Wrapf(err, "unable to generate oneOf types for %s", schema.Id())
+		return nil, eris.Wrapf(err, "unable to generate oneOf types for %s", schema.ID())
 	}
 
 	result = result.WithTypes(types)
@@ -754,7 +754,7 @@ func oneOfHandler(ctx context.Context, scanner *SchemaScanner, schema Schema, _ 
 	// Otherwise, add as an option
 	allOfTypes, err := scanner.RunHandlersForSchemas(ctx, schema.allOf())
 	if err != nil {
-		return nil, eris.Wrapf(err, "unable to generate allOf types for %s", schema.Id())
+		return nil, eris.Wrapf(err, "unable to generate allOf types for %s", schema.ID())
 	}
 
 	// Our AllOf contains either properties to add to our OneOf, or references to parent types
@@ -773,13 +773,13 @@ func oneOfHandler(ctx context.Context, scanner *SchemaScanner, schema Schema, _ 
 	if len(schema.properties()) > 0 {
 		t, err := scanner.RunHandler(ctx, Object, schema)
 		if err != nil {
-			return nil, eris.Wrapf(err, "unable to generate object for properties of %s", schema.Id())
+			return nil, eris.Wrapf(err, "unable to generate object for properties of %s", schema.ID())
 		}
 
 		obj, ok := t.(*astmodel.ObjectType)
 		if !ok {
 			return nil, eris.Errorf(
-				"expected object type for properties of %s, got %T", schema.Id(), t)
+				"expected object type for properties of %s, got %T", schema.ID(), t)
 		}
 
 		result = result.WithAdditionalPropertyObject(obj)

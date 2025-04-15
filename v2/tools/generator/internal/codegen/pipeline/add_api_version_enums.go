@@ -12,11 +12,11 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
-const AddAPIVersionEnumsStageId = "add-api-version-enums"
+const AddAPIVersionEnumsStageID = "add-api-version-enums"
 
 func AddAPIVersionEnums() *Stage {
 	stage := NewStage(
-		AddAPIVersionEnumsStageId,
+		AddAPIVersionEnumsStageID,
 		"Add enums for API Versions in each package",
 		func(ctx context.Context, state *State) (*State, error) {
 			newDefs := make(astmodel.TypeDefinitionSet)
@@ -76,5 +76,5 @@ func apiVersionFromPackageReference(pr astmodel.PackageReference) string {
 		panic("all resources should have local package references")
 	}
 
-	return localPR.ApiVersion()
+	return localPR.APIVersion()
 }

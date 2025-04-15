@@ -184,7 +184,7 @@ func (fn *ChainedConversionFunction) bodyForConvert(
 
 	receiver := dst.NewIdent(receiverName)
 	parameter := dst.NewIdent(parameterName)
-	local := dst.NewIdent(fn.localVariableId())
+	local := dst.NewIdent(fn.localVariableID())
 	errIdent := dst.NewIdent("err")
 
 	intermediateType, err := fn.propertyAssignmentParameterType.AsTypeExpr(generationContext)
@@ -272,9 +272,9 @@ func (fn *ChainedConversionFunction) bodyForConvert(
 		returnNil)
 }
 
-// localVariableId returns a good identifier to use for a local variable in our function,
+// localVariableID returns a good identifier to use for a local variable in our function,
 // based which direction we are converting
-func (fn *ChainedConversionFunction) localVariableId() string {
+func (fn *ChainedConversionFunction) localVariableID() string {
 	return fn.direction.SelectString("src", "dst")
 }
 

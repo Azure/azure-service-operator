@@ -108,7 +108,7 @@ func TestValidateWriteOnceProperties_ReturnsExpectedErrors(t *testing.T) {
 }
 
 func removeResourceIDAnnotation(acc *batch.BatchAccount) {
-	delete(acc.ObjectMeta.Annotations, genruntime.ResourceIDAnnotation)
+	delete(acc.Annotations, genruntime.ResourceIDAnnotation)
 }
 
 func setAzureName(name string) func(acc *batch.BatchAccount) {

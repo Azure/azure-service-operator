@@ -35,7 +35,7 @@ func CallQualifiedFunc(qualifier string, funcName string, arguments ...dst.Expr)
 //
 // <expr>.<funcName>(arguments...)
 func CallExpr(expr dst.Expr, funcName string, arguments ...dst.Expr) *dst.CallExpr {
-	var receiver dst.Expr = expr
+	receiver := expr
 	if star, ok := expr.(*dst.StarExpr); ok {
 		// We don't need to dereference the expression - value methods are available from pointer receivers
 		receiver = star.X

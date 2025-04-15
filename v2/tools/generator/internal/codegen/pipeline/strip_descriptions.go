@@ -15,13 +15,13 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 )
 
-// StripDocumentationStageId is the unique identifier for this pipeline stage
-const StripDocumentationStageId = "stripDocumentation"
+// StripDocumentationStageID is the unique identifier for this pipeline stage
+const StripDocumentationStageID = "stripDocumentation"
 
 // StripDocumentation strips property descriptions from certain types to
 func StripDocumentation(configuration *config.Configuration, log logr.Logger) *Stage {
 	stage := NewStage(
-		StripDocumentationStageId,
+		StripDocumentationStageID,
 		"Strip descriptions for CRDs that have the $stripDocumentation flag set",
 		func(ctx context.Context, state *State) (*State, error) {
 			visitor := createPropertyDescriptionRemovalVisitor()

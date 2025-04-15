@@ -6,7 +6,7 @@ cascade:
   - type: docs
   - render: always
 ---
-ASOv1 is [deprecated](https://github.com/Azure/azure-service-operator/blob/main/README.md#aso-v1). 
+ASOv1 has been [deleted](https://github.com/Azure/azure-service-operator/blob/main/README.md#aso-v1). 
 We strongly recommend migrating to ASOv2 to continue getting new features and support.
 
 ## Assumptions
@@ -177,7 +177,7 @@ modifying the YAML, using a tool such as Kustomize, or using the `--namespace` a
 These are secrets such as storage account keys which ASOv1 has automatically exported into a Kubernetes secret.
 
 ASOv1 exports secrets from Azure according to the 
-[Secret naming](https://github.com/Azure/azure-service-operator/blob/main/docs/v1/howto/secrets.md#secret-naming)
+[Secret naming](https://github.com/Azure/azure-service-operator/blob/asov1/docs/v1/howto/secrets.md#secret-naming)
 rules. ASOv1 always exports these secrets, there is no user configuration required on either the name of the secret or its values.
 In contrast, ASOv2 requires the user to opt-in to secret export, via the `spec.operatorSpec.secrets` property.
 

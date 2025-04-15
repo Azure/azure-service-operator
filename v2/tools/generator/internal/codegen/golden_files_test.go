@@ -160,7 +160,7 @@ func NewTestCodeGenerator(
 			pipeline.CreateResourceExtensionsStageID,
 			pipeline.ReportOnTypesAndVersionsStageID,
 			pipeline.ReportResourceVersionsStageID,
-			pipeline.ReportResourceStructureStageId)
+			pipeline.ReportResourceStructureStageID)
 		if !testConfig.HasARMResources {
 			codegen.RemoveStages(
 				pipeline.CreateARMTypesStageID,
@@ -185,7 +185,7 @@ func NewTestCodeGenerator(
 			pipeline.DeleteGeneratedCodeStageID,
 			pipeline.CheckForAnyTypeStageID,
 			pipeline.ReportResourceVersionsStageID,
-			pipeline.ReportResourceStructureStageId)
+			pipeline.ReportResourceStructureStageID)
 		if !testConfig.HasARMResources {
 			codegen.ReplaceStage(pipeline.StripUnreferencedTypeDefinitionsStageID, stripUnusedTypesPipelineStage())
 		}
@@ -198,7 +198,7 @@ func NewTestCodeGenerator(
 	codegen.ReplaceStage(pipeline.ExportPackagesStageID, exportPackagesTestPipelineStage(t, testName))
 
 	if testConfig.InjectEmbeddedStruct {
-		codegen.InjectStageAfter(pipeline.DetermineResourceOwnershipStageId, injectEmbeddedStructType())
+		codegen.InjectStageAfter(pipeline.DetermineResourceOwnershipStageID, injectEmbeddedStructType())
 	}
 
 	codegen.RemoveStages(

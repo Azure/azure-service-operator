@@ -80,7 +80,7 @@ func createNewConfigMapReference(
 	newProp := prop.
 		WithName(prop.PropertyName()+astmodel.OptionalConfigMapReferenceSuffix).
 		WithType(newType).
-		WithJsonName(jsonName+astmodel.OptionalConfigMapReferenceSuffix).
+		WithJSONName(jsonName+astmodel.OptionalConfigMapReferenceSuffix).
 		WithTag(astmodel.OptionalConfigMapPairTag, string(prop.PropertyName())).
 		MakeOptional().
 		MakeTypeOptional()

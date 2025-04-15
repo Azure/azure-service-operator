@@ -198,7 +198,7 @@ func Test_NewResourceGroup_SubscriptionNotRegisteredError(t *testing.T) {
 
 	metrics := asometrics.NewARMClientMetrics()
 	options := &genericarmclient.GenericClientOptions{
-		HttpClient: server.Client(),
+		HTTPClient: server.Client(),
 		Metrics:    metrics,
 	}
 	client, err := genericarmclient.NewGenericClient(cfg, creds.MockTokenCredential{}, options)
@@ -256,7 +256,7 @@ func Test_NewResourceGroup_ConflictWithMalformedErrorShape(t *testing.T) {
 
 	metrics := asometrics.NewARMClientMetrics()
 	options := &genericarmclient.GenericClientOptions{
-		HttpClient: server.Client(),
+		HTTPClient: server.Client(),
 		Metrics:    metrics,
 	}
 	client, err := genericarmclient.NewGenericClient(cfg, creds.MockTokenCredential{}, options)

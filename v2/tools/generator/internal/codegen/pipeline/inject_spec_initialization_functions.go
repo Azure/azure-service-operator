@@ -85,7 +85,7 @@ func InjectSpecInitializationFunctions(
 		})
 
 	// Needed to populate the conversion graph
-	stage.RequiresPrerequisiteStages(CreateStorageTypesStageID, CreateConversionGraphStageId)
+	stage.RequiresPrerequisiteStages(CreateStorageTypesStageID, CreateConversionGraphStageID)
 	return stage
 }
 

@@ -42,7 +42,7 @@ func TestMakeLocalPackageReference_GivenGroupAndPackage_ReturnsInstanceWithPrope
 			ref := makeTestLocalPackageReference(c.group, c.apiVersion)
 			g.Expect(ref.Group()).To(Equal(c.group))
 			g.Expect(ref.PackageName()).To(Equal(c.pkg))
-			g.Expect(ref.ApiVersion()).To(Equal(c.apiVersion))
+			g.Expect(ref.APIVersion()).To(Equal(c.apiVersion))
 		})
 	}
 }

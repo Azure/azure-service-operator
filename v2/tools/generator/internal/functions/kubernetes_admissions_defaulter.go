@@ -142,7 +142,7 @@ func (d *DefaulterBuilder) localDefault(
 	objIdent := "obj"
 	contextIdent := "ctx"
 
-	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
+	receiverIdent := k.IDFactory().CreateReceiver(receiver.Name())
 	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
 	if err != nil {
 		return nil, eris.Wrap(err, "creating receiver type expression")
@@ -233,7 +233,7 @@ func (d *DefaulterBuilder) defaultFunction(
 	assertStmt := astbuilder.TypeAssert(dst.NewIdent(resourceIdent), dst.NewIdent(objectIdent), astbuilder.PointerTo(resourceTypeExpr))
 	ifAssertFails := astbuilder.IfNotOk(astbuilder.Returns(astbuilder.FormatError(fmtPkg, fmt.Sprintf("expected %s, but got %%T", k.data), dst.NewIdent(objectIdent))))
 
-	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
+	receiverIdent := k.IDFactory().CreateReceiver(receiver.Name())
 	receiverType, err := receiver.AsTypeExpr(codeGenerationContext)
 	if err != nil {
 		return nil, eris.Wrap(err, "creating receiver type expression")

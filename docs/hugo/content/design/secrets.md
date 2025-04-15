@@ -164,7 +164,7 @@ intending to use this secret on a resource they have not created yet. As such, t
 
 Rollover will be supported by triggering events on the associated resource when the secret is modified. Since multiple custom resources might be using 
 the same secret, this could trigger reconciles on multiple resources. An existing pattern has been established for this in 
-[mysqlserver_controller.go](https://github.com/Azure/azure-service-operator/blob/main/controllers/mysqlserver_controller.go#L51) of ASO v1.
+[mysqlserver_controller.go](https://github.com/Azure/azure-service-operator/blob/asov1/controllers/mysqlserver_controller.go#L51) of ASO v1.
 
 When secrets are rolled over, there is a risk that applications using the secret will fail because the secret they are using is no longer valid.
 We don't need to worry about coordination or timing though. If the user asks us to update the password (by changing it in the Kubernetes secret),

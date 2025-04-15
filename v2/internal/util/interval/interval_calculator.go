@@ -122,12 +122,13 @@ func (i *calculator) failureResult(req ctrl.Request, err error) (ctrl.Result, er
 	}
 
 	// Now we have a readyErr
-	if readyErr.Severity == conditions.ConditionSeverityError {
+	switch readyErr.Severity {
+	case conditions.ConditionSeverityError:
 		// Severity error is fatal, return fast and block requeue
 		// Since this is fatal, stop tracking the req
 		delete(i.failures, req)
 		return ctrl.Result{}, nil
-	} else if readyErr.Severity == conditions.ConditionSeverityWarning {
+	case conditions.ConditionSeverityWarning:
 		switch readyErr.RetryClassification {
 		case conditions.RetrySlow:
 			delay := i.calculateExponentialDelay(i.errorBaseDelay, exp, i.errorMaxSlowDelay)
@@ -142,6 +143,8 @@ func (i *calculator) failureResult(req ctrl.Request, err error) (ctrl.Result, er
 			// This shouldn't happen, return an error
 			return ctrl.Result{}, eris.Errorf("unknown RetryClassification %q", readyErr.RetryClassification)
 		}
+	default:
+		// fall out to error, below
 	}
 
 	// This shouldn't happen, return an error

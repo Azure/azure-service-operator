@@ -45,7 +45,7 @@ func (m *AzureBeProvisionedMatcher) Match(actual interface{}) (bool, error) {
 
 	// The linter doesn't realize that we don't need to close the resp body because it's already done by the poller.
 	// Suppressing it as it is a false positive.
-	// nolint:bodyclose
+	//nolint:bodyclose
 	_, err = poller.Poller.Poll(m.ctx)
 	if err != nil {
 		m.err = err

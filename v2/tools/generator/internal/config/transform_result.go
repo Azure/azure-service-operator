@@ -246,8 +246,8 @@ func (tr *TransformResult) validate() error {
 	if !tr.Name.IsRestrictive() &&
 		tr.Map == nil &&
 		tr.Enum == nil &&
-		tr.Optional == false &&
-		tr.Required == false {
+		!tr.Optional &&
+		!tr.Required {
 		return eris.Errorf("no result transformation specified")
 	}
 

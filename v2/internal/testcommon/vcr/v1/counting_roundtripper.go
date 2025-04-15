@@ -32,7 +32,7 @@ func AddCountHeader(inner http.RoundTripper) *requestCounter {
 	}
 }
 
-var COUNT_HEADER string = "TEST-REQUEST-ATTEMPT"
+var CountHeader string = "TEST-REQUEST-ATTEMPT"
 
 func (rt *requestCounter) RoundTrip(req *http.Request) (*http.Response, error) {
 	key := req.Method + ":" + req.URL.String()
@@ -43,7 +43,7 @@ func (rt *requestCounter) RoundTrip(req *http.Request) (*http.Response, error) {
 	rt.counts[key] = count + 1
 	rt.countsMutex.Unlock()
 
-	req.Header.Set(COUNT_HEADER, fmt.Sprintf("%d", count))
+	req.Header.Set(CountHeader, fmt.Sprintf("%d", count))
 	return rt.inner.RoundTrip(req)
 }
 

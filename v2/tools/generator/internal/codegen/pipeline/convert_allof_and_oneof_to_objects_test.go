@@ -89,7 +89,7 @@ func TestMergeMapObject(t *testing.T) {
 	expected := oneProp.WithProperties(
 		astmodel.NewPropertyDefinition(
 			astmodel.AdditionalPropertiesPropertyName,
-			astmodel.AdditionalPropertiesJsonName,
+			astmodel.AdditionalPropertiesJSONName,
 			newMap),
 	)
 

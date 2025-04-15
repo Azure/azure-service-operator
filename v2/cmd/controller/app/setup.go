@@ -131,7 +131,7 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs *Fla
 
 	var leaderElector *crdmanagement.LeaderElector
 	if flgs.EnableLeaderElection {
-		// nolint: contextcheck // false positive?
+		//nolint: contextcheck // false positive?
 		leaderElector, err = crdmanagement.NewLeaderElector(k8sConfig, setupLog, ctrlOptions, mgr)
 		if err != nil {
 			setupLog.Error(err, "failed to initialize leader elector")

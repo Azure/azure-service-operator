@@ -14,13 +14,13 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
-// MarkLatestAPIVersionAsStorageVersionId is the unique identifier for this pipeline stage
-const MarkLatestAPIVersionAsStorageVersionId = "markStorageVersion"
+// MarkLatestAPIVersionAsStorageVersionID is the unique identifier for this pipeline stage
+const MarkLatestAPIVersionAsStorageVersionID = "markStorageVersion"
 
 // MarkLatestAPIVersionAsStorageVersion creates a Stage to mark a particular version as a storage version
 func MarkLatestAPIVersionAsStorageVersion() *Stage {
 	return NewLegacyStage(
-		MarkLatestAPIVersionAsStorageVersionId,
+		MarkLatestAPIVersionAsStorageVersionID,
 		"Mark the latest API version of each resource as the storage version",
 		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 			updatedDefs, err := MarkLatestResourceVersionsForStorage(definitions)

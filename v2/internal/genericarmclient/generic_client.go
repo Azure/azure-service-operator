@@ -17,7 +17,6 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/cloud"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/policy"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/runtime"
-	azcoreruntime "github.com/Azure/azure-sdk-for-go/sdk/azcore/runtime"
 	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/internal/metrics"
@@ -43,7 +42,7 @@ type GenericClient struct {
 // TODO: Need to do retryAfter detection in each call?
 
 type GenericClientOptions struct {
-	HttpClient        *http.Client
+	HTTPClient        *http.Client
 	Metrics           *metrics.ARMClientMetrics
 	UserAgent         string
 	AdditionalTenants []string
@@ -91,10 +90,10 @@ func NewGenericClient(
 	// We assign this HTTPClient like this because if we actually set it to nil, due to the way
 	// go interfaces wrap values, the subsequent if httpClient == nil check returns false (even though
 	// the value IN the interface IS nil).
-	if options.HttpClient != nil {
-		opts.Transport = options.HttpClient
+	if options.HTTPClient != nil {
+		opts.Transport = options.HTTPClient
 	} else {
-		opts.Transport = defaultHttpClient
+		opts.Transport = defaultHTTPClient
 	}
 
 	rpRegistrationPolicy, err := NewRPRegistrationPolicy(
@@ -141,7 +140,7 @@ func (client *GenericClient) BeginCreateOrUpdateByID(
 ) (*PollerResponse[GenericResource], error) {
 	// The linter doesn't realize that the response is closed in the course of
 	// the autorest.NewPoller call below. Suppressing it as it is a false positive.
-	// nolint:bodyclose
+	//nolint:bodyclose
 	resp, err := client.createOrUpdateByID(ctx, resourceID, apiVersion, resource)
 	if err != nil {
 		return nil, err
@@ -152,7 +151,7 @@ func (client *GenericClient) BeginCreateOrUpdateByID(
 		ErrorHandler: client.handleError,
 	}
 
-	pt, err := azcoreruntime.NewPoller[GenericResource](resp, client.pl, nil)
+	pt, err := runtime.NewPoller[GenericResource](resp, client.pl, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -230,7 +229,7 @@ func (client *GenericClient) GetByID(
 	}
 	// The linter doesn't realize that the response is closed in the course of
 	// the getByIDHandleResponse call below. Suppressing it as it is a false positive.
-	// nolint:bodyclose
+	//nolint:bodyclose
 	resp, err := client.pl.Do(req)
 	retryAfter := GetRetryAfter(resp)
 	if err != nil {
@@ -296,7 +295,7 @@ func (client *GenericClient) checkExistenceByIDImpl(
 		return zeroDuration, err
 	}
 	// The linter doesn't realize that the response is closed as part of the pipeline
-	// nolint:bodyclose
+	//nolint:bodyclose
 	resp, err := client.pl.Do(req)
 	retryAfter := GetRetryAfter(resp)
 	if err != nil {
@@ -356,7 +355,7 @@ func (p *listPageResponse[T]) NextPage(
 
 	// The linter doesn't realize that the response is closed in the course of
 	// the runtime.UnmarshalAsJSON() call below. Suppressing it as it is a false positive.
-	// nolint:bodyclose
+	//nolint:bodyclose
 	resp, err := client.pl.Do(req)
 	if err != nil {
 		return nil, err
@@ -447,7 +446,7 @@ func (client *GenericClient) listByContainerIDCreateRequest(
 func (client *GenericClient) BeginDeleteByID(ctx context.Context, resourceID string, apiVersion string) (*PollerResponse[GenericDeleteResponse], error) {
 	// The linter doesn't realize that the response is closed in the course of
 	// the autorest.NewPoller call below. Suppressing it as it is a false positive.
-	// nolint:bodyclose
+	//nolint:bodyclose
 	resp, err := client.deleteByID(ctx, resourceID, apiVersion)
 	if err != nil {
 		return nil, err
@@ -458,7 +457,7 @@ func (client *GenericClient) BeginDeleteByID(ctx context.Context, resourceID str
 		ID:           DeletePollerID,
 		ErrorHandler: client.handleError,
 	}
-	pt, err := azcoreruntime.NewPoller[GenericDeleteResponse](resp, client.pl, nil)
+	pt, err := runtime.NewPoller[GenericDeleteResponse](resp, client.pl, nil)
 	if err != nil {
 		return nil, err
 	}
