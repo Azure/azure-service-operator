@@ -36,7 +36,7 @@ func Test_Insights_DiagnosticSetting_CRUD(t *testing.T) {
 		},
 	}
 
-	vnet_name := vnet.ObjectMeta.Name
+	vnet_name := vnet.Name
 
 	accessTier := storage.StorageAccountPropertiesCreateParameters_AccessTier_Hot
 	kind := storage.StorageAccount_Kind_Spec_StorageV2

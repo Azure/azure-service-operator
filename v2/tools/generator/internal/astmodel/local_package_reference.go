@@ -123,13 +123,13 @@ func (pr LocalPackageReference) GeneratorVersion() string {
 	return pr.generatorVersion
 }
 
-// ApiVersion returns the API version of this reference, separate from the generator version
-func (pr LocalPackageReference) ApiVersion() string {
+// APIVersion returns the API version of this reference, separate from the generator version
+func (pr LocalPackageReference) APIVersion() string {
 	return pr.apiVersion
 }
 
-// HasApiVersion returns true if this reference has the specified API version
-func (pr LocalPackageReference) HasApiVersion(ver string) bool {
+// HasAPIVersion returns true if this reference has the specified API version
+func (pr LocalPackageReference) HasAPIVersion(ver string) bool {
 	return strings.EqualFold(pr.apiVersion, ver)
 }
 
@@ -146,14 +146,14 @@ func (pr LocalPackageReference) GroupVersion() (string, string) {
 
 // ImportAlias returns the import alias to use for this package reference
 func (pr LocalPackageReference) ImportAlias(style PackageImportStyle) string {
-	groupForAlias := strings.Replace(pr.group, ".", "", -1)
+	groupForAlias := strings.ReplaceAll(pr.group, ".", "")
 
 	switch style {
 	case Name, VersionOnly:
 		return fmt.Sprintf(
 			"%s%s",
 			pr.simplifiedGeneratorVersion(pr.generatorVersion),
-			pr.simplifiedApiVersion(pr.apiVersion))
+			pr.simplifiedAPIVersion(pr.apiVersion))
 	case GroupOnly:
 		return groupForAlias
 	case GroupAndVersion:
@@ -161,7 +161,7 @@ func (pr LocalPackageReference) ImportAlias(style PackageImportStyle) string {
 			"%s_%s%s",
 			groupForAlias,
 			pr.simplifiedGeneratorVersion(pr.generatorVersion),
-			pr.simplifiedApiVersion(pr.apiVersion))
+			pr.simplifiedAPIVersion(pr.apiVersion))
 	default:
 		panic(fmt.Sprintf("didn't expect PackageImportStyle %q", style))
 	}
@@ -174,7 +174,7 @@ var apiVersionSimplifier = strings.NewReplacer(
 	"-", "",
 )
 
-func (pr LocalPackageReference) simplifiedApiVersion(version string) string {
+func (pr LocalPackageReference) simplifiedAPIVersion(version string) string {
 	return strings.ToLower(apiVersionSimplifier.Replace(version))
 }
 

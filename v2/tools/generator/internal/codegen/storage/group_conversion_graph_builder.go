@@ -70,8 +70,8 @@ func (b *GroupConversionGraphBuilder) Build() (*GroupConversionGraph, error) {
 	}
 
 	storagePackages := make([]astmodel.InternalPackageReference, 0, b.storagePackages.Length())
-	for _, p := range b.storagePackages.AsSlice() {
-		storagePackages = append(storagePackages, p.(astmodel.InternalPackageReference))
+	for ref := range b.storagePackages.All() {
+		storagePackages = append(storagePackages, ref.(astmodel.InternalPackageReference))
 	}
 
 	slices.SortFunc(

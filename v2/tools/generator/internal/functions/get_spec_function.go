@@ -26,7 +26,7 @@ func createGetSpecFunction(
 	receiver astmodel.TypeName,
 	_ string,
 ) (*dst.FuncDecl, error) {
-	receiverIdent := f.IdFactory().CreateReceiver(receiver.Name())
+	receiverIdent := f.IDFactory().CreateReceiver(receiver.Name())
 	receiverType := astmodel.NewOptionalType(receiver)
 	receiverTypeExpr, err := receiverType.AsTypeExpr(genContext)
 	if err != nil {

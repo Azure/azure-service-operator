@@ -1886,12 +1886,7 @@ func (partitionKey *ContainerPartitionKey) AssignProperties_From_ContainerPartit
 	partitionKey.Paths = genruntime.CloneSliceOfString(source.Paths)
 
 	// Version
-	if source.Version != nil {
-		version := *source.Version
-		partitionKey.Version = &version
-	} else {
-		partitionKey.Version = nil
-	}
+	partitionKey.Version = genruntime.ClonePointerToInt(source.Version)
 
 	// No error
 	return nil
@@ -1914,12 +1909,7 @@ func (partitionKey *ContainerPartitionKey) AssignProperties_To_ContainerPartitio
 	destination.Paths = genruntime.CloneSliceOfString(partitionKey.Paths)
 
 	// Version
-	if partitionKey.Version != nil {
-		version := *partitionKey.Version
-		destination.Version = &version
-	} else {
-		destination.Version = nil
-	}
+	destination.Version = genruntime.ClonePointerToInt(partitionKey.Version)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

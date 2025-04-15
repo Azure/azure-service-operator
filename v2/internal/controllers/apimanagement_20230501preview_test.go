@@ -268,6 +268,8 @@ func APIM_PolicyFragment20230501preview_CRUD(tc *testcommon.KubePerTestContext, 
 }
 
 // Currently not called as we need to find a way to delete the subscription
+//
+
 func APIM_Product20230501preview_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
 	productName := tc.Namer.GenerateName("cust1")
 	// Now add a product
@@ -404,7 +406,7 @@ func APIM_Product_Api20230501preview_CRUD(tc *testcommon.KubePerTestContext, ser
 	tc.CreateResourceAndWait(&api)
 
 	// Now link the display name of the api to the product
-	productApi := apim.ProductApi{
+	productAPI := apim.ProductApi{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("productapi")),
 		Spec: apim.ProductApi_Spec{
 			Owner:     testcommon.AsOwner(&product),
@@ -413,12 +415,12 @@ func APIM_Product_Api20230501preview_CRUD(tc *testcommon.KubePerTestContext, ser
 	}
 
 	tc.T.Log("creating apim product api")
-	tc.CreateResourceAndWait(&productApi)
+	tc.CreateResourceAndWait(&productAPI)
 
-	tc.Expect(productApi.Status).ToNot(BeNil())
+	tc.Expect(productAPI.Status).ToNot(BeNil())
 
 	defer tc.DeleteResourceAndWait(&product)
-	defer tc.DeleteResourceAndWait(&productApi)
+	defer tc.DeleteResourceAndWait(&productAPI)
 
 	tc.T.Log("cleaning up product")
 }
@@ -574,7 +576,7 @@ func APIM_AuthorizationProviders_Authorizations_AccessPolicy20230501preview_CRUD
 	tc.CreateResourceAndWait(&authorization)
 
 	configMapName := "my-configmap"
-	principalIdKey := "principalId"
+	principalIDKey := "principalId"
 	tenantIDKey := "tenantId"
 
 	// Create a managed identity to use as the AAD administrator
@@ -587,7 +589,7 @@ func APIM_AuthorizationProviders_Authorizations_AccessPolicy20230501preview_CRUD
 				ConfigMaps: &managedidentity.UserAssignedIdentityOperatorConfigMaps{
 					PrincipalId: &genruntime.ConfigMapDestination{
 						Name: configMapName,
-						Key:  principalIdKey,
+						Key:  principalIDKey,
 					},
 					TenantId: &genruntime.ConfigMapDestination{
 						Name: configMapName,
@@ -612,7 +614,7 @@ func APIM_AuthorizationProviders_Authorizations_AccessPolicy20230501preview_CRUD
 			},
 			ObjectIdFromConfig: &genruntime.ConfigMapReference{
 				Name: configMapName,
-				Key:  principalIdKey,
+				Key:  principalIDKey,
 			},
 		},
 	}

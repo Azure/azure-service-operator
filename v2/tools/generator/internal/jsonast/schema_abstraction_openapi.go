@@ -77,7 +77,7 @@ func (schema *OpenAPISchema) transformOpenAPISlice(slice []spec.Schema) []Schema
 	return result
 }
 
-func (schema *OpenAPISchema) Id() string {
+func (schema *OpenAPISchema) ID() string {
 	return schema.name
 }
 

@@ -43,11 +43,11 @@ func TestDuplicateNamesAreCaughtAndRenamed(t *testing.T) {
 
 	// should have a renamed property which is flattened-from "inner"
 	newName := astmodel.PropertyName("InnerDuplicate")
-	newJsonName := "inner_duplicate"
+	newJSONName := "inner_duplicate"
 	newObjType := astmodel.NewObjectType().
 		WithProperties(
 			prop,
-			prop.WithName(newName).WithJsonName(newJsonName).AddFlattenedFrom("Inner"))
+			prop.WithName(newName).WithJSONName(newJSONName).AddFlattenedFrom("Inner"))
 	expectedDefs := make(astmodel.TypeDefinitionSet)
 	expectedDefs.Add(astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(placeholderPackage, "ObjType"), newObjType))
 

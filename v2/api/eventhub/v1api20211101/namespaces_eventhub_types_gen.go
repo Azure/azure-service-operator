@@ -442,12 +442,7 @@ func (eventhub *NamespacesEventhub_Spec) AssignProperties_From_NamespacesEventhu
 	}
 
 	// MessageRetentionInDays
-	if source.MessageRetentionInDays != nil {
-		messageRetentionInDay := *source.MessageRetentionInDays
-		eventhub.MessageRetentionInDays = &messageRetentionInDay
-	} else {
-		eventhub.MessageRetentionInDays = nil
-	}
+	eventhub.MessageRetentionInDays = genruntime.ClonePointerToInt(source.MessageRetentionInDays)
 
 	// OperatorSpec
 	if source.OperatorSpec != nil {
@@ -470,12 +465,7 @@ func (eventhub *NamespacesEventhub_Spec) AssignProperties_From_NamespacesEventhu
 	}
 
 	// PartitionCount
-	if source.PartitionCount != nil {
-		partitionCount := *source.PartitionCount
-		eventhub.PartitionCount = &partitionCount
-	} else {
-		eventhub.PartitionCount = nil
-	}
+	eventhub.PartitionCount = genruntime.ClonePointerToInt(source.PartitionCount)
 
 	// No error
 	return nil
@@ -502,12 +492,7 @@ func (eventhub *NamespacesEventhub_Spec) AssignProperties_To_NamespacesEventhub_
 	}
 
 	// MessageRetentionInDays
-	if eventhub.MessageRetentionInDays != nil {
-		messageRetentionInDay := *eventhub.MessageRetentionInDays
-		destination.MessageRetentionInDays = &messageRetentionInDay
-	} else {
-		destination.MessageRetentionInDays = nil
-	}
+	destination.MessageRetentionInDays = genruntime.ClonePointerToInt(eventhub.MessageRetentionInDays)
 
 	// OperatorSpec
 	if eventhub.OperatorSpec != nil {
@@ -533,12 +518,7 @@ func (eventhub *NamespacesEventhub_Spec) AssignProperties_To_NamespacesEventhub_
 	}
 
 	// PartitionCount
-	if eventhub.PartitionCount != nil {
-		partitionCount := *eventhub.PartitionCount
-		destination.PartitionCount = &partitionCount
-	} else {
-		destination.PartitionCount = nil
-	}
+	destination.PartitionCount = genruntime.ClonePointerToInt(eventhub.PartitionCount)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1687,12 +1667,7 @@ func (destination *Destination) AssignProperties_From_Destination(source *storag
 	destination.DataLakeFolderPath = genruntime.ClonePointerToString(source.DataLakeFolderPath)
 
 	// DataLakeSubscriptionId
-	if source.DataLakeSubscriptionId != nil {
-		dataLakeSubscriptionId := *source.DataLakeSubscriptionId
-		destination.DataLakeSubscriptionId = &dataLakeSubscriptionId
-	} else {
-		destination.DataLakeSubscriptionId = nil
-	}
+	destination.DataLakeSubscriptionId = genruntime.ClonePointerToString(source.DataLakeSubscriptionId)
 
 	// Name
 	destination.Name = genruntime.ClonePointerToString(source.Name)
@@ -1727,12 +1702,7 @@ func (destination *Destination) AssignProperties_To_Destination(target *storage.
 	target.DataLakeFolderPath = genruntime.ClonePointerToString(destination.DataLakeFolderPath)
 
 	// DataLakeSubscriptionId
-	if destination.DataLakeSubscriptionId != nil {
-		dataLakeSubscriptionId := *destination.DataLakeSubscriptionId
-		target.DataLakeSubscriptionId = &dataLakeSubscriptionId
-	} else {
-		target.DataLakeSubscriptionId = nil
-	}
+	target.DataLakeSubscriptionId = genruntime.ClonePointerToString(destination.DataLakeSubscriptionId)
 
 	// Name
 	target.Name = genruntime.ClonePointerToString(destination.Name)

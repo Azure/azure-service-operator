@@ -36,7 +36,7 @@ const (
 var subRegex = regexp.MustCompile(`/([0]+-?)+`)
 
 // An empty GUID, used to replace the subscriptionID and tenantID in the sample files
-var emptyGuid = uuid.Nil.String()
+var emptyGUID = uuid.Nil.String()
 
 // exclusions slice contains RESOURCES to exclude from test
 var exclusions = []string{
@@ -364,17 +364,17 @@ func (t *SamplesTester) visitStruct(this *reflecthelpers.ReflectVisitor, it refl
 
 	// Set the value of any SubscriptionID Field that's got an empty GUID as the value
 	if field := it.FieldByNameFunc(isField("subscriptionID")); field.IsValid() {
-		t.conditionalAssignString(field, emptyGuid, t.azureSubscription)
+		t.conditionalAssignString(field, emptyGUID, t.azureSubscription)
 	}
 
 	// Replace the empty-guid value in any armID field
 	if field := it.FieldByNameFunc(isField("armId")); field.IsValid() {
-		t.replaceString(field, emptyGuid, t.azureSubscription)
+		t.replaceString(field, emptyGUID, t.azureSubscription)
 	}
 
 	// Set the value of any TenantID Field that's got an empty GUID as the value
 	if field := it.FieldByNameFunc(isField("tenantID")); field.IsValid() {
-		t.conditionalAssignString(field, emptyGuid, t.azureTenant)
+		t.conditionalAssignString(field, emptyGUID, t.azureTenant)
 	}
 
 	return reflecthelpers.IdentityVisitStruct(this, it, ctx)
@@ -411,7 +411,7 @@ func (t *SamplesTester) replaceString(field reflect.Value, old string, new strin
 	}
 
 	val := field.String()
-	val = strings.Replace(val, old, new, -1)
+	val = strings.ReplaceAll(val, old, new)
 	field.SetString(val)
 }
 

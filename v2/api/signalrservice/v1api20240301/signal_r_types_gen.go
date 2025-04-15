@@ -3330,12 +3330,7 @@ func (settings *ServerlessSettings) PopulateFromARM(owner genruntime.ArbitraryOw
 func (settings *ServerlessSettings) AssignProperties_From_ServerlessSettings(source *storage.ServerlessSettings) error {
 
 	// ConnectionTimeoutInSeconds
-	if source.ConnectionTimeoutInSeconds != nil {
-		connectionTimeoutInSecond := *source.ConnectionTimeoutInSeconds
-		settings.ConnectionTimeoutInSeconds = &connectionTimeoutInSecond
-	} else {
-		settings.ConnectionTimeoutInSeconds = nil
-	}
+	settings.ConnectionTimeoutInSeconds = genruntime.ClonePointerToInt(source.ConnectionTimeoutInSeconds)
 
 	// No error
 	return nil
@@ -3347,12 +3342,7 @@ func (settings *ServerlessSettings) AssignProperties_To_ServerlessSettings(desti
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ConnectionTimeoutInSeconds
-	if settings.ConnectionTimeoutInSeconds != nil {
-		connectionTimeoutInSecond := *settings.ConnectionTimeoutInSeconds
-		destination.ConnectionTimeoutInSeconds = &connectionTimeoutInSecond
-	} else {
-		destination.ConnectionTimeoutInSeconds = nil
-	}
+	destination.ConnectionTimeoutInSeconds = genruntime.ClonePointerToInt(settings.ConnectionTimeoutInSeconds)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3369,12 +3359,7 @@ func (settings *ServerlessSettings) AssignProperties_To_ServerlessSettings(desti
 func (settings *ServerlessSettings) Initialize_From_ServerlessSettings_STATUS(source *ServerlessSettings_STATUS) error {
 
 	// ConnectionTimeoutInSeconds
-	if source.ConnectionTimeoutInSeconds != nil {
-		connectionTimeoutInSecond := *source.ConnectionTimeoutInSeconds
-		settings.ConnectionTimeoutInSeconds = &connectionTimeoutInSecond
-	} else {
-		settings.ConnectionTimeoutInSeconds = nil
-	}
+	settings.ConnectionTimeoutInSeconds = genruntime.ClonePointerToInt(source.ConnectionTimeoutInSeconds)
 
 	// No error
 	return nil
@@ -3990,12 +3975,7 @@ func (feature *SignalRFeature) AssignProperties_From_SignalRFeature(source *stor
 	feature.Properties = genruntime.CloneMapOfStringToString(source.Properties)
 
 	// Value
-	if source.Value != nil {
-		value := *source.Value
-		feature.Value = &value
-	} else {
-		feature.Value = nil
-	}
+	feature.Value = genruntime.ClonePointerToString(source.Value)
 
 	// No error
 	return nil
@@ -4018,12 +3998,7 @@ func (feature *SignalRFeature) AssignProperties_To_SignalRFeature(destination *s
 	destination.Properties = genruntime.CloneMapOfStringToString(feature.Properties)
 
 	// Value
-	if feature.Value != nil {
-		value := *feature.Value
-		destination.Value = &value
-	} else {
-		destination.Value = nil
-	}
+	destination.Value = genruntime.ClonePointerToString(feature.Value)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4051,12 +4026,7 @@ func (feature *SignalRFeature) Initialize_From_SignalRFeature_STATUS(source *Sig
 	feature.Properties = genruntime.CloneMapOfStringToString(source.Properties)
 
 	// Value
-	if source.Value != nil {
-		value := *source.Value
-		feature.Value = &value
-	} else {
-		feature.Value = nil
-	}
+	feature.Value = genruntime.ClonePointerToString(source.Value)
 
 	// No error
 	return nil

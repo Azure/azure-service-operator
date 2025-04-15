@@ -7,6 +7,7 @@ package astmodel
 
 import (
 	"fmt"
+	"iter"
 	"math/big"
 	"regexp"
 
@@ -481,6 +482,22 @@ func ResolveResourceSpecAndStatus(defs ReadonlyTypeDefinitions, resourceDef Type
 		StatusDef:    statusDef,
 		StatusType:   status,
 	}, nil
+}
+
+// AllResources returns all the resources in the set.
+func (set TypeDefinitionSet) AllResources() iter.Seq2[InternalTypeName, TypeDefinition] {
+	return func(yield func(InternalTypeName, TypeDefinition) bool) {
+		for _, def := range set {
+			_, ok := AsResourceType(def.Type())
+			if !ok {
+				continue
+			}
+
+			if !yield(def.Name(), def) {
+				break
+			}
+		}
+	}
 }
 
 // FindResourceDefinitions walks the provided set of TypeDefinitions and returns all the resource definitions

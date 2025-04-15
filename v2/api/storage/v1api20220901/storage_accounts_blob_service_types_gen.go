@@ -1400,12 +1400,7 @@ func (feed *ChangeFeed) AssignProperties_From_ChangeFeed(source *storage.ChangeF
 	}
 
 	// RetentionInDays
-	if source.RetentionInDays != nil {
-		retentionInDay := *source.RetentionInDays
-		feed.RetentionInDays = &retentionInDay
-	} else {
-		feed.RetentionInDays = nil
-	}
+	feed.RetentionInDays = genruntime.ClonePointerToInt(source.RetentionInDays)
 
 	// No error
 	return nil
@@ -1425,12 +1420,7 @@ func (feed *ChangeFeed) AssignProperties_To_ChangeFeed(destination *storage.Chan
 	}
 
 	// RetentionInDays
-	if feed.RetentionInDays != nil {
-		retentionInDay := *feed.RetentionInDays
-		destination.RetentionInDays = &retentionInDay
-	} else {
-		destination.RetentionInDays = nil
-	}
+	destination.RetentionInDays = genruntime.ClonePointerToInt(feed.RetentionInDays)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1824,12 +1814,7 @@ func (policy *DeleteRetentionPolicy) AssignProperties_From_DeleteRetentionPolicy
 	}
 
 	// Days
-	if source.Days != nil {
-		day := *source.Days
-		policy.Days = &day
-	} else {
-		policy.Days = nil
-	}
+	policy.Days = genruntime.ClonePointerToInt(source.Days)
 
 	// Enabled
 	if source.Enabled != nil {
@@ -1857,12 +1842,7 @@ func (policy *DeleteRetentionPolicy) AssignProperties_To_DeleteRetentionPolicy(d
 	}
 
 	// Days
-	if policy.Days != nil {
-		day := *policy.Days
-		destination.Days = &day
-	} else {
-		destination.Days = nil
-	}
+	destination.Days = genruntime.ClonePointerToInt(policy.Days)
 
 	// Enabled
 	if policy.Enabled != nil {
@@ -2353,12 +2333,7 @@ func (properties *RestorePolicyProperties) PopulateFromARM(owner genruntime.Arbi
 func (properties *RestorePolicyProperties) AssignProperties_From_RestorePolicyProperties(source *storage.RestorePolicyProperties) error {
 
 	// Days
-	if source.Days != nil {
-		day := *source.Days
-		properties.Days = &day
-	} else {
-		properties.Days = nil
-	}
+	properties.Days = genruntime.ClonePointerToInt(source.Days)
 
 	// Enabled
 	if source.Enabled != nil {
@@ -2378,12 +2353,7 @@ func (properties *RestorePolicyProperties) AssignProperties_To_RestorePolicyProp
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Days
-	if properties.Days != nil {
-		day := *properties.Days
-		destination.Days = &day
-	} else {
-		destination.Days = nil
-	}
+	destination.Days = genruntime.ClonePointerToInt(properties.Days)
 
 	// Enabled
 	if properties.Enabled != nil {

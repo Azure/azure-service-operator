@@ -112,7 +112,7 @@ func TestPropertyBag_NewPropertyBag_WithOverlappingBags_ReturnsBagWithExpectedKe
 func TestPropertyBag_CorrectlyRoundTripsIntegers(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
-	var original int = 42
+	original := 42
 	var actual int
 
 	bag := make(PropertyBag)
@@ -142,7 +142,7 @@ func TestPropertyBag_CorrectlyRoundTrips64bitIntegers(t *testing.T) {
 func TestPropertyBag_CorrectlyRoundTripsStrings(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
-	var original string = "Pack my box with five dozen liquor jugs"
+	original := "Pack my box with five dozen liquor jugs"
 	var actual string
 
 	bag := make(PropertyBag)
@@ -157,7 +157,7 @@ func TestPropertyBag_CorrectlyRoundTripsStrings(t *testing.T) {
 func TestPropertyBag_CorrectlyRoundTripsBooleans(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
-	var original bool = true
+	original := true
 	var actual bool
 
 	bag := make(PropertyBag)
@@ -172,7 +172,7 @@ func TestPropertyBag_CorrectlyRoundTripsBooleans(t *testing.T) {
 func TestPropertyBag_CorrectlyRoundTripsFloats(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
-	var original float64 = 1.0 / 10 // Deliberately chose a value that can't be represented exactly
+	original := 1.0 / 10 // Deliberately chose a value that can't be represented exactly
 	var actual float64
 
 	bag := make(PropertyBag)
@@ -194,7 +194,7 @@ type Person struct {
 func TestPropertyBag_CorrectlyRoundTripsStructs(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
-	var original Person = Person{
+	original := Person{
 		LegalName:  "Michael Theodore Mouse",
 		FamilyName: "Mouse",
 		KnownAs:    "Mickey",

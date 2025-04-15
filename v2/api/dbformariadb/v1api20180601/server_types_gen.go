@@ -1829,12 +1829,7 @@ func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 func (sku *Sku) AssignProperties_From_Sku(source *storage.Sku) error {
 
 	// Capacity
-	if source.Capacity != nil {
-		capacity := *source.Capacity
-		sku.Capacity = &capacity
-	} else {
-		sku.Capacity = nil
-	}
+	sku.Capacity = genruntime.ClonePointerToInt(source.Capacity)
 
 	// Family
 	sku.Family = genruntime.ClonePointerToString(source.Family)
@@ -1864,12 +1859,7 @@ func (sku *Sku) AssignProperties_To_Sku(destination *storage.Sku) error {
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Capacity
-	if sku.Capacity != nil {
-		capacity := *sku.Capacity
-		destination.Capacity = &capacity
-	} else {
-		destination.Capacity = nil
-	}
+	destination.Capacity = genruntime.ClonePointerToInt(sku.Capacity)
 
 	// Family
 	destination.Family = genruntime.ClonePointerToString(sku.Family)
@@ -1903,12 +1893,7 @@ func (sku *Sku) AssignProperties_To_Sku(destination *storage.Sku) error {
 func (sku *Sku) Initialize_From_Sku_STATUS(source *Sku_STATUS) error {
 
 	// Capacity
-	if source.Capacity != nil {
-		capacity := *source.Capacity
-		sku.Capacity = &capacity
-	} else {
-		sku.Capacity = nil
-	}
+	sku.Capacity = genruntime.ClonePointerToInt(source.Capacity)
 
 	// Family
 	sku.Family = genruntime.ClonePointerToString(source.Family)

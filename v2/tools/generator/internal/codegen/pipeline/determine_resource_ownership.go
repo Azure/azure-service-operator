@@ -19,13 +19,13 @@ import (
 
 const resourcesPropertyName = astmodel.PropertyName("Resources")
 
-const DetermineResourceOwnershipStageId = "determineResourceOwnership"
+const DetermineResourceOwnershipStageID = "determineResourceOwnership"
 
 func DetermineResourceOwnership(
 	configuration *config.Configuration,
 ) *Stage {
 	return NewStage(
-		DetermineResourceOwnershipStageId,
+		DetermineResourceOwnershipStageID,
 		"Determine ARM resource relationships",
 		func(ctx context.Context, state *State) (*State, error) {
 			determiner := newOwnershipStage(configuration, state.Definitions())
@@ -59,10 +59,8 @@ func newOwnershipStage(
 }
 
 func (o *ownershipStage) indexByParent() {
-	resources := astmodel.FindResourceDefinitions(o.definitions)
-
 	// Index all resources by canonical URL of their parent
-	for _, def := range resources {
+	for _, def := range o.definitions.AllResources() {
 		rt, _ := astmodel.AsResourceType(def.Type())
 		canonical := o.canonicalizeURI(rt.ARMURI())
 		parent := o.uriOfParentResource(canonical)
@@ -74,11 +72,10 @@ func (o *ownershipStage) indexByParent() {
 
 func (o *ownershipStage) assignOwners() (astmodel.TypeDefinitionSet, error) {
 	updatedDefs := make(astmodel.TypeDefinitionSet)
-	resources := astmodel.FindResourceDefinitions(o.definitions)
 
 	// Loop through and associate children with parents, if found
 	var errs []error
-	for _, def := range resources {
+	for _, def := range o.definitions.AllResources() {
 		resolved, err := o.definitions.ResolveResourceSpecAndStatus(def)
 		if err != nil {
 			return nil, eris.Wrapf(err, "unable to find resource %s spec and status", def.Name())

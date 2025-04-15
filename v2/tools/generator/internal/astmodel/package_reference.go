@@ -73,11 +73,7 @@ type versionComparer struct {
 }
 
 func (v *versionComparer) Compare() int {
-	for {
-		if v.leftIndex >= len(v.left) && v.rightIndex >= len(v.right) {
-			// Ran out of both arrays at the same time
-			break
-		}
+	for v.leftIndex < len(v.left) || v.rightIndex < len(v.right) {
 
 		if v.leftIndex >= len(v.left) {
 			// Ran out of the left array only; if the right array has an identifier (indicating a preview version),

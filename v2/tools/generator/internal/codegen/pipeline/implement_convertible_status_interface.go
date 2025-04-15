@@ -15,12 +15,12 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/functions"
 )
 
-// ImplementConvertibleStatusInterfaceStageId is the unique identifier for this pipeline stage
-const ImplementConvertibleStatusInterfaceStageId = "implementConvertibleStatusInterface"
+// ImplementConvertibleStatusInterfaceStageID is the unique identifier for this pipeline stage
+const ImplementConvertibleStatusInterfaceStageID = "implementConvertibleStatusInterface"
 
 func ImplementConvertibleStatusInterface(idFactory astmodel.IdentifierFactory) *Stage {
 	stage := NewStage(
-		ImplementConvertibleStatusInterfaceStageId,
+		ImplementConvertibleStatusInterfaceStageID,
 		"Inject ConvertStatusTo() and ConvertStatusFrom() to implement genruntime.ConvertibleStatus on each Status type",
 		func(ctx context.Context, state *State) (*State, error) {
 			injector := astmodel.NewInterfaceInjector()

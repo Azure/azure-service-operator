@@ -81,22 +81,22 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 		return eris.New("expected mapping")
 	}
 
-	var lastId string
+	var lastID string
 	for i, c := range value.Content {
 		// Grab identifiers and loop to handle the associated value
 		if i%2 == 0 {
-			lastId = strings.ToLower(c.Value)
+			lastID = strings.ToLower(c.Value)
 			continue
 		}
 
 		// $nameInNextVersion: <string>
-		if strings.EqualFold(lastId, nameInNextVersionTag) && c.Kind == yaml.ScalarNode {
+		if strings.EqualFold(lastID, nameInNextVersionTag) && c.Kind == yaml.ScalarNode {
 			pc.NameInNextVersion.Set(c.Value)
 			continue
 		}
 
 		// $isSecret: <bool>
-		if strings.EqualFold(lastId, isSecretTag) && c.Kind == yaml.ScalarNode {
+		if strings.EqualFold(lastID, isSecretTag) && c.Kind == yaml.ScalarNode {
 			var isSecret bool
 			err := c.Decode(&isSecret)
 			if err != nil {
@@ -108,7 +108,7 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 		}
 
 		// $resourceLifecycleOwnedByParent: string
-		if strings.EqualFold(lastId, resourceLifecycleOwnedByParentTag) && c.Kind == yaml.ScalarNode {
+		if strings.EqualFold(lastID, resourceLifecycleOwnedByParentTag) && c.Kind == yaml.ScalarNode {
 			var resourceLifecycleOwnedByParent string
 			err := c.Decode(&resourceLifecycleOwnedByParent)
 			if err != nil {
@@ -120,7 +120,7 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 		}
 
 		// $referenceType: <string>
-		if strings.EqualFold(lastId, referenceTypeTag) && c.Kind == yaml.ScalarNode {
+		if strings.EqualFold(lastID, referenceTypeTag) && c.Kind == yaml.ScalarNode {
 			switch strings.ToLower(c.Value) {
 			case string(ReferenceTypeARM):
 				pc.ReferenceType.Set(ReferenceTypeARM)
@@ -134,7 +134,7 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 		}
 
 		// $ImportConfigMapMode: <string>
-		if strings.EqualFold(lastId, importConfigMapModeTag) && c.Kind == yaml.ScalarNode {
+		if strings.EqualFold(lastID, importConfigMapModeTag) && c.Kind == yaml.ScalarNode {
 			switch strings.ToLower(c.Value) {
 			case ImportConfigMapModeOptional:
 				pc.ImportConfigMapMode.Set(ImportConfigMapModeOptional)
@@ -148,7 +148,7 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 		}
 
 		// renameTo: string
-		if strings.EqualFold(lastId, renamePropertyToTag) && c.Kind == yaml.ScalarNode {
+		if strings.EqualFold(lastID, renamePropertyToTag) && c.Kind == yaml.ScalarNode {
 			var renameTo string
 			err := c.Decode(&renameTo)
 			if err != nil {
@@ -160,7 +160,7 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 		}
 
 		// $payloadType: <string>
-		if strings.EqualFold(lastId, payloadTypeTag) && c.Kind == yaml.ScalarNode {
+		if strings.EqualFold(lastID, payloadTypeTag) && c.Kind == yaml.ScalarNode {
 			switch strings.ToLower(c.Value) {
 			case string(OmitEmptyProperties):
 				pc.PayloadType.Set(OmitEmptyProperties)
@@ -178,7 +178,7 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 		}
 
 		// description: string
-		if strings.EqualFold(lastId, descriptionTag) && c.Kind == yaml.ScalarNode {
+		if strings.EqualFold(lastID, descriptionTag) && c.Kind == yaml.ScalarNode {
 			var description string
 			err := c.Decode(&description)
 			if err != nil {
@@ -191,7 +191,7 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 
 		// No handler for this value, return an error
 		return eris.Errorf(
-			"property configuration, unexpected yaml value %s: %s (line %d col %d)", lastId, c.Value, c.Line, c.Column)
+			"property configuration, unexpected yaml value %s: %s (line %d col %d)", lastID, c.Value, c.Line, c.Column)
 
 	}
 

@@ -1,7 +1,0 @@
-apiVersion: azure.microsoft.com/v1alpha1
-kind: MySQLDatabase
-metadata:
-  name: mysqldatabase-sample
-spec:
-  resourceGroup: resourcegroup-azure-operators
-  server: mysqlserver-sample

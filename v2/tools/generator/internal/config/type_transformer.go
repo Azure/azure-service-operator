@@ -228,7 +228,7 @@ func (transformer *TypeTransformer) RequiredPropertiesWereMatched() error {
 		return eris.Wrapf(
 			err,
 			"%s matched types but all properties were excluded by name or type",
-			transformer.TypeMatcher.String())
+			transformer.String())
 	}
 
 	return nil
@@ -319,6 +319,17 @@ func (transformer *TypeTransformer) transformProperties(
 			propertyType, err := transformer.Target.produceTargetType(propertyName, prop.PropertyType())
 			if err != nil {
 				return nil, eris.Wrapf(err, "transforming property %s", propertyName)
+			}
+
+			// Can't specify both required and optional
+			if transformer.Target.Optional && transformer.Target.Required {
+				return nil, eris.Errorf("transformer for %s must not specify both required and optional", propertyName)
+			}
+
+			if transformer.Target.Optional {
+				prop = prop.MakeOptional()
+			} else if transformer.Target.Required {
+				prop = prop.MakeRequired()
 			}
 
 			objectType = objectType.WithProperty(prop.WithType(propertyType))

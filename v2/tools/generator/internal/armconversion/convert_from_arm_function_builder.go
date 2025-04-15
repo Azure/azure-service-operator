@@ -344,7 +344,8 @@ func (builder *convertFromARMBuilder) ownerPropertyHandler(
 	}
 
 	var convertedOwner dst.Expr
-	if ownerNameType == astmodel.KnownResourceReferenceType {
+	switch ownerNameType {
+	case astmodel.KnownResourceReferenceType:
 		knownResourceReferenceExpr, err := astmodel.KnownResourceReferenceType.AsTypeExpr(builder.codeGenerationContext)
 		if err != nil {
 			return notHandled,
@@ -355,9 +356,9 @@ func (builder *convertFromARMBuilder) ownerPropertyHandler(
 		compositeLit.AddField("Name", astbuilder.Selector(dst.NewIdent(ownerParameter), "Name"))
 		compositeLit.AddField("ARMID", astbuilder.Selector(dst.NewIdent(ownerParameter), "ARMID"))
 		convertedOwner = astbuilder.AddrOf(compositeLit.Build())
-	} else if ownerNameType == astmodel.ArbitraryOwnerReference {
+	case astmodel.ArbitraryOwnerReference:
 		convertedOwner = astbuilder.AddrOf(dst.NewIdent(ownerParameter))
-	} else {
+	default:
 		return notHandled,
 			eris.Errorf(
 				"found Owner property on spec with unexpected TypeName %s",

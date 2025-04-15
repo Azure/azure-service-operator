@@ -292,29 +292,29 @@ func (omc *ObjectModelConfiguration) UnmarshalYAML(value *yaml.Node) error {
 		return eris.New("expected mapping")
 	}
 
-	var lastId string
+	var lastID string
 	for i, c := range value.Content {
 		// Grab identifiers and loop to handle the associated value
 		if i%2 == 0 {
-			lastId = c.Value
+			lastID = c.Value
 			continue
 		}
 
 		// Handle nested name metadata
-		if c.Kind == yaml.MappingNode && lastId != "" {
-			g := NewGroupConfiguration(lastId)
+		if c.Kind == yaml.MappingNode && lastID != "" {
+			g := NewGroupConfiguration(lastID)
 			err := c.Decode(&g)
 			if err != nil {
-				return eris.Wrapf(err, "decoding yaml for %q", lastId)
+				return eris.Wrapf(err, "decoding yaml for %q", lastID)
 			}
 
-			omc.addGroup(lastId, g)
+			omc.addGroup(lastID, g)
 			continue
 		}
 
 		// No handler for this value, return an error
 		return eris.Errorf(
-			"object model configuration, unexpected yaml value %s: %s (line %d col %d)", lastId, c.Value, c.Line, c.Column)
+			"object model configuration, unexpected yaml value %s: %s (line %d col %d)", lastID, c.Value, c.Line, c.Column)
 
 	}
 

@@ -36,8 +36,7 @@ func CollectARMSpecAndStatusDefinitions(definitions TypeDefinitionSet) TypeNameS
 	}
 
 	armSpecAndStatus := NewTypeNameSet()
-	resources := FindResourceDefinitions(definitions)
-	for _, def := range resources {
+	for _, def := range definitions.AllResources() {
 		resourceType, ok := AsResourceType(def.Type())
 		if !ok {
 			panic(fmt.Sprintf("FindResourceDefinitions() returned non-resource type %T", def.Type()))

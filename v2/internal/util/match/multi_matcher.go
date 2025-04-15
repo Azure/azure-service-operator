@@ -42,7 +42,7 @@ func (mm *multiMatcher) Matches(value string) Result {
 		matchResult := m.Matches(value)
 		if matchResult.Matched {
 			// Only store the first match
-			if result.Matched == false {
+			if !result.Matched {
 				result = matchResult
 			}
 		}

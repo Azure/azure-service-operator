@@ -655,12 +655,7 @@ func (server *Server_Spec) AssignProperties_From_Server_Spec(source *storage.Ser
 	server.AzureName = source.AzureName
 
 	// FederatedClientId
-	if source.FederatedClientId != nil {
-		federatedClientId := *source.FederatedClientId
-		server.FederatedClientId = &federatedClientId
-	} else {
-		server.FederatedClientId = nil
-	}
+	server.FederatedClientId = genruntime.ClonePointerToString(source.FederatedClientId)
 
 	// Identity
 	if source.Identity != nil {
@@ -771,12 +766,7 @@ func (server *Server_Spec) AssignProperties_To_Server_Spec(destination *storage.
 	destination.AzureName = server.AzureName
 
 	// FederatedClientId
-	if server.FederatedClientId != nil {
-		federatedClientId := *server.FederatedClientId
-		destination.FederatedClientId = &federatedClientId
-	} else {
-		destination.FederatedClientId = nil
-	}
+	destination.FederatedClientId = genruntime.ClonePointerToString(server.FederatedClientId)
 
 	// Identity
 	if server.Identity != nil {
@@ -882,12 +872,7 @@ func (server *Server_Spec) Initialize_From_Server_STATUS(source *Server_STATUS) 
 	}
 
 	// FederatedClientId
-	if source.FederatedClientId != nil {
-		federatedClientId := *source.FederatedClientId
-		server.FederatedClientId = &federatedClientId
-	} else {
-		server.FederatedClientId = nil
-	}
+	server.FederatedClientId = genruntime.ClonePointerToString(source.FederatedClientId)
 
 	// Identity
 	if source.Identity != nil {
@@ -2006,20 +1991,10 @@ func (administrator *ServerExternalAdministrator) AssignProperties_From_ServerEx
 	}
 
 	// Sid
-	if source.Sid != nil {
-		sid := *source.Sid
-		administrator.Sid = &sid
-	} else {
-		administrator.Sid = nil
-	}
+	administrator.Sid = genruntime.ClonePointerToString(source.Sid)
 
 	// TenantId
-	if source.TenantId != nil {
-		tenantId := *source.TenantId
-		administrator.TenantId = &tenantId
-	} else {
-		administrator.TenantId = nil
-	}
+	administrator.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
 	// No error
 	return nil
@@ -2058,20 +2033,10 @@ func (administrator *ServerExternalAdministrator) AssignProperties_To_ServerExte
 	}
 
 	// Sid
-	if administrator.Sid != nil {
-		sid := *administrator.Sid
-		destination.Sid = &sid
-	} else {
-		destination.Sid = nil
-	}
+	destination.Sid = genruntime.ClonePointerToString(administrator.Sid)
 
 	// TenantId
-	if administrator.TenantId != nil {
-		tenantId := *administrator.TenantId
-		destination.TenantId = &tenantId
-	} else {
-		destination.TenantId = nil
-	}
+	destination.TenantId = genruntime.ClonePointerToString(administrator.TenantId)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2115,20 +2080,10 @@ func (administrator *ServerExternalAdministrator) Initialize_From_ServerExternal
 	}
 
 	// Sid
-	if source.Sid != nil {
-		sid := *source.Sid
-		administrator.Sid = &sid
-	} else {
-		administrator.Sid = nil
-	}
+	administrator.Sid = genruntime.ClonePointerToString(source.Sid)
 
 	// TenantId
-	if source.TenantId != nil {
-		tenantId := *source.TenantId
-		administrator.TenantId = &tenantId
-	} else {
-		administrator.TenantId = nil
-	}
+	administrator.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
 	// No error
 	return nil

@@ -2412,12 +2412,7 @@ func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 func (sku *Sku) AssignProperties_From_Sku(source *storage.Sku) error {
 
 	// Capacity
-	if source.Capacity != nil {
-		capacity := *source.Capacity
-		sku.Capacity = &capacity
-	} else {
-		sku.Capacity = nil
-	}
+	sku.Capacity = genruntime.ClonePointerToInt(source.Capacity)
 
 	// Name
 	if source.Name != nil {
@@ -2447,12 +2442,7 @@ func (sku *Sku) AssignProperties_To_Sku(destination *storage.Sku) error {
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Capacity
-	if sku.Capacity != nil {
-		capacity := *sku.Capacity
-		destination.Capacity = &capacity
-	} else {
-		destination.Capacity = nil
-	}
+	destination.Capacity = genruntime.ClonePointerToInt(sku.Capacity)
 
 	// Name
 	if sku.Name != nil {

@@ -653,12 +653,7 @@ func (host *BastionHost_Spec) AssignProperties_From_BastionHost_Spec(source *sto
 	}
 
 	// ScaleUnits
-	if source.ScaleUnits != nil {
-		scaleUnit := *source.ScaleUnits
-		host.ScaleUnits = &scaleUnit
-	} else {
-		host.ScaleUnits = nil
-	}
+	host.ScaleUnits = genruntime.ClonePointerToInt(source.ScaleUnits)
 
 	// Sku
 	if source.Sku != nil {
@@ -775,12 +770,7 @@ func (host *BastionHost_Spec) AssignProperties_To_BastionHost_Spec(destination *
 	}
 
 	// ScaleUnits
-	if host.ScaleUnits != nil {
-		scaleUnit := *host.ScaleUnits
-		destination.ScaleUnits = &scaleUnit
-	} else {
-		destination.ScaleUnits = nil
-	}
+	destination.ScaleUnits = genruntime.ClonePointerToInt(host.ScaleUnits)
 
 	// Sku
 	if host.Sku != nil {

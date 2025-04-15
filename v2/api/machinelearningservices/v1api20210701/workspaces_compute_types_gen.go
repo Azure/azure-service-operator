@@ -7718,12 +7718,7 @@ func (properties *AKS_Properties) PopulateFromARM(owner genruntime.ArbitraryOwne
 func (properties *AKS_Properties) AssignProperties_From_AKS_Properties(source *storage.AKS_Properties) error {
 
 	// AgentCount
-	if source.AgentCount != nil {
-		agentCount := *source.AgentCount
-		properties.AgentCount = &agentCount
-	} else {
-		properties.AgentCount = nil
-	}
+	properties.AgentCount = genruntime.ClonePointerToInt(source.AgentCount)
 
 	// AgentVmSize
 	properties.AgentVmSize = genruntime.ClonePointerToString(source.AgentVmSize)
@@ -7786,12 +7781,7 @@ func (properties *AKS_Properties) AssignProperties_To_AKS_Properties(destination
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AgentCount
-	if properties.AgentCount != nil {
-		agentCount := *properties.AgentCount
-		destination.AgentCount = &agentCount
-	} else {
-		destination.AgentCount = nil
-	}
+	destination.AgentCount = genruntime.ClonePointerToInt(properties.AgentCount)
 
 	// AgentVmSize
 	destination.AgentVmSize = genruntime.ClonePointerToString(properties.AgentVmSize)
@@ -12491,28 +12481,13 @@ func (configuration *AksNetworkingConfiguration) PopulateFromARM(owner genruntim
 func (configuration *AksNetworkingConfiguration) AssignProperties_From_AksNetworkingConfiguration(source *storage.AksNetworkingConfiguration) error {
 
 	// DnsServiceIP
-	if source.DnsServiceIP != nil {
-		dnsServiceIP := *source.DnsServiceIP
-		configuration.DnsServiceIP = &dnsServiceIP
-	} else {
-		configuration.DnsServiceIP = nil
-	}
+	configuration.DnsServiceIP = genruntime.ClonePointerToString(source.DnsServiceIP)
 
 	// DockerBridgeCidr
-	if source.DockerBridgeCidr != nil {
-		dockerBridgeCidr := *source.DockerBridgeCidr
-		configuration.DockerBridgeCidr = &dockerBridgeCidr
-	} else {
-		configuration.DockerBridgeCidr = nil
-	}
+	configuration.DockerBridgeCidr = genruntime.ClonePointerToString(source.DockerBridgeCidr)
 
 	// ServiceCidr
-	if source.ServiceCidr != nil {
-		serviceCidr := *source.ServiceCidr
-		configuration.ServiceCidr = &serviceCidr
-	} else {
-		configuration.ServiceCidr = nil
-	}
+	configuration.ServiceCidr = genruntime.ClonePointerToString(source.ServiceCidr)
 
 	// SubnetReference
 	if source.SubnetReference != nil {
@@ -12532,28 +12507,13 @@ func (configuration *AksNetworkingConfiguration) AssignProperties_To_AksNetworki
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DnsServiceIP
-	if configuration.DnsServiceIP != nil {
-		dnsServiceIP := *configuration.DnsServiceIP
-		destination.DnsServiceIP = &dnsServiceIP
-	} else {
-		destination.DnsServiceIP = nil
-	}
+	destination.DnsServiceIP = genruntime.ClonePointerToString(configuration.DnsServiceIP)
 
 	// DockerBridgeCidr
-	if configuration.DockerBridgeCidr != nil {
-		dockerBridgeCidr := *configuration.DockerBridgeCidr
-		destination.DockerBridgeCidr = &dockerBridgeCidr
-	} else {
-		destination.DockerBridgeCidr = nil
-	}
+	destination.DockerBridgeCidr = genruntime.ClonePointerToString(configuration.DockerBridgeCidr)
 
 	// ServiceCidr
-	if configuration.ServiceCidr != nil {
-		serviceCidr := *configuration.ServiceCidr
-		destination.ServiceCidr = &serviceCidr
-	} else {
-		destination.ServiceCidr = nil
-	}
+	destination.ServiceCidr = genruntime.ClonePointerToString(configuration.ServiceCidr)
 
 	// SubnetReference
 	if configuration.SubnetReference != nil {

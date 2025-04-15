@@ -188,7 +188,7 @@ func (enum *EnumType) createMappingDeclaration(
 
 	for _, v := range enum.options {
 		key := astbuilder.TextLiteral(strings.ToLower(v.Value))
-		value := dst.NewIdent(GetEnumValueId(name.Name(), v))
+		value := dst.NewIdent(GetEnumValueID(name.Name(), v))
 		literal.Add(key, value)
 	}
 
@@ -207,7 +207,7 @@ func (enum *EnumType) createMappingDeclaration(
 
 func (enum *EnumType) createValueDeclaration(name TypeName, value EnumValue) dst.Spec {
 	valueSpec := &dst.ValueSpec{
-		Names: []*dst.Ident{dst.NewIdent(GetEnumValueId(name.Name(), value))},
+		Names: []*dst.Ident{dst.NewIdent(GetEnumValueID(name.Name(), value))},
 		Values: []dst.Expr{
 			astbuilder.CallFunc(name.Name(), astbuilder.TextLiteral(value.Value)),
 		},
@@ -301,7 +301,7 @@ func (enum *EnumType) clone() *EnumType {
 	return &result
 }
 
-func GetEnumValueId(name string, value EnumValue) string {
+func GetEnumValueID(name string, value EnumValue) string {
 	return name + "_" + value.Identifier
 }
 

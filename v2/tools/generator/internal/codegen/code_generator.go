@@ -242,7 +242,7 @@ func createAllPipelineStages(
 		pipeline.ImplementConvertibleInterface(idFactory).UsedFor(pipeline.ARMTarget),
 
 		// Inject test cases
-		pipeline.InjectJsonSerializationTests(idFactory).UsedFor(pipeline.ARMTarget),
+		pipeline.InjectJSONSerializationTests(idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.InjectPropertyAssignmentTests(idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.InjectResourceConversionTestCases(idFactory).UsedFor(pipeline.ARMTarget),
 
@@ -399,8 +399,8 @@ func (generator *CodeGenerator) RemoveStages(stageIds ...string) {
 
 	stages := make([]*pipeline.Stage, 0, len(generator.pipeline))
 	for _, stage := range generator.pipeline {
-		if _, ok := stagesToRemove[stage.Id()]; ok {
-			stagesToRemove[stage.Id()] = true
+		if _, ok := stagesToRemove[stage.ID()]; ok {
+			stagesToRemove[stage.ID()] = true
 			continue
 		}
 
@@ -421,7 +421,7 @@ func (generator *CodeGenerator) RemoveStages(stageIds ...string) {
 func (generator *CodeGenerator) ReplaceStage(existingStage string, stage *pipeline.Stage) {
 	replaced := false
 	for i, s := range generator.pipeline {
-		if s.HasId(existingStage) {
+		if s.HasID(existingStage) {
 			generator.pipeline[i] = stage
 			replaced = true
 		}
@@ -439,7 +439,7 @@ func (generator *CodeGenerator) InjectStageAfter(existingStage string, stage *pi
 	injected := false
 
 	for i, s := range generator.pipeline {
-		if s.HasId(existingStage) {
+		if s.HasID(existingStage) {
 			var p []*pipeline.Stage
 			p = append(p, generator.pipeline[:i+1]...)
 			p = append(p, stage)
@@ -451,7 +451,7 @@ func (generator *CodeGenerator) InjectStageAfter(existingStage string, stage *pi
 	}
 
 	if !injected {
-		panic(fmt.Sprintf("Expected to inject stage %s but %s wasn't found", stage.Id(), existingStage))
+		panic(fmt.Sprintf("Expected to inject stage %s but %s wasn't found", stage.ID(), existingStage))
 	}
 }
 
@@ -465,7 +465,7 @@ func (generator *CodeGenerator) HasStage(id string) bool {
 // Only available for test builds.
 func (generator *CodeGenerator) IndexOfStage(id string) int {
 	for i, s := range generator.pipeline {
-		if s.HasId(id) {
+		if s.HasID(id) {
 			return i
 		}
 	}

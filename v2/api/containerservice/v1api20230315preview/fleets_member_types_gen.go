@@ -410,12 +410,7 @@ func (member *FleetsMember_Spec) AssignProperties_From_FleetsMember_Spec(source 
 	}
 
 	// Group
-	if source.Group != nil {
-		group := *source.Group
-		member.Group = &group
-	} else {
-		member.Group = nil
-	}
+	member.Group = genruntime.ClonePointerToString(source.Group)
 
 	// OperatorSpec
 	if source.OperatorSpec != nil {
@@ -458,12 +453,7 @@ func (member *FleetsMember_Spec) AssignProperties_To_FleetsMember_Spec(destinati
 	}
 
 	// Group
-	if member.Group != nil {
-		group := *member.Group
-		destination.Group = &group
-	} else {
-		destination.Group = nil
-	}
+	destination.Group = genruntime.ClonePointerToString(member.Group)
 
 	// OperatorSpec
 	if member.OperatorSpec != nil {
@@ -511,12 +501,7 @@ func (member *FleetsMember_Spec) Initialize_From_FleetsMember_STATUS(source *Fle
 	}
 
 	// Group
-	if source.Group != nil {
-		group := *source.Group
-		member.Group = &group
-	} else {
-		member.Group = nil
-	}
+	member.Group = genruntime.ClonePointerToString(source.Group)
 
 	// No error
 	return nil

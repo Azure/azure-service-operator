@@ -174,7 +174,7 @@ tasks:
     desc: Run {{.ASOCTL_APP}} fast lint checks.
     dir: '{{.ASOCTL_ROOT}}'
     cmds:
-      - golangci-lint run --verbose --fix --fast=false --timeout 5m ./...
+      - golangci-lint run --verbose --fix --timeout 5m ./...
 
   asoctl:build:
     desc: Generate the {{.ASOCTL_APP}} binary.
@@ -263,7 +263,7 @@ tasks:
     desc: Run {{.GENERATOR_APP}} lint checks.
     dir: '{{.GENERATOR_ROOT}}'
     cmds:
-      - golangci-lint run --verbose --fix --fast=false
+      - golangci-lint run --verbose --fix
 
   generator:build:
     desc: Generate the {{.GENERATOR_APP}} binary.
@@ -323,7 +323,7 @@ tasks:
     dir: "{{.CONTROLLER_ROOT}}"
     cmds:
       # Setting GOGC to increase how much debris is tolerated before running GC
-      - GOGC=200 golangci-lint run --verbose --fix --fast=false --timeout 20m ./...
+      - GOGC=200 golangci-lint run --verbose --fix --timeout 20m ./...
 
   controller:verify-samples:
     desc: Verify that a sample exists for each supported resource
@@ -676,7 +676,7 @@ tasks:
       - generator:build
     sources:
       - ./bin/{{.GENERATOR_APP}}
-      - azure-arm.yaml
+      - v2/azure-arm.yaml
       - ../docs/hugo/content/reference
     cmds:
       - ./bin/{{.GENERATOR_APP}} gen-types azure-arm.yaml
@@ -1143,7 +1143,7 @@ tasks:
     desc: Run mangle-test fast lint checks.
     dir: '{{.MANGLE_ROOT}}'
     cmds:
-      - golangci-lint run --verbose --fix --fast=false --timeout 5m ./...  
+      - golangci-lint run --verbose --fix --timeout 5m ./...  
 
   ############### Crossplane targets ###############
 

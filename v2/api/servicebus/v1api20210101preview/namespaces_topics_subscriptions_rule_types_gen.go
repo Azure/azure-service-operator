@@ -1901,12 +1901,7 @@ func (filter *SqlFilter) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 func (filter *SqlFilter) AssignProperties_From_SqlFilter(source *storage.SqlFilter) error {
 
 	// CompatibilityLevel
-	if source.CompatibilityLevel != nil {
-		compatibilityLevel := *source.CompatibilityLevel
-		filter.CompatibilityLevel = &compatibilityLevel
-	} else {
-		filter.CompatibilityLevel = nil
-	}
+	filter.CompatibilityLevel = genruntime.ClonePointerToInt(source.CompatibilityLevel)
 
 	// RequiresPreprocessing
 	if source.RequiresPreprocessing != nil {
@@ -1929,12 +1924,7 @@ func (filter *SqlFilter) AssignProperties_To_SqlFilter(destination *storage.SqlF
 	propertyBag := genruntime.NewPropertyBag()
 
 	// CompatibilityLevel
-	if filter.CompatibilityLevel != nil {
-		compatibilityLevel := *filter.CompatibilityLevel
-		destination.CompatibilityLevel = &compatibilityLevel
-	} else {
-		destination.CompatibilityLevel = nil
-	}
+	destination.CompatibilityLevel = genruntime.ClonePointerToInt(filter.CompatibilityLevel)
 
 	// RequiresPreprocessing
 	if filter.RequiresPreprocessing != nil {

@@ -111,7 +111,7 @@ func (e EmbeddedResourceRemover) RemoveEmbeddedResources(
 	originalNames := make(map[astmodel.InternalTypeName]embeddedResourceTypeName, len(e.definitions)/2)
 
 	visitor := e.makeEmbeddedResourceRemovalTypeVisitor()
-	for _, def := range astmodel.FindResourceDefinitions(e.definitions) {
+	for _, def := range e.definitions.AllResources() {
 		typeWalker := e.newResourceRemovalTypeWalker(visitor, def)
 
 		updatedTypes, err := typeWalker.Walk(def)
@@ -296,8 +296,7 @@ func (e EmbeddedResourceRemover) newResourceRemovalTypeWalker(
 func findResourceSubResources(definitions astmodel.TypeDefinitionSet) map[resourceKey]astmodel.TypeNameSet {
 	result := make(map[resourceKey]astmodel.TypeNameSet)
 
-	resources := astmodel.FindResourceDefinitions(definitions)
-	for _, def := range resources {
+	for _, def := range definitions.AllResources() {
 		resource, ok := astmodel.AsResourceType(def.Type())
 		if !ok {
 			// Shouldn't be possible to get here

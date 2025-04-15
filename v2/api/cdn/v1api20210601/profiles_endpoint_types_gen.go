@@ -2597,20 +2597,10 @@ func (origin *DeepCreatedOrigin) AssignProperties_From_DeepCreatedOrigin(source 
 	origin.HostName = genruntime.ClonePointerToString(source.HostName)
 
 	// HttpPort
-	if source.HttpPort != nil {
-		httpPort := *source.HttpPort
-		origin.HttpPort = &httpPort
-	} else {
-		origin.HttpPort = nil
-	}
+	origin.HttpPort = genruntime.ClonePointerToInt(source.HttpPort)
 
 	// HttpsPort
-	if source.HttpsPort != nil {
-		httpsPort := *source.HttpsPort
-		origin.HttpsPort = &httpsPort
-	} else {
-		origin.HttpsPort = nil
-	}
+	origin.HttpsPort = genruntime.ClonePointerToInt(source.HttpsPort)
 
 	// Name
 	origin.Name = genruntime.ClonePointerToString(source.Name)
@@ -2619,12 +2609,7 @@ func (origin *DeepCreatedOrigin) AssignProperties_From_DeepCreatedOrigin(source 
 	origin.OriginHostHeader = genruntime.ClonePointerToString(source.OriginHostHeader)
 
 	// Priority
-	if source.Priority != nil {
-		priority := *source.Priority
-		origin.Priority = &priority
-	} else {
-		origin.Priority = nil
-	}
+	origin.Priority = genruntime.ClonePointerToInt(source.Priority)
 
 	// PrivateLinkAlias
 	origin.PrivateLinkAlias = genruntime.ClonePointerToString(source.PrivateLinkAlias)
@@ -2649,12 +2634,7 @@ func (origin *DeepCreatedOrigin) AssignProperties_From_DeepCreatedOrigin(source 
 	}
 
 	// Weight
-	if source.Weight != nil {
-		weight := *source.Weight
-		origin.Weight = &weight
-	} else {
-		origin.Weight = nil
-	}
+	origin.Weight = genruntime.ClonePointerToInt(source.Weight)
 
 	// No error
 	return nil
@@ -2677,20 +2657,10 @@ func (origin *DeepCreatedOrigin) AssignProperties_To_DeepCreatedOrigin(destinati
 	destination.HostName = genruntime.ClonePointerToString(origin.HostName)
 
 	// HttpPort
-	if origin.HttpPort != nil {
-		httpPort := *origin.HttpPort
-		destination.HttpPort = &httpPort
-	} else {
-		destination.HttpPort = nil
-	}
+	destination.HttpPort = genruntime.ClonePointerToInt(origin.HttpPort)
 
 	// HttpsPort
-	if origin.HttpsPort != nil {
-		httpsPort := *origin.HttpsPort
-		destination.HttpsPort = &httpsPort
-	} else {
-		destination.HttpsPort = nil
-	}
+	destination.HttpsPort = genruntime.ClonePointerToInt(origin.HttpsPort)
 
 	// Name
 	destination.Name = genruntime.ClonePointerToString(origin.Name)
@@ -2699,12 +2669,7 @@ func (origin *DeepCreatedOrigin) AssignProperties_To_DeepCreatedOrigin(destinati
 	destination.OriginHostHeader = genruntime.ClonePointerToString(origin.OriginHostHeader)
 
 	// Priority
-	if origin.Priority != nil {
-		priority := *origin.Priority
-		destination.Priority = &priority
-	} else {
-		destination.Priority = nil
-	}
+	destination.Priority = genruntime.ClonePointerToInt(origin.Priority)
 
 	// PrivateLinkAlias
 	destination.PrivateLinkAlias = genruntime.ClonePointerToString(origin.PrivateLinkAlias)
@@ -2729,12 +2694,7 @@ func (origin *DeepCreatedOrigin) AssignProperties_To_DeepCreatedOrigin(destinati
 	}
 
 	// Weight
-	if origin.Weight != nil {
-		weight := *origin.Weight
-		destination.Weight = &weight
-	} else {
-		destination.Weight = nil
-	}
+	destination.Weight = genruntime.ClonePointerToInt(origin.Weight)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2762,20 +2722,10 @@ func (origin *DeepCreatedOrigin) Initialize_From_DeepCreatedOrigin_STATUS(source
 	origin.HostName = genruntime.ClonePointerToString(source.HostName)
 
 	// HttpPort
-	if source.HttpPort != nil {
-		httpPort := *source.HttpPort
-		origin.HttpPort = &httpPort
-	} else {
-		origin.HttpPort = nil
-	}
+	origin.HttpPort = genruntime.ClonePointerToInt(source.HttpPort)
 
 	// HttpsPort
-	if source.HttpsPort != nil {
-		httpsPort := *source.HttpsPort
-		origin.HttpsPort = &httpsPort
-	} else {
-		origin.HttpsPort = nil
-	}
+	origin.HttpsPort = genruntime.ClonePointerToInt(source.HttpsPort)
 
 	// Name
 	origin.Name = genruntime.ClonePointerToString(source.Name)
@@ -2784,12 +2734,7 @@ func (origin *DeepCreatedOrigin) Initialize_From_DeepCreatedOrigin_STATUS(source
 	origin.OriginHostHeader = genruntime.ClonePointerToString(source.OriginHostHeader)
 
 	// Priority
-	if source.Priority != nil {
-		priority := *source.Priority
-		origin.Priority = &priority
-	} else {
-		origin.Priority = nil
-	}
+	origin.Priority = genruntime.ClonePointerToInt(source.Priority)
 
 	// PrivateLinkAlias
 	origin.PrivateLinkAlias = genruntime.ClonePointerToString(source.PrivateLinkAlias)
@@ -2806,12 +2751,7 @@ func (origin *DeepCreatedOrigin) Initialize_From_DeepCreatedOrigin_STATUS(source
 	}
 
 	// Weight
-	if source.Weight != nil {
-		weight := *source.Weight
-		origin.Weight = &weight
-	} else {
-		origin.Weight = nil
-	}
+	origin.Weight = genruntime.ClonePointerToInt(source.Weight)
 
 	// No error
 	return nil
@@ -3320,12 +3260,7 @@ func (group *DeepCreatedOriginGroup) AssignProperties_From_DeepCreatedOriginGrou
 	}
 
 	// TrafficRestorationTimeToHealedOrNewEndpointsInMinutes
-	if source.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes != nil {
-		trafficRestorationTimeToHealedOrNewEndpointsInMinute := *source.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes
-		group.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes = &trafficRestorationTimeToHealedOrNewEndpointsInMinute
-	} else {
-		group.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes = nil
-	}
+	group.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes = genruntime.ClonePointerToInt(source.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes)
 
 	// No error
 	return nil
@@ -3382,12 +3317,7 @@ func (group *DeepCreatedOriginGroup) AssignProperties_To_DeepCreatedOriginGroup(
 	}
 
 	// TrafficRestorationTimeToHealedOrNewEndpointsInMinutes
-	if group.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes != nil {
-		trafficRestorationTimeToHealedOrNewEndpointsInMinute := *group.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes
-		destination.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes = &trafficRestorationTimeToHealedOrNewEndpointsInMinute
-	} else {
-		destination.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes = nil
-	}
+	destination.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes = genruntime.ClonePointerToInt(group.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3449,12 +3379,7 @@ func (group *DeepCreatedOriginGroup) Initialize_From_DeepCreatedOriginGroup_STAT
 	}
 
 	// TrafficRestorationTimeToHealedOrNewEndpointsInMinutes
-	if source.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes != nil {
-		trafficRestorationTimeToHealedOrNewEndpointsInMinute := *source.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes
-		group.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes = &trafficRestorationTimeToHealedOrNewEndpointsInMinute
-	} else {
-		group.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes = nil
-	}
+	group.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes = genruntime.ClonePointerToInt(source.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes)
 
 	// No error
 	return nil
@@ -5542,12 +5467,7 @@ func (parameters *HealthProbeParameters) PopulateFromARM(owner genruntime.Arbitr
 func (parameters *HealthProbeParameters) AssignProperties_From_HealthProbeParameters(source *storage.HealthProbeParameters) error {
 
 	// ProbeIntervalInSeconds
-	if source.ProbeIntervalInSeconds != nil {
-		probeIntervalInSecond := *source.ProbeIntervalInSeconds
-		parameters.ProbeIntervalInSeconds = &probeIntervalInSecond
-	} else {
-		parameters.ProbeIntervalInSeconds = nil
-	}
+	parameters.ProbeIntervalInSeconds = genruntime.ClonePointerToInt(source.ProbeIntervalInSeconds)
 
 	// ProbePath
 	parameters.ProbePath = genruntime.ClonePointerToString(source.ProbePath)
@@ -5580,12 +5500,7 @@ func (parameters *HealthProbeParameters) AssignProperties_To_HealthProbeParamete
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ProbeIntervalInSeconds
-	if parameters.ProbeIntervalInSeconds != nil {
-		probeIntervalInSecond := *parameters.ProbeIntervalInSeconds
-		destination.ProbeIntervalInSeconds = &probeIntervalInSecond
-	} else {
-		destination.ProbeIntervalInSeconds = nil
-	}
+	destination.ProbeIntervalInSeconds = genruntime.ClonePointerToInt(parameters.ProbeIntervalInSeconds)
 
 	// ProbePath
 	destination.ProbePath = genruntime.ClonePointerToString(parameters.ProbePath)
@@ -5621,12 +5536,7 @@ func (parameters *HealthProbeParameters) AssignProperties_To_HealthProbeParamete
 func (parameters *HealthProbeParameters) Initialize_From_HealthProbeParameters_STATUS(source *HealthProbeParameters_STATUS) error {
 
 	// ProbeIntervalInSeconds
-	if source.ProbeIntervalInSeconds != nil {
-		probeIntervalInSecond := *source.ProbeIntervalInSeconds
-		parameters.ProbeIntervalInSeconds = &probeIntervalInSecond
-	} else {
-		parameters.ProbeIntervalInSeconds = nil
-	}
+	parameters.ProbeIntervalInSeconds = genruntime.ClonePointerToInt(source.ProbeIntervalInSeconds)
 
 	// ProbePath
 	parameters.ProbePath = genruntime.ClonePointerToString(source.ProbePath)
@@ -6295,12 +6205,7 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters) AssignProperties_
 	}
 
 	// ResponseBasedFailoverThresholdPercentage
-	if source.ResponseBasedFailoverThresholdPercentage != nil {
-		responseBasedFailoverThresholdPercentage := *source.ResponseBasedFailoverThresholdPercentage
-		parameters.ResponseBasedFailoverThresholdPercentage = &responseBasedFailoverThresholdPercentage
-	} else {
-		parameters.ResponseBasedFailoverThresholdPercentage = nil
-	}
+	parameters.ResponseBasedFailoverThresholdPercentage = genruntime.ClonePointerToInt(source.ResponseBasedFailoverThresholdPercentage)
 
 	// No error
 	return nil
@@ -6338,12 +6243,7 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters) AssignProperties_
 	}
 
 	// ResponseBasedFailoverThresholdPercentage
-	if parameters.ResponseBasedFailoverThresholdPercentage != nil {
-		responseBasedFailoverThresholdPercentage := *parameters.ResponseBasedFailoverThresholdPercentage
-		destination.ResponseBasedFailoverThresholdPercentage = &responseBasedFailoverThresholdPercentage
-	} else {
-		destination.ResponseBasedFailoverThresholdPercentage = nil
-	}
+	destination.ResponseBasedFailoverThresholdPercentage = genruntime.ClonePointerToInt(parameters.ResponseBasedFailoverThresholdPercentage)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -6386,12 +6286,7 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters) Initialize_From_R
 	}
 
 	// ResponseBasedFailoverThresholdPercentage
-	if source.ResponseBasedFailoverThresholdPercentage != nil {
-		responseBasedFailoverThresholdPercentage := *source.ResponseBasedFailoverThresholdPercentage
-		parameters.ResponseBasedFailoverThresholdPercentage = &responseBasedFailoverThresholdPercentage
-	} else {
-		parameters.ResponseBasedFailoverThresholdPercentage = nil
-	}
+	parameters.ResponseBasedFailoverThresholdPercentage = genruntime.ClonePointerToInt(source.ResponseBasedFailoverThresholdPercentage)
 
 	// No error
 	return nil
@@ -9616,20 +9511,10 @@ func (parameters *HttpErrorRangeParameters) PopulateFromARM(owner genruntime.Arb
 func (parameters *HttpErrorRangeParameters) AssignProperties_From_HttpErrorRangeParameters(source *storage.HttpErrorRangeParameters) error {
 
 	// Begin
-	if source.Begin != nil {
-		begin := *source.Begin
-		parameters.Begin = &begin
-	} else {
-		parameters.Begin = nil
-	}
+	parameters.Begin = genruntime.ClonePointerToInt(source.Begin)
 
 	// End
-	if source.End != nil {
-		end := *source.End
-		parameters.End = &end
-	} else {
-		parameters.End = nil
-	}
+	parameters.End = genruntime.ClonePointerToInt(source.End)
 
 	// No error
 	return nil
@@ -9641,20 +9526,10 @@ func (parameters *HttpErrorRangeParameters) AssignProperties_To_HttpErrorRangePa
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Begin
-	if parameters.Begin != nil {
-		begin := *parameters.Begin
-		destination.Begin = &begin
-	} else {
-		destination.Begin = nil
-	}
+	destination.Begin = genruntime.ClonePointerToInt(parameters.Begin)
 
 	// End
-	if parameters.End != nil {
-		end := *parameters.End
-		destination.End = &end
-	} else {
-		destination.End = nil
-	}
+	destination.End = genruntime.ClonePointerToInt(parameters.End)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -9671,20 +9546,10 @@ func (parameters *HttpErrorRangeParameters) AssignProperties_To_HttpErrorRangePa
 func (parameters *HttpErrorRangeParameters) Initialize_From_HttpErrorRangeParameters_STATUS(source *HttpErrorRangeParameters_STATUS) error {
 
 	// Begin
-	if source.Begin != nil {
-		begin := *source.Begin
-		parameters.Begin = &begin
-	} else {
-		parameters.Begin = nil
-	}
+	parameters.Begin = genruntime.ClonePointerToInt(source.Begin)
 
 	// End
-	if source.End != nil {
-		end := *source.End
-		parameters.End = &end
-	} else {
-		parameters.End = nil
-	}
+	parameters.End = genruntime.ClonePointerToInt(source.End)
 
 	// No error
 	return nil

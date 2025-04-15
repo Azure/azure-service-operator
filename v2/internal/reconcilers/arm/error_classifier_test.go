@@ -39,12 +39,12 @@ func Test_NilError_IsRetryable(t *testing.T) {
 	g.Expect(arm.ClassifyCloudError(nil)).To(Equal(expected))
 }
 
-func Test_Conflict_IsNotRetryable(t *testing.T) {
+func Test_Conflict_IsRetryable(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	expected := core.CloudErrorDetails{
-		Classification: core.ErrorFatal,
+		Classification: core.ErrorRetryable,
 		Code:           conflictError.Code(),
 		Message:        conflictError.Message(),
 	}

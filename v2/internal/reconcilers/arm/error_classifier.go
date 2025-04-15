@@ -49,6 +49,7 @@ func classifyCloudError(err *genericarmclient.CloudError) core.ErrorClassificati
 	case "AnotherOperationInProgress",
 		"AuthorizationFailed",
 		"AllocationFailed",
+		"Conflict",
 		"FailedIdentityOperation",
 		"InvalidResourceReference",
 		"InvalidSubscriptionRegistrationState",
@@ -65,7 +66,6 @@ func classifyCloudError(err *genericarmclient.CloudError) core.ErrorClassificati
 		"SubscriptionNotRegistered":
 		return core.ErrorRetryable
 	case "BadRequestFormat",
-		"Conflict",
 		"BadRequest",
 		"PublicIpForGatewayIsRequired", // TODO: There's not a great way to look at an arbitrary error returned by this API and determine if it's a 4xx or 5xx level... ugh
 		"InvalidParameter",
@@ -101,8 +101,10 @@ func classifyHTTPError(err *genericarmclient.CloudError) core.ErrorClassificatio
 	if !eris.As(err.Unwrap(), &httpError) {
 		return core.ErrorRetryable
 	}
+
 	if httpError.StatusCode == 400 {
 		return core.ErrorFatal
 	}
+
 	return core.ErrorRetryable
 }

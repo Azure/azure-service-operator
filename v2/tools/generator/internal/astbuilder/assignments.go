@@ -79,11 +79,11 @@ func QualifiedAssignment(lhs dst.Expr, lhsSel string, tok token.Token, rhs dst.E
 //	    <lhs>, err := <rhs>       // tok = token.DEFINE
 //	or  <lhs>, err = <rhs>        // tok = token.ASSIGN
 func SimpleAssignmentWithErr(lhs dst.Expr, tok token.Token, rhs dst.Expr) *dst.AssignStmt {
-	errId := dst.NewIdent("err")
+	errID := dst.NewIdent("err")
 	return &dst.AssignStmt{
 		Lhs: []dst.Expr{
 			dst.Clone(lhs).(dst.Expr),
-			errId,
+			errID,
 		},
 		Tok: tok,
 		Rhs: []dst.Expr{

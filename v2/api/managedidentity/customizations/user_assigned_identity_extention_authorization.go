@@ -69,12 +69,9 @@ func secretsSpecified(obj *v20230131s.UserAssignedIdentity) bool {
 	}
 
 	specSecrets := obj.Spec.OperatorSpec.Secrets
-	hasSecrets := false
-	if specSecrets.ClientId != nil ||
+	hasSecrets := specSecrets.ClientId != nil ||
 		specSecrets.PrincipalId != nil ||
-		specSecrets.TenantId != nil {
-		hasSecrets = true
-	}
+		specSecrets.TenantId != nil
 
 	return hasSecrets
 }

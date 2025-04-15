@@ -138,7 +138,7 @@ func (r *AzureSQLUserReconciler) Claim(ctx context.Context, log logr.Logger, eve
 		return err
 	}
 
-	err = r.ARMOwnedResourceReconcilerCommon.ClaimResource(ctx, log, user)
+	err = r.ClaimResource(ctx, log, user)
 	if err != nil {
 		return err
 	}

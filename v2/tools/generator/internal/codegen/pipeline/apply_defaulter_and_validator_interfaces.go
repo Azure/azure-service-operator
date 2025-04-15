@@ -36,7 +36,7 @@ func ApplyDefaulterAndValidatorInterfaces(configuration *config.Configuration, i
 			defs := state.Definitions()
 			updatedDefs := make(astmodel.TypeDefinitionSet)
 
-			for _, resourceDef := range astmodel.FindResourceDefinitions(defs) {
+			for _, resourceDef := range defs.AllResources() {
 				// Create an object to hold the implementation of the validator and defaulter interfaces
 				name := astmodel.CreateWebhookTypeName(resourceDef.Name())
 				webhookDef := astmodel.MakeTypeDefinition(name, astmodel.NewObjectType())
@@ -194,7 +194,7 @@ func validateSecretDestinations(resourceDef astmodel.TypeDefinition) functions.D
 		objIdent := "obj"
 		contextIdent := "ctx"
 
-		receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
+		receiverIdent := k.IDFactory().CreateReceiver(receiver.Name())
 		receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
 		if err != nil {
 			return nil, eris.Wrapf(err, "creating receiver expression")
@@ -268,7 +268,7 @@ func validateConfigMapDestinations(resourceDef astmodel.TypeDefinition) function
 		objIdent := "obj"
 		contextIdent := "ctx"
 
-		receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
+		receiverIdent := k.IDFactory().CreateReceiver(receiver.Name())
 		receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
 		if err != nil {
 			return nil, eris.Wrapf(err, "creating receiver expression")

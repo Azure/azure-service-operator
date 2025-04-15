@@ -173,7 +173,7 @@ func importAzureResource(
 		// Ensure the progress bar is closed when we're done, but skip if a panic has happened
 		defer func() {
 			if p := recover(); p != nil {
-				os.Stderr.Write([]byte(fmt.Sprintf("panic: %s\n", p)))
+				fmt.Fprintf(os.Stderr, "panic: %s\n", p)
 			} else {
 				// No panic
 				defer bar.Wait()

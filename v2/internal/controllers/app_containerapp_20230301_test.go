@@ -31,7 +31,7 @@ func Test_App_ContainerApps_CRUD(t *testing.T) {
 	tc.CreateResourceAndWait(containerApp)
 
 	tc.Expect(containerApp.Status.Id).ToNot(BeNil())
-	armId := *containerApp.Status.Id
+	armID := *containerApp.Status.Id
 
 	old := containerApp.DeepCopy()
 	containerApp.Spec.Tags = map[string]string{"foo": "bar"}
@@ -51,7 +51,7 @@ func Test_App_ContainerApps_CRUD(t *testing.T) {
 	// Ensure that the resource was really deleted in Azure
 	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
-		armId,
+		armID,
 		string(app.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())

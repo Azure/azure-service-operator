@@ -220,10 +220,7 @@ func (factory *identifierFactory) CreateReceiver(name string) string {
 	words := sliceIntoWords(clean)
 
 	// Remove forbidden suffix words from the end
-	for {
-		if len(words) == 1 {
-			break
-		}
+	for len(words) != 1 {
 
 		last := len(words) - 1
 		if !factory.forbiddenReceiverSuffixes.Contains(words[last]) {

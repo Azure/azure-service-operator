@@ -3043,12 +3043,7 @@ func (config *KubeletConfig) AssignProperties_From_KubeletConfig(source *storage
 	config.AllowedUnsafeSysctls = genruntime.CloneSliceOfString(source.AllowedUnsafeSysctls)
 
 	// ContainerLogMaxFiles
-	if source.ContainerLogMaxFiles != nil {
-		containerLogMaxFile := *source.ContainerLogMaxFiles
-		config.ContainerLogMaxFiles = &containerLogMaxFile
-	} else {
-		config.ContainerLogMaxFiles = nil
-	}
+	config.ContainerLogMaxFiles = genruntime.ClonePointerToInt(source.ContainerLogMaxFiles)
 
 	// ContainerLogMaxSizeMB
 	config.ContainerLogMaxSizeMB = genruntime.ClonePointerToInt(source.ContainerLogMaxSizeMB)
@@ -3100,12 +3095,7 @@ func (config *KubeletConfig) AssignProperties_To_KubeletConfig(destination *stor
 	destination.AllowedUnsafeSysctls = genruntime.CloneSliceOfString(config.AllowedUnsafeSysctls)
 
 	// ContainerLogMaxFiles
-	if config.ContainerLogMaxFiles != nil {
-		containerLogMaxFile := *config.ContainerLogMaxFiles
-		destination.ContainerLogMaxFiles = &containerLogMaxFile
-	} else {
-		destination.ContainerLogMaxFiles = nil
-	}
+	destination.ContainerLogMaxFiles = genruntime.ClonePointerToInt(config.ContainerLogMaxFiles)
 
 	// ContainerLogMaxSizeMB
 	destination.ContainerLogMaxSizeMB = genruntime.ClonePointerToInt(config.ContainerLogMaxSizeMB)

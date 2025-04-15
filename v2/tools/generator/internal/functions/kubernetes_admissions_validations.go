@@ -89,7 +89,7 @@ func validateResourceReferences(
 	objectIdent := "obj"
 	contextIdent := "ctx"
 
-	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
+	receiverIdent := k.IDFactory().CreateReceiver(receiver.Name())
 	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
 	if err != nil {
 		return nil, eris.Wrap(err, "creating receiver type expression")
@@ -163,7 +163,7 @@ func validateOwnerReferences(
 	objectIdent := "obj"
 	contextIdent := "ctx"
 
-	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
+	receiverIdent := k.IDFactory().CreateReceiver(receiver.Name())
 	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
 	if err != nil {
 		return nil, eris.Wrapf(err, "creating receiver type expression for %s", receiver)
@@ -225,7 +225,7 @@ func validateWriteOncePropertiesFunction(
 	oldObjIdent := "oldObj"
 	contextIdent := "ctx"
 
-	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
+	receiverIdent := k.IDFactory().CreateReceiver(receiver.Name())
 	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
 	if err != nil {
 		return nil, eris.Wrapf(err, "creating receiver type expression for %s", receiver)
@@ -293,7 +293,7 @@ func validateOptionalConfigMapReferences(
 	objectIdent := "obj"
 	contextIdent := "ctx"
 
-	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
+	receiverIdent := k.IDFactory().CreateReceiver(receiver.Name())
 	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
 	if err != nil {
 		return nil, eris.Wrap(err, "creating receiver type expression")

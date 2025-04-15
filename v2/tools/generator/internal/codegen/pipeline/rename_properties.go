@@ -99,7 +99,7 @@ func renamePropertiesInObjectType(
 
 			updated := prop.
 				WithName(astmodel.PropertyName(name)).
-				WithJsonName(strings.ToLower(name))
+				WithJSONName(strings.ToLower(name))
 			properties = append(properties, updated)
 
 			return nil

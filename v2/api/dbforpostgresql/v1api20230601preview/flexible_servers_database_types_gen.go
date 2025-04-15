@@ -403,20 +403,10 @@ func (database *FlexibleServersDatabase_Spec) AssignProperties_From_FlexibleServ
 	database.AzureName = source.AzureName
 
 	// Charset
-	if source.Charset != nil {
-		charset := *source.Charset
-		database.Charset = &charset
-	} else {
-		database.Charset = nil
-	}
+	database.Charset = genruntime.ClonePointerToString(source.Charset)
 
 	// Collation
-	if source.Collation != nil {
-		collation := *source.Collation
-		database.Collation = &collation
-	} else {
-		database.Collation = nil
-	}
+	database.Collation = genruntime.ClonePointerToString(source.Collation)
 
 	// OperatorSpec
 	if source.OperatorSpec != nil {
@@ -451,20 +441,10 @@ func (database *FlexibleServersDatabase_Spec) AssignProperties_To_FlexibleServer
 	destination.AzureName = database.AzureName
 
 	// Charset
-	if database.Charset != nil {
-		charset := *database.Charset
-		destination.Charset = &charset
-	} else {
-		destination.Charset = nil
-	}
+	destination.Charset = genruntime.ClonePointerToString(database.Charset)
 
 	// Collation
-	if database.Collation != nil {
-		collation := *database.Collation
-		destination.Collation = &collation
-	} else {
-		destination.Collation = nil
-	}
+	destination.Collation = genruntime.ClonePointerToString(database.Collation)
 
 	// OperatorSpec
 	if database.OperatorSpec != nil {
