@@ -33,7 +33,7 @@ func NewKubeContext(
 ) (KubeGlobalContext, error) {
 	var err error
 	var cbtc BaseTestContextFactory
-	var cleanup = func() {}
+	cleanup := func() {}
 
 	if useEnvTest {
 		cbtc, cleanup = createEnvtestContext()
