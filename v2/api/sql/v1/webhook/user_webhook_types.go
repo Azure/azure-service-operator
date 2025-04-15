@@ -17,7 +17,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-//nolint:staticcheck // Underscore used to match ASO conventions
 type User_Webhook struct{}
 
 // +kubebuilder:webhook:path=/mutate-sql-azure-com-v1-user,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=sql.azure.com,resources=users,verbs=create;update,versions=v1,name=default.v1.users.sql.azure.com,admissionReviewVersions=v1

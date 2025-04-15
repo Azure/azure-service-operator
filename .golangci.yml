@@ -1,6 +1,7 @@
 version: "2"
 run:
   allow-parallel-runners: true
+  timeout: 5m
 linters:
   enable:
     - asasalint
@@ -20,6 +21,7 @@ linters:
     - makezero
     - nilerr
     - nilnesserr
+    - nolintlint
     - noctx
     - paralleltest
     - prealloc
@@ -34,15 +36,14 @@ linters:
     - unparam
     - zerologlint
   disable:
-    - musttag
+    - musttag # Extremely slow, at least on CI machines
   settings:
     exhaustive:
       default-signifies-exhaustive: true
     staticcheck:
       checks:
-        - -S1002
-        - -S1016
-        - all
+        - "-S1002" # Comparison to bool explicitly can sometimes add clarity
+        - "-S1016" # Uncommon language feature, encourages coupling when it may not be appropriate
       dot-import-whitelist:
       - "github.com/Azure/azure-service-operator/v2/internal/logging"
     unused:

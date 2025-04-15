@@ -722,7 +722,7 @@ func AssignToAliasOfPrimitive(
 	// ... and it is a primitive type ...
 	dstPrim, ok := AsPrimitiveType(dstDef.Type())
 	if !ok {
-		//nolint:nilerr // err is not nil, we defer to a different conversion
+
 		return nil, nil
 	}
 
@@ -963,7 +963,7 @@ func AssignToEnum(
 	et, ok := AsEnumType(def.Type())
 	if !ok {
 		// Definition isn't for an enum type,
-		return nil, nil //nolint:nilerr // err is not nil, we defer to a different conversion
+		return nil, nil
 	}
 
 	if TypeEquals(et.BaseType(), params.SourceType) {

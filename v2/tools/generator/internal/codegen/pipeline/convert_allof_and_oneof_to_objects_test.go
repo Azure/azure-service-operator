@@ -645,7 +645,6 @@ func Test_ConversionWithNestedAllOfs_ReturnsExpectedResult(t *testing.T) {
 			astmodel.NewPropertyDefinition("AzureName", "azurename", astmodel.StringType),
 			astmodel.NewPropertyDefinition("Name", "name", astmodel.StringType)))
 
-	//nolint:staticcheck // variable name mirrors name of the type
 	webTest_Status := astmodel.MakeTypeDefinition(
 		astmodel.MakeInternalTypeName(test.Pkg2020, "WebTest_Status"),
 		astmodel.NewObjectType().WithProperties(
@@ -778,7 +777,6 @@ func TestConversionOfAllOf_WhenContainingOneOf_ReturnsExpectedResult(t *testing.
 			WithDiscriminatorProperty("Kind"),
 	)
 
-	//nolint:staticcheck // variable name mirrors name of the type
 	clusters_database := astmodel.MakeTypeDefinition(
 		astmodel.MakeInternalTypeName(test.Pkg2020, "Clusters_Database"),
 		astmodel.NewResourceType(

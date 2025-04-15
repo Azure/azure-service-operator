@@ -32,7 +32,7 @@ type RoleOptions struct {
 	CreateRole bool
 
 	// WITH CREATEDB or NOCREATEDB
-	//nolint:staticcheck // Field name must match imported struct
+
 	CreateDb bool
 
 	// WITH REPLICATION or NOREPLICATION

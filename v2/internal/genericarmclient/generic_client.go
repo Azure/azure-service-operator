@@ -140,7 +140,7 @@ func (client *GenericClient) BeginCreateOrUpdateByID(
 ) (*PollerResponse[GenericResource], error) {
 	// The linter doesn't realize that the response is closed in the course of
 	// the autorest.NewPoller call below. Suppressing it as it is a false positive.
-	// nolint:bodyclose
+	//nolint:bodyclose
 	resp, err := client.createOrUpdateByID(ctx, resourceID, apiVersion, resource)
 	if err != nil {
 		return nil, err
@@ -229,7 +229,7 @@ func (client *GenericClient) GetByID(
 	}
 	// The linter doesn't realize that the response is closed in the course of
 	// the getByIDHandleResponse call below. Suppressing it as it is a false positive.
-	// nolint:bodyclose
+	//nolint:bodyclose
 	resp, err := client.pl.Do(req)
 	retryAfter := GetRetryAfter(resp)
 	if err != nil {
@@ -295,7 +295,7 @@ func (client *GenericClient) checkExistenceByIDImpl(
 		return zeroDuration, err
 	}
 	// The linter doesn't realize that the response is closed as part of the pipeline
-	// nolint:bodyclose
+	//nolint:bodyclose
 	resp, err := client.pl.Do(req)
 	retryAfter := GetRetryAfter(resp)
 	if err != nil {
@@ -355,7 +355,7 @@ func (p *listPageResponse[T]) NextPage(
 
 	// The linter doesn't realize that the response is closed in the course of
 	// the runtime.UnmarshalAsJSON() call below. Suppressing it as it is a false positive.
-	// nolint:bodyclose
+	//nolint:bodyclose
 	resp, err := client.pl.Do(req)
 	if err != nil {
 		return nil, err
@@ -446,7 +446,7 @@ func (client *GenericClient) listByContainerIDCreateRequest(
 func (client *GenericClient) BeginDeleteByID(ctx context.Context, resourceID string, apiVersion string) (*PollerResponse[GenericDeleteResponse], error) {
 	// The linter doesn't realize that the response is closed in the course of
 	// the autorest.NewPoller call below. Suppressing it as it is a false positive.
-	// nolint:bodyclose
+	//nolint:bodyclose
 	resp, err := client.deleteByID(ctx, resourceID, apiVersion)
 	if err != nil {
 		return nil, err

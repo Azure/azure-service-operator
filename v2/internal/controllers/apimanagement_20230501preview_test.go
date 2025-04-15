@@ -139,7 +139,6 @@ func Test_ApiManagement_20230501preview_CRUD(t *testing.T) {
 	)
 }
 
-//nolint:staticcheck // Underscores are ok in test names
 func APIM_Subscription20230501preview_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
 	// Create a subscription for all the apis
 	subscription := apim.Subscription{
@@ -185,7 +184,6 @@ func APIM_Subscription20230501preview_CRUD(tc *testcommon.KubePerTestContext, se
 	tc.T.Log("cleaning up subscription")
 }
 
-//nolint:staticcheck // Underscores are ok in test names
 func APIM_Backend20230501preview_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
 	// Add a simple backend
 	backend := apim.Backend{
@@ -208,7 +206,6 @@ func APIM_Backend20230501preview_CRUD(tc *testcommon.KubePerTestContext, service
 	tc.T.Log("cleaning up backend")
 }
 
-//nolint:staticcheck // Underscores are ok in test names
 func APIM_NamedValue20230501preview_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
 	// Add a Plain Text Named Value
 	namedValue := apim.NamedValue{
@@ -250,7 +247,6 @@ func APIM_Policy20230501preview_CRUD(tc *testcommon.KubePerTestContext, service 
 	tc.T.Log("cleaning up policy")
 }
 
-//nolint:staticcheck // Underscores are ok in test names
 func APIM_PolicyFragment20230501preview_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
 	// Add a simple Policy Fragment
 	policyFragment := apim.PolicyFragment{
@@ -273,7 +269,7 @@ func APIM_PolicyFragment20230501preview_CRUD(tc *testcommon.KubePerTestContext, 
 
 // Currently not called as we need to find a way to delete the subscription
 //
-//nolint:staticcheck // Underscores are ok in test names
+
 func APIM_Product20230501preview_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
 	productName := tc.Namer.GenerateName("cust1")
 	// Now add a product
@@ -302,7 +298,6 @@ func APIM_Product20230501preview_CRUD(tc *testcommon.KubePerTestContext, service
 	tc.T.Log("cleaning up product")
 }
 
-//nolint:staticcheck // Underscores are ok in test names
 func APIM_Product_Policy20230501preview_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
 	productName := tc.Namer.GenerateName("product1")
 	// Now add a product
@@ -342,7 +337,6 @@ func APIM_Product_Policy20230501preview_CRUD(tc *testcommon.KubePerTestContext, 
 	tc.T.Log("cleaning up product")
 }
 
-//nolint:staticcheck // Underscores are ok in test names
 func APIM_Product_Api20230501preview_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
 	productName := tc.Namer.GenerateName("product2")
 	product := apim.Product{
@@ -431,7 +425,6 @@ func APIM_Product_Api20230501preview_CRUD(tc *testcommon.KubePerTestContext, ser
 	tc.T.Log("cleaning up product")
 }
 
-//nolint:staticcheck // Underscores are ok in test names
 func APIM_Api20230501preview_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
 	versionSet := apim.ApiVersionSet{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vs")),
@@ -489,7 +482,6 @@ func APIM_Api20230501preview_CRUD(tc *testcommon.KubePerTestContext, service cli
 	tc.T.Log("cleaning up api")
 }
 
-//nolint:staticcheck // Underscores are ok in test names
 func APIM_AuthorizationProvider20230501preview_CRUD(tc *testcommon.KubePerTestContext, service client.Object, secretsMap *genruntime.SecretMapReference) {
 	authorizationProvider := apim.AuthorizationProvider{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("authorizationprovider")),
@@ -514,7 +506,6 @@ func APIM_AuthorizationProvider20230501preview_CRUD(tc *testcommon.KubePerTestCo
 	tc.T.Log("cleaning up authorizationProvider")
 }
 
-//nolint:staticcheck // Underscores are ok in test names
 func APIM_AuthorizationProviders_Authorization20230501preview_CRUD(tc *testcommon.KubePerTestContext, service client.Object, secretsMap *genruntime.SecretMapReference) {
 	authorizationProvider := apim.AuthorizationProvider{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("authorizationprovider")),
@@ -554,7 +545,6 @@ func APIM_AuthorizationProviders_Authorization20230501preview_CRUD(tc *testcommo
 	tc.T.Log("cleaning up authorizationProvider")
 }
 
-//nolint:staticcheck // Underscores are ok in test names
 func APIM_AuthorizationProviders_Authorizations_AccessPolicy20230501preview_CRUD(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, service client.Object, secretsMap *genruntime.SecretMapReference) {
 	authorizationProvider := apim.AuthorizationProvider{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("authorizationprovider")),
@@ -645,7 +635,6 @@ func APIM_AuthorizationProviders_Authorizations_AccessPolicy20230501preview_CRUD
 	tc.T.Log("cleaning up authorizationProvider")
 }
 
-//nolint:staticcheck // Underscores are ok in test names
 func Subscription20230501preview_SecretsWrittenToSameKubeSecret(tc *testcommon.KubePerTestContext, subscription *apim.Subscription) {
 	old := subscription.DeepCopy()
 	subscriptionSecret := "storagekeys"
@@ -660,7 +649,6 @@ func Subscription20230501preview_SecretsWrittenToSameKubeSecret(tc *testcommon.K
 	tc.ExpectSecretHasKeys(subscriptionSecret, "primary", "secondary")
 }
 
-//nolint:staticcheck // Underscores are ok in test names
 func Subscription20230501preview_SecretsWrittenToDifferentKubeSecrets(tc *testcommon.KubePerTestContext, subscription *apim.Subscription) {
 	old := subscription.DeepCopy()
 	primaryKeySecret := "secret1"

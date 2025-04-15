@@ -120,7 +120,6 @@ func NewManagedCluster20231102preview(tc *testcommon.KubePerTestContext, rg *v1a
 	return cluster
 }
 
-//nolint:staticcheck // Underscores are ok in test names
 func AKS_ManagedCluster_AgentPool_20231102preview_CRUD(tc *testcommon.KubePerTestContext, cluster *aks.ManagedCluster) {
 	osType := aks.OSType_Linux
 	agentPoolMode := aks.AgentPoolMode_System
