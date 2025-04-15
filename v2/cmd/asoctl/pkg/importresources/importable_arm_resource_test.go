@@ -20,49 +20,49 @@ func Test_ARMResourceImporter_GroupKindFromARMID(t *testing.T) {
 
 	cases := []struct {
 		name          string
-		armId         string
+		armID         string
 		expectedGroup string
 		expectedKind  string
 	}{
 		{
 			name:          "resource group",
-			armId:         "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-rg",
+			armID:         "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-rg",
 			expectedGroup: "resources.azure.com",
 			expectedKind:  "ResourceGroup",
 		},
 		{
 			name:          "storage account",
-			armId:         "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-rg/providers/Microsoft.Storage/storageAccounts/asostorage",
+			armID:         "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-rg/providers/Microsoft.Storage/storageAccounts/asostorage",
 			expectedGroup: "storage.azure.com",
 			expectedKind:  "StorageAccount",
 		},
 		{
 			name:          "cosmos account",
-			armId:         "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-rg/providers/Microsoft.DocumentDB/databaseAccounts/aso-cosmos",
+			armID:         "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-rg/providers/Microsoft.DocumentDB/databaseAccounts/aso-cosmos",
 			expectedGroup: "documentdb.azure.com",
 			expectedKind:  "DatabaseAccount",
 		},
 		{
 			name:          "VMSS Scale Set",
-			armId:         "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-rg/providers/Microsoft.Compute/virtualMachineScaleSets/aso-scaleset",
+			armID:         "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-rg/providers/Microsoft.Compute/virtualMachineScaleSets/aso-scaleset",
 			expectedGroup: "compute.azure.com",
 			expectedKind:  "VirtualMachineScaleSet",
 		},
 		{
 			name:          "VMSS Scale Set",
-			armId:         "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-rg/providers/Microsoft.ContainerService/managedClusters/aso-cluster",
+			armID:         "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-rg/providers/Microsoft.ContainerService/managedClusters/aso-cluster",
 			expectedGroup: "containerservice.azure.com",
 			expectedKind:  "ManagedCluster",
 		},
 		{
 			name:          "Redis cache",
-			armId:         "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-rg/providers/Microsoft.Cache/redis/my-cache",
+			armID:         "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-rg/providers/Microsoft.Cache/redis/my-cache",
 			expectedGroup: "cache.azure.com",
 			expectedKind:  "Redis",
 		},
 		{
 			name:          "Redis cache different case",
-			armId:         "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-rg/providers/Microsoft.Cache/REDIS/my-cache",
+			armID:         "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-rg/providers/Microsoft.Cache/REDIS/my-cache",
 			expectedGroup: "cache.azure.com",
 			expectedKind:  "Redis",
 		},
@@ -84,7 +84,7 @@ func Test_ARMResourceImporter_GroupKindFromARMID(t *testing.T) {
 
 			rsrc := importableARMResource{}
 
-			id, err := arm.ParseResourceID(c.armId)
+			id, err := arm.ParseResourceID(c.armID)
 			g.Expect(err).To(BeNil())
 
 			gk, err := rsrc.groupKindFromID(id)
@@ -100,42 +100,42 @@ func Test_ARMResourceImporter_GroupVersionKindFromARMID(t *testing.T) {
 
 	cases := []struct {
 		name            string
-		armId           string
+		armID           string
 		expectedGroup   string
 		expectedKind    string
 		expectedVersion string
 	}{
 		{
 			name:            "resource group",
-			armId:           "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-rg",
+			armID:           "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-rg",
 			expectedGroup:   "resources.azure.com",
 			expectedKind:    "ResourceGroup",
 			expectedVersion: "v1api20200601",
 		},
 		{
 			name:            "storage account",
-			armId:           "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-rg/providers/Microsoft.Storage/storageAccounts/aso-storage",
+			armID:           "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-rg/providers/Microsoft.Storage/storageAccounts/aso-storage",
 			expectedGroup:   "storage.azure.com",
 			expectedKind:    "StorageAccount",
 			expectedVersion: "v1api20230101",
 		},
 		{
 			name:            "managed cluster",
-			armId:           "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-rg/providers/Microsoft.ContainerService/managedClusters/aso-cluster",
+			armID:           "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-rg/providers/Microsoft.ContainerService/managedClusters/aso-cluster",
 			expectedGroup:   "containerservice.azure.com",
 			expectedKind:    "ManagedCluster",
 			expectedVersion: "v1api20240901",
 		},
 		{
 			name:            "Redis cache",
-			armId:           "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-rg/providers/Microsoft.Cache/redis/my-cache",
+			armID:           "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-rg/providers/Microsoft.Cache/redis/my-cache",
 			expectedGroup:   "cache.azure.com",
 			expectedKind:    "Redis",
 			expectedVersion: "v1api20230801",
 		},
 		{
 			name:            "Redis cache different case",
-			armId:           "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-rg/providers/Microsoft.Cache/REDIS/my-cache",
+			armID:           "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-rg/providers/Microsoft.Cache/REDIS/my-cache",
 			expectedGroup:   "cache.azure.com",
 			expectedKind:    "Redis",
 			expectedVersion: "v1api20230801",
@@ -155,7 +155,7 @@ func Test_ARMResourceImporter_GroupVersionKindFromARMID(t *testing.T) {
 
 			g := NewGomegaWithT(t)
 
-			id, err := arm.ParseResourceID(c.armId)
+			id, err := arm.ParseResourceID(c.armID)
 			g.Expect(err).To(BeNil())
 
 			gvk, err := armRsrc.groupVersionKindFromID(id, factory)

@@ -31,7 +31,7 @@ var dashMatcher = regexp.MustCompile("-+")
 
 // createFileName creates the filename for the debug report from the name of the stage, filtering out any characters
 // that are unsafe in filenames
-func (dr *DebugSettings) CreateFileName(name string) string {
+func (ds *DebugSettings) CreateFileName(name string) string {
 	// filter symbols and other unsafe characters from the stage name to generate a safe filename for the debug log
 	n := strings.Map(func(r rune) rune {
 		if r >= 'a' && r <= 'z' || r >= 'A' && r <= 'Z' || r >= '0' && r <= '9' {
@@ -44,7 +44,7 @@ func (dr *DebugSettings) CreateFileName(name string) string {
 	// Replace any sequence of dashes with a single one using a regular expression
 	n = dashMatcher.ReplaceAllString(n, "-")
 
-	return filepath.Join(dr.outputFolder, n)
+	return filepath.Join(ds.outputFolder, n)
 }
 
 // MatchesGroup returns true if the InternalPackageReference matches the groupSelector.

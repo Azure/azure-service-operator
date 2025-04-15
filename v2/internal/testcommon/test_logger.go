@@ -54,7 +54,7 @@ type TestLogger struct {
 	ignoredPanicMax   int
 }
 
-func (_ *TestLogger) Init(info logr.RuntimeInfo) {
+func (*TestLogger) Init(info logr.RuntimeInfo) {
 }
 
 // kvListFormat was adapted from the klog method of the same name and formats a keysAndValues list into
@@ -70,9 +70,9 @@ func kvListFormat(b *bytes.Buffer, keysAndValues ...interface{}) {
 		}
 		b.WriteByte(' ')
 		if _, ok := v.(fmt.Stringer); ok {
-			b.WriteString(fmt.Sprintf("%s=%q", k, v))
+			fmt.Fprintf(b, "%s=%q", k, v)
 		} else {
-			b.WriteString(fmt.Sprintf("%s=%#v", k, v))
+			fmt.Fprintf(b, "%s=%#v", k, v)
 		}
 	}
 }

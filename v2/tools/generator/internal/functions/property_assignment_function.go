@@ -271,12 +271,12 @@ func (fn *PropertyAssignmentFunction) propertyBagEpilogue(
 	prop := fn.destinationPropertyBag
 	found := prop != nil
 	if found {
-		bagId := dst.NewIdent(fn.conversionContext.PropertyBagName())
+		bagID := dst.NewIdent(fn.conversionContext.PropertyBagName())
 		bagProperty := astbuilder.Selector(dst.NewIdent(destination), string(prop.PropertyName()))
 
-		condition := astbuilder.BinaryExpr(astbuilder.CallFunc("len", bagId), token.GTR, astbuilder.IntLiteral(0))
+		condition := astbuilder.BinaryExpr(astbuilder.CallFunc("len", bagID), token.GTR, astbuilder.IntLiteral(0))
 
-		storeBag := astbuilder.SimpleAssignment(bagProperty, bagId)
+		storeBag := astbuilder.SimpleAssignment(bagProperty, bagID)
 		storeNil := astbuilder.SimpleAssignment(bagProperty, astbuilder.Nil())
 
 		store := astbuilder.SimpleIfElse(

@@ -46,7 +46,7 @@ func InjectPropertyAssignmentTests(idFactory astmodel.IdentifierFactory) *Stage 
 
 	stage.RequiresPrerequisiteStages(
 		InjectPropertyAssignmentFunctionsStageID, // Need PropertyAssignmentFunctions to test
-		InjectJsonSerializationTestsID)           // We reuse the generators from the JSON tests
+		InjectJSONSerializationTestsID)           // We reuse the generators from the JSON tests
 
 	return stage
 }

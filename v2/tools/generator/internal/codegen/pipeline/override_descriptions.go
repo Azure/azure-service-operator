@@ -14,13 +14,13 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 )
 
-// OverrideDescriptionsStageId is the unique identifier for this pipeline stage
-const OverrideDescriptionsStageId = "overrideDescriptions"
+// OverrideDescriptionsStageID is the unique identifier for this pipeline stage
+const OverrideDescriptionsStageID = "overrideDescriptions"
 
 // OverrideDescriptions overrides the specified property descriptions
 func OverrideDescriptions(configuration *config.Configuration) *Stage {
 	stage := NewStage(
-		OverrideDescriptionsStageId,
+		OverrideDescriptionsStageID,
 		"Applies the configured description overrides",
 		func(ctx context.Context, state *State) (*State, error) {
 			visitor := createDescriptionOverrideVisitor(configuration)
@@ -41,7 +41,7 @@ func OverrideDescriptions(configuration *config.Configuration) *Stage {
 			return state.WithDefinitions(result), nil
 		})
 
-	stage.RequiresPrerequisiteStages(FlattenPropertiesStageId, RenamePropertiesStageID)
+	stage.RequiresPrerequisiteStages(FlattenPropertiesStageID, RenamePropertiesStageID)
 	return stage
 }
 

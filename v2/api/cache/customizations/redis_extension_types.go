@@ -22,7 +22,7 @@ var _ extensions.ErrorClassifier = &RedisExtension{}
 // apiVersion is the ARM API version used for the request.
 // log is a logger than can be used for telemetry.
 // next is the next implementation to call.
-func (e *RedisExtension) ClassifyError(
+func (ext *RedisExtension) ClassifyError(
 	cloudError *genericarmclient.CloudError,
 	apiVersion string,
 	log logr.Logger,

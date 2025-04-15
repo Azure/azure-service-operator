@@ -274,7 +274,7 @@ func getEnumAzureNameFunction(enumType astmodel.TypeName) functions.ObjectFuncti
 		receiver astmodel.TypeName,
 		methodName string,
 	) (*dst.FuncDecl, error) {
-		receiverIdent := f.IdFactory().CreateReceiver(receiver.Name())
+		receiverIdent := f.IDFactory().CreateReceiver(receiver.Name())
 		receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
 		if err != nil {
 			return nil, eris.Wrap(err, "creating receiver type expression")
@@ -304,7 +304,7 @@ func setEnumAzureNameFunction(enumType astmodel.TypeName) functions.ObjectFuncti
 		receiver astmodel.TypeName,
 		methodName string,
 	) (*dst.FuncDecl, error) {
-		receiverIdent := f.IdFactory().CreateReceiver(receiver.Name())
+		receiverIdent := f.IDFactory().CreateReceiver(receiver.Name())
 		receiverTypeExpr, err := receiver.AsTypeExpr(codeGenerationContext)
 		if err != nil {
 			return nil, eris.Wrap(err, "creating receiver type expression")
@@ -336,7 +336,7 @@ func fixedValueGetAzureNameFunction(fixedValue string) functions.ObjectFunctionH
 		panic("cannot created fixed value AzureName function with empty fixed value")
 	}
 
-	if !(fixedValue[0] == '"' && fixedValue[len(fixedValue)-1] == '"') {
+	if fixedValue[0] != '"' || fixedValue[len(fixedValue)-1] != '"' {
 		fixedValue = fmt.Sprintf("%q", fixedValue)
 	}
 
@@ -346,7 +346,7 @@ func fixedValueGetAzureNameFunction(fixedValue string) functions.ObjectFunctionH
 		receiver astmodel.TypeName,
 		methodName string,
 	) (*dst.FuncDecl, error) {
-		receiverIdent := f.IdFactory().CreateReceiver(receiver.Name())
+		receiverIdent := f.IDFactory().CreateReceiver(receiver.Name())
 		receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
 		if err != nil {
 			return nil, eris.Wrap(err, "creating receiver type expression")
@@ -386,7 +386,7 @@ func getOwnerFunction(
 	receiver astmodel.TypeName,
 	methodName string,
 ) (*dst.FuncDecl, error) {
-	receiverIdent := r.IdFactory().CreateReceiver(receiver.Name())
+	receiverIdent := r.IDFactory().CreateReceiver(receiver.Name())
 	receiverType := astmodel.NewOptionalType(receiver)
 	receiverTypeExpr, err := receiverType.AsTypeExpr(codeGenerationContext)
 	if err != nil {
@@ -460,7 +460,7 @@ func getResourceScopeFunction(
 	receiver astmodel.TypeName,
 	methodName string,
 ) (*dst.FuncDecl, error) {
-	receiverIdent := r.IdFactory().CreateReceiver(receiver.Name())
+	receiverIdent := r.IDFactory().CreateReceiver(receiver.Name())
 	receiverType := astmodel.NewOptionalType(receiver)
 	receiverTypeExpr, err := receiverType.AsTypeExpr(codeGenerationContext)
 	if err != nil {
@@ -517,7 +517,7 @@ func getSupportedOperationsFunction(
 	receiver astmodel.TypeName,
 	methodName string,
 ) (*dst.FuncDecl, error) {
-	receiverIdent := r.IdFactory().CreateReceiver(receiver.Name())
+	receiverIdent := r.IDFactory().CreateReceiver(receiver.Name())
 	receiverType := astmodel.NewOptionalType(receiver)
 	receiverTypeExpr, err := receiverType.AsTypeExpr(codeGenerationContext)
 	if err != nil {
@@ -617,7 +617,7 @@ func setStringAzureNameFunction(
 	receiver astmodel.TypeName,
 	methodName string,
 ) (*dst.FuncDecl, error) {
-	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
+	receiverIdent := k.IDFactory().CreateReceiver(receiver.Name())
 	receiverTypeExpr, err := receiver.AsTypeExpr(codeGenerationContext)
 	if err != nil {
 		return nil, eris.Wrap(err, "creating receiver type expression")
@@ -648,7 +648,7 @@ func getStringAzureNameFunction(
 	receiver astmodel.TypeName,
 	methodName string,
 ) (*dst.FuncDecl, error) {
-	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
+	receiverIdent := k.IDFactory().CreateReceiver(receiver.Name())
 	receiverTypeExpr, err := receiver.AsTypeExpr(codeGenerationContext)
 	if err != nil {
 		return nil, eris.Wrap(err, "creating receiver type expression")

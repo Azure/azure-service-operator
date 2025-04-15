@@ -49,7 +49,7 @@ func (t *MarkdownTable) WriteTo(buffer *strings.Builder) {
 func (t *MarkdownTable) renderRow(row []string, buffer *strings.Builder) {
 	buffer.WriteRune('|')
 	for i, c := range row {
-		buffer.WriteString(fmt.Sprintf(" %*s |", -t.widths[i], c))
+		fmt.Fprintf(buffer, " %*s |", -t.widths[i], c)
 	}
 
 	buffer.WriteString("\n")

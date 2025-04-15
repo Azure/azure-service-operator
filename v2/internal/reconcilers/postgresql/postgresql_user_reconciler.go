@@ -184,7 +184,7 @@ func (r *PostgreSQLUserReconciler) Claim(ctx context.Context, log logr.Logger, e
 		return err
 	}
 
-	err = r.ARMOwnedResourceReconcilerCommon.ClaimResource(ctx, log, user)
+	err = r.ClaimResource(ctx, log, user)
 	if err != nil {
 		return err
 	}

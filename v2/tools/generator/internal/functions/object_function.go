@@ -54,7 +54,7 @@ func (fn *ObjectFunction) Name() string {
 	return fn.name
 }
 
-func (fn *ObjectFunction) IdFactory() astmodel.IdentifierFactory {
+func (fn *ObjectFunction) IDFactory() astmodel.IdentifierFactory {
 	return fn.idFactory
 }
 

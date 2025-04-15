@@ -1,54 +1,86 @@
+version: "2"
 run:
-  deadline: 5m
   allow-parallel-runners: true
-
+  timeout: 5m
 linters:
+  enable:
+    - asasalint
+    - asciicheck
+    - bidichk
+    - bodyclose
+    - contextcheck
+    - durationcheck
+    - errchkjson
+    - errorlint
+    - exhaustive
+    - gocheckcompilerdirectives
+    - gochecksumtype
+    - gosec
+    - gosmopolitan
+    - loggercheck
+    - makezero
+    - nilerr
+    - nilnesserr
+    - nolintlint
+    - noctx
+    - paralleltest
+    - prealloc
+    - protogetter
+    - reassign
+    - recvcheck
+    - rowserrcheck
+    - spancheck
+    - sqlclosecheck
+    - testifylint
+    - tparallel
+    - unparam
+    - zerologlint
+  disable:
+    - musttag # Extremely slow, at least on CI machines
+  settings:
+    exhaustive:
+      default-signifies-exhaustive: true
+    staticcheck:
+      checks:
+        - "-S1002" # Comparison to bool explicitly can sometimes add clarity
+        - "-S1016" # Uncommon language feature, encourages coupling when it may not be appropriate
+      dot-import-whitelist:
+      - "github.com/Azure/azure-service-operator/v2/internal/logging"
+    unused:
+      generated-is-used: true
+  exclusions:
+    generated: lax
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
+    rules:
+      # Exclude some linters from running on test files
+      - path: _test\.go
+        linters:
+          - staticcheck # it's ok to have underscores in the names of test methods
+formatters:
   enable:
     - gci
     - gofmt
-    - gosimple
-    - paralleltest
-    - prealloc
-    - staticcheck
-    - tparallel
-    - unparam 
-    - unused
-  presets:
-    - bugs
-    - unused
-  disable:
-    # The below rules are disabled due to bug with go1.18 and generics: https://github.com/golangci/golangci-lint/issues/2859
-    - stylecheck
-    - musttag # Extremely slow, at least on CI machines
-
-linters-settings:
-  exhaustive:
-    default-signifies-exhaustive: true
-  gci:
-    custom-order: true
-    sections:
-      - standard
-      - dot
-      - default
-      - prefix(github.com/Azure/azure-service-operator/)
-  govet:
-    check-shadowing: true
-  gosimple:
-    # See https://golangci-lint.run/usage/linters#gosimple for a breakdown of what's checked by this linter
-    checks:
-      - "all"
-      - "-S1002" # Comparison to bool explicitly can sometimes add clarity
-      - "-S1016" # Uncommon language feature, encourages coupling when it may not be appropriate
-  unused:
-    generated-is-used: true
-
-issues:
-  exclude-rules:
-    # Exclude some linters from being run on generated files
-    - path: "_gen.go"
-      linters:
-        - gci
-    # Exclude some linters from being run on generated test files
-    - path: "_gen_test.go"
-      linters:
-        - gci
+  settings:
+    gci:
+      sections:
+        - standard
+        - dot
+        - default
+        - prefix(github.com/Azure/azure-service-operator/)
+      custom-order: true
+  exclusions:
+    generated: lax
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
+      - _gen.go
+      - _gen_test.go

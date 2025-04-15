@@ -46,8 +46,8 @@ func InjectResourceConversionTestCases(idFactory astmodel.IdentifierFactory) *St
 
 	stage.RequiresPrerequisiteStages(
 		InjectPropertyAssignmentFunctionsStageID, // Need PropertyAssignmentFunctions to test
-		ImplementConvertibleInterfaceStageId,     // Need the conversions.Convertible interface to be present
-		InjectJsonSerializationTestsID)           // We reuse the generators from the JSON tests
+		ImplementConvertibleInterfaceStageID,     // Need the conversions.Convertible interface to be present
+		InjectJSONSerializationTestsID)           // We reuse the generators from the JSON tests
 
 	return stage
 }
@@ -67,7 +67,7 @@ func makeResourceConversionTestCaseFactory(idFactory astmodel.IdentifierFactory)
 }
 
 // NeedsTest will return true if the passed TypeDefinition is a resource implementing conversion.Convertible
-func (_ *resourceConversionTestCaseFactory) NeedsTest(def astmodel.TypeDefinition) bool {
+func (*resourceConversionTestCaseFactory) NeedsTest(def astmodel.TypeDefinition) bool {
 	resourceType, ok := astmodel.AsResourceType(def.Type())
 	if !ok {
 		return false

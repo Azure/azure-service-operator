@@ -93,12 +93,12 @@ func GetCreds() (azcore.TokenCredential, AzureIDs, error) {
 
 	// This is test specific and doesn't have a corresponding config entry. It's also optional as it's only required for
 	// a small number of tests. Those tests will check for it explicitly
-	billingInvoiceId := os.Getenv(TestBillingIDVar)
+	billingInvoiceID := os.Getenv(TestBillingIDVar)
 
 	ids := AzureIDs{
 		SubscriptionID:   subscriptionID,
 		TenantID:         tenantID,
-		BillingInvoiceID: billingInvoiceId,
+		BillingInvoiceID: billingInvoiceID,
 	}
 
 	cachedCreds = creds
@@ -110,7 +110,7 @@ func DummyAzureIDs() AzureIDs {
 	return AzureIDs{
 		SubscriptionID:   uuid.Nil.String(),
 		TenantID:         uuid.Nil.String(),
-		BillingInvoiceID: DummyBillingId,
+		BillingInvoiceID: DummyBillingID,
 	}
 }
 

@@ -15,14 +15,14 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/functions"
 )
 
-// ImplementConvertibleInterfaceStageId is the unique identifier for this pipeline stage
-const ImplementConvertibleInterfaceStageId = "implementConvertibleInterface"
+// ImplementConvertibleInterfaceStageID is the unique identifier for this pipeline stage
+const ImplementConvertibleInterfaceStageID = "implementConvertibleInterface"
 
 // ImplementConvertibleInterface injects the functions ConvertTo() and ConvertFrom() into each non-hub Resource
 // Type, providing the required implementation of the Convertible interface needed by the controller
 func ImplementConvertibleInterface(idFactory astmodel.IdentifierFactory) *Stage {
 	stage := NewStage(
-		ImplementConvertibleInterfaceStageId,
+		ImplementConvertibleInterfaceStageID,
 		"Implement the Convertible interface on each non-hub Resource type",
 		func(ctx context.Context, state *State) (*State, error) {
 			injector := astmodel.NewInterfaceInjector()
