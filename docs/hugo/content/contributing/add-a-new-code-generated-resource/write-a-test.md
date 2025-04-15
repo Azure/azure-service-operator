@@ -15,7 +15,7 @@ One good approach is to start from an [existing test](https://github.com/Azure/a
 
 ## Record the test passing
 
-When the test passes, you'll find a new recording file in the `recordings` folder. When you modify your test, you'll need to delete the recording file so that the test runs against the real Azure API. 
+When the test passes, you'll find a new recording file in the `recordings` folder. When you modify your test, you'll need to delete the recording file so that the test runs against the real Azure API.
 
 Once you're finished, include the recording file in your PR. This is important because it allows other developers to run the test without needing to make real API calls to Azure.
 
@@ -23,9 +23,9 @@ See [the code generator test README](../testing/#running-envtest-integration-tes
 
 ## Consider removing old tests
 
-Each of these integration tests can take up to a few minutes to run from recordings, and we're starting to see issues due to the large number of resources we're testing. 
+Each of these integration tests can take up to a few minutes to run from recordings, and we're starting to see issues due to the large number of resources we're testing.
 
-If you are adding a new version for resource that already has _several_ supported versions, we _may_ request that you remove tests for older versions of the resource as a part of your PR. 
+If you are adding a new version for resource that already has _several_ supported versions, we _may_ request that you remove tests for older versions of the resource as a part of your PR.
 
 As an absolute minimum, we want to have tests for
 
@@ -39,8 +39,9 @@ In most cases you won't need to worry about this.
 
 If your rest needs to create multiple resources, prefer using `CreateResourcesAndWait` (note the plural `Resources`) to create all the resources at once, rather than calling `CreateResourceAndWait` (singular `Resource`) once for each resource in turn.
 
-When a user applies a YAML file containing multiple resources, ASO will be expected to handle creating all the resources in the correct order. Simulating this in the test by calling `CreateResourcesAndWait` to create all the resources at once is a good way to ensure that the test is realistic.
-### Prefer Parallel tests
+When a user applies a YAML file containing multiple resources, ASO will be expected to handle creating all the resources in the correct order. Simluating this in the test by calling `CreateResourcesAndWait` to create all the resources at once is a good way to ensure that the test is realistic.
+
+### Prefer parallel tests
 
 Operation of ASO in a cluster is inherently concurrent, with a lot going on and an expectation that the state of the cluster will converge to the desired state.
 
@@ -48,9 +49,12 @@ It can be useful to break independent subtests up into parallel tests to simulat
 
 ### Consider extensions
 
-Odd behaviour in your test, this _may_ indicate you need to [implement an extension]({{< relref "implement-textensions" >}}) to customize the behaviour of the resource.
+Odd behaviour in your test, this _may_ indicate you need to [implement an extension]({{< relref "implement-extensions" >}}) to customize the behaviour of the resource.
 
+{{% alert title="Reach out" %}}
 If you think this may be applicable, please reach out to us for help. We can help you identify the right extension point and how to implement it. In most cases, extensions aren't needed, but they are essential for some resources.
+{{% /alert %}}
+
 ----
 
 With a successful test demonstrating the resource working, it's time to [create a sample]({{< relref "create-a-sample" >}}) to show other users how to use the resource.

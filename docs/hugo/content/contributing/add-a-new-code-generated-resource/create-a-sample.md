@@ -21,7 +21,7 @@ For example, if we're adding sample for the `v1api20240101` version of `NetworkS
 
 Run the test and record it using `task`:
 
-``` bash
+```bash
 TEST_FILTER=Test_Samples_CreationAndDeletion task controller:test-integration-envtest
 ```
 
@@ -32,7 +32,7 @@ Some Azure resources take longer to provision or delete than the default test ti
 
 For example, to give your test a 60m timeout, use:
 
-``` bash
+```bash
 TIMEOUT=60m TEST_FILTER=Test_Samples_CreationAndDeletion task controller:test-integration-envtest
 ```
 
@@ -40,7 +40,7 @@ Test replay runs at a faster rate than real Azure API calls, so the TIMEOUT is o
 
 If you want to rerun just a single sample test, extend `TEST_FILTER` to include the name of the test you want to run. 
 
-``` bash
+```bash
 TEST_FILTER=Test_Samples_CreationAndDeletion/Test_Network_v1api20240101_CreationAndDeletion task controller:test-integration-envtest
 ```
 

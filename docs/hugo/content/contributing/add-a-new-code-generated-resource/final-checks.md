@@ -21,13 +21,13 @@ Double check that everything you expect to include in your PR is actually includ
 
 Running `task` with no parameters runs a quick set of checks that will catch most issues. 
 
-``` bash
+```bash
 task
 ```
 
 Alternatively you can run the _exact same set of checks_ as our continuous integration (CI) builds by running
 
-``` bash
+```bash
 task ci
 ```
 

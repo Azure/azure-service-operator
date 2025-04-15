@@ -17,7 +17,9 @@ Some background: Azure resources are extremely consistent in their structures an
 
 The code generator is configured using the [v2/azure-arm.yaml](https://github.com/Azure/azure-service-operator/blob/main/v2/azure-arm.yaml) configuration. This is a _large_ YAML file and it can be daunting to work with.
 
-**Request:** Please don't apply any prettification tools to the file, as the flurry of changes will make reviewing your new resource much harder. There is wide variety in the preferences of YAML formatting - if you want to tidy up the file, please create an issue and we'll discuss it there.
+{{% alert title="Request" %}}
+Please don't apply any prettification tools to the file, as the flurry of changes will make reviewing your new resource much harder. There is wide variety in the preferences of YAML formatting - if you want to tidy up the file, please create an issue and we'll discuss it there.
+{{% /alert %}}
 
 To add a new resource to this file, find the `objectModelConfiguration` section of the file.
 
@@ -49,7 +51,7 @@ synapse:
 
 **Tip:** The `$exportAs` directive allows the name of the resource to be changed. We typically use this to simplify the name, relying on the **group** to disambiguate things. For example, if the original resource name was `SynapseWorkspace` we'd prefer to use `Workspace` to avoid stuttering.
 
-If ASO was already configured to generate resources from this group (or version), be careful when adding your new resource that you don't break any existing configuration. 
+If ASO was already configured to generate resources from this group (or version), be careful when adding your new resource that you don't break any existing configuration.
 
 ## Run the code generator
 
@@ -74,7 +76,7 @@ Then run the generator:
 
 ## Fix any errors raised by the code generator
 
-It's very likely your first run of the code generator will fail with some verbose errors. 
+It's very likely your first run of the code generator will fail with some verbose errors.
 
 _**These errors are normal.**_
 
@@ -86,10 +88,11 @@ The most common errors are listed below, but if you need help with a specific er
 
 We have heuristics to identify properties that look like they may be ARM References, but where they aren't explicitly identified as such in the OpenAPI spec.
 
-For each of these errors, you need to add configuration to tell the code generator whether the property is an ARM ID or not. 
+For each of these errors, you need to add configuration to tell the code generator whether the property is an ARM ID or not.
 
 Example:
-``` 
+
+```
 Replace cross-resource references with genruntime.ResourceReference:  
 ["github.com/Azure/azure-service-operator/v2/apis/containerservice/v1api20210501/PrivateLinkResource.Id" 
 looks like a resource reference but was not labelled as one.
@@ -190,13 +193,13 @@ It's possible the submodule `v2/specs/azure-rest-api-specs` is out of date. Try 
 
 ## Debugging
 
-Sometimes it is useful to see what each stage of the generator pipeline has produced and/or changed. 
+Sometimes it is useful to see what each stage of the generator pipeline has produced and/or changed.
 
 Use the `--debug` flag to write detailed debug logs detailing internal state of the code generator (including all available data types) after each stage of the pipeline has run.
 
 To use it, specify which group(s) or version(s) you want included in the debug output. For example, to see debug output including all types in the `network` group, run:
 
-``` bash
+```bash
 ./tools/generator/aso-gen gen-types azure-arm.yaml --debug network
 I0622 12:28:01.913420    5572 gen_types.go:49] Debug output will be written to the folder /tmp/.../aso-gen-debug-1580100077
 ... elided ...

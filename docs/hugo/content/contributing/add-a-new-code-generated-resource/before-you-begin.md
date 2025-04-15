@@ -6,7 +6,7 @@ weight: 10
 
 ## Determine a resource to add
 
-The first step in adding a new code-generated resource is to determine which resource you want to add. 
+The first step in adding a new code-generated resource is to determine which resource you want to add.
 
 Any ARM resource can be generated, provided you know the Azure type of the resource, and the version of the API you want to use.
 
@@ -18,14 +18,17 @@ The Azure type of a resource consists of a resource provider and a name. For exa
 If you're not sure of the Azure type for the resource you want to add, one approach is to search for an ARM or Bicep template that deploys the resource. These templates state the Azure type and version of the resource near the top.
 
 E.g. for an ARM template:
+
 ``` json
 {
   "type": "Microsoft.Synapse/workspaces",
   "apiVersion": "2021-06-01",
   ...
+}
 ```
 
 or for a Bicep template:
+
 ``` bicep
 resource synapse 'Microsoft.Synapse/workspaces@2021-06-01' = {
     ...
@@ -38,16 +41,15 @@ Another approach is to check if it is defined in a `resource-manager` folder in 
 
 ### Select a version
 
-The Azure version of a resource is known as `api-version`, and is usually a date, sometimes with a `-preview` suffix. For example, available versions for a Synapse Workspace are `2021-06-01`, `2021-04-01-preview` and `2020-12-01`. 
+The Azure version of a resource is known as `api-version`, and is usually a date, sometimes with a `-preview` suffix. For example, available versions for a Synapse Workspace are `2021-06-01`, `2021-04-01-preview` and `2020-12-01`.
 
 It is _strongly_ recommended that you use the latest available non-preview `api-version` when choosing the version of the resource to add. This is usually the first version listed in the documentation. Sometimes, a feature you want to have is only available in a preview version, in which case you can use that version.
 
 In the Azure documentation, available versions are shown by the `API Versions` selector; in the `azure-rest-api-specs` repo, they found as sibling folders under either `stable` or `preview` parent directories.
 
-
 ### Define the GVK
 
-Kubernetes resources are identified by their _**group**_, _**version**_, and _**kind**_ (aka GVK). 
+Kubernetes resources are identified by their _**group**_, _**version**_, and _**kind**_ (aka GVK).
 
 For the resource you're adding, the GVK is derived from the Azure type and version, as follows:
 
@@ -55,16 +57,14 @@ For the resource you're adding, the GVK is derived from the Azure type and versi
 * **version**: The constant prefix `v1api` followed by the Azure `api-version`, with non-alphanumeric characters removed. For example, `2021-06-01` becomes `v1api20210601` and `2021-04-01-preview` becomes `v1api20210401preview`.
 * **kind**: The Azure type, with the resource provider prefix removed and the plural form converted to singular. For example, `Microsoft.Synapse/workspaces` becomes `workspace`.
 
-
 To illustrate, here are some examples of GVKs for common resources:
 
-| Azure Type | API Version | Group | Version | Kind |
-|------------|-------------|-------|---------|------|
-| Microsoft.Synapse/workspaces | 2021-06-01 | synapse | v1api20210601 | workspace |
-| Microsoft.Storage/storageAccounts | 2021-04-01 | storage | v1api20210401 | storageaccount |
-| Microsoft.Storage/storageAccounts | 2021-04-01-preview | storage | v1api20210401preview | storageaccount |
-| Microsoft.ContainerService/managedClusters | 2021-03-01 | containerservice | v1api20210301 | managedcluster |
-
+| Azure Type                                 | API Version        | Group            | Version              | Kind           |
+| ------------------------------------------ | ------------------ | ---------------- | -------------------- | -------------- |
+| Microsoft.Synapse/workspaces               | 2021-06-01         | synapse          | v1api20210601        | workspace      |
+| Microsoft.Storage/storageAccounts          | 2021-04-01         | storage          | v1api20210401        | storageaccount |
+| Microsoft.Storage/storageAccounts          | 2021-04-01-preview | storage          | v1api20210401preview | storageaccount |
+| Microsoft.ContainerService/managedClusters | 2021-03-01         | containerservice | v1api20210301        | managedcluster |
 
 ## Development Environment
 
@@ -72,7 +72,7 @@ With the resource identified, you should ensure your development environment is 
 
 While it _**is**_ possible to do this using just `go`, you end up doing a lot of manual work that we've automated using `task` and other tools.
 
-The recommended approaches are 
+The recommended approaches are
 
 * Use our .devcontainer, either on [Linux]({{< relref "developer-setup" >}}#dev-container-with-vs-code-on-linux) or [using WSL on Windows]({{< relref "developer-setup" >}}#dev-container-with-vs-code-on-windows)
 * Install the tools locally on your machine, using the CLI under either [MacOS]({{< relref "developer-setup" >}}#cli-on-macos) or [Linux]({{< relref "developer-setup" >}}#cli-on-linux).
@@ -89,7 +89,7 @@ git tag --list 'v2*'
 
 If you don't see see a list of tags, pull them from your upstream repo
 
-``` bash
+```bash
 git fetch --all --tags
 ```
 
@@ -103,17 +103,19 @@ ASO references the [`azure-rest-api-specs`](https://github.com/Azure/azure-rest-
 
 From the root of your ASO repo clone, initialize the submodule with
 
-``` bash
+```bash
 git submodule init
 ```
 
 and then checkout the submodule with
 
-``` bash
+```bash
 git submodule update
 ```
 
-**Tip**: If you find you need to update the submodule to a later version as a part of creating your new resource, please create a separate PR for that. These updates often pull in documentation changes to existing resources and keeping those changes separate makes it easier to review and merge the updates.
+{{% alert title="Note" %}}
+If you find you need to update the `azure-rest-api-specs` submodule to a later version as a part of creating your new resource, please create a separate PR for that. These updates often pull in documentation changes to existing resources and keeping those changes separate makes it easier to review and merge the updates.
+{{% /alert %}}
 
 ----
 
