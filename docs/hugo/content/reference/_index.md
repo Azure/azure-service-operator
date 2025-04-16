@@ -801,9 +801,9 @@ To install the CRDs for these resources, your ASO configuration must include `se
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource                                                                                              | ARM Version | CRD Version   | Supported From | Sample |
-|-------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|--------|
-| [TopicAuthorizationRule]({{< relref "/reference/servicebus/v1api20240101#TopicAuthorizationRule" >}}) | 2024-01-01  | v1api20240101 | v2.13.0        | -      |
+| Resource                                                                                              | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                          |
+|-------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
+| [TopicAuthorizationRule]({{< relref "/reference/servicebus/v1api20240101#TopicAuthorizationRule" >}}) | 2024-01-01  | v1api20240101 | v2.13.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v1api20240101/v1api20240101_topicauthorizationrule.yaml) |
 
 ### Latest Released Versions
 
