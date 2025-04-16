@@ -477,6 +477,13 @@ func makeControllerOptions(log logr.Logger, cfg config.Values) generic.Options {
 			})
 	}
 
+	// If sync period isn't set, set verySlow delay at 24h, otherwise set it
+	// to the sync period.
+	verySlowDelay := 24 * time.Hour
+	if cfg.SyncPeriod != nil {
+		verySlowDelay = *cfg.SyncPeriod
+	}
+
 	return generic.Options{
 		Config: cfg,
 		Options: controller.Options{
@@ -497,11 +504,12 @@ func makeControllerOptions(log logr.Logger, cfg config.Values) generic.Options {
 			// These rate limits are primarily for ReadyConditionImpactingError's
 			interval.CalculatorParameters{
 				//nolint:gosec // do not want cryptographic randomness here
-				Rand:              rand.New(lockedrand.NewSource(time.Now().UnixNano())),
-				ErrorBaseDelay:    1 * time.Second,
-				ErrorMaxFastDelay: 30 * time.Second,
-				ErrorMaxSlowDelay: 3 * time.Minute,
-				SyncPeriod:        cfg.SyncPeriod,
+				Rand:               rand.New(lockedrand.NewSource(time.Now().UnixNano())),
+				ErrorBaseDelay:     1 * time.Second,
+				ErrorMaxFastDelay:  30 * time.Second,
+				ErrorMaxSlowDelay:  3 * time.Minute,
+				ErrorVerySlowDelay: verySlowDelay,
+				SyncPeriod:         cfg.SyncPeriod,
 			}),
 	}
 }
