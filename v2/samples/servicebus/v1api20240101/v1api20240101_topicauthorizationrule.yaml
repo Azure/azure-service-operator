@@ -1,0 +1,11 @@
+apiVersion: servicebus.azure.com/v1api20240101
+kind: TopicAuthorizationRule
+metadata:
+  name: samplesauthorizationrule
+  namespace: default
+spec:
+  owner:
+    name: sampletopic
+  rights:
+    - Listen
+    - Send

@@ -13,3 +13,5 @@ NamespacesTopicsSubscription: Object (0 properties)
 
 NamespacesTopicsSubscriptionsRule: Object (0 properties)
 
+TopicAuthorizationRule: Object (0 properties)
+

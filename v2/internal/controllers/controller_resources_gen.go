@@ -1665,6 +1665,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(servicebus_v20240101s.NamespacesTopic)})
 	result = append(result, &registration.StorageType{Obj: new(servicebus_v20240101s.NamespacesTopicsSubscription)})
 	result = append(result, &registration.StorageType{Obj: new(servicebus_v20240101s.NamespacesTopicsSubscriptionsRule)})
+	result = append(result, &registration.StorageType{Obj: new(servicebus_v20240101s.TopicAuthorizationRule)})
 	result = append(result, &registration.StorageType{
 		Obj: new(signalrservice_v20240301s.CustomCertificate),
 		Indexes: []registration.Index{
@@ -4082,6 +4083,11 @@ func getKnownTypes() []*registration.KnownType {
 			Obj:       new(servicebus_v20240101.NamespacesTopicsSubscriptionsRule),
 			Defaulter: &servicebus_v20240101w.NamespacesTopicsSubscriptionsRule{},
 			Validator: &servicebus_v20240101w.NamespacesTopicsSubscriptionsRule{},
+		},
+		&registration.KnownType{
+			Obj:       new(servicebus_v20240101.TopicAuthorizationRule),
+			Defaulter: &servicebus_v20240101w.TopicAuthorizationRule{},
+			Validator: &servicebus_v20240101w.TopicAuthorizationRule{},
 		})
 	result = append(
 		result,
@@ -4090,7 +4096,8 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(servicebus_v20240101s.NamespacesQueue)},
 		&registration.KnownType{Obj: new(servicebus_v20240101s.NamespacesTopic)},
 		&registration.KnownType{Obj: new(servicebus_v20240101s.NamespacesTopicsSubscription)},
-		&registration.KnownType{Obj: new(servicebus_v20240101s.NamespacesTopicsSubscriptionsRule)})
+		&registration.KnownType{Obj: new(servicebus_v20240101s.NamespacesTopicsSubscriptionsRule)},
+		&registration.KnownType{Obj: new(servicebus_v20240101s.TopicAuthorizationRule)})
 	result = append(result, &registration.KnownType{
 		Obj:       new(signalrservice_v20211001.SignalR),
 		Defaulter: &signalrservice_v20211001w.SignalR{},
@@ -4856,6 +4863,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &servicebus_customizations.NamespacesTopicExtension{})
 	result = append(result, &servicebus_customizations.NamespacesTopicsSubscriptionExtension{})
 	result = append(result, &servicebus_customizations.NamespacesTopicsSubscriptionsRuleExtension{})
+	result = append(result, &servicebus_customizations.TopicAuthorizationRuleExtension{})
 	result = append(result, &signalrservice_customizations.CustomCertificateExtension{})
 	result = append(result, &signalrservice_customizations.CustomDomainExtension{})
 	result = append(result, &signalrservice_customizations.ReplicaExtension{})
