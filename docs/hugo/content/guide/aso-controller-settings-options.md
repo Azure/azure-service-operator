@@ -296,11 +296,23 @@ RATE_LIMIT_BUCKET_SIZE is the size of the bucket. This value only has an effect 
 
 ### DEFAULT_RECONCILE_POLICY
 
-DEFAULT_RECONCILE_POLICY specify which reconcile strategy to be used by the operator. If not specified, it is set to 'manage'.
+DEFAULT_RECONCILE_POLICY specifies the reconcile strategy to be used by the operator. If not specified, it is set to 'manage'.
 
 **Format:** `string`
 
 **Example:** `detach-on-delete`
+
+**Required**: False
+
+**[Allowed scopes]( {{< relref "authentication#credential-scope" >}} )**: Global
+
+### READ_RECONCILIATION_POLICY_FROM_NAMESPACE
+
+READ_RECONCILIATION_POLICY_FROM_NAMESPACE specifies whether we should read reconcile policy from namespace instead of single resources.
+
+**Format:** `string`
+
+**Example:** ` 1, t, T, TRUE, true, True, 0, f, F, FALSE, false, False. Any other value is defaulted to false`
 
 **Required**: False
 

@@ -18,6 +18,7 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"k8s.io/apimachinery/pkg/types"
 	"k8s.io/client-go/tools/record"
 	"k8s.io/client-go/util/workqueue"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -234,8 +235,32 @@ func (gr *GenericReconciler) createOrUpdate(ctx context.Context, log logr.Logger
 		return ctrl.Result{}, err
 	}
 
-	// Check the reconcile-policy to ensure we're allowed to issue a CreateOrUpdate
-	reconcilePolicy := reconcilers.GetReconcilePolicy(metaObj, log, gr.Config.DefaultReconcilePolicy)
+	var reconcilePolicy annotations.ReconcilePolicyValue
+
+	if gr.Config.ReadReconciliationPolicyFromNamespace {
+		log.V(Debug).Info("Looking for namespace annotations")
+		// Claim resource namespace
+		namespaceObject, err := gr.KubeClient.GetObject(ctx, types.NamespacedName{Namespace: metaObj.GetNamespace(), Name: metaObj.GetNamespace()}, schema.GroupVersionKind{Group: "", Version: "v1", Kind: "Namespace"})
+		
+		if err != nil {
+			return ctrl.Result{}, err
+		}
+		
+		log.V(Debug).Info("Found Namespace annotations", namespaceObject.GetAnnotations()[annotations.ReconcilePolicy])
+		namespaceAnnotation = namespaceObject.GetAnnotations()[annotations.ReconcilePolicy]
+
+		// This returns an error if the annotation on the namespace is empty and not valid
+		reconcilePolicy, err = reconcilers.ParseReconcilePolicyNoDefault(namespaceAnnotation)
+	}
+
+	// No policy defined at namespace level, hence we get the one defined at resource level or the one by default if any
+	if err != nil {
+		log.V(Debug).Info("Error while retrieving reconciliationPolicy from namespace, we fallback on resource' one through GetReconcilePolicy")
+		// Check reconcile-policy to ensure we're allowed to issue a CreateOrUpdate
+		reconcilePolicy = reconcilers.GetReconcilePolicy(metaObj, log, gr.Config.DefaultReconcilePolicy)
+	}
+
+	log.V(Debug).Info("Retrieved reconcile policy", reconcilePolicy)
 	if !reconcilePolicy.AllowsModify() {
 		return ctrl.Result{}, gr.handleSkipReconcile(ctx, log, metaObj)
 	}
@@ -247,7 +272,32 @@ func (gr *GenericReconciler) createOrUpdate(ctx context.Context, log logr.Logger
 
 func (gr *GenericReconciler) delete(ctx context.Context, log logr.Logger, metaObj genruntime.MetaObject) (ctrl.Result, error) {
 	// Check the reconcile policy to ensure we're allowed to issue a delete
-	reconcilePolicy := reconcilers.GetReconcilePolicy(metaObj, log, gr.Config.DefaultReconcilePolicy)
+	var reconcilePolicy annotations.ReconcilePolicyValue
+
+	if gr.Config.ReadReconciliationPolicyFromNamespace {
+		log.V(Debug).Info("Looking for namespace annotations")
+		// Claim resource namespace
+		namespaceObject, err := gr.KubeClient.GetObject(ctx, types.NamespacedName{Namespace: metaObj.GetNamespace(), Name: metaObj.GetNamespace()}, schema.GroupVersionKind{Group: "", Version: "v1", Kind: "Namespace"})
+		
+		if err != nil {
+			return ctrl.Result{}, err
+		}
+		
+		log.V(Debug).Info("Found Namespace annotations", namespaceObject.GetAnnotations()[annotations.ReconcilePolicy])
+		namespaceAnnotation = namespaceObject.GetAnnotations()[annotations.ReconcilePolicy]
+
+		// This returns an error if the annotation on the namespace is empty and not valid
+		reconcilePolicy, err := reconcilers.ParseReconcilePolicyNoDefault(namespaceAnnotation)
+	}
+
+	// No policy defined at namespace level, hence we get the one defined at resource level or the one by default if any
+	if err != nil {
+		log.V(Debug).Info("Error while retrieving reconciliationPolicy from namespace, we fallback on resource' one through GetReconcilePolicy")
+		// Check reconcile-policy to ensure we're allowed to issue a delete
+		reconcilePolicy = reconcilers.GetReconcilePolicy(metaObj, log, gr.Config.DefaultReconcilePolicy)
+	}
+
+	log.V(Debug).Info("Retrieved reconcile policy", reconcilePolicy)
 	if !reconcilePolicy.AllowsDelete() {
 		log.V(Info).Info("Bypassing delete of resource due to policy", "policy", reconcilePolicy)
 		controllerutil.RemoveFinalizer(metaObj, genruntime.ReconcilerFinalizer)
@@ -351,12 +401,39 @@ func (gr *GenericReconciler) CommitUpdate(
 }
 
 func (gr *GenericReconciler) handleSkipReconcile(ctx context.Context, log logr.Logger, obj genruntime.MetaObject) error {
-	reconcilePolicy := reconcilers.GetReconcilePolicy(obj, log, gr.Config.DefaultReconcilePolicy) // TODO: Pull this whole method up here
+
+	var reconcilePolicy annotations.ReconcilePolicyValue
+
+	if gr.Config.ReadReconciliationPolicyFromNamespace {
+		log.V(Debug).Info("Looking for namespace annotations")
+		// Claim resource namespace
+		namespaceObject, err := gr.KubeClient.GetObject(ctx, types.NamespacedName{Namespace: obj.GetNamespace(), Name: obj.GetNamespace()}, schema.GroupVersionKind{Group: "", Version: "v1", Kind: "Namespace"})
+		
+		if err != nil {
+			return err
+		}
+		
+		log.V(Debug).Info("Found Namespace annotations", namespaceObject.GetAnnotations()[annotations.ReconcilePolicy])
+		namespaceAnnotation = namespaceObject.GetAnnotations()[annotations.ReconcilePolicy]
+
+		// This returns an error if the annotation on the namespace is empty and not valid
+		reconcilePolicy, err = reconcilers.ParseReconcilePolicyNoDefault(namespaceAnnotation)
+	}
+
+	// No policy defined at namespace level, hence we get the one defined at resource level or the one by default if any
+	if err != nil {
+		log.V(Debug).Info("Error while retrieving reconciliationPolicy from namespace, we fallback on resource' one through GetReconcilePolicy")
+		// Check reconcile-policy to ensure we're allowed to issue a handleSkipReconcile
+		reconcilePolicy = reconcilers.GetReconcilePolicy(metaObj, log, gr.Config.DefaultReconcilePolicy)
+	}
+
+	log.V(Debug).Info("Retrieved reconcile policy", reconcilePolicy)
+
 	log.V(Status).Info(
 		"Skipping creation/update of resource due to policy",
 		annotations.ReconcilePolicy, reconcilePolicy)
 
-	err := gr.Reconciler.UpdateStatus(ctx, log, gr.Recorder, obj)
+	err = gr.Reconciler.UpdateStatus(ctx, log, gr.Recorder, obj)
 	if err != nil {
 		return err
 	}

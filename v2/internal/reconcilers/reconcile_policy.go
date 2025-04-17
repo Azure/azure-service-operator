@@ -18,9 +18,18 @@ import (
 // defaultPolicyValue is read from DEFAULT_RECONCILE_POLICY env variable, it set to "manage" when not specified
 func ParseReconcilePolicy(policy string, defaultReconcilePolicy annotations.ReconcilePolicyValue) (annotations.ReconcilePolicyValue, error) {
 	// policy is read from CR annotation, if it's empty it being read from defaultReconcilePolicy
+	reconcilePolicy, err := ParseReconcilePolicyNoDefault(policy)
+	if err != nil {
+		return defaultReconcilePolicy, err
+	}
+	return reconcilePolicy, nil
+}
+
+// ParseReconcilePolicy parses the provided reconcile policy.
+// defaultPolicyValue is read from DEFAULT_RECONCILE_POLICY env variable, it set to "manage" when not specified
+func ParseReconcilePolicyNoDefault(policy string) (annotations.ReconcilePolicyValue, error) {
+	// policy is read from CR annotation, if it's empty it being read from defaultReconcilePolicy
 	switch policy {
-	case "":
-		return defaultReconcilePolicy, nil
 	case string(annotations.ReconcilePolicyManage):
 		return annotations.ReconcilePolicyManage, nil
 	case string(annotations.ReconcilePolicySkip):
@@ -28,7 +37,7 @@ func ParseReconcilePolicy(policy string, defaultReconcilePolicy annotations.Reco
 	case string(annotations.ReconcilePolicyDetachOnDelete):
 		return annotations.ReconcilePolicyDetachOnDelete, nil
 	default:
-		// Defaulting to manage.
+		// Defaulting to manage in case anything else has been specified.
 		return annotations.ReconcilePolicyManage, eris.Errorf("%q is not a known reconcile policy", policy)
 	}
 }
