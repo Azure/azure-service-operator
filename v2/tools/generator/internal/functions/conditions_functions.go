@@ -26,7 +26,7 @@ func GetConditionsFunction(
 	receiver astmodel.TypeName,
 	methodName string,
 ) (*dst.FuncDecl, error) {
-	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
+	receiverIdent := k.IDFactory().CreateReceiver(receiver.Name())
 	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
 	if err != nil {
 		return nil, eris.Wrapf(err, "creating type expression for %s", receiver)
@@ -65,9 +65,9 @@ func SetConditionsFunction(
 	receiver astmodel.TypeName,
 	methodName string,
 ) (*dst.FuncDecl, error) {
-	conditionsParameterName := k.IdFactory().CreateIdentifier(astmodel.ConditionsProperty, astmodel.NotExported)
+	conditionsParameterName := k.IDFactory().CreateIdentifier(astmodel.ConditionsProperty, astmodel.NotExported)
 
-	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
+	receiverIdent := k.IDFactory().CreateReceiver(receiver.Name())
 	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
 	if err != nil {
 		return nil, eris.Wrapf(err, "creating type expression for %s", receiver)

@@ -45,7 +45,7 @@ func (fn *PureFunction) Name() string {
 	return fn.name
 }
 
-func (fn *PureFunction) IdFactory() astmodel.IdentifierFactory {
+func (fn *PureFunction) IDFactory() astmodel.IdentifierFactory {
 	return fn.idFactory
 }
 

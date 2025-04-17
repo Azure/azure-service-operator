@@ -81,8 +81,8 @@ func writePipeline(title string, codegen *CodeGenerator) []byte {
 
 	idWidth := 0
 	for _, s := range codegen.pipeline {
-		if len(s.Id()) > idWidth {
-			idWidth = len(s.Id())
+		if len(s.ID()) > idWidth {
+			idWidth = len(s.ID())
 		}
 	}
 
@@ -98,7 +98,7 @@ func writePipeline(title string, codegen *CodeGenerator) []byte {
 			targets = targets + t.String()
 		}
 
-		fmt.Fprintf(&b, format, s.Id(), targets, s.Description())
+		fmt.Fprintf(&b, format, s.ID(), targets, s.Description())
 	}
 
 	return b.Bytes()

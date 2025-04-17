@@ -102,8 +102,9 @@ func (ref *ArbitraryOwnerReference) AsResourceReference() *ResourceReference {
 var _ fmt.Stringer = ResourceReference{}
 
 // ResourceReference represents a resource reference, either to a Kubernetes resource or directly to an Azure resource via ARMID
-// nolint:recvcheck
 // +kubebuilder:object:generate=true
+//
+//nolint:recvcheck
 type ResourceReference struct {
 	// Group is the Kubernetes group of the resource.
 	Group string `json:"group,omitempty"`

@@ -493,3 +493,43 @@ NamespacesTopicsSubscriptionsRule: Resource
     │       └── "User"
     └── Type: *string
 
+TopicAuthorizationRule: Resource
+├── Owner: NamespacesTopic
+├── Spec: Object (4 properties)
+│   ├── AzureName: Validated<string> (2 rules)
+│   │   ├── Rule 0: MaxLength: 50
+│   │   └── Rule 1: MinLength: 1
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
+│   ├── Owner: *genruntime.KnownResourceReference
+│   └── Rights: Enum (3 values)[]
+│       ├── "Listen"
+│       ├── "Manage"
+│       └── "Send"
+└── Status: Object (7 properties)
+    ├── Conditions: conditions.Condition[]
+    ├── Id: *string
+    ├── Location: *string
+    ├── Name: *string
+    ├── Rights: Enum (3 values)[]
+    │   ├── "Listen"
+    │   ├── "Manage"
+    │   └── "Send"
+    ├── SystemData: *Object (6 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *Enum (4 values)
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: *Enum (4 values)
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
+    └── Type: *string
+

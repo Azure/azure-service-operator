@@ -267,7 +267,7 @@ func getControllerName(obj client.Object) (string, error) {
 	if len(matches) == 0 {
 		return "", eris.Errorf("couldn't parse package path %s", pkgPath)
 	}
-	group := strings.Replace(matches[1], ".", "", -1) // elide . for groups like network.frontdoor
+	group := strings.ReplaceAll(matches[1], ".", "") // elide . for groups like network.frontdoor
 	name := fmt.Sprintf("%s_%s", group, strings.ToLower(typ.Name()))
 	return name, nil
 }

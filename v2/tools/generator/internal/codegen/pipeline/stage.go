@@ -119,8 +119,8 @@ var knownLegacyStages = set.Make(
 	"simplifyDefinitions",
 	"stripUnreferenced")
 
-// HasId returns true if this stage has the specified id, false otherwise
-func (stage *Stage) HasId(id string) bool {
+// HasID returns true if this stage has the specified id, false otherwise
+func (stage *Stage) HasID(id string) bool {
 	return stage.id == id
 }
 
@@ -186,8 +186,8 @@ func (stage *Stage) IsUsedFor(target Target) bool {
 	return false
 }
 
-// Id returns the unique identifier for this stage
-func (stage *Stage) Id() string {
+// ID returns the unique identifier for this stage
+func (stage *Stage) ID() string {
 	return stage.id
 }
 
@@ -238,7 +238,7 @@ func (stage *Stage) checkPrerequisites(state *State) error {
 	for _, prereq := range stage.prerequisites {
 		satisfied := state.stagesSeen.Contains(prereq)
 		if !satisfied {
-			errs = append(errs, eris.Errorf("prerequisite %q of stage %q NOT satisfied.", prereq, stage.Id()))
+			errs = append(errs, eris.Errorf("prerequisite %q of stage %q NOT satisfied.", prereq, stage.ID()))
 		}
 	}
 
@@ -251,7 +251,7 @@ func (stage *Stage) checkPostrequisites(state *State) error {
 	for _, postreq := range stage.postrequisites {
 		early := state.stagesSeen.Contains(postreq)
 		if early {
-			errs = append(errs, eris.Errorf("postrequisite %q satisfied of stage %q early.", postreq, stage.Id()))
+			errs = append(errs, eris.Errorf("postrequisite %q satisfied of stage %q early.", postreq, stage.ID()))
 		}
 	}
 

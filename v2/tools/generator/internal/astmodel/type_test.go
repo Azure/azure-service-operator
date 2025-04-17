@@ -20,8 +20,8 @@ func TestWriteDebugDescription(t *testing.T) {
 
 	age := MakeInternalTypeName(here, "Age")
 
-	personId := MakeInternalTypeName(here, "PersonId")
-	otherPersonId := MakeInternalTypeName(there, "PersonId")
+	personID := MakeInternalTypeName(here, "PersonId")
+	otherPersonID := MakeInternalTypeName(there, "PersonId")
 
 	suit := MakeInternalTypeName(here, "Suit")
 	diamonds := MakeEnumValue("diamonds", "Diamonds")
@@ -50,15 +50,15 @@ func TestWriteDebugDescription(t *testing.T) {
 		{"Map with optional value type shows optionality", NewMapType(StringType, OptionalStringType), "Map[string]*string"},
 		{"Alias of type shows name of alias", age, "Age"},
 		{"Map with alias value shows name of alias", NewMapType(StringType, age), "Map[string]Age"},
-		{"Map with alias key shows name of alias", NewMapType(personId, age), "Map[PersonId]Age"},
+		{"Map with alias key shows name of alias", NewMapType(personID, age), "Map[PersonId]Age"},
 		{"Enumeration shows base type and values in alphabetical order", suitEnum, "enum:string[clubs|diamonds|hearts|spades]"},
 		{"Alias of enumeration shows name of alias", suit, "Suit"},
 		{"Map using aliases shows names of aliases", NewMapType(suit, age), "Map[Suit]Age"},
 		{"Flagged type shows details of flags", armAge, "Age[Flag:arm]"},
 		{"Flagged alias shows details of flags", armSuit, "Suit[Flag:arm]"},
 		{"Errored type shows details of errors", erroredAge, "Error[Age|boom|oh oh]"},
-		{"Type name from current package has simple form", personId, "PersonId"},
-		{"Type name from other packages shows folder path", otherPersonId, "test/v2.PersonId"},
+		{"Type name from current package has simple form", personID, "PersonId"},
+		{"Type name from other packages shows folder path", otherPersonID, "test/v2.PersonId"},
 		{"Type name from external package qualified by package name", SecretReferenceType, "genruntime.SecretReference"},
 	}
 

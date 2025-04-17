@@ -63,7 +63,7 @@ func (f *OneOfJSONMarshalFunction) AsFunc(
 	codeGenerationContext *astmodel.CodeGenerationContext,
 	receiver astmodel.InternalTypeName,
 ) (*dst.FuncDecl, error) {
-	jsonPackage := codeGenerationContext.MustGetImportedPackageName(astmodel.JsonReference)
+	jsonPackage := codeGenerationContext.MustGetImportedPackageName(astmodel.JSONReference)
 
 	receiverName := f.idFactory.CreateReceiver(receiver.Name())
 	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
@@ -124,5 +124,5 @@ func (f *OneOfJSONMarshalFunction) AsFunc(
 
 // RequiredPackageReferences returns a set of references to packages required by this
 func (f *OneOfJSONMarshalFunction) RequiredPackageReferences() *astmodel.PackageReferenceSet {
-	return astmodel.NewPackageReferenceSet(astmodel.JsonReference)
+	return astmodel.NewPackageReferenceSet(astmodel.JSONReference)
 }

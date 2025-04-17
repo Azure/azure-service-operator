@@ -126,14 +126,14 @@ func TestResourceConversionGraph_WithCompatibilityReferences_HasExpectedTransiti
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	compatApi := test.Pkg2022.WithVersionPrefix("c")
-	compatStorage := astmodel.MakeStoragePackageReference(compatApi)
+	compatAPI := test.Pkg2022.WithVersionPrefix("c")
+	compatStorage := astmodel.MakeStoragePackageReference(compatAPI)
 
 	person2020 := astmodel.MakeInternalTypeName(test.Pkg2020, "Person")
 	person2020s := astmodel.MakeInternalTypeName(test.Pkg2020s, "Person")
 	person2021 := astmodel.MakeInternalTypeName(test.Pkg2021, "Person")
 	person2021s := astmodel.MakeInternalTypeName(test.Pkg2021s, "Person")
-	person2020a := astmodel.MakeInternalTypeName(compatApi, "Person")
+	person2020a := astmodel.MakeInternalTypeName(compatAPI, "Person")
 	person2020as := astmodel.MakeInternalTypeName(compatStorage, "Person")
 
 	builder := NewResourceConversionGraphBuilder("demo", "v")

@@ -30,10 +30,10 @@ func NewRedactor(azureIDs creds.AzureIDs) *Redactor {
 	}
 
 	// Add AzureIDs redaction as default
-	redactor.AddLiteralRedaction(azureIDs.TenantID, nilGuid)
-	redactor.AddLiteralRedaction(azureIDs.SubscriptionID, nilGuid)
+	redactor.AddLiteralRedaction(azureIDs.TenantID, nilGUID)
+	redactor.AddLiteralRedaction(azureIDs.SubscriptionID, nilGUID)
 	if azureIDs.BillingInvoiceID != "" {
-		redactor.AddLiteralRedaction(azureIDs.BillingInvoiceID, creds.DummyBillingId)
+		redactor.AddLiteralRedaction(azureIDs.BillingInvoiceID, creds.DummyBillingID)
 	}
 
 	return redactor
@@ -53,7 +53,7 @@ func (r *Redactor) AddRegexRedaction(regex string, replacementValue string) {
 	r.redactions = append(r.redactions, redact)
 }
 
-var nilGuid = uuid.Nil.String()
+var nilGUID = uuid.Nil.String()
 
 // requestHeadersToRemove is the list of request headers to remove when recording or replaying.
 var requestHeadersToRemove = []string{

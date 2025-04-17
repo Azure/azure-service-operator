@@ -80,7 +80,7 @@ func armSpecInterfaceSimpleGetFunction(
 	propertyName string,
 	castToString bool,
 ) (*dst.FuncDecl, error) {
-	receiverIdent := fn.IdFactory().CreateReceiver(receiver.Name())
+	receiverIdent := fn.IDFactory().CreateReceiver(receiver.Name())
 	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
 	if err != nil {
 		return nil, eris.Wrapf(err, "creating type expression for %s", receiver.Name())

@@ -12,14 +12,14 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
-// ImprovePropertyDescriptionsStageId is the unique identifier for this pipeline stage
-const ImprovePropertyDescriptionsStageId = "improvePropertyDescriptions"
+// ImprovePropertyDescriptionsStageID is the unique identifier for this pipeline stage
+const ImprovePropertyDescriptionsStageID = "improvePropertyDescriptions"
 
 // ImprovePropertyDescriptions adds documentation to any properties missing it by copying the description from the
 // corresponding type
 func ImprovePropertyDescriptions() *Stage {
 	stage := NewStage(
-		ImprovePropertyDescriptionsStageId,
+		ImprovePropertyDescriptionsStageID,
 		"Improve property descriptions by copying from the corresponding type",
 		func(ctx context.Context, state *State) (*State, error) {
 			visitor := createPropertyImprovingVisitor(state.Definitions())

@@ -40,7 +40,7 @@ func (fi *FunctionInjector) Inject(def TypeDefinition, fns ...Function) (TypeDef
 
 // injectFunctionIntoObject takes the function provided as a context and includes it on the
 // provided object type
-func (_ *FunctionInjector) injectFunctionIntoObject(
+func (*FunctionInjector) injectFunctionIntoObject(
 	_ *TypeVisitor[any], ot *ObjectType, ctx any,
 ) (Type, error) {
 	fn := ctx.(Function)
@@ -49,7 +49,7 @@ func (_ *FunctionInjector) injectFunctionIntoObject(
 
 // injectFunctionIntoResource takes the function provided as a context and includes it on the
 // provided resource type
-func (_ *FunctionInjector) injectFunctionIntoResource(
+func (*FunctionInjector) injectFunctionIntoResource(
 	_ *TypeVisitor[any], rt *ResourceType, ctx any,
 ) (Type, error) {
 	fn := ctx.(Function)

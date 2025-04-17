@@ -84,7 +84,7 @@ func (ext *ManagedClusterExtension) ExportKubernetesSecrets(
 		if err != nil {
 			return nil, eris.Wrapf(err, "failed listing admin credentials")
 		}
-		if len(resp.CredentialResults.Kubeconfigs) > 0 {
+		if len(resp.Kubeconfigs) > 0 {
 			// It's awkward that we're ignoring the other possible responses here, but that's what the AZ CLI does too:
 			// https://github.com/Azure/azure-cli/blob/6786b5014ae71eb6d93f95e1ad123e9171368e8f/src/azure-cli/azure/cli/command_modules/acs/custom.py#L2166
 			adminCredentials = string(resp.CredentialResults.Kubeconfigs[0].Value)
@@ -98,7 +98,7 @@ func (ext *ManagedClusterExtension) ExportKubernetesSecrets(
 		if err != nil {
 			return nil, eris.Wrapf(err, "failed listing admin credentials")
 		}
-		if len(resp.CredentialResults.Kubeconfigs) > 0 {
+		if len(resp.Kubeconfigs) > 0 {
 			// It's awkward that we're ignoring the other possible responses here, but that's what the AZ CLI does too:
 			// https://github.com/Azure/azure-cli/blob/6786b5014ae71eb6d93f95e1ad123e9171368e8f/src/azure-cli/azure/cli/command_modules/acs/custom.py#L2166
 			userCredentials = string(resp.CredentialResults.Kubeconfigs[0].Value)

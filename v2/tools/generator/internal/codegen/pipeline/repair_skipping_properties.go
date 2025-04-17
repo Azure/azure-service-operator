@@ -76,7 +76,7 @@ func RepairSkippingProperties() *Stage {
 		})
 
 	// We have to have a conversion graph to detect skipping properties
-	stage.RequiresPrerequisiteStages(CreateConversionGraphStageId)
+	stage.RequiresPrerequisiteStages(CreateConversionGraphStageID)
 
 	// We also require the Conversion Graph to be recreated afterwards,
 	// but our stage dependencies can't currently capture that.

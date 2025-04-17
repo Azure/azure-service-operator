@@ -15,17 +15,17 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/retry"
 )
 
-var badRequestError = genericarmclient.NewTestCloudError("BadRequest", "That was not a good request")
-
-var conflictError = genericarmclient.NewTestCloudError("Conflict", "That doesn't match what I have")
-
-var resourceGroupNotFoundError = genericarmclient.NewTestCloudError("ResourceGroupNotFound", "The resource group was not found")
-
-var http400Error = genericarmclient.NewCloudError(&azcore.ResponseError{StatusCode: 400})
-
-var unknownError = genericarmclient.NewTestCloudError("ThisCodeIsNotACodeUnderstoodByTheClassifier", "No idea what went wrong")
+var (
+	badRequestError            = genericarmclient.NewTestCloudError("BadRequest", "That was not a good request")
+	conflictError              = genericarmclient.NewTestCloudError("Conflict", "That doesn't match what I have")
+	resourceGroupNotFoundError = genericarmclient.NewTestCloudError("ResourceGroupNotFound", "The resource group was not found")
+	http400Error               = genericarmclient.NewCloudError(&azcore.ResponseError{StatusCode: 400})
+	unknownError               = genericarmclient.NewTestCloudError("ThisCodeIsNotACodeUnderstoodByTheClassifier", "No idea what went wrong")
+	lockedError                = genericarmclient.NewTestCloudError("ScopeLocked", "The scope 'scope1' cannot perform write operation because following scope(s) are locked: 'scope2'. Please remove the lock and try again.")
+)
 
 func Test_NilError_IsRetryable(t *testing.T) {
 	t.Parallel()
@@ -61,6 +61,19 @@ func Test_BadRequest_IsFatal(t *testing.T) {
 		Message:        badRequestError.Message(),
 	}
 	g.Expect(arm.ClassifyCloudError(badRequestError)).To(Equal(expected))
+}
+
+func Test_Locked_IsRetryableVerySlowly(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	expected := core.CloudErrorDetails{
+		Classification: core.ErrorRetryable,
+		Code:           lockedError.Code(),
+		Message:        lockedError.Message(),
+		Retry:          retry.VerySlow,
+	}
+	g.Expect(arm.ClassifyCloudError(lockedError)).To(Equal(expected))
 }
 
 func Test_ResourceGroupNotFound_IsRetryable(t *testing.T) {

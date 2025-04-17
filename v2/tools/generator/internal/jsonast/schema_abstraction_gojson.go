@@ -58,7 +58,7 @@ func (schema GoJSONSchema) url() *url.URL {
 	return schema.inner.ID.GetUrl()
 }
 
-func (schema GoJSONSchema) Id() string {
+func (schema GoJSONSchema) ID() string {
 	return "" // Not used, GoJSONSchema going away soon
 }
 

@@ -31,6 +31,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/merger"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/retry"
 )
 
 type azureDeploymentReconcilerInstance struct {
@@ -118,7 +119,7 @@ func (r *azureDeploymentReconcilerInstance) MakeReadyConditionImpactingErrorFrom
 		return conditions.NewReadyConditionImpactingError(
 			azureErr,
 			conditions.ConditionSeverityWarning,
-			conditions.MakeReason(core.UnknownErrorCode))
+			conditions.MakeReason(core.UnknownErrorCode, retry.Slow))
 	}
 
 	apiVersion, verr := r.GetAPIVersion()
@@ -151,7 +152,7 @@ func (r *azureDeploymentReconcilerInstance) MakeReadyConditionImpactingErrorFrom
 
 	// Stick errorDetails.Message into an error so that it will be displayed as the message on the condition
 	err = eris.Wrap(cloudError, details.Message)
-	reason := conditions.MakeReason(details.Code)
+	reason := conditions.MakeReason(details.Code, details.Retry)
 	result := conditions.NewReadyConditionImpactingError(err, severity, reason)
 
 	return result

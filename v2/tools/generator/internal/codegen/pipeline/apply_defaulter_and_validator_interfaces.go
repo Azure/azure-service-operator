@@ -194,7 +194,7 @@ func validateSecretDestinations(resourceDef astmodel.TypeDefinition) functions.D
 		objIdent := "obj"
 		contextIdent := "ctx"
 
-		receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
+		receiverIdent := k.IDFactory().CreateReceiver(receiver.Name())
 		receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
 		if err != nil {
 			return nil, eris.Wrapf(err, "creating receiver expression")
@@ -268,7 +268,7 @@ func validateConfigMapDestinations(resourceDef astmodel.TypeDefinition) function
 		objIdent := "obj"
 		contextIdent := "ctx"
 
-		receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
+		receiverIdent := k.IDFactory().CreateReceiver(receiver.Name())
 		receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
 		if err != nil {
 			return nil, eris.Wrapf(err, "creating receiver expression")

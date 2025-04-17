@@ -15,11 +15,11 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
-const FlattenPropertiesStageId = "flattenProperties"
+const FlattenPropertiesStageID = "flattenProperties"
 
 func FlattenProperties(log logr.Logger) *Stage {
 	return NewStage(
-		FlattenPropertiesStageId,
+		FlattenPropertiesStageID,
 		"Apply flattening to properties marked for flattening",
 		func(ctx context.Context, state *State) (*State, error) {
 			defs := state.Definitions()
@@ -127,8 +127,8 @@ func fixCollisions(props []*astmodel.PropertyDefinition) []*astmodel.PropertyDef
 
 				// disambiguate by prefixing with properties
 				newName := astmodel.PropertyName(strings.Join(stringNames, "") + string(p.PropertyName()))
-				newJsonName := strings.ToLower(strings.Join(stringNames, "_") + string(p.PropertyName()))
-				p = p.WithName(newName).WithJsonName(newJsonName)
+				newJSONName := strings.ToLower(strings.Join(stringNames, "_") + string(p.PropertyName()))
+				p = p.WithName(newName).WithJSONName(newJSONName)
 			}
 		}
 

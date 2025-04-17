@@ -107,7 +107,7 @@ func (diagram *PipelineDiagram) idFor(stage *Stage) string {
 
 	// Generate a new ID for this stage
 	// (We need to do this because the stages are sometimes reused)
-	id := diagram.safeId(stage.Id())
+	id := diagram.safeID(stage.ID())
 	clashes := diagram.stageNames[id]
 
 	if len(clashes) > 0 {
@@ -118,13 +118,13 @@ func (diagram *PipelineDiagram) idFor(stage *Stage) string {
 	diagram.stageIds[stage] = id // Quick lookup if we need it again
 
 	// Keep track of how many times we've seen a particular stage, so we can disambiguate references
-	diagram.stageNames[stage.Id()] = append(clashes, stage)
+	diagram.stageNames[stage.ID()] = append(clashes, stage)
 
 	return id
 }
 
-// safeId returns a string containing only alphanumeric characters
-func (diagram *PipelineDiagram) safeId(id string) string {
+// safeID returns a string containing only alphanumeric characters
+func (diagram *PipelineDiagram) safeID(id string) string {
 	var b strings.Builder
 	for _, r := range id {
 		if unicode.IsLetter(r) || unicode.IsNumber(r) {

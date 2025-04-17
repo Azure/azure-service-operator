@@ -42,7 +42,7 @@ func (injector *InterfaceImplementationInjector) Inject(
 
 // injectInterfaceImplementationIntoObject takes the interface implementationprovided as a context and includes it on
 // the provided object type
-func (_ *InterfaceImplementationInjector) injectInterfaceImplementationIntoObject(
+func (*InterfaceImplementationInjector) injectInterfaceImplementationIntoObject(
 	_ *TypeVisitor[any], ot *ObjectType, ctx interface{},
 ) (Type, error) {
 	impl := ctx.(*InterfaceImplementation)
@@ -51,7 +51,7 @@ func (_ *InterfaceImplementationInjector) injectInterfaceImplementationIntoObjec
 
 // injectInterfaceImplementationIntoResource takes the interface implementation provided as a context and includes it on
 // the provided resource type
-func (_ *InterfaceImplementationInjector) injectInterfaceImplementationIntoResource(
+func (*InterfaceImplementationInjector) injectInterfaceImplementationIntoResource(
 	_ *TypeVisitor[any], rt *ResourceType, ctx interface{},
 ) (Type, error) {
 	impl := ctx.(*InterfaceImplementation)

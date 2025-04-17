@@ -42,6 +42,8 @@
 | Namespaces_AuthorizationRule_Properties_Rights_Spec   | v1api20210101preview | v1api20211101 | v1api20221001preview | v1api20240101 |
 | Namespaces_AuthorizationRule_Properties_STATUS        | v1api20210101preview | v1api20211101 | v1api20221001preview | v1api20240101 |
 | Namespaces_AuthorizationRule_Properties_Spec          | v1api20210101preview | v1api20211101 | v1api20221001preview | v1api20240101 |
+| Namespaces_Topics_AuthorizationRule_Properties_STATUS |                      |               |                      | v1api20240101 |
+| Namespaces_Topics_AuthorizationRule_Properties_Spec   |                      |               |                      | v1api20240101 |
 | PrivateEndpointConnection_STATUS                      | v1api20210101preview | v1api20211101 | v1api20221001preview | v1api20240101 |
 | Ruleproperties                                        | v1api20210101preview | v1api20211101 | v1api20221001preview | v1api20240101 |
 | Ruleproperties_STATUS                                 | v1api20210101preview | v1api20211101 | v1api20221001preview | v1api20240101 |
@@ -70,6 +72,11 @@
 | SystemData_CreatedByType_STATUS                       | v1api20210101preview | v1api20211101 | v1api20221001preview | v1api20240101 |
 | SystemData_LastModifiedByType_STATUS                  | v1api20210101preview | v1api20211101 | v1api20221001preview | v1api20240101 |
 | SystemData_STATUS                                     | v1api20210101preview | v1api20211101 | v1api20221001preview | v1api20240101 |
+| TopicAuthorizationRule                                |                      |               |                      | v1api20240101 |
+| TopicAuthorizationRuleRights_STATUS                   |                      |               |                      | v1api20240101 |
+| TopicAuthorizationRuleRights_Spec                     |                      |               |                      | v1api20240101 |
+| TopicAuthorizationRule_STATUS                         |                      |               |                      | v1api20240101 |
+| TopicAuthorizationRule_Spec                           |                      |               |                      | v1api20240101 |
 | UserAssignedIdentityDetails                           | v1api20210101preview | v1api20211101 | v1api20221001preview | v1api20240101 |
 | UserAssignedIdentityProperties                        | v1api20210101preview | v1api20211101 | v1api20221001preview | v1api20240101 |
 | UserAssignedIdentityProperties_STATUS                 | v1api20210101preview | v1api20211101 | v1api20221001preview | v1api20240101 |

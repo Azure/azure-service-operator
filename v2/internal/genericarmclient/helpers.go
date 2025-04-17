@@ -25,7 +25,7 @@ func GetRetryAfter(resp *http.Response) time.Duration {
 			return time.Duration(retryAfterVal) * time.Second
 		}
 
-		if retryAfterTime, parseErr := parseHttpDate(retryAfterStr); parseErr == nil {
+		if retryAfterTime, parseErr := parseHTTPDate(retryAfterStr); parseErr == nil {
 			result := time.Until(retryAfterTime)
 			if result > 0 {
 				return result
@@ -36,7 +36,7 @@ func GetRetryAfter(resp *http.Response) time.Duration {
 	return 0
 }
 
-func parseHttpDate(s string) (time.Time, error) {
+func parseHTTPDate(s string) (time.Time, error) {
 	if t, err := time.Parse("Mon, 02 Jan 2006 15:04:05 MST", s); err == nil {
 		return t, nil
 	} else if t, err = time.Parse("Monday, 02-Jan-06 15:04:05 MST", s); err == nil {

@@ -57,7 +57,7 @@ func (fn *DataFunction[T]) Name() string {
 	return fn.name
 }
 
-func (fn *DataFunction[T]) IdFactory() astmodel.IdentifierFactory {
+func (fn *DataFunction[T]) IDFactory() astmodel.IdentifierFactory {
 	return fn.idFactory
 }
 

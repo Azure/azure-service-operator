@@ -175,7 +175,7 @@ func TestOperatorNamespacePreventsReconciling(t *testing.T) {
 
 	var events corev1.EventList
 	tc.ListResources(&events, &client.ListOptions{
-		FieldSelector: fields.ParseSelectorOrDie("involvedObject.name=" + notMine.ObjectMeta.Name),
+		FieldSelector: fields.ParseSelectorOrDie("involvedObject.name=" + notMine.Name),
 		Namespace:     tc.Namespace,
 	})
 	tc.Expect(events.Items).To(HaveLen(1))

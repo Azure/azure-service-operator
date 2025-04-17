@@ -29,7 +29,7 @@ import (
 )
 
 type clientSet struct {
-	fakeApiExtClient apiextensions.ApiextensionsV1Interface
+	fakeAPIExtClient apiextensions.ApiextensionsV1Interface
 	fakeClient       client.WithWatch
 	cleaner          *Cleaner
 }
@@ -37,15 +37,15 @@ type clientSet struct {
 // TODO: Currently we need to create clientsets for each test as they run in parallel and we run into `resource already exists` error.
 // TODO: We may require a testing suite re-use the clientsets efficiently.
 func makeClientSets() *clientSet {
-	fakeApiExtClient := fake.NewSimpleClientset().ApiextensionsV1()
+	fakeAPIExtClient := fake.NewSimpleClientset().ApiextensionsV1()
 	fakeClient := fake2.NewClientBuilder().WithScheme(api.CreateScheme()).Build()
 	cleaner := NewCleaner(
-		fakeApiExtClient.CustomResourceDefinitions(),
+		fakeAPIExtClient.CustomResourceDefinitions(),
 		fakeClient,
 		false, // dry-run
 		logr.Discard())
 	return &clientSet{
-		fakeApiExtClient: fakeApiExtClient,
+		fakeAPIExtClient: fakeAPIExtClient,
 		fakeClient:       fakeClient,
 		cleaner:          cleaner,
 	}
@@ -63,13 +63,13 @@ func Test_CleanDeprecatedCRDVersions_CleansBetaVersion_IfExists(t *testing.T) {
 
 	definition := newCRDWithStoredVersions(betaVersion, gaVersion)
 
-	_, err := c.fakeApiExtClient.CustomResourceDefinitions().Create(context.TODO(), definition, metav1.CreateOptions{})
+	_, err := c.fakeAPIExtClient.CustomResourceDefinitions().Create(context.TODO(), definition, metav1.CreateOptions{})
 	g.Expect(err).To(BeNil())
 
 	err = c.cleaner.Run(context.TODO())
 	g.Expect(err).To(BeNil())
 
-	crd, err := c.fakeApiExtClient.CustomResourceDefinitions().Get(context.TODO(), definition.Name, metav1.GetOptions{})
+	crd, err := c.fakeAPIExtClient.CustomResourceDefinitions().Get(context.TODO(), definition.Name, metav1.GetOptions{})
 	g.Expect(err).To(BeNil())
 
 	g.Expect(crd.Status.StoredVersions).ToNot(BeNil())
@@ -90,13 +90,13 @@ func Test_CleanDeprecatedCRDVersions_CleansHandcraftedBetaVersion_IfExists(t *te
 
 	definition := newCRDWithStoredVersions(betaVersion, gaVersion)
 
-	_, err := c.fakeApiExtClient.CustomResourceDefinitions().Create(context.TODO(), definition, metav1.CreateOptions{})
+	_, err := c.fakeAPIExtClient.CustomResourceDefinitions().Create(context.TODO(), definition, metav1.CreateOptions{})
 	g.Expect(err).To(BeNil())
 
 	err = c.cleaner.Run(context.TODO())
 	g.Expect(err).To(BeNil())
 
-	crd, err := c.fakeApiExtClient.CustomResourceDefinitions().Get(context.TODO(), definition.Name, metav1.GetOptions{})
+	crd, err := c.fakeAPIExtClient.CustomResourceDefinitions().Get(context.TODO(), definition.Name, metav1.GetOptions{})
 	g.Expect(err).To(BeNil())
 
 	g.Expect(crd.Status.StoredVersions).ToNot(BeNil())
@@ -122,13 +122,13 @@ func Test_CleanDeprecatedCRDVersions_CleansTrustedAccessRoleBindings(t *testing.
 		oldVersion,
 		newVersion)
 
-	_, err := c.fakeApiExtClient.CustomResourceDefinitions().Create(context.TODO(), definition, metav1.CreateOptions{})
+	_, err := c.fakeAPIExtClient.CustomResourceDefinitions().Create(context.TODO(), definition, metav1.CreateOptions{})
 	g.Expect(err).To(BeNil())
 
 	err = c.cleaner.Run(context.TODO())
 	g.Expect(err).To(BeNil())
 
-	crd, err := c.fakeApiExtClient.CustomResourceDefinitions().Get(context.TODO(), definition.Name, metav1.GetOptions{})
+	crd, err := c.fakeAPIExtClient.CustomResourceDefinitions().Get(context.TODO(), definition.Name, metav1.GetOptions{})
 	g.Expect(err).To(BeNil())
 
 	g.Expect(crd.Status.StoredVersions).ToNot(BeNil())
@@ -157,7 +157,7 @@ func Test_MigrateDeprecatedCRDResources_DoesNotMigrateBetaVersion_IfStorage(t *t
 
 	ns := newNamespace("test-ns")
 
-	_, err := c.fakeApiExtClient.CustomResourceDefinitions().Create(context.TODO(), definition, metav1.CreateOptions{})
+	_, err := c.fakeAPIExtClient.CustomResourceDefinitions().Create(context.TODO(), definition, metav1.CreateOptions{})
 	g.Expect(err).To(BeNil())
 
 	// create Namespace
@@ -172,7 +172,7 @@ func Test_MigrateDeprecatedCRDResources_DoesNotMigrateBetaVersion_IfStorage(t *t
 	err = c.cleaner.Run(context.TODO())
 	g.Expect(err).ToNot(BeNil())
 
-	crd, err := c.fakeApiExtClient.CustomResourceDefinitions().Get(context.TODO(), definition.Name, metav1.GetOptions{})
+	crd, err := c.fakeAPIExtClient.CustomResourceDefinitions().Get(context.TODO(), definition.Name, metav1.GetOptions{})
 	g.Expect(err).To(BeNil())
 
 	var updatedRG resources.ResourceGroup
@@ -207,7 +207,7 @@ func Test_MigrateDeprecatedCRDResources_MigratesBeta_IfNotStorage(t *testing.T) 
 
 	ns := newNamespace("test-ns")
 
-	_, err := c.fakeApiExtClient.CustomResourceDefinitions().Create(context.TODO(), definition, metav1.CreateOptions{})
+	_, err := c.fakeAPIExtClient.CustomResourceDefinitions().Create(context.TODO(), definition, metav1.CreateOptions{})
 	g.Expect(err).To(BeNil())
 
 	// create Namespace
@@ -222,7 +222,7 @@ func Test_MigrateDeprecatedCRDResources_MigratesBeta_IfNotStorage(t *testing.T) 
 	err = c.cleaner.Run(context.TODO())
 	g.Expect(err).To(BeNil())
 
-	crd, err := c.fakeApiExtClient.CustomResourceDefinitions().Get(context.TODO(), definition.Name, metav1.GetOptions{})
+	crd, err := c.fakeAPIExtClient.CustomResourceDefinitions().Get(context.TODO(), definition.Name, metav1.GetOptions{})
 	g.Expect(err).To(BeNil())
 
 	var updatedRG resources.ResourceGroup
@@ -246,7 +246,7 @@ func Test_CleanDeprecatedCRDVersions_DoesNothing_IfBetaVersionDoesNotExist(t *te
 
 	definition := newCRDWithStoredVersions(betaVersion)
 
-	_, err := c.fakeApiExtClient.CustomResourceDefinitions().Create(context.TODO(), definition, metav1.CreateOptions{})
+	_, err := c.fakeAPIExtClient.CustomResourceDefinitions().Create(context.TODO(), definition, metav1.CreateOptions{})
 	if err != nil {
 		return
 	}
@@ -254,7 +254,7 @@ func Test_CleanDeprecatedCRDVersions_DoesNothing_IfBetaVersionDoesNotExist(t *te
 	err = c.cleaner.Run(context.TODO())
 	g.Expect(err).To(BeNil())
 
-	crd, err := c.fakeApiExtClient.CustomResourceDefinitions().Get(context.TODO(), definition.Name, metav1.GetOptions{})
+	crd, err := c.fakeAPIExtClient.CustomResourceDefinitions().Get(context.TODO(), definition.Name, metav1.GetOptions{})
 	g.Expect(err).To(BeNil())
 
 	g.Expect(crd.Status.StoredVersions).ToNot(BeNil())
@@ -272,7 +272,7 @@ func Test_CleanDeprecatedCRDVersions_ReturnsError_IfGAVersionDoesNotExist(t *tes
 
 	definition := newCRDWithStoredVersions(betaVersion)
 
-	_, err := c.fakeApiExtClient.CustomResourceDefinitions().Create(context.TODO(), definition, metav1.CreateOptions{})
+	_, err := c.fakeAPIExtClient.CustomResourceDefinitions().Create(context.TODO(), definition, metav1.CreateOptions{})
 	if err != nil {
 		return
 	}
@@ -280,7 +280,7 @@ func Test_CleanDeprecatedCRDVersions_ReturnsError_IfGAVersionDoesNotExist(t *tes
 	err = c.cleaner.Run(context.TODO())
 	g.Expect(err).ToNot(BeNil())
 
-	crd, err := c.fakeApiExtClient.CustomResourceDefinitions().Get(context.TODO(), definition.Name, metav1.GetOptions{})
+	crd, err := c.fakeAPIExtClient.CustomResourceDefinitions().Get(context.TODO(), definition.Name, metav1.GetOptions{})
 	g.Expect(err).To(BeNil())
 
 	g.Expect(crd.Status.StoredVersions).ToNot(BeNil())
@@ -292,10 +292,10 @@ func Test_MigrateAndCleanDeprecatedCRDResources_DryRun_NoAction(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	fakeApiExtClient := fake.NewSimpleClientset().ApiextensionsV1()
+	fakeAPIExtClient := fake.NewSimpleClientset().ApiextensionsV1()
 	fakeClient := fake2.NewClientBuilder().WithScheme(api.CreateScheme()).Build()
 	cleanerDryRun := NewCleaner(
-		fakeApiExtClient.CustomResourceDefinitions(),
+		fakeAPIExtClient.CustomResourceDefinitions(),
 		fakeClient,
 		true, // dry-run
 		logr.Discard())
@@ -317,7 +317,7 @@ func Test_MigrateAndCleanDeprecatedCRDResources_DryRun_NoAction(t *testing.T) {
 
 	ns := newNamespace("test-rg")
 
-	_, err := fakeApiExtClient.CustomResourceDefinitions().Create(context.TODO(), definition, metav1.CreateOptions{})
+	_, err := fakeAPIExtClient.CustomResourceDefinitions().Create(context.TODO(), definition, metav1.CreateOptions{})
 	g.Expect(err).To(BeNil())
 
 	// create Namespace
@@ -332,7 +332,7 @@ func Test_MigrateAndCleanDeprecatedCRDResources_DryRun_NoAction(t *testing.T) {
 	err = cleanerDryRun.Run(context.TODO())
 	g.Expect(err).To(BeNil())
 
-	crd, err := fakeApiExtClient.CustomResourceDefinitions().Get(context.TODO(), definition.Name, metav1.GetOptions{})
+	crd, err := fakeAPIExtClient.CustomResourceDefinitions().Get(context.TODO(), definition.Name, metav1.GetOptions{})
 	g.Expect(err).To(BeNil())
 
 	var updatedRG resources.ResourceGroup

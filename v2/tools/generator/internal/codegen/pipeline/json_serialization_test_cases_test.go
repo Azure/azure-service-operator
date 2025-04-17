@@ -59,7 +59,7 @@ func TestGolden_InjectJsonSerializationTests(t *testing.T) {
 		CreateStorageTypes(),            // First create the storage types
 		CreateConversionGraph(cfg, "v"), // Then, create the conversion graph showing relationships
 		InjectPropertyAssignmentFunctions(cfg, idFactory, logr.Discard()),
-		InjectJsonSerializationTests(idFactory))
+		InjectJSONSerializationTests(idFactory))
 	g.Expect(err).To(Succeed())
 
 	/*

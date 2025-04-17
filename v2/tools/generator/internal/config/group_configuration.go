@@ -131,11 +131,11 @@ func (gc *GroupConfiguration) findVersion(ref astmodel.PackageReference) *Versio
 
 // findVersion uses the provided LocalPackageReference to work out which nested VersionConfiguration should be used
 func (gc *GroupConfiguration) findVersionForLocalPackageReference(ref astmodel.LocalPackageReference) *VersionConfiguration {
-	gc.advisor.AddTerm(ref.ApiVersion())
+	gc.advisor.AddTerm(ref.APIVersion())
 	gc.advisor.AddTerm(ref.PackageName())
 
 	// Check based on the ApiVersion alone
-	apiKey := strings.ToLower(ref.ApiVersion())
+	apiKey := strings.ToLower(ref.APIVersion())
 	if version, ok := gc.versions[apiKey]; ok {
 		// make sure there's an exact match on the actual version name, so we don't generate a recommendation
 		gc.advisor.AddTerm(version.name)
@@ -161,29 +161,29 @@ func (gc *GroupConfiguration) UnmarshalYAML(value *yaml.Node) error {
 	}
 
 	gc.versions = make(map[string]*VersionConfiguration)
-	var lastId string
+	var lastID string
 
 	for i, c := range value.Content {
 		// Grab identifiers and loop to handle the associated value
 		if i%2 == 0 {
-			lastId = c.Value
+			lastID = c.Value
 			continue
 		}
 
 		// Handle nested version metadata
 		if c.Kind == yaml.MappingNode {
-			v := NewVersionConfiguration(lastId)
+			v := NewVersionConfiguration(lastID)
 			err := c.Decode(&v)
 			if err != nil {
-				return eris.Wrapf(err, "decoding yaml for %q", lastId)
+				return eris.Wrapf(err, "decoding yaml for %q", lastID)
 			}
 
-			gc.addVersion(lastId, v)
+			gc.addVersion(lastID, v)
 			continue
 		}
 
 		// $payloadType: <string>
-		if strings.EqualFold(lastId, payloadTypeTag) && c.Kind == yaml.ScalarNode {
+		if strings.EqualFold(lastID, payloadTypeTag) && c.Kind == yaml.ScalarNode {
 			switch strings.ToLower(c.Value) {
 			case string(OmitEmptyProperties):
 				gc.PayloadType.Set(OmitEmptyProperties)
@@ -202,7 +202,7 @@ func (gc *GroupConfiguration) UnmarshalYAML(value *yaml.Node) error {
 
 		// No handler for this value, return an error
 		return eris.Errorf(
-			"group configuration, unexpected yaml value %s: %s (line %d col %d)", lastId, c.Value, c.Line, c.Column)
+			"group configuration, unexpected yaml value %s: %s (line %d col %d)", lastID, c.Value, c.Line, c.Column)
 
 	}
 

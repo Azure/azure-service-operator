@@ -93,8 +93,8 @@ func (s *State) Definitions() astmodel.TypeDefinitionSet {
 func (s *State) CheckFinalState() error {
 	var errs []error
 	for required, requiredBy := range s.stagesExpected {
-		for stageId := range requiredBy {
-			errs = append(errs, eris.Errorf("postrequisite %q of stage %q not satisfied", required, stageId))
+		for stageID := range requiredBy {
+			errs = append(errs, eris.Errorf("postrequisite %q of stage %q not satisfied", required, stageID))
 		}
 	}
 

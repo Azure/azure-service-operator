@@ -35,7 +35,7 @@ func newEmptyARMValueBody(instanceType astmodel.InternalTypeName) ObjectFunction
 		receiver astmodel.TypeName,
 		methodName string,
 	) (*dst.FuncDecl, error) {
-		receiverName := fn.IdFactory().CreateReceiver(receiver.Name())
+		receiverName := fn.IDFactory().CreateReceiver(receiver.Name())
 		receiverTypeExpr, err := receiver.AsTypeExpr(genContext)
 		if err != nil {
 			return nil, eris.Wrapf(err, "creating type expression for %s", receiver)

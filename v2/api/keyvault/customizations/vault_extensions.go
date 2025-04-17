@@ -33,6 +33,7 @@ import (
 
 var _ extensions.ARMResourceModifier = &VaultExtension{}
 
+//nolint:staticcheck // Underscores for enum values is our convention in ASO
 const (
 	CreateMode_Default         = "default"
 	CreateMode_Recover         = "recover"
@@ -243,8 +244,8 @@ func (ex *VaultExtension) checkForExistenceOfDeletedKeyVault(
 	}
 
 	originalID := ""
-	if deletedDetails.DeletedVault.Properties != nil {
-		originalID = to.Value(deletedDetails.DeletedVault.Properties.VaultID)
+	if deletedDetails.Properties != nil {
+		originalID = to.Value(deletedDetails.Properties.VaultID)
 	}
 
 	log.Info(

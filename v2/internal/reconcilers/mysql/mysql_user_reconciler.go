@@ -128,7 +128,7 @@ func (r *MySQLUserReconciler) Claim(ctx context.Context, log logr.Logger, eventR
 		return err
 	}
 
-	err = r.ARMOwnedResourceReconcilerCommon.ClaimResource(ctx, log, user)
+	err = r.ClaimResource(ctx, log, user)
 	if err != nil {
 		return err
 	}
