@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Adding a new code generated resource to ASO v2 on Azure Service Operator</title>
+    <link>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/</link>
+    <description>Recent content in Adding a new code generated resource to ASO v2 on Azure Service Operator</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <atom:link href="https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Before you begin adding a new code-generated resource</title>
+      <link>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/before-you-begin/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/before-you-begin/</guid>
+      <description>&lt;h2 id=&#34;determine-a-resource-to-add&#34;&gt;Determine a resource to add&lt;/h2&gt;&#xA;&lt;p&gt;The first step in adding a new code-generated resource is to determine which resource you want to add.&lt;/p&gt;&#xA;&lt;p&gt;Any ARM resource can be generated, provided you know the Azure type of the resource, and the version of the API you want to use.&lt;/p&gt;&#xA;&lt;p&gt;To unambiguously identify the resource you want to add, you need to know the Azure type, and the version of the API you want to use. We will walk through an example of adding Azure Synapse Workspace.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Generating your resource with the code generator</title>
+      <link>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/run-the-code-generator/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/run-the-code-generator/</guid>
+      <description>&lt;p&gt;The ASO code generator is our secret sauce - it lowers the amount of effort required to add new Azure resources from several weeks to just a few days (or a few hours if you&amp;rsquo;re lucky and you&amp;rsquo;ve done it before).&lt;/p&gt;&#xA;&lt;h2 id=&#34;what-does-the-code-generator-do&#34;&gt;What does the code generator do?&lt;/h2&gt;&#xA;&lt;p&gt;The code generator is a Go program that reads the Azure API definitions from the &lt;code&gt;azure-rest-api-specs&lt;/code&gt; repository and generates most of the code required to support a resource.&#xA;The Swagger/OpenAPI definitions in that repo are transformed by the code generator into two forms - once for the &lt;code&gt;spec&lt;/code&gt;, defining the desired state of the resource, and once for the &lt;code&gt;status&lt;/code&gt;, defining the observed state of the resource.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Review the generated resource</title>
+      <link>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/review-the-generated-resource/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/review-the-generated-resource/</guid>
+      <description>&lt;p&gt;After running the generator, source code for the new resource you added will be in the&#xA;&lt;a href=&#34;https://github.com/Azure/azure-service-operator/blob/main/v2/api/&#34;&gt;v2/apis&lt;/a&gt; directory.&lt;/p&gt;&#xA;&lt;p&gt;Have a look through the files in the directory named after the &lt;code&gt;group&lt;/code&gt; and &lt;code&gt;version&lt;/code&gt; of the resource that was added. Source code for the custom resource will be in this folder, with supporting code in subpackages called &lt;code&gt;arm&lt;/code&gt;, &lt;code&gt;storage&lt;/code&gt;, and &lt;code&gt;webhook&lt;/code&gt;.&lt;/p&gt;&#xA;&lt;p&gt;In our &lt;code&gt;Workspaces&lt;/code&gt; example, the best place to start is &lt;code&gt;v2/api/synapse/v1api20210601/workspace_types_gen.go&lt;/code&gt;&#xA;There may be other resources that already exist in that same directory - that&amp;rsquo;s expected if ASO already supported some&#xA;resources from that provider and API version.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Customize the behaviour of generated resource</title>
+      <link>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/implement-extensions/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/implement-extensions/</guid>
+      <description>&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;&#xA;&lt;h4 class=&#34;alert-heading&#34;&gt;Note&lt;/h4&gt;&#xA;&#xA;    &lt;p&gt;In most cases, a code generated resource will work out of the box with no changes, and there will be no need to customize its behaviour by implementing an extensions.&lt;/p&gt;&#xA;&lt;p&gt;Unless you have a specific need, you can skip this step and move on to &lt;a href=&#34;https://azure.github.io/azure-service-operator/azure-service-operator/contributing/add-a-new-code-generated-resource/write-a-test/&#34;&gt;writing a test&lt;/a&gt;.&lt;/p&gt;&#xA;&#xA;&#xA;&lt;/div&gt;&#xA;&#xA;&lt;p&gt;In an ideal world, the code generated resource will work out of the box with no changes. However, in practice, this is not always the case.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Write a test for the resource</title>
+      <link>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/write-a-test/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/write-a-test/</guid>
+      <description>&lt;p&gt;Every new resource should have a handwritten test as there is always the possibility of a resource behaving in a subtly different way than expected. This also applies to &lt;em&gt;new versions&lt;/em&gt; of existing resources.&lt;/p&gt;&#xA;&lt;p&gt;These handwritten tests should validate that the controller can create, update, and delete the resource. Often, they also validate that related resources can be created at the same time.&#xA;All these tests live in the &lt;a href=&#34;https://github.com/Azure/azure-service-operator/tree/main/v2/internal/controllers&#34;&gt;&lt;code&gt;v2/internal/controllers&lt;/code&gt;&lt;/a&gt;. There&amp;rsquo;s a readme in that folder that describes the test structure and naming conventions.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Create a sample to demonstrate the resource</title>
+      <link>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/create-a-sample/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/create-a-sample/</guid>
+      <description>&lt;p&gt;We mandate that every resource has a sample that demonstrates how to use it - and enforce this with checks in our CI pipeline. Good examples help other ASO users understand how to use each resource.&lt;/p&gt;&#xA;&lt;p&gt;To ensure that each sample is correct, we run them against a real cluster, and create the matching Azure resources - allowing us to catch any typos or errors before they trip up users in the wild.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Final checks</title>
+      <link>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/final-checks/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/final-checks/</guid>
+      <description>&lt;p&gt;We recommend you run a few final checks to catch any issues before you submit your PR.&lt;/p&gt;&#xA;&lt;h2 id=&#34;check-your-pr-contents&#34;&gt;Check your PR contents&lt;/h2&gt;&#xA;&lt;p&gt;Double check that everything you expect to include in your PR is actually included. You should have:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Configuration changes to &lt;code&gt;asure-arm.yaml&lt;/code&gt;.&lt;/li&gt;&#xA;&lt;li&gt;Generated code changes, mostly in the &lt;code&gt;v2/api&lt;/code&gt; folder.&lt;/li&gt;&#xA;&lt;li&gt;Generated documentation updates in the &lt;code&gt;docs&lt;/code&gt; folder&lt;/li&gt;&#xA;&lt;li&gt;Any hand-coded extensions you implemented, in the &lt;code&gt;v2/api/&amp;lt;group&amp;gt;/customizations&lt;/code&gt; folder.&lt;/li&gt;&#xA;&lt;li&gt;A test for the resource in the &lt;code&gt;v2/internal/controllers&lt;/code&gt; folder, with a recording for playback testing.&lt;/li&gt;&#xA;&lt;li&gt;A sample for the resource in the &lt;code&gt;v2/samples&lt;/code&gt; folder, also with a recording.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;check-it-builds&#34;&gt;Check it builds&lt;/h2&gt;&#xA;&lt;p&gt;Running &lt;code&gt;task&lt;/code&gt; with no parameters runs a quick set of checks that will catch most issues.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -68,21 +68,35 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/tools/asoctl/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/before-you-begin/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/uninstalling/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/run-the-code-generator/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/tools/generator/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/tutorials/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/review-the-generated-resource/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/tools/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/implement-extensions/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/contributing/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/write-a-test/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/create-a-sample/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/final-checks/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/adr-2020-04-code-generation/</loc>
   </url><url>
