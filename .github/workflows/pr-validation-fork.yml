@@ -17,11 +17,33 @@ jobs:
       packages: read
 
     steps:
-      # Note that we now don't do anything with the integration-test check anymore
-      # due to https://github.blog/changelog/2025-02-12-notice-of-upcoming-deprecations-and-breaking-changes-for-github-actions/#changes-to-check-run-status-modification
-      # This is actually OK though because the status of that check gets set to skipped (due to PRs originating from
-      # a fork). Skipped checks count as successes. Note: that check still sets the status of this check to succeeded,
-      # as otherwise it will be left pending (which does NOT count as succeeded).
+      # Create check called "integration-tests-fork", and set to in_progress
+      - name: set-check-run-in-progress
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # pinned to v7.0.1
+        id: set-check-run-in-progress
+        env:
+          number: ${{ github.event.client_payload.pull_request.number }}
+          job: ${{ github.job }}
+          server_url: ${{ github.server_url }}
+          repo: ${{ github.repository }}
+          run_id: ${{ github.run_id }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const url = `${process.env.server_url}/${process.env.repo}/actions/runs/${process.env.run_id}`
+            const { data: pull } = await github.rest.pulls.get({
+              ...context.repo,
+              pull_number: process.env.number
+            });
+            const ref = pull.head.sha;
+            const { data: result } = await github.rest.checks.create({
+              ...context.repo,
+              name: process.env.job,
+              head_sha: ref,
+              status: 'in_progress',
+              details_url: url,
+            });
+            return result;
 
       - name: Fork based /ok-to-test checkout
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # pinned to 4.1.7
@@ -85,3 +107,45 @@ jobs:
           KIND_OIDC_STORAGE_ACCOUNT_RG: ${{ secrets.KIND_OIDC_STORAGE_ACCOUNT_RG }}
           KIND_OIDC_STORAGE_ACCOUNT: ${{ secrets.KIND_OIDC_STORAGE_ACCOUNT }}
         if: steps.check-changes.outputs.code-changed == 'true'
+
+      # Update check run called "integration-fork"
+      # Note that we now don't update integration-test check anymore
+      # due to https://github.blog/changelog/2025-02-12-notice-of-upcoming-deprecations-and-breaking-changes-for-github-actions/#changes-to-check-run-status-modification
+      # This is actually OK though because the status of that check gets set to skipped (due to PRs originating from
+      # a fork). Skipped checks count as successes. Note: that check still sets the status of this check to succeeded,
+      # as otherwise it will be left pending (which does NOT count as succeeded).
+      - name: update-integration-tests-result
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # pinned to v7.0.1
+        id: update-check-run
+        if: ${{ always() }}
+        env:
+          number: ${{ github.event.client_payload.pull_request.number }}
+          job: ${{ github.job }}
+          integration_test_job: 'integration-tests' # This is the name of the job defined in pr-validation.yml
+          # Conveniently, job.status maps to https://developer.github.com/v3/checks/runs/#update-a-check-run
+          conclusion: ${{ job.status }}
+          server_url: ${{ github.server_url }}
+          repo: ${{ github.repository }}
+          run_id: ${{ github.run_id }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const url = `${process.env.server_url}/${process.env.repo}/actions/runs/${process.env.run_id}`
+            const { data: pull } = await github.rest.pulls.get({
+              ...context.repo,
+              pull_number: process.env.number
+            });
+            const ref = pull.head.sha;
+            const { data: checks } = await github.rest.checks.listForRef({
+              ...context.repo,
+              ref
+            });
+            const forkCheck = checks.check_runs.filter(c => c.name === process.env.job);
+            const { data: result } = await github.rest.checks.update({
+              ...context.repo,
+              check_run_id: forkCheck[0].id,
+              status: 'completed',
+              conclusion: process.env.conclusion,
+              details_url: url,
+            });
+            return result;
