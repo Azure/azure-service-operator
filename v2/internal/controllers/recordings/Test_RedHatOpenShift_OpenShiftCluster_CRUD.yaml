@@ -6327,3 +6327,112 @@ interactions:
         status: 404 Not Found
         code: 404
         duration: 814.822542ms
+    - id: 112
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+          Accept:
+            - application/json
+          Test-Request-Attempt:
+            - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nsmdfx/providers/Microsoft.RedHatOpenShift/openShiftClusters/asotest-aro-cluster-uzditq/listAdminCredentials?api-version=2023-11-22
+        method: POST
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 28
+        uncompressed: false
+        body: |
+          {
+            "kubeconfig": "IA=="
+          }
+        headers:
+          Cache-Control:
+            - no-cache
+          Content-Length:
+            - "28"
+          Content-Type:
+            - application/json
+          Expires:
+            - "-1"
+          Pragma:
+            - no-cache
+          Strict-Transport-Security:
+            - max-age=31536000; includeSubDomains
+          X-Cache:
+            - CONFIG_NOCACHE
+          X-Content-Type-Options:
+            - nosniff
+          X-Msedge-Ref:
+            - 'Ref A: 77A7156EAFE948F386173AEC9B83F6E0 Ref B: SYD03EDGE1109 Ref C: 2024-08-18T03:07:10Z'
+        status: 200 OK
+        code: 200
+        duration: 3.178072916s
+    - id: 113
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+          Accept:
+            - application/json
+          Test-Request-Attempt:
+            - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nsmdfx/providers/Microsoft.RedHatOpenShift/openShiftClusters/asotest-aro-cluster-uzditq/listCredentials?api-version=2023-11-22
+        method: POST
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 28
+        uncompressed: false
+        body: |
+          {
+            "kubeadminUsername": "kubeadmin",
+            "kubeadminPassword": "{PASSWORD}"
+          }
+        headers:
+          Cache-Control:
+            - no-cache
+          Content-Length:
+            - "28"
+          Content-Type:
+            - application/json
+          Expires:
+            - "-1"
+          Pragma:
+            - no-cache
+          Strict-Transport-Security:
+            - max-age=31536000; includeSubDomains
+          X-Cache:
+            - CONFIG_NOCACHE
+          X-Content-Type-Options:
+            - nosniff
+          X-Msedge-Ref:
+            - 'Ref A: 77A7156EAFE948F386173AEC9B83F6E0 Ref B: SYD03EDGE1109 Ref C: 2024-08-18T03:07:10Z'
+        status: 200 OK
+        code: 200
+        duration: 3.178072916s

@@ -182,7 +182,15 @@ func (cluster *OpenShiftCluster) validateSecretDestinations(ctx context.Context,
 	if obj.Spec.OperatorSpec == nil {
 		return nil, nil
 	}
-	return secrets.ValidateDestinations(obj, nil, obj.Spec.OperatorSpec.SecretExpressions)
+	var toValidate []*genruntime.SecretDestination
+	if obj.Spec.OperatorSpec.Secrets != nil {
+		toValidate = []*genruntime.SecretDestination{
+			obj.Spec.OperatorSpec.Secrets.AdminCredentials,
+			obj.Spec.OperatorSpec.Secrets.Password,
+			obj.Spec.OperatorSpec.Secrets.Username,
+		}
+	}
+	return secrets.ValidateDestinations(obj, toValidate, obj.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties

@@ -1856,6 +1856,103 @@ func AddRelatedPropertyGeneratorsForOpenShiftCluster(gens map[string]gopter.Gen)
 	gens["Status"] = OpenShiftCluster_STATUSGenerator()
 }
 
+func Test_OpenShiftClusterOperatorSecrets_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from OpenShiftClusterOperatorSecrets to OpenShiftClusterOperatorSecrets via AssignProperties_To_OpenShiftClusterOperatorSecrets & AssignProperties_From_OpenShiftClusterOperatorSecrets returns original",
+		prop.ForAll(RunPropertyAssignmentTestForOpenShiftClusterOperatorSecrets, OpenShiftClusterOperatorSecretsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForOpenShiftClusterOperatorSecrets tests if a specific instance of OpenShiftClusterOperatorSecrets can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForOpenShiftClusterOperatorSecrets(subject OpenShiftClusterOperatorSecrets) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.OpenShiftClusterOperatorSecrets
+	err := copied.AssignProperties_To_OpenShiftClusterOperatorSecrets(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual OpenShiftClusterOperatorSecrets
+	err = actual.AssignProperties_From_OpenShiftClusterOperatorSecrets(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_OpenShiftClusterOperatorSecrets_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of OpenShiftClusterOperatorSecrets via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForOpenShiftClusterOperatorSecrets, OpenShiftClusterOperatorSecretsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForOpenShiftClusterOperatorSecrets runs a test to see if a specific instance of OpenShiftClusterOperatorSecrets round trips to JSON and back losslessly
+func RunJSONSerializationTestForOpenShiftClusterOperatorSecrets(subject OpenShiftClusterOperatorSecrets) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual OpenShiftClusterOperatorSecrets
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of OpenShiftClusterOperatorSecrets instances for property testing - lazily instantiated by
+// OpenShiftClusterOperatorSecretsGenerator()
+var openShiftClusterOperatorSecretsGenerator gopter.Gen
+
+// OpenShiftClusterOperatorSecretsGenerator returns a generator of OpenShiftClusterOperatorSecrets instances for property testing.
+func OpenShiftClusterOperatorSecretsGenerator() gopter.Gen {
+	if openShiftClusterOperatorSecretsGenerator != nil {
+		return openShiftClusterOperatorSecretsGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	openShiftClusterOperatorSecretsGenerator = gen.Struct(reflect.TypeOf(OpenShiftClusterOperatorSecrets{}), generators)
+
+	return openShiftClusterOperatorSecretsGenerator
+}
+
 func Test_OpenShiftClusterOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1948,9 +2045,15 @@ func OpenShiftClusterOperatorSpecGenerator() gopter.Gen {
 	}
 
 	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForOpenShiftClusterOperatorSpec(generators)
 	openShiftClusterOperatorSpecGenerator = gen.Struct(reflect.TypeOf(OpenShiftClusterOperatorSpec{}), generators)
 
 	return openShiftClusterOperatorSpecGenerator
+}
+
+// AddRelatedPropertyGeneratorsForOpenShiftClusterOperatorSpec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForOpenShiftClusterOperatorSpec(gens map[string]gopter.Gen) {
+	gens["Secrets"] = gen.PtrOf(OpenShiftClusterOperatorSecretsGenerator())
 }
 
 func Test_OpenShiftCluster_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

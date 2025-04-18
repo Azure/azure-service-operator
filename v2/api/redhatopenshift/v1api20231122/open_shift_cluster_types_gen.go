@@ -3194,6 +3194,9 @@ type OpenShiftClusterOperatorSpec struct {
 
 	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
 	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+
+	// Secrets: configures where to place Azure generated secrets.
+	Secrets *OpenShiftClusterOperatorSecrets `json:"secrets,omitempty"`
 }
 
 // AssignProperties_From_OpenShiftClusterOperatorSpec populates our OpenShiftClusterOperatorSpec from the provided source OpenShiftClusterOperatorSpec
@@ -3233,6 +3236,18 @@ func (operator *OpenShiftClusterOperatorSpec) AssignProperties_From_OpenShiftClu
 		operator.SecretExpressions = secretExpressionList
 	} else {
 		operator.SecretExpressions = nil
+	}
+
+	// Secrets
+	if source.Secrets != nil {
+		var secret OpenShiftClusterOperatorSecrets
+		err := secret.AssignProperties_From_OpenShiftClusterOperatorSecrets(source.Secrets)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_OpenShiftClusterOperatorSecrets() to populate field Secrets")
+		}
+		operator.Secrets = &secret
+	} else {
+		operator.Secrets = nil
 	}
 
 	// No error
@@ -3278,6 +3293,18 @@ func (operator *OpenShiftClusterOperatorSpec) AssignProperties_To_OpenShiftClust
 		destination.SecretExpressions = secretExpressionList
 	} else {
 		destination.SecretExpressions = nil
+	}
+
+	// Secrets
+	if operator.Secrets != nil {
+		var secret storage.OpenShiftClusterOperatorSecrets
+		err := operator.Secrets.AssignProperties_To_OpenShiftClusterOperatorSecrets(&secret)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_OpenShiftClusterOperatorSecrets() to populate field Secrets")
+		}
+		destination.Secrets = &secret
+	} else {
+		destination.Secrets = nil
 	}
 
 	// Update the property bag
@@ -4414,6 +4441,89 @@ func (profile *LoadBalancerProfile_STATUS) AssignProperties_To_LoadBalancerProfi
 		destination.ManagedOutboundIps = &managedOutboundIpsIPS
 	} else {
 		destination.ManagedOutboundIps = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type OpenShiftClusterOperatorSecrets struct {
+	// AdminCredentials: indicates where the AdminCredentials secret should be placed. If omitted, the secret will not be
+	// retrieved from Azure.
+	AdminCredentials *genruntime.SecretDestination `json:"adminCredentials,omitempty"`
+
+	// Password: indicates where the Password secret should be placed. If omitted, the secret will not be retrieved from Azure.
+	Password *genruntime.SecretDestination `json:"password,omitempty"`
+
+	// Username: indicates where the Username secret should be placed. If omitted, the secret will not be retrieved from Azure.
+	Username *genruntime.SecretDestination `json:"username,omitempty"`
+}
+
+// AssignProperties_From_OpenShiftClusterOperatorSecrets populates our OpenShiftClusterOperatorSecrets from the provided source OpenShiftClusterOperatorSecrets
+func (secrets *OpenShiftClusterOperatorSecrets) AssignProperties_From_OpenShiftClusterOperatorSecrets(source *storage.OpenShiftClusterOperatorSecrets) error {
+
+	// AdminCredentials
+	if source.AdminCredentials != nil {
+		adminCredential := source.AdminCredentials.Copy()
+		secrets.AdminCredentials = &adminCredential
+	} else {
+		secrets.AdminCredentials = nil
+	}
+
+	// Password
+	if source.Password != nil {
+		password := source.Password.Copy()
+		secrets.Password = &password
+	} else {
+		secrets.Password = nil
+	}
+
+	// Username
+	if source.Username != nil {
+		username := source.Username.Copy()
+		secrets.Username = &username
+	} else {
+		secrets.Username = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_OpenShiftClusterOperatorSecrets populates the provided destination OpenShiftClusterOperatorSecrets from our OpenShiftClusterOperatorSecrets
+func (secrets *OpenShiftClusterOperatorSecrets) AssignProperties_To_OpenShiftClusterOperatorSecrets(destination *storage.OpenShiftClusterOperatorSecrets) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AdminCredentials
+	if secrets.AdminCredentials != nil {
+		adminCredential := secrets.AdminCredentials.Copy()
+		destination.AdminCredentials = &adminCredential
+	} else {
+		destination.AdminCredentials = nil
+	}
+
+	// Password
+	if secrets.Password != nil {
+		password := secrets.Password.Copy()
+		destination.Password = &password
+	} else {
+		destination.Password = nil
+	}
+
+	// Username
+	if secrets.Username != nil {
+		username := secrets.Username.Copy()
+		destination.Username = &username
+	} else {
+		destination.Username = nil
 	}
 
 	// Update the property bag
