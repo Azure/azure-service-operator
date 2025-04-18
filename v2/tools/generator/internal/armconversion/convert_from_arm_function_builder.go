@@ -119,7 +119,7 @@ func (builder *convertFromARMBuilder) functionDeclaration() (*dst.FuncDecl, erro
 
 func (builder *convertFromARMBuilder) functionBodyStatements() ([]dst.Stmt, error) {
 	// Find all (any!) properties where their values need to be promoted from the nested ARM type
-	promotions := builder.findPromotions(builder.sourceType)
+	promotions := builder.findPromotions(builder.destinationType, builder.sourceType)
 
 	conversionStmts, err := generateTypeConversionAssignments(
 		builder.sourceType,
@@ -144,7 +144,7 @@ func (builder *convertFromARMBuilder) functionBodyStatements() ([]dst.Stmt, erro
 }
 
 func (builder *convertFromARMBuilder) propertyConversionHandler(
-	promotions map[string][]*astmodel.PropertyDefinition,
+	promotions map[string][]propertyPair,
 ) func(
 	toProp *astmodel.PropertyDefinition,
 	fromType *astmodel.ObjectType,
@@ -166,7 +166,7 @@ func (builder *convertFromARMBuilder) propertyConversionHandler(
 			return result, nil
 		}
 
-		// Promote any properties that populated from child objects
+		// Promote any properties from child ARM objects to the parent ARM object
 		// We know the types are going to be identical, so we can just generate
 		// simple assignments, but only when the property exists
 		if tn, ok := astmodel.AsInternalTypeName(toProp.PropertyType()); ok {
@@ -176,11 +176,11 @@ func (builder *convertFromARMBuilder) propertyConversionHandler(
 					assign := astbuilder.SimpleAssignment(
 						astbuilder.Selector(
 							dst.NewIdent(builder.receiverIdent),
-							string(promotion.PropertyName())),
+							promotion.crdProperty),
 						astbuilder.Selector(
-							dst.NewIdent(builder.receiverIdent),
+							dst.NewIdent(builder.typedInputIdent),
 							string(toProp.PropertyName()),
-							string(promotion.PropertyName())))
+							promotion.armProperty))
 					promotionStmts = append(promotionStmts, assign)
 				}
 

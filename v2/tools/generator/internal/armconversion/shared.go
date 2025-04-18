@@ -311,44 +311,77 @@ func skipPropertiesFlaggedWithNoARMConversion(
 	return notHandled, nil
 }
 
+// propertyPair is a struct that holds a pair of properties - one from the CRD and one from the ARM type,
+// used to track pairs of properties for promotion/demotion.
+type propertyPair struct {
+	crdProperty string
+	armProperty string
+}
+
 // findPromotions creates a map of promotions - properties from nested ARM types that need to be
 // promoted to the container API object. Only properties that are properly tagged are candidates,
 // and only if they exist on the referenced type.
 func (builder conversionBuilder) findPromotions(
-	subject *astmodel.ObjectType,
-) map[string][]*astmodel.PropertyDefinition {
-	// First find all properties that are tagged for promotion,
+	crdType *astmodel.ObjectType,
+	armType *astmodel.ObjectType,
+) map[string][]propertyPair {
+	// Find all properties that are tagged for promotion,
 	promotable := astmodel.NewPropertySet()
-	for _, prop := range subject.Properties().AsSlice() {
+	for _, prop := range armType.Properties().AsSlice() {
 		if prop.HasTagValue(ConversionTag, PushToOneOfLeaf) {
 			promotable.Add(prop)
 		}
 	}
 
+	// If there are no properties to promote, early return
 	if promotable.Len() == 0 {
 		// No properties to promote, early return
 		return nil
 	}
 
+	// Map those properties to the CRD type
+	propMap := make(map[astmodel.PropertyName]astmodel.PropertyName, len(promotable))
+	crdProperties := crdType.Properties()
+	for _, prop := range armType.Properties().AsSlice() {
+		if crdProperties.ContainsProperty(prop.PropertyName()) {
+			propMap[prop.PropertyName()] = prop.PropertyName()
+			continue
+		}
+
+		// Special case for the AzureName property
+		if prop.HasName(astmodel.NameProperty) && crdProperties.ContainsProperty(astmodel.AzureNameProperty) {
+			propMap[astmodel.NameProperty] = astmodel.AzureNameProperty
+		}
+	}
+
 	// Find all source properties that represent leaves from which promotion might occur
 	// and build a set of the promotable properties for each
 	defs := builder.codeGenerationContext.GetAllReachableDefinitions()
-	result := make(map[string][]*astmodel.PropertyDefinition)
-	for _, prop := range subject.Properties().AsSlice() {
+	result := make(map[string][]propertyPair, len(promotable))
+	armProperties := armType.Properties()
+	for _, prop := range armProperties.AsSlice() {
 		// Check whether the property is a leaf
 		tn, leaf, ok := builder.asLeaf(prop, defs)
 		if !ok {
 			continue
 		}
 
-		p := promotable.FindAll(
-			func(p *astmodel.PropertyDefinition) bool {
-				_, ok := leaf.Property(p.PropertyName())
-				return ok
-			})
-		if len(p) > 0 {
-			result[tn.Name()] = p
+		promotableFromLeaf := armProperties.Intersect(leaf.Properties())
+		if promotableFromLeaf.IsEmpty() {
+			continue
 		}
+
+		pairs := make([]propertyPair, 0, len(promotableFromLeaf))
+		for _, p := range promotableFromLeaf.AsSlice() {
+			pair := propertyPair{
+				crdProperty: string(propMap[p.PropertyName()]),
+				armProperty: string(p.PropertyName()),
+			}
+
+			pairs = append(pairs, pair)
+		}
+
+		result[tn.Name()] = pairs
 	}
 
 	return result

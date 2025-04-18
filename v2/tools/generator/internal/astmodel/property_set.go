@@ -28,6 +28,7 @@ type ReadOnlyPropertySet interface {
 	ForEachError(func(def *PropertyDefinition) error) error
 	IsEmpty() bool
 	Len() int
+	Intersect(other ReadOnlyPropertySet) PropertySet
 }
 
 var _ ReadOnlyPropertySet = PropertySet{} // assert satisfies
@@ -152,6 +153,18 @@ func (p PropertySet) Copy() PropertySet {
 	result := make(PropertySet, len(p))
 	for name, prop := range p {
 		result[name] = prop
+	}
+
+	return result
+}
+
+// Intersect returns a new property set containing only the properties that are in both sets
+func (p PropertySet) Intersect(other ReadOnlyPropertySet) PropertySet {
+	result := make(PropertySet, len(p))
+	for name, prop := range p {
+		if _, ok := other.Get(name); ok {
+			result[name] = prop
+		}
 	}
 
 	return result

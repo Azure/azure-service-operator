@@ -90,18 +90,23 @@ func (transformer *TypeTransformer) TransformDefinition(def astmodel.TypeDefinit
 
 	// Transform any matching properties
 	if transformer.Property.IsRestrictive() {
-		// Don't use AsObjectType() because we don't want to unwrap any MetaTypes
-		if objectType, ok := def.Type().(*astmodel.ObjectType); ok {
-			newObjectType, err := transformer.transformProperties(objectType)
-			if err != nil {
-				return astmodel.TypeDefinition{}, eris.Wrapf(
-					err,
-					"property transform on object type %s",
-					def.Name())
-			}
+		visitor := astmodel.TypeVisitorBuilder[any]{
+			VisitObjectType: func(
+				it *astmodel.ObjectType,
+			) (astmodel.Type, error) {
+				return transformer.transformProperties(it)
+			},
+		}.Build()
 
-			def = def.WithType(newObjectType)
+		d, err := visitor.VisitDefinition(def, nil)
+		if err != nil {
+			return astmodel.TypeDefinition{}, eris.Wrapf(
+				err,
+				"visiting definition %s",
+				def.Name())
 		}
+
+		def = d
 	}
 
 	return def, nil

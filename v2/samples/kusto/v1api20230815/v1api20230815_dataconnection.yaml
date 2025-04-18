@@ -1,0 +1,16 @@
+apiVersion: kusto.azure.com/v1api20230815
+kind: DataConnection
+metadata:
+  name: aso-sample-connection
+  namespace: default
+spec:
+  owner:
+    name: aso-sample-database
+  eventHubDataConnection:
+    eventHubResourceReference:
+      group: eventhub.azure.com
+      kind: NamespacesEventhub
+      name: sample-eventhub
+    kind: EventHub
+    consumerGroup: sample-consumergroup
+    location: westus2

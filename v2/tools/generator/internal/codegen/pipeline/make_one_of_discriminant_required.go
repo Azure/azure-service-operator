@@ -88,7 +88,7 @@ func makeOneOfDiscriminantTypeRequired(
 	result := make(astmodel.TypeDefinitionSet)
 	discriminantJSON, values, err := astmodel.DetermineDiscriminantAndValues(objectType, defs)
 	if err != nil {
-		return nil, err
+		return nil, eris.Wrapf(err, "determining discriminant and values for %s", oneOf.Name())
 	}
 
 	astmodel.NewPropertyInjector()

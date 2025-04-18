@@ -124,7 +124,7 @@ func (builder *convertToARMBuilder) functionBodyStatements() ([]dst.Stmt, error)
 	// Find all (any!) properties where their values need to be demoted into the nested ARM type.
 	// The set of demotions is the same as the set of promotions (as ConvertToARM and
 	// ConvertFromARM must be symmetric) so we reuse the same factory.
-	demotions := builder.findPromotions(builder.destinationType)
+	demotions := builder.findPromotions(builder.sourceType, builder.destinationType)
 
 	// Each ARM object property needs to be filled out
 	conversions, err := generateTypeConversionAssignments(
@@ -147,7 +147,7 @@ func (builder *convertToARMBuilder) functionBodyStatements() ([]dst.Stmt, error)
 }
 
 func (builder *convertToARMBuilder) propertyConversionHandler(
-	demotions map[string][]*astmodel.PropertyDefinition,
+	demotions map[string][]propertyPair,
 ) func(
 	toProp *astmodel.PropertyDefinition,
 	fromType *astmodel.ObjectType,
@@ -180,10 +180,10 @@ func (builder *convertToARMBuilder) propertyConversionHandler(
 						astbuilder.Selector(
 							dst.NewIdent(builder.resultIdent),
 							string(toProp.PropertyName()),
-							string(demotion.PropertyName())),
+							demotion.armProperty),
 						astbuilder.Selector(
 							dst.NewIdent(builder.receiverIdent),
-							string(demotion.PropertyName())))
+							demotion.crdProperty))
 					demotionStmts = append(demotionStmts, assign)
 				}
 
