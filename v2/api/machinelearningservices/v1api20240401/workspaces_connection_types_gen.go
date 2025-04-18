@@ -12038,6 +12038,7 @@ func (identity *WorkspaceConnectionManagedIdentity_STATUS) AssignProperties_To_W
 // depending on each OAuth2 provider's
 // implementation.
 type WorkspaceConnectionOAuth2 struct {
+	// +kubebuilder:validation:Pattern="^https?://[^\\s]+$"
 	// AuthUrl: Required by Concur connection category
 	AuthUrl *string `json:"authUrl,omitempty"`
 
