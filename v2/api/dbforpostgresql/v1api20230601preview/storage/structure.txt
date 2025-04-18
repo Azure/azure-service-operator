@@ -341,6 +341,12 @@ augmentConversionForNetwork: Interface
 
 augmentConversionForNetwork_STATUS: Interface
 
+augmentConversionForPrivateEndpointConnection_STATUS: Interface
+
+augmentConversionForReplica: Interface
+
+augmentConversionForReplica_STATUS: Interface
+
 augmentConversionForSku: Interface
 
 augmentConversionForSku_STATUS: Interface

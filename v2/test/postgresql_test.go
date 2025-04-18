@@ -15,7 +15,7 @@ import (
 	v1 "k8s.io/api/core/v1"
 
 	postgresqlv1 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1"
-	postgresql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601"
+	postgresql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20240801"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
@@ -28,8 +28,7 @@ func Test_PostgreSQL_Combined(t *testing.T) {
 	t.Parallel()
 	tc := globalTestContext.ForTest(t)
 	// Force this test to run in a region that is not capacity constrained.
-	// location := tc.AzureRegion TODO: Uncomment this line when West US 2 is no longer constrained
-	tc.AzureRegion = to.Ptr("australiaeast")
+	tc.AzureRegion = to.Ptr("australiaeast") // TODO: Uncomment this line when West US 2 is no longer constrained
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	adminUsername := "myadmin"
@@ -363,7 +362,7 @@ func newPostgresSQLSecret(tc *testcommon.KubePerTestContext, key string, passwor
 }
 
 func newPostgreSQLServer(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, adminUsername string, adminKey string, adminSecretName string) *postgresql.FlexibleServer {
-	version := postgresql.ServerVersion_13
+	version := postgresql.ServerVersion_16
 	secretRef := genruntime.SecretReference{
 		Name: adminSecretName,
 		Key:  adminKey,

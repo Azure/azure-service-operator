@@ -7,7 +7,7 @@ spec:
   location: uksouth
   owner:
     name: aso-sample-rg
-  version: "13"
+  version: "16"
   sku:
     name: Standard_D4s_v3
     tier: GeneralPurpose

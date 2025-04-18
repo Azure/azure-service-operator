@@ -103,7 +103,7 @@ func Test_DBForPostgreSQL_FlexibleServer_20230601Preview_CRUD(t *testing.T) {
 		testcommon.Subtest{
 			Name: "ConfigMapValuesWrittenToSameConfigMap",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				FlexibleServer_ConfigValuesWrittenToSameConfigMap(tc, flexibleServer)
+				FlexibleServer_20230601Preview_ConfigValuesWrittenToSameConfigMap(tc, flexibleServer)
 			},
 		},
 		testcommon.Subtest{
@@ -135,7 +135,7 @@ func Test_DBForPostgreSQL_FlexibleServer_20230601Preview_CRUD(t *testing.T) {
 	g.Expect(exists).To(BeFalse())
 }
 
-func FlexibleServer_ConfigValuesWrittenToSameConfigMap(tc *testcommon.KubePerTestContext, flexibleServer *postgresql.FlexibleServer) {
+func FlexibleServer_20230601Preview_ConfigValuesWrittenToSameConfigMap(tc *testcommon.KubePerTestContext, flexibleServer *postgresql.FlexibleServer) {
 	old := flexibleServer.DeepCopy()
 	flexibleServerConfigMap := "serverconfig"
 	flexibleServerConfigMapKey := "fqdn"

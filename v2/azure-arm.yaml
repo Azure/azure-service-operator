@@ -2361,6 +2361,49 @@ objectModelConfiguration:
           $referenceType: arm
         PrivateDnsZoneArmResourceId:
           $referenceType: arm
+    2024-08-01:
+      DataEncryption:
+        GeoBackupKeyURI:
+          $importConfigMapMode: optional
+        GeoBackupUserAssignedIdentityId:
+          $referenceType: arm
+        PrimaryKeyURI:
+          $importConfigMapMode: optional
+        PrimaryUserAssignedIdentityId:
+          $referenceType: arm
+      FlexibleServer:
+        $azureGeneratedSecrets:
+          - FullyQualifiedDomainName
+        $export: true
+        $supportedFrom: v2.13.0
+        $generatedConfigs:
+          FullyQualifiedDomainName: $.Status.FullyQualifiedDomainName
+      FlexibleServers_Configuration:
+        $exportAs: FlexibleServersConfiguration
+        $supportedFrom: v2.13.0
+      FlexibleServers_Database:
+        $exportAs: FlexibleServersDatabase
+        $supportedFrom: v2.13.0
+      FlexibleServers_FirewallRule:
+        $exportAs: FlexibleServersFirewallRule
+        $supportedFrom: v2.13.0
+      FlexibleServers_Backup:  # TODO: net new
+        $exportAs: FlexibleServersBackup
+        $supportedFrom: v2.13.0
+      FlexibleServers_AdvancedThreatProtectionSetting:  # TODO: net new
+        $exportAs: FlexibleServersAdvancedThreatProtectionSettings
+        $supportedFrom: v2.13.0
+      FlexibleServers_VirtualEndpoint:  # TODO: net new
+        $exportAs: FlexibleServersVirtualEndpoint
+        $supportedFrom: v2.13.0
+      ServerProperties:
+        SourceServerResourceId:
+          $referenceType: arm
+      Network:
+        DelegatedSubnetResourceId:
+          $referenceType: arm
+        PrivateDnsZoneArmResourceId:
+          $referenceType: arm
   devices:
     2021-07-02:
       IotHub:
