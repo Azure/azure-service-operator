@@ -23,7 +23,7 @@ require (
 	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/search/armsearch v1.3.0
 	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/servicebus/armservicebus v1.2.0
 	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/signalr/armsignalr v1.2.0
-	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storage/armstorage v1.7.0
+	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storage/armstorage v1.8.0
 	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/subscription/armsubscription v1.2.0
 	github.com/Azure/msi-dataplane v0.4.3
 	github.com/benbjohnson/clock v1.3.5
@@ -31,7 +31,7 @@ require (
 	github.com/go-logr/logr v1.4.2
 	github.com/go-logr/zapr v1.3.0
 	github.com/go-sql-driver/mysql v1.9.2
-	github.com/google/cel-go v0.22.1
+	github.com/google/cel-go v0.24.1
 	github.com/google/go-cmp v0.7.0
 	github.com/google/uuid v1.6.0
 	github.com/hbollon/go-edlib v1.6.0
