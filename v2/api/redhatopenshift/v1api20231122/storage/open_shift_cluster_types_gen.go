@@ -369,9 +369,10 @@ type NetworkProfile_STATUS struct {
 // Storage version of v1api20231122.OpenShiftClusterOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type OpenShiftClusterOperatorSpec struct {
-	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
-	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+	ConfigMapExpressions []*core.DestinationExpression    `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression    `json:"secretExpressions,omitempty"`
+	Secrets              *OpenShiftClusterOperatorSecrets `json:"secrets,omitempty"`
 }
 
 // Storage version of v1api20231122.ServicePrincipalProfile
@@ -445,6 +446,14 @@ type LoadBalancerProfile_STATUS struct {
 	EffectiveOutboundIps []EffectiveOutboundIP_STATUS `json:"effectiveOutboundIps,omitempty"`
 	ManagedOutboundIps   *ManagedOutboundIPs_STATUS   `json:"managedOutboundIps,omitempty"`
 	PropertyBag          genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1api20231122.OpenShiftClusterOperatorSecrets
+type OpenShiftClusterOperatorSecrets struct {
+	AdminCredentials *genruntime.SecretDestination `json:"adminCredentials,omitempty"`
+	Password         *genruntime.SecretDestination `json:"password,omitempty"`
+	PropertyBag      genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	Username         *genruntime.SecretDestination `json:"username,omitempty"`
 }
 
 // Storage version of v1api20231122.EffectiveOutboundIP_STATUS

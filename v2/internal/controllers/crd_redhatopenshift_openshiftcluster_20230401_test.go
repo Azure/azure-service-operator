@@ -18,6 +18,7 @@ import (
 	aro "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20231122"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 type servicePrincipalDetails struct {
@@ -32,7 +33,6 @@ type servicePrincipalDetails struct {
 // TODO: Hopefully we can revisit this in the future when they support other options.
 func Test_RedHatOpenShift_OpenShiftCluster_CRUD(t *testing.T) {
 	t.Parallel()
-	t.Skip("flaky right now")
 
 	tc := globalTestContext.ForTest(t)
 	rg := tc.CreateTestResourceGroupAndWait()
@@ -59,12 +59,13 @@ func Test_RedHatOpenShift_OpenShiftCluster_CRUD(t *testing.T) {
 	workerSubnet.Spec.ServiceEndpoints = serviceEndpoints
 
 	contributorRoleId := fmt.Sprintf("/subscriptions/%s/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c", tc.AzureSubscription)
-	roleAssingmentToVnet := newRoleAssignment(tc, vnet, "roleassingment", contributorRoleId)
-	roleAssingmentToVnet.Spec.PrincipalId = to.Ptr(details.objectId)
+	roleAssignmentToVNET := newRoleAssignment(tc, vnet, "roleassingment", contributorRoleId)
+	roleAssignmentToVNET.Spec.PrincipalId = to.Ptr(details.objectId)
 
 	roleAssingmentFromRPtoVnet := newRoleAssignment(tc, vnet, "rollassginmentrp", contributorRoleId)
 	roleAssingmentFromRPtoVnet.Spec.PrincipalId = to.Ptr(azureRedHadOpenshiftRPIdentityPrincipalId)
 
+	outputSecretName := "my-secret"
 	cluster := &aro.OpenShiftCluster{
 		ObjectMeta: tc.MakeObjectMeta("aro-cluster"),
 		Spec: aro.OpenShiftCluster_Spec{
@@ -109,12 +110,28 @@ func Test_RedHatOpenShift_OpenShiftCluster_CRUD(t *testing.T) {
 					EncryptionAtHost: to.Ptr(aro.EncryptionAtHost_Disabled),
 				},
 			},
+			OperatorSpec: &aro.OpenShiftClusterOperatorSpec{
+				Secrets: &aro.OpenShiftClusterOperatorSecrets{
+					AdminCredentials: &genruntime.SecretDestination{
+						Name: outputSecretName,
+						Key:  "adminCreds",
+					},
+					Username: &genruntime.SecretDestination{
+						Name: outputSecretName,
+						Key:  "username",
+					},
+					Password: &genruntime.SecretDestination{
+						Name: outputSecretName,
+						Key:  "password",
+					},
+				},
+			},
 		},
 	}
 
 	tc.CreateResourcesAndWait(
 		vnet,
-		roleAssingmentToVnet,
+		roleAssignmentToVNET,
 		roleAssingmentFromRPtoVnet,
 		workerSubnet,
 		masterSubnet,
@@ -123,6 +140,9 @@ func Test_RedHatOpenShift_OpenShiftCluster_CRUD(t *testing.T) {
 	tc.Expect(cluster.Status.Id).ToNot(BeNil())
 	armId := *cluster.Status.Id
 	tc.Expect(armId).ToNot(BeNil())
+
+	// It should have the expected secret data written
+	tc.ExpectSecretHasKeys(outputSecretName, "adminCreds", "username", "password")
 
 	tc.DeleteResourceAndWait(cluster)
 
