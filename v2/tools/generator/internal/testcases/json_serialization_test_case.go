@@ -397,7 +397,11 @@ func (o *JSONSerializationTestCase) createGeneratorDeclaration(genContext *astmo
 }
 
 // createGeneratorMethod generates the AST for a method used to populate our generator cache variable on demand
-func (o *JSONSerializationTestCase) createGeneratorMethod(ctx *astmodel.CodeGenerationContext, haveSimpleGenerators bool, haveRelatedGenerators bool) dst.Decl {
+func (o *JSONSerializationTestCase) createGeneratorMethod(
+	ctx *astmodel.CodeGenerationContext,
+	haveSimpleGenerators bool,
+	haveRelatedGenerators bool,
+) dst.Decl {
 	gopterPkg := ctx.MustGetImportedPackageName(astmodel.GopterReference)
 	genPkg := ctx.MustGetImportedPackageName(astmodel.GopterGenReference)
 	reflectPkg := ctx.MustGetImportedPackageName(astmodel.ReflectReference)
@@ -428,15 +432,16 @@ func (o *JSONSerializationTestCase) createGeneratorMethod(ctx *astmodel.CodeGene
 	createMap := astbuilder.MakeMap(dst.NewIdent("string"), gopterGen())
 
 	// Create a generator using our map of generators
-	// We may use this twice, so create it once to ensure we're consistent
+	// We may use this twice, so define it once to ensure we're consistent
 	//
 	// gen.Struct(reflect.TypeOf(<subject>{}), generators)
 	//
-	createGenerator := astbuilder.CallQualifiedFunc(
+	initialCreateGenerator := astbuilder.CallQualifiedFunc(
 		genPkg,
 		"Struct",
 		astbuilder.CallQualifiedFunc(reflectPkg, "TypeOf", &dst.CompositeLit{Type: o.Subject()}),
-		dst.NewIdent(mapID))
+		dst.NewIdent(mapId))
+	finalCreateGenerator := initialCreateGenerator
 
 	var oneOfStmts []dst.Stmt
 
@@ -448,7 +453,7 @@ func (o *JSONSerializationTestCase) createGeneratorMethod(ctx *astmodel.CodeGene
 		// generates: var gens []gopter.Gen
 		possibleGenerators := astbuilder.LocalVariableDeclaration(gensName, &dst.ArrayType{Elt: gopterGen()}, "")
 		possibleGenerators.Decs.Before = dst.EmptyLine
-		possibleGenerators.Decs.Start = dst.Decorations{"// handle OneOf by choosing only one field to instantiate"}
+		possibleGenerators.Decs.Start = dst.Decorations{"// handle OneOf by choosing only one option to instantiate"}
 
 		// generates (e.g.):
 		// for propName, propGen := range generators {
@@ -478,7 +483,7 @@ func (o *JSONSerializationTestCase) createGeneratorMethod(ctx *astmodel.CodeGene
 		}
 
 		// generates (e.g.): backupPolicyGenerator = gen.OneGenOf(gens...)
-		createGenerator = &dst.CallExpr{
+		finalCreateGenerator = &dst.CallExpr{
 			Fun: &dst.SelectorExpr{
 				X:   dst.NewIdent(genPkg),
 				Sel: dst.NewIdent("OneGenOf"),
@@ -535,7 +540,7 @@ func (o *JSONSerializationTestCase) createGeneratorMethod(ctx *astmodel.CodeGene
 		//
 		// <generator> = gen.Struct(reflect.TypeOf(<subject>{}), generators)
 		//
-		assignGenerator := astbuilder.SimpleAssignment(dst.NewIdent(generatorGlobalID), createGenerator)
+		assignGenerator := astbuilder.SimpleAssignment(dst.NewIdent(generatorGlobalID), initialCreateGenerator)
 
 		// Our map has been consumed by the call to gen.Struct() so we need a new one for the final generator
 		//
@@ -567,7 +572,7 @@ func (o *JSONSerializationTestCase) createGeneratorMethod(ctx *astmodel.CodeGene
 	//
 	// <generator> = gen.Struct(reflect.TypeOf(<subject>{}), generators)
 	//
-	assignGenerator := astbuilder.SimpleAssignment(dst.NewIdent(generatorGlobalID), createGenerator)
+	assignGenerator := astbuilder.SimpleAssignment(dst.NewIdent(generatorGlobalID), finalCreateGenerator)
 
 	// Return the freshly created (and now cached) generator
 	//
