@@ -205,27 +205,19 @@ func RunJSONSerializationTestForDataConnection_Spec(subject DataConnection_Spec)
 var dataConnection_SpecGenerator gopter.Gen
 
 // DataConnection_SpecGenerator returns a generator of DataConnection_Spec instances for property testing.
-// We first initialize dataConnection_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
 func DataConnection_SpecGenerator() gopter.Gen {
 	if dataConnection_SpecGenerator != nil {
 		return dataConnection_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDataConnection_Spec(generators)
-	dataConnection_SpecGenerator = gen.OneGenOf(gens...)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDataConnection_Spec(generators)
 	AddRelatedPropertyGeneratorsForDataConnection_Spec(generators)
 
 	// handle OneOf by choosing only one field to instantiate
 	var gens []gopter.Gen
 	for propName, propGen := range generators {
-		gens = append(gens, gen.Struct(reflect.TypeOf(DataConnection_Spec{}), map[string]gopter.Gen{propName: propGen}))
+		props := map[string]gopter.Gen{propName: propGen}
+		gens = append(gens, gen.Struct(reflect.TypeOf(DataConnection_Spec{}), props))
 	}
 	dataConnection_SpecGenerator = gen.OneGenOf(gens...)
 

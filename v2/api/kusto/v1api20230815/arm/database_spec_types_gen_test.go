@@ -60,27 +60,19 @@ func RunJSONSerializationTestForDatabase_Spec(subject Database_Spec) string {
 var database_SpecGenerator gopter.Gen
 
 // Database_SpecGenerator returns a generator of Database_Spec instances for property testing.
-// We first initialize database_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
 func Database_SpecGenerator() gopter.Gen {
 	if database_SpecGenerator != nil {
 		return database_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabase_Spec(generators)
-	database_SpecGenerator = gen.OneGenOf(gens...)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabase_Spec(generators)
 	AddRelatedPropertyGeneratorsForDatabase_Spec(generators)
 
 	// handle OneOf by choosing only one field to instantiate
 	var gens []gopter.Gen
 	for propName, propGen := range generators {
-		gens = append(gens, gen.Struct(reflect.TypeOf(Database_Spec{}), map[string]gopter.Gen{propName: propGen}))
+		props := map[string]gopter.Gen{propName: propGen}
+		gens = append(gens, gen.Struct(reflect.TypeOf(Database_Spec{}), props))
 	}
 	database_SpecGenerator = gen.OneGenOf(gens...)
 
