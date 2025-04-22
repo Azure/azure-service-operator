@@ -552,7 +552,8 @@ func MetricAlertCriteriaGenerator() gopter.Gen {
 	// handle OneOf by choosing only one field to instantiate
 	var gens []gopter.Gen
 	for propName, propGen := range generators {
-		gens = append(gens, gen.Struct(reflect.TypeOf(MetricAlertCriteria{}), map[string]gopter.Gen{propName: propGen}))
+		props := map[string]gopter.Gen{propName: propGen}
+		gens = append(gens, gen.Struct(reflect.TypeOf(MetricAlertCriteria{}), props))
 	}
 	metricAlertCriteriaGenerator = gen.OneGenOf(gens...)
 
@@ -627,7 +628,8 @@ func MetricAlertCriteria_STATUSGenerator() gopter.Gen {
 	// handle OneOf by choosing only one field to instantiate
 	var gens []gopter.Gen
 	for propName, propGen := range generators {
-		gens = append(gens, gen.Struct(reflect.TypeOf(MetricAlertCriteria_STATUS{}), map[string]gopter.Gen{propName: propGen}))
+		props := map[string]gopter.Gen{propName: propGen}
+		gens = append(gens, gen.Struct(reflect.TypeOf(MetricAlertCriteria_STATUS{}), props))
 	}
 	metricAlertCriteria_STATUSGenerator = gen.OneGenOf(gens...)
 
@@ -1526,7 +1528,8 @@ func MultiMetricCriteriaGenerator() gopter.Gen {
 	// handle OneOf by choosing only one field to instantiate
 	var gens []gopter.Gen
 	for propName, propGen := range generators {
-		gens = append(gens, gen.Struct(reflect.TypeOf(MultiMetricCriteria{}), map[string]gopter.Gen{propName: propGen}))
+		props := map[string]gopter.Gen{propName: propGen}
+		gens = append(gens, gen.Struct(reflect.TypeOf(MultiMetricCriteria{}), props))
 	}
 	multiMetricCriteriaGenerator = gen.OneGenOf(gens...)
 
@@ -1598,7 +1601,8 @@ func MultiMetricCriteria_STATUSGenerator() gopter.Gen {
 	// handle OneOf by choosing only one field to instantiate
 	var gens []gopter.Gen
 	for propName, propGen := range generators {
-		gens = append(gens, gen.Struct(reflect.TypeOf(MultiMetricCriteria_STATUS{}), map[string]gopter.Gen{propName: propGen}))
+		props := map[string]gopter.Gen{propName: propGen}
+		gens = append(gens, gen.Struct(reflect.TypeOf(MultiMetricCriteria_STATUS{}), props))
 	}
 	multiMetricCriteria_STATUSGenerator = gen.OneGenOf(gens...)
 

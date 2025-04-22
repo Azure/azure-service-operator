@@ -58,6 +58,11 @@ func Statements(statements ...any) []dst.Stmt {
 	// Clone everything to avoid sharing nodes
 	result := make([]dst.Stmt, 0, len(stmts))
 	for _, st := range stmts {
+		if st == nil {
+			// Skip nils
+			continue
+		}
+
 		result = append(result, dst.Clone(st).(dst.Stmt))
 	}
 
