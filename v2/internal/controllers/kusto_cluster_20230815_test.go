@@ -10,7 +10,6 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	kubernetesconfiguration "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/v1api20230501"
 	kusto "github.com/Azure/azure-service-operator/v2/api/kusto/v1api20230815"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
@@ -36,7 +35,7 @@ func Test_Kusto_Cluster_20230815_CRUD(t *testing.T) {
 		},
 	}
 
-	rwdatabase := &kusto.Database{
+	rwDatabase := &kusto.Database{
 		ObjectMeta: tc.MakeObjectMeta("rwdatabase"),
 		Spec: kusto.Database_Spec{
 			Owner: testcommon.AsOwner(cluster),
@@ -47,7 +46,7 @@ func Test_Kusto_Cluster_20230815_CRUD(t *testing.T) {
 		},
 	}
 
-	tc.CreateResourcesAndWait(cluster, rwdatabase)
+	tc.CreateResourcesAndWait(cluster, rwDatabase)
 	tc.Expect(cluster.Status.Id).ToNot(BeNil())
 	armId := *cluster.Status.Id
 
@@ -58,7 +57,7 @@ func Test_Kusto_Cluster_20230815_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(cluster)
 
 	// Ensure delete
-	exists, retryAfter, err := tc.AzureClient.CheckExistenceWithGetByID(tc.Ctx, armId, string(kubernetesconfiguration.APIVersion_Value))
+	exists, retryAfter, err := tc.AzureClient.CheckExistenceWithGetByID(tc.Ctx, armId, string(kusto.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())
