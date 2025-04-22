@@ -402,6 +402,20 @@ func (o *JSONSerializationTestCase) createGeneratorMethod(
 	haveSimpleGenerators bool,
 	haveRelatedGenerators bool,
 ) dst.Decl {
+	if o.isOneOf {
+		return o.createGeneratorMethodForOneOf(ctx, haveSimpleGenerators, haveRelatedGenerators)
+	}
+
+	// If we're not a oneOf type, we can use the standard generator method
+	return o.createGeneratorMethodForObject(ctx, haveSimpleGenerators, haveRelatedGenerators)
+}
+
+// createGeneratorMethodForObject generates the AST for a method used to populate our generator cache variable on demand
+func (o *JSONSerializationTestCase) createGeneratorMethodForObject(
+	ctx *astmodel.CodeGenerationContext,
+	haveSimpleGenerators bool,
+	haveRelatedGenerators bool,
+) dst.Decl {
 	gopterPkg := ctx.MustGetImportedPackageName(astmodel.GopterReference)
 	genPkg := ctx.MustGetImportedPackageName(astmodel.GopterGenReference)
 	reflectPkg := ctx.MustGetImportedPackageName(astmodel.ReflectReference)
@@ -440,62 +454,194 @@ func (o *JSONSerializationTestCase) createGeneratorMethod(
 		genPkg,
 		"Struct",
 		astbuilder.CallQualifiedFunc(reflectPkg, "TypeOf", &dst.CompositeLit{Type: o.Subject()}),
-		dst.NewIdent(mapId))
+		dst.NewIdent(mapID))
 	finalCreateGenerator := initialCreateGenerator
+
+	// If we have already cached our builder, return it immediately
+	//
+	// if <generator> != nil {
+	//     return <generator>
+	// }
+	//
+	earlyReturn := astbuilder.ReturnIfNotNil(
+		dst.NewIdent(generatorGlobalID),
+		dst.NewIdent(generatorGlobalID))
+
+	// Declare a map for the generators we need to construct our instance
+	//
+	// generators := make(map[string]gopter.Gen)
+	//
+	declareMap := astbuilder.ShortDeclaration(mapID, createMap)
+	declareMap.Decorations().Before = dst.EmptyLine
+
+	fn.AddStatements(earlyReturn, declareMap)
+
+	if haveSimpleGenerators {
+		// Add our simple generators (those for primitive types) into our generator map
+		//
+		// AddIndependentPropertyGeneratorsFor<Type>(generators)
+		//
+		addGenerators := astbuilder.CallFuncAsStmt(o.idOfIndependentGeneratorsFactoryMethod(), dst.NewIdent(mapID))
+
+		fn.AddStatements(addGenerators)
+	}
+
+	if haveSimpleGenerators && haveRelatedGenerators {
+		// We have both simple and related generators, so we need a two phase creation for our generator.
+		// By creating a generator now with only the simple generators, we avoid having any nasty infinite cycles
+		// if our type graph includes any referential cycles
+
+		fn.AddComments(
+			fmt.Sprintf("// We first initialize %s with a simplified generator based on the ", generatorGlobalID),
+			"// fields with primitive types then replacing it with a more complex one that also handles complex fields",
+			"// to ensure any cycles in the object graph properly terminate.")
+
+		// Create a generator and assign it to our variable
+		//
+		// <generator> = gen.Struct(reflect.TypeOf(<subject>{}), generators)
+		//
+		assignGenerator := astbuilder.SimpleAssignment(dst.NewIdent(generatorGlobalID), initialCreateGenerator)
+
+		// Our map has been consumed by the call to gen.Struct() so we need a new one for the final generator
+		//
+		// generators = make(map[string]gopter.Gen
+		//
+		assignMap := astbuilder.SimpleAssignment(dst.NewIdent(mapID), createMap)
+		assignMap.Decorations().Before = dst.EmptyLine
+		assignMap.Decs.Start.Append("// The above call to gen.Struct() captures the map, so create a new one")
+
+		// Add our simple generators (those for primitive types) into our generator map
+		//
+		// AddIndependentPropertyGeneratorsFor<Type>(generators)
+		//
+		addGenerators := astbuilder.CallFuncAsStmt(o.idOfIndependentGeneratorsFactoryMethod(), dst.NewIdent(mapID))
+
+		fn.AddStatements(assignGenerator, assignMap, addGenerators)
+	}
+
+	if haveRelatedGenerators {
+		// Add our related generators (those from complex types) into our generator map
+		//
+		// AddRelatedPropertyGeneratorsFor<Type>(generators)
+		//
+		addRelatedGenerators := astbuilder.CallFuncAsStmt(o.idOfRelatedGeneratorsFactoryMethod(), dst.NewIdent(mapID))
+		fn.AddStatements(addRelatedGenerators)
+	}
+
+	// Create a generator and assign it to our map
+	//
+	// <generator> = gen.Struct(reflect.TypeOf(<subject>{}), generators)
+	//
+	assignGenerator := astbuilder.SimpleAssignment(dst.NewIdent(generatorGlobalID), finalCreateGenerator)
+
+	// Return the freshly created (and now cached) generator
+	//
+	// return <generator>
+	//
+	ret := astbuilder.Returns(dst.NewIdent(generatorGlobalID))
+	ret.Decorations().Before = dst.EmptyLine
+
+	fn.AddStatements(assignGenerator, ret)
+
+	return fn.DefineFunc()
+}
+
+// createGeneratorMethodForOneOf generates a method used to populate our generator cache variable
+// on demand for OneOf types
+func (o *JSONSerializationTestCase) createGeneratorMethodForOneOf(
+	ctx *astmodel.CodeGenerationContext,
+	haveSimpleGenerators bool,
+	haveRelatedGenerators bool,
+) dst.Decl {
+	gopterPkg := ctx.MustGetImportedPackageName(astmodel.GopterReference)
+	genPkg := ctx.MustGetImportedPackageName(astmodel.GopterGenReference)
+	reflectPkg := ctx.MustGetImportedPackageName(astmodel.ReflectReference)
+
+	mapID := "generators"
+
+	// Name of the global variable in which we cache our generator
+	generatorGlobalID := o.idOfSubjectGeneratorGlobal()
+
+	fn := &astbuilder.FuncDetails{
+		Name: idOfGeneratorMethod(o.subject, o.idFactory),
+		Returns: []*dst.Field{
+			{
+				Type: astbuilder.QualifiedTypeName(gopterPkg, "Gen"),
+			},
+		},
+	}
+
+	fn.AddComments(fmt.Sprintf("returns a generator of %s instances for property testing.", o.Subject()))
+
+	gopterGen := func() dst.Expr { return astbuilder.QualifiedTypeName(gopterPkg, "Gen") }
+
+	// Creating a map to store our generators
+	// We may use this twice, so create it once to ensure we're consistent
+	//
+	// make(map[string]gopter.Gen)
+	//
+	createMap := astbuilder.MakeMap(dst.NewIdent("string"), gopterGen())
+
+	// Create a generator using our map of generators
+	// We may use this twice, so define it once to ensure we're consistent
+	//
+	// gen.Struct(reflect.TypeOf(<subject>{}), generators)
+	//
+	initialCreateGenerator := astbuilder.CallQualifiedFunc(
+		genPkg,
+		"Struct",
+		astbuilder.CallQualifiedFunc(reflectPkg, "TypeOf", &dst.CompositeLit{Type: o.Subject()}),
+		dst.NewIdent(mapID))
 
 	var oneOfStmts []dst.Stmt
 
-	if o.isOneOf {
-		// special handling for oneOf types:
+	gensName := "gens"
 
-		gensName := "gens"
+	// generates: var gens []gopter.Gen
+	possibleGenerators := astbuilder.LocalVariableDeclaration(gensName, &dst.ArrayType{Elt: gopterGen()}, "")
+	possibleGenerators.Decs.Before = dst.EmptyLine
+	possibleGenerators.Decs.Start = dst.Decorations{"// handle OneOf by choosing only one field to instantiate"}
 
-		// generates: var gens []gopter.Gen
-		possibleGenerators := astbuilder.LocalVariableDeclaration(gensName, &dst.ArrayType{Elt: gopterGen()}, "")
-		possibleGenerators.Decs.Before = dst.EmptyLine
-		possibleGenerators.Decs.Start = dst.Decorations{"// handle OneOf by choosing only one option to instantiate"}
-
-		// generates (e.g.):
-		// for propName, propGen := range generators {
-		//  	gens = append(gens, gen.Struct(reflect.TypeOf(BackupPolicy{}), map[string]gopter.Gen{propName: propGen}))
-		// }
-		initGopters := &dst.RangeStmt{
-			Key:   dst.NewIdent("propName"),
-			Value: dst.NewIdent("propGen"),
-			Tok:   token.DEFINE,
-			X:     dst.NewIdent(mapID),
-			Body: astbuilder.StatementBlock(
-				astbuilder.SimpleAssignment(dst.NewIdent(gensName), astbuilder.CallFunc("append", dst.NewIdent(gensName),
-					astbuilder.CallQualifiedFunc(
-						genPkg,
-						"Struct",
-						astbuilder.CallQualifiedFunc(reflectPkg, "TypeOf", &dst.CompositeLit{Type: o.Subject()}),
-						astbuilder.NewCompositeLiteralBuilder(
-							&dst.MapType{
-								Key:   dst.NewIdent("string"),
-								Value: gopterGen(),
-							}).
-							AddField("propName", dst.NewIdent("propGen")).
-							Build(),
-					)),
-				),
+	// generates (e.g.):
+	// for propName, propGen := range generators {
+	//  	gens = append(gens, gen.Struct(reflect.TypeOf(BackupPolicy{}), map[string]gopter.Gen{propName: propGen}))
+	// }
+	initGopters := &dst.RangeStmt{
+		Key:   dst.NewIdent("propName"),
+		Value: dst.NewIdent("propGen"),
+		Tok:   token.DEFINE,
+		X:     dst.NewIdent(mapID),
+		Body: astbuilder.StatementBlock(
+			astbuilder.SimpleAssignment(dst.NewIdent(gensName), astbuilder.CallFunc("append", dst.NewIdent(gensName),
+				astbuilder.CallQualifiedFunc(
+					genPkg,
+					"Struct",
+					astbuilder.CallQualifiedFunc(reflectPkg, "TypeOf", &dst.CompositeLit{Type: o.Subject()}),
+					astbuilder.NewCompositeLiteralBuilder(
+						&dst.MapType{
+							Key:   dst.NewIdent("string"),
+							Value: gopterGen(),
+						}).
+						AddField("propName", dst.NewIdent("propGen")).
+						Build(),
+				)),
 			),
-		}
-
-		// generates (e.g.): backupPolicyGenerator = gen.OneGenOf(gens...)
-		finalCreateGenerator = &dst.CallExpr{
-			Fun: &dst.SelectorExpr{
-				X:   dst.NewIdent(genPkg),
-				Sel: dst.NewIdent("OneGenOf"),
-			},
-			Args:     astbuilder.Expressions(dst.NewIdent(gensName)),
-			Ellipsis: true,
-		}
-
-		oneOfStmts = astbuilder.Statements(
-			possibleGenerators,
-			initGopters)
+		),
 	}
+
+	// generates (e.g.): backupPolicyGenerator = gen.OneGenOf(gens...)
+	finalCreateGenerator := &dst.CallExpr{
+		Fun: &dst.SelectorExpr{
+			X:   dst.NewIdent(genPkg),
+			Sel: dst.NewIdent("OneGenOf"),
+		},
+		Args:     astbuilder.Expressions(dst.NewIdent(gensName)),
+		Ellipsis: true,
+	}
+
+	oneOfStmts = astbuilder.Statements(
+		possibleGenerators,
+		initGopters)
 
 	// If we have already cached our builder, return it immediately
 	//
