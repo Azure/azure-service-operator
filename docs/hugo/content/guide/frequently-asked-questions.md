@@ -7,21 +7,21 @@ weight: -2
 ### What is the release cadence?
 
 We ship updates to ASO as needed, with an eye towards releasing every 1-2 months. If there are urgent fixes, a release may happen
-more quickly than that. If there haven't been any major changes (or there are ongoing major changes that are taking a long time) a 
-release may happen more slowly. For an up-to-date plan check the 
+more quickly than that. If there haven't been any major changes (or there are ongoing major changes that are taking a long time) a
+release may happen more slowly. For an up-to-date plan check the
 [milestone tracker](https://github.com/Azure/azure-service-operator/milestones).
 
 ### How are CVEs dealt with?
 
 The ASO controller container is built on [distroless](https://github.com/GoogleContainerTools/distroless), and as such
-has a relatively minimal surface area. Most CVEs that impact ASO are related to the Golang packages used by 
+has a relatively minimal surface area. Most CVEs that impact ASO are related to the Golang packages used by
 the controller.
 
-We scan for new CVEs weekly using [Trivy](https://github.com/aquasecurity/trivy) and also get proactive updates via 
+We scan for new CVEs weekly using [Trivy](https://github.com/aquasecurity/trivy) and also get proactive updates via
 [Dependabot](https://docs.github.com/code-security/dependabot/dependabot-alerts/about-dependabot-alerts).
 
-CVEs are triaged according to their severity (Low, Moderate, High, Critical) and whether they are exploitable in ASO. 
-Low and moderate severity issues will be fixed in the next minor release of ASO, high and critical severity CVEs that 
+CVEs are triaged according to their severity (Low, Moderate, High, Critical) and whether they are exploitable in ASO.
+Low and moderate severity issues will be fixed in the next minor release of ASO, high and critical severity CVEs that
 can be exploited in ASO will have a patch released for them.
 
 Note that we cannot patch CVEs for which there is no upstream fix. Only once an upstream fix has been released will ASO
@@ -34,18 +34,18 @@ upgrade to v2.7.0 to get the fix.
 
 Azure Service Operator is an officially supported Microsoft OSS product. Currently, support is done via GitHub issues or
 the `azure-service-operator` channel of the [Kubernetes Slack](https://kubernetes.slack.com/). There are plans to integrate ASO into
-AKS as an addon after ASO has officially gone GA. At that point, support for ASO as an AKS addon would be accessed by raising an Azure 
+AKS as an addon after ASO has officially gone GA. At that point, support for ASO as an AKS addon would be accessed by raising an Azure
 support ticket.
 
 ### Does ASO help with Disaster Recovery (DR) of resources in Azure?
 
-No. If the Azure resource supports DR then you can configure it through ASO. 
+No. If the Azure resource supports DR then you can configure it through ASO.
 If the underlying Azure Resource doesn't support DR (or the story is more complicated/manual), then you cannot currently configure it through ASO.
 
 ### How can I protect against accidentally deleting an important resource?
 
 1. You can set [serviceoperator.azure.com/reconcile-policy: detach-on-delete]( {{< relref "annotations#serviceoperatorazurecomreconcile-policy" >}}). This will allow the resource to be deleted in k8s but not delete the underlying resource in Azure.
-2. You can use a project like https://github.com/petrkotas/k8s-object-lock to protect the resources you're worried about. Note: That project is not owned/sponsored by Microsoft.
+2. You can use a project like <https://github.com/petrkotas/k8s-object-lock> to protect the resources you're worried about. Note: That project is not owned/sponsored by Microsoft.
 3. You can manually add a finalizer to the resource which will not be removed except manually by you when ready to delete the resource, see [this](https://kubernetes.io/blog/2021/05/14/using-finalizers-to-control-deletion/)
 
 There's also a proposal for [more general upstream support](https://github.com/kubernetes/kubernetes/issues/10179) on this topic, although there hasn't been movement on it in a while.
@@ -63,7 +63,7 @@ as each operator instance tries to drive to its goal. If you take great care to 
 active-active can be done.
 
 We instead recommend an active-passive approach, where in 1 cluster the resources are created/managed as normal, and in the other cluster the resources are just watched.
-This can be accomplished with the [serviceoperator.azure.com/reconcile-policy: skip]( {{< relref "annotations#serviceoperatorazurecomreconcile-policy" >}} ) 
+This can be accomplished with the [serviceoperator.azure.com/reconcile-policy: skip]( {{< relref "annotations#serviceoperatorazurecomreconcile-policy" >}} )
 annotation used in the second cluster. In the case of a DR event, automation or manual action can remove the `skip` annotation in the passive cluster, turning it into active mode.
 
 ### Can ASO be used with IAC/GitOps tools?
@@ -78,12 +78,13 @@ ASO relies on the finalizer and annotations it adds being left alone to function
 There are a lot of similarities between ASO and Crossplane. They do similar things and have similar audiences. You can see some of this discussed [here](https://github.com/Azure/azure-service-operator/issues/1190).
 
 **Today** primary differences are:
+
 * ASO is officially maintained by Microsoft, while Crossplane Azure is community maintained.
 * ASO focuses on simplicity. It doesn't offer any of the higher level abstractions that Crossplane does. ASO is not and will not ever be multi-cloud.
-* The code generator we use to generate ASO resources is higher fidelity than the one that Crossplane uses. As a result, there are places where ASO resources are easier to use. 
+* The code generator we use to generate ASO resources is higher fidelity than the one that Crossplane uses. As a result, there are places where ASO resources are easier to use.
   One example of this is references between resources such as linking a VMSS to a VNET. In Crossplane you do this by specifying the raw ARM ID. In ASO, you can specify the raw ARM ID but you can also specify a reference to the corresponding resource in Kubernetes (with its Kubernetes name) and ASO translates that into an ARM ID under the hood so that you don’t have to. This makes managing graphs of interlinked resources easier.
   
-We would like to share our code-generator with Crossplane, as it’s higher fidelity than Terrajet (the codegenerator Crossplane uses to generate resources) for Azure resources. 
+We would like to share our code-generator with Crossplane, as it’s higher fidelity than Terrajet (the codegenerator Crossplane uses to generate resources) for Azure resources.
 Right now our focus is on getting ASO to GA, after which we will hopefully have more time to invest in that.
 
 ### Can I configure how often ASO re-syncs to Azure when there have been no changes?
@@ -102,26 +103,26 @@ ASO is designed to easily scale to thousands of resources, and we have customers
 
 A separate reconciler is run for each different kind of resource, and each reconciler is non-blocking. If resource creation (or update) triggers a long-running-operation (LRO), ASO doesn't sit there polling for completion of the operation. Instead, it stashes information about the operation on the resource as an annotation, schedules the resource for a retry of reconciliation, and moves on to reconcile the next resource due. Later, the LRO is picked up and checked to see if it has completed.
 
-For the rare situation where users observe that ASO is failing to "keep up" with resource reconciliation (this can be monitored by looking at the queue length of the operator via metrics), they can set MAX_CONCURRENT_RECONCILES to a larger value (the default is 1).
+For the rare situation where users observe that ASO is failing to "keep up" with resource reconciliation (this can be monitored by looking at the queue length of the operator via [metrics]({{< relref metrics>}})), they can set MAX_CONCURRENT_RECONCILES to a larger value (the default is 1).
 
 ### I'm seeing Subscription throttling, what can I do?
 
 ASO puts some steady load on your subscription due to re-reconciling resources periodically to ensure that
-there is no drift from the desired goal state. The rate at which this syncing occurs is set by the 
+there is no drift from the desired goal state. The rate at which this syncing occurs is set by the
 [AZURE_SYNC_PERIOD]({{< relref "aso-controller-settings-options#azure_sync_period" >}}) (`azureSyncPeriod` in Helm)
 The default is 1h
 
-When `azureSyncPeriod` is up for a particular resource, a new PUT is issued to the resource RP to correct any drift from 
-the goal state defined in ASO. There has been discussion about changing to do diffing locally to reduce requests to Azure, 
+When `azureSyncPeriod` is up for a particular resource, a new PUT is issued to the resource RP to correct any drift from
+the goal state defined in ASO. There has been discussion about changing to do diffing locally to reduce requests to Azure,
 see [#1491](https://github.com/Azure/azure-service-operator/issues/1491).
 
-You can estimate the maximum idle request rate of ASO based on the configured `azureSyncPeriod` and the number of 
+You can estimate the maximum idle request rate of ASO based on the configured `azureSyncPeriod` and the number of
 resources being managed. The rough formula is: `numResources * 60/azureSyncPeriod(in minutes) = requestsPerHour`
 
 For example:
 
 | azureSyncPeriod | Number of resources | Requests / hour |
-|-----------------|---------------------|-----------------|
+| --------------- | ------------------- | --------------- |
 | 15m             | 300                 | 1200            |
 | 15m             | 1000                | 4000            |
 | 1h              | 1200                | 1200            |
@@ -130,19 +131,19 @@ For example:
 ### ASO is slow to reconcile some resources
 
 If you have a large amount of a single type of resource, ASO may not be able to keep up with the
-number of reconciles it needs to run for that resource type. This would manifest as the 
-[workqueue_depth metric]({{< relref "metrics" >}}) staying consistently high for a single controller 
+number of reconciles it needs to run for that resource type. This would manifest as the
+[workqueue_depth metric]({{< relref "metrics" >}}) staying consistently high for a single controller
 (or set of controllers).
 
-If this happens, you can increase the 
+If this happens, you can increase the
 [MAX_CONCURRENT_RECONCILES]( {{< relref "aso-controller-settings-options#max_concurrent_reconciles" >}})
 setting to allow for more than a single reconcile. See the documentation of that option to understand what it means.
 
 ### Why doesn't ASO support exporting/importing all data from configmap/secret?
 
-For configuration management details, where the values are statically known prior to deployment, 
+For configuration management details, where the values are statically known prior to deployment,
 we strongly recommend people using existing tools such as Helm or Kustomize (or whatever other templating engine you love).
-The secret and config map features in ASO are generally intended for dynamic values that aren't known prior to 
+The secret and config map features in ASO are generally intended for dynamic values that aren't known prior to
 deployment, such as service endpoints and API keys generated by Azure.
 
 ### Why doesn't ASO have built-in templating?
@@ -160,14 +161,15 @@ If you haven't already read it, Azure has a good [best practices for managed ide
 ### When using Workload Identity, how can I easily inject the ASO created User Managed Identity details onto the service account?
 
 The [workload identity documentation](https://azure.github.io/azure-workload-identity/docs/topics/service-account-labels-and-annotations.html#service-account)
-suggests that you need to set the `azure.workload.identity/client-id` annotation on the ServiceAccount. 
+suggests that you need to set the `azure.workload.identity/client-id` annotation on the ServiceAccount.
 This is not actually required! Setting that annotation instructs the Workload Identity webhook to inject the `AZURE_CLIENT_ID`
 environment variable into the pods on which the ServiceAccount is used.
 
-If you've created your user managed identity with ASO, it's easier to just do that injection yourself by using the 
+If you've created your user managed identity with ASO, it's easier to just do that injection yourself by using the
 `operatorSpec.configMaps` feature of the identity:
 
 Identity:
+
 ```yaml
 operatorSpec:
   configMaps:
@@ -182,6 +184,7 @@ operatorSpec:
 and
 
 Pod:
+
 ```yaml
 env:
   - name: AZURE_CLIENT_ID
@@ -191,13 +194,14 @@ env:
         name: identity-details
 ```
 
-You can allow the other environment variables, volumes, and volume mounts to be injected automatically by the 
+You can allow the other environment variables, volumes, and volume mounts to be injected automatically by the
 [Azure Workload Identity webhook](https://azure.github.io/azure-workload-identity/docs/installation/mutating-admission-webhook.html),
-or you can avoid running the Azure Workload Identity webhook entirely, but doing so requires that you manually 
-include the `azure-identity` volume and volumeMount, as well as set the `AZURE_TENANT_ID` variable 
+or you can avoid running the Azure Workload Identity webhook entirely, but doing so requires that you manually
+include the `azure-identity` volume and volumeMount, as well as set the `AZURE_TENANT_ID` variable
 alongside `AZURE_CLIENT_ID` in every pod that needs workload identity.
 
 Sample VolumeMount:
+
 ```yaml
 volumeMounts:
   - mountPath: /var/run/secrets/azure/tokens/azure-identity-token
@@ -206,6 +210,7 @@ volumeMounts:
 ```
 
 Sample Volume:
+
 ```yaml
 volumes:
 - name: azure-identity-token
@@ -225,9 +230,10 @@ The answer changes a bit depending on the nature of the parameter.
 For resource ownership: Set the `spec.owner.name` field of the dependent resource to be "owned by" the owning resource.
 This will inform ASO that the owning resource needs to be deployed first.
 
-For cross-resource-relationships: A resource referring to another resource will have a field like 
+For cross-resource-relationships: A resource referring to another resource will have a field like
 [diskEncryptionSetReference](https://azure.github.io/azure-service-operator/reference/containerservice/v1api20231001/#containerservice.azure.com/v1api20231001.ManagedCluster_Spec).
 Set the reference to point to the resource you want:
+
 ```yaml
 diskEncryptionSetReference:
   group: compute.azure.com
@@ -238,17 +244,18 @@ diskEncryptionSetReference:
 For other fields: Not every field can be exported/imported. ASO does not have general purpose DAG support, nor does it have a
 general-purpose templating language to describe such relationships. Instead, important properties can be imported/exported
 from `ConfigMaps` or `Secrets`. See [setting UMI details on pods](#when-using-workload-identity-how-can-i-easily-inject-the-aso-created-user-managed-identity-details-onto-the-service-account)
-above for one example of this. Another example can be found in 
-[the authorization samples](https://github.com/Azure/azure-service-operator/blob/fe248787385af1b7b813e7bc2c8dbc595b8b4006/v2/samples/authorization/v1api20220401/v1api20220401_roleassignment.yaml#L12-L15), 
-which reads the `principalId` from the `ConfigMap` written by 
+above for one example of this. Another example can be found in
+[the authorization samples](https://github.com/Azure/azure-service-operator/blob/fe248787385af1b7b813e7bc2c8dbc595b8b4006/v2/samples/authorization/v1api20220401/v1api20220401_roleassignment.yaml#L12-L15),
+which reads the `principalId` from the `ConfigMap` written by
 [the associated identity](https://github.com/Azure/azure-service-operator/blob/main/v2/samples/authorization/v1api20220401/refs/v1api20181130_userassignedidentity.yaml).
 
 ### What should I know about RoleAssignment naming in ASO?
 
-The `RoleAssignment` resource is required to have a name in Azure which is a UUID. Since it's difficult to make a 
+The `RoleAssignment` resource is required to have a name in Azure which is a UUID. Since it's difficult to make a
 UUID for each assignment, ASO attempts to generate a unique UUID automatically if one isn't specified. ASO does this
-by generating a UUID (v5) from a seed string with the following fields and setting it as the AzureName if one 
+by generating a UUID (v5) from a seed string with the following fields and setting it as the AzureName if one
 has not been specified:
+
 1. name
 2. namespace
 3. owner.name
@@ -267,11 +274,11 @@ If this happens you may see an error like:
  Message: Tenant ID, application ID, principal ID, and scope are not allowed to be updated.
 ```
 
-If you see this error, you can work around it by manually specifying a UUID for AzureName, or deleting the 
+If you see this error, you can work around it by manually specifying a UUID for AzureName, or deleting the
 `RoleAssignment` which hit the error and creating it again with a different name.
 
 If you're planning to move management of a `RoleAssignment` from one namespace to another (by setting the
-reconcile-policy: skip on the old one, deleting it, and then creating the `RoleAssignment` in a different namespace 
+reconcile-policy: skip on the old one, deleting it, and then creating the `RoleAssignment` in a different namespace
 allowing it to adopt the existing resource in Azure) you must manually specify the AzureName
 of the `RoleAssignment` as the original UUID. Otherwise, the UUID defaulting algorithm will choose a different UUID since
 the namespace has changed.
@@ -282,9 +289,10 @@ See [Annotations understood by the operator]({{< relref "annotations#serviceoper
 details about how to control whether the operator modifies Azure resources or just watches them.
 
 There are a few options for importing resources into your cluster:
+
 * If you're looking to import a large number of Azure resources you can use [asoctl]( {{< relref "tools/asoctl" >}}).
-* If you're looking to import a small number of resources, you can also manually create the resources in your cluster 
-  yourself and apply them. As long as the resource name, type and subscription are the same as the existing Azure 
+* If you're looking to import a small number of resources, you can also manually create the resources in your cluster
+  yourself and apply them. As long as the resource name, type and subscription are the same as the existing Azure
   resource, ASO will automatically adopt the resource. Make sure to use the `reconcile-policy` you want.
 
 ### How do I get ArgoCD to show accurate health colours for ASO resources?
@@ -325,38 +333,38 @@ data:
 ASO does not offer a full Go module versioning guarantee.
 
 We try not to change the shape of any resources in Kubernetes, but we reserve the right to
-change Go symbols as long as their serialized format is unchanged. When this happens it will be called out in 
+change Go symbols as long as their serialized format is unchanged. When this happens it will be called out in
 [breaking changes]( {{< relref "breaking-changes" >}}).
 {{% /alert %}}
 
-We recommend using `sigs.k8s.io/controller-runtime/pkg/client` to interact with the ASO types defined at 
+We recommend using `sigs.k8s.io/controller-runtime/pkg/client` to interact with the ASO types defined at
 `github.com/Azure/azure-service-operator/v2/api`. For example:
 
 ```go
 package main
 
 import (
-	"sigs.k8s.io/controller-runtime/pkg/client"
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
-	asoapi "github.com/Azure/azure-service-operator/v2/api"
-	ctrl "sigs.k8s.io/controller-runtime"
+ "sigs.k8s.io/controller-runtime/pkg/client"
+ resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
+ asoapi "github.com/Azure/azure-service-operator/v2/api"
+ ctrl "sigs.k8s.io/controller-runtime"
 )
 
 func main() {
-	scheme := asoapi.CreateScheme(scheme)
-	kubeClient, err := client.New(config.GetConfigOrDie(), client.Options{Scheme: scheme})
-	if err != nil {
-		panic(err)
-	}
-	obj := &resources.ResourceGroup{
-		ObjectMeta: ctrl.ObjectMeta{
-			Name: "my-rg",
-			Namespace: "my-namespace",
+ scheme := asoapi.CreateScheme(scheme)
+ kubeClient, err := client.New(config.GetConfigOrDie(), client.Options{Scheme: scheme})
+ if err != nil {
+  panic(err)
+ }
+ obj := &resources.ResourceGroup{
+  ObjectMeta: ctrl.ObjectMeta{
+   Name: "my-rg",
+   Namespace: "my-namespace",
         },
-		Spec: resources.ResourceGroup_Spec{
-			Location: location,
-		},
-	}
-	kubeClient.Create(ctx, obj)
+  Spec: resources.ResourceGroup_Spec{
+   Location: location,
+  },
+ }
+ kubeClient.Create(ctx, obj)
 }
 ```
