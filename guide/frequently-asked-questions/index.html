@@ -32,7 +32,7 @@ How are CVEs dealt with? The ASO controller container is built on distroless, an
   <meta itemprop="name" content="FAQ">
   <meta itemprop="description" content="Frequently Asked Questions What is the release cadence? We ship updates to ASO as needed, with an eye towards releasing every 1-2 months. If there are urgent fixes, a release may happen more quickly than that. If there haven’t been any major changes (or there are ongoing major changes that are taking a long time) a release may happen more slowly. For an up-to-date plan check the milestone tracker.
 How are CVEs dealt with? The ASO controller container is built on distroless, and as such has a relatively minimal surface area. Most CVEs that impact ASO are related to the Golang packages used by the controller.">
-  <meta itemprop="wordCount" content="2399">
+  <meta itemprop="wordCount" content="2555">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="FAQ">
   <meta name="twitter:description" content="Frequently Asked Questions What is the release cadence? We ship updates to ASO as needed, with an eye towards releasing every 1-2 months. If there are urgent fixes, a release may happen more quickly than that. If there haven’t been any major changes (or there are ongoing major changes that are taking a long time) a release may happen more slowly. For an up-to-date plan check the milestone tracker.
@@ -808,6 +808,7 @@ How are CVEs dealt with? The ASO controller container is built on distroless, an
         <li><a href="#can-aso-be-used-with-iacgitops-tools">Can ASO be used with IAC/GitOps tools?</a></li>
         <li><a href="#whats-the-difference-between-aso-and-crossplaneio">What&rsquo;s the difference between ASO and Crossplane.io?</a></li>
         <li><a href="#can-i-configure-how-often-aso-re-syncs-to-azure-when-there-have-been-no-changes">Can I configure how often ASO re-syncs to Azure when there have been no changes?</a></li>
+        <li><a href="#how-well-does-aso-scale">How well does ASO scale?</a></li>
         <li><a href="#im-seeing-subscription-throttling-what-can-i-do">I&rsquo;m seeing Subscription throttling, what can I do?</a></li>
         <li><a href="#aso-is-slow-to-reconcile-some-resources">ASO is slow to reconcile some resources</a></li>
         <li><a href="#why-doesnt-aso-support-exportingimporting-all-data-from-configmapsecret">Why doesn&rsquo;t ASO support exporting/importing all data from configmap/secret?</a></li>
@@ -912,6 +913,10 @@ in the <code>aso-controller-settings</code> secret. This value is a string with 
 <p>After changing this value, you must restart the <code>azureserviceoperator-controller-manager</code> pod in order for it to take effect
 if the pod is already running.</p>
 <p>Be careful setting this value too low as it can produce a lot of calls to Azure.</p>
+<h3 id="how-well-does-aso-scale">How well does ASO scale?</h3>
+<p>ASO is designed to easily scale to thousands of resources, and we have customers who routinely reconcile thousands of resources with a single instance of ASO without issue.</p>
+<p>A separate reconciler is run for each different kind of resource, and each reconciler is non-blocking. If resource creation (or update) triggers a long-running-operation (LRO), ASO doesn&rsquo;t sit there polling for completion of the operation. Instead, it stashes information about the operation on the resource as an annotation, schedules the resource for a retry of reconciliation, and moves on to reconcile the next resource due. Later, the LRO is picked up and checked to see if it has completed.</p>
+<p>For the rare situation where users observe that ASO is failing to &ldquo;keep up&rdquo; with resource reconciliation (this can be monitored by looking at the queue length of the operator via <a href="/azure-service-operator/guide/metrics/">metrics</a>), they can set MAX_CONCURRENT_RECONCILES to a larger value (the default is 1).</p>
 <h3 id="im-seeing-subscription-throttling-what-can-i-do">I&rsquo;m seeing Subscription throttling, what can I do?</h3>
 <p>ASO puts some steady load on your subscription due to re-reconciling resources periodically to ensure that
 there is no drift from the desired goal state. The rate at which this syncing occurs is set by the
@@ -1119,28 +1124,28 @@ change Go symbols as long as their serialized format is unchanged. When this hap
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
-</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;sigs.k8s.io/controller-runtime/pkg/client&#34;</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">resources</span> <span style="color:#e6db74">&#34;github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601&#34;</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">asoapi</span> <span style="color:#e6db74">&#34;github.com/Azure/azure-service-operator/v2/api&#34;</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">ctrl</span> <span style="color:#e6db74">&#34;sigs.k8s.io/controller-runtime&#34;</span>
+</span></span><span style="display:flex;"><span> <span style="color:#e6db74">&#34;sigs.k8s.io/controller-runtime/pkg/client&#34;</span>
+</span></span><span style="display:flex;"><span> <span style="color:#a6e22e">resources</span> <span style="color:#e6db74">&#34;github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601&#34;</span>
+</span></span><span style="display:flex;"><span> <span style="color:#a6e22e">asoapi</span> <span style="color:#e6db74">&#34;github.com/Azure/azure-service-operator/v2/api&#34;</span>
+</span></span><span style="display:flex;"><span> <span style="color:#a6e22e">ctrl</span> <span style="color:#e6db74">&#34;sigs.k8s.io/controller-runtime&#34;</span>
 </span></span><span style="display:flex;"><span>)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
-</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">scheme</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">asoapi</span>.<span style="color:#a6e22e">CreateScheme</span>(<span style="color:#a6e22e">scheme</span>)
-</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">kubeClient</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">New</span>(<span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">GetConfigOrDie</span>(), <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">Options</span>{<span style="color:#a6e22e">Scheme</span>: <span style="color:#a6e22e">scheme</span>})
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-</span></span><span style="display:flex;"><span>		panic(<span style="color:#a6e22e">err</span>)
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">obj</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">resources</span>.<span style="color:#a6e22e">ResourceGroup</span>{
-</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">ObjectMeta</span>: <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">ObjectMeta</span>{
-</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Name</span>: <span style="color:#e6db74">&#34;my-rg&#34;</span>,
-</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Namespace</span>: <span style="color:#e6db74">&#34;my-namespace&#34;</span>,
+</span></span><span style="display:flex;"><span> <span style="color:#a6e22e">scheme</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">asoapi</span>.<span style="color:#a6e22e">CreateScheme</span>(<span style="color:#a6e22e">scheme</span>)
+</span></span><span style="display:flex;"><span> <span style="color:#a6e22e">kubeClient</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">New</span>(<span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">GetConfigOrDie</span>(), <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">Options</span>{<span style="color:#a6e22e">Scheme</span>: <span style="color:#a6e22e">scheme</span>})
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>  panic(<span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span> }
+</span></span><span style="display:flex;"><span> <span style="color:#a6e22e">obj</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">resources</span>.<span style="color:#a6e22e">ResourceGroup</span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ObjectMeta</span>: <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">ObjectMeta</span>{
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">Name</span>: <span style="color:#e6db74">&#34;my-rg&#34;</span>,
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">Namespace</span>: <span style="color:#e6db74">&#34;my-namespace&#34;</span>,
 </span></span><span style="display:flex;"><span>        },
-</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">Spec</span>: <span style="color:#a6e22e">resources</span>.<span style="color:#a6e22e">ResourceGroup_Spec</span>{
-</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Location</span>: <span style="color:#a6e22e">location</span>,
-</span></span><span style="display:flex;"><span>		},
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">kubeClient</span>.<span style="color:#a6e22e">Create</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">obj</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">Spec</span>: <span style="color:#a6e22e">resources</span>.<span style="color:#a6e22e">ResourceGroup_Spec</span>{
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">Location</span>: <span style="color:#a6e22e">location</span>,
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span> }
+</span></span><span style="display:flex;"><span> <span style="color:#a6e22e">kubeClient</span>.<span style="color:#a6e22e">Create</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">obj</span>)
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div>
 	
