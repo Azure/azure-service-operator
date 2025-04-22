@@ -192,7 +192,8 @@ func BackupPolicyGenerator() gopter.Gen {
 	// handle OneOf by choosing only one field to instantiate
 	var gens []gopter.Gen
 	for propName, propGen := range generators {
-		gens = append(gens, gen.Struct(reflect.TypeOf(BackupPolicy{}), map[string]gopter.Gen{propName: propGen}))
+		props := map[string]gopter.Gen{propName: propGen}
+		gens = append(gens, gen.Struct(reflect.TypeOf(BackupPolicy{}), props))
 	}
 	backupPolicyGenerator = gen.OneGenOf(gens...)
 

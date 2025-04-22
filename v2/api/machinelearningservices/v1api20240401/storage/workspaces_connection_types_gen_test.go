@@ -2899,7 +2899,8 @@ func WorkspaceConnectionPropertiesV2Generator() gopter.Gen {
 	// handle OneOf by choosing only one field to instantiate
 	var gens []gopter.Gen
 	for propName, propGen := range generators {
-		gens = append(gens, gen.Struct(reflect.TypeOf(WorkspaceConnectionPropertiesV2{}), map[string]gopter.Gen{propName: propGen}))
+		props := map[string]gopter.Gen{propName: propGen}
+		gens = append(gens, gen.Struct(reflect.TypeOf(WorkspaceConnectionPropertiesV2{}), props))
 	}
 	workspaceConnectionPropertiesV2Generator = gen.OneGenOf(gens...)
 
@@ -3001,7 +3002,8 @@ func WorkspaceConnectionPropertiesV2_STATUSGenerator() gopter.Gen {
 	// handle OneOf by choosing only one field to instantiate
 	var gens []gopter.Gen
 	for propName, propGen := range generators {
-		gens = append(gens, gen.Struct(reflect.TypeOf(WorkspaceConnectionPropertiesV2_STATUS{}), map[string]gopter.Gen{propName: propGen}))
+		props := map[string]gopter.Gen{propName: propGen}
+		gens = append(gens, gen.Struct(reflect.TypeOf(WorkspaceConnectionPropertiesV2_STATUS{}), props))
 	}
 	workspaceConnectionPropertiesV2_STATUSGenerator = gen.OneGenOf(gens...)
 

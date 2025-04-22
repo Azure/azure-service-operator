@@ -72,7 +72,8 @@ func AdvancedFilter_STATUSGenerator() gopter.Gen {
 	// handle OneOf by choosing only one field to instantiate
 	var gens []gopter.Gen
 	for propName, propGen := range generators {
-		gens = append(gens, gen.Struct(reflect.TypeOf(AdvancedFilter_STATUS{}), map[string]gopter.Gen{propName: propGen}))
+		props := map[string]gopter.Gen{propName: propGen}
+		gens = append(gens, gen.Struct(reflect.TypeOf(AdvancedFilter_STATUS{}), props))
 	}
 	advancedFilter_STATUSGenerator = gen.OneGenOf(gens...)
 
@@ -375,7 +376,8 @@ func DeadLetterDestination_STATUSGenerator() gopter.Gen {
 	// handle OneOf by choosing only one field to instantiate
 	var gens []gopter.Gen
 	for propName, propGen := range generators {
-		gens = append(gens, gen.Struct(reflect.TypeOf(DeadLetterDestination_STATUS{}), map[string]gopter.Gen{propName: propGen}))
+		props := map[string]gopter.Gen{propName: propGen}
+		gens = append(gens, gen.Struct(reflect.TypeOf(DeadLetterDestination_STATUS{}), props))
 	}
 	deadLetterDestination_STATUSGenerator = gen.OneGenOf(gens...)
 
@@ -580,7 +582,8 @@ func EventSubscriptionDestination_STATUSGenerator() gopter.Gen {
 	// handle OneOf by choosing only one field to instantiate
 	var gens []gopter.Gen
 	for propName, propGen := range generators {
-		gens = append(gens, gen.Struct(reflect.TypeOf(EventSubscriptionDestination_STATUS{}), map[string]gopter.Gen{propName: propGen}))
+		props := map[string]gopter.Gen{propName: propGen}
+		gens = append(gens, gen.Struct(reflect.TypeOf(EventSubscriptionDestination_STATUS{}), props))
 	}
 	eventSubscriptionDestination_STATUSGenerator = gen.OneGenOf(gens...)
 

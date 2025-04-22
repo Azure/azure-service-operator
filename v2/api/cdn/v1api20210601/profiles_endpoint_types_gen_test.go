@@ -1953,7 +1953,8 @@ func DeliveryRuleActionGenerator() gopter.Gen {
 	// handle OneOf by choosing only one field to instantiate
 	var gens []gopter.Gen
 	for propName, propGen := range generators {
-		gens = append(gens, gen.Struct(reflect.TypeOf(DeliveryRuleAction{}), map[string]gopter.Gen{propName: propGen}))
+		props := map[string]gopter.Gen{propName: propGen}
+		gens = append(gens, gen.Struct(reflect.TypeOf(DeliveryRuleAction{}), props))
 	}
 	deliveryRuleActionGenerator = gen.OneGenOf(gens...)
 
@@ -2088,7 +2089,8 @@ func DeliveryRuleAction_STATUSGenerator() gopter.Gen {
 	// handle OneOf by choosing only one field to instantiate
 	var gens []gopter.Gen
 	for propName, propGen := range generators {
-		gens = append(gens, gen.Struct(reflect.TypeOf(DeliveryRuleAction_STATUS{}), map[string]gopter.Gen{propName: propGen}))
+		props := map[string]gopter.Gen{propName: propGen}
+		gens = append(gens, gen.Struct(reflect.TypeOf(DeliveryRuleAction_STATUS{}), props))
 	}
 	deliveryRuleAction_STATUSGenerator = gen.OneGenOf(gens...)
 
@@ -2925,7 +2927,8 @@ func DeliveryRuleConditionGenerator() gopter.Gen {
 	// handle OneOf by choosing only one field to instantiate
 	var gens []gopter.Gen
 	for propName, propGen := range generators {
-		gens = append(gens, gen.Struct(reflect.TypeOf(DeliveryRuleCondition{}), map[string]gopter.Gen{propName: propGen}))
+		props := map[string]gopter.Gen{propName: propGen}
+		gens = append(gens, gen.Struct(reflect.TypeOf(DeliveryRuleCondition{}), props))
 	}
 	deliveryRuleConditionGenerator = gen.OneGenOf(gens...)
 
@@ -3090,7 +3093,8 @@ func DeliveryRuleCondition_STATUSGenerator() gopter.Gen {
 	// handle OneOf by choosing only one field to instantiate
 	var gens []gopter.Gen
 	for propName, propGen := range generators {
-		gens = append(gens, gen.Struct(reflect.TypeOf(DeliveryRuleCondition_STATUS{}), map[string]gopter.Gen{propName: propGen}))
+		props := map[string]gopter.Gen{propName: propGen}
+		gens = append(gens, gen.Struct(reflect.TypeOf(DeliveryRuleCondition_STATUS{}), props))
 	}
 	deliveryRuleCondition_STATUSGenerator = gen.OneGenOf(gens...)
 

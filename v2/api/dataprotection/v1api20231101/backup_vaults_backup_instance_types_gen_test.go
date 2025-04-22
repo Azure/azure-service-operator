@@ -114,7 +114,8 @@ func AuthCredentialsGenerator() gopter.Gen {
 	// handle OneOf by choosing only one field to instantiate
 	var gens []gopter.Gen
 	for propName, propGen := range generators {
-		gens = append(gens, gen.Struct(reflect.TypeOf(AuthCredentials{}), map[string]gopter.Gen{propName: propGen}))
+		props := map[string]gopter.Gen{propName: propGen}
+		gens = append(gens, gen.Struct(reflect.TypeOf(AuthCredentials{}), props))
 	}
 	authCredentialsGenerator = gen.OneGenOf(gens...)
 
@@ -225,7 +226,8 @@ func AuthCredentials_STATUSGenerator() gopter.Gen {
 	// handle OneOf by choosing only one field to instantiate
 	var gens []gopter.Gen
 	for propName, propGen := range generators {
-		gens = append(gens, gen.Struct(reflect.TypeOf(AuthCredentials_STATUS{}), map[string]gopter.Gen{propName: propGen}))
+		props := map[string]gopter.Gen{propName: propGen}
+		gens = append(gens, gen.Struct(reflect.TypeOf(AuthCredentials_STATUS{}), props))
 	}
 	authCredentials_STATUSGenerator = gen.OneGenOf(gens...)
 
@@ -545,7 +547,8 @@ func BackupDatasourceParametersGenerator() gopter.Gen {
 	// handle OneOf by choosing only one field to instantiate
 	var gens []gopter.Gen
 	for propName, propGen := range generators {
-		gens = append(gens, gen.Struct(reflect.TypeOf(BackupDatasourceParameters{}), map[string]gopter.Gen{propName: propGen}))
+		props := map[string]gopter.Gen{propName: propGen}
+		gens = append(gens, gen.Struct(reflect.TypeOf(BackupDatasourceParameters{}), props))
 	}
 	backupDatasourceParametersGenerator = gen.OneGenOf(gens...)
 
@@ -659,7 +662,8 @@ func BackupDatasourceParameters_STATUSGenerator() gopter.Gen {
 	// handle OneOf by choosing only one field to instantiate
 	var gens []gopter.Gen
 	for propName, propGen := range generators {
-		gens = append(gens, gen.Struct(reflect.TypeOf(BackupDatasourceParameters_STATUS{}), map[string]gopter.Gen{propName: propGen}))
+		props := map[string]gopter.Gen{propName: propGen}
+		gens = append(gens, gen.Struct(reflect.TypeOf(BackupDatasourceParameters_STATUS{}), props))
 	}
 	backupDatasourceParameters_STATUSGenerator = gen.OneGenOf(gens...)
 
@@ -1522,7 +1526,8 @@ func BaseResourcePropertiesGenerator() gopter.Gen {
 	// handle OneOf by choosing only one field to instantiate
 	var gens []gopter.Gen
 	for propName, propGen := range generators {
-		gens = append(gens, gen.Struct(reflect.TypeOf(BaseResourceProperties{}), map[string]gopter.Gen{propName: propGen}))
+		props := map[string]gopter.Gen{propName: propGen}
+		gens = append(gens, gen.Struct(reflect.TypeOf(BaseResourceProperties{}), props))
 	}
 	baseResourcePropertiesGenerator = gen.OneGenOf(gens...)
 
@@ -1633,7 +1638,8 @@ func BaseResourceProperties_STATUSGenerator() gopter.Gen {
 	// handle OneOf by choosing only one field to instantiate
 	var gens []gopter.Gen
 	for propName, propGen := range generators {
-		gens = append(gens, gen.Struct(reflect.TypeOf(BaseResourceProperties_STATUS{}), map[string]gopter.Gen{propName: propGen}))
+		props := map[string]gopter.Gen{propName: propGen}
+		gens = append(gens, gen.Struct(reflect.TypeOf(BaseResourceProperties_STATUS{}), props))
 	}
 	baseResourceProperties_STATUSGenerator = gen.OneGenOf(gens...)
 
@@ -1952,7 +1958,8 @@ func DataStoreParametersGenerator() gopter.Gen {
 	// handle OneOf by choosing only one field to instantiate
 	var gens []gopter.Gen
 	for propName, propGen := range generators {
-		gens = append(gens, gen.Struct(reflect.TypeOf(DataStoreParameters{}), map[string]gopter.Gen{propName: propGen}))
+		props := map[string]gopter.Gen{propName: propGen}
+		gens = append(gens, gen.Struct(reflect.TypeOf(DataStoreParameters{}), props))
 	}
 	dataStoreParametersGenerator = gen.OneGenOf(gens...)
 
@@ -2063,7 +2070,8 @@ func DataStoreParameters_STATUSGenerator() gopter.Gen {
 	// handle OneOf by choosing only one field to instantiate
 	var gens []gopter.Gen
 	for propName, propGen := range generators {
-		gens = append(gens, gen.Struct(reflect.TypeOf(DataStoreParameters_STATUS{}), map[string]gopter.Gen{propName: propGen}))
+		props := map[string]gopter.Gen{propName: propGen}
+		gens = append(gens, gen.Struct(reflect.TypeOf(DataStoreParameters_STATUS{}), props))
 	}
 	dataStoreParameters_STATUSGenerator = gen.OneGenOf(gens...)
 
