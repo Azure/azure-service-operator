@@ -558,6 +558,7 @@ func (o *JSONSerializationTestCase) createGeneratorMethodForOneOf(
 	reflectPkg := ctx.MustGetImportedPackageName(astmodel.ReflectReference)
 
 	mapID := "generators"
+	propsID := "props"
 
 	// Name of the global variable in which we cache our generator
 	generatorGlobalID := o.idOfSubjectGeneratorGlobal()
@@ -606,26 +607,43 @@ func (o *JSONSerializationTestCase) createGeneratorMethodForOneOf(
 	// for propName, propGen := range generators {
 	//  	gens = append(gens, gen.Struct(reflect.TypeOf(BackupPolicy{}), map[string]gopter.Gen{propName: propGen}))
 	// }
+
+	propsMap := astbuilder.NewCompositeLiteralBuilder(
+		&dst.MapType{
+			Key:   dst.NewIdent("string"),
+			Value: gopterGen(),
+		}).
+		AddField("propName", dst.NewIdent("propGen"))
+	props := astbuilder.ShortDeclaration(
+		propsID,
+		propsMap.Build(),
+	)
+
+	var includeSimpleProperties dst.Stmt
+	if haveSimpleGenerators {
+		// Add our simple generators (those for primitive types) into our generator map
+		//
+		// AddIndependentPropertyGeneratorsFor<Type>(props)
+		//
+		includeSimpleProperties = astbuilder.CallFuncAsStmt(o.idOfIndependentGeneratorsFactoryMethod(), dst.NewIdent(propsID))
+	}
+
+	buildGen := astbuilder.CallQualifiedFunc(
+		genPkg,
+		"Struct",
+		astbuilder.CallQualifiedFunc(reflectPkg, "TypeOf", &dst.CompositeLit{Type: o.Subject()}),
+		dst.NewIdent("props"),
+	)
+
 	initGopters := &dst.RangeStmt{
 		Key:   dst.NewIdent("propName"),
 		Value: dst.NewIdent("propGen"),
 		Tok:   token.DEFINE,
 		X:     dst.NewIdent(mapID),
 		Body: astbuilder.StatementBlock(
-			astbuilder.SimpleAssignment(dst.NewIdent(gensName), astbuilder.CallFunc("append", dst.NewIdent(gensName),
-				astbuilder.CallQualifiedFunc(
-					genPkg,
-					"Struct",
-					astbuilder.CallQualifiedFunc(reflectPkg, "TypeOf", &dst.CompositeLit{Type: o.Subject()}),
-					astbuilder.NewCompositeLiteralBuilder(
-						&dst.MapType{
-							Key:   dst.NewIdent("string"),
-							Value: gopterGen(),
-						}).
-						AddField("propName", dst.NewIdent("propGen")).
-						Build(),
-				)),
-			),
+			props,
+			includeSimpleProperties,
+			astbuilder.AppendItemToSlice(dst.NewIdent(gensName), buildGen),
 		),
 	}
 
