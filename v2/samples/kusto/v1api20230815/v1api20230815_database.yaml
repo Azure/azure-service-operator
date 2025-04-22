@@ -1,0 +1,11 @@
+apiVersion: kusto.azure.com/v1api20230815
+kind: Database
+metadata:
+  name: aso-sample-database
+  namespace: default
+spec:
+  owner:
+    name: aso-sample-cluster
+  readWriteDatabase:
+    kind: ReadWrite
+    location: westus2
