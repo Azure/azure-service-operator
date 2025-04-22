@@ -266,10 +266,10 @@ func stringHandler(_ context.Context, _ *SchemaScanner, schema Schema, log logr.
 
 var (
 	// copied from ARM implementation
-	uuidRegex   = regexp.MustCompile("^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$")
-	base64Regex = regexp.MustCompile("^[-A-Za-z0-9+/]+={0,3}$")
-	uriRegex    = regexp.MustCompile(`^[a-zA-Z][a-zA-Z0-9+-.]*:[^\s]*$`)
-	urlRegex    = regexp.MustCompile(`^https?://[^\s]+$`)
+	uuidRegex      = regexp.MustCompile("^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$")
+	base64URLRegex = regexp.MustCompile("^[-A-Za-z0-9_]$")
+	uriRegex       = regexp.MustCompile(`^[a-zA-Z][a-zA-Z0-9+-.]*:[^\s]*$`)
+	urlRegex       = regexp.MustCompile(`^https?://[^\s]+$`)
 )
 
 func formatToPattern(format string, log logr.Logger) *regexp.Regexp {
@@ -289,7 +289,7 @@ func formatToPattern(format string, log logr.Logger) *regexp.Regexp {
 		// ignore it for now
 		return nil
 	case "base64url":
-		return base64Regex
+		return base64URLRegex
 	case "uri":
 		return uriRegex
 	case "url":
