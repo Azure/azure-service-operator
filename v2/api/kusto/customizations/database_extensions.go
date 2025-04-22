@@ -46,10 +46,13 @@ func (ext *DatabaseExtension) PreReconcileCheck(
 	// the hub type has been changed but this extension has not
 	var _ conversion.Hub = cluster
 
-	// If the *cluster* is in a state that will reject any PUT, then we should skip reconciliation
-	// of the databse as there's no point in even trying.
-	// This allows us to "play nice with others" and not use up request quota attempting to make
-	// changes when we already know those attempts will fail.
+	// If our owning *cluster* is in a state that will reject any PUT, then we should skip
+	// reconciliation of the database as there's no point in even trying.
+	// One way this can happen is when we reconcile the cluster, putting it into an `Updating`
+	// state for a period. While it's in that state, we can't even try to reconcile the database as
+	// the operation will fail with a `Conflict` error.
+	// Checking the state of our owning cluster allows us to "play nice with others" and not use up
+	// request quota attempting to make changes when we already know those attempts will fail.
 	state := cluster.Status.ProvisioningState
 	if state != nil && clusterProvisioningStateBlocksReconciliation(state) {
 		return extensions.BlockReconcile(
