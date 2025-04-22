@@ -153,6 +153,9 @@ import (
 	dbforpostgresql_v20230601p "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20230601preview"
 	dbforpostgresql_v20230601ps "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20230601preview/storage"
 	dbforpostgresql_v20230601pw "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20230601preview/webhook"
+	dbforpostgresql_v20240801 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20240801"
+	dbforpostgresql_v20240801s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20240801/storage"
+	dbforpostgresql_v20240801w "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20240801/webhook"
 	devices_customizations "github.com/Azure/azure-service-operator/v2/api/devices/customizations"
 	devices_v20210702 "github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702"
 	devices_v20210702s "github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702/storage"
@@ -838,11 +841,15 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(dbformysql_v20231230s.FlexibleServersDatabase)})
 	result = append(result, &registration.StorageType{Obj: new(dbformysql_v20231230s.FlexibleServersFirewallRule)})
 	result = append(result, &registration.StorageType{
-		Obj: new(dbforpostgresql_v20221201s.FlexibleServer),
+		Obj: new(dbforpostgresql_v20240801s.FlexibleServer),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.administratorLoginPassword",
 				Func: indexDbforpostgresqlFlexibleServerAdministratorLoginPassword,
+			},
+			{
+				Key:  ".spec.dataEncryption.geoBackupKeyURIFromConfig",
+				Func: indexDbforpostgresqlFlexibleServerGeoBackupKeyURIFromConfig,
 			},
 			{
 				Key:  ".spec.dataEncryption.primaryKeyURIFromConfig",
@@ -852,17 +859,20 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Watches: []registration.Watch{
 			{
 				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.administratorLoginPassword"}, &dbforpostgresql_v20221201s.FlexibleServerList{}),
+				MakeEventHandler: watchSecretsFactory([]string{".spec.administratorLoginPassword"}, &dbforpostgresql_v20240801s.FlexibleServerList{}),
 			},
 			{
 				Type:             &v1.ConfigMap{},
-				MakeEventHandler: watchConfigMapsFactory([]string{".spec.dataEncryption.primaryKeyURIFromConfig"}, &dbforpostgresql_v20221201s.FlexibleServerList{}),
+				MakeEventHandler: watchConfigMapsFactory([]string{".spec.dataEncryption.geoBackupKeyURIFromConfig", ".spec.dataEncryption.primaryKeyURIFromConfig"}, &dbforpostgresql_v20240801s.FlexibleServerList{}),
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(dbforpostgresql_v20221201s.FlexibleServersConfiguration)})
-	result = append(result, &registration.StorageType{Obj: new(dbforpostgresql_v20221201s.FlexibleServersDatabase)})
-	result = append(result, &registration.StorageType{Obj: new(dbforpostgresql_v20221201s.FlexibleServersFirewallRule)})
+	result = append(result, &registration.StorageType{Obj: new(dbforpostgresql_v20240801s.FlexibleServersAdvancedThreatProtectionSettings)})
+	result = append(result, &registration.StorageType{Obj: new(dbforpostgresql_v20240801s.FlexibleServersBackup)})
+	result = append(result, &registration.StorageType{Obj: new(dbforpostgresql_v20240801s.FlexibleServersConfiguration)})
+	result = append(result, &registration.StorageType{Obj: new(dbforpostgresql_v20240801s.FlexibleServersDatabase)})
+	result = append(result, &registration.StorageType{Obj: new(dbforpostgresql_v20240801s.FlexibleServersFirewallRule)})
+	result = append(result, &registration.StorageType{Obj: new(dbforpostgresql_v20240801s.FlexibleServersVirtualEndpoint)})
 	result = append(result, &registration.StorageType{
 		Obj: new(devices_v20210702s.IotHub),
 		Indexes: []registration.Index{
@@ -2870,6 +2880,52 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(dbforpostgresql_v20230601ps.FlexibleServersConfiguration)},
 		&registration.KnownType{Obj: new(dbforpostgresql_v20230601ps.FlexibleServersDatabase)},
 		&registration.KnownType{Obj: new(dbforpostgresql_v20230601ps.FlexibleServersFirewallRule)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v20240801.FlexibleServer),
+			Defaulter: &dbforpostgresql_v20240801w.FlexibleServer{},
+			Validator: &dbforpostgresql_v20240801w.FlexibleServer{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v20240801.FlexibleServersAdvancedThreatProtectionSettings),
+			Defaulter: &dbforpostgresql_v20240801w.FlexibleServersAdvancedThreatProtectionSettings{},
+			Validator: &dbforpostgresql_v20240801w.FlexibleServersAdvancedThreatProtectionSettings{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v20240801.FlexibleServersBackup),
+			Defaulter: &dbforpostgresql_v20240801w.FlexibleServersBackup{},
+			Validator: &dbforpostgresql_v20240801w.FlexibleServersBackup{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v20240801.FlexibleServersConfiguration),
+			Defaulter: &dbforpostgresql_v20240801w.FlexibleServersConfiguration{},
+			Validator: &dbforpostgresql_v20240801w.FlexibleServersConfiguration{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v20240801.FlexibleServersDatabase),
+			Defaulter: &dbforpostgresql_v20240801w.FlexibleServersDatabase{},
+			Validator: &dbforpostgresql_v20240801w.FlexibleServersDatabase{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v20240801.FlexibleServersFirewallRule),
+			Defaulter: &dbforpostgresql_v20240801w.FlexibleServersFirewallRule{},
+			Validator: &dbforpostgresql_v20240801w.FlexibleServersFirewallRule{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v20240801.FlexibleServersVirtualEndpoint),
+			Defaulter: &dbforpostgresql_v20240801w.FlexibleServersVirtualEndpoint{},
+			Validator: &dbforpostgresql_v20240801w.FlexibleServersVirtualEndpoint{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(dbforpostgresql_v20240801s.FlexibleServer)},
+		&registration.KnownType{Obj: new(dbforpostgresql_v20240801s.FlexibleServersAdvancedThreatProtectionSettings)},
+		&registration.KnownType{Obj: new(dbforpostgresql_v20240801s.FlexibleServersBackup)},
+		&registration.KnownType{Obj: new(dbforpostgresql_v20240801s.FlexibleServersConfiguration)},
+		&registration.KnownType{Obj: new(dbforpostgresql_v20240801s.FlexibleServersDatabase)},
+		&registration.KnownType{Obj: new(dbforpostgresql_v20240801s.FlexibleServersFirewallRule)},
+		&registration.KnownType{Obj: new(dbforpostgresql_v20240801s.FlexibleServersVirtualEndpoint)})
 	result = append(result, &registration.KnownType{
 		Obj:       new(devices_v20210702.IotHub),
 		Defaulter: &devices_v20210702w.IotHub{},
@@ -4569,6 +4625,8 @@ func createScheme() *runtime.Scheme {
 	_ = dbforpostgresql_v20221201s.AddToScheme(scheme)
 	_ = dbforpostgresql_v20230601p.AddToScheme(scheme)
 	_ = dbforpostgresql_v20230601ps.AddToScheme(scheme)
+	_ = dbforpostgresql_v20240801.AddToScheme(scheme)
+	_ = dbforpostgresql_v20240801s.AddToScheme(scheme)
 	_ = devices_v20210702.AddToScheme(scheme)
 	_ = devices_v20210702s.AddToScheme(scheme)
 	_ = documentdb_v20210515.AddToScheme(scheme)
@@ -4754,9 +4812,12 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &dbformysql_customizations.FlexibleServersDatabaseExtension{})
 	result = append(result, &dbformysql_customizations.FlexibleServersFirewallRuleExtension{})
 	result = append(result, &dbforpostgresql_customizations.FlexibleServerExtension{})
+	result = append(result, &dbforpostgresql_customizations.FlexibleServersAdvancedThreatProtectionSettingsExtension{})
+	result = append(result, &dbforpostgresql_customizations.FlexibleServersBackupExtension{})
 	result = append(result, &dbforpostgresql_customizations.FlexibleServersConfigurationExtension{})
 	result = append(result, &dbforpostgresql_customizations.FlexibleServersDatabaseExtension{})
 	result = append(result, &dbforpostgresql_customizations.FlexibleServersFirewallRuleExtension{})
+	result = append(result, &dbforpostgresql_customizations.FlexibleServersVirtualEndpointExtension{})
 	result = append(result, &devices_customizations.IotHubExtension{})
 	result = append(result, &documentdb_customizations.DatabaseAccountExtension{})
 	result = append(result, &documentdb_customizations.MongodbDatabaseCollectionExtension{})
@@ -5624,9 +5685,9 @@ func indexDbformysqlFlexibleServersAdministratorTenantIdFromConfig(rawObj client
 	return obj.Spec.TenantIdFromConfig.Index()
 }
 
-// indexDbforpostgresqlFlexibleServerAdministratorLoginPassword an index function for dbforpostgresql_v20221201s.FlexibleServer .spec.administratorLoginPassword
+// indexDbforpostgresqlFlexibleServerAdministratorLoginPassword an index function for dbforpostgresql_v20240801s.FlexibleServer .spec.administratorLoginPassword
 func indexDbforpostgresqlFlexibleServerAdministratorLoginPassword(rawObj client.Object) []string {
-	obj, ok := rawObj.(*dbforpostgresql_v20221201s.FlexibleServer)
+	obj, ok := rawObj.(*dbforpostgresql_v20240801s.FlexibleServer)
 	if !ok {
 		return nil
 	}
@@ -5636,9 +5697,24 @@ func indexDbforpostgresqlFlexibleServerAdministratorLoginPassword(rawObj client.
 	return obj.Spec.AdministratorLoginPassword.Index()
 }
 
-// indexDbforpostgresqlFlexibleServerPrimaryKeyURIFromConfig an index function for dbforpostgresql_v20221201s.FlexibleServer .spec.dataEncryption.primaryKeyURIFromConfig
+// indexDbforpostgresqlFlexibleServerGeoBackupKeyURIFromConfig an index function for dbforpostgresql_v20240801s.FlexibleServer .spec.dataEncryption.geoBackupKeyURIFromConfig
+func indexDbforpostgresqlFlexibleServerGeoBackupKeyURIFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*dbforpostgresql_v20240801s.FlexibleServer)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.DataEncryption == nil {
+		return nil
+	}
+	if obj.Spec.DataEncryption.GeoBackupKeyURIFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.DataEncryption.GeoBackupKeyURIFromConfig.Index()
+}
+
+// indexDbforpostgresqlFlexibleServerPrimaryKeyURIFromConfig an index function for dbforpostgresql_v20240801s.FlexibleServer .spec.dataEncryption.primaryKeyURIFromConfig
 func indexDbforpostgresqlFlexibleServerPrimaryKeyURIFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*dbforpostgresql_v20221201s.FlexibleServer)
+	obj, ok := rawObj.(*dbforpostgresql_v20240801s.FlexibleServer)
 	if !ok {
 		return nil
 	}

@@ -1,0 +1,8 @@
+apiVersion: dbforpostgresql.azure.com/v1api20240801
+kind: FlexibleServersBackup
+metadata:
+  name: backup
+  namespace: default
+spec:
+  owner:
+    name: asosampleserver20240801
