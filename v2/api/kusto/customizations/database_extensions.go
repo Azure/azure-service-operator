@@ -9,14 +9,15 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/go-logr/logr"
+	"github.com/rotisserie/eris"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
+
 	kusto "github.com/Azure/azure-service-operator/v2/api/kusto/v1api20230815/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
-	"github.com/go-logr/logr"
-	"github.com/rotisserie/eris"
-	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
 
 var _ extensions.PreReconciliationChecker = &ClusterExtension{}
