@@ -243,6 +243,7 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 				ErrorBaseDelay:       minBackoff,
 				ErrorMaxFastDelay:    maxBackoff,
 				ErrorMaxSlowDelay:    maxBackoff,
+				ErrorVerySlowDelay:   maxBackoff,
 				RequeueDelayOverride: requeueDelay,
 			}),
 	}

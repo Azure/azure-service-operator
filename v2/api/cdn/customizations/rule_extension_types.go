@@ -6,6 +6,8 @@ Licensed under the MIT license.
 package customizations
 
 import (
+	"strings"
+
 	"github.com/go-logr/logr"
 
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
@@ -13,16 +15,17 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 )
 
-var _ extensions.ErrorClassifier = &RedisExtension{}
+var _ extensions.ErrorClassifier = &RuleExtension{}
 
 // ClassifyError evaluates the provided error, returning whether it is fatal or can be retried.
-// A conflict error (409) is normally fatal, but Redis resources may return 409 whilst a dependency is being created,
-// so we override for that case.
+// A BadRequest error (400) is normally fatal, but for AFD Rules, it is returned if a rule is attempted to be
+// added to an originGroup that doesn't exist or doesn't have any origins added. This error is not actually fatal
+// so we retry on it.
 // cloudError is the error returned from ARM.
 // apiVersion is the ARM API version used for the request.
 // log is a logger than can be used for telemetry.
 // next is the next implementation to call.
-func (ext *RedisExtension) ClassifyError(
+func (e *RuleExtension) ClassifyError(
 	cloudError *genericarmclient.CloudError,
 	apiVersion string,
 	log logr.Logger,
@@ -33,19 +36,22 @@ func (ext *RedisExtension) ClassifyError(
 		return core.CloudErrorDetails{}, err
 	}
 
-	// Override is to treat Conflict as retryable for Redis, if the message contains "try again later"
-	if isRetryableConflict(cloudError) {
+	if isRuleRetryableBadRequest(cloudError) {
 		details.Classification = core.ErrorRetryable
 	}
 
 	return details, nil
 }
 
-// isRetryableConflict checks the passed error to see if it is a retryable conflict, returning true if it is.
-func isRetryableConflict(err *genericarmclient.CloudError) bool {
+// isRuleRetryableBadRequest checks the passed error to see if it is a retryable error, returning true if it is.
+func isRuleRetryableBadRequest(err *genericarmclient.CloudError) bool {
 	if err == nil {
 		return false
 	}
 
-	return err.Code() == "Conflict"
+	// string matching for error detection is fragile but unfortunately there's no better way to determine this given the
+	// shape the API returns
+	return err.Code() == "BadRequest" &&
+		strings.Contains(err.Message(), "originGroup is created successfully") &&
+		strings.Contains(err.Message(), "at least one enabled origin is created")
 }

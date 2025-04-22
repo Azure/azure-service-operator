@@ -62,6 +62,7 @@ func CreateErrorClassifier(
 		log.V(Status).Info(
 			"CloudError classified",
 			"Classification", result.Classification,
+			"Retry", result.Retry,
 			"Code", result.Code,
 			"Message", result.Message)
 

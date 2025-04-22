@@ -17,14 +17,7 @@ jobs:
       packages: read
 
     steps:
-      # Update check run called "integration-tests" setting status to in_progress
-      # Note: There is no way to specify which suite the check we create goes into apparently, see:
-      # https://github.community/t/specify-check-suite-when-creating-a-checkrun/118380
-      # Also, details_url doesn't currently work when set via a GITHUB_TOKEN which is what we're using, see:
-      # https://github.community/t/create-a-check-run-details-url-is-not-being-set/166002
-      # Given the above limitations, we create a new check for the fork integration tests, and then at the end
-      # of this job we update the "integration-tests" check to be passing as well (so this single job really
-      # ends up writing the status 2 checks, 1 is "integration-tests" and one is "integration-tests-fork").
+      # Create check called "integration-tests-fork", and set to in_progress
       - name: set-check-run-in-progress
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # pinned to v7.0.1
         id: set-check-run-in-progress
@@ -116,6 +109,11 @@ jobs:
         if: steps.check-changes.outputs.code-changed == 'true'
 
       # Update check run called "integration-fork"
+      # Note that we now don't update integration-test check anymore
+      # due to https://github.blog/changelog/2025-02-12-notice-of-upcoming-deprecations-and-breaking-changes-for-github-actions/#changes-to-check-run-status-modification
+      # This is actually OK though because the status of that check gets set to skipped (due to PRs originating from
+      # a fork). Skipped checks count as successes. Note: that check still sets the status of this check to succeeded,
+      # as otherwise it will be left pending (which does NOT count as succeeded).
       - name: update-integration-tests-result
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # pinned to v7.0.1
         id: update-check-run
@@ -143,17 +141,9 @@ jobs:
               ref
             });
             const forkCheck = checks.check_runs.filter(c => c.name === process.env.job);
-            await github.rest.checks.update({
-              ...context.repo,
-              check_run_id: forkCheck[0].id,
-              status: 'completed',
-              conclusion: process.env.conclusion,
-              details_url: url,
-            });
-            const mainCheck = checks.check_runs.filter(c => c.name === process.env.integration_test_job);
             const { data: result } = await github.rest.checks.update({
               ...context.repo,
-              check_run_id: mainCheck[0].id,
+              check_run_id: forkCheck[0].id,
               status: 'completed',
               conclusion: process.env.conclusion,
               details_url: url,

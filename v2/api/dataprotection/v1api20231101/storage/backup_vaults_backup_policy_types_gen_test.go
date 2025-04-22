@@ -898,7 +898,8 @@ func BackupCriteriaGenerator() gopter.Gen {
 	// handle OneOf by choosing only one field to instantiate
 	var gens []gopter.Gen
 	for propName, propGen := range generators {
-		gens = append(gens, gen.Struct(reflect.TypeOf(BackupCriteria{}), map[string]gopter.Gen{propName: propGen}))
+		props := map[string]gopter.Gen{propName: propGen}
+		gens = append(gens, gen.Struct(reflect.TypeOf(BackupCriteria{}), props))
 	}
 	backupCriteriaGenerator = gen.OneGenOf(gens...)
 
@@ -967,7 +968,8 @@ func BackupCriteria_STATUSGenerator() gopter.Gen {
 	// handle OneOf by choosing only one field to instantiate
 	var gens []gopter.Gen
 	for propName, propGen := range generators {
-		gens = append(gens, gen.Struct(reflect.TypeOf(BackupCriteria_STATUS{}), map[string]gopter.Gen{propName: propGen}))
+		props := map[string]gopter.Gen{propName: propGen}
+		gens = append(gens, gen.Struct(reflect.TypeOf(BackupCriteria_STATUS{}), props))
 	}
 	backupCriteria_STATUSGenerator = gen.OneGenOf(gens...)
 
@@ -1035,7 +1037,8 @@ func BackupParametersGenerator() gopter.Gen {
 	// handle OneOf by choosing only one field to instantiate
 	var gens []gopter.Gen
 	for propName, propGen := range generators {
-		gens = append(gens, gen.Struct(reflect.TypeOf(BackupParameters{}), map[string]gopter.Gen{propName: propGen}))
+		props := map[string]gopter.Gen{propName: propGen}
+		gens = append(gens, gen.Struct(reflect.TypeOf(BackupParameters{}), props))
 	}
 	backupParametersGenerator = gen.OneGenOf(gens...)
 
@@ -1104,7 +1107,8 @@ func BackupParameters_STATUSGenerator() gopter.Gen {
 	// handle OneOf by choosing only one field to instantiate
 	var gens []gopter.Gen
 	for propName, propGen := range generators {
-		gens = append(gens, gen.Struct(reflect.TypeOf(BackupParameters_STATUS{}), map[string]gopter.Gen{propName: propGen}))
+		props := map[string]gopter.Gen{propName: propGen}
+		gens = append(gens, gen.Struct(reflect.TypeOf(BackupParameters_STATUS{}), props))
 	}
 	backupParameters_STATUSGenerator = gen.OneGenOf(gens...)
 
@@ -1718,7 +1722,8 @@ func BaseBackupPolicyGenerator() gopter.Gen {
 	// handle OneOf by choosing only one field to instantiate
 	var gens []gopter.Gen
 	for propName, propGen := range generators {
-		gens = append(gens, gen.Struct(reflect.TypeOf(BaseBackupPolicy{}), map[string]gopter.Gen{propName: propGen}))
+		props := map[string]gopter.Gen{propName: propGen}
+		gens = append(gens, gen.Struct(reflect.TypeOf(BaseBackupPolicy{}), props))
 	}
 	baseBackupPolicyGenerator = gen.OneGenOf(gens...)
 
@@ -1787,7 +1792,8 @@ func BaseBackupPolicy_STATUSGenerator() gopter.Gen {
 	// handle OneOf by choosing only one field to instantiate
 	var gens []gopter.Gen
 	for propName, propGen := range generators {
-		gens = append(gens, gen.Struct(reflect.TypeOf(BaseBackupPolicy_STATUS{}), map[string]gopter.Gen{propName: propGen}))
+		props := map[string]gopter.Gen{propName: propGen}
+		gens = append(gens, gen.Struct(reflect.TypeOf(BaseBackupPolicy_STATUS{}), props))
 	}
 	baseBackupPolicy_STATUSGenerator = gen.OneGenOf(gens...)
 
@@ -1855,7 +1861,8 @@ func BasePolicyRuleGenerator() gopter.Gen {
 	// handle OneOf by choosing only one field to instantiate
 	var gens []gopter.Gen
 	for propName, propGen := range generators {
-		gens = append(gens, gen.Struct(reflect.TypeOf(BasePolicyRule{}), map[string]gopter.Gen{propName: propGen}))
+		props := map[string]gopter.Gen{propName: propGen}
+		gens = append(gens, gen.Struct(reflect.TypeOf(BasePolicyRule{}), props))
 	}
 	basePolicyRuleGenerator = gen.OneGenOf(gens...)
 
@@ -1927,7 +1934,8 @@ func BasePolicyRule_STATUSGenerator() gopter.Gen {
 	// handle OneOf by choosing only one field to instantiate
 	var gens []gopter.Gen
 	for propName, propGen := range generators {
-		gens = append(gens, gen.Struct(reflect.TypeOf(BasePolicyRule_STATUS{}), map[string]gopter.Gen{propName: propGen}))
+		props := map[string]gopter.Gen{propName: propGen}
+		gens = append(gens, gen.Struct(reflect.TypeOf(BasePolicyRule_STATUS{}), props))
 	}
 	basePolicyRule_STATUSGenerator = gen.OneGenOf(gens...)
 
@@ -2119,7 +2127,8 @@ func CopyOptionGenerator() gopter.Gen {
 	// handle OneOf by choosing only one field to instantiate
 	var gens []gopter.Gen
 	for propName, propGen := range generators {
-		gens = append(gens, gen.Struct(reflect.TypeOf(CopyOption{}), map[string]gopter.Gen{propName: propGen}))
+		props := map[string]gopter.Gen{propName: propGen}
+		gens = append(gens, gen.Struct(reflect.TypeOf(CopyOption{}), props))
 	}
 	copyOptionGenerator = gen.OneGenOf(gens...)
 
@@ -2193,7 +2202,8 @@ func CopyOption_STATUSGenerator() gopter.Gen {
 	// handle OneOf by choosing only one field to instantiate
 	var gens []gopter.Gen
 	for propName, propGen := range generators {
-		gens = append(gens, gen.Struct(reflect.TypeOf(CopyOption_STATUS{}), map[string]gopter.Gen{propName: propGen}))
+		props := map[string]gopter.Gen{propName: propGen}
+		gens = append(gens, gen.Struct(reflect.TypeOf(CopyOption_STATUS{}), props))
 	}
 	copyOption_STATUSGenerator = gen.OneGenOf(gens...)
 
@@ -2635,7 +2645,8 @@ func DeleteOptionGenerator() gopter.Gen {
 	// handle OneOf by choosing only one field to instantiate
 	var gens []gopter.Gen
 	for propName, propGen := range generators {
-		gens = append(gens, gen.Struct(reflect.TypeOf(DeleteOption{}), map[string]gopter.Gen{propName: propGen}))
+		props := map[string]gopter.Gen{propName: propGen}
+		gens = append(gens, gen.Struct(reflect.TypeOf(DeleteOption{}), props))
 	}
 	deleteOptionGenerator = gen.OneGenOf(gens...)
 
@@ -2704,7 +2715,8 @@ func DeleteOption_STATUSGenerator() gopter.Gen {
 	// handle OneOf by choosing only one field to instantiate
 	var gens []gopter.Gen
 	for propName, propGen := range generators {
-		gens = append(gens, gen.Struct(reflect.TypeOf(DeleteOption_STATUS{}), map[string]gopter.Gen{propName: propGen}))
+		props := map[string]gopter.Gen{propName: propGen}
+		gens = append(gens, gen.Struct(reflect.TypeOf(DeleteOption_STATUS{}), props))
 	}
 	deleteOption_STATUSGenerator = gen.OneGenOf(gens...)
 
@@ -3730,7 +3742,8 @@ func TriggerContextGenerator() gopter.Gen {
 	// handle OneOf by choosing only one field to instantiate
 	var gens []gopter.Gen
 	for propName, propGen := range generators {
-		gens = append(gens, gen.Struct(reflect.TypeOf(TriggerContext{}), map[string]gopter.Gen{propName: propGen}))
+		props := map[string]gopter.Gen{propName: propGen}
+		gens = append(gens, gen.Struct(reflect.TypeOf(TriggerContext{}), props))
 	}
 	triggerContextGenerator = gen.OneGenOf(gens...)
 
@@ -3802,7 +3815,8 @@ func TriggerContext_STATUSGenerator() gopter.Gen {
 	// handle OneOf by choosing only one field to instantiate
 	var gens []gopter.Gen
 	for propName, propGen := range generators {
-		gens = append(gens, gen.Struct(reflect.TypeOf(TriggerContext_STATUS{}), map[string]gopter.Gen{propName: propGen}))
+		props := map[string]gopter.Gen{propName: propGen}
+		gens = append(gens, gen.Struct(reflect.TypeOf(TriggerContext_STATUS{}), props))
 	}
 	triggerContext_STATUSGenerator = gen.OneGenOf(gens...)
 
