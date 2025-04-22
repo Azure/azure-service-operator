@@ -96,6 +96,14 @@ if the pod is already running.
 
 Be careful setting this value too low as it can produce a lot of calls to Azure.
 
+### How well does ASO scale?
+
+ASO is designed to easily scale to thousands of resources, and we have customers who routinely reconcile thousands of resources with a single instance of ASO without issue.
+
+A separate reconciler is run for each different kind of resource, and each reconciler is non-blocking. If resource creation (or update) triggers a long-running-operation (LRO), ASO doesn't sit there polling for completion of the operation. Instead, it stashes information about the operation on the resource as an annotation, schedules the resource for a retry of reconciliation, and moves on to reconcile the next resource due. Later, the LRO is picked up and checked to see if it has completed.
+
+For the rare situation where users observe that ASO is failing to "keep up" with resource reconciliation (this can be monitored by looking at the queue length of the operator via metrics), they can set MAX_CONCURRENT_RECONCILES to a larger value (the default is 1).
+
 ### I'm seeing Subscription throttling, what can I do?
 
 ASO puts some steady load on your subscription due to re-reconciling resources periodically to ensure that
