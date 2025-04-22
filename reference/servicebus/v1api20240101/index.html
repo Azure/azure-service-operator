@@ -35,7 +35,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Namespace_SpecO
   <meta itemprop="description" content=" APIVersion Value Description “2024-01-01” Namespace Generator information: - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/stable/2024-01-01/namespace-preview.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ServiceBus/namespaces/{namespaceName}
 Used by: NamespaceList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Namespace_SpecOptional status Namespace_STATUSOptional Namespace_Spec Property Description Type alternateName Alternate name for namespace stringOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional disableLocalAuth This property disables SAS authentication for the Service Bus namespace. boolOptional encryption Properties of BYOK Encryption description EncryptionOptional identity Properties of BYOK Identity description IdentityOptional location The Geo-location where the resource lives stringRequired minimumTlsVersion The minimum TLS version for the cluster to support, e.g. ‘1.2’ SBNamespaceProperties_MinimumTlsVersionOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure NamespaceOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired premiumMessagingPartitions The number of partitions of a Service Bus namespace. This property is only applicable to Premium SKU namespaces. The default value is 1 and possible values are 1, 2 and 4 intOptional publicNetworkAccess This determines if traffic is allowed over public network. By default it is enabled. SBNamespaceProperties_PublicNetworkAccessOptional sku Properties of SKU SBSkuOptional tags Resource tags map[string]stringOptional zoneRedundant Enabling this property creates a Premium Service Bus Namespace in regions supported availability zones. boolOptional Namespace_STATUS Property Description Type alternateName Alternate name for namespace stringOptional conditions The observed state of the resource conditions.Condition[]Optional createdAt The time the namespace was created stringOptional disableLocalAuth This property disables SAS authentication for the Service Bus namespace. boolOptional encryption Properties of BYOK Encryption description Encryption_STATUSOptional id Resource Id stringOptional identity Properties of BYOK Identity description Identity_STATUSOptional location The Geo-location where the resource lives stringOptional metricId Identifier for Azure Insights metrics stringOptional minimumTlsVersion The minimum TLS version for the cluster to support, e.g. ‘1.2’ SBNamespaceProperties_MinimumTlsVersion_STATUSOptional name Resource name stringOptional premiumMessagingPartitions The number of partitions of a Service Bus namespace. This property is only applicable to Premium SKU namespaces. The default value is 1 and possible values are 1, 2 and 4 intOptional privateEndpointConnections List of private endpoint connections. PrivateEndpointConnection_STATUS[]Optional provisioningState Provisioning state of the namespace. stringOptional publicNetworkAccess This determines if traffic is allowed over public network. By default it is enabled. SBNamespaceProperties_PublicNetworkAccess_STATUSOptional serviceBusEndpoint Endpoint you can use to perform Service Bus operations. stringOptional sku Properties of SKU SBSku_STATUSOptional status Status of the namespace. stringOptional systemData The system meta data relating to this resource. SystemData_STATUSOptional tags Resource tags map[string]stringOptional type Resource type stringOptional updatedAt The time the namespace was updated. stringOptional zoneRedundant Enabling this property creates a Premium Service Bus Namespace in regions supported availability zones. boolOptional NamespaceList Generator information: - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/stable/2024-01-01/namespace-preview.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ServiceBus/namespaces/{namespaceName}">
-  <meta itemprop="wordCount" content="8114">
+  <meta itemprop="wordCount" content="8588">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="servicebus.azure.com/v1api20240101">
   <meta name="twitter:description" content=" APIVersion Value Description “2024-01-01” Namespace Generator information: - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/stable/2024-01-01/namespace-preview.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ServiceBus/namespaces/{namespaceName}
@@ -843,6 +843,13 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Namespace_SpecO
       </ul>
     </li>
     <li><a href="#NamespacesTopicsSubscriptionsRuleList">NamespacesTopicsSubscriptionsRuleList</a></li>
+    <li><a href="#TopicAuthorizationRule">TopicAuthorizationRule</a>
+      <ul>
+        <li><a href="#TopicAuthorizationRule_Spec">TopicAuthorizationRule_Spec</a></li>
+        <li><a href="#TopicAuthorizationRule_STATUS">TopicAuthorizationRule_STATUS</a></li>
+      </ul>
+    </li>
+    <li><a href="#TopicAuthorizationRuleList">TopicAuthorizationRuleList</a></li>
     <li><a href="#Namespace_Spec">Namespace_Spec</a></li>
     <li><a href="#Namespace_STATUS">Namespace_STATUS</a></li>
     <li><a href="#NamespacesAuthorizationRule_Spec">NamespacesAuthorizationRule_Spec</a></li>
@@ -855,6 +862,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Namespace_SpecO
     <li><a href="#NamespacesTopicsSubscription_STATUS">NamespacesTopicsSubscription_STATUS</a></li>
     <li><a href="#NamespacesTopicsSubscriptionsRule_Spec">NamespacesTopicsSubscriptionsRule_Spec</a></li>
     <li><a href="#NamespacesTopicsSubscriptionsRule_STATUS">NamespacesTopicsSubscriptionsRule_STATUS</a></li>
+    <li><a href="#TopicAuthorizationRule_Spec">TopicAuthorizationRule_Spec</a></li>
+    <li><a href="#TopicAuthorizationRule_STATUS">TopicAuthorizationRule_STATUS</a></li>
     <li><a href="#Action">Action</a></li>
     <li><a href="#Action_STATUS">Action_STATUS</a></li>
     <li><a href="#CorrelationFilter">CorrelationFilter</a></li>
@@ -887,6 +896,9 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Namespace_SpecO
     <li><a href="#SqlFilter">SqlFilter</a></li>
     <li><a href="#SqlFilter_STATUS">SqlFilter_STATUS</a></li>
     <li><a href="#SystemData_STATUS">SystemData_STATUS</a></li>
+    <li><a href="#TopicAuthorizationRuleOperatorSpec">TopicAuthorizationRuleOperatorSpec</a></li>
+    <li><a href="#TopicAuthorizationRuleRights_Spec">TopicAuthorizationRuleRights_Spec</a></li>
+    <li><a href="#TopicAuthorizationRuleRights_STATUS">TopicAuthorizationRuleRights_STATUS</a></li>
     <li><a href="#Encryption_KeySource">Encryption_KeySource</a></li>
     <li><a href="#Encryption_KeySource_STATUS">Encryption_KeySource_STATUS</a></li>
     <li><a href="#Identity_Type">Identity_Type</a></li>
@@ -2405,6 +2417,147 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Namespace_SpecO
       </tr>
   </tbody>
 </table>
+<h2 id="TopicAuthorizationRule">TopicAuthorizationRule</h2>
+<p>Generator information: - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/stable/2024-01-01/AuthorizationRules.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/authorizationRules/{authorizationRuleName}</p>
+<p>Used by: <a href="#TopicAuthorizationRuleList">TopicAuthorizationRuleList</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Property</th>
+          <th style="text-align: left">Description</th>
+          <th style="text-align: left">Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta">metav1.ObjectMeta</a></td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">spec</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"><a href="#TopicAuthorizationRule_Spec">TopicAuthorizationRule_Spec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">status</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"><a href="#TopicAuthorizationRule_STATUS">TopicAuthorizationRule_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="TopicAuthorizationRule_Spec">TopicAuthorizationRule_Spec</h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Property</th>
+          <th style="text-align: left">Description</th>
+          <th style="text-align: left">Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">azureName</td>
+          <td style="text-align: left">The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">operatorSpec</td>
+          <td style="text-align: left">The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+          <td style="text-align: left"><a href="#TopicAuthorizationRuleOperatorSpec">TopicAuthorizationRuleOperatorSpec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">owner</td>
+          <td style="text-align: left">The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a servicebus.azure.com/NamespacesTopic resource</td>
+          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">rights</td>
+          <td style="text-align: left">The rights associated with the rule.</td>
+          <td style="text-align: left"><a href="#TopicAuthorizationRuleRights_Spec">TopicAuthorizationRuleRights_Spec[]</a><br/><small>Required</small></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="TopicAuthorizationRule_STATUS">TopicAuthorizationRule_STATUS</h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Property</th>
+          <th style="text-align: left">Description</th>
+          <th style="text-align: left">Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">conditions</td>
+          <td style="text-align: left">The observed state of the resource</td>
+          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">id</td>
+          <td style="text-align: left">Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">location</td>
+          <td style="text-align: left">The geo-location where the resource lives</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">name</td>
+          <td style="text-align: left">The name of the resource</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">rights</td>
+          <td style="text-align: left">The rights associated with the rule.</td>
+          <td style="text-align: left"><a href="#TopicAuthorizationRuleRights_STATUS">TopicAuthorizationRuleRights_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">systemData</td>
+          <td style="text-align: left">The system meta data relating to this resource.</td>
+          <td style="text-align: left"><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">type</td>
+          <td style="text-align: left">The type of the resource. E.g. &ldquo;Microsoft.EventHub/Namespaces&rdquo; or &ldquo;Microsoft.EventHub/Namespaces/EventHubs&rdquo;</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="TopicAuthorizationRuleList">TopicAuthorizationRuleList</h2>
+<p>Generator information: - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/stable/2024-01-01/AuthorizationRules.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/authorizationRules/{authorizationRuleName}</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Property</th>
+          <th style="text-align: left">Description</th>
+          <th style="text-align: left">Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta">metav1.ListMeta</a></td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">items</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"><a href="#TopicAuthorizationRule">TopicAuthorizationRule[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
 <h2 id="Namespace_Spec">Namespace_Spec</h2>
 <p>Used by: <a href="#Namespace">Namespace</a>.</p>
 <table>
@@ -3501,6 +3654,87 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Namespace_SpecO
       </tr>
   </tbody>
 </table>
+<h2 id="TopicAuthorizationRule_Spec">TopicAuthorizationRule_Spec</h2>
+<p>Used by: <a href="#TopicAuthorizationRule">TopicAuthorizationRule</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Property</th>
+          <th style="text-align: left">Description</th>
+          <th style="text-align: left">Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">azureName</td>
+          <td style="text-align: left">The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">operatorSpec</td>
+          <td style="text-align: left">The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+          <td style="text-align: left"><a href="#TopicAuthorizationRuleOperatorSpec">TopicAuthorizationRuleOperatorSpec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">owner</td>
+          <td style="text-align: left">The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a servicebus.azure.com/NamespacesTopic resource</td>
+          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">rights</td>
+          <td style="text-align: left">The rights associated with the rule.</td>
+          <td style="text-align: left"><a href="#TopicAuthorizationRuleRights_Spec">TopicAuthorizationRuleRights_Spec[]</a><br/><small>Required</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="TopicAuthorizationRule_STATUS">TopicAuthorizationRule_STATUS</h2>
+<p>Used by: <a href="#TopicAuthorizationRule">TopicAuthorizationRule</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Property</th>
+          <th style="text-align: left">Description</th>
+          <th style="text-align: left">Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">conditions</td>
+          <td style="text-align: left">The observed state of the resource</td>
+          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">id</td>
+          <td style="text-align: left">Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">location</td>
+          <td style="text-align: left">The geo-location where the resource lives</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">name</td>
+          <td style="text-align: left">The name of the resource</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">rights</td>
+          <td style="text-align: left">The rights associated with the rule.</td>
+          <td style="text-align: left"><a href="#TopicAuthorizationRuleRights_STATUS">TopicAuthorizationRuleRights_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">systemData</td>
+          <td style="text-align: left">The system meta data relating to this resource.</td>
+          <td style="text-align: left"><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">type</td>
+          <td style="text-align: left">The type of the resource. E.g. &ldquo;Microsoft.EventHub/Namespaces&rdquo; or &ldquo;Microsoft.EventHub/Namespaces/EventHubs&rdquo;</td>
+          <td style="text-align: left">string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
 <h2 id="Action">Action</h2>
 <p>Represents the filter actions which are allowed for the transformation of a message that have been matched by a filter expression.</p>
 <p>Used by: <a href="#NamespacesTopicsSubscriptionsRule_Spec">NamespacesTopicsSubscriptionsRule_Spec</a>.</p>
@@ -4426,7 +4660,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Namespace_SpecO
 </table>
 <h2 id="SystemData_STATUS">SystemData_STATUS</h2>
 <p>Metadata pertaining to creation and last modification of the resource.</p>
-<p>Used by: <a href="#Namespace_STATUS">Namespace_STATUS</a>, <a href="#NamespacesAuthorizationRule_STATUS">NamespacesAuthorizationRule_STATUS</a>, <a href="#NamespacesQueue_STATUS">NamespacesQueue_STATUS</a>, <a href="#NamespacesTopic_STATUS">NamespacesTopic_STATUS</a>, <a href="#NamespacesTopicsSubscription_STATUS">NamespacesTopicsSubscription_STATUS</a>, and <a href="#NamespacesTopicsSubscriptionsRule_STATUS">NamespacesTopicsSubscriptionsRule_STATUS</a>.</p>
+<p>Used by: <a href="#Namespace_STATUS">Namespace_STATUS</a>, <a href="#NamespacesAuthorizationRule_STATUS">NamespacesAuthorizationRule_STATUS</a>, <a href="#NamespacesQueue_STATUS">NamespacesQueue_STATUS</a>, <a href="#NamespacesTopic_STATUS">NamespacesTopic_STATUS</a>, <a href="#NamespacesTopicsSubscription_STATUS">NamespacesTopicsSubscription_STATUS</a>, <a href="#NamespacesTopicsSubscriptionsRule_STATUS">NamespacesTopicsSubscriptionsRule_STATUS</a>, and <a href="#TopicAuthorizationRule_STATUS">TopicAuthorizationRule_STATUS</a>.</p>
 <table>
   <thead>
       <tr>
@@ -4465,6 +4699,78 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Namespace_SpecO
           <td style="text-align: left">lastModifiedByType</td>
           <td style="text-align: left">The type of identity that last modified the resource.</td>
           <td style="text-align: left"><a href="#SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="TopicAuthorizationRuleOperatorSpec">TopicAuthorizationRuleOperatorSpec</h2>
+<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
+<p>Used by: <a href="#TopicAuthorizationRule_Spec">TopicAuthorizationRule_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Property</th>
+          <th style="text-align: left">Description</th>
+          <th style="text-align: left">Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">configMapExpressions</td>
+          <td style="text-align: left">configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</td>
+          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">secretExpressions</td>
+          <td style="text-align: left">configures where to place operator written dynamic secrets (created with CEL expressions).</td>
+          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="TopicAuthorizationRuleRights_Spec">TopicAuthorizationRuleRights_Spec</h2>
+<p>Used by: <a href="#TopicAuthorizationRule_Spec">TopicAuthorizationRule_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Value</th>
+          <th style="text-align: left">Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">&ldquo;Listen&rdquo;</td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">&ldquo;Manage&rdquo;</td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">&ldquo;Send&rdquo;</td>
+          <td style="text-align: left"></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="TopicAuthorizationRuleRights_STATUS">TopicAuthorizationRuleRights_STATUS</h2>
+<p>Used by: <a href="#TopicAuthorizationRule_STATUS">TopicAuthorizationRule_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Value</th>
+          <th style="text-align: left">Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">&ldquo;Listen&rdquo;</td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">&ldquo;Manage&rdquo;</td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">&ldquo;Send&rdquo;</td>
+          <td style="text-align: left"></td>
       </tr>
   </tbody>
 </table>
