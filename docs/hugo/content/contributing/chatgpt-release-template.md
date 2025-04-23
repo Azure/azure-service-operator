@@ -9,8 +9,7 @@ This can be used to help format our release notes once you've got them somewhat 
 We can improve this template based on our experience with it. Starting now with something basic.
 
 ## Prompt
-
-Please help me format my release notes. See below for how each sections text should be transformed.
+Please help me format the upcoming release notes for this repository. See below for how each sections text should be transformed.
 
 Example input for "New resources" section:
 
@@ -39,26 +38,17 @@ Example output for "New resources" section:
 * Add support for new network ApplicationGatewayWebApplicationFirewallPolicies resource (#4238)
 ```
 
+For the new resources section, please ensure that each entry refers to the resource by its Kubernetes group. The Kubernetes group can
+be found by looking at the PR in question. There will be changes in the v2/api/$group folder, for example https://github.com/Azure/azure-service-operator/pull/4237
+changes the v2/api/machinelearningservices folder, so the group is machinelearningservices, and the entry in the release notes should say
+machinelearningservices rather than AML.
+
 Example input for "Features" section:
 
 ```
 ### Features
 
 * Allow the data encryption keys for PostgreSQL Flexible server to be configured by @theunrepentantgeek in https://github.com/Azure/azure-service-operator/pull/4311
-```
-
-Example output for "Features" section:
-```
-### Features
-
-* Allow the data encryption keys for PostgreSQL Flexible server to be configured via ConfigMap (#4311)
-```
-
-Example input for "Improvements" section:
-
-```
-### Improvements
-
 * feat(helm): allow to use existing service account by @t3mi in https://github.com/Azure/azure-service-operator/pull/4211
 * feat(helm): allow hardcodes to be configurable by @t3mi in https://github.com/Azure/azure-service-operator/pull/4207
 * Remove pre-upgrade check by @matthchr in https://github.com/Azure/azure-service-operator/pull/4217
@@ -74,10 +64,11 @@ Example input for "Improvements" section:
 * Built-in role definitions should be skiped by asoctl by @theunrepentantgeek in https://github.com/Azure/azure-service-operator/pull/4263
 ```
 
-Example output for "Improvements" section:
+Example output for "Features" section:
 ```
-### Improvements
+### Features
 
+* Allow the data encryption keys for PostgreSQL Flexible server to be configured via ConfigMap (#4311)
 * Allow significantly more Helm chart configuration (#4211, #4207)
 * Remove pre-upgrade check (#4217)
 * Updated numerous dependencies
@@ -144,7 +135,7 @@ Example output for "Documentation" section:
 * Add ArgoCD FAQ item (#4309)
 ```
 
-Please format this document according to the above rules:
+Please format this document according to the above rules, and return the output as raw (unrendered) markdown:
 ```
 Initial release notes here
 ```
