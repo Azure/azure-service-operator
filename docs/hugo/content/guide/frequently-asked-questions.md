@@ -1,5 +1,6 @@
 ---
-title: FAQ
+title: Frequently Asked Questions
+linkTitle: FAQ
 weight: -2
 ---
 ## Project and scope
