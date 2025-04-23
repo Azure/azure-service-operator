@@ -254,6 +254,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/kubernetesconfiguration/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/kusto/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/machinelearningservices/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/managedidentity/</loc>

@@ -31,7 +31,7 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
   <meta itemprop="name" content="Supported Resources">
   <meta itemprop="description" content="These are the resources with Azure Service Operator support committed to our main branch, grouped by the originating ARM service. (Newly supported resources will appear in this list prior to inclusion in any ASO release.)
 AlertsManagement To install the CRDs for these resources, your ASO configuration must include alertsmanagement.azure.com/* as a one of the configured CRD patterns. See CRD Management in ASO for details on doing this for both Helm and YAML based installations.">
-  <meta itemprop="wordCount" content="6218">
+  <meta itemprop="wordCount" content="6300">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Supported Resources">
   <meta name="twitter:description" content="These are the resources with Azure Service Operator support committed to our main branch, grouped by the originating ARM service. (Newly supported resources will appear in this list prior to inclusion in any ASO release.)
@@ -494,6 +494,8 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
   <a href="/azure-service-operator/reference/kubernetesconfiguration/v1api20241101/" title="kubernetesconfiguration.azure.com/v1api20241101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekubernetesconfigurationv1api20241101"><span class="">v1api20241101</span></a>
 </li>
   </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencekusto-li">
+  <a href="/azure-service-operator/reference/kusto/" title="Kusto Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencekusto"><span class="">Kusto</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemachinelearningservices-li">
   <a href="/azure-service-operator/reference/machinelearningservices/" title="MachineLearningServices Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemachinelearningservices"><span class="">MachineLearningServices</span></a>
   <ul class="ul-3 foldable">
@@ -932,6 +934,11 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
         <li><a href="#released-9">Released</a></li>
       </ul>
     </li>
+    <li><a href="#kusto">Kusto</a>
+      <ul>
+        <li><a href="#next-release-3">Next Release</a></li>
+      </ul>
+    </li>
     <li><a href="#machinelearningservices">MachineLearningServices</a>
       <ul>
         <li><a href="#latest-released-versions-14">Latest Released Versions</a></li>
@@ -987,7 +994,7 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
     </li>
     <li><a href="#servicebus">ServiceBus</a>
       <ul>
-        <li><a href="#next-release-3">Next Release</a></li>
+        <li><a href="#next-release-4">Next Release</a></li>
         <li><a href="#latest-released-versions-17">Latest Released Versions</a></li>
         <li><a href="#other-supported-versions-17">Other Supported Versions</a></li>
       </ul>
@@ -3298,6 +3305,44 @@ grouped by the originating ARM service.
       </tr>
   </tbody>
 </table>
+<h2 id="kusto">Kusto</h2>
+<p>To install the CRDs for these resources, your ASO configuration must include <code>kusto.azure.com/*</code> as a one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
+<h3 id="next-release-3">Next Release</h3>
+<p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Resource</th>
+          <th style="text-align: left">ARM Version</th>
+          <th style="text-align: left">CRD Version</th>
+          <th style="text-align: left">Supported From</th>
+          <th style="text-align: left">Sample</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">Cluster</td>
+          <td style="text-align: left">2023-08-15</td>
+          <td style="text-align: left">v1api20230815</td>
+          <td style="text-align: left">v2.13.0</td>
+          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/kusto/v1api20230815/v1api20230815_cluster.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">DataConnection</td>
+          <td style="text-align: left">2023-08-15</td>
+          <td style="text-align: left">v1api20230815</td>
+          <td style="text-align: left">v2.13.0</td>
+          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/kusto/v1api20230815/v1api20230815_dataconnection.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Database</td>
+          <td style="text-align: left">2023-08-15</td>
+          <td style="text-align: left">v1api20230815</td>
+          <td style="text-align: left">v2.13.0</td>
+          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/kusto/v1api20230815/v1api20230815_database.yaml">View</a></td>
+      </tr>
+  </tbody>
+</table>
 <h2 id="machinelearningservices">MachineLearningServices</h2>
 <p>To install the CRDs for these resources, your ASO configuration must include <code>machinelearningservices.azure.com/*</code> as a one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
 <h3 id="latest-released-versions-14">Latest Released Versions</h3>
@@ -4202,7 +4247,7 @@ grouped by the originating ARM service.
 </table>
 <h2 id="servicebus">ServiceBus</h2>
 <p>To install the CRDs for these resources, your ASO configuration must include <code>servicebus.azure.com/*</code> as a one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="next-release-3">Next Release</h3>
+<h3 id="next-release-4">Next Release</h3>
 <p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
 <table>
   <thead>
