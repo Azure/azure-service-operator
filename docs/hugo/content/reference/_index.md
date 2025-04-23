@@ -336,10 +336,9 @@ Azure Database for MySQL - Single Server is on the retirement path and is [sched
 
 Existing instances of *Single Server* can be migrated to *Azure Database for MySQL - Flexible Server* using the [Azure Database migration Service](https://azure.microsoft.com/en-us/products/database-migration).
 
-### Next Release
+### Latest Released Versions
 
-Development of these new resources is complete and they will be available in the next release of ASO.
-
+These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
 | Resource                                                                                                          | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                |
 |-------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [FlexibleServer]({{< relref "/reference/dbformysql/v1api20231230#FlexibleServer" >}})                             | 2023-12-30  | v1api20231230 | v2.13.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20231230/v1api20231230_flexibleserver.yaml)               |
@@ -347,17 +346,6 @@ Development of these new resources is complete and they will be available in the
 | [FlexibleServersConfiguration]({{< relref "/reference/dbformysql/v1api20231230#FlexibleServersConfiguration" >}}) | 2023-12-30  | v1api20231230 | v2.13.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20231230/v1api20231230_flexibleserversconfiguration.yaml) |
 | [FlexibleServersDatabase]({{< relref "/reference/dbformysql/v1api20231230#FlexibleServersDatabase" >}})           | 2023-12-30  | v1api20231230 | v2.13.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20231230/v1api20231230_flexibleserversdatabase.yaml)      |
 | [FlexibleServersFirewallRule]({{< relref "/reference/dbformysql/v1api20231230#FlexibleServersFirewallRule" >}})   | 2023-12-30  | v1api20231230 | v2.13.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20231230/v1api20231230_flexibleserversfirewallrule.yaml)  |
-
-### Latest Released Versions
-
-These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
-| Resource                                                                                                          | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                |
-|-------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [FlexibleServer]({{< relref "/reference/dbformysql/v1api20230630#FlexibleServer" >}})                             | 2023-06-30  | v1api20230630 | v2.7.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20230630/v1api20230630_flexibleserver.yaml)               |
-| [FlexibleServersAdministrator]({{< relref "/reference/dbformysql/v1api20230630#FlexibleServersAdministrator" >}}) | 2023-06-30  | v1api20230630 | v2.7.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20230630/v1api20230630_flexibleserversadministrator.yaml) |
-| [FlexibleServersConfiguration]({{< relref "/reference/dbformysql/v1api20230630#FlexibleServersConfiguration" >}}) | 2023-06-30  | v1api20230630 | v2.7.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20230630/v1api20230630_flexibleserversconfiguration.yaml) |
-| [FlexibleServersDatabase]({{< relref "/reference/dbformysql/v1api20230630#FlexibleServersDatabase" >}})           | 2023-06-30  | v1api20230630 | v2.7.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20230630/v1api20230630_flexibleserversdatabase.yaml)      |
-| [FlexibleServersFirewallRule]({{< relref "/reference/dbformysql/v1api20230630#FlexibleServersFirewallRule" >}})   | 2023-06-30  | v1api20230630 | v2.7.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20230630/v1api20230630_flexibleserversfirewallrule.yaml)  |
 | [User]({{< relref "/reference/dbformysql/v1#User" >}})                                                            | v1          | v1            | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api/v1_user.yaml)                                            |
 
 ### Other Supported Versions
@@ -365,40 +353,34 @@ These resource(s) are the latest versions available for use in the current relea
 These are older versions of resourced still available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
 | Resource                                                                                                          | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                |
 |-------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [FlexibleServer]({{< relref "/reference/dbformysql/v1api20230630#FlexibleServer" >}})                             | 2023-06-30  | v1api20230630 | v2.7.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20230630/v1api20230630_flexibleserver.yaml)               |
 | [FlexibleServer]({{< relref "/reference/dbformysql/v1api20210501#FlexibleServer" >}})                             | 2021-05-01  | v1api20210501 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20220101/v1api20210501_flexibleserver.yaml)               |
+| [FlexibleServersAdministrator]({{< relref "/reference/dbformysql/v1api20230630#FlexibleServersAdministrator" >}}) | 2023-06-30  | v1api20230630 | v2.7.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20230630/v1api20230630_flexibleserversadministrator.yaml) |
 | [FlexibleServersAdministrator]({{< relref "/reference/dbformysql/v1api20220101#FlexibleServersAdministrator" >}}) | 2022-01-01  | v1api20220101 | v2.1.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20220101/v1api20220101_flexibleserversadministrator.yaml) |
+| [FlexibleServersConfiguration]({{< relref "/reference/dbformysql/v1api20230630#FlexibleServersConfiguration" >}}) | 2023-06-30  | v1api20230630 | v2.7.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20230630/v1api20230630_flexibleserversconfiguration.yaml) |
 | [FlexibleServersConfiguration]({{< relref "/reference/dbformysql/v1api20220101#FlexibleServersConfiguration" >}}) | 2022-01-01  | v1api20220101 | v2.1.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20220101/v1api20220101_flexibleserversconfiguration.yaml) |
+| [FlexibleServersDatabase]({{< relref "/reference/dbformysql/v1api20230630#FlexibleServersDatabase" >}})           | 2023-06-30  | v1api20230630 | v2.7.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20230630/v1api20230630_flexibleserversdatabase.yaml)      |
 | [FlexibleServersDatabase]({{< relref "/reference/dbformysql/v1api20210501#FlexibleServersDatabase" >}})           | 2021-05-01  | v1api20210501 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20210501/v1api20210501_flexibleserversdatabase.yaml)      |
+| [FlexibleServersFirewallRule]({{< relref "/reference/dbformysql/v1api20230630#FlexibleServersFirewallRule" >}})   | 2023-06-30  | v1api20230630 | v2.7.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20230630/v1api20230630_flexibleserversfirewallrule.yaml)  |
 | [FlexibleServersFirewallRule]({{< relref "/reference/dbformysql/v1api20210501#FlexibleServersFirewallRule" >}})   | 2021-05-01  | v1api20210501 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20210501/v1api20210501_flexibleserversfirewallrule.yaml)  |
 
 ## DBforPostgreSQL
 
 To install the CRDs for these resources, your ASO configuration must include `dbforpostgresql.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
-### Next Release
-
-Development of these new resources is complete and they will be available in the next release of ASO.
-
-| Resource                                        | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                                        |
-|-------------------------------------------------|-------------|---------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| FlexibleServer                                  | 2024-08-01  | v1api20240801 | v2.13.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20240801/v1api20240801_flexibleserver.yaml)                                  |
-| FlexibleServersAdvancedThreatProtectionSettings | 2024-08-01  | v1api20240801 | v2.13.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20240801/v1api20240801_flexibleserversadvancedthreatprotectionsettings.yaml) |
-| FlexibleServersBackup                           | 2024-08-01  | v1api20240801 | v2.13.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20240801/v1api20240801_flexibleserversbackup.yaml)                           |
-| FlexibleServersConfiguration                    | 2024-08-01  | v1api20240801 | v2.13.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20240801/v1api20240801_flexibleserversconfiguration.yaml)                    |
-| FlexibleServersDatabase                         | 2024-08-01  | v1api20240801 | v2.13.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20240801/v1api20240801_flexibleserversdatabase.yaml)                         |
-| FlexibleServersFirewallRule                     | 2024-08-01  | v1api20240801 | v2.13.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20240801/v1api20240801_flexibleserversfirewallrule.yaml)                     |
-| FlexibleServersVirtualEndpoint                  | 2024-08-01  | v1api20240801 | v2.13.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20240801/v1api20240801_flexibleserversvirtualendpoint.yaml)                  |
-
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
-| Resource                                                                                                               | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                     |
-|------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [FlexibleServer]({{< relref "/reference/dbforpostgresql/v1api20221201#FlexibleServer" >}})                             | 2022-12-01  | v1api20221201 | v2.5.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20221201/v1api20221201_flexibleserver.yaml)               |
-| [FlexibleServersConfiguration]({{< relref "/reference/dbforpostgresql/v1api20221201#FlexibleServersConfiguration" >}}) | 2022-12-01  | v1api20221201 | v2.5.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20221201/v1api20221201_flexibleserversconfiguration.yaml) |
-| [FlexibleServersDatabase]({{< relref "/reference/dbforpostgresql/v1api20221201#FlexibleServersDatabase" >}})           | 2022-12-01  | v1api20221201 | v2.5.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20221201/v1api20221201_flexibleserversdatabase.yaml)      |
-| [FlexibleServersFirewallRule]({{< relref "/reference/dbforpostgresql/v1api20221201#FlexibleServersFirewallRule" >}})   | 2022-12-01  | v1api20221201 | v2.5.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20221201/v1api20221201_flexibleserversfirewallrule.yaml)  |
-| [User]({{< relref "/reference/dbforpostgresql/v1#User" >}})                                                            | v1          | v1            | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api/v1_user.yaml)                                            |
+| Resource                                                    | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                                        |
+|-------------------------------------------------------------|-------------|---------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| FlexibleServer                                              | 2024-08-01  | v1api20240801 | v2.13.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20240801/v1api20240801_flexibleserver.yaml)                                  |
+| FlexibleServersAdvancedThreatProtectionSettings             | 2024-08-01  | v1api20240801 | v2.13.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20240801/v1api20240801_flexibleserversadvancedthreatprotectionsettings.yaml) |
+| FlexibleServersBackup                                       | 2024-08-01  | v1api20240801 | v2.13.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20240801/v1api20240801_flexibleserversbackup.yaml)                           |
+| FlexibleServersConfiguration                                | 2024-08-01  | v1api20240801 | v2.13.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20240801/v1api20240801_flexibleserversconfiguration.yaml)                    |
+| FlexibleServersDatabase                                     | 2024-08-01  | v1api20240801 | v2.13.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20240801/v1api20240801_flexibleserversdatabase.yaml)                         |
+| FlexibleServersFirewallRule                                 | 2024-08-01  | v1api20240801 | v2.13.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20240801/v1api20240801_flexibleserversfirewallrule.yaml)                     |
+| FlexibleServersVirtualEndpoint                              | 2024-08-01  | v1api20240801 | v2.13.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20240801/v1api20240801_flexibleserversvirtualendpoint.yaml)                  |
+| [User]({{< relref "/reference/dbforpostgresql/v1#User" >}}) | v1          | v1            | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api/v1_user.yaml)                                                               |
 
 ### Other Supported Versions
 
@@ -406,15 +388,19 @@ These are older versions of resourced still available for use in the current rel
 | Resource                                                                                                                      | ARM Version        | CRD Version          | Supported From | Sample                                                                                                                                                                   |
 |-------------------------------------------------------------------------------------------------------------------------------|--------------------|----------------------|----------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [FlexibleServer]({{< relref "/reference/dbforpostgresql/v1api20230601preview#FlexibleServer" >}})                             | 2023-06-01-preview | v1api20230601preview | v2.6.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20230601preview/v1api20230601preview_flexibleserver.yaml)               |
+| [FlexibleServer]({{< relref "/reference/dbforpostgresql/v1api20221201#FlexibleServer" >}})                                    | 2022-12-01         | v1api20221201        | v2.5.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20221201/v1api20221201_flexibleserver.yaml)                             |
 | [FlexibleServer]({{< relref "/reference/dbforpostgresql/v1api20220120preview#FlexibleServer" >}})                             | 2022-01-20-preview | v1api20220120preview | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20220120preview/v1api20220120preview_flexibleserver.yaml)               |
 | [FlexibleServer]({{< relref "/reference/dbforpostgresql/v1api20210601#FlexibleServer" >}})                                    | 2021-06-01         | v1api20210601        | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20210601/v1api20210601_flexibleserver.yaml)                             |
 | [FlexibleServersConfiguration]({{< relref "/reference/dbforpostgresql/v1api20230601preview#FlexibleServersConfiguration" >}}) | 2023-06-01-preview | v1api20230601preview | v2.6.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20230601preview/v1api20230601preview_flexibleserversconfiguration.yaml) |
+| [FlexibleServersConfiguration]({{< relref "/reference/dbforpostgresql/v1api20221201#FlexibleServersConfiguration" >}})        | 2022-12-01         | v1api20221201        | v2.5.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20221201/v1api20221201_flexibleserversconfiguration.yaml)               |
 | [FlexibleServersConfiguration]({{< relref "/reference/dbforpostgresql/v1api20220120preview#FlexibleServersConfiguration" >}}) | 2022-01-20-preview | v1api20220120preview | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20220120preview/v1api20220120preview_flexibleserversconfiguration.yaml) |
 | [FlexibleServersConfiguration]({{< relref "/reference/dbforpostgresql/v1api20210601#FlexibleServersConfiguration" >}})        | 2021-06-01         | v1api20210601        | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20210601/v1api20210601_flexibleserversconfiguration.yaml)               |
 | [FlexibleServersDatabase]({{< relref "/reference/dbforpostgresql/v1api20230601preview#FlexibleServersDatabase" >}})           | 2023-06-01-preview | v1api20230601preview | v2.6.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20230601preview/v1api20230601preview_flexibleserversdatabase.yaml)      |
+| [FlexibleServersDatabase]({{< relref "/reference/dbforpostgresql/v1api20221201#FlexibleServersDatabase" >}})                  | 2022-12-01         | v1api20221201        | v2.5.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20221201/v1api20221201_flexibleserversdatabase.yaml)                    |
 | [FlexibleServersDatabase]({{< relref "/reference/dbforpostgresql/v1api20220120preview#FlexibleServersDatabase" >}})           | 2022-01-20-preview | v1api20220120preview | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20220120preview/v1api20220120preview_flexibleserversdatabase.yaml)      |
 | [FlexibleServersDatabase]({{< relref "/reference/dbforpostgresql/v1api20210601#FlexibleServersDatabase" >}})                  | 2021-06-01         | v1api20210601        | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20210601/v1api20210601_flexibleserversdatabase.yaml)                    |
 | [FlexibleServersFirewallRule]({{< relref "/reference/dbforpostgresql/v1api20230601preview#FlexibleServersFirewallRule" >}})   | 2023-06-01-preview | v1api20230601preview | v2.6.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20230601preview/v1api20230601preview_flexibleserversfirewallrule.yaml)  |
+| [FlexibleServersFirewallRule]({{< relref "/reference/dbforpostgresql/v1api20221201#FlexibleServersFirewallRule" >}})          | 2022-12-01         | v1api20221201        | v2.5.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20221201/v1api20221201_flexibleserversfirewallrule.yaml)                |
 | [FlexibleServersFirewallRule]({{< relref "/reference/dbforpostgresql/v1api20220120preview#FlexibleServersFirewallRule" >}})   | 2022-01-20-preview | v1api20220120preview | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20220120preview/v1api20220120preview_flexibleserversfirewallrule.yaml)  |
 | [FlexibleServersFirewallRule]({{< relref "/reference/dbforpostgresql/v1api20210601#FlexibleServersFirewallRule" >}})          | 2021-06-01         | v1api20210601        | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20210601/v1api20210601_flexibleserversfirewallrule.yaml)                |
 
@@ -572,18 +558,17 @@ These are older versions of resourced still available for use in the current rel
 
 To install the CRDs for these resources, your ASO configuration must include `kubernetesconfiguration.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
-### Next Release
+### Latest Released Versions
 
-Development of these new resources is complete and they will be available in the next release of ASO.
-
+These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
 | Resource                                                                                                 | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                  |
 |----------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [Extension]({{< relref "/reference/kubernetesconfiguration/v1api20241101#Extension" >}})                 | 2024-11-01  | v1api20241101 | v2.13.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/kubernetesconfiguration/v1api20241101/v1api20241101_extension.yaml)         |
 | [FluxConfiguration]({{< relref "/reference/kubernetesconfiguration/v1api20241101#FluxConfiguration" >}}) | 2024-11-01  | v1api20241101 | v2.13.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/kubernetesconfiguration/v1api20241101/v1api20241101_fluxconfiguration.yaml) |
 
-### Released
+### Other Supported Versions
 
-These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
+These are older versions of resourced still available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
 | Resource                                                                                                 | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                  |
 |----------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [Extension]({{< relref "/reference/kubernetesconfiguration/v1api20230501#Extension" >}})                 | 2023-05-01  | v1api20230501 | v2.4.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/kubernetesconfiguration/v1api20230501/v1api20230501_extension.yaml)         |
@@ -593,10 +578,9 @@ These resource(s) are available for use in the current release of ASO. Different
 
 To install the CRDs for these resources, your ASO configuration must include `kusto.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
-### Next Release
+### Released
 
-Development of these new resources is complete and they will be available in the next release of ASO.
-
+These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
 | Resource       | ARM Version | CRD Version   | Supported From | Sample                                                                                                                             |
 |----------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------------|
 | Cluster        | 2023-08-15  | v1api20230815 | v2.13.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/kusto/v1api20230815/v1api20230815_cluster.yaml)        |
@@ -825,14 +809,6 @@ These resource(s) are available for use in the current release of ASO. Different
 
 To install the CRDs for these resources, your ASO configuration must include `servicebus.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
-### Next Release
-
-Development of these new resources is complete and they will be available in the next release of ASO.
-
-| Resource                                                                                              | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                          |
-|-------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
-| [TopicAuthorizationRule]({{< relref "/reference/servicebus/v1api20240101#TopicAuthorizationRule" >}}) | 2024-01-01  | v1api20240101 | v2.13.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v1api20240101/v1api20240101_topicauthorizationrule.yaml) |
-
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
@@ -844,6 +820,7 @@ These resource(s) are the latest versions available for use in the current relea
 | [NamespacesTopic]({{< relref "/reference/servicebus/v1api20240101#NamespacesTopic" >}})                                     | 2024-01-01  | v1api20240101 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v1api20240101/v1api20240101_namespacestopic.yaml)                   |
 | [NamespacesTopicsSubscription]({{< relref "/reference/servicebus/v1api20240101#NamespacesTopicsSubscription" >}})           | 2024-01-01  | v1api20240101 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v1api20240101/v1api20240101_namespacestopicssubscription.yaml)      |
 | [NamespacesTopicsSubscriptionsRule]({{< relref "/reference/servicebus/v1api20240101#NamespacesTopicsSubscriptionsRule" >}}) | 2024-01-01  | v1api20240101 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v1api20240101/v1api20240101_namespacestopicssubscriptionsrule.yaml) |
+| [TopicAuthorizationRule]({{< relref "/reference/servicebus/v1api20240101#TopicAuthorizationRule" >}})                       | 2024-01-01  | v1api20240101 | v2.13.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v1api20240101/v1api20240101_topicauthorizationrule.yaml)            |
 
 ### Other Supported Versions
 
