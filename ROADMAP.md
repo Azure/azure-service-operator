@@ -10,9 +10,9 @@ Our current release plan:
 
 | Version                                                                | Estimated Release |
 |------------------------------------------------------------------------|------------------:|
-| [2.13.0](https://github.com/Azure/azure-service-operator/milestone/32) |    Mid April 2025 |
 | [2.14.0](https://github.com/Azure/azure-service-operator/milestone/33) |     Mid June 2025 |
 | [2.15.0](https://github.com/Azure/azure-service-operator/milestone/34) |   Mid August 2025 |
+| [2.16.0](https://github.com/Azure/azure-service-operator/milestone/35) |  Mid October 2025 |
 
 Where linked, versions go to a list of feature and bugs that are planned to be included in that release.
 
@@ -32,8 +32,9 @@ Prior GA releases of ASO v2:
 
 | Version                                                                        |     Release Date |     |
 |--------------------------------------------------------------------------------|-----------------:|-----|
-| [2.12.0](https://github.com/Azure/azure-service-operator/milestone/v2.12.0)    | 11 February 2025 |     |
-| [2.11.0](https://github.com/Azure/azure-service-operator/milestone/v2.11.0)    | 12 November 2024 |     |
+| [2.13.0](https://github.com/Azure/azure-service-operator/releases/tag/v2.13.0) |    23 April 2025 |     |
+| [2.12.0](https://github.com/Azure/azure-service-operator/releases/tag/v2.12.0) | 11 February 2025 |     |
+| [2.11.0](https://github.com/Azure/azure-service-operator/releases/tag/v2.11.0) | 12 November 2024 |     |
 | [2.10.0](https://github.com/Azure/azure-service-operator/releases/tag/v2.10.0) |  22 October 2024 |     |
 | [2.9.0](https://github.com/Azure/azure-service-operator/releases/tag/v2.9.0)   |   22 August 2024 |     |
 | [2.8.0](https://github.com/Azure/azure-service-operator/releases/tag/v2.8.0)   |     25 June 2024 |     |
