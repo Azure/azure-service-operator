@@ -31,7 +31,7 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
   <meta itemprop="name" content="Supported Resources">
   <meta itemprop="description" content="These are the resources with Azure Service Operator support committed to our main branch, grouped by the originating ARM service. (Newly supported resources will appear in this list prior to inclusion in any ASO release.)
 AlertsManagement To install the CRDs for these resources, your ASO configuration must include alertsmanagement.azure.com/* as a one of the configured CRD patterns. See CRD Management in ASO for details on doing this for both Helm and YAML based installations.">
-  <meta itemprop="wordCount" content="6300">
+  <meta itemprop="wordCount" content="6241">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Supported Resources">
   <meta name="twitter:description" content="These are the resources with Azure Service Operator support committed to our main branch, grouped by the originating ARM service. (Newly supported resources will appear in this list prior to inclusion in any ASO release.)
@@ -882,14 +882,12 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
     </li>
     <li><a href="#dbformysql">DBforMySQL</a>
       <ul>
-        <li><a href="#next-release">Next Release</a></li>
         <li><a href="#latest-released-versions-8">Latest Released Versions</a></li>
         <li><a href="#other-supported-versions-8">Other Supported Versions</a></li>
       </ul>
     </li>
     <li><a href="#dbforpostgresql">DBforPostgreSQL</a>
       <ul>
-        <li><a href="#next-release-1">Next Release</a></li>
         <li><a href="#latest-released-versions-9">Latest Released Versions</a></li>
         <li><a href="#other-supported-versions-9">Other Supported Versions</a></li>
       </ul>
@@ -930,25 +928,25 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
     </li>
     <li><a href="#kubernetesconfiguration">KubernetesConfiguration</a>
       <ul>
-        <li><a href="#next-release-2">Next Release</a></li>
-        <li><a href="#released-9">Released</a></li>
-      </ul>
-    </li>
-    <li><a href="#kusto">Kusto</a>
-      <ul>
-        <li><a href="#next-release-3">Next Release</a></li>
-      </ul>
-    </li>
-    <li><a href="#machinelearningservices">MachineLearningServices</a>
-      <ul>
         <li><a href="#latest-released-versions-14">Latest Released Versions</a></li>
         <li><a href="#other-supported-versions-14">Other Supported Versions</a></li>
       </ul>
     </li>
-    <li><a href="#managedidentity">ManagedIdentity</a>
+    <li><a href="#kusto">Kusto</a>
+      <ul>
+        <li><a href="#released-9">Released</a></li>
+      </ul>
+    </li>
+    <li><a href="#machinelearningservices">MachineLearningServices</a>
       <ul>
         <li><a href="#latest-released-versions-15">Latest Released Versions</a></li>
         <li><a href="#other-supported-versions-15">Other Supported Versions</a></li>
+      </ul>
+    </li>
+    <li><a href="#managedidentity">ManagedIdentity</a>
+      <ul>
+        <li><a href="#latest-released-versions-16">Latest Released Versions</a></li>
+        <li><a href="#other-supported-versions-16">Other Supported Versions</a></li>
       </ul>
     </li>
     <li><a href="#monitor">Monitor</a>
@@ -958,8 +956,8 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
     </li>
     <li><a href="#network">Network</a>
       <ul>
-        <li><a href="#latest-released-versions-16">Latest Released Versions</a></li>
-        <li><a href="#other-supported-versions-16">Other Supported Versions</a></li>
+        <li><a href="#latest-released-versions-17">Latest Released Versions</a></li>
+        <li><a href="#other-supported-versions-17">Other Supported Versions</a></li>
       </ul>
     </li>
     <li><a href="#network-1">Network</a>
@@ -994,15 +992,14 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
     </li>
     <li><a href="#servicebus">ServiceBus</a>
       <ul>
-        <li><a href="#next-release-4">Next Release</a></li>
-        <li><a href="#latest-released-versions-17">Latest Released Versions</a></li>
-        <li><a href="#other-supported-versions-17">Other Supported Versions</a></li>
+        <li><a href="#latest-released-versions-18">Latest Released Versions</a></li>
+        <li><a href="#other-supported-versions-18">Other Supported Versions</a></li>
       </ul>
     </li>
     <li><a href="#signalrservice">SignalRService</a>
       <ul>
-        <li><a href="#latest-released-versions-18">Latest Released Versions</a></li>
-        <li><a href="#other-supported-versions-18">Other Supported Versions</a></li>
+        <li><a href="#latest-released-versions-19">Latest Released Versions</a></li>
+        <li><a href="#other-supported-versions-19">Other Supported Versions</a></li>
       </ul>
     </li>
     <li><a href="#sql">Sql</a>
@@ -1012,8 +1009,8 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
     </li>
     <li><a href="#storage">Storage</a>
       <ul>
-        <li><a href="#latest-released-versions-19">Latest Released Versions</a></li>
-        <li><a href="#other-supported-versions-19">Other Supported Versions</a></li>
+        <li><a href="#latest-released-versions-20">Latest Released Versions</a></li>
+        <li><a href="#other-supported-versions-20">Other Supported Versions</a></li>
       </ul>
     </li>
     <li><a href="#subscription">Subscription</a>
@@ -2249,8 +2246,8 @@ grouped by the originating ARM service.
 <p>To install the CRDs for these resources, your ASO configuration must include <code>dbformysql.azure.com/*</code> as a one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
 <p>Azure Database for MySQL - Single Server is on the retirement path and is <a href="https://learn.microsoft.com/en-us/azure/mysql/single-server/whats-happening-to-mysql-single-server">scheduled for retirement by September 16, 2024</a>. We will not be supporting it in ASO v2.</p>
 <p>Existing instances of <em>Single Server</em> can be migrated to <em>Azure Database for MySQL - Flexible Server</em> using the <a href="https://azure.microsoft.com/en-us/products/database-migration">Azure Database migration Service</a>.</p>
-<h3 id="next-release">Next Release</h3>
-<p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
+<h3 id="latest-released-versions-8">Latest Released Versions</h3>
+<p>These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
 <table>
   <thead>
       <tr>
@@ -2297,56 +2294,6 @@ grouped by the originating ARM service.
           <td style="text-align: left">v2.13.0</td>
           <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20231230/v1api20231230_flexibleserversfirewallrule.yaml">View</a></td>
       </tr>
-  </tbody>
-</table>
-<h3 id="latest-released-versions-8">Latest Released Versions</h3>
-<p>These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
-<table>
-  <thead>
-      <tr>
-          <th style="text-align: left">Resource</th>
-          <th style="text-align: left">ARM Version</th>
-          <th style="text-align: left">CRD Version</th>
-          <th style="text-align: left">Supported From</th>
-          <th style="text-align: left">Sample</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/dbformysql/v1api20230630/#FlexibleServer">FlexibleServer</a></td>
-          <td style="text-align: left">2023-06-30</td>
-          <td style="text-align: left">v1api20230630</td>
-          <td style="text-align: left">v2.7.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20230630/v1api20230630_flexibleserver.yaml">View</a></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/dbformysql/v1api20230630/#FlexibleServersAdministrator">FlexibleServersAdministrator</a></td>
-          <td style="text-align: left">2023-06-30</td>
-          <td style="text-align: left">v1api20230630</td>
-          <td style="text-align: left">v2.7.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20230630/v1api20230630_flexibleserversadministrator.yaml">View</a></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/dbformysql/v1api20230630/#FlexibleServersConfiguration">FlexibleServersConfiguration</a></td>
-          <td style="text-align: left">2023-06-30</td>
-          <td style="text-align: left">v1api20230630</td>
-          <td style="text-align: left">v2.7.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20230630/v1api20230630_flexibleserversconfiguration.yaml">View</a></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/dbformysql/v1api20230630/#FlexibleServersDatabase">FlexibleServersDatabase</a></td>
-          <td style="text-align: left">2023-06-30</td>
-          <td style="text-align: left">v1api20230630</td>
-          <td style="text-align: left">v2.7.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20230630/v1api20230630_flexibleserversdatabase.yaml">View</a></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/dbformysql/v1api20230630/#FlexibleServersFirewallRule">FlexibleServersFirewallRule</a></td>
-          <td style="text-align: left">2023-06-30</td>
-          <td style="text-align: left">v1api20230630</td>
-          <td style="text-align: left">v2.7.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20230630/v1api20230630_flexibleserversfirewallrule.yaml">View</a></td>
-      </tr>
       <tr>
           <td style="text-align: left"><a href="/azure-service-operator/reference/dbformysql/v1/#User">User</a></td>
           <td style="text-align: left">v1</td>
@@ -2370,11 +2317,25 @@ grouped by the originating ARM service.
   </thead>
   <tbody>
       <tr>
+          <td style="text-align: left"><a href="/azure-service-operator/reference/dbformysql/v1api20230630/#FlexibleServer">FlexibleServer</a></td>
+          <td style="text-align: left">2023-06-30</td>
+          <td style="text-align: left">v1api20230630</td>
+          <td style="text-align: left">v2.7.0</td>
+          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20230630/v1api20230630_flexibleserver.yaml">View</a></td>
+      </tr>
+      <tr>
           <td style="text-align: left"><a href="/azure-service-operator/reference/dbformysql/v1api20210501/#FlexibleServer">FlexibleServer</a></td>
           <td style="text-align: left">2021-05-01</td>
           <td style="text-align: left">v1api20210501</td>
           <td style="text-align: left">v2.0.0</td>
           <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20220101/v1api20210501_flexibleserver.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><a href="/azure-service-operator/reference/dbformysql/v1api20230630/#FlexibleServersAdministrator">FlexibleServersAdministrator</a></td>
+          <td style="text-align: left">2023-06-30</td>
+          <td style="text-align: left">v1api20230630</td>
+          <td style="text-align: left">v2.7.0</td>
+          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20230630/v1api20230630_flexibleserversadministrator.yaml">View</a></td>
       </tr>
       <tr>
           <td style="text-align: left"><a href="/azure-service-operator/reference/dbformysql/v1api20220101/#FlexibleServersAdministrator">FlexibleServersAdministrator</a></td>
@@ -2384,6 +2345,13 @@ grouped by the originating ARM service.
           <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20220101/v1api20220101_flexibleserversadministrator.yaml">View</a></td>
       </tr>
       <tr>
+          <td style="text-align: left"><a href="/azure-service-operator/reference/dbformysql/v1api20230630/#FlexibleServersConfiguration">FlexibleServersConfiguration</a></td>
+          <td style="text-align: left">2023-06-30</td>
+          <td style="text-align: left">v1api20230630</td>
+          <td style="text-align: left">v2.7.0</td>
+          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20230630/v1api20230630_flexibleserversconfiguration.yaml">View</a></td>
+      </tr>
+      <tr>
           <td style="text-align: left"><a href="/azure-service-operator/reference/dbformysql/v1api20220101/#FlexibleServersConfiguration">FlexibleServersConfiguration</a></td>
           <td style="text-align: left">2022-01-01</td>
           <td style="text-align: left">v1api20220101</td>
@@ -2391,11 +2359,25 @@ grouped by the originating ARM service.
           <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20220101/v1api20220101_flexibleserversconfiguration.yaml">View</a></td>
       </tr>
       <tr>
+          <td style="text-align: left"><a href="/azure-service-operator/reference/dbformysql/v1api20230630/#FlexibleServersDatabase">FlexibleServersDatabase</a></td>
+          <td style="text-align: left">2023-06-30</td>
+          <td style="text-align: left">v1api20230630</td>
+          <td style="text-align: left">v2.7.0</td>
+          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20230630/v1api20230630_flexibleserversdatabase.yaml">View</a></td>
+      </tr>
+      <tr>
           <td style="text-align: left"><a href="/azure-service-operator/reference/dbformysql/v1api20210501/#FlexibleServersDatabase">FlexibleServersDatabase</a></td>
           <td style="text-align: left">2021-05-01</td>
           <td style="text-align: left">v1api20210501</td>
           <td style="text-align: left">v2.0.0</td>
           <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20210501/v1api20210501_flexibleserversdatabase.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><a href="/azure-service-operator/reference/dbformysql/v1api20230630/#FlexibleServersFirewallRule">FlexibleServersFirewallRule</a></td>
+          <td style="text-align: left">2023-06-30</td>
+          <td style="text-align: left">v1api20230630</td>
+          <td style="text-align: left">v2.7.0</td>
+          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20230630/v1api20230630_flexibleserversfirewallrule.yaml">View</a></td>
       </tr>
       <tr>
           <td style="text-align: left"><a href="/azure-service-operator/reference/dbformysql/v1api20210501/#FlexibleServersFirewallRule">FlexibleServersFirewallRule</a></td>
@@ -2408,8 +2390,8 @@ grouped by the originating ARM service.
 </table>
 <h2 id="dbforpostgresql">DBforPostgreSQL</h2>
 <p>To install the CRDs for these resources, your ASO configuration must include <code>dbforpostgresql.azure.com/*</code> as a one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="next-release-1">Next Release</h3>
-<p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
+<h3 id="latest-released-versions-9">Latest Released Versions</h3>
+<p>These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
 <table>
   <thead>
       <tr>
@@ -2470,49 +2452,6 @@ grouped by the originating ARM service.
           <td style="text-align: left">v2.13.0</td>
           <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20240801/v1api20240801_flexibleserversvirtualendpoint.yaml">View</a></td>
       </tr>
-  </tbody>
-</table>
-<h3 id="latest-released-versions-9">Latest Released Versions</h3>
-<p>These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
-<table>
-  <thead>
-      <tr>
-          <th style="text-align: left">Resource</th>
-          <th style="text-align: left">ARM Version</th>
-          <th style="text-align: left">CRD Version</th>
-          <th style="text-align: left">Supported From</th>
-          <th style="text-align: left">Sample</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/dbforpostgresql/v1api20221201/#FlexibleServer">FlexibleServer</a></td>
-          <td style="text-align: left">2022-12-01</td>
-          <td style="text-align: left">v1api20221201</td>
-          <td style="text-align: left">v2.5.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20221201/v1api20221201_flexibleserver.yaml">View</a></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/dbforpostgresql/v1api20221201/#FlexibleServersConfiguration">FlexibleServersConfiguration</a></td>
-          <td style="text-align: left">2022-12-01</td>
-          <td style="text-align: left">v1api20221201</td>
-          <td style="text-align: left">v2.5.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20221201/v1api20221201_flexibleserversconfiguration.yaml">View</a></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/dbforpostgresql/v1api20221201/#FlexibleServersDatabase">FlexibleServersDatabase</a></td>
-          <td style="text-align: left">2022-12-01</td>
-          <td style="text-align: left">v1api20221201</td>
-          <td style="text-align: left">v2.5.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20221201/v1api20221201_flexibleserversdatabase.yaml">View</a></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/dbforpostgresql/v1api20221201/#FlexibleServersFirewallRule">FlexibleServersFirewallRule</a></td>
-          <td style="text-align: left">2022-12-01</td>
-          <td style="text-align: left">v1api20221201</td>
-          <td style="text-align: left">v2.5.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20221201/v1api20221201_flexibleserversfirewallrule.yaml">View</a></td>
-      </tr>
       <tr>
           <td style="text-align: left"><a href="/azure-service-operator/reference/dbforpostgresql/v1/#User">User</a></td>
           <td style="text-align: left">v1</td>
@@ -2543,6 +2482,13 @@ grouped by the originating ARM service.
           <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20230601preview/v1api20230601preview_flexibleserver.yaml">View</a></td>
       </tr>
       <tr>
+          <td style="text-align: left"><a href="/azure-service-operator/reference/dbforpostgresql/v1api20221201/#FlexibleServer">FlexibleServer</a></td>
+          <td style="text-align: left">2022-12-01</td>
+          <td style="text-align: left">v1api20221201</td>
+          <td style="text-align: left">v2.5.0</td>
+          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20221201/v1api20221201_flexibleserver.yaml">View</a></td>
+      </tr>
+      <tr>
           <td style="text-align: left"><a href="/azure-service-operator/reference/dbforpostgresql/v1api20220120preview/#FlexibleServer">FlexibleServer</a></td>
           <td style="text-align: left">2022-01-20-preview</td>
           <td style="text-align: left">v1api20220120preview</td>
@@ -2562,6 +2508,13 @@ grouped by the originating ARM service.
           <td style="text-align: left">v1api20230601preview</td>
           <td style="text-align: left">v2.6.0</td>
           <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20230601preview/v1api20230601preview_flexibleserversconfiguration.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><a href="/azure-service-operator/reference/dbforpostgresql/v1api20221201/#FlexibleServersConfiguration">FlexibleServersConfiguration</a></td>
+          <td style="text-align: left">2022-12-01</td>
+          <td style="text-align: left">v1api20221201</td>
+          <td style="text-align: left">v2.5.0</td>
+          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20221201/v1api20221201_flexibleserversconfiguration.yaml">View</a></td>
       </tr>
       <tr>
           <td style="text-align: left"><a href="/azure-service-operator/reference/dbforpostgresql/v1api20220120preview/#FlexibleServersConfiguration">FlexibleServersConfiguration</a></td>
@@ -2585,6 +2538,13 @@ grouped by the originating ARM service.
           <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20230601preview/v1api20230601preview_flexibleserversdatabase.yaml">View</a></td>
       </tr>
       <tr>
+          <td style="text-align: left"><a href="/azure-service-operator/reference/dbforpostgresql/v1api20221201/#FlexibleServersDatabase">FlexibleServersDatabase</a></td>
+          <td style="text-align: left">2022-12-01</td>
+          <td style="text-align: left">v1api20221201</td>
+          <td style="text-align: left">v2.5.0</td>
+          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20221201/v1api20221201_flexibleserversdatabase.yaml">View</a></td>
+      </tr>
+      <tr>
           <td style="text-align: left"><a href="/azure-service-operator/reference/dbforpostgresql/v1api20220120preview/#FlexibleServersDatabase">FlexibleServersDatabase</a></td>
           <td style="text-align: left">2022-01-20-preview</td>
           <td style="text-align: left">v1api20220120preview</td>
@@ -2604,6 +2564,13 @@ grouped by the originating ARM service.
           <td style="text-align: left">v1api20230601preview</td>
           <td style="text-align: left">v2.6.0</td>
           <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20230601preview/v1api20230601preview_flexibleserversfirewallrule.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><a href="/azure-service-operator/reference/dbforpostgresql/v1api20221201/#FlexibleServersFirewallRule">FlexibleServersFirewallRule</a></td>
+          <td style="text-align: left">2022-12-01</td>
+          <td style="text-align: left">v1api20221201</td>
+          <td style="text-align: left">v2.5.0</td>
+          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20221201/v1api20221201_flexibleserversfirewallrule.yaml">View</a></td>
       </tr>
       <tr>
           <td style="text-align: left"><a href="/azure-service-operator/reference/dbforpostgresql/v1api20220120preview/#FlexibleServersFirewallRule">FlexibleServersFirewallRule</a></td>
@@ -3247,8 +3214,8 @@ grouped by the originating ARM service.
 </table>
 <h2 id="kubernetesconfiguration">KubernetesConfiguration</h2>
 <p>To install the CRDs for these resources, your ASO configuration must include <code>kubernetesconfiguration.azure.com/*</code> as a one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="next-release-2">Next Release</h3>
-<p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
+<h3 id="latest-released-versions-14">Latest Released Versions</h3>
+<p>These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
 <table>
   <thead>
       <tr>
@@ -3276,8 +3243,8 @@ grouped by the originating ARM service.
       </tr>
   </tbody>
 </table>
-<h3 id="released-9">Released</h3>
-<p>These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
+<h3 id="other-supported-versions-14">Other Supported Versions</h3>
+<p>These are older versions of resourced still available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
 <table>
   <thead>
       <tr>
@@ -3307,8 +3274,8 @@ grouped by the originating ARM service.
 </table>
 <h2 id="kusto">Kusto</h2>
 <p>To install the CRDs for these resources, your ASO configuration must include <code>kusto.azure.com/*</code> as a one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="next-release-3">Next Release</h3>
-<p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
+<h3 id="released-9">Released</h3>
+<p>These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
 <table>
   <thead>
       <tr>
@@ -3345,7 +3312,7 @@ grouped by the originating ARM service.
 </table>
 <h2 id="machinelearningservices">MachineLearningServices</h2>
 <p>To install the CRDs for these resources, your ASO configuration must include <code>machinelearningservices.azure.com/*</code> as a one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="latest-released-versions-14">Latest Released Versions</h3>
+<h3 id="latest-released-versions-15">Latest Released Versions</h3>
 <p>These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
 <table>
   <thead>
@@ -3388,7 +3355,7 @@ grouped by the originating ARM service.
       </tr>
   </tbody>
 </table>
-<h3 id="other-supported-versions-14">Other Supported Versions</h3>
+<h3 id="other-supported-versions-15">Other Supported Versions</h3>
 <p>These are older versions of resourced still available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
 <table>
   <thead>
@@ -3426,7 +3393,7 @@ grouped by the originating ARM service.
 </table>
 <h2 id="managedidentity">ManagedIdentity</h2>
 <p>To install the CRDs for these resources, your ASO configuration must include <code>managedidentity.azure.com/*</code> as a one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="latest-released-versions-15">Latest Released Versions</h3>
+<h3 id="latest-released-versions-16">Latest Released Versions</h3>
 <p>These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
 <table>
   <thead>
@@ -3455,7 +3422,7 @@ grouped by the originating ARM service.
       </tr>
   </tbody>
 </table>
-<h3 id="other-supported-versions-15">Other Supported Versions</h3>
+<h3 id="other-supported-versions-16">Other Supported Versions</h3>
 <p>These are older versions of resourced still available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
 <table>
   <thead>
@@ -3510,7 +3477,7 @@ grouped by the originating ARM service.
 </table>
 <h2 id="network">Network</h2>
 <p>To install the CRDs for these resources, your ASO configuration must include <code>network.azure.com/*</code> as a one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="latest-released-versions-16">Latest Released Versions</h3>
+<h3 id="latest-released-versions-17">Latest Released Versions</h3>
 <p>These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
 <table>
   <thead>
@@ -3875,7 +3842,7 @@ grouped by the originating ARM service.
       </tr>
   </tbody>
 </table>
-<h3 id="other-supported-versions-16">Other Supported Versions</h3>
+<h3 id="other-supported-versions-17">Other Supported Versions</h3>
 <p>These are older versions of resourced still available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
 <table>
   <thead>
@@ -4247,29 +4214,7 @@ grouped by the originating ARM service.
 </table>
 <h2 id="servicebus">ServiceBus</h2>
 <p>To install the CRDs for these resources, your ASO configuration must include <code>servicebus.azure.com/*</code> as a one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="next-release-4">Next Release</h3>
-<p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
-<table>
-  <thead>
-      <tr>
-          <th style="text-align: left">Resource</th>
-          <th style="text-align: left">ARM Version</th>
-          <th style="text-align: left">CRD Version</th>
-          <th style="text-align: left">Supported From</th>
-          <th style="text-align: left">Sample</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/servicebus/v1api20240101/#TopicAuthorizationRule">TopicAuthorizationRule</a></td>
-          <td style="text-align: left">2024-01-01</td>
-          <td style="text-align: left">v1api20240101</td>
-          <td style="text-align: left">v2.13.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v1api20240101/v1api20240101_topicauthorizationrule.yaml">View</a></td>
-      </tr>
-  </tbody>
-</table>
-<h3 id="latest-released-versions-17">Latest Released Versions</h3>
+<h3 id="latest-released-versions-18">Latest Released Versions</h3>
 <p>These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
 <table>
   <thead>
@@ -4324,9 +4269,16 @@ grouped by the originating ARM service.
           <td style="text-align: left">v2.12.0</td>
           <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v1api20240101/v1api20240101_namespacestopicssubscriptionsrule.yaml">View</a></td>
       </tr>
+      <tr>
+          <td style="text-align: left"><a href="/azure-service-operator/reference/servicebus/v1api20240101/#TopicAuthorizationRule">TopicAuthorizationRule</a></td>
+          <td style="text-align: left">2024-01-01</td>
+          <td style="text-align: left">v1api20240101</td>
+          <td style="text-align: left">v2.13.0</td>
+          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v1api20240101/v1api20240101_topicauthorizationrule.yaml">View</a></td>
+      </tr>
   </tbody>
 </table>
-<h3 id="other-supported-versions-17">Other Supported Versions</h3>
+<h3 id="other-supported-versions-18">Other Supported Versions</h3>
 <p>These are older versions of resourced still available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
 <table>
   <thead>
@@ -4469,7 +4421,7 @@ grouped by the originating ARM service.
 </table>
 <h2 id="signalrservice">SignalRService</h2>
 <p>To install the CRDs for these resources, your ASO configuration must include <code>signalrservice.azure.com/*</code> as a one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="latest-released-versions-18">Latest Released Versions</h3>
+<h3 id="latest-released-versions-19">Latest Released Versions</h3>
 <p>These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
 <table>
   <thead>
@@ -4512,7 +4464,7 @@ grouped by the originating ARM service.
       </tr>
   </tbody>
 </table>
-<h3 id="other-supported-versions-18">Other Supported Versions</h3>
+<h3 id="other-supported-versions-19">Other Supported Versions</h3>
 <p>These are older versions of resourced still available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
 <table>
   <thead>
@@ -4714,7 +4666,7 @@ grouped by the originating ARM service.
 </table>
 <h2 id="storage">Storage</h2>
 <p>To install the CRDs for these resources, your ASO configuration must include <code>storage.azure.com/*</code> as a one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="latest-released-versions-19">Latest Released Versions</h3>
+<h3 id="latest-released-versions-20">Latest Released Versions</h3>
 <p>These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
 <table>
   <thead>
@@ -4799,7 +4751,7 @@ grouped by the originating ARM service.
       </tr>
   </tbody>
 </table>
-<h3 id="other-supported-versions-19">Other Supported Versions</h3>
+<h3 id="other-supported-versions-20">Other Supported Versions</h3>
 <p>These are older versions of resourced still available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
 <table>
   <thead>
