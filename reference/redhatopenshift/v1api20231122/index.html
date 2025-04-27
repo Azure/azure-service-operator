@@ -35,7 +35,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec OpenShiftCluste
   <meta itemprop="description" content=" APIVersion Value Description “2023-11-22” OpenShiftCluster Generator information: - Generated from: /redhatopenshift/resource-manager/Microsoft.RedHatOpenShift/openshiftclusters/stable/2023-11-22/redhatopenshift.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.RedHatOpenShift/openShiftClusters/{resourceName}
 Used by: OpenShiftClusterList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec OpenShiftCluster_SpecOptional status OpenShiftCluster_STATUSOptional OpenShiftCluster_Spec Property Description Type apiserverProfile The cluster API server profile. APIServerProfileOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional clusterProfile The cluster profile. ClusterProfileOptional ingressProfiles The cluster ingress profiles. IngressProfile[]Optional location The geo-location where the resource lives stringRequired masterProfile The cluster master profile. MasterProfileOptional networkProfile The cluster network profile. NetworkProfileOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure OpenShiftClusterOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired servicePrincipalProfile The cluster service principal profile. ServicePrincipalProfileOptional tags Resource tags. map[string]stringOptional workerProfiles The cluster worker profiles. WorkerProfile[]Optional OpenShiftCluster_STATUS Property Description Type apiserverProfile The cluster API server profile. APIServerProfile_STATUSOptional clusterProfile The cluster profile. ClusterProfile_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional consoleProfile The console profile. ConsoleProfile_STATUSOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional ingressProfiles The cluster ingress profiles. IngressProfile_STATUS[]Optional location The geo-location where the resource lives stringOptional masterProfile The cluster master profile. MasterProfile_STATUSOptional name The name of the resource stringOptional networkProfile The cluster network profile. NetworkProfile_STATUSOptional provisioningState The cluster provisioning state. ProvisioningState_STATUSOptional servicePrincipalProfile The cluster service principal profile. ServicePrincipalProfile_STATUSOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional workerProfiles The cluster worker profiles. WorkerProfile_STATUS[]Optional workerProfilesStatus The cluster worker profiles status. WorkerProfile_STATUS[]Optional OpenShiftClusterList Generator information: - Generated from: /redhatopenshift/resource-manager/Microsoft.RedHatOpenShift/openshiftclusters/stable/2023-11-22/redhatopenshift.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.RedHatOpenShift/openShiftClusters/{resourceName}">
-  <meta itemprop="wordCount" content="1821">
+  <meta itemprop="wordCount" content="1897">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="redhatopenshift.azure.com/v1api20231122">
   <meta name="twitter:description" content=" APIVersion Value Description “2023-11-22” OpenShiftCluster Generator information: - Generated from: /redhatopenshift/resource-manager/Microsoft.RedHatOpenShift/openshiftclusters/stable/2023-11-22/redhatopenshift.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.RedHatOpenShift/openShiftClusters/{resourceName}
@@ -417,6 +417,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec OpenShiftCluste
   <a href="/azure-service-operator/reference/dbforpostgresql/v1api20221201/" title="dbforpostgresql.azure.com/v1api20221201" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1api20221201"><span class="">v1api20221201</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbforpostgresqlv1api20230601preview-li">
   <a href="/azure-service-operator/reference/dbforpostgresql/v1api20230601preview/" title="dbforpostgresql.azure.com/v1api20230601preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1api20230601preview"><span class="">v1api20230601preview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbforpostgresqlv1api20240801-li">
+  <a href="/azure-service-operator/reference/dbforpostgresql/v1api20240801/" title="dbforpostgresql.azure.com/v1api20240801" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1api20240801"><span class="">v1api20240801</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedevices-li">
@@ -499,8 +501,13 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec OpenShiftCluste
   <a href="/azure-service-operator/reference/kubernetesconfiguration/v1api20241101/" title="kubernetesconfiguration.azure.com/v1api20241101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekubernetesconfigurationv1api20241101"><span class="">v1api20241101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencekusto-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencekusto-li">
   <a href="/azure-service-operator/reference/kusto/" title="Kusto Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencekusto"><span class="">Kusto</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencekustov1api20230815-li">
+  <a href="/azure-service-operator/reference/kusto/v1api20230815/" title="kusto.azure.com/v1api20230815" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekustov1api20230815"><span class="">v1api20230815</span></a>
+</li>
+  </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemachinelearningservices-li">
   <a href="/azure-service-operator/reference/machinelearningservices/" title="MachineLearningServices Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemachinelearningservices"><span class="">MachineLearningServices</span></a>
   <ul class="ul-3 foldable">
@@ -836,6 +843,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec OpenShiftCluste
     <li><a href="#FipsValidatedModules_STATUS">FipsValidatedModules_STATUS</a></li>
     <li><a href="#LoadBalancerProfile">LoadBalancerProfile</a></li>
     <li><a href="#LoadBalancerProfile_STATUS">LoadBalancerProfile_STATUS</a></li>
+    <li><a href="#OpenShiftClusterOperatorSecrets">OpenShiftClusterOperatorSecrets</a></li>
     <li><a href="#OutboundType">OutboundType</a></li>
     <li><a href="#OutboundType_STATUS">OutboundType_STATUS</a></li>
     <li><a href="#PreconfiguredNSG">PreconfiguredNSG</a></li>
@@ -1655,6 +1663,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec OpenShiftCluste
           <td style="text-align: left">configures where to place operator written dynamic secrets (created with CEL expressions).</td>
           <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
       </tr>
+      <tr>
+          <td style="text-align: left">secrets</td>
+          <td style="text-align: left">configures where to place Azure generated secrets.</td>
+          <td style="text-align: left"><a href="#OpenShiftClusterOperatorSecrets">OpenShiftClusterOperatorSecrets</a><br/><small>Optional</small></td>
+      </tr>
   </tbody>
 </table>
 <h2 id="ProvisioningState_STATUS">ProvisioningState_STATUS</h2>
@@ -2012,6 +2025,34 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec OpenShiftCluste
           <td style="text-align: left">managedOutboundIps</td>
           <td style="text-align: left">The desired managed outbound IPs for the cluster public load balancer.</td>
           <td style="text-align: left"><a href="#ManagedOutboundIPs_STATUS">ManagedOutboundIPs_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="OpenShiftClusterOperatorSecrets">OpenShiftClusterOperatorSecrets</h2>
+<p>Used by: <a href="#OpenShiftClusterOperatorSpec">OpenShiftClusterOperatorSpec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Property</th>
+          <th style="text-align: left">Description</th>
+          <th style="text-align: left">Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">adminCredentials</td>
+          <td style="text-align: left">indicates where the AdminCredentials secret should be placed. If omitted, the secret will not be retrieved from Azure.</td>
+          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">genruntime.SecretDestination</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">password</td>
+          <td style="text-align: left">indicates where the Password secret should be placed. If omitted, the secret will not be retrieved from Azure.</td>
+          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">genruntime.SecretDestination</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">username</td>
+          <td style="text-align: left">indicates where the Username secret should be placed. If omitted, the secret will not be retrieved from Azure.</td>
+          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">genruntime.SecretDestination</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
