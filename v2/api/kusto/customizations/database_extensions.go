@@ -34,7 +34,7 @@ func (ext *DatabaseExtension) PreReconcileCheck(
 ) (extensions.PreReconcileCheckResult, error) {
 	// Check to see if the owning cluster is in a state that will block us from reconciling
 	// Owner nil can happen if the owner of the database is referenced by armID
-	if owner == nil {
+	if owner != nil {
 		if cluster, ok := owner.(*kusto.Cluster); ok {
 			// If our owning *cluster* is in a state that will reject any PUT, then we should skip
 			// reconciliation of the database as there's no point in even trying.
