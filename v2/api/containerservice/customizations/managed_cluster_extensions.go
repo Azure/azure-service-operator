@@ -166,13 +166,13 @@ var nonBlockingManagedClusterProvisioningStates = set.Make(
 )
 
 func (ext *ManagedClusterExtension) PreReconcileCheck(
-	_ context.Context,
+	ctx context.Context,
 	obj genruntime.MetaObject,
-	_ genruntime.MetaObject,
-	_ *resolver.Resolver,
-	_ *genericarmclient.GenericClient,
-	_ logr.Logger,
-	_ extensions.PreReconcileCheckFunc,
+	owner genruntime.MetaObject,
+	resourceResolver *resolver.Resolver,
+	armClient *genericarmclient.GenericClient,
+	log logr.Logger,
+	next extensions.PreReconcileCheckFunc,
 ) (extensions.PreReconcileCheckResult, error) {
 	// This has to be the current hub storage version. It will need to be updated
 	// if the hub storage version changes.
@@ -197,7 +197,7 @@ func (ext *ManagedClusterExtension) PreReconcileCheck(
 			nil
 	}
 
-	return extensions.ProceedWithReconcile(), nil
+	return next(ctx, obj, owner, resourceResolver, armClient, log)
 }
 
 func clusterProvisioningStateBlocksReconciliation(provisioningState *string) bool {

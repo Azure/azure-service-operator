@@ -21,13 +21,13 @@ import (
 var _ extensions.PreReconciliationChecker = &FlexibleServersFirewallRuleExtension{}
 
 func (ext *FlexibleServersFirewallRuleExtension) PreReconcileCheck(
-	_ context.Context,
-	_ genruntime.MetaObject,
+	ctx context.Context,
+	obj genruntime.MetaObject,
 	owner genruntime.MetaObject,
-	_ *resolver.Resolver,
-	_ *genericarmclient.GenericClient,
-	_ logr.Logger,
-	_ extensions.PreReconcileCheckFunc,
+	resourceResolver *resolver.Resolver,
+	armClient *genericarmclient.GenericClient,
+	log logr.Logger,
+	next extensions.PreReconcileCheckFunc,
 ) (extensions.PreReconcileCheckResult, error) {
 	if owner == nil {
 		// TODO: Check from ARM instead?
@@ -35,6 +35,7 @@ func (ext *FlexibleServersFirewallRuleExtension) PreReconcileCheck(
 	}
 
 	// Check to see if our owning server is ready for the database to be reconciled
+	// Owner nil can happen if the server/owner of the firewall rule is referenced by armID
 	if server, ok := owner.(*postgresql.FlexibleServer); ok {
 		serverState := server.Status.State
 		if serverState != nil && flexibleServerStateBlocksReconciliation(*serverState) {
@@ -45,5 +46,5 @@ func (ext *FlexibleServersFirewallRuleExtension) PreReconcileCheck(
 		}
 	}
 
-	return extensions.ProceedWithReconcile(), nil
+	return next(ctx, obj, owner, resourceResolver, armClient, log)
 }
