@@ -5,7 +5,7 @@ weight: -2
 ---
 ## Project and scope
 
-_Questions about the Azure Service Operator project, it's functionality and scope._
+_Questions about the Azure Service Operator project, its vision and scope._
 
 ### What is the release cadence?
 
@@ -72,9 +72,9 @@ The problem of how to template Kubernetes resources has already been solved a nu
 as Kustomize and Helm (among others). ASO composes with those projects, and others like them, rather than trying
 to build our own templating.
 
-## Installation and configuration
+## Running in Production
 
-_How to set up and configure ASO._
+_How to set up and configure ASO in a production environment._
 
 ### How can I protect against accidentally deleting an important resource?
 
@@ -112,71 +112,6 @@ ASO relies on the finalizer and annotations it adds being left alone to function
 We don't take a position on whether it's universally better to deploy ASO using a user-assigned or system-assigned managed identity because the correct choice for you depends on your own context.
 
 If you haven't already read it, Azure has a good [best practices for managed identity guide](https://learn.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/managed-identity-best-practice-recommendations) that may be useful.
-
-### When using Workload Identity, how can I easily inject the ASO created User Managed Identity details onto the service account?
-
-The [workload identity documentation](https://azure.github.io/azure-workload-identity/docs/topics/service-account-labels-and-annotations.html#service-account)
-suggests that you need to set the `azure.workload.identity/client-id` annotation on the ServiceAccount.
-This is not actually required! Setting that annotation instructs the Workload Identity webhook to inject the `AZURE_CLIENT_ID`
-environment variable into the pods on which the ServiceAccount is used.
-
-If you've created your user managed identity with ASO, it's easier to just do that injection yourself by using the
-`operatorSpec.configMaps` feature of the identity:
-
-Identity:
-
-```yaml
-operatorSpec:
-  configMaps:
-    tenantId:
-      name: identity-details
-      key: tenantId
-    clientId:
-      name: identity-details
-      key: clientId
-```
-
-and
-
-Pod:
-
-```yaml
-env:
-  - name: AZURE_CLIENT_ID
-    valueFrom:
-      configMapKeyRef:
-        key: clientId
-        name: identity-details
-```
-
-You can allow the other environment variables, volumes, and volume mounts to be injected automatically by the
-[Azure Workload Identity webhook](https://azure.github.io/azure-workload-identity/docs/installation/mutating-admission-webhook.html),
-or you can avoid running the Azure Workload Identity webhook entirely, but doing so requires that you manually
-include the `azure-identity` volume and volumeMount, as well as set the `AZURE_TENANT_ID` variable
-alongside `AZURE_CLIENT_ID` in every pod that needs workload identity.
-
-Sample VolumeMount:
-
-```yaml
-volumeMounts:
-  - mountPath: /var/run/secrets/azure/tokens/azure-identity-token
-    name: azure-identity-token
-    readOnly: true
-```
-
-Sample Volume:
-
-```yaml
-volumes:
-- name: azure-identity-token
-  projected:
-    defaultMode: 420
-    sources:
-      - serviceAccountToken:
-          audience: api://AzureADTokenExchange
-          expirationSeconds: 3600
-          path: azure-identity
-```
 
 ### How can I feed the output of one resource into a parameter for the next?
 
@@ -238,6 +173,16 @@ allowing it to adopt the existing resource in Azure) you must manually specify t
 of the `RoleAssignment` as the original UUID. Otherwise, the UUID defaulting algorithm will choose a different UUID since
 the namespace has changed.
 
+### Can I configure how often ASO re-syncs to Azure when there have been no changes?
+
+Yes, using the `azureSyncPeriod` argument in Helm's values.yaml, or using the `AZURE_SYNC_PERIOD`
+in the `aso-controller-settings` secret. This value is a string with format like: `15m`, `1h`, or `24h`.
+
+After changing this value, you must restart the `azureserviceoperator-controller-manager` pod in order for it to take effect
+if the pod is already running.
+
+Be careful setting this value too low as it can produce a lot of calls to Azure.
+
 ## Performance and scalability
 
 _How and when to tune ASO to work well for you._
@@ -249,16 +194,6 @@ ASO is designed to easily scale to thousands of resources, and we have customers
 A separate reconciler is run for each different kind of resource, and each reconciler is non-blocking. If resource creation (or update) triggers a long-running-operation (LRO), ASO doesn't sit there polling for completion of the operation. Instead, it stashes information about the operation on the resource as an annotation, schedules the resource for a retry of reconciliation, and moves on to reconcile the next resource due. Later, the LRO is picked up and checked to see if it has completed.
 
 For the rare situation where users observe that ASO is failing to "keep up" with resource reconciliation (this can be monitored by looking at the queue length of the operator via [metrics]({{< relref metrics>}})), they can set MAX_CONCURRENT_RECONCILES to a larger value (the default is 1).
-
-### Can I configure how often ASO re-syncs to Azure when there have been no changes?
-
-Yes, using the `azureSyncPeriod` argument in Helm's values.yaml, or using the `AZURE_SYNC_PERIOD`
-in the `aso-controller-settings` secret. This value is a string with format like: `15m`, `1h`, or `24h`.
-
-After changing this value, you must restart the `azureserviceoperator-controller-manager` pod in order for it to take effect
-if the pod is already running.
-
-Be careful setting this value too low as it can produce a lot of calls to Azure.
 
 ### I'm seeing Subscription throttling, what can I do?
 
@@ -382,4 +317,69 @@ func main() {
  }
  kubeClient.Create(ctx, obj)
 }
+```
+
+### When using Workload Identity, how can I easily inject the ASO created User Managed Identity details onto the service account?
+
+The [workload identity documentation](https://azure.github.io/azure-workload-identity/docs/topics/service-account-labels-and-annotations.html#service-account)
+suggests that you need to set the `azure.workload.identity/client-id` annotation on the ServiceAccount.
+This is not actually required! Setting that annotation instructs the Workload Identity webhook to inject the `AZURE_CLIENT_ID`
+environment variable into the pods on which the ServiceAccount is used.
+
+If you've created your user managed identity with ASO, it's easier to just do that injection yourself by using the
+`operatorSpec.configMaps` feature of the identity:
+
+Identity:
+
+```yaml
+operatorSpec:
+  configMaps:
+    tenantId:
+      name: identity-details
+      key: tenantId
+    clientId:
+      name: identity-details
+      key: clientId
+```
+
+and
+
+Pod:
+
+```yaml
+env:
+  - name: AZURE_CLIENT_ID
+    valueFrom:
+      configMapKeyRef:
+        key: clientId
+        name: identity-details
+```
+
+You can allow the other environment variables, volumes, and volume mounts to be injected automatically by the
+[Azure Workload Identity webhook](https://azure.github.io/azure-workload-identity/docs/installation/mutating-admission-webhook.html),
+or you can avoid running the Azure Workload Identity webhook entirely, but doing so requires that you manually
+include the `azure-identity` volume and volumeMount, as well as set the `AZURE_TENANT_ID` variable
+alongside `AZURE_CLIENT_ID` in every pod that needs workload identity.
+
+Sample VolumeMount:
+
+```yaml
+volumeMounts:
+  - mountPath: /var/run/secrets/azure/tokens/azure-identity-token
+    name: azure-identity-token
+    readOnly: true
+```
+
+Sample Volume:
+
+```yaml
+volumes:
+- name: azure-identity-token
+  projected:
+    defaultMode: 420
+    sources:
+      - serviceAccountToken:
+          audience: api://AzureADTokenExchange
+          expirationSeconds: 3600
+          path: azure-identity
 ```
