@@ -35,13 +35,13 @@ var nonBlockingManagedClustersAgentPoolProvisioningStates = set.Make(
 )
 
 func (ext *ManagedClustersAgentPoolExtension) PreReconcileCheck(
-	_ context.Context,
+	ctx context.Context,
 	obj genruntime.MetaObject,
 	owner genruntime.MetaObject,
-	_ *resolver.Resolver,
-	_ *genericarmclient.GenericClient,
-	_ logr.Logger,
-	_ extensions.PreReconcileCheckFunc,
+	resourceResolver *resolver.Resolver,
+	armClient *genericarmclient.GenericClient,
+	log logr.Logger,
+	next extensions.PreReconcileCheckFunc,
 ) (extensions.PreReconcileCheckResult, error) {
 	// This has to be the current hub storage version. It will need to be updated
 	// if the hub storage version changes.
@@ -56,6 +56,7 @@ func (ext *ManagedClustersAgentPoolExtension) PreReconcileCheck(
 	var _ conversion.Hub = agentPool
 
 	// Check to see if the owning cluster is in a state that will block us from reconciling
+	// Owner nil can happen if the owner of the agent pool is referenced by armID
 	if owner != nil {
 		if managedCluster, ok := owner.(*containerservice.ManagedCluster); ok {
 			state := managedCluster.Status.ProvisioningState
@@ -79,7 +80,7 @@ func (ext *ManagedClustersAgentPoolExtension) PreReconcileCheck(
 			nil
 	}
 
-	return extensions.ProceedWithReconcile(), nil
+	return next(ctx, obj, owner, resourceResolver, armClient, log)
 }
 
 func agentPoolProvisioningStateBlocksReconciliation(provisioningState *string) bool {

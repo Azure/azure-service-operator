@@ -38,13 +38,13 @@ var clusterTerminalStates = set.Make(
 // new state out of hand; so there's no point in even trying. This is true even if the PUT we're
 // doing will have no effect on the state of the cluster.
 func (ext *ClusterExtension) PreReconcileCheck(
-	_ context.Context,
+	ctx context.Context,
 	obj genruntime.MetaObject,
-	_ genruntime.MetaObject,
-	_ *resolver.Resolver,
-	_ *genericarmclient.GenericClient,
-	_ logr.Logger,
-	_ extensions.PreReconcileCheckFunc,
+	owner genruntime.MetaObject,
+	resourceResolver *resolver.Resolver,
+	armClient *genericarmclient.GenericClient,
+	log logr.Logger,
+	next extensions.PreReconcileCheckFunc,
 ) (extensions.PreReconcileCheckResult, error) {
 	// This has to be the current hub storage version. It will need to be updated
 	// if the hub storage version changes.
@@ -69,7 +69,7 @@ func (ext *ClusterExtension) PreReconcileCheck(
 			nil
 	}
 
-	return extensions.ProceedWithReconcile(), nil
+	return next(ctx, obj, owner, resourceResolver, armClient, log)
 }
 
 func clusterProvisioningStateBlocksReconciliation(provisioningState *string) bool {
