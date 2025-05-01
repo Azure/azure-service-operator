@@ -3925,8 +3925,16 @@ objectModelConfiguration:
   search:
     2022-09-01:
       SearchService:
-        $export: true
+        $exportAs: SearchService
         $supportedFrom: v2.1.0
+        $azureGeneratedSecrets:
+          - AdminPrimaryKey
+          - AdminSecondaryKey
+          - QueryKey
+    2023-11-01:
+      SearchService:
+        $exportAs: SearchService
+        $supportedFrom: v2.14.0
         $azureGeneratedSecrets:
           - AdminPrimaryKey
           - AdminSecondaryKey
