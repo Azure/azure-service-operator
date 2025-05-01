@@ -4,6 +4,7 @@
 package v1api20231101
 
 import (
+	"context"
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/search/v1api20231101/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/search/v1api20231101/storage"
@@ -13,10 +14,12 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/go-logr/logr"
 	"github.com/rotisserie/eris"
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
 
@@ -99,6 +102,32 @@ func (service *SearchService) InitializeSpec(status genruntime.ConvertibleStatus
 	}
 
 	return fmt.Errorf("expected Status of type SearchService_STATUS but received %T instead", status)
+}
+
+var _ genruntime.KubernetesConfigExporter = &SearchService{}
+
+// ExportKubernetesConfigMaps defines a resource which can create ConfigMaps in Kubernetes.
+func (service *SearchService) ExportKubernetesConfigMaps(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
+	collector := configmaps.NewCollector(service.Namespace)
+	if service.Spec.OperatorSpec != nil && service.Spec.OperatorSpec.ConfigMaps != nil {
+		if service.Status.Identity != nil {
+			if service.Status.Identity.PrincipalId != nil {
+				collector.AddValue(service.Spec.OperatorSpec.ConfigMaps.IdentityPrincipalId, *service.Status.Identity.PrincipalId)
+			}
+		}
+	}
+	if service.Spec.OperatorSpec != nil && service.Spec.OperatorSpec.ConfigMaps != nil {
+		if service.Status.Identity != nil {
+			if service.Status.Identity.TenantId != nil {
+				collector.AddValue(service.Spec.OperatorSpec.ConfigMaps.IdentityTenantId, *service.Status.Identity.TenantId)
+			}
+		}
+	}
+	result, err := collector.Values()
+	if err != nil {
+		return nil, err
+	}
+	return configmaps.SliceToClientObjectSlice(result), nil
 }
 
 var _ genruntime.KubernetesResource = &SearchService{}
@@ -2757,6 +2786,9 @@ type SearchServiceOperatorSpec struct {
 	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
 
+	// ConfigMaps: configures where to place operator written ConfigMaps.
+	ConfigMaps *SearchServiceOperatorConfigMaps `json:"configMaps,omitempty"`
+
 	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
 	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 
@@ -2783,6 +2815,18 @@ func (operator *SearchServiceOperatorSpec) AssignProperties_From_SearchServiceOp
 		operator.ConfigMapExpressions = configMapExpressionList
 	} else {
 		operator.ConfigMapExpressions = nil
+	}
+
+	// ConfigMaps
+	if source.ConfigMaps != nil {
+		var configMap SearchServiceOperatorConfigMaps
+		err := configMap.AssignProperties_From_SearchServiceOperatorConfigMaps(source.ConfigMaps)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SearchServiceOperatorConfigMaps() to populate field ConfigMaps")
+		}
+		operator.ConfigMaps = &configMap
+	} else {
+		operator.ConfigMaps = nil
 	}
 
 	// SecretExpressions
@@ -2840,6 +2884,18 @@ func (operator *SearchServiceOperatorSpec) AssignProperties_To_SearchServiceOper
 		destination.ConfigMapExpressions = configMapExpressionList
 	} else {
 		destination.ConfigMapExpressions = nil
+	}
+
+	// ConfigMaps
+	if operator.ConfigMaps != nil {
+		var configMap storage.SearchServiceOperatorConfigMaps
+		err := operator.ConfigMaps.AssignProperties_To_SearchServiceOperatorConfigMaps(&configMap)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SearchServiceOperatorConfigMaps() to populate field ConfigMaps")
+		}
+		destination.ConfigMaps = &configMap
+	} else {
+		destination.ConfigMaps = nil
 	}
 
 	// SecretExpressions

@@ -4,18 +4,22 @@
 package v1api20220901
 
 import (
+	"context"
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/search/v1api20220901/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/search/v1api20220901/storage"
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/go-logr/logr"
 	"github.com/rotisserie/eris"
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
 
@@ -101,6 +105,32 @@ func (service *SearchService) SecretDestinationExpressions() []*core.Destination
 		return nil
 	}
 	return service.Spec.OperatorSpec.SecretExpressions
+}
+
+var _ genruntime.KubernetesConfigExporter = &SearchService{}
+
+// ExportKubernetesConfigMaps defines a resource which can create ConfigMaps in Kubernetes.
+func (service *SearchService) ExportKubernetesConfigMaps(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
+	collector := configmaps.NewCollector(service.Namespace)
+	if service.Spec.OperatorSpec != nil && service.Spec.OperatorSpec.ConfigMaps != nil {
+		if service.Status.Identity != nil {
+			if service.Status.Identity.PrincipalId != nil {
+				collector.AddValue(service.Spec.OperatorSpec.ConfigMaps.IdentityPrincipalId, *service.Status.Identity.PrincipalId)
+			}
+		}
+	}
+	if service.Spec.OperatorSpec != nil && service.Spec.OperatorSpec.ConfigMaps != nil {
+		if service.Status.Identity != nil {
+			if service.Status.Identity.TenantId != nil {
+				collector.AddValue(service.Spec.OperatorSpec.ConfigMaps.IdentityTenantId, *service.Status.Identity.TenantId)
+			}
+		}
+	}
+	result, err := collector.Values()
+	if err != nil {
+		return nil, err
+	}
+	return configmaps.SliceToClientObjectSlice(result), nil
 }
 
 var _ genruntime.KubernetesResource = &SearchService{}
@@ -2507,6 +2537,9 @@ type SearchServiceOperatorSpec struct {
 	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
 
+	// ConfigMaps: configures where to place operator written ConfigMaps.
+	ConfigMaps *SearchServiceOperatorConfigMaps `json:"configMaps,omitempty"`
+
 	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
 	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 
@@ -2533,6 +2566,18 @@ func (operator *SearchServiceOperatorSpec) AssignProperties_From_SearchServiceOp
 		operator.ConfigMapExpressions = configMapExpressionList
 	} else {
 		operator.ConfigMapExpressions = nil
+	}
+
+	// ConfigMaps
+	if source.ConfigMaps != nil {
+		var configMap SearchServiceOperatorConfigMaps
+		err := configMap.AssignProperties_From_SearchServiceOperatorConfigMaps(source.ConfigMaps)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SearchServiceOperatorConfigMaps() to populate field ConfigMaps")
+		}
+		operator.ConfigMaps = &configMap
+	} else {
+		operator.ConfigMaps = nil
 	}
 
 	// SecretExpressions
@@ -2590,6 +2635,18 @@ func (operator *SearchServiceOperatorSpec) AssignProperties_To_SearchServiceOper
 		destination.ConfigMapExpressions = configMapExpressionList
 	} else {
 		destination.ConfigMapExpressions = nil
+	}
+
+	// ConfigMaps
+	if operator.ConfigMaps != nil {
+		var configMap storage.SearchServiceOperatorConfigMaps
+		err := operator.ConfigMaps.AssignProperties_To_SearchServiceOperatorConfigMaps(&configMap)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SearchServiceOperatorConfigMaps() to populate field ConfigMaps")
+		}
+		destination.ConfigMaps = &configMap
+	} else {
+		destination.ConfigMaps = nil
 	}
 
 	// SecretExpressions
@@ -3311,6 +3368,71 @@ func (rule *IpRule_STATUS) AssignProperties_To_IpRule_STATUS(destination *storag
 
 	// Value
 	destination.Value = genruntime.ClonePointerToString(rule.Value)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type SearchServiceOperatorConfigMaps struct {
+	// IdentityPrincipalId: indicates where the IdentityPrincipalId config map should be placed. If omitted, no config map will
+	// be created.
+	IdentityPrincipalId *genruntime.ConfigMapDestination `json:"identityPrincipalId,omitempty"`
+
+	// IdentityTenantId: indicates where the IdentityTenantId config map should be placed. If omitted, no config map will be
+	// created.
+	IdentityTenantId *genruntime.ConfigMapDestination `json:"identityTenantId,omitempty"`
+}
+
+// AssignProperties_From_SearchServiceOperatorConfigMaps populates our SearchServiceOperatorConfigMaps from the provided source SearchServiceOperatorConfigMaps
+func (maps *SearchServiceOperatorConfigMaps) AssignProperties_From_SearchServiceOperatorConfigMaps(source *storage.SearchServiceOperatorConfigMaps) error {
+
+	// IdentityPrincipalId
+	if source.IdentityPrincipalId != nil {
+		identityPrincipalId := source.IdentityPrincipalId.Copy()
+		maps.IdentityPrincipalId = &identityPrincipalId
+	} else {
+		maps.IdentityPrincipalId = nil
+	}
+
+	// IdentityTenantId
+	if source.IdentityTenantId != nil {
+		identityTenantId := source.IdentityTenantId.Copy()
+		maps.IdentityTenantId = &identityTenantId
+	} else {
+		maps.IdentityTenantId = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SearchServiceOperatorConfigMaps populates the provided destination SearchServiceOperatorConfigMaps from our SearchServiceOperatorConfigMaps
+func (maps *SearchServiceOperatorConfigMaps) AssignProperties_To_SearchServiceOperatorConfigMaps(destination *storage.SearchServiceOperatorConfigMaps) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// IdentityPrincipalId
+	if maps.IdentityPrincipalId != nil {
+		identityPrincipalId := maps.IdentityPrincipalId.Copy()
+		destination.IdentityPrincipalId = &identityPrincipalId
+	} else {
+		destination.IdentityPrincipalId = nil
+	}
+
+	// IdentityTenantId
+	if maps.IdentityTenantId != nil {
+		identityTenantId := maps.IdentityTenantId.Copy()
+		destination.IdentityTenantId = &identityTenantId
+	} else {
+		destination.IdentityTenantId = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

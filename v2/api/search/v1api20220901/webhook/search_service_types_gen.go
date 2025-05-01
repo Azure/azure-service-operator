@@ -148,7 +148,14 @@ func (service *SearchService) validateConfigMapDestinations(ctx context.Context,
 	if obj.Spec.OperatorSpec == nil {
 		return nil, nil
 	}
-	return configmaps.ValidateDestinations(obj, nil, obj.Spec.OperatorSpec.ConfigMapExpressions)
+	var toValidate []*genruntime.ConfigMapDestination
+	if obj.Spec.OperatorSpec.ConfigMaps != nil {
+		toValidate = []*genruntime.ConfigMapDestination{
+			obj.Spec.OperatorSpec.ConfigMaps.IdentityPrincipalId,
+			obj.Spec.OperatorSpec.ConfigMaps.IdentityTenantId,
+		}
+	}
+	return configmaps.ValidateDestinations(obj, toValidate, obj.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field

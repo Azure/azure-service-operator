@@ -1500,6 +1500,103 @@ func AddRelatedPropertyGeneratorsForSearchService(gens map[string]gopter.Gen) {
 	gens["Status"] = SearchService_STATUSGenerator()
 }
 
+func Test_SearchServiceOperatorConfigMaps_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SearchServiceOperatorConfigMaps to SearchServiceOperatorConfigMaps via AssignProperties_To_SearchServiceOperatorConfigMaps & AssignProperties_From_SearchServiceOperatorConfigMaps returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSearchServiceOperatorConfigMaps, SearchServiceOperatorConfigMapsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSearchServiceOperatorConfigMaps tests if a specific instance of SearchServiceOperatorConfigMaps can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSearchServiceOperatorConfigMaps(subject SearchServiceOperatorConfigMaps) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.SearchServiceOperatorConfigMaps
+	err := copied.AssignProperties_To_SearchServiceOperatorConfigMaps(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SearchServiceOperatorConfigMaps
+	err = actual.AssignProperties_From_SearchServiceOperatorConfigMaps(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_SearchServiceOperatorConfigMaps_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of SearchServiceOperatorConfigMaps via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSearchServiceOperatorConfigMaps, SearchServiceOperatorConfigMapsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSearchServiceOperatorConfigMaps runs a test to see if a specific instance of SearchServiceOperatorConfigMaps round trips to JSON and back losslessly
+func RunJSONSerializationTestForSearchServiceOperatorConfigMaps(subject SearchServiceOperatorConfigMaps) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual SearchServiceOperatorConfigMaps
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of SearchServiceOperatorConfigMaps instances for property testing - lazily instantiated by
+// SearchServiceOperatorConfigMapsGenerator()
+var searchServiceOperatorConfigMapsGenerator gopter.Gen
+
+// SearchServiceOperatorConfigMapsGenerator returns a generator of SearchServiceOperatorConfigMaps instances for property testing.
+func SearchServiceOperatorConfigMapsGenerator() gopter.Gen {
+	if searchServiceOperatorConfigMapsGenerator != nil {
+		return searchServiceOperatorConfigMapsGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	searchServiceOperatorConfigMapsGenerator = gen.Struct(reflect.TypeOf(SearchServiceOperatorConfigMaps{}), generators)
+
+	return searchServiceOperatorConfigMapsGenerator
+}
+
 func Test_SearchServiceOperatorSecrets_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1697,6 +1794,7 @@ func SearchServiceOperatorSpecGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForSearchServiceOperatorSpec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForSearchServiceOperatorSpec(gens map[string]gopter.Gen) {
+	gens["ConfigMaps"] = gen.PtrOf(SearchServiceOperatorConfigMapsGenerator())
 	gens["Secrets"] = gen.PtrOf(SearchServiceOperatorSecretsGenerator())
 }
 

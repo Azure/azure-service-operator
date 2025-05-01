@@ -3931,6 +3931,9 @@ objectModelConfiguration:
           - AdminPrimaryKey
           - AdminSecondaryKey
           - QueryKey
+        $generatedConfigs:
+          IdentityPrincipalId: $.Status.Identity.PrincipalId
+          IdentityTenantId: $.Status.Identity.TenantId
     2023-11-01:
       SearchService:
         $exportAs: SearchService
@@ -3939,6 +3942,9 @@ objectModelConfiguration:
           - AdminPrimaryKey
           - AdminSecondaryKey
           - QueryKey
+        $generatedConfigs:
+          IdentityPrincipalId: $.Status.Identity.PrincipalId
+          IdentityTenantId: $.Status.Identity.TenantId
   servicebus:
     2021-01-01-preview:
       DictionaryValue_STATUS:

@@ -4,15 +4,19 @@
 package storage
 
 import (
+	"context"
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/go-logr/logr"
 	"github.com/rotisserie/eris"
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 // +kubebuilder:rbac:groups=search.azure.com,resources=searchservices,verbs=get;list;watch;create;update;patch;delete
@@ -66,6 +70,32 @@ func (service *SearchService) SecretDestinationExpressions() []*core.Destination
 		return nil
 	}
 	return service.Spec.OperatorSpec.SecretExpressions
+}
+
+var _ genruntime.KubernetesConfigExporter = &SearchService{}
+
+// ExportKubernetesConfigMaps defines a resource which can create ConfigMaps in Kubernetes.
+func (service *SearchService) ExportKubernetesConfigMaps(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
+	collector := configmaps.NewCollector(service.Namespace)
+	if service.Spec.OperatorSpec != nil && service.Spec.OperatorSpec.ConfigMaps != nil {
+		if service.Status.Identity != nil {
+			if service.Status.Identity.PrincipalId != nil {
+				collector.AddValue(service.Spec.OperatorSpec.ConfigMaps.IdentityPrincipalId, *service.Status.Identity.PrincipalId)
+			}
+		}
+	}
+	if service.Spec.OperatorSpec != nil && service.Spec.OperatorSpec.ConfigMaps != nil {
+		if service.Status.Identity != nil {
+			if service.Status.Identity.TenantId != nil {
+				collector.AddValue(service.Spec.OperatorSpec.ConfigMaps.IdentityTenantId, *service.Status.Identity.TenantId)
+			}
+		}
+	}
+	result, err := collector.Values()
+	if err != nil {
+		return nil, err
+	}
+	return configmaps.SliceToClientObjectSlice(result), nil
 }
 
 var _ genruntime.KubernetesResource = &SearchService{}
@@ -344,10 +374,11 @@ type PrivateEndpointConnection_STATUS struct {
 // Storage version of v1api20231101.SearchServiceOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type SearchServiceOperatorSpec struct {
-	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
-	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
-	Secrets              *SearchServiceOperatorSecrets `json:"secrets,omitempty"`
+	ConfigMapExpressions []*core.DestinationExpression    `json:"configMapExpressions,omitempty"`
+	ConfigMaps           *SearchServiceOperatorConfigMaps `json:"configMaps,omitempty"`
+	PropertyBag          genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression    `json:"secretExpressions,omitempty"`
+	Secrets              *SearchServiceOperatorSecrets    `json:"secrets,omitempty"`
 }
 
 // Storage version of v1api20231101.SharedPrivateLinkResource_STATUS
