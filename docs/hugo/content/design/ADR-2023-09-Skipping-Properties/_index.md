@@ -22,7 +22,9 @@ Consider a CRM system containing details of people. In v3 of the system, we capt
 
 -->
 
-{{< figure src="./conversion-v3-v4-class.png" >}}
+<img src="./conversion-v3-v4-class.png" alt="Conversion from v3 to v4" />
+
+
 
 When we convert from v3 to v4 (v3 -> v4) the `ResidentialAddress` property gets serialized into the `PropertyBag` on the v4 Person. Note that the bag contains a v3 `Address` in a serialized form.
 
@@ -37,7 +39,7 @@ To illustrate, consider this concrete example:
 
 -->
 
-{{< figure src="./conversion-v3-v4-instance.png" >}}
+<img src="./conversion-v3-v4-instance.png" alt="Conversion from v3 to v4" />
 
 As YAML, the v3 version of Mickey would be:
 
@@ -79,7 +81,7 @@ In v5, the `ResidentialAddress` is reintroduced, but with a different shape. Ins
 
 -->
 
-{{< figure src="./conversion-v4-v5-class.png" >}}
+<img  src="./conversion-v4-v5-class.png" alt="Conversion from v4 to v5" />
 
 When we convert from v5 to v4, again the `ResidentialAddress` property gets serialized into the `PropertyBag` on the v4 Person. 
 
@@ -94,7 +96,7 @@ Again, it's useful to see a concrete example:
 
 -->
 
-{{< figure src="./conversion-v4-v5-instance.png" >}}
+<img src="./conversion-v4-v5-instance.png" alt="Conversion from v4 to v5" />
 
 As before, there is no `ResidentialAddress` property on the v4 `Person` to store Mickey's residential address, so it gets safely stashed away in the `PropertyBag`.
 
@@ -127,7 +129,7 @@ In the other case, we have a v4 `Person` the property bag contains a v5 `Address
 
 -->
 
-{{< figure src="./conflict-v3-v5.png" >}}
+<img src="./conflict-v3-v5.png" alt="Conflict between v3 and v5" />
 
 While round trips between _adjacent_ versions work fine, we run into problems when we attempt longer conversion chains. We end up stuck part-way through with a fatal problem.
 
@@ -143,7 +145,7 @@ While round trips between _adjacent_ versions work fine, we run into problems wh
 
 -->
 
-{{< figure src="./conversion-v3-v4-v5-class.png" >}}
+<img src="./conversion-v3-v4-v5-class.png" alt="Conversion from v3 to v4 to v5" />
 
 
 Compare the two different kinds of v4 Person we end up with for Mickey. 
@@ -210,7 +212,7 @@ In our example here, we would add a new `ResidentialAddress` property to the v4 
 [v5.Person]->[v5.Address|Street string; Suburb string; City string; Country string|Properties PropertyBag]
 -->
 
-{{< figure src="./rejected-solution-synthetic-property.png" >}}
+<img src="./rejected-solution-synthetic-property.png" alt="Rejected solution with synthetic property" />
 
 The shape of `Address` when reintroduced will always match the shape of `Address` when removed, so we can always serialize the same shape in-to or out-of the property bag, ensuring any `Address` has the a consistent shape.
 
@@ -242,7 +244,7 @@ All of the conversion functionality we currently generate for ASO resources is h
 
 -->
 
-{{< figure src="./conversion-direction.png" >}}
+<img src="./conversion-direction.png" alt="Conversion direction" />
 
 These conversions are enabled by having each package **import** the next version of the resource, forming a directed acyclic graph leading from the earliest version to the latest.
 
@@ -270,7 +272,7 @@ The examples shown so far have the new property returning after just one version
 
 -->
 
-{{< figure src="./conversion-multigenerational-class.png" >}}
+<img src="./conversion-multigenerational-class.png" alt="Conversion from v3 to v8" />
 
 ### Constraint: Augmentation of conversions
 
@@ -361,7 +363,7 @@ The updated object model will look like this:
 
 -->
 
-{{< figure src="./proposed-solution-class.png" >}}
+<img src="./proposed-solution-class.png" alt="Proposed solution class diagram" />
 
 Observe that we haven't introduced a `ResidentialAddress` property to the v4 `Person`, the instance still lives in the property bag.
 
