@@ -1,6 +1,7 @@
 DirectoryPath: public
 CheckExternal: true
 IgnoreAltMissing: true
+HTTPConcurrencyLimit: 4
 BaseURL: https://azure.github.io/azure-service-operator
 CheckSelfReferencesAsInternal: true
 IgnoreDirs:
@@ -20,6 +21,7 @@ IgnoreURLs:
   - "https://slack.k8s.io/" # Causing timeouts as of 2025-02-14
   - "https://cert-manager.io/" # Causing timeouts as of 2025-04-14
   - "https://book.kubebuilder.io/" # Causing timeouts as of 2025-04-14
+  - "https://github.com/Azure/azure-service-operator/blob/" # GitHub is throttling harshly, causing 429 errors as of 2025-05-02
   # These suppressions no longer seem to be required, but keeping them here for easy reinstatement if required
   #  - "https://code.visualstudio.com/docs/devcontainers/containers" # Returns 403 even though valid. Checked 2025-02-14
   #  - "https://stackoverflow.com/questions/55503893/helm-patch-default-service-account" # Returns 403, even though valid. Checked 2025-02-14
