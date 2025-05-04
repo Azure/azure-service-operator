@@ -104,7 +104,7 @@ GOVER=$(go version)
 write-info "Go version: ${GOVER[*]}"
 
 GOVERREGEX=".*go1.([0-9]+).([0-9]+).*"
-GOVERREQUIRED="go1.23.*"
+GOVERREQUIRED="go1.24.*"
 GOVERACTUAL=$(go version | { read _ _ ver _; echo "$ver"; })
 
 if ! [[ $GOVERACTUAL =~ $GOVERREGEX ]]; then
@@ -113,7 +113,7 @@ if ! [[ $GOVERACTUAL =~ $GOVERREGEX ]]; then
 fi
 
 GOMINORVER="${BASH_REMATCH[1]}"
-GOMINORREQUIRED=23
+GOMINORREQUIRED=24
 
 # We allow for Go versions above the min version, but prevent versions below. This is safe given Go's back-compat guarantees
 if ! [[ $GOMINORVER -ge $GOMINORREQUIRED ]]; then
@@ -185,36 +185,36 @@ go-install() {
     fi
 }
 
-#doc# | conversion-gen | v0.30.5 | https://pkg.go.dev/k8s.io/code-generator/cmd/conversion-gen |
-go-install conversion-gen k8s.io/code-generator/cmd/conversion-gen@v0.30.5
+#doc# | conversion-gen | v0.33.0 | https://pkg.go.dev/k8s.io/code-generator/cmd/conversion-gen |
+go-install conversion-gen k8s.io/code-generator/cmd/conversion-gen@v0.33.0
 
-#doc# | controller-gen | v0.16.3 | https://book.kubebuilder.io/reference/controller-gen |
-go-install controller-gen sigs.k8s.io/controller-tools/cmd/controller-gen@v0.16.3
+#doc# | controller-gen | v0.17.3 | https://book.kubebuilder.io/reference/controller-gen |
+go-install controller-gen sigs.k8s.io/controller-tools/cmd/controller-gen@v0.17.3
 
-#doc# | kind | v0.24.0 | https://kind.sigs.k8s.io/ |
-go-install kind sigs.k8s.io/kind@v0.24.0
+#doc# | kind | v0.27.0 | https://kind.sigs.k8s.io/ |
+go-install kind sigs.k8s.io/kind@v0.27.0
 
 #doc# | kustomize | v4.5.7 | https://kustomize.io/ |
 go-install kustomize sigs.k8s.io/kustomize/kustomize/v4@v4.5.7
 
 # for docs site
 
-#doc# | hugo | v0.135.0 | https://gohugo.io/ |
-go-install hugo -tags extended github.com/gohugoio/hugo@v0.135.0
+#doc# | hugo | v0.147.0 | https://gohugo.io/ |
+go-install hugo -tags extended github.com/gohugoio/hugo@v0.147.0
 
 #doc# | htmltest | latest | https://github.com/wjdp/htmltest (but see https://github.com/theunrepentantgeek/htmltest for our custom build )
 # Restore this to github.com/wjdp/htmltest@v?? once PR#215 is merged with the feature we need
 go-install htmltest github.com/theunrepentantgeek/htmltest@latest
 
 #doc# | crddoc | latest | https://github.com/theunrepentantgeek/crddoc |
-go-install gen-crd-api-reference-docs github.com/theunrepentantgeek/crddoc@latest
+go-install crddoc github.com/theunrepentantgeek/crddoc@latest
 
 # Install envtest tooling
-#doc# | setup-envtest | v0.19.7 | https://book.kubebuilder.io/reference/envtest.html |
+#doc# | setup-envtest | v0.20.4 | https://book.kubebuilder.io/reference/envtest.html |
 write-verbose "Checking for $TOOL_DEST/setup-envtest"
 if should-install "$TOOL_DEST/setup-envtest"; then
     write-info "Installing setup-envtest"
-    curl -sL "https://github.com/kubernetes-sigs/controller-runtime/releases/download/v0.19.7/setup-envtest-${os}-${arch}" --output "$TOOL_DEST/setup-envtest"
+    curl -sL "https://github.com/kubernetes-sigs/controller-runtime/releases/download/v0.20.4/setup-envtest-${os}-${arch}" --output "$TOOL_DEST/setup-envtest"
     chmod +x "$TOOL_DEST/setup-envtest"
 fi
 
@@ -223,21 +223,21 @@ fi
 go-install gofumpt mvdan.cc/gofumpt@latest
 
 # Install golangci-lint
-#doc# | golangci-lint | 1.62.0 | https://github.com/golangci/golangci-lint |
+#doc# | golangci-lint | 2.1.5 | https://github.com/golangci/golangci-lint |
 write-verbose "Checking for $TOOL_DEST/golangci-lint"
 if should-install "$TOOL_DEST/golangci-lint"; then
     write-info "Installing golangci-lint"
     # golangci-lint is provided by base image if in devcontainer
     # this command copied from there
-    curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b "$TOOL_DEST" v1.62.0 2>&1
+    curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b "$TOOL_DEST" v2.1.5 2>&1
 fi
 
 # Install Task
-#doc# | Task | v3.39.2 | https://taskfile.dev/ |
+#doc# | Task | v3.43.3 | https://taskfile.dev/ |
 write-verbose "Checking for $TOOL_DEST/go-task"
 if should-install "$TOOL_DEST/task"; then 
     write-info "Installing go-task"
-    curl -sL "https://github.com/go-task/task/releases/download/v3.39.2/task_${os}_${arch}.tar.gz" | tar xz -C "$TOOL_DEST" task
+    curl -sL "https://github.com/go-task/task/releases/download/v3.43.3/task_${os}_${arch}.tar.gz" | tar xz -C "$TOOL_DEST" task
 fi
 
 # Install Trivy
