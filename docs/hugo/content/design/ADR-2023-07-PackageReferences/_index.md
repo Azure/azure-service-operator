@@ -12,7 +12,7 @@ As this interface is implemented, we'll need to revisit all the code that consum
 
 Ideally, everything would just work. However, our existing object model in this area is a little complex:
 
-{{< figure src="./current.png" >}}
+<img src="current.png" alt="Current PackageReference model" />
 
 <!-- yuml.me class diagram
 
@@ -55,7 +55,7 @@ We could just add `SubPackageReference` as a new implementation of `PackageRefer
 
 Add `SubPackageReference` as a new implementation of `PackageReference`, and pare down the methods on `PackageReference` to just those that make sense across all implementations (e.g. removing `GroupVersion()` and `TryGroupVersion()`). Enhance and make more extensive use of `LocalLikePackageReference`.
 
-{{< figure src="./option-2.png" >}} 
+<img src="option-2.png" alt="Option 2 PackageReference model" />
 
 <!-- yuml.me class diagram
 
@@ -94,7 +94,7 @@ As a part of adding `SubPackageReference`, we might slightly rework the domain m
 
 Not only will this be easier to understand, but it should streamline some parts of our existing codebase by removing the need to check for illegal states.
 
-{{< figure src="./option-3.png" >}}
+<img src="option-3.png" alt="Option 3 PackageReference model" />
 
 <!-- yuml.me class diagram
 
@@ -139,7 +139,7 @@ The new implementation `SubPackageReference` declares a `parent` package for nes
 
 As for Option 4, but we also rename types to better reflect the new semantics. Given the introduction of `ExternalPackageReference`, maybe we use `InternalPackageReference`:
 
-{{< figure src="./option-4.png" >}}
+<img src="option-4.png" alt="Option 4 PackageReference model" />
 
 <!-- yuml.me class diagram
 
