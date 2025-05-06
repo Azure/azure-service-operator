@@ -37,13 +37,8 @@ Revisting the CRM example from the Versioning specification, consider what happe
   <meta name="twitter:title" content="2021-06: API Version Recovery">
   <meta name="twitter:description" content="Context In addition to structural changes, there may be behaviour changes between ARM API versions. It is therefore important that we use the correct API version - the version requested by the user - when interacting with ARM, to ensure that we get the expected behaviour.
 Revisting the CRM example from the Versioning specification, consider what happens if we have two available versions of the resource Person, lets call them v1 and v2. In v2 the new properties PostalAddress and ResidentialAddress are mandatory, requiring that everyone have a both a mailing address and a home.">
-
-
-
-
-<link rel="preload" href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" as="style">
-<link href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" rel="stylesheet" integrity="">
-
+<link rel="preload" href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" as="style" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
+<link href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" rel="stylesheet" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -838,7 +833,6 @@ Revisting the CRM example from the Versioning specification, consider what happe
     2021-06: API Version Recovery</li>
   </ol>
 </nav>
-            
 <div class="td-content">
 	<h1>2021-06: API Version Recovery</h1>
 	
@@ -861,24 +855,24 @@ Revisting the CRM example from the Versioning specification, consider what happe
 <p>Helper methods in the generic reconciler will use these functions implement the required pivot between the current hub version and the specified API version.</p>
 <h3 id="api-preservation">API Preservation</h3>
 <p>Into the API version of each resource&rsquo;s <em>Spec</em>, inject function <code>OriginalVersion()</code>, with a hard coded return value:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// OriginalVersion returns the original API version used to create the resource.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">storageAccountsSpec</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">StorageAccounts_Spec</span>) <span style="color:#a6e22e">OriginalVersion</span>() <span style="color:#66d9ef">string</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// OriginalVersion returns the original API version used to create the resource.</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">storageAccountsSpec</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">StorageAccounts_Spec</span>) <span style="color:#a6e22e">OriginalVersion</span>() <span style="color:#66d9ef">string</span> {
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">GroupVersion</span>.<span style="color:#a6e22e">Version</span>
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">GroupVersion</span> = <span style="color:#a6e22e">schema</span>.<span style="color:#a6e22e">GroupVersion</span>{<span style="color:#a6e22e">Group</span>: <span style="color:#e6db74">&#34;storage.azure.com&#34;</span>, <span style="color:#a6e22e">Version</span>: <span style="color:#e6db74">&#34;v1alpha1api20210401&#34;</span>}
 </span></span></code></pre></div><p>Into the Storage version of each resource&rsquo;s <em>Spec</em>, inject string property <code>OriginalVersion</code> to persist the value returned by <code>OriginalVersion()</code>.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">StorageAccounts_Spec</span> <span style="color:#66d9ef">struct</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ... elided ...
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">OriginalVersion</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;originalVersion&#34;`</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ... elided ...
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ... elided ...</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">OriginalVersion</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;originalVersion&#34;`</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ... elided ...</span>
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p><img src="../images/adr-2021-06-api-version-recovery-preservation.png" alt="preservation"></p>
 <p>The generated <code>AssignProperties*()</code> methods will copy OriginalVersion as expected.</p>
 <h3 id="retrieving-the-api-version">Retrieving the API Version</h3>
 <p>Into each resource, inject function <code>OriginalGVK()</code> to return the required group-version-kind for the original version of the specified resource:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">storageAccount</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">StorageAccount</span>) <span style="color:#a6e22e">OriginalGVK</span>() <span style="color:#f92672">*</span><span style="color:#a6e22e">schema</span>.<span style="color:#a6e22e">GroupVersionKind</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// OriginalGVK returns a GroupValueKind for the original API version used to create the resource</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">storageAccount</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">StorageAccount</span>) <span style="color:#a6e22e">OriginalGVK</span>() <span style="color:#f92672">*</span><span style="color:#a6e22e">schema</span>.<span style="color:#a6e22e">GroupVersionKind</span> {
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">schema</span>.<span style="color:#a6e22e">GroupVersionKind</span>{
 </span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">Group</span>:   <span style="color:#a6e22e">GroupVersion</span>.<span style="color:#a6e22e">Group</span>,
 </span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">Version</span>: <span style="color:#a6e22e">storageAccount</span>.<span style="color:#a6e22e">Spec</span>.<span style="color:#a6e22e">OriginalVersion</span>,
@@ -889,58 +883,58 @@ Revisting the CRM example from the Versioning specification, consider what happe
 <h3 id="retrieving-spec-and-status">Retrieving Spec and Status</h3>
 <p>Two new interfaces will be added to the <code>genruntime</code> package:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">ConvertibleSpec</span> <span style="color:#66d9ef">interface</span> {
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// ConvertSpecTo will populate the passed Spec by copying over all available information from this one
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">ConvertSpecTo</span>(<span style="color:#a6e22e">destination</span> <span style="color:#a6e22e">ConvertibleSpec</span>) <span style="color:#66d9ef">error</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// ConvertSpecTo will populate the passed Spec by copying over all available information from this one</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">ConvertSpecTo</span>(<span style="color:#a6e22e">destination</span> <span style="color:#a6e22e">ConvertibleSpec</span>) <span style="color:#66d9ef">error</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// ConvertSpecFrom will populate this spec by copying over all available information from the passed one
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">ConvertSpecFrom</span>(<span style="color:#a6e22e">source</span> <span style="color:#a6e22e">ConvertibleSpec</span>) <span style="color:#66d9ef">error</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// ConvertSpecFrom will populate this spec by copying over all available information from the passed one</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">ConvertSpecFrom</span>(<span style="color:#a6e22e">source</span> <span style="color:#a6e22e">ConvertibleSpec</span>) <span style="color:#66d9ef">error</span>
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">ConvertibleStatus</span> <span style="color:#66d9ef">interface</span> {
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// ConvertStatusTo will populate the passed Status by copying over all available information from this one
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">ConvertStatusTo</span>(<span style="color:#a6e22e">destination</span> <span style="color:#a6e22e">ConvertibleStatus</span>) <span style="color:#66d9ef">error</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// ConvertStatusTo will populate the passed Status by copying over all available information from this one</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">ConvertStatusTo</span>(<span style="color:#a6e22e">destination</span> <span style="color:#a6e22e">ConvertibleStatus</span>) <span style="color:#66d9ef">error</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// ConvertStatusFrom will populate this status by copying over all available information from the passed one
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">ConvertStatusFrom</span>(<span style="color:#a6e22e">source</span> <span style="color:#a6e22e">ConvertibleStatus</span>) <span style="color:#66d9ef">error</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// ConvertStatusFrom will populate this status by copying over all available information from the passed one</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">ConvertStatusFrom</span>(<span style="color:#a6e22e">source</span> <span style="color:#a6e22e">ConvertibleStatus</span>) <span style="color:#66d9ef">error</span>
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>Implementations of these interfaces will be added to all generated <em>Spec</em> and <em>Status</em> types, leveraging the <code>AssignProperties*()</code> methods already being generated.</p>
 <p>The <code>KubernetesResource</code> interface and all implementations will be modified by adding four new methods:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">KubernetesResource</span> <span style="color:#66d9ef">interface</span> {
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// GetSpec returns the specification of the resource
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">GetSpec</span>() <span style="color:#a6e22e">ConvertibleSpec</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// GetSpec returns the specification of the resource</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">GetSpec</span>() <span style="color:#a6e22e">ConvertibleSpec</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// GetStatus returns the current status of the resource
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">GetStatus</span>() <span style="color:#a6e22e">ConvertibleStatus</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// GetStatus returns the current status of the resource</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">GetStatus</span>() <span style="color:#a6e22e">ConvertibleStatus</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// NewEmptyStatus returns a blank status ready for population
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">NewEmptyStatus</span>() <span style="color:#a6e22e">ConvertibleStatus</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// NewEmptyStatus returns a blank status ready for population</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">NewEmptyStatus</span>() <span style="color:#a6e22e">ConvertibleStatus</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// SetStatus updates the status of the resource
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">SetStatus</span>(<span style="color:#a6e22e">status</span> <span style="color:#a6e22e">ConvertibleStatus</span>) <span style="color:#66d9ef">error</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// SetStatus updates the status of the resource</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">SetStatus</span>(<span style="color:#a6e22e">status</span> <span style="color:#a6e22e">ConvertibleStatus</span>) <span style="color:#66d9ef">error</span>
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h3 id="spec-conversion">Spec Conversion</h3>
 <p>A helper method for the generic reconciler will be added to return the correct <em>Spec</em> from any resource:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// GetVersionedSpec returns a versioned spec for the provided resource; 
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// the original API version used when the resource was first created 
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// is used to identify the version to return
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">GetVersionedSpec</span>(<span style="color:#a6e22e">metaObject</span> <span style="color:#a6e22e">MetaObject</span>, <span style="color:#a6e22e">scheme</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">runtime</span>.<span style="color:#a6e22e">Scheme</span>) (<span style="color:#a6e22e">ConvertibleSpec</span>, <span style="color:#66d9ef">error</span>) {
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ... elided ...
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// GetVersionedSpec returns a versioned spec for the provided resource; </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// the original API version used when the resource was first created </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// is used to identify the version to return</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">GetVersionedSpec</span>(<span style="color:#a6e22e">metaObject</span> <span style="color:#a6e22e">MetaObject</span>, <span style="color:#a6e22e">scheme</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">runtime</span>.<span style="color:#a6e22e">Scheme</span>) (<span style="color:#a6e22e">ConvertibleSpec</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ... elided ...</span>
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h3 id="status-conversion">Status Conversion</h3>
 <p>Two similar helper methods will be added for support of Status.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// GetVersionedStatus returns a versioned status for the provided resource; 
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// the original API version used when the resource was first created 
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// is used to identify the version to return
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">GetVersionedStatus</span>(<span style="color:#a6e22e">metaObject</span> <span style="color:#a6e22e">MetaObject</span>, <span style="color:#a6e22e">scheme</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">runtime</span>.<span style="color:#a6e22e">Scheme</span>) (<span style="color:#a6e22e">ConvertibleStatus</span>, <span style="color:#66d9ef">error</span>) {
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ... elided ...
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// GetVersionedStatus returns a versioned status for the provided resource; </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// the original API version used when the resource was first created </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// is used to identify the version to return</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">GetVersionedStatus</span>(<span style="color:#a6e22e">metaObject</span> <span style="color:#a6e22e">MetaObject</span>, <span style="color:#a6e22e">scheme</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">runtime</span>.<span style="color:#a6e22e">Scheme</span>) (<span style="color:#a6e22e">ConvertibleStatus</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ... elided ...</span>
+</span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// NewEmptyVersionedStatus returns a blank versioned status for the provided 
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// resource; the original API version used when the resource was first created 
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// is used to identify the version to return
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewEmptyVersionedStatus</span>(<span style="color:#a6e22e">metaObject</span> <span style="color:#a6e22e">MetaObject</span>, <span style="color:#a6e22e">scheme</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">runtime</span>.<span style="color:#a6e22e">Scheme</span>) (<span style="color:#a6e22e">ConvertibleStatus</span>, <span style="color:#66d9ef">error</span>) {
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ... elided ...
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// NewEmptyVersionedStatus returns a blank versioned status for the provided </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// resource; the original API version used when the resource was first created </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// is used to identify the version to return</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewEmptyVersionedStatus</span>(<span style="color:#a6e22e">metaObject</span> <span style="color:#a6e22e">MetaObject</span>, <span style="color:#a6e22e">scheme</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">runtime</span>.<span style="color:#a6e22e">Scheme</span>) (<span style="color:#a6e22e">ConvertibleStatus</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ... elided ...</span>
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h2 id="status">Status</h2>
 <p>Successfully implemented across several PRs:</p>
 <ul>
@@ -994,7 +988,7 @@ Revisting the CRM example from the Versioning specification, consider what happe
 </footer>
 
     </div>
-    <script src="/azure-service-operator/js/main.min.0a5a30b73411b7a841784b6f4d46f4e0b1b95d576fa3cadd81db9d5ae468e8c2.js" integrity="sha256-ClowtzQRt6hBeEtvTUb04LG5XVdvo8rdgdudWuRo6MI=" crossorigin="anonymous"></script>
+    <script src="/azure-service-operator/js/main.min.4096f09e0b199950620fc06165ef2a2791e1bee9067e27b14c4a54f02c0e33bd.js" integrity="sha256-QJbwngsZmVBiD8BhZe8qJ5HhvukGfiexTEpU8CwOM70=" crossorigin="anonymous"></script>
 <script defer src="/azure-service-operator/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/azure-service-operator/js/tabpane-persist.js'></script>
 

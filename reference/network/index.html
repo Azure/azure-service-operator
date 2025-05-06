@@ -19,7 +19,9 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>Network Supported Resources | Azure Service Operator</title>
-<meta name="description" content="Powerful, extensible, and feature-packed frontend toolkit. Build and customize with Sass, utilize prebuilt grid system and components, and bring projects to life with powerful JavaScript plugins.">
+<meta name="description" content="To install the CRDs for these resources, your ASO configuration must include network.azure.com/* as a one of the configured CRD patterns. See CRD Management in ASO for details on doing this for both Helm and YAML based installations.
+Latest Released Versions These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
+Resource ARM Version CRD Version Supported From Sample ApplicationGateway 2022-07-01 v1api20220701 v2.4.0 View ApplicationSecurityGroup 2024-01-01 v1api20240101 v2.10.0 View BastionHost 2024-03-01 v1api20240301 v2.11.0 View DnsForwardingRuleSetsForwardingRule 2022-07-01 v1api20220701 v2.2.0 View DnsForwardingRuleSetsVirtualNetworkLink 2022-07-01 v1api20220701 v2.10.0 View DnsForwardingRuleset 2022-07-01 v1api20220701 v2.2.0 View DnsResolver 2022-07-01 v1api20220701 v2.2.0 View DnsResolversInboundEndpoint 2022-07-01 v1api20220701 v2.2.0 View DnsResolversOutboundEndpoint 2022-07-01 v1api20220701 v2.2.0 View DnsZone 2018-05-01 v1api20180501 v2.1.0 View DnsZonesAAAARecord 2018-05-01 v1api20180501 v2.1.0 View DnsZonesARecord 2018-05-01 v1api20180501 v2.1.0 View DnsZonesCAARecord 2018-05-01 v1api20180501 v2.1.0 View DnsZonesCNAMERecord 2018-05-01 v1api20180501 v2.1.0 View DnsZonesMXRecord 2018-05-01 v1api20180501 v2.1.0 View DnsZonesNSRecord 2018-05-01 v1api20180501 v2.1.0 View DnsZonesPTRRecord 2018-05-01 v1api20180501 v2.1.0 View DnsZonesSRVRecord 2018-05-01 v1api20180501 v2.1.0 View DnsZonesTXTRecord 2018-05-01 v1api20180501 v2.1.0 View LoadBalancer 2024-03-01 v1api20240301 v2.11.0 View LoadBalancersInboundNatRule 2024-03-01 v1api20240301 v2.11.0 View NatGateway 2024-03-01 v1api20240301 v2.11.0 View NetworkInterface 2024-03-01 v1api20240301 v2.11.0 View NetworkSecurityGroup 2024-03-01 v1api20240301 v2.11.0 View NetworkSecurityGroupsSecurityRule 2024-03-01 v1api20240301 v2.11.0 View PrivateDnsZone 2024-06-01 v1api20240601 v2.11.0 View PrivateDnsZonesAAAARecord 2024-06-01 v1api20240601 v2.11.0 View PrivateDnsZonesARecord 2024-06-01 v1api20240601 v2.11.0 View PrivateDnsZonesCNAMERecord 2024-06-01 v1api20240601 v2.11.0 View PrivateDnsZonesMXRecord 2024-06-01 v1api20240601 v2.11.0 View PrivateDnsZonesPTRRecord 2024-06-01 v1api20240601 v2.11.0 View PrivateDnsZonesSRVRecord 2024-06-01 v1api20240601 v2.11.0 View PrivateDnsZonesTXTRecord 2024-06-01 v1api20240601 v2.11.0 View PrivateDnsZonesVirtualNetworkLink 2024-06-01 v1api20240601 v2.11.0 View PrivateEndpoint 2024-03-01 v1api20240301 v2.11.0 View PrivateEndpointsPrivateDnsZoneGroup 2024-03-01 v1api20240301 v2.11.0 View PrivateLinkService 2024-03-01 v1api20240301 v2.11.0 View PublicIPAddress 2024-03-01 v1api20240301 v2.11.0 View PublicIPPrefix 2024-03-01 v1api20240301 v2.11.0 View RouteTable 2024-03-01 v1api20240301 v2.11.0 View RouteTablesRoute 2024-03-01 v1api20240301 v2.11.0 View TrafficManagerProfile 2022-04-01 v1api20220401 v2.4.0 View TrafficManagerProfilesAzureEndpoint 2022-04-01 v1api20220401 v2.4.0 View TrafficManagerProfilesExternalEndpoint 2022-04-01 v1api20220401 v2.4.0 View TrafficManagerProfilesNestedEndpoint 2022-04-01 v1api20220401 v2.4.0 View VirtualNetwork 2024-03-01 v1api20240301 v2.11.0 View VirtualNetworkGateway 2024-03-01 v1api20240301 v2.11.0 View VirtualNetworksSubnet 2024-03-01 v1api20240301 v2.11.0 View VirtualNetworksVirtualNetworkPeering 2024-03-01 v1api20240301 v2.11.0 View WebApplicationFirewallPolicy 2024-01-01 v1api20240101 v2.10.0 View Other Supported Versions These are older versions of resourced still available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/network/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="Network Supported Resources">
@@ -39,13 +41,8 @@ Resource ARM Version CRD Version Supported From Sample ApplicationGateway 2022-0
   <meta name="twitter:description" content="To install the CRDs for these resources, your ASO configuration must include network.azure.com/* as a one of the configured CRD patterns. See CRD Management in ASO for details on doing this for both Helm and YAML based installations.
 Latest Released Versions These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
 Resource ARM Version CRD Version Supported From Sample ApplicationGateway 2022-07-01 v1api20220701 v2.4.0 View ApplicationSecurityGroup 2024-01-01 v1api20240101 v2.10.0 View BastionHost 2024-03-01 v1api20240301 v2.11.0 View DnsForwardingRuleSetsForwardingRule 2022-07-01 v1api20220701 v2.2.0 View DnsForwardingRuleSetsVirtualNetworkLink 2022-07-01 v1api20220701 v2.10.0 View DnsForwardingRuleset 2022-07-01 v1api20220701 v2.2.0 View DnsResolver 2022-07-01 v1api20220701 v2.2.0 View DnsResolversInboundEndpoint 2022-07-01 v1api20220701 v2.2.0 View DnsResolversOutboundEndpoint 2022-07-01 v1api20220701 v2.2.0 View DnsZone 2018-05-01 v1api20180501 v2.1.0 View DnsZonesAAAARecord 2018-05-01 v1api20180501 v2.1.0 View DnsZonesARecord 2018-05-01 v1api20180501 v2.1.0 View DnsZonesCAARecord 2018-05-01 v1api20180501 v2.1.0 View DnsZonesCNAMERecord 2018-05-01 v1api20180501 v2.1.0 View DnsZonesMXRecord 2018-05-01 v1api20180501 v2.1.0 View DnsZonesNSRecord 2018-05-01 v1api20180501 v2.1.0 View DnsZonesPTRRecord 2018-05-01 v1api20180501 v2.1.0 View DnsZonesSRVRecord 2018-05-01 v1api20180501 v2.1.0 View DnsZonesTXTRecord 2018-05-01 v1api20180501 v2.1.0 View LoadBalancer 2024-03-01 v1api20240301 v2.11.0 View LoadBalancersInboundNatRule 2024-03-01 v1api20240301 v2.11.0 View NatGateway 2024-03-01 v1api20240301 v2.11.0 View NetworkInterface 2024-03-01 v1api20240301 v2.11.0 View NetworkSecurityGroup 2024-03-01 v1api20240301 v2.11.0 View NetworkSecurityGroupsSecurityRule 2024-03-01 v1api20240301 v2.11.0 View PrivateDnsZone 2024-06-01 v1api20240601 v2.11.0 View PrivateDnsZonesAAAARecord 2024-06-01 v1api20240601 v2.11.0 View PrivateDnsZonesARecord 2024-06-01 v1api20240601 v2.11.0 View PrivateDnsZonesCNAMERecord 2024-06-01 v1api20240601 v2.11.0 View PrivateDnsZonesMXRecord 2024-06-01 v1api20240601 v2.11.0 View PrivateDnsZonesPTRRecord 2024-06-01 v1api20240601 v2.11.0 View PrivateDnsZonesSRVRecord 2024-06-01 v1api20240601 v2.11.0 View PrivateDnsZonesTXTRecord 2024-06-01 v1api20240601 v2.11.0 View PrivateDnsZonesVirtualNetworkLink 2024-06-01 v1api20240601 v2.11.0 View PrivateEndpoint 2024-03-01 v1api20240301 v2.11.0 View PrivateEndpointsPrivateDnsZoneGroup 2024-03-01 v1api20240301 v2.11.0 View PrivateLinkService 2024-03-01 v1api20240301 v2.11.0 View PublicIPAddress 2024-03-01 v1api20240301 v2.11.0 View PublicIPPrefix 2024-03-01 v1api20240301 v2.11.0 View RouteTable 2024-03-01 v1api20240301 v2.11.0 View RouteTablesRoute 2024-03-01 v1api20240301 v2.11.0 View TrafficManagerProfile 2022-04-01 v1api20220401 v2.4.0 View TrafficManagerProfilesAzureEndpoint 2022-04-01 v1api20220401 v2.4.0 View TrafficManagerProfilesExternalEndpoint 2022-04-01 v1api20220401 v2.4.0 View TrafficManagerProfilesNestedEndpoint 2022-04-01 v1api20220401 v2.4.0 View VirtualNetwork 2024-03-01 v1api20240301 v2.11.0 View VirtualNetworkGateway 2024-03-01 v1api20240301 v2.11.0 View VirtualNetworksSubnet 2024-03-01 v1api20240301 v2.11.0 View VirtualNetworksVirtualNetworkPeering 2024-03-01 v1api20240301 v2.11.0 View WebApplicationFirewallPolicy 2024-01-01 v1api20240101 v2.10.0 View Other Supported Versions These are older versions of resourced still available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.">
-
-
-
-
-<link rel="preload" href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" as="style">
-<link href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" rel="stylesheet" integrity="">
-
+<link rel="preload" href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" as="style" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
+<link href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" rel="stylesheet" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -832,7 +829,6 @@ Resource ARM Version CRD Version Supported From Sample ApplicationGateway 2022-0
     Network</li>
   </ol>
 </nav>
-            
 <div class="td-content">
 	<h1>Network Supported Resources</h1>
   
@@ -845,363 +841,363 @@ Resource ARM Version CRD Version Supported From Sample ApplicationGateway 2022-0
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Resource</th>
-          <th style="text-align: left">ARM Version</th>
-          <th style="text-align: left">CRD Version</th>
-          <th style="text-align: left">Supported From</th>
-          <th style="text-align: left">Sample</th>
+          <th>Resource</th>
+          <th>ARM Version</th>
+          <th>CRD Version</th>
+          <th>Supported From</th>
+          <th>Sample</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20220701/#ApplicationGateway">ApplicationGateway</a></td>
-          <td style="text-align: left">2022-07-01</td>
-          <td style="text-align: left">v1api20220701</td>
-          <td style="text-align: left">v2.4.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20220701_applicationgateway.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20220701/#ApplicationGateway">ApplicationGateway</a></td>
+          <td>2022-07-01</td>
+          <td>v1api20220701</td>
+          <td>v2.4.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20220701_applicationgateway.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20240101/#ApplicationSecurityGroup">ApplicationSecurityGroup</a></td>
-          <td style="text-align: left">2024-01-01</td>
-          <td style="text-align: left">v1api20240101</td>
-          <td style="text-align: left">v2.10.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240101/v1api20240101_applicationsecuritygroup.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20240101/#ApplicationSecurityGroup">ApplicationSecurityGroup</a></td>
+          <td>2024-01-01</td>
+          <td>v1api20240101</td>
+          <td>v2.10.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240101/v1api20240101_applicationsecuritygroup.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20240301/#BastionHost">BastionHost</a></td>
-          <td style="text-align: left">2024-03-01</td>
-          <td style="text-align: left">v1api20240301</td>
-          <td style="text-align: left">v2.11.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_bastionhost.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20240301/#BastionHost">BastionHost</a></td>
+          <td>2024-03-01</td>
+          <td>v1api20240301</td>
+          <td>v2.11.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_bastionhost.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20220701/#DnsForwardingRuleSetsForwardingRule">DnsForwardingRuleSetsForwardingRule</a></td>
-          <td style="text-align: left">2022-07-01</td>
-          <td style="text-align: left">v1api20220701</td>
-          <td style="text-align: left">v2.2.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20220701_dnsforwardingrulesetsforwardingrule.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20220701/#DnsForwardingRuleSetsForwardingRule">DnsForwardingRuleSetsForwardingRule</a></td>
+          <td>2022-07-01</td>
+          <td>v1api20220701</td>
+          <td>v2.2.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20220701_dnsforwardingrulesetsforwardingrule.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20220701/#DnsForwardingRuleSetsVirtualNetworkLink">DnsForwardingRuleSetsVirtualNetworkLink</a></td>
-          <td style="text-align: left">2022-07-01</td>
-          <td style="text-align: left">v1api20220701</td>
-          <td style="text-align: left">v2.10.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20220701_dnsforwardingrulesetsvirtualnetworklink.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20220701/#DnsForwardingRuleSetsVirtualNetworkLink">DnsForwardingRuleSetsVirtualNetworkLink</a></td>
+          <td>2022-07-01</td>
+          <td>v1api20220701</td>
+          <td>v2.10.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20220701_dnsforwardingrulesetsvirtualnetworklink.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20220701/#DnsForwardingRuleset">DnsForwardingRuleset</a></td>
-          <td style="text-align: left">2022-07-01</td>
-          <td style="text-align: left">v1api20220701</td>
-          <td style="text-align: left">v2.2.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20220701_dnsforwardingruleset.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20220701/#DnsForwardingRuleset">DnsForwardingRuleset</a></td>
+          <td>2022-07-01</td>
+          <td>v1api20220701</td>
+          <td>v2.2.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20220701_dnsforwardingruleset.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20220701/#DnsResolver">DnsResolver</a></td>
-          <td style="text-align: left">2022-07-01</td>
-          <td style="text-align: left">v1api20220701</td>
-          <td style="text-align: left">v2.2.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20220701_dnsresolver.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20220701/#DnsResolver">DnsResolver</a></td>
+          <td>2022-07-01</td>
+          <td>v1api20220701</td>
+          <td>v2.2.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20220701_dnsresolver.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20220701/#DnsResolversInboundEndpoint">DnsResolversInboundEndpoint</a></td>
-          <td style="text-align: left">2022-07-01</td>
-          <td style="text-align: left">v1api20220701</td>
-          <td style="text-align: left">v2.2.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20220701_dnsresolversinboundendpoint.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20220701/#DnsResolversInboundEndpoint">DnsResolversInboundEndpoint</a></td>
+          <td>2022-07-01</td>
+          <td>v1api20220701</td>
+          <td>v2.2.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20220701_dnsresolversinboundendpoint.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20220701/#DnsResolversOutboundEndpoint">DnsResolversOutboundEndpoint</a></td>
-          <td style="text-align: left">2022-07-01</td>
-          <td style="text-align: left">v1api20220701</td>
-          <td style="text-align: left">v2.2.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20220701_dnsresolversoutboundendpoint.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20220701/#DnsResolversOutboundEndpoint">DnsResolversOutboundEndpoint</a></td>
+          <td>2022-07-01</td>
+          <td>v1api20220701</td>
+          <td>v2.2.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20220701_dnsresolversoutboundendpoint.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20180501/#DnsZone">DnsZone</a></td>
-          <td style="text-align: left">2018-05-01</td>
-          <td style="text-align: left">v1api20180501</td>
-          <td style="text-align: left">v2.1.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20180501/v1api20180501_dnszone.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20180501/#DnsZone">DnsZone</a></td>
+          <td>2018-05-01</td>
+          <td>v1api20180501</td>
+          <td>v2.1.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20180501/v1api20180501_dnszone.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20180501/#DnsZonesAAAARecord">DnsZonesAAAARecord</a></td>
-          <td style="text-align: left">2018-05-01</td>
-          <td style="text-align: left">v1api20180501</td>
-          <td style="text-align: left">v2.1.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20180501/v1api20180501_dnszonesaaaarecord.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20180501/#DnsZonesAAAARecord">DnsZonesAAAARecord</a></td>
+          <td>2018-05-01</td>
+          <td>v1api20180501</td>
+          <td>v2.1.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20180501/v1api20180501_dnszonesaaaarecord.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20180501/#DnsZonesARecord">DnsZonesARecord</a></td>
-          <td style="text-align: left">2018-05-01</td>
-          <td style="text-align: left">v1api20180501</td>
-          <td style="text-align: left">v2.1.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20180501/v1api20180501_dnszonesarecord.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20180501/#DnsZonesARecord">DnsZonesARecord</a></td>
+          <td>2018-05-01</td>
+          <td>v1api20180501</td>
+          <td>v2.1.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20180501/v1api20180501_dnszonesarecord.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20180501/#DnsZonesCAARecord">DnsZonesCAARecord</a></td>
-          <td style="text-align: left">2018-05-01</td>
-          <td style="text-align: left">v1api20180501</td>
-          <td style="text-align: left">v2.1.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20180501/v1api20180501_dnszonescaarecord.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20180501/#DnsZonesCAARecord">DnsZonesCAARecord</a></td>
+          <td>2018-05-01</td>
+          <td>v1api20180501</td>
+          <td>v2.1.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20180501/v1api20180501_dnszonescaarecord.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20180501/#DnsZonesCNAMERecord">DnsZonesCNAMERecord</a></td>
-          <td style="text-align: left">2018-05-01</td>
-          <td style="text-align: left">v1api20180501</td>
-          <td style="text-align: left">v2.1.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20180501/v1api20180501_dnszonescnamerecord.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20180501/#DnsZonesCNAMERecord">DnsZonesCNAMERecord</a></td>
+          <td>2018-05-01</td>
+          <td>v1api20180501</td>
+          <td>v2.1.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20180501/v1api20180501_dnszonescnamerecord.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20180501/#DnsZonesMXRecord">DnsZonesMXRecord</a></td>
-          <td style="text-align: left">2018-05-01</td>
-          <td style="text-align: left">v1api20180501</td>
-          <td style="text-align: left">v2.1.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20180501/v1api20180501_dnszonesmxrecord.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20180501/#DnsZonesMXRecord">DnsZonesMXRecord</a></td>
+          <td>2018-05-01</td>
+          <td>v1api20180501</td>
+          <td>v2.1.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20180501/v1api20180501_dnszonesmxrecord.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20180501/#DnsZonesNSRecord">DnsZonesNSRecord</a></td>
-          <td style="text-align: left">2018-05-01</td>
-          <td style="text-align: left">v1api20180501</td>
-          <td style="text-align: left">v2.1.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20180501/v1api20180501_dnszonesnsrecord.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20180501/#DnsZonesNSRecord">DnsZonesNSRecord</a></td>
+          <td>2018-05-01</td>
+          <td>v1api20180501</td>
+          <td>v2.1.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20180501/v1api20180501_dnszonesnsrecord.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20180501/#DnsZonesPTRRecord">DnsZonesPTRRecord</a></td>
-          <td style="text-align: left">2018-05-01</td>
-          <td style="text-align: left">v1api20180501</td>
-          <td style="text-align: left">v2.1.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20180501/v1api20180501_dnszonesptrrecord.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20180501/#DnsZonesPTRRecord">DnsZonesPTRRecord</a></td>
+          <td>2018-05-01</td>
+          <td>v1api20180501</td>
+          <td>v2.1.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20180501/v1api20180501_dnszonesptrrecord.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20180501/#DnsZonesSRVRecord">DnsZonesSRVRecord</a></td>
-          <td style="text-align: left">2018-05-01</td>
-          <td style="text-align: left">v1api20180501</td>
-          <td style="text-align: left">v2.1.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20180501/v1api20180501_dnszonessrvrecord.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20180501/#DnsZonesSRVRecord">DnsZonesSRVRecord</a></td>
+          <td>2018-05-01</td>
+          <td>v1api20180501</td>
+          <td>v2.1.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20180501/v1api20180501_dnszonessrvrecord.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20180501/#DnsZonesTXTRecord">DnsZonesTXTRecord</a></td>
-          <td style="text-align: left">2018-05-01</td>
-          <td style="text-align: left">v1api20180501</td>
-          <td style="text-align: left">v2.1.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20180501/v1api20180501_dnszonestxtrecord.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20180501/#DnsZonesTXTRecord">DnsZonesTXTRecord</a></td>
+          <td>2018-05-01</td>
+          <td>v1api20180501</td>
+          <td>v2.1.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20180501/v1api20180501_dnszonestxtrecord.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20240301/#LoadBalancer">LoadBalancer</a></td>
-          <td style="text-align: left">2024-03-01</td>
-          <td style="text-align: left">v1api20240301</td>
-          <td style="text-align: left">v2.11.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_loadbalancer.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20240301/#LoadBalancer">LoadBalancer</a></td>
+          <td>2024-03-01</td>
+          <td>v1api20240301</td>
+          <td>v2.11.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_loadbalancer.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20240301/#LoadBalancersInboundNatRule">LoadBalancersInboundNatRule</a></td>
-          <td style="text-align: left">2024-03-01</td>
-          <td style="text-align: left">v1api20240301</td>
-          <td style="text-align: left">v2.11.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_loadbalancersinboundnatrule.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20240301/#LoadBalancersInboundNatRule">LoadBalancersInboundNatRule</a></td>
+          <td>2024-03-01</td>
+          <td>v1api20240301</td>
+          <td>v2.11.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_loadbalancersinboundnatrule.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20240301/#NatGateway">NatGateway</a></td>
-          <td style="text-align: left">2024-03-01</td>
-          <td style="text-align: left">v1api20240301</td>
-          <td style="text-align: left">v2.11.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_natgateway.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20240301/#NatGateway">NatGateway</a></td>
+          <td>2024-03-01</td>
+          <td>v1api20240301</td>
+          <td>v2.11.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_natgateway.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20240301/#NetworkInterface">NetworkInterface</a></td>
-          <td style="text-align: left">2024-03-01</td>
-          <td style="text-align: left">v1api20240301</td>
-          <td style="text-align: left">v2.11.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_networkinterface.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20240301/#NetworkInterface">NetworkInterface</a></td>
+          <td>2024-03-01</td>
+          <td>v1api20240301</td>
+          <td>v2.11.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_networkinterface.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20240301/#NetworkSecurityGroup">NetworkSecurityGroup</a></td>
-          <td style="text-align: left">2024-03-01</td>
-          <td style="text-align: left">v1api20240301</td>
-          <td style="text-align: left">v2.11.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_networksecuritygroup.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20240301/#NetworkSecurityGroup">NetworkSecurityGroup</a></td>
+          <td>2024-03-01</td>
+          <td>v1api20240301</td>
+          <td>v2.11.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_networksecuritygroup.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20240301/#NetworkSecurityGroupsSecurityRule">NetworkSecurityGroupsSecurityRule</a></td>
-          <td style="text-align: left">2024-03-01</td>
-          <td style="text-align: left">v1api20240301</td>
-          <td style="text-align: left">v2.11.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_networksecuritygroupssecurityrule.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20240301/#NetworkSecurityGroupsSecurityRule">NetworkSecurityGroupsSecurityRule</a></td>
+          <td>2024-03-01</td>
+          <td>v1api20240301</td>
+          <td>v2.11.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_networksecuritygroupssecurityrule.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20240601/#PrivateDnsZone">PrivateDnsZone</a></td>
-          <td style="text-align: left">2024-06-01</td>
-          <td style="text-align: left">v1api20240601</td>
-          <td style="text-align: left">v2.11.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240601/v1api20240601_privatednszone.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20240601/#PrivateDnsZone">PrivateDnsZone</a></td>
+          <td>2024-06-01</td>
+          <td>v1api20240601</td>
+          <td>v2.11.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240601/v1api20240601_privatednszone.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20240601/#PrivateDnsZonesAAAARecord">PrivateDnsZonesAAAARecord</a></td>
-          <td style="text-align: left">2024-06-01</td>
-          <td style="text-align: left">v1api20240601</td>
-          <td style="text-align: left">v2.11.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240601/v1api20240601_privatednszonesaaaarecord.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20240601/#PrivateDnsZonesAAAARecord">PrivateDnsZonesAAAARecord</a></td>
+          <td>2024-06-01</td>
+          <td>v1api20240601</td>
+          <td>v2.11.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240601/v1api20240601_privatednszonesaaaarecord.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20240601/#PrivateDnsZonesARecord">PrivateDnsZonesARecord</a></td>
-          <td style="text-align: left">2024-06-01</td>
-          <td style="text-align: left">v1api20240601</td>
-          <td style="text-align: left">v2.11.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240601/v1api20240601_privatednszonesarecord.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20240601/#PrivateDnsZonesARecord">PrivateDnsZonesARecord</a></td>
+          <td>2024-06-01</td>
+          <td>v1api20240601</td>
+          <td>v2.11.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240601/v1api20240601_privatednszonesarecord.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20240601/#PrivateDnsZonesCNAMERecord">PrivateDnsZonesCNAMERecord</a></td>
-          <td style="text-align: left">2024-06-01</td>
-          <td style="text-align: left">v1api20240601</td>
-          <td style="text-align: left">v2.11.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240601/v1api20240601_privatednszonescnamerecord.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20240601/#PrivateDnsZonesCNAMERecord">PrivateDnsZonesCNAMERecord</a></td>
+          <td>2024-06-01</td>
+          <td>v1api20240601</td>
+          <td>v2.11.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240601/v1api20240601_privatednszonescnamerecord.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20240601/#PrivateDnsZonesMXRecord">PrivateDnsZonesMXRecord</a></td>
-          <td style="text-align: left">2024-06-01</td>
-          <td style="text-align: left">v1api20240601</td>
-          <td style="text-align: left">v2.11.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240601/v1api20240601_privatednszonesmxrecord.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20240601/#PrivateDnsZonesMXRecord">PrivateDnsZonesMXRecord</a></td>
+          <td>2024-06-01</td>
+          <td>v1api20240601</td>
+          <td>v2.11.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240601/v1api20240601_privatednszonesmxrecord.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20240601/#PrivateDnsZonesPTRRecord">PrivateDnsZonesPTRRecord</a></td>
-          <td style="text-align: left">2024-06-01</td>
-          <td style="text-align: left">v1api20240601</td>
-          <td style="text-align: left">v2.11.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240601/v1api20240601_privatednszonesptrrecord.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20240601/#PrivateDnsZonesPTRRecord">PrivateDnsZonesPTRRecord</a></td>
+          <td>2024-06-01</td>
+          <td>v1api20240601</td>
+          <td>v2.11.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240601/v1api20240601_privatednszonesptrrecord.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20240601/#PrivateDnsZonesSRVRecord">PrivateDnsZonesSRVRecord</a></td>
-          <td style="text-align: left">2024-06-01</td>
-          <td style="text-align: left">v1api20240601</td>
-          <td style="text-align: left">v2.11.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240601/v1api20240601_privatednszonessrvrecord.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20240601/#PrivateDnsZonesSRVRecord">PrivateDnsZonesSRVRecord</a></td>
+          <td>2024-06-01</td>
+          <td>v1api20240601</td>
+          <td>v2.11.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240601/v1api20240601_privatednszonessrvrecord.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20240601/#PrivateDnsZonesTXTRecord">PrivateDnsZonesTXTRecord</a></td>
-          <td style="text-align: left">2024-06-01</td>
-          <td style="text-align: left">v1api20240601</td>
-          <td style="text-align: left">v2.11.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240601/v1api20240601_privatednszonestxtrecord.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20240601/#PrivateDnsZonesTXTRecord">PrivateDnsZonesTXTRecord</a></td>
+          <td>2024-06-01</td>
+          <td>v1api20240601</td>
+          <td>v2.11.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240601/v1api20240601_privatednszonestxtrecord.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20240601/#PrivateDnsZonesVirtualNetworkLink">PrivateDnsZonesVirtualNetworkLink</a></td>
-          <td style="text-align: left">2024-06-01</td>
-          <td style="text-align: left">v1api20240601</td>
-          <td style="text-align: left">v2.11.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240601/v1api20240601_privatednszonesvirtualnetworklink.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20240601/#PrivateDnsZonesVirtualNetworkLink">PrivateDnsZonesVirtualNetworkLink</a></td>
+          <td>2024-06-01</td>
+          <td>v1api20240601</td>
+          <td>v2.11.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240601/v1api20240601_privatednszonesvirtualnetworklink.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20240301/#PrivateEndpoint">PrivateEndpoint</a></td>
-          <td style="text-align: left">2024-03-01</td>
-          <td style="text-align: left">v1api20240301</td>
-          <td style="text-align: left">v2.11.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_privateendpoint.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20240301/#PrivateEndpoint">PrivateEndpoint</a></td>
+          <td>2024-03-01</td>
+          <td>v1api20240301</td>
+          <td>v2.11.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_privateendpoint.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20240301/#PrivateEndpointsPrivateDnsZoneGroup">PrivateEndpointsPrivateDnsZoneGroup</a></td>
-          <td style="text-align: left">2024-03-01</td>
-          <td style="text-align: left">v1api20240301</td>
-          <td style="text-align: left">v2.11.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_privateendpointsprivatednszonegroup.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20240301/#PrivateEndpointsPrivateDnsZoneGroup">PrivateEndpointsPrivateDnsZoneGroup</a></td>
+          <td>2024-03-01</td>
+          <td>v1api20240301</td>
+          <td>v2.11.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_privateendpointsprivatednszonegroup.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20240301/#PrivateLinkService">PrivateLinkService</a></td>
-          <td style="text-align: left">2024-03-01</td>
-          <td style="text-align: left">v1api20240301</td>
-          <td style="text-align: left">v2.11.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_privatelinkservice.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20240301/#PrivateLinkService">PrivateLinkService</a></td>
+          <td>2024-03-01</td>
+          <td>v1api20240301</td>
+          <td>v2.11.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_privatelinkservice.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20240301/#PublicIPAddress">PublicIPAddress</a></td>
-          <td style="text-align: left">2024-03-01</td>
-          <td style="text-align: left">v1api20240301</td>
-          <td style="text-align: left">v2.11.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_publicipaddress.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20240301/#PublicIPAddress">PublicIPAddress</a></td>
+          <td>2024-03-01</td>
+          <td>v1api20240301</td>
+          <td>v2.11.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_publicipaddress.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20240301/#PublicIPPrefix">PublicIPPrefix</a></td>
-          <td style="text-align: left">2024-03-01</td>
-          <td style="text-align: left">v1api20240301</td>
-          <td style="text-align: left">v2.11.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_publicipprefix.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20240301/#PublicIPPrefix">PublicIPPrefix</a></td>
+          <td>2024-03-01</td>
+          <td>v1api20240301</td>
+          <td>v2.11.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_publicipprefix.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20240301/#RouteTable">RouteTable</a></td>
-          <td style="text-align: left">2024-03-01</td>
-          <td style="text-align: left">v1api20240301</td>
-          <td style="text-align: left">v2.11.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_routetable.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20240301/#RouteTable">RouteTable</a></td>
+          <td>2024-03-01</td>
+          <td>v1api20240301</td>
+          <td>v2.11.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_routetable.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20240301/#RouteTablesRoute">RouteTablesRoute</a></td>
-          <td style="text-align: left">2024-03-01</td>
-          <td style="text-align: left">v1api20240301</td>
-          <td style="text-align: left">v2.11.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_routetablesroute.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20240301/#RouteTablesRoute">RouteTablesRoute</a></td>
+          <td>2024-03-01</td>
+          <td>v1api20240301</td>
+          <td>v2.11.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_routetablesroute.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20220401/#TrafficManagerProfile">TrafficManagerProfile</a></td>
-          <td style="text-align: left">2022-04-01</td>
-          <td style="text-align: left">v1api20220401</td>
-          <td style="text-align: left">v2.4.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220401/v1api20220401_trafficmanagerprofile.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20220401/#TrafficManagerProfile">TrafficManagerProfile</a></td>
+          <td>2022-04-01</td>
+          <td>v1api20220401</td>
+          <td>v2.4.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220401/v1api20220401_trafficmanagerprofile.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20220401/#TrafficManagerProfilesAzureEndpoint">TrafficManagerProfilesAzureEndpoint</a></td>
-          <td style="text-align: left">2022-04-01</td>
-          <td style="text-align: left">v1api20220401</td>
-          <td style="text-align: left">v2.4.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220401/v1api20220401_trafficmanagerprofilesazureendpoint.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20220401/#TrafficManagerProfilesAzureEndpoint">TrafficManagerProfilesAzureEndpoint</a></td>
+          <td>2022-04-01</td>
+          <td>v1api20220401</td>
+          <td>v2.4.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220401/v1api20220401_trafficmanagerprofilesazureendpoint.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20220401/#TrafficManagerProfilesExternalEndpoint">TrafficManagerProfilesExternalEndpoint</a></td>
-          <td style="text-align: left">2022-04-01</td>
-          <td style="text-align: left">v1api20220401</td>
-          <td style="text-align: left">v2.4.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220401/v1api20220401_trafficmanagerprofilesexternalendpoint.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20220401/#TrafficManagerProfilesExternalEndpoint">TrafficManagerProfilesExternalEndpoint</a></td>
+          <td>2022-04-01</td>
+          <td>v1api20220401</td>
+          <td>v2.4.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220401/v1api20220401_trafficmanagerprofilesexternalendpoint.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20220401/#TrafficManagerProfilesNestedEndpoint">TrafficManagerProfilesNestedEndpoint</a></td>
-          <td style="text-align: left">2022-04-01</td>
-          <td style="text-align: left">v1api20220401</td>
-          <td style="text-align: left">v2.4.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220401/v1api20220401_trafficmanagerprofilesnestedendpoint.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20220401/#TrafficManagerProfilesNestedEndpoint">TrafficManagerProfilesNestedEndpoint</a></td>
+          <td>2022-04-01</td>
+          <td>v1api20220401</td>
+          <td>v2.4.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220401/v1api20220401_trafficmanagerprofilesnestedendpoint.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20240301/#VirtualNetwork">VirtualNetwork</a></td>
-          <td style="text-align: left">2024-03-01</td>
-          <td style="text-align: left">v1api20240301</td>
-          <td style="text-align: left">v2.11.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_virtualnetwork.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20240301/#VirtualNetwork">VirtualNetwork</a></td>
+          <td>2024-03-01</td>
+          <td>v1api20240301</td>
+          <td>v2.11.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_virtualnetwork.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20240301/#VirtualNetworkGateway">VirtualNetworkGateway</a></td>
-          <td style="text-align: left">2024-03-01</td>
-          <td style="text-align: left">v1api20240301</td>
-          <td style="text-align: left">v2.11.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_virtualnetworkgateway.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20240301/#VirtualNetworkGateway">VirtualNetworkGateway</a></td>
+          <td>2024-03-01</td>
+          <td>v1api20240301</td>
+          <td>v2.11.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_virtualnetworkgateway.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20240301/#VirtualNetworksSubnet">VirtualNetworksSubnet</a></td>
-          <td style="text-align: left">2024-03-01</td>
-          <td style="text-align: left">v1api20240301</td>
-          <td style="text-align: left">v2.11.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_virtualnetworkssubnet.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20240301/#VirtualNetworksSubnet">VirtualNetworksSubnet</a></td>
+          <td>2024-03-01</td>
+          <td>v1api20240301</td>
+          <td>v2.11.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_virtualnetworkssubnet.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20240301/#VirtualNetworksVirtualNetworkPeering">VirtualNetworksVirtualNetworkPeering</a></td>
-          <td style="text-align: left">2024-03-01</td>
-          <td style="text-align: left">v1api20240301</td>
-          <td style="text-align: left">v2.11.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_virtualnetworksvirtualnetworkpeering.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20240301/#VirtualNetworksVirtualNetworkPeering">VirtualNetworksVirtualNetworkPeering</a></td>
+          <td>2024-03-01</td>
+          <td>v1api20240301</td>
+          <td>v2.11.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240301/v1api20240301_virtualnetworksvirtualnetworkpeering.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20240101/#WebApplicationFirewallPolicy">WebApplicationFirewallPolicy</a></td>
-          <td style="text-align: left">2024-01-01</td>
-          <td style="text-align: left">v1api20240101</td>
-          <td style="text-align: left">v2.10.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20240101_webapplicationfirewallpolicy.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20240101/#WebApplicationFirewallPolicy">WebApplicationFirewallPolicy</a></td>
+          <td>2024-01-01</td>
+          <td>v1api20240101</td>
+          <td>v2.10.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20240101_webapplicationfirewallpolicy.yaml">View</a></td>
       </tr>
   </tbody>
 </table>
@@ -1210,207 +1206,207 @@ Resource ARM Version CRD Version Supported From Sample ApplicationGateway 2022-0
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Resource</th>
-          <th style="text-align: left">ARM Version</th>
-          <th style="text-align: left">CRD Version</th>
-          <th style="text-align: left">Supported From</th>
-          <th style="text-align: left">Sample</th>
+          <th>Resource</th>
+          <th>ARM Version</th>
+          <th>CRD Version</th>
+          <th>Supported From</th>
+          <th>Sample</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20220701/#BastionHost">BastionHost</a></td>
-          <td style="text-align: left">2022-07-01</td>
-          <td style="text-align: left">v1api20220701</td>
-          <td style="text-align: left">v2.1.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20220701_bastionhost.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20220701/#BastionHost">BastionHost</a></td>
+          <td>2022-07-01</td>
+          <td>v1api20220701</td>
+          <td>v2.1.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20220701_bastionhost.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20201101/#LoadBalancer">LoadBalancer</a></td>
-          <td style="text-align: left">2020-11-01</td>
-          <td style="text-align: left">v1api20201101</td>
-          <td style="text-align: left">v2.0.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20201101/v1api20201101_loadbalancer.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20201101/#LoadBalancer">LoadBalancer</a></td>
+          <td>2020-11-01</td>
+          <td>v1api20201101</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20201101/v1api20201101_loadbalancer.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20201101/#LoadBalancersInboundNatRule">LoadBalancersInboundNatRule</a></td>
-          <td style="text-align: left">2020-11-01</td>
-          <td style="text-align: left">v1api20201101</td>
-          <td style="text-align: left">v2.1.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20201101/v1api20201101_loadbalancersinboundnatrule.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20201101/#LoadBalancersInboundNatRule">LoadBalancersInboundNatRule</a></td>
+          <td>2020-11-01</td>
+          <td>v1api20201101</td>
+          <td>v2.1.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20201101/v1api20201101_loadbalancersinboundnatrule.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20220701/#NatGateway">NatGateway</a></td>
-          <td style="text-align: left">2022-07-01</td>
-          <td style="text-align: left">v1api20220701</td>
-          <td style="text-align: left">v2.1.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20220701_natgateway.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20220701/#NatGateway">NatGateway</a></td>
+          <td>2022-07-01</td>
+          <td>v1api20220701</td>
+          <td>v2.1.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20220701_natgateway.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20201101/#NetworkInterface">NetworkInterface</a></td>
-          <td style="text-align: left">2020-11-01</td>
-          <td style="text-align: left">v1api20201101</td>
-          <td style="text-align: left">v2.0.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20201101/v1api20201101_networkinterface.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20201101/#NetworkInterface">NetworkInterface</a></td>
+          <td>2020-11-01</td>
+          <td>v1api20201101</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20201101/v1api20201101_networkinterface.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20201101/#NetworkSecurityGroup">NetworkSecurityGroup</a></td>
-          <td style="text-align: left">2020-11-01</td>
-          <td style="text-align: left">v1api20201101</td>
-          <td style="text-align: left">v2.0.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20201101/v1api20201101_networksecuritygroup.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20201101/#NetworkSecurityGroup">NetworkSecurityGroup</a></td>
+          <td>2020-11-01</td>
+          <td>v1api20201101</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20201101/v1api20201101_networksecuritygroup.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20201101/#NetworkSecurityGroupsSecurityRule">NetworkSecurityGroupsSecurityRule</a></td>
-          <td style="text-align: left">2020-11-01</td>
-          <td style="text-align: left">v1api20201101</td>
-          <td style="text-align: left">v2.0.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20201101/v1api20201101_networksecuritygroupssecurityrule.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20201101/#NetworkSecurityGroupsSecurityRule">NetworkSecurityGroupsSecurityRule</a></td>
+          <td>2020-11-01</td>
+          <td>v1api20201101</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20201101/v1api20201101_networksecuritygroupssecurityrule.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20180901/#PrivateDnsZone">PrivateDnsZone</a></td>
-          <td style="text-align: left">2018-09-01</td>
-          <td style="text-align: left">v1api20180901</td>
-          <td style="text-align: left">v2.0.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20180901/v1api20180901_privatednszone.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20180901/#PrivateDnsZone">PrivateDnsZone</a></td>
+          <td>2018-09-01</td>
+          <td>v1api20180901</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20180901/v1api20180901_privatednszone.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20200601/#PrivateDnsZonesAAAARecord">PrivateDnsZonesAAAARecord</a></td>
-          <td style="text-align: left">2020-06-01</td>
-          <td style="text-align: left">v1api20200601</td>
-          <td style="text-align: left">v2.0.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20200601/v1api20200601_privatednszonesaaaarecord.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20200601/#PrivateDnsZonesAAAARecord">PrivateDnsZonesAAAARecord</a></td>
+          <td>2020-06-01</td>
+          <td>v1api20200601</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20200601/v1api20200601_privatednszonesaaaarecord.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20200601/#PrivateDnsZonesARecord">PrivateDnsZonesARecord</a></td>
-          <td style="text-align: left">2020-06-01</td>
-          <td style="text-align: left">v1api20200601</td>
-          <td style="text-align: left">v2.0.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20200601/v1api20200601_privatednszonesarecord.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20200601/#PrivateDnsZonesARecord">PrivateDnsZonesARecord</a></td>
+          <td>2020-06-01</td>
+          <td>v1api20200601</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20200601/v1api20200601_privatednszonesarecord.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20200601/#PrivateDnsZonesCNAMERecord">PrivateDnsZonesCNAMERecord</a></td>
-          <td style="text-align: left">2020-06-01</td>
-          <td style="text-align: left">v1api20200601</td>
-          <td style="text-align: left">v2.0.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20200601/v1api20200601_privatednszonescnamerecord.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20200601/#PrivateDnsZonesCNAMERecord">PrivateDnsZonesCNAMERecord</a></td>
+          <td>2020-06-01</td>
+          <td>v1api20200601</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20200601/v1api20200601_privatednszonescnamerecord.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20200601/#PrivateDnsZonesMXRecord">PrivateDnsZonesMXRecord</a></td>
-          <td style="text-align: left">2020-06-01</td>
-          <td style="text-align: left">v1api20200601</td>
-          <td style="text-align: left">v2.0.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20200601/v1api20200601_privatednszonesmxrecord.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20200601/#PrivateDnsZonesMXRecord">PrivateDnsZonesMXRecord</a></td>
+          <td>2020-06-01</td>
+          <td>v1api20200601</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20200601/v1api20200601_privatednszonesmxrecord.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20200601/#PrivateDnsZonesPTRRecord">PrivateDnsZonesPTRRecord</a></td>
-          <td style="text-align: left">2020-06-01</td>
-          <td style="text-align: left">v1api20200601</td>
-          <td style="text-align: left">v2.0.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20200601/v1api20200601_privatednszonesptrrecord.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20200601/#PrivateDnsZonesPTRRecord">PrivateDnsZonesPTRRecord</a></td>
+          <td>2020-06-01</td>
+          <td>v1api20200601</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20200601/v1api20200601_privatednszonesptrrecord.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20200601/#PrivateDnsZonesSRVRecord">PrivateDnsZonesSRVRecord</a></td>
-          <td style="text-align: left">2020-06-01</td>
-          <td style="text-align: left">v1api20200601</td>
-          <td style="text-align: left">v2.0.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20200601/v1api20200601_privatednszonessrvrecord.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20200601/#PrivateDnsZonesSRVRecord">PrivateDnsZonesSRVRecord</a></td>
+          <td>2020-06-01</td>
+          <td>v1api20200601</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20200601/v1api20200601_privatednszonessrvrecord.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20200601/#PrivateDnsZonesTXTRecord">PrivateDnsZonesTXTRecord</a></td>
-          <td style="text-align: left">2020-06-01</td>
-          <td style="text-align: left">v1api20200601</td>
-          <td style="text-align: left">v2.0.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20200601/v1api20200601_privatednszonestxtrecord.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20200601/#PrivateDnsZonesTXTRecord">PrivateDnsZonesTXTRecord</a></td>
+          <td>2020-06-01</td>
+          <td>v1api20200601</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20200601/v1api20200601_privatednszonestxtrecord.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20200601/#PrivateDnsZonesVirtualNetworkLink">PrivateDnsZonesVirtualNetworkLink</a></td>
-          <td style="text-align: left">2020-06-01</td>
-          <td style="text-align: left">v1api20200601</td>
-          <td style="text-align: left">v2.0.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20200601/v1api20200601_privatednszonesvirtualnetworklink.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20200601/#PrivateDnsZonesVirtualNetworkLink">PrivateDnsZonesVirtualNetworkLink</a></td>
+          <td>2020-06-01</td>
+          <td>v1api20200601</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20200601/v1api20200601_privatednszonesvirtualnetworklink.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20220701/#PrivateEndpoint">PrivateEndpoint</a></td>
-          <td style="text-align: left">2022-07-01</td>
-          <td style="text-align: left">v1api20220701</td>
-          <td style="text-align: left">v2.0.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20220701_privateendpoint.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20220701/#PrivateEndpoint">PrivateEndpoint</a></td>
+          <td>2022-07-01</td>
+          <td>v1api20220701</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20220701_privateendpoint.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20220701/#PrivateEndpointsPrivateDnsZoneGroup">PrivateEndpointsPrivateDnsZoneGroup</a></td>
-          <td style="text-align: left">2022-07-01</td>
-          <td style="text-align: left">v1api20220701</td>
-          <td style="text-align: left">v2.0.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20220701_privateendpointsprivatednszonegroup.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20220701/#PrivateEndpointsPrivateDnsZoneGroup">PrivateEndpointsPrivateDnsZoneGroup</a></td>
+          <td>2022-07-01</td>
+          <td>v1api20220701</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20220701_privateendpointsprivatednszonegroup.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20220701/#PrivateLinkService">PrivateLinkService</a></td>
-          <td style="text-align: left">2022-07-01</td>
-          <td style="text-align: left">v1api20220701</td>
-          <td style="text-align: left">v2.0.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20220701_privatelinkservice.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20220701/#PrivateLinkService">PrivateLinkService</a></td>
+          <td>2022-07-01</td>
+          <td>v1api20220701</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20220701_privatelinkservice.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20201101/#PublicIPAddress">PublicIPAddress</a></td>
-          <td style="text-align: left">2020-11-01</td>
-          <td style="text-align: left">v1api20201101</td>
-          <td style="text-align: left">v2.0.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20201101/v1api20201101_publicipaddress.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20201101/#PublicIPAddress">PublicIPAddress</a></td>
+          <td>2020-11-01</td>
+          <td>v1api20201101</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20201101/v1api20201101_publicipaddress.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20220701/#PublicIPPrefix">PublicIPPrefix</a></td>
-          <td style="text-align: left">2022-07-01</td>
-          <td style="text-align: left">v1api20220701</td>
-          <td style="text-align: left">v2.1.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20220701_publicipprefix.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20220701/#PublicIPPrefix">PublicIPPrefix</a></td>
+          <td>2022-07-01</td>
+          <td>v1api20220701</td>
+          <td>v2.1.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20220701_publicipprefix.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20201101/#RouteTable">RouteTable</a></td>
-          <td style="text-align: left">2020-11-01</td>
-          <td style="text-align: left">v1api20201101</td>
-          <td style="text-align: left">v2.0.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20201101/v1api20201101_routetable.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20201101/#RouteTable">RouteTable</a></td>
+          <td>2020-11-01</td>
+          <td>v1api20201101</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20201101/v1api20201101_routetable.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20201101/#RouteTablesRoute">RouteTablesRoute</a></td>
-          <td style="text-align: left">2020-11-01</td>
-          <td style="text-align: left">v1api20201101</td>
-          <td style="text-align: left">v2.0.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20201101/v1api20201101_routetablesroute.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20201101/#RouteTablesRoute">RouteTablesRoute</a></td>
+          <td>2020-11-01</td>
+          <td>v1api20201101</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20201101/v1api20201101_routetablesroute.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20201101/#VirtualNetwork">VirtualNetwork</a></td>
-          <td style="text-align: left">2020-11-01</td>
-          <td style="text-align: left">v1api20201101</td>
-          <td style="text-align: left">v2.0.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20201101/v1api20201101_virtualnetwork.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20201101/#VirtualNetwork">VirtualNetwork</a></td>
+          <td>2020-11-01</td>
+          <td>v1api20201101</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20201101/v1api20201101_virtualnetwork.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20201101/#VirtualNetworkGateway">VirtualNetworkGateway</a></td>
-          <td style="text-align: left">2020-11-01</td>
-          <td style="text-align: left">v1api20201101</td>
-          <td style="text-align: left">v2.0.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20201101/v1api20201101_virtualnetworkgateway.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20201101/#VirtualNetworkGateway">VirtualNetworkGateway</a></td>
+          <td>2020-11-01</td>
+          <td>v1api20201101</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20201101/v1api20201101_virtualnetworkgateway.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20201101/#VirtualNetworksSubnet">VirtualNetworksSubnet</a></td>
-          <td style="text-align: left">2020-11-01</td>
-          <td style="text-align: left">v1api20201101</td>
-          <td style="text-align: left">v2.0.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20201101/v1api20201101_virtualnetworkssubnet.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20201101/#VirtualNetworksSubnet">VirtualNetworksSubnet</a></td>
+          <td>2020-11-01</td>
+          <td>v1api20201101</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20201101/v1api20201101_virtualnetworkssubnet.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/network/v1api20201101/#VirtualNetworksVirtualNetworkPeering">VirtualNetworksVirtualNetworkPeering</a></td>
-          <td style="text-align: left">2020-11-01</td>
-          <td style="text-align: left">v1api20201101</td>
-          <td style="text-align: left">v2.0.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20201101/v1api20201101_virtualnetworksvirtualnetworkpeering.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/network/v1api20201101/#VirtualNetworksVirtualNetworkPeering">VirtualNetworksVirtualNetworkPeering</a></td>
+          <td>2020-11-01</td>
+          <td>v1api20201101</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20201101/v1api20201101_virtualnetworksvirtualnetworkpeering.yaml">View</a></td>
       </tr>
   </tbody>
 </table>
 
-  <div class="section-index">
+	<div class="section-index">
     
     
     </div>
@@ -1445,7 +1441,7 @@ Resource ARM Version CRD Version Supported From Sample ApplicationGateway 2022-0
 </footer>
 
     </div>
-    <script src="/azure-service-operator/js/main.min.0a5a30b73411b7a841784b6f4d46f4e0b1b95d576fa3cadd81db9d5ae468e8c2.js" integrity="sha256-ClowtzQRt6hBeEtvTUb04LG5XVdvo8rdgdudWuRo6MI=" crossorigin="anonymous"></script>
+    <script src="/azure-service-operator/js/main.min.4096f09e0b199950620fc06165ef2a2791e1bee9067e27b14c4a54f02c0e33bd.js" integrity="sha256-QJbwngsZmVBiD8BhZe8qJ5HhvukGfiexTEpU8CwOM70=" crossorigin="anonymous"></script>
 <script defer src="/azure-service-operator/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/azure-service-operator/js/tabpane-persist.js'></script>
 

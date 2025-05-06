@@ -18,13 +18,13 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>insights.azure.com/v1api20180301 | Azure Service Operator</title>
-<meta name="description" content=" APIVersion Value Description &ldquo;2018-03-01&rdquo; MetricAlert Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2018-03-01/metricAlert_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/metricAlerts/{ruleName}
+<meta name="description" content="APIVersion Value Description “2018-03-01” MetricAlert Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2018-03-01/metricAlert_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/metricAlerts/{ruleName}
 Used by: MetricAlertList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_SpecOptional status MetricAlert_STATUSOptional MetricAlert_Spec Property Description Type actions the array of actions that are performed when the alert rule becomes active, and when an alert condition is resolved. MetricAlertAction[]Optional autoMitigate the flag that indicates whether the alert should be auto resolved or not. The default is true. boolOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be. stringOptional criteria defines the specific alert criteria information. MetricAlertCriteriaRequired description the description of the metric alert that will be included in the alert email. stringOptional enabled the flag that indicates whether the metric alert is enabled. boolRequired evaluationFrequency how often the metric alert is evaluated represented in ISO 8601 duration format. stringRequired location Resource location stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure MetricAlertOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired scopesReferences the list of resource id&rsquo;s that this metric alert is scoped to. You cannot change the scope of a metric rule based on logs. genruntime.ResourceReference[]Required severity Alert severity {0, 1, 2, 3, 4} intRequired tags Resource tags map[string]stringOptional targetResourceRegion the region of the target resource(s) on which the alert is created/updated. Mandatory if the scope contains a subscription, resource group, or more than one resource. stringOptional targetResourceType the resource type of the target resource(s) on which the alert is created/updated. Mandatory if the scope contains a subscription, resource group, or more than one resource. stringOptional windowSize the period of time (in ISO 8601 duration format) that is used to monitor alert activity based on the threshold. stringRequired MetricAlert_STATUS Property Description Type actions the array of actions that are performed when the alert rule becomes active, and when an alert condition is resolved. MetricAlertAction_STATUS[]Optional autoMitigate the flag that indicates whether the alert should be auto resolved or not. The default is true. boolOptional conditions The observed state of the resource conditions.Condition[]Optional criteria defines the specific alert criteria information. MetricAlertCriteria_STATUSOptional description the description of the metric alert that will be included in the alert email. stringOptional enabled the flag that indicates whether the metric alert is enabled. boolOptional evaluationFrequency how often the metric alert is evaluated represented in ISO 8601 duration format. stringOptional id Azure resource Id stringOptional isMigrated the value indicating whether this alert rule is migrated. boolOptional lastUpdatedTime Last time the rule was updated in ISO8601 format. stringOptional location Resource location stringOptional name Azure resource name stringOptional scopes the list of resource id&rsquo;s that this metric alert is scoped to. You cannot change the scope of a metric rule based on logs. string[]Optional severity Alert severity {0, 1, 2, 3, 4} intOptional tags Resource tags map[string]stringOptional targetResourceRegion the region of the target resource(s) on which the alert is created/updated. Mandatory if the scope contains a subscription, resource group, or more than one resource. stringOptional targetResourceType the resource type of the target resource(s) on which the alert is created/updated. Mandatory if the scope contains a subscription, resource group, or more than one resource. stringOptional type Azure resource type stringOptional windowSize the period of time (in ISO 8601 duration format) that is used to monitor alert activity based on the threshold. stringOptional MetricAlertList Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2018-03-01/metricAlert_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/metricAlerts/{ruleName}">
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_SpecOptional status MetricAlert_STATUSOptional MetricAlert_Spec Property Description Type actions the array of actions that are performed when the alert rule becomes active, and when an alert condition is resolved. MetricAlertAction[]Optional autoMitigate the flag that indicates whether the alert should be auto resolved or not. The default is true. boolOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional criteria defines the specific alert criteria information. MetricAlertCriteriaRequired description the description of the metric alert that will be included in the alert email. stringOptional enabled the flag that indicates whether the metric alert is enabled. boolRequired evaluationFrequency how often the metric alert is evaluated represented in ISO 8601 duration format. stringRequired location Resource location stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure MetricAlertOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired scopesReferences the list of resource id’s that this metric alert is scoped to. You cannot change the scope of a metric rule based on logs. genruntime.ResourceReference[]Required severity Alert severity {0, 1, 2, 3, 4} intRequired tags Resource tags map[string]stringOptional targetResourceRegion the region of the target resource(s) on which the alert is created/updated. Mandatory if the scope contains a subscription, resource group, or more than one resource. stringOptional targetResourceType the resource type of the target resource(s) on which the alert is created/updated. Mandatory if the scope contains a subscription, resource group, or more than one resource. stringOptional windowSize the period of time (in ISO 8601 duration format) that is used to monitor alert activity based on the threshold. stringRequired MetricAlert_STATUS Property Description Type actions the array of actions that are performed when the alert rule becomes active, and when an alert condition is resolved. MetricAlertAction_STATUS[]Optional autoMitigate the flag that indicates whether the alert should be auto resolved or not. The default is true. boolOptional conditions The observed state of the resource conditions.Condition[]Optional criteria defines the specific alert criteria information. MetricAlertCriteria_STATUSOptional description the description of the metric alert that will be included in the alert email. stringOptional enabled the flag that indicates whether the metric alert is enabled. boolOptional evaluationFrequency how often the metric alert is evaluated represented in ISO 8601 duration format. stringOptional id Azure resource Id stringOptional isMigrated the value indicating whether this alert rule is migrated. boolOptional lastUpdatedTime Last time the rule was updated in ISO8601 format. stringOptional location Resource location stringOptional name Azure resource name stringOptional scopes the list of resource id’s that this metric alert is scoped to. You cannot change the scope of a metric rule based on logs. string[]Optional severity Alert severity {0, 1, 2, 3, 4} intOptional tags Resource tags map[string]stringOptional targetResourceRegion the region of the target resource(s) on which the alert is created/updated. Mandatory if the scope contains a subscription, resource group, or more than one resource. stringOptional targetResourceType the resource type of the target resource(s) on which the alert is created/updated. Mandatory if the scope contains a subscription, resource group, or more than one resource. stringOptional type Azure resource type stringOptional windowSize the period of time (in ISO 8601 duration format) that is used to monitor alert activity based on the threshold. stringOptional MetricAlertList Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2018-03-01/metricAlert_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/metricAlerts/{ruleName}">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/insights/v1api20180301/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="insights.azure.com/v1api20180301">
-  <meta property="og:description" content=" APIVersion Value Description “2018-03-01” MetricAlert Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2018-03-01/metricAlert_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/metricAlerts/{ruleName}
+  <meta property="og:description" content="APIVersion Value Description “2018-03-01” MetricAlert Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2018-03-01/metricAlert_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/metricAlerts/{ruleName}
 Used by: MetricAlertList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_SpecOptional status MetricAlert_STATUSOptional MetricAlert_Spec Property Description Type actions the array of actions that are performed when the alert rule becomes active, and when an alert condition is resolved. MetricAlertAction[]Optional autoMitigate the flag that indicates whether the alert should be auto resolved or not. The default is true. boolOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional criteria defines the specific alert criteria information. MetricAlertCriteriaRequired description the description of the metric alert that will be included in the alert email. stringOptional enabled the flag that indicates whether the metric alert is enabled. boolRequired evaluationFrequency how often the metric alert is evaluated represented in ISO 8601 duration format. stringRequired location Resource location stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure MetricAlertOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired scopesReferences the list of resource id’s that this metric alert is scoped to. You cannot change the scope of a metric rule based on logs. genruntime.ResourceReference[]Required severity Alert severity {0, 1, 2, 3, 4} intRequired tags Resource tags map[string]stringOptional targetResourceRegion the region of the target resource(s) on which the alert is created/updated. Mandatory if the scope contains a subscription, resource group, or more than one resource. stringOptional targetResourceType the resource type of the target resource(s) on which the alert is created/updated. Mandatory if the scope contains a subscription, resource group, or more than one resource. stringOptional windowSize the period of time (in ISO 8601 duration format) that is used to monitor alert activity based on the threshold. stringRequired MetricAlert_STATUS Property Description Type actions the array of actions that are performed when the alert rule becomes active, and when an alert condition is resolved. MetricAlertAction_STATUS[]Optional autoMitigate the flag that indicates whether the alert should be auto resolved or not. The default is true. boolOptional conditions The observed state of the resource conditions.Condition[]Optional criteria defines the specific alert criteria information. MetricAlertCriteria_STATUSOptional description the description of the metric alert that will be included in the alert email. stringOptional enabled the flag that indicates whether the metric alert is enabled. boolOptional evaluationFrequency how often the metric alert is evaluated represented in ISO 8601 duration format. stringOptional id Azure resource Id stringOptional isMigrated the value indicating whether this alert rule is migrated. boolOptional lastUpdatedTime Last time the rule was updated in ISO8601 format. stringOptional location Resource location stringOptional name Azure resource name stringOptional scopes the list of resource id’s that this metric alert is scoped to. You cannot change the scope of a metric rule based on logs. string[]Optional severity Alert severity {0, 1, 2, 3, 4} intOptional tags Resource tags map[string]stringOptional targetResourceRegion the region of the target resource(s) on which the alert is created/updated. Mandatory if the scope contains a subscription, resource group, or more than one resource. stringOptional targetResourceType the resource type of the target resource(s) on which the alert is created/updated. Mandatory if the scope contains a subscription, resource group, or more than one resource. stringOptional type Azure resource type stringOptional windowSize the period of time (in ISO 8601 duration format) that is used to monitor alert activity based on the threshold. stringOptional MetricAlertList Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2018-03-01/metricAlert_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/metricAlerts/{ruleName}">
   <meta property="og:locale" content="en_us">
@@ -32,22 +32,17 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_Spe
     <meta property="article:section" content="reference">
 
   <meta itemprop="name" content="insights.azure.com/v1api20180301">
-  <meta itemprop="description" content=" APIVersion Value Description “2018-03-01” MetricAlert Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2018-03-01/metricAlert_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/metricAlerts/{ruleName}
+  <meta itemprop="description" content="APIVersion Value Description “2018-03-01” MetricAlert Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2018-03-01/metricAlert_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/metricAlerts/{ruleName}
 Used by: MetricAlertList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_SpecOptional status MetricAlert_STATUSOptional MetricAlert_Spec Property Description Type actions the array of actions that are performed when the alert rule becomes active, and when an alert condition is resolved. MetricAlertAction[]Optional autoMitigate the flag that indicates whether the alert should be auto resolved or not. The default is true. boolOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional criteria defines the specific alert criteria information. MetricAlertCriteriaRequired description the description of the metric alert that will be included in the alert email. stringOptional enabled the flag that indicates whether the metric alert is enabled. boolRequired evaluationFrequency how often the metric alert is evaluated represented in ISO 8601 duration format. stringRequired location Resource location stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure MetricAlertOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired scopesReferences the list of resource id’s that this metric alert is scoped to. You cannot change the scope of a metric rule based on logs. genruntime.ResourceReference[]Required severity Alert severity {0, 1, 2, 3, 4} intRequired tags Resource tags map[string]stringOptional targetResourceRegion the region of the target resource(s) on which the alert is created/updated. Mandatory if the scope contains a subscription, resource group, or more than one resource. stringOptional targetResourceType the resource type of the target resource(s) on which the alert is created/updated. Mandatory if the scope contains a subscription, resource group, or more than one resource. stringOptional windowSize the period of time (in ISO 8601 duration format) that is used to monitor alert activity based on the threshold. stringRequired MetricAlert_STATUS Property Description Type actions the array of actions that are performed when the alert rule becomes active, and when an alert condition is resolved. MetricAlertAction_STATUS[]Optional autoMitigate the flag that indicates whether the alert should be auto resolved or not. The default is true. boolOptional conditions The observed state of the resource conditions.Condition[]Optional criteria defines the specific alert criteria information. MetricAlertCriteria_STATUSOptional description the description of the metric alert that will be included in the alert email. stringOptional enabled the flag that indicates whether the metric alert is enabled. boolOptional evaluationFrequency how often the metric alert is evaluated represented in ISO 8601 duration format. stringOptional id Azure resource Id stringOptional isMigrated the value indicating whether this alert rule is migrated. boolOptional lastUpdatedTime Last time the rule was updated in ISO8601 format. stringOptional location Resource location stringOptional name Azure resource name stringOptional scopes the list of resource id’s that this metric alert is scoped to. You cannot change the scope of a metric rule based on logs. string[]Optional severity Alert severity {0, 1, 2, 3, 4} intOptional tags Resource tags map[string]stringOptional targetResourceRegion the region of the target resource(s) on which the alert is created/updated. Mandatory if the scope contains a subscription, resource group, or more than one resource. stringOptional targetResourceType the resource type of the target resource(s) on which the alert is created/updated. Mandatory if the scope contains a subscription, resource group, or more than one resource. stringOptional type Azure resource type stringOptional windowSize the period of time (in ISO 8601 duration format) that is used to monitor alert activity based on the threshold. stringOptional MetricAlertList Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2018-03-01/metricAlert_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/metricAlerts/{ruleName}">
   <meta itemprop="wordCount" content="2517">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="insights.azure.com/v1api20180301">
-  <meta name="twitter:description" content=" APIVersion Value Description “2018-03-01” MetricAlert Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2018-03-01/metricAlert_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/metricAlerts/{ruleName}
+  <meta name="twitter:description" content="APIVersion Value Description “2018-03-01” MetricAlert Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2018-03-01/metricAlert_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/metricAlerts/{ruleName}
 Used by: MetricAlertList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_SpecOptional status MetricAlert_STATUSOptional MetricAlert_Spec Property Description Type actions the array of actions that are performed when the alert rule becomes active, and when an alert condition is resolved. MetricAlertAction[]Optional autoMitigate the flag that indicates whether the alert should be auto resolved or not. The default is true. boolOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional criteria defines the specific alert criteria information. MetricAlertCriteriaRequired description the description of the metric alert that will be included in the alert email. stringOptional enabled the flag that indicates whether the metric alert is enabled. boolRequired evaluationFrequency how often the metric alert is evaluated represented in ISO 8601 duration format. stringRequired location Resource location stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure MetricAlertOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired scopesReferences the list of resource id’s that this metric alert is scoped to. You cannot change the scope of a metric rule based on logs. genruntime.ResourceReference[]Required severity Alert severity {0, 1, 2, 3, 4} intRequired tags Resource tags map[string]stringOptional targetResourceRegion the region of the target resource(s) on which the alert is created/updated. Mandatory if the scope contains a subscription, resource group, or more than one resource. stringOptional targetResourceType the resource type of the target resource(s) on which the alert is created/updated. Mandatory if the scope contains a subscription, resource group, or more than one resource. stringOptional windowSize the period of time (in ISO 8601 duration format) that is used to monitor alert activity based on the threshold. stringRequired MetricAlert_STATUS Property Description Type actions the array of actions that are performed when the alert rule becomes active, and when an alert condition is resolved. MetricAlertAction_STATUS[]Optional autoMitigate the flag that indicates whether the alert should be auto resolved or not. The default is true. boolOptional conditions The observed state of the resource conditions.Condition[]Optional criteria defines the specific alert criteria information. MetricAlertCriteria_STATUSOptional description the description of the metric alert that will be included in the alert email. stringOptional enabled the flag that indicates whether the metric alert is enabled. boolOptional evaluationFrequency how often the metric alert is evaluated represented in ISO 8601 duration format. stringOptional id Azure resource Id stringOptional isMigrated the value indicating whether this alert rule is migrated. boolOptional lastUpdatedTime Last time the rule was updated in ISO8601 format. stringOptional location Resource location stringOptional name Azure resource name stringOptional scopes the list of resource id’s that this metric alert is scoped to. You cannot change the scope of a metric rule based on logs. string[]Optional severity Alert severity {0, 1, 2, 3, 4} intOptional tags Resource tags map[string]stringOptional targetResourceRegion the region of the target resource(s) on which the alert is created/updated. Mandatory if the scope contains a subscription, resource group, or more than one resource. stringOptional targetResourceType the resource type of the target resource(s) on which the alert is created/updated. Mandatory if the scope contains a subscription, resource group, or more than one resource. stringOptional type Azure resource type stringOptional windowSize the period of time (in ISO 8601 duration format) that is used to monitor alert activity based on the threshold. stringOptional MetricAlertList Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2018-03-01/metricAlert_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/metricAlerts/{ruleName}">
-
-
-
-
-<link rel="preload" href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" as="style">
-<link href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" rel="stylesheet" integrity="">
-
+<link rel="preload" href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" as="style" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
+<link href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" rel="stylesheet" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -881,7 +876,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_Spe
     v1api20180301</li>
   </ol>
 </nav>
-            
 <div class="td-content">
 	<h1>insights.azure.com/v1api20180301</h1>
 	
@@ -893,14 +887,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_Spe
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;2018-03-01&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;2018-03-01&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -910,31 +904,31 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_Spe
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left"><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta">metav1.ObjectMeta</a></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta">metav1.ObjectMeta</a></td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">spec</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"><a href="#MetricAlert_Spec">MetricAlert_Spec</a><br/><small>Optional</small></td>
+          <td>spec</td>
+          <td></td>
+          <td><a href="#MetricAlert_Spec">MetricAlert_Spec</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">status</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"><a href="#MetricAlert_STATUS">MetricAlert_STATUS</a><br/><small>Optional</small></td>
+          <td>status</td>
+          <td></td>
+          <td><a href="#MetricAlert_STATUS">MetricAlert_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -942,91 +936,91 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_Spe
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">actions</td>
-          <td style="text-align: left">the array of actions that are performed when the alert rule becomes active, and when an alert condition is resolved.</td>
-          <td style="text-align: left"><a href="#MetricAlertAction">MetricAlertAction[]</a><br/><small>Optional</small></td>
+          <td>actions</td>
+          <td>the array of actions that are performed when the alert rule becomes active, and when an alert condition is resolved.</td>
+          <td><a href="#MetricAlertAction">MetricAlertAction[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">autoMitigate</td>
-          <td style="text-align: left">the flag that indicates whether the alert should be auto resolved or not. The default is true.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>autoMitigate</td>
+          <td>the flag that indicates whether the alert should be auto resolved or not. The default is true.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">azureName</td>
-          <td style="text-align: left">The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>azureName</td>
+          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">criteria</td>
-          <td style="text-align: left">defines the specific alert criteria information.</td>
-          <td style="text-align: left"><a href="#MetricAlertCriteria">MetricAlertCriteria</a><br/><small>Required</small></td>
+          <td>criteria</td>
+          <td>defines the specific alert criteria information.</td>
+          <td><a href="#MetricAlertCriteria">MetricAlertCriteria</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">description</td>
-          <td style="text-align: left">the description of the metric alert that will be included in the alert email.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>description</td>
+          <td>the description of the metric alert that will be included in the alert email.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">enabled</td>
-          <td style="text-align: left">the flag that indicates whether the metric alert is enabled.</td>
-          <td style="text-align: left">bool<br/><small>Required</small></td>
+          <td>enabled</td>
+          <td>the flag that indicates whether the metric alert is enabled.</td>
+          <td>bool<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">evaluationFrequency</td>
-          <td style="text-align: left">how often the metric alert is evaluated represented in ISO 8601 duration format.</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>evaluationFrequency</td>
+          <td>how often the metric alert is evaluated represented in ISO 8601 duration format.</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">location</td>
-          <td style="text-align: left">Resource location</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>location</td>
+          <td>Resource location</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">operatorSpec</td>
-          <td style="text-align: left">The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td style="text-align: left"><a href="#MetricAlertOperatorSpec">MetricAlertOperatorSpec</a><br/><small>Optional</small></td>
+          <td>operatorSpec</td>
+          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+          <td><a href="#MetricAlertOperatorSpec">MetricAlertOperatorSpec</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">owner</td>
-          <td style="text-align: left">The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
+          <td>owner</td>
+          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">scopesReferences</td>
-          <td style="text-align: left">the list of resource id&rsquo;s that this metric alert is scoped to. You cannot change the scope of a metric rule based on logs.</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference[]</a><br/><small>Required</small></td>
+          <td>scopesReferences</td>
+          <td>the list of resource id&rsquo;s that this metric alert is scoped to. You cannot change the scope of a metric rule based on logs.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference[]</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">severity</td>
-          <td style="text-align: left">Alert severity {0, 1, 2, 3, 4}</td>
-          <td style="text-align: left">int<br/><small>Required</small></td>
+          <td>severity</td>
+          <td>Alert severity {0, 1, 2, 3, 4}</td>
+          <td>int<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">tags</td>
-          <td style="text-align: left">Resource tags</td>
-          <td style="text-align: left">map[string]string<br/><small>Optional</small></td>
+          <td>tags</td>
+          <td>Resource tags</td>
+          <td>map[string]string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">targetResourceRegion</td>
-          <td style="text-align: left">the region of the target resource(s) on which the alert is created/updated. Mandatory if the scope contains a subscription, resource group, or more than one resource.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>targetResourceRegion</td>
+          <td>the region of the target resource(s) on which the alert is created/updated. Mandatory if the scope contains a subscription, resource group, or more than one resource.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">targetResourceType</td>
-          <td style="text-align: left">the resource type of the target resource(s) on which the alert is created/updated. Mandatory if the scope contains a subscription, resource group, or more than one resource.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>targetResourceType</td>
+          <td>the resource type of the target resource(s) on which the alert is created/updated. Mandatory if the scope contains a subscription, resource group, or more than one resource.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">windowSize</td>
-          <td style="text-align: left">the period of time (in ISO 8601 duration format) that is used to monitor alert activity based on the threshold.</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>windowSize</td>
+          <td>the period of time (in ISO 8601 duration format) that is used to monitor alert activity based on the threshold.</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
   </tbody>
 </table>
@@ -1034,106 +1028,106 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_Spe
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">actions</td>
-          <td style="text-align: left">the array of actions that are performed when the alert rule becomes active, and when an alert condition is resolved.</td>
-          <td style="text-align: left"><a href="#MetricAlertAction_STATUS">MetricAlertAction_STATUS[]</a><br/><small>Optional</small></td>
+          <td>actions</td>
+          <td>the array of actions that are performed when the alert rule becomes active, and when an alert condition is resolved.</td>
+          <td><a href="#MetricAlertAction_STATUS">MetricAlertAction_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">autoMitigate</td>
-          <td style="text-align: left">the flag that indicates whether the alert should be auto resolved or not. The default is true.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>autoMitigate</td>
+          <td>the flag that indicates whether the alert should be auto resolved or not. The default is true.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">conditions</td>
-          <td style="text-align: left">The observed state of the resource</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+          <td>conditions</td>
+          <td>The observed state of the resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">criteria</td>
-          <td style="text-align: left">defines the specific alert criteria information.</td>
-          <td style="text-align: left"><a href="#MetricAlertCriteria_STATUS">MetricAlertCriteria_STATUS</a><br/><small>Optional</small></td>
+          <td>criteria</td>
+          <td>defines the specific alert criteria information.</td>
+          <td><a href="#MetricAlertCriteria_STATUS">MetricAlertCriteria_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">description</td>
-          <td style="text-align: left">the description of the metric alert that will be included in the alert email.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>description</td>
+          <td>the description of the metric alert that will be included in the alert email.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">enabled</td>
-          <td style="text-align: left">the flag that indicates whether the metric alert is enabled.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>enabled</td>
+          <td>the flag that indicates whether the metric alert is enabled.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">evaluationFrequency</td>
-          <td style="text-align: left">how often the metric alert is evaluated represented in ISO 8601 duration format.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>evaluationFrequency</td>
+          <td>how often the metric alert is evaluated represented in ISO 8601 duration format.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">id</td>
-          <td style="text-align: left">Azure resource Id</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>id</td>
+          <td>Azure resource Id</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">isMigrated</td>
-          <td style="text-align: left">the value indicating whether this alert rule is migrated.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>isMigrated</td>
+          <td>the value indicating whether this alert rule is migrated.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">lastUpdatedTime</td>
-          <td style="text-align: left">Last time the rule was updated in ISO8601 format.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>lastUpdatedTime</td>
+          <td>Last time the rule was updated in ISO8601 format.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">location</td>
-          <td style="text-align: left">Resource location</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>location</td>
+          <td>Resource location</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">name</td>
-          <td style="text-align: left">Azure resource name</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>name</td>
+          <td>Azure resource name</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">scopes</td>
-          <td style="text-align: left">the list of resource id&rsquo;s that this metric alert is scoped to. You cannot change the scope of a metric rule based on logs.</td>
-          <td style="text-align: left">string[]<br/><small>Optional</small></td>
+          <td>scopes</td>
+          <td>the list of resource id&rsquo;s that this metric alert is scoped to. You cannot change the scope of a metric rule based on logs.</td>
+          <td>string[]<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">severity</td>
-          <td style="text-align: left">Alert severity {0, 1, 2, 3, 4}</td>
-          <td style="text-align: left">int<br/><small>Optional</small></td>
+          <td>severity</td>
+          <td>Alert severity {0, 1, 2, 3, 4}</td>
+          <td>int<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">tags</td>
-          <td style="text-align: left">Resource tags</td>
-          <td style="text-align: left">map[string]string<br/><small>Optional</small></td>
+          <td>tags</td>
+          <td>Resource tags</td>
+          <td>map[string]string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">targetResourceRegion</td>
-          <td style="text-align: left">the region of the target resource(s) on which the alert is created/updated. Mandatory if the scope contains a subscription, resource group, or more than one resource.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>targetResourceRegion</td>
+          <td>the region of the target resource(s) on which the alert is created/updated. Mandatory if the scope contains a subscription, resource group, or more than one resource.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">targetResourceType</td>
-          <td style="text-align: left">the resource type of the target resource(s) on which the alert is created/updated. Mandatory if the scope contains a subscription, resource group, or more than one resource.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>targetResourceType</td>
+          <td>the resource type of the target resource(s) on which the alert is created/updated. Mandatory if the scope contains a subscription, resource group, or more than one resource.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">type</td>
-          <td style="text-align: left">Azure resource type</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>type</td>
+          <td>Azure resource type</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">windowSize</td>
-          <td style="text-align: left">the period of time (in ISO 8601 duration format) that is used to monitor alert activity based on the threshold.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>windowSize</td>
+          <td>the period of time (in ISO 8601 duration format) that is used to monitor alert activity based on the threshold.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1142,26 +1136,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_Spe
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left"><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta">metav1.ListMeta</a></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta">metav1.ListMeta</a></td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">items</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"><a href="#MetricAlert">MetricAlert[]</a><br/><small>Optional</small></td>
+          <td>items</td>
+          <td></td>
+          <td><a href="#MetricAlert">MetricAlert[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1170,91 +1164,91 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_Spe
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">actions</td>
-          <td style="text-align: left">the array of actions that are performed when the alert rule becomes active, and when an alert condition is resolved.</td>
-          <td style="text-align: left"><a href="#MetricAlertAction">MetricAlertAction[]</a><br/><small>Optional</small></td>
+          <td>actions</td>
+          <td>the array of actions that are performed when the alert rule becomes active, and when an alert condition is resolved.</td>
+          <td><a href="#MetricAlertAction">MetricAlertAction[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">autoMitigate</td>
-          <td style="text-align: left">the flag that indicates whether the alert should be auto resolved or not. The default is true.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>autoMitigate</td>
+          <td>the flag that indicates whether the alert should be auto resolved or not. The default is true.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">azureName</td>
-          <td style="text-align: left">The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>azureName</td>
+          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">criteria</td>
-          <td style="text-align: left">defines the specific alert criteria information.</td>
-          <td style="text-align: left"><a href="#MetricAlertCriteria">MetricAlertCriteria</a><br/><small>Required</small></td>
+          <td>criteria</td>
+          <td>defines the specific alert criteria information.</td>
+          <td><a href="#MetricAlertCriteria">MetricAlertCriteria</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">description</td>
-          <td style="text-align: left">the description of the metric alert that will be included in the alert email.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>description</td>
+          <td>the description of the metric alert that will be included in the alert email.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">enabled</td>
-          <td style="text-align: left">the flag that indicates whether the metric alert is enabled.</td>
-          <td style="text-align: left">bool<br/><small>Required</small></td>
+          <td>enabled</td>
+          <td>the flag that indicates whether the metric alert is enabled.</td>
+          <td>bool<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">evaluationFrequency</td>
-          <td style="text-align: left">how often the metric alert is evaluated represented in ISO 8601 duration format.</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>evaluationFrequency</td>
+          <td>how often the metric alert is evaluated represented in ISO 8601 duration format.</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">location</td>
-          <td style="text-align: left">Resource location</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>location</td>
+          <td>Resource location</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">operatorSpec</td>
-          <td style="text-align: left">The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td style="text-align: left"><a href="#MetricAlertOperatorSpec">MetricAlertOperatorSpec</a><br/><small>Optional</small></td>
+          <td>operatorSpec</td>
+          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+          <td><a href="#MetricAlertOperatorSpec">MetricAlertOperatorSpec</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">owner</td>
-          <td style="text-align: left">The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
+          <td>owner</td>
+          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">scopesReferences</td>
-          <td style="text-align: left">the list of resource id&rsquo;s that this metric alert is scoped to. You cannot change the scope of a metric rule based on logs.</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference[]</a><br/><small>Required</small></td>
+          <td>scopesReferences</td>
+          <td>the list of resource id&rsquo;s that this metric alert is scoped to. You cannot change the scope of a metric rule based on logs.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference[]</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">severity</td>
-          <td style="text-align: left">Alert severity {0, 1, 2, 3, 4}</td>
-          <td style="text-align: left">int<br/><small>Required</small></td>
+          <td>severity</td>
+          <td>Alert severity {0, 1, 2, 3, 4}</td>
+          <td>int<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">tags</td>
-          <td style="text-align: left">Resource tags</td>
-          <td style="text-align: left">map[string]string<br/><small>Optional</small></td>
+          <td>tags</td>
+          <td>Resource tags</td>
+          <td>map[string]string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">targetResourceRegion</td>
-          <td style="text-align: left">the region of the target resource(s) on which the alert is created/updated. Mandatory if the scope contains a subscription, resource group, or more than one resource.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>targetResourceRegion</td>
+          <td>the region of the target resource(s) on which the alert is created/updated. Mandatory if the scope contains a subscription, resource group, or more than one resource.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">targetResourceType</td>
-          <td style="text-align: left">the resource type of the target resource(s) on which the alert is created/updated. Mandatory if the scope contains a subscription, resource group, or more than one resource.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>targetResourceType</td>
+          <td>the resource type of the target resource(s) on which the alert is created/updated. Mandatory if the scope contains a subscription, resource group, or more than one resource.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">windowSize</td>
-          <td style="text-align: left">the period of time (in ISO 8601 duration format) that is used to monitor alert activity based on the threshold.</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>windowSize</td>
+          <td>the period of time (in ISO 8601 duration format) that is used to monitor alert activity based on the threshold.</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
   </tbody>
 </table>
@@ -1263,106 +1257,106 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_Spe
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">actions</td>
-          <td style="text-align: left">the array of actions that are performed when the alert rule becomes active, and when an alert condition is resolved.</td>
-          <td style="text-align: left"><a href="#MetricAlertAction_STATUS">MetricAlertAction_STATUS[]</a><br/><small>Optional</small></td>
+          <td>actions</td>
+          <td>the array of actions that are performed when the alert rule becomes active, and when an alert condition is resolved.</td>
+          <td><a href="#MetricAlertAction_STATUS">MetricAlertAction_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">autoMitigate</td>
-          <td style="text-align: left">the flag that indicates whether the alert should be auto resolved or not. The default is true.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>autoMitigate</td>
+          <td>the flag that indicates whether the alert should be auto resolved or not. The default is true.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">conditions</td>
-          <td style="text-align: left">The observed state of the resource</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+          <td>conditions</td>
+          <td>The observed state of the resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">criteria</td>
-          <td style="text-align: left">defines the specific alert criteria information.</td>
-          <td style="text-align: left"><a href="#MetricAlertCriteria_STATUS">MetricAlertCriteria_STATUS</a><br/><small>Optional</small></td>
+          <td>criteria</td>
+          <td>defines the specific alert criteria information.</td>
+          <td><a href="#MetricAlertCriteria_STATUS">MetricAlertCriteria_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">description</td>
-          <td style="text-align: left">the description of the metric alert that will be included in the alert email.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>description</td>
+          <td>the description of the metric alert that will be included in the alert email.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">enabled</td>
-          <td style="text-align: left">the flag that indicates whether the metric alert is enabled.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>enabled</td>
+          <td>the flag that indicates whether the metric alert is enabled.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">evaluationFrequency</td>
-          <td style="text-align: left">how often the metric alert is evaluated represented in ISO 8601 duration format.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>evaluationFrequency</td>
+          <td>how often the metric alert is evaluated represented in ISO 8601 duration format.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">id</td>
-          <td style="text-align: left">Azure resource Id</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>id</td>
+          <td>Azure resource Id</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">isMigrated</td>
-          <td style="text-align: left">the value indicating whether this alert rule is migrated.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>isMigrated</td>
+          <td>the value indicating whether this alert rule is migrated.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">lastUpdatedTime</td>
-          <td style="text-align: left">Last time the rule was updated in ISO8601 format.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>lastUpdatedTime</td>
+          <td>Last time the rule was updated in ISO8601 format.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">location</td>
-          <td style="text-align: left">Resource location</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>location</td>
+          <td>Resource location</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">name</td>
-          <td style="text-align: left">Azure resource name</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>name</td>
+          <td>Azure resource name</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">scopes</td>
-          <td style="text-align: left">the list of resource id&rsquo;s that this metric alert is scoped to. You cannot change the scope of a metric rule based on logs.</td>
-          <td style="text-align: left">string[]<br/><small>Optional</small></td>
+          <td>scopes</td>
+          <td>the list of resource id&rsquo;s that this metric alert is scoped to. You cannot change the scope of a metric rule based on logs.</td>
+          <td>string[]<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">severity</td>
-          <td style="text-align: left">Alert severity {0, 1, 2, 3, 4}</td>
-          <td style="text-align: left">int<br/><small>Optional</small></td>
+          <td>severity</td>
+          <td>Alert severity {0, 1, 2, 3, 4}</td>
+          <td>int<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">tags</td>
-          <td style="text-align: left">Resource tags</td>
-          <td style="text-align: left">map[string]string<br/><small>Optional</small></td>
+          <td>tags</td>
+          <td>Resource tags</td>
+          <td>map[string]string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">targetResourceRegion</td>
-          <td style="text-align: left">the region of the target resource(s) on which the alert is created/updated. Mandatory if the scope contains a subscription, resource group, or more than one resource.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>targetResourceRegion</td>
+          <td>the region of the target resource(s) on which the alert is created/updated. Mandatory if the scope contains a subscription, resource group, or more than one resource.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">targetResourceType</td>
-          <td style="text-align: left">the resource type of the target resource(s) on which the alert is created/updated. Mandatory if the scope contains a subscription, resource group, or more than one resource.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>targetResourceType</td>
+          <td>the resource type of the target resource(s) on which the alert is created/updated. Mandatory if the scope contains a subscription, resource group, or more than one resource.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">type</td>
-          <td style="text-align: left">Azure resource type</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>type</td>
+          <td>Azure resource type</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">windowSize</td>
-          <td style="text-align: left">the period of time (in ISO 8601 duration format) that is used to monitor alert activity based on the threshold.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>windowSize</td>
+          <td>the period of time (in ISO 8601 duration format) that is used to monitor alert activity based on the threshold.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1372,21 +1366,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_Spe
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">actionGroupId</td>
-          <td style="text-align: left">the id of the action group to use.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>actionGroupId</td>
+          <td>the id of the action group to use.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">webHookProperties</td>
-          <td style="text-align: left">This field allows specifying custom properties, which would be appended to the alert payload sent as input to the webhook.</td>
-          <td style="text-align: left">map[string]string<br/><small>Optional</small></td>
+          <td>webHookProperties</td>
+          <td>This field allows specifying custom properties, which would be appended to the alert payload sent as input to the webhook.</td>
+          <td>map[string]string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1396,21 +1390,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_Spe
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">actionGroupId</td>
-          <td style="text-align: left">the id of the action group to use.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>actionGroupId</td>
+          <td>the id of the action group to use.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">webHookProperties</td>
-          <td style="text-align: left">This field allows specifying custom properties, which would be appended to the alert payload sent as input to the webhook.</td>
-          <td style="text-align: left">map[string]string<br/><small>Optional</small></td>
+          <td>webHookProperties</td>
+          <td>This field allows specifying custom properties, which would be appended to the alert payload sent as input to the webhook.</td>
+          <td>map[string]string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1419,26 +1413,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_Spe
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">microsoftAzureMonitorMultipleResourceMultipleMetricCriteria</td>
-          <td style="text-align: left">Mutually exclusive with all other properties</td>
-          <td style="text-align: left"><a href="#MetricAlertMultipleResourceMultipleMetricCriteria">MetricAlertMultipleResourceMultipleMetricCriteria</a><br/><small>Optional</small></td>
+          <td>microsoftAzureMonitorMultipleResourceMultipleMetricCriteria</td>
+          <td>Mutually exclusive with all other properties</td>
+          <td><a href="#MetricAlertMultipleResourceMultipleMetricCriteria">MetricAlertMultipleResourceMultipleMetricCriteria</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">microsoftAzureMonitorSingleResourceMultipleMetricCriteria</td>
-          <td style="text-align: left">Mutually exclusive with all other properties</td>
-          <td style="text-align: left"><a href="#MetricAlertSingleResourceMultipleMetricCriteria">MetricAlertSingleResourceMultipleMetricCriteria</a><br/><small>Optional</small></td>
+          <td>microsoftAzureMonitorSingleResourceMultipleMetricCriteria</td>
+          <td>Mutually exclusive with all other properties</td>
+          <td><a href="#MetricAlertSingleResourceMultipleMetricCriteria">MetricAlertSingleResourceMultipleMetricCriteria</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">microsoftAzureMonitorWebtestLocationAvailabilityCriteria</td>
-          <td style="text-align: left">Mutually exclusive with all other properties</td>
-          <td style="text-align: left"><a href="#WebtestLocationAvailabilityCriteria">WebtestLocationAvailabilityCriteria</a><br/><small>Optional</small></td>
+          <td>microsoftAzureMonitorWebtestLocationAvailabilityCriteria</td>
+          <td>Mutually exclusive with all other properties</td>
+          <td><a href="#WebtestLocationAvailabilityCriteria">WebtestLocationAvailabilityCriteria</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1447,26 +1441,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_Spe
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">microsoftAzureMonitorMultipleResourceMultipleMetricCriteria</td>
-          <td style="text-align: left">Mutually exclusive with all other properties</td>
-          <td style="text-align: left"><a href="#MetricAlertMultipleResourceMultipleMetricCriteria_STATUS">MetricAlertMultipleResourceMultipleMetricCriteria_STATUS</a><br/><small>Optional</small></td>
+          <td>microsoftAzureMonitorMultipleResourceMultipleMetricCriteria</td>
+          <td>Mutually exclusive with all other properties</td>
+          <td><a href="#MetricAlertMultipleResourceMultipleMetricCriteria_STATUS">MetricAlertMultipleResourceMultipleMetricCriteria_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">microsoftAzureMonitorSingleResourceMultipleMetricCriteria</td>
-          <td style="text-align: left">Mutually exclusive with all other properties</td>
-          <td style="text-align: left"><a href="#MetricAlertSingleResourceMultipleMetricCriteria_STATUS">MetricAlertSingleResourceMultipleMetricCriteria_STATUS</a><br/><small>Optional</small></td>
+          <td>microsoftAzureMonitorSingleResourceMultipleMetricCriteria</td>
+          <td>Mutually exclusive with all other properties</td>
+          <td><a href="#MetricAlertSingleResourceMultipleMetricCriteria_STATUS">MetricAlertSingleResourceMultipleMetricCriteria_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">microsoftAzureMonitorWebtestLocationAvailabilityCriteria</td>
-          <td style="text-align: left">Mutually exclusive with all other properties</td>
-          <td style="text-align: left"><a href="#WebtestLocationAvailabilityCriteria_STATUS">WebtestLocationAvailabilityCriteria_STATUS</a><br/><small>Optional</small></td>
+          <td>microsoftAzureMonitorWebtestLocationAvailabilityCriteria</td>
+          <td>Mutually exclusive with all other properties</td>
+          <td><a href="#WebtestLocationAvailabilityCriteria_STATUS">WebtestLocationAvailabilityCriteria_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1476,21 +1470,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_Spe
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">configMapExpressions</td>
-          <td style="text-align: left">configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+          <td>configMapExpressions</td>
+          <td>configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">secretExpressions</td>
-          <td style="text-align: left">configures where to place operator written dynamic secrets (created with CEL expressions).</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+          <td>secretExpressions</td>
+          <td>configures where to place operator written dynamic secrets (created with CEL expressions).</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1499,26 +1493,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_Spe
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">additionalProperties</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">map[string]v1.JSON<br/><small>Optional</small></td>
+          <td>additionalProperties</td>
+          <td></td>
+          <td>map[string]v1.JSON<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">allOf</td>
-          <td style="text-align: left">the list of multiple metric criteria for this &lsquo;all of&rsquo; operation.</td>
-          <td style="text-align: left"><a href="#MultiMetricCriteria">MultiMetricCriteria[]</a><br/><small>Optional</small></td>
+          <td>allOf</td>
+          <td>the list of multiple metric criteria for this &lsquo;all of&rsquo; operation.</td>
+          <td><a href="#MultiMetricCriteria">MultiMetricCriteria[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">odata.type</td>
-          <td style="text-align: left">specifies the type of the alert criteria.</td>
-          <td style="text-align: left"><a href="#MetricAlertMultipleResourceMultipleMetricCriteria_OdataType">MetricAlertMultipleResourceMultipleMetricCriteria_OdataType</a><br/><small>Required</small></td>
+          <td>odata.type</td>
+          <td>specifies the type of the alert criteria.</td>
+          <td><a href="#MetricAlertMultipleResourceMultipleMetricCriteria_OdataType">MetricAlertMultipleResourceMultipleMetricCriteria_OdataType</a><br/><small>Required</small></td>
       </tr>
   </tbody>
 </table>
@@ -1527,26 +1521,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_Spe
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">additionalProperties</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">map[string]v1.JSON<br/><small>Optional</small></td>
+          <td>additionalProperties</td>
+          <td></td>
+          <td>map[string]v1.JSON<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">allOf</td>
-          <td style="text-align: left">the list of multiple metric criteria for this &lsquo;all of&rsquo; operation.</td>
-          <td style="text-align: left"><a href="#MultiMetricCriteria_STATUS">MultiMetricCriteria_STATUS[]</a><br/><small>Optional</small></td>
+          <td>allOf</td>
+          <td>the list of multiple metric criteria for this &lsquo;all of&rsquo; operation.</td>
+          <td><a href="#MultiMetricCriteria_STATUS">MultiMetricCriteria_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">odata.type</td>
-          <td style="text-align: left">specifies the type of the alert criteria.</td>
-          <td style="text-align: left"><a href="#MetricAlertMultipleResourceMultipleMetricCriteria_OdataType_STATUS">MetricAlertMultipleResourceMultipleMetricCriteria_OdataType_STATUS</a><br/><small>Optional</small></td>
+          <td>odata.type</td>
+          <td>specifies the type of the alert criteria.</td>
+          <td><a href="#MetricAlertMultipleResourceMultipleMetricCriteria_OdataType_STATUS">MetricAlertMultipleResourceMultipleMetricCriteria_OdataType_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1555,26 +1549,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_Spe
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">additionalProperties</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">map[string]v1.JSON<br/><small>Optional</small></td>
+          <td>additionalProperties</td>
+          <td></td>
+          <td>map[string]v1.JSON<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">allOf</td>
-          <td style="text-align: left">The list of metric criteria for this &lsquo;all of&rsquo; operation.</td>
-          <td style="text-align: left"><a href="#MetricCriteria">MetricCriteria[]</a><br/><small>Optional</small></td>
+          <td>allOf</td>
+          <td>The list of metric criteria for this &lsquo;all of&rsquo; operation.</td>
+          <td><a href="#MetricCriteria">MetricCriteria[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">odata.type</td>
-          <td style="text-align: left">specifies the type of the alert criteria.</td>
-          <td style="text-align: left"><a href="#MetricAlertSingleResourceMultipleMetricCriteria_OdataType">MetricAlertSingleResourceMultipleMetricCriteria_OdataType</a><br/><small>Required</small></td>
+          <td>odata.type</td>
+          <td>specifies the type of the alert criteria.</td>
+          <td><a href="#MetricAlertSingleResourceMultipleMetricCriteria_OdataType">MetricAlertSingleResourceMultipleMetricCriteria_OdataType</a><br/><small>Required</small></td>
       </tr>
   </tbody>
 </table>
@@ -1583,26 +1577,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_Spe
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">additionalProperties</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">map[string]v1.JSON<br/><small>Optional</small></td>
+          <td>additionalProperties</td>
+          <td></td>
+          <td>map[string]v1.JSON<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">allOf</td>
-          <td style="text-align: left">The list of metric criteria for this &lsquo;all of&rsquo; operation.</td>
-          <td style="text-align: left"><a href="#MetricCriteria_STATUS">MetricCriteria_STATUS[]</a><br/><small>Optional</small></td>
+          <td>allOf</td>
+          <td>The list of metric criteria for this &lsquo;all of&rsquo; operation.</td>
+          <td><a href="#MetricCriteria_STATUS">MetricCriteria_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">odata.type</td>
-          <td style="text-align: left">specifies the type of the alert criteria.</td>
-          <td style="text-align: left"><a href="#MetricAlertSingleResourceMultipleMetricCriteria_OdataType_STATUS">MetricAlertSingleResourceMultipleMetricCriteria_OdataType_STATUS</a><br/><small>Optional</small></td>
+          <td>odata.type</td>
+          <td>specifies the type of the alert criteria.</td>
+          <td><a href="#MetricAlertSingleResourceMultipleMetricCriteria_OdataType_STATUS">MetricAlertSingleResourceMultipleMetricCriteria_OdataType_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1611,36 +1605,36 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_Spe
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">additionalProperties</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">map[string]v1.JSON<br/><small>Optional</small></td>
+          <td>additionalProperties</td>
+          <td></td>
+          <td>map[string]v1.JSON<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">componentReference</td>
-          <td style="text-align: left">The Application Insights resource Id.</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Required</small></td>
+          <td>componentReference</td>
+          <td>The Application Insights resource Id.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">failedLocationCount</td>
-          <td style="text-align: left">The number of failed locations.</td>
-          <td style="text-align: left">float64<br/><small>Required</small></td>
+          <td>failedLocationCount</td>
+          <td>The number of failed locations.</td>
+          <td>float64<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">odata.type</td>
-          <td style="text-align: left">specifies the type of the alert criteria.</td>
-          <td style="text-align: left"><a href="#WebtestLocationAvailabilityCriteria_OdataType">WebtestLocationAvailabilityCriteria_OdataType</a><br/><small>Required</small></td>
+          <td>odata.type</td>
+          <td>specifies the type of the alert criteria.</td>
+          <td><a href="#WebtestLocationAvailabilityCriteria_OdataType">WebtestLocationAvailabilityCriteria_OdataType</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">webTestId</td>
-          <td style="text-align: left">The Application Insights web test Id.</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>webTestId</td>
+          <td>The Application Insights web test Id.</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
   </tbody>
 </table>
@@ -1649,36 +1643,36 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_Spe
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">additionalProperties</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">map[string]v1.JSON<br/><small>Optional</small></td>
+          <td>additionalProperties</td>
+          <td></td>
+          <td>map[string]v1.JSON<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">componentId</td>
-          <td style="text-align: left">The Application Insights resource Id.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>componentId</td>
+          <td>The Application Insights resource Id.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">failedLocationCount</td>
-          <td style="text-align: left">The number of failed locations.</td>
-          <td style="text-align: left">float64<br/><small>Optional</small></td>
+          <td>failedLocationCount</td>
+          <td>The number of failed locations.</td>
+          <td>float64<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">odata.type</td>
-          <td style="text-align: left">specifies the type of the alert criteria.</td>
-          <td style="text-align: left"><a href="#WebtestLocationAvailabilityCriteria_OdataType_STATUS">WebtestLocationAvailabilityCriteria_OdataType_STATUS</a><br/><small>Optional</small></td>
+          <td>odata.type</td>
+          <td>specifies the type of the alert criteria.</td>
+          <td><a href="#WebtestLocationAvailabilityCriteria_OdataType_STATUS">WebtestLocationAvailabilityCriteria_OdataType_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">webTestId</td>
-          <td style="text-align: left">The Application Insights web test Id.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>webTestId</td>
+          <td>The Application Insights web test Id.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1687,14 +1681,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_Spe
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -1703,14 +1697,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_Spe
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -1719,14 +1713,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_Spe
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -1735,14 +1729,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_Spe
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -1751,61 +1745,61 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_Spe
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">additionalProperties</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">map[string]v1.JSON<br/><small>Optional</small></td>
+          <td>additionalProperties</td>
+          <td></td>
+          <td>map[string]v1.JSON<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">criterionType</td>
-          <td style="text-align: left">Specifies the type of threshold criteria</td>
-          <td style="text-align: left"><a href="#MetricCriteria_CriterionType">MetricCriteria_CriterionType</a><br/><small>Required</small></td>
+          <td>criterionType</td>
+          <td>Specifies the type of threshold criteria</td>
+          <td><a href="#MetricCriteria_CriterionType">MetricCriteria_CriterionType</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">dimensions</td>
-          <td style="text-align: left">List of dimension conditions.</td>
-          <td style="text-align: left"><a href="#MetricDimension">MetricDimension[]</a><br/><small>Optional</small></td>
+          <td>dimensions</td>
+          <td>List of dimension conditions.</td>
+          <td><a href="#MetricDimension">MetricDimension[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">metricName</td>
-          <td style="text-align: left">Name of the metric.</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>metricName</td>
+          <td>Name of the metric.</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">metricNamespace</td>
-          <td style="text-align: left">Namespace of the metric.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>metricNamespace</td>
+          <td>Namespace of the metric.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">name</td>
-          <td style="text-align: left">Name of the criteria.</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>name</td>
+          <td>Name of the criteria.</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">operator</td>
-          <td style="text-align: left">the criteria operator.</td>
-          <td style="text-align: left"><a href="#MetricCriteria_Operator">MetricCriteria_Operator</a><br/><small>Required</small></td>
+          <td>operator</td>
+          <td>the criteria operator.</td>
+          <td><a href="#MetricCriteria_Operator">MetricCriteria_Operator</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">skipMetricValidation</td>
-          <td style="text-align: left">Allows creating an alert rule on a custom metric that isn&rsquo;t yet emitted, by causing the metric validation to be skipped.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>skipMetricValidation</td>
+          <td>Allows creating an alert rule on a custom metric that isn&rsquo;t yet emitted, by causing the metric validation to be skipped.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">threshold</td>
-          <td style="text-align: left">the criteria threshold value that activates the alert.</td>
-          <td style="text-align: left">float64<br/><small>Required</small></td>
+          <td>threshold</td>
+          <td>the criteria threshold value that activates the alert.</td>
+          <td>float64<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">timeAggregation</td>
-          <td style="text-align: left">the criteria time aggregation types.</td>
-          <td style="text-align: left"><a href="#MetricCriteria_TimeAggregation">MetricCriteria_TimeAggregation</a><br/><small>Required</small></td>
+          <td>timeAggregation</td>
+          <td>the criteria time aggregation types.</td>
+          <td><a href="#MetricCriteria_TimeAggregation">MetricCriteria_TimeAggregation</a><br/><small>Required</small></td>
       </tr>
   </tbody>
 </table>
@@ -1814,61 +1808,61 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_Spe
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">additionalProperties</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">map[string]v1.JSON<br/><small>Optional</small></td>
+          <td>additionalProperties</td>
+          <td></td>
+          <td>map[string]v1.JSON<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">criterionType</td>
-          <td style="text-align: left">Specifies the type of threshold criteria</td>
-          <td style="text-align: left"><a href="#MetricCriteria_CriterionType_STATUS">MetricCriteria_CriterionType_STATUS</a><br/><small>Optional</small></td>
+          <td>criterionType</td>
+          <td>Specifies the type of threshold criteria</td>
+          <td><a href="#MetricCriteria_CriterionType_STATUS">MetricCriteria_CriterionType_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">dimensions</td>
-          <td style="text-align: left">List of dimension conditions.</td>
-          <td style="text-align: left"><a href="#MetricDimension_STATUS">MetricDimension_STATUS[]</a><br/><small>Optional</small></td>
+          <td>dimensions</td>
+          <td>List of dimension conditions.</td>
+          <td><a href="#MetricDimension_STATUS">MetricDimension_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">metricName</td>
-          <td style="text-align: left">Name of the metric.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>metricName</td>
+          <td>Name of the metric.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">metricNamespace</td>
-          <td style="text-align: left">Namespace of the metric.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>metricNamespace</td>
+          <td>Namespace of the metric.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">name</td>
-          <td style="text-align: left">Name of the criteria.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>name</td>
+          <td>Name of the criteria.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">operator</td>
-          <td style="text-align: left">the criteria operator.</td>
-          <td style="text-align: left"><a href="#MetricCriteria_Operator_STATUS">MetricCriteria_Operator_STATUS</a><br/><small>Optional</small></td>
+          <td>operator</td>
+          <td>the criteria operator.</td>
+          <td><a href="#MetricCriteria_Operator_STATUS">MetricCriteria_Operator_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">skipMetricValidation</td>
-          <td style="text-align: left">Allows creating an alert rule on a custom metric that isn&rsquo;t yet emitted, by causing the metric validation to be skipped.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>skipMetricValidation</td>
+          <td>Allows creating an alert rule on a custom metric that isn&rsquo;t yet emitted, by causing the metric validation to be skipped.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">threshold</td>
-          <td style="text-align: left">the criteria threshold value that activates the alert.</td>
-          <td style="text-align: left">float64<br/><small>Optional</small></td>
+          <td>threshold</td>
+          <td>the criteria threshold value that activates the alert.</td>
+          <td>float64<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">timeAggregation</td>
-          <td style="text-align: left">the criteria time aggregation types.</td>
-          <td style="text-align: left"><a href="#MetricCriteria_TimeAggregation_STATUS">MetricCriteria_TimeAggregation_STATUS</a><br/><small>Optional</small></td>
+          <td>timeAggregation</td>
+          <td>the criteria time aggregation types.</td>
+          <td><a href="#MetricCriteria_TimeAggregation_STATUS">MetricCriteria_TimeAggregation_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1877,21 +1871,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_Spe
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">dynamicThresholdCriterion</td>
-          <td style="text-align: left">Mutually exclusive with all other properties</td>
-          <td style="text-align: left"><a href="#DynamicMetricCriteria">DynamicMetricCriteria</a><br/><small>Optional</small></td>
+          <td>dynamicThresholdCriterion</td>
+          <td>Mutually exclusive with all other properties</td>
+          <td><a href="#DynamicMetricCriteria">DynamicMetricCriteria</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">staticThresholdCriterion</td>
-          <td style="text-align: left">Mutually exclusive with all other properties</td>
-          <td style="text-align: left"><a href="#MetricCriteria">MetricCriteria</a><br/><small>Optional</small></td>
+          <td>staticThresholdCriterion</td>
+          <td>Mutually exclusive with all other properties</td>
+          <td><a href="#MetricCriteria">MetricCriteria</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1900,21 +1894,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_Spe
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">dynamicThresholdCriterion</td>
-          <td style="text-align: left">Mutually exclusive with all other properties</td>
-          <td style="text-align: left"><a href="#DynamicMetricCriteria_STATUS">DynamicMetricCriteria_STATUS</a><br/><small>Optional</small></td>
+          <td>dynamicThresholdCriterion</td>
+          <td>Mutually exclusive with all other properties</td>
+          <td><a href="#DynamicMetricCriteria_STATUS">DynamicMetricCriteria_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">staticThresholdCriterion</td>
-          <td style="text-align: left">Mutually exclusive with all other properties</td>
-          <td style="text-align: left"><a href="#MetricCriteria_STATUS">MetricCriteria_STATUS</a><br/><small>Optional</small></td>
+          <td>staticThresholdCriterion</td>
+          <td>Mutually exclusive with all other properties</td>
+          <td><a href="#MetricCriteria_STATUS">MetricCriteria_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1923,14 +1917,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_Spe
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Microsoft.Azure.Monitor.WebtestLocationAvailabilityCriteria&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Microsoft.Azure.Monitor.WebtestLocationAvailabilityCriteria&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -1939,14 +1933,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_Spe
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Microsoft.Azure.Monitor.WebtestLocationAvailabilityCriteria&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Microsoft.Azure.Monitor.WebtestLocationAvailabilityCriteria&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -1955,71 +1949,71 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_Spe
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">additionalProperties</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">map[string]v1.JSON<br/><small>Optional</small></td>
+          <td>additionalProperties</td>
+          <td></td>
+          <td>map[string]v1.JSON<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">alertSensitivity</td>
-          <td style="text-align: left">The extent of deviation required to trigger an alert. This will affect how tight the threshold is to the metric series pattern.</td>
-          <td style="text-align: left"><a href="#DynamicMetricCriteria_AlertSensitivity">DynamicMetricCriteria_AlertSensitivity</a><br/><small>Required</small></td>
+          <td>alertSensitivity</td>
+          <td>The extent of deviation required to trigger an alert. This will affect how tight the threshold is to the metric series pattern.</td>
+          <td><a href="#DynamicMetricCriteria_AlertSensitivity">DynamicMetricCriteria_AlertSensitivity</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">criterionType</td>
-          <td style="text-align: left">Specifies the type of threshold criteria</td>
-          <td style="text-align: left"><a href="#DynamicMetricCriteria_CriterionType">DynamicMetricCriteria_CriterionType</a><br/><small>Required</small></td>
+          <td>criterionType</td>
+          <td>Specifies the type of threshold criteria</td>
+          <td><a href="#DynamicMetricCriteria_CriterionType">DynamicMetricCriteria_CriterionType</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">dimensions</td>
-          <td style="text-align: left">List of dimension conditions.</td>
-          <td style="text-align: left"><a href="#MetricDimension">MetricDimension[]</a><br/><small>Optional</small></td>
+          <td>dimensions</td>
+          <td>List of dimension conditions.</td>
+          <td><a href="#MetricDimension">MetricDimension[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">failingPeriods</td>
-          <td style="text-align: left">The minimum number of violations required within the selected lookback time window required to raise an alert.</td>
-          <td style="text-align: left"><a href="#DynamicThresholdFailingPeriods">DynamicThresholdFailingPeriods</a><br/><small>Required</small></td>
+          <td>failingPeriods</td>
+          <td>The minimum number of violations required within the selected lookback time window required to raise an alert.</td>
+          <td><a href="#DynamicThresholdFailingPeriods">DynamicThresholdFailingPeriods</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">ignoreDataBefore</td>
-          <td style="text-align: left">Use this option to set the date from which to start learning the metric historical data and calculate the dynamic thresholds (in ISO8601 format)</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>ignoreDataBefore</td>
+          <td>Use this option to set the date from which to start learning the metric historical data and calculate the dynamic thresholds (in ISO8601 format)</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">metricName</td>
-          <td style="text-align: left">Name of the metric.</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>metricName</td>
+          <td>Name of the metric.</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">metricNamespace</td>
-          <td style="text-align: left">Namespace of the metric.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>metricNamespace</td>
+          <td>Namespace of the metric.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">name</td>
-          <td style="text-align: left">Name of the criteria.</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>name</td>
+          <td>Name of the criteria.</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">operator</td>
-          <td style="text-align: left">The operator used to compare the metric value against the threshold.</td>
-          <td style="text-align: left"><a href="#DynamicMetricCriteria_Operator">DynamicMetricCriteria_Operator</a><br/><small>Required</small></td>
+          <td>operator</td>
+          <td>The operator used to compare the metric value against the threshold.</td>
+          <td><a href="#DynamicMetricCriteria_Operator">DynamicMetricCriteria_Operator</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">skipMetricValidation</td>
-          <td style="text-align: left">Allows creating an alert rule on a custom metric that isn&rsquo;t yet emitted, by causing the metric validation to be skipped.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>skipMetricValidation</td>
+          <td>Allows creating an alert rule on a custom metric that isn&rsquo;t yet emitted, by causing the metric validation to be skipped.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">timeAggregation</td>
-          <td style="text-align: left">the criteria time aggregation types.</td>
-          <td style="text-align: left"><a href="#DynamicMetricCriteria_TimeAggregation">DynamicMetricCriteria_TimeAggregation</a><br/><small>Required</small></td>
+          <td>timeAggregation</td>
+          <td>the criteria time aggregation types.</td>
+          <td><a href="#DynamicMetricCriteria_TimeAggregation">DynamicMetricCriteria_TimeAggregation</a><br/><small>Required</small></td>
       </tr>
   </tbody>
 </table>
@@ -2028,71 +2022,71 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_Spe
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">additionalProperties</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">map[string]v1.JSON<br/><small>Optional</small></td>
+          <td>additionalProperties</td>
+          <td></td>
+          <td>map[string]v1.JSON<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">alertSensitivity</td>
-          <td style="text-align: left">The extent of deviation required to trigger an alert. This will affect how tight the threshold is to the metric series pattern.</td>
-          <td style="text-align: left"><a href="#DynamicMetricCriteria_AlertSensitivity_STATUS">DynamicMetricCriteria_AlertSensitivity_STATUS</a><br/><small>Optional</small></td>
+          <td>alertSensitivity</td>
+          <td>The extent of deviation required to trigger an alert. This will affect how tight the threshold is to the metric series pattern.</td>
+          <td><a href="#DynamicMetricCriteria_AlertSensitivity_STATUS">DynamicMetricCriteria_AlertSensitivity_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">criterionType</td>
-          <td style="text-align: left">Specifies the type of threshold criteria</td>
-          <td style="text-align: left"><a href="#DynamicMetricCriteria_CriterionType_STATUS">DynamicMetricCriteria_CriterionType_STATUS</a><br/><small>Optional</small></td>
+          <td>criterionType</td>
+          <td>Specifies the type of threshold criteria</td>
+          <td><a href="#DynamicMetricCriteria_CriterionType_STATUS">DynamicMetricCriteria_CriterionType_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">dimensions</td>
-          <td style="text-align: left">List of dimension conditions.</td>
-          <td style="text-align: left"><a href="#MetricDimension_STATUS">MetricDimension_STATUS[]</a><br/><small>Optional</small></td>
+          <td>dimensions</td>
+          <td>List of dimension conditions.</td>
+          <td><a href="#MetricDimension_STATUS">MetricDimension_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">failingPeriods</td>
-          <td style="text-align: left">The minimum number of violations required within the selected lookback time window required to raise an alert.</td>
-          <td style="text-align: left"><a href="#DynamicThresholdFailingPeriods_STATUS">DynamicThresholdFailingPeriods_STATUS</a><br/><small>Optional</small></td>
+          <td>failingPeriods</td>
+          <td>The minimum number of violations required within the selected lookback time window required to raise an alert.</td>
+          <td><a href="#DynamicThresholdFailingPeriods_STATUS">DynamicThresholdFailingPeriods_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">ignoreDataBefore</td>
-          <td style="text-align: left">Use this option to set the date from which to start learning the metric historical data and calculate the dynamic thresholds (in ISO8601 format)</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>ignoreDataBefore</td>
+          <td>Use this option to set the date from which to start learning the metric historical data and calculate the dynamic thresholds (in ISO8601 format)</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">metricName</td>
-          <td style="text-align: left">Name of the metric.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>metricName</td>
+          <td>Name of the metric.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">metricNamespace</td>
-          <td style="text-align: left">Namespace of the metric.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>metricNamespace</td>
+          <td>Namespace of the metric.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">name</td>
-          <td style="text-align: left">Name of the criteria.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>name</td>
+          <td>Name of the criteria.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">operator</td>
-          <td style="text-align: left">The operator used to compare the metric value against the threshold.</td>
-          <td style="text-align: left"><a href="#DynamicMetricCriteria_Operator_STATUS">DynamicMetricCriteria_Operator_STATUS</a><br/><small>Optional</small></td>
+          <td>operator</td>
+          <td>The operator used to compare the metric value against the threshold.</td>
+          <td><a href="#DynamicMetricCriteria_Operator_STATUS">DynamicMetricCriteria_Operator_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">skipMetricValidation</td>
-          <td style="text-align: left">Allows creating an alert rule on a custom metric that isn&rsquo;t yet emitted, by causing the metric validation to be skipped.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>skipMetricValidation</td>
+          <td>Allows creating an alert rule on a custom metric that isn&rsquo;t yet emitted, by causing the metric validation to be skipped.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">timeAggregation</td>
-          <td style="text-align: left">the criteria time aggregation types.</td>
-          <td style="text-align: left"><a href="#DynamicMetricCriteria_TimeAggregation_STATUS">DynamicMetricCriteria_TimeAggregation_STATUS</a><br/><small>Optional</small></td>
+          <td>timeAggregation</td>
+          <td>the criteria time aggregation types.</td>
+          <td><a href="#DynamicMetricCriteria_TimeAggregation_STATUS">DynamicMetricCriteria_TimeAggregation_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -2101,14 +2095,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_Spe
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;StaticThresholdCriterion&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;StaticThresholdCriterion&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2117,14 +2111,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_Spe
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;StaticThresholdCriterion&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;StaticThresholdCriterion&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2133,30 +2127,30 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_Spe
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Equals&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Equals&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;GreaterThan&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;GreaterThan&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;GreaterThanOrEqual&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;GreaterThanOrEqual&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;LessThan&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;LessThan&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;LessThanOrEqual&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;LessThanOrEqual&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2165,30 +2159,30 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_Spe
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Equals&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Equals&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;GreaterThan&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;GreaterThan&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;GreaterThanOrEqual&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;GreaterThanOrEqual&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;LessThan&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;LessThan&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;LessThanOrEqual&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;LessThanOrEqual&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2197,30 +2191,30 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_Spe
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Average&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Average&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Count&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Count&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Maximum&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Maximum&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Minimum&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Minimum&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Total&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Total&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2229,30 +2223,30 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_Spe
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Average&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Average&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Count&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Count&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Maximum&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Maximum&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Minimum&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Minimum&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Total&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Total&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2262,26 +2256,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_Spe
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">name</td>
-          <td style="text-align: left">Name of the dimension.</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>name</td>
+          <td>Name of the dimension.</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">operator</td>
-          <td style="text-align: left">the dimension operator. Only &lsquo;Include&rsquo; and &lsquo;Exclude&rsquo; are supported</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>operator</td>
+          <td>the dimension operator. Only &lsquo;Include&rsquo; and &lsquo;Exclude&rsquo; are supported</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">values</td>
-          <td style="text-align: left">list of dimension values.</td>
-          <td style="text-align: left">string[]<br/><small>Required</small></td>
+          <td>values</td>
+          <td>list of dimension values.</td>
+          <td>string[]<br/><small>Required</small></td>
       </tr>
   </tbody>
 </table>
@@ -2291,26 +2285,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_Spe
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">name</td>
-          <td style="text-align: left">Name of the dimension.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>name</td>
+          <td>Name of the dimension.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">operator</td>
-          <td style="text-align: left">the dimension operator. Only &lsquo;Include&rsquo; and &lsquo;Exclude&rsquo; are supported</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>operator</td>
+          <td>the dimension operator. Only &lsquo;Include&rsquo; and &lsquo;Exclude&rsquo; are supported</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">values</td>
-          <td style="text-align: left">list of dimension values.</td>
-          <td style="text-align: left">string[]<br/><small>Optional</small></td>
+          <td>values</td>
+          <td>list of dimension values.</td>
+          <td>string[]<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -2319,22 +2313,22 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_Spe
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;High&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;High&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Low&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Low&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Medium&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Medium&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2343,22 +2337,22 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_Spe
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;High&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;High&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Low&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Low&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Medium&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Medium&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2367,14 +2361,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_Spe
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;DynamicThresholdCriterion&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;DynamicThresholdCriterion&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2383,14 +2377,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_Spe
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;DynamicThresholdCriterion&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;DynamicThresholdCriterion&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2399,22 +2393,22 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_Spe
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;GreaterOrLessThan&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;GreaterOrLessThan&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;GreaterThan&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;GreaterThan&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;LessThan&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;LessThan&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2423,22 +2417,22 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_Spe
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;GreaterOrLessThan&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;GreaterOrLessThan&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;GreaterThan&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;GreaterThan&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;LessThan&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;LessThan&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2447,30 +2441,30 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_Spe
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Average&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Average&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Count&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Count&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Maximum&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Maximum&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Minimum&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Minimum&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Total&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Total&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2479,30 +2473,30 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_Spe
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Average&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Average&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Count&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Count&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Maximum&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Maximum&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Minimum&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Minimum&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Total&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Total&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2512,21 +2506,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_Spe
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">minFailingPeriodsToAlert</td>
-          <td style="text-align: left">The number of violations to trigger an alert. Should be smaller or equal to numberOfEvaluationPeriods.</td>
-          <td style="text-align: left">float64<br/><small>Required</small></td>
+          <td>minFailingPeriodsToAlert</td>
+          <td>The number of violations to trigger an alert. Should be smaller or equal to numberOfEvaluationPeriods.</td>
+          <td>float64<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">numberOfEvaluationPeriods</td>
-          <td style="text-align: left">The number of aggregated lookback points. The lookback time window is calculated based on the aggregation granularity (windowSize) and the selected number of aggregated points.</td>
-          <td style="text-align: left">float64<br/><small>Required</small></td>
+          <td>numberOfEvaluationPeriods</td>
+          <td>The number of aggregated lookback points. The lookback time window is calculated based on the aggregation granularity (windowSize) and the selected number of aggregated points.</td>
+          <td>float64<br/><small>Required</small></td>
       </tr>
   </tbody>
 </table>
@@ -2536,21 +2530,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_Spe
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">minFailingPeriodsToAlert</td>
-          <td style="text-align: left">The number of violations to trigger an alert. Should be smaller or equal to numberOfEvaluationPeriods.</td>
-          <td style="text-align: left">float64<br/><small>Optional</small></td>
+          <td>minFailingPeriodsToAlert</td>
+          <td>The number of violations to trigger an alert. Should be smaller or equal to numberOfEvaluationPeriods.</td>
+          <td>float64<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">numberOfEvaluationPeriods</td>
-          <td style="text-align: left">The number of aggregated lookback points. The lookback time window is calculated based on the aggregation granularity (windowSize) and the selected number of aggregated points.</td>
-          <td style="text-align: left">float64<br/><small>Optional</small></td>
+          <td>numberOfEvaluationPeriods</td>
+          <td>The number of aggregated lookback points. The lookback time window is calculated based on the aggregation granularity (windowSize) and the selected number of aggregated points.</td>
+          <td>float64<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -2588,7 +2582,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MetricAlert_Spe
 </footer>
 
     </div>
-    <script src="/azure-service-operator/js/main.min.0a5a30b73411b7a841784b6f4d46f4e0b1b95d576fa3cadd81db9d5ae468e8c2.js" integrity="sha256-ClowtzQRt6hBeEtvTUb04LG5XVdvo8rdgdudWuRo6MI=" crossorigin="anonymous"></script>
+    <script src="/azure-service-operator/js/main.min.4096f09e0b199950620fc06165ef2a2791e1bee9067e27b14c4a54f02c0e33bd.js" integrity="sha256-QJbwngsZmVBiD8BhZe8qJ5HhvukGfiexTEpU8CwOM70=" crossorigin="anonymous"></script>
 <script defer src="/azure-service-operator/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/azure-service-operator/js/tabpane-persist.js'></script>
 

@@ -19,7 +19,8 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>2025-01: Improving ARM References | Azure Service Operator</title>
-<meta name="description" content="Powerful, extensible, and feature-packed frontend toolkit. Build and customize with Sass, utilize prebuilt grid system and components, and bring projects to life with powerful JavaScript plugins.">
+<meta name="description" content="Context Many Azure Resource Manager (ARM) resources have references to other resources. When working with ARM Templates or Bison, these are almost universally handled as simple strings containing a fully qualified ARM reference.
+As a part of importing resources into Azure Service Operator (ASO), we modify these properties into formal resource references allowing them to contain either an ARM resource Id, or the GVK of a resource within the cluster.">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/design/adr-2025-01-arm-references/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="2025-01: Improving ARM References">
@@ -36,13 +37,8 @@ As a part of importing resources into Azure Service Operator (ASO), we modify th
   <meta name="twitter:title" content="2025-01: Improving ARM References">
   <meta name="twitter:description" content="Context Many Azure Resource Manager (ARM) resources have references to other resources. When working with ARM Templates or Bison, these are almost universally handled as simple strings containing a fully qualified ARM reference.
 As a part of importing resources into Azure Service Operator (ASO), we modify these properties into formal resource references allowing them to contain either an ARM resource Id, or the GVK of a resource within the cluster.">
-
-
-
-
-<link rel="preload" href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" as="style">
-<link href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" rel="stylesheet" integrity="">
-
+<link rel="preload" href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" as="style" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
+<link href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" rel="stylesheet" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -839,7 +835,6 @@ As a part of importing resources into Azure Service Operator (ASO), we modify th
     2025-01: Improving ARM References</li>
   </ol>
 </nav>
-            
 <div class="td-content">
 	<h1>2025-01: Improving ARM References</h1>
   
@@ -886,46 +881,45 @@ As a part of importing resources into Azure Service Operator (ASO), we modify th
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Group</th>
-          <th style="text-align: left">Version</th>
-          <th style="text-align: left">Kind</th>
-          <th style="text-align: left">Property</th>
+          <th>Group</th>
+          <th>Version</th>
+          <th>Kind</th>
+          <th>Property</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">authorization</td>
-          <td style="text-align: left">v1api20200801preview</td>
-          <td style="text-align: left">RoleAssignmentProperties</td>
-          <td style="text-align: left">DelegatedManagedIdentityResourceId</td>
+          <td>authorization</td>
+          <td>v1api20200801preview</td>
+          <td>RoleAssignmentProperties</td>
+          <td>DelegatedManagedIdentityResourceId</td>
       </tr>
       <tr>
-          <td style="text-align: left">authorization</td>
-          <td style="text-align: left">v1api20220401</td>
-          <td style="text-align: left">RoleAssignmentProperties</td>
-          <td style="text-align: left">DelegatedManagedIdentityResourceId</td>
+          <td>authorization</td>
+          <td>v1api20220401</td>
+          <td>RoleAssignmentProperties</td>
+          <td>DelegatedManagedIdentityResourceId</td>
       </tr>
       <tr>
-          <td style="text-align: left">dbformysql</td>
-          <td style="text-align: left">v1api20210501</td>
-          <td style="text-align: left">ServerProperties</td>
-          <td style="text-align: left">SourceServerResourceId</td>
+          <td>dbformysql</td>
+          <td>v1api20210501</td>
+          <td>ServerProperties</td>
+          <td>SourceServerResourceId</td>
       </tr>
       <tr>
-          <td style="text-align: left">machinelearningservices</td>
-          <td style="text-align: left">v1api20210701</td>
-          <td style="text-align: left">IdentityForCmk</td>
-          <td style="text-align: left">UserAssignedIdentity</td>
+          <td>machinelearningservices</td>
+          <td>v1api20210701</td>
+          <td>IdentityForCmk</td>
+          <td>UserAssignedIdentity</td>
       </tr>
       <tr>
-          <td style="text-align: left">machinelearningservices</td>
-          <td style="text-align: left">v1api20210701</td>
-          <td style="text-align: left">KeyVaultProperties</td>
-          <td style="text-align: left">KeyVaultArmId</td>
+          <td>machinelearningservices</td>
+          <td>v1api20210701</td>
+          <td>KeyVaultProperties</td>
+          <td>KeyVaultArmId</td>
       </tr>
   </tbody>
-</table>
-</blockquote>
+</table></blockquote>
 <p>For some of these, we were able to <em>patch</em> the problem by importing a newer version of the resource and adding conversion code to translate between the old and new versions. Users of the newer version of the resource would then see the correct property types, while users of the old version are stuck with the incorrect types.</p>
 <p>However, we cannot apply this workaround when there is no newer version of the resource available - as has occurred with the <code>authorization</code> group, where the latest version is v1api20220401.</p>
 <p>Other examples</p>
@@ -1021,8 +1015,8 @@ As a part of importing resources into Azure Service Operator (ASO), we modify th
 </span></span></code></pre></div><p>This handles the <em>Missed ARM References</em> problem by allowing us to retain the existing property while introducing the corrected property side-by-side.</p>
 <p>In the <code>RoleAssignment</code> case, we&rsquo;d specify <code>$referenceType: arm+alias</code> to get:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">RoleAssignment_Spec</span> <span style="color:#66d9ef">struct</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ... elided ...
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">roleDefinitionReference</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">genruntime</span>.<span style="color:#a6e22e">AliasResourceReference</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ... elided ...</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">roleDefinitionReference</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">genruntime</span>.<span style="color:#a6e22e">AliasResourceReference</span>
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><ul>
 <li>PRO: Great YAML structure for end users.</li>
@@ -1057,7 +1051,7 @@ As a part of importing resources into Azure Service Operator (ASO), we modify th
 <h2 id="references">References</h2>
 <p>None</p>
 
-  <div class="section-index">
+	<div class="section-index">
     
     
     </div>
@@ -1092,7 +1086,7 @@ As a part of importing resources into Azure Service Operator (ASO), we modify th
 </footer>
 
     </div>
-    <script src="/azure-service-operator/js/main.min.0a5a30b73411b7a841784b6f4d46f4e0b1b95d576fa3cadd81db9d5ae468e8c2.js" integrity="sha256-ClowtzQRt6hBeEtvTUb04LG5XVdvo8rdgdudWuRo6MI=" crossorigin="anonymous"></script>
+    <script src="/azure-service-operator/js/main.min.4096f09e0b199950620fc06165ef2a2791e1bee9067e27b14c4a54f02c0e33bd.js" integrity="sha256-QJbwngsZmVBiD8BhZe8qJ5HhvukGfiexTEpU8CwOM70=" crossorigin="anonymous"></script>
 <script defer src="/azure-service-operator/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/azure-service-operator/js/tabpane-persist.js'></script>
 

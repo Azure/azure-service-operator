@@ -19,7 +19,7 @@
 
 <title>Frequently Asked Questions | Azure Service Operator</title>
 <meta name="description" content="Project and scope Questions about the Azure Service Operator project, its vision and scope.
-What is the release cadence? We ship updates to ASO as needed, with an eye towards releasing every 1-2 months. If there are urgent fixes, a release may happen more quickly than that. If there haven&rsquo;t been any major changes (or there are ongoing major changes that are taking a long time) a release may happen more slowly. For an up-to-date plan check the milestone tracker.">
+What is the release cadence? We ship updates to ASO as needed, with an eye towards releasing every 1-2 months. If there are urgent fixes, a release may happen more quickly than that. If there haven’t been any major changes (or there are ongoing major changes that are taking a long time) a release may happen more slowly. For an up-to-date plan check the milestone tracker.">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/frequently-asked-questions/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="Frequently Asked Questions">
@@ -37,13 +37,8 @@ What is the release cadence? We ship updates to ASO as needed, with an eye towar
   <meta name="twitter:title" content="Frequently Asked Questions">
   <meta name="twitter:description" content="Project and scope Questions about the Azure Service Operator project, its vision and scope.
 What is the release cadence? We ship updates to ASO as needed, with an eye towards releasing every 1-2 months. If there are urgent fixes, a release may happen more quickly than that. If there haven’t been any major changes (or there are ongoing major changes that are taking a long time) a release may happen more slowly. For an up-to-date plan check the milestone tracker.">
-
-
-
-
-<link rel="preload" href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" as="style">
-<link href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" rel="stylesheet" integrity="">
-
+<link rel="preload" href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" as="style" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
+<link href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" rel="stylesheet" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -862,7 +857,6 @@ What is the release cadence? We ship updates to ASO as needed, with an eye towar
     FAQ</li>
   </ol>
 </nav>
-            
 <div class="td-content">
 	<h1>Frequently Asked Questions</h1>
 	
@@ -1014,31 +1008,31 @@ resources being managed. The rough formula is: <code>numResources * 60/azureSync
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">azureSyncPeriod</th>
-          <th style="text-align: left">Number of resources</th>
-          <th style="text-align: left">Requests / hour</th>
+          <th>azureSyncPeriod</th>
+          <th>Number of resources</th>
+          <th>Requests / hour</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">15m</td>
-          <td style="text-align: left">300</td>
-          <td style="text-align: left">1200</td>
+          <td>15m</td>
+          <td>300</td>
+          <td>1200</td>
       </tr>
       <tr>
-          <td style="text-align: left">15m</td>
-          <td style="text-align: left">1000</td>
-          <td style="text-align: left">4000</td>
+          <td>15m</td>
+          <td>1000</td>
+          <td>4000</td>
       </tr>
       <tr>
-          <td style="text-align: left">1h</td>
-          <td style="text-align: left">1200</td>
-          <td style="text-align: left">1200</td>
+          <td>1h</td>
+          <td>1200</td>
+          <td>1200</td>
       </tr>
       <tr>
-          <td style="text-align: left">24h</td>
-          <td style="text-align: left">28800</td>
-          <td style="text-align: left">1200</td>
+          <td>24h</td>
+          <td>28800</td>
+          <td>1200</td>
       </tr>
   </tbody>
 </table>
@@ -1088,7 +1082,7 @@ resource, ASO will automatically adopt the resource. Make sure to use the <code>
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        hs.status = &#34;Progressing&#34;
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        hs.message = &#34;Waiting for certificate&#34;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        return hs</span>    
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        return hs</span>
 </span></span></code></pre></div><h3 id="how-can-i-programmatically-use-aso">How can I programmatically use ASO?</h3>
 
 
@@ -1209,7 +1203,7 @@ alongside <code>AZURE_CLIENT_ID</code> in every pod that needs workload identity
 </footer>
 
     </div>
-    <script src="/azure-service-operator/js/main.min.0a5a30b73411b7a841784b6f4d46f4e0b1b95d576fa3cadd81db9d5ae468e8c2.js" integrity="sha256-ClowtzQRt6hBeEtvTUb04LG5XVdvo8rdgdudWuRo6MI=" crossorigin="anonymous"></script>
+    <script src="/azure-service-operator/js/main.min.4096f09e0b199950620fc06165ef2a2791e1bee9067e27b14c4a54f02c0e33bd.js" integrity="sha256-QJbwngsZmVBiD8BhZe8qJ5HhvukGfiexTEpU8CwOM70=" crossorigin="anonymous"></script>
 <script defer src="/azure-service-operator/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/azure-service-operator/js/tabpane-persist.js'></script>
 

@@ -41,13 +41,8 @@ Outstanding issues related to this topic:
   <meta name="twitter:description" content="Context It is a common ask for users to request a new value be exportable to ConfigMap, or for the values that are currently exported to a ConfigMap or Secret to be customizable in some way.
 Outstanding issues related to this topic:
 #2920: Feature: Support export of storage account connection strings. #2555: Feature: Support dynamic secret/configmap exports #3711: PublicIPPrefix: Allow exporting IP range as ConfigMap #3671: DatabaseAccount CRD: Add support to store the account Id in a config map (there may be more)">
-
-
-
-
-<link rel="preload" href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" as="style">
-<link href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" rel="stylesheet" integrity="">
-
+<link rel="preload" href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" as="style" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
+<link href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" rel="stylesheet" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -849,7 +844,6 @@ Outstanding issues related to this topic:
     2024-07: Dynamic Export to Secret or ConfigMap</li>
   </ol>
 </nav>
-            
 <div class="td-content">
 	<h1>2024-07: Dynamic Export to Secret or ConfigMap</h1>
 	
@@ -900,7 +894,7 @@ the <a href="#location">location</a>.</li>
 <p>The format of these templates is:
 <code>DefaultEndpointsProtocol=https;AccountName={{.Spec.AzureName}};AccountKey={{.Spec.OperatorSpec.Secrets.Key1}};EndpointSuffix=core.windows.net</code></p>
 <p>The Go code involved in parsing this template would look something like this:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">renderTemplate</span>(<span style="color:#a6e22e">resource</span> <span style="color:#a6e22e">any</span>, <span style="color:#a6e22e">template</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">string</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">renderTemplate</span>(<span style="color:#a6e22e">resource</span> <span style="color:#66d9ef">any</span>, <span style="color:#a6e22e">template</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">string</span> {
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">tmpl</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">template</span>.<span style="color:#a6e22e">New</span>(<span style="color:#e6db74">&#34;test&#34;</span>).<span style="color:#a6e22e">Parse</span>(<span style="color:#a6e22e">template</span>)
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> { 
 </span></span><span style="display:flex;"><span>		panic(<span style="color:#a6e22e">err</span>) 
@@ -936,25 +930,25 @@ risk in a multi-tenant environment because there&rsquo;s nothing stopping namesp
 <p>If we really wanted string interpolation we could possibly write a helper for it, see
 <a href="https://github.com/google/cel-go/blob/a555792723a2ae8d35cec381e8b222b5b20cb1d9/ext/strings.go#L468">here</a>.</p>
 <p>The Go code involved in parsing this template would look something like this:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// renderTemplate produces a variable from the given template
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">renderTemplate</span>(<span style="color:#a6e22e">resource</span> <span style="color:#a6e22e">any</span>, <span style="color:#a6e22e">template</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">string</span> {
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// The environment can be customized by providing the options cel.EnvOption to the call.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// Those options are able to disable macros, declare custom variables and functions, etc.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">env</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">cel</span>.<span style="color:#a6e22e">NewEnv</span>(
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// renderTemplate produces a variable from the given template</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">renderTemplate</span>(<span style="color:#a6e22e">resource</span> <span style="color:#66d9ef">any</span>, <span style="color:#a6e22e">template</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">string</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// The environment can be customized by providing the options cel.EnvOption to the call.</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// Those options are able to disable macros, declare custom variables and functions, etc.</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">env</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">cel</span>.<span style="color:#a6e22e">NewEnv</span>(
 </span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">ext</span>.<span style="color:#a6e22e">Strings</span>(),
 </span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">cel</span>.<span style="color:#a6e22e">Declarations</span>(
 </span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">decls</span>.<span style="color:#a6e22e">NewVar</span>(<span style="color:#e6db74">&#34;resource&#34;</span>, <span style="color:#a6e22e">decls</span>.<span style="color:#a6e22e">Dyn</span>)),
 </span></span><span style="display:flex;"><span>	)
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-</span></span><span style="display:flex;"><span>		panic(<span style="color:#a6e22e">err</span>) <span style="color:#75715e">// Simple panic-based error handling for example purposes.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	}
+</span></span><span style="display:flex;"><span>		panic(<span style="color:#a6e22e">err</span>) <span style="color:#75715e">// Simple panic-based error handling for example purposes.</span>
+</span></span><span style="display:flex;"><span>	}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">ast</span>, <span style="color:#a6e22e">iss</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">env</span>.<span style="color:#a6e22e">Compile</span>(<span style="color:#a6e22e">template</span>)
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">iss</span>.<span style="color:#a6e22e">Err</span>() <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
 </span></span><span style="display:flex;"><span>		panic(<span style="color:#a6e22e">iss</span>.<span style="color:#a6e22e">Err</span>())
 </span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// Check the output type is a string.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">reflect</span>.<span style="color:#a6e22e">DeepEqual</span>(<span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">OutputType</span>(), <span style="color:#a6e22e">cel</span>.<span style="color:#a6e22e">StringType</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// Check the output type is a string.</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">reflect</span>.<span style="color:#a6e22e">DeepEqual</span>(<span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">OutputType</span>(), <span style="color:#a6e22e">cel</span>.<span style="color:#a6e22e">StringType</span>) {
 </span></span><span style="display:flex;"><span>		panic(<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(
 </span></span><span style="display:flex;"><span>			<span style="color:#e6db74">&#34;Got %v, wanted %v output type&#34;</span>,
 </span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">OutputType</span>(), <span style="color:#a6e22e">cel</span>.<span style="color:#a6e22e">StringType</span>,
@@ -967,7 +961,7 @@ risk in a multi-tenant environment because there&rsquo;s nothing stopping namesp
 </span></span><span style="display:flex;"><span>	}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">input</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#a6e22e">any</span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">input</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">any</span>{
 </span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;resource&#34;</span>: <span style="color:#a6e22e">resource</span>,
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>	
@@ -1148,17 +1142,17 @@ but I think it might be cleaner to have a separate interface.</p>
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">ARMClient</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">genericarmclient</span>.<span style="color:#a6e22e">GenericClient</span>
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Log</span> <span style="color:#a6e22e">logr</span>.<span style="color:#a6e22e">Logger</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// Hints is the set of secrets used in the expression(s), which can be used to filter/define what 
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// if any secrets should be retrieved
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">Hints</span> <span style="color:#a6e22e">set</span>.<span style="color:#a6e22e">Set</span>[<span style="color:#66d9ef">string</span>]
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// Hints is the set of secrets used in the expression(s), which can be used to filter/define what </span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// if any secrets should be retrieved</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Hints</span> <span style="color:#a6e22e">set</span>.<span style="color:#a6e22e">Set</span>[<span style="color:#66d9ef">string</span>]
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">SecretGetter</span> <span style="color:#66d9ef">interface</span> {
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// GetSecrets retrieves the set of secrets defined by params.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// The resulting map is keyed by the secret key (== property name of operatorSpec.secrets.&lt;key&gt;)
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// which is the same as what is referenced by the user when authoring their expressions and passed in
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// via params.Hints
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">GetSecrets</span>(
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// GetSecrets retrieves the set of secrets defined by params.</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// The resulting map is keyed by the secret key (== property name of operatorSpec.secrets.&lt;key&gt;)</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// which is the same as what is referenced by the user when authoring their expressions and passed in</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// via params.Hints</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">GetSecrets</span>(
 </span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>,
 </span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">params</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">GetSecretsParameters</span>,
 </span></span><span style="display:flex;"><span>	) (<span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">string</span>, <span style="color:#66d9ef">error</span>)
@@ -1269,7 +1263,7 @@ win for something sensitive like secrets.</li>
 </footer>
 
     </div>
-    <script src="/azure-service-operator/js/main.min.0a5a30b73411b7a841784b6f4d46f4e0b1b95d576fa3cadd81db9d5ae468e8c2.js" integrity="sha256-ClowtzQRt6hBeEtvTUb04LG5XVdvo8rdgdudWuRo6MI=" crossorigin="anonymous"></script>
+    <script src="/azure-service-operator/js/main.min.4096f09e0b199950620fc06165ef2a2791e1bee9067e27b14c4a54f02c0e33bd.js" integrity="sha256-QJbwngsZmVBiD8BhZe8qJ5HhvukGfiexTEpU8CwOM70=" crossorigin="anonymous"></script>
 <script defer src="/azure-service-operator/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/azure-service-operator/js/tabpane-persist.js'></script>
 

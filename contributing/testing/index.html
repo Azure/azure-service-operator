@@ -20,7 +20,7 @@
 <title>Testing | Azure Service Operator</title>
 <meta name="description" content="Running envtest integration tests Basic use: task controller:test-integration-envtest.
 These are sometimes also called envtest tests, because they use envtest.
-Required variables Environment Variable Value Needed for CI (Github Actions) Needed for local testing AZURE_SUBSCRIPTION_ID The Azure Subscription ID Yes Yes (when recording) AZURE_TENANT_ID The Azure Tenant ID Yes Yes (when recording) TEST_BILLING_ID The Azure billing ID No Yes (when recording SubscriptionAlias tests) CODECOV_TOKEN The token to https://app.codecov.io/gh/Azure/azure-service-operator Yes No REGISTRY_LOGIN The Azure Container Registry to log in to (for az acr login &ndash;name {name}) Yes No REGISTRY_PRERELEASE The path to the container prerelease registry (right now this isn&rsquo;t used) No No REGISTRY_PUBLIC The path to the container release registry, used in &ndash;tag &ldquo;{REGISTRY_PUBLIC}/{CONTROLLER_DOCKER_IMAGE}&rdquo; No No Record/replay The task controller:test-integration-envtest runs the tests in a record/replay mode by default, so that it does not touch any live Azure resources. (This uses the go-vcr library.) If you change the controller or other code in such a way that the required requests/responses from ARM change, you will need to update the recordings.">
+Required variables Environment Variable Value Needed for CI (Github Actions) Needed for local testing AZURE_SUBSCRIPTION_ID The Azure Subscription ID Yes Yes (when recording) AZURE_TENANT_ID The Azure Tenant ID Yes Yes (when recording) TEST_BILLING_ID The Azure billing ID No Yes (when recording SubscriptionAlias tests) CODECOV_TOKEN The token to https://app.codecov.io/gh/Azure/azure-service-operator Yes No REGISTRY_LOGIN The Azure Container Registry to log in to (for az acr login –name {name}) Yes No REGISTRY_PRERELEASE The path to the container prerelease registry (right now this isn’t used) No No REGISTRY_PUBLIC The path to the container release registry, used in –tag “{REGISTRY_PUBLIC}/{CONTROLLER_DOCKER_IMAGE}” No No Record/replay The task controller:test-integration-envtest runs the tests in a record/replay mode by default, so that it does not touch any live Azure resources. (This uses the go-vcr library.) If you change the controller or other code in such a way that the required requests/responses from ARM change, you will need to update the recordings.">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/contributing/testing/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="Testing">
@@ -41,13 +41,8 @@ Required variables Environment Variable Value Needed for CI (Github Actions) Nee
   <meta name="twitter:description" content="Running envtest integration tests Basic use: task controller:test-integration-envtest.
 These are sometimes also called envtest tests, because they use envtest.
 Required variables Environment Variable Value Needed for CI (Github Actions) Needed for local testing AZURE_SUBSCRIPTION_ID The Azure Subscription ID Yes Yes (when recording) AZURE_TENANT_ID The Azure Tenant ID Yes Yes (when recording) TEST_BILLING_ID The Azure billing ID No Yes (when recording SubscriptionAlias tests) CODECOV_TOKEN The token to https://app.codecov.io/gh/Azure/azure-service-operator Yes No REGISTRY_LOGIN The Azure Container Registry to log in to (for az acr login –name {name}) Yes No REGISTRY_PRERELEASE The path to the container prerelease registry (right now this isn’t used) No No REGISTRY_PUBLIC The path to the container release registry, used in –tag “{REGISTRY_PUBLIC}/{CONTROLLER_DOCKER_IMAGE}” No No Record/replay The task controller:test-integration-envtest runs the tests in a record/replay mode by default, so that it does not touch any live Azure resources. (This uses the go-vcr library.) If you change the controller or other code in such a way that the required requests/responses from ARM change, you will need to update the recordings.">
-
-
-
-
-<link rel="preload" href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" as="style">
-<link href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" rel="stylesheet" integrity="">
-
+<link rel="preload" href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" as="style" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
+<link href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" rel="stylesheet" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -837,7 +832,6 @@ Required variables Environment Variable Value Needed for CI (Github Actions) Nee
     Testing</li>
   </ol>
 </nav>
-            
 <div class="td-content">
 	<h1>Testing</h1>
 	
@@ -852,54 +846,54 @@ Required variables Environment Variable Value Needed for CI (Github Actions) Nee
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Environment Variable</th>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Needed for CI (Github Actions)</th>
-          <th style="text-align: left">Needed for local testing</th>
+          <th>Environment Variable</th>
+          <th>Value</th>
+          <th>Needed for CI (Github Actions)</th>
+          <th>Needed for local testing</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">AZURE_SUBSCRIPTION_ID</td>
-          <td style="text-align: left">The Azure Subscription ID</td>
-          <td style="text-align: left">Yes</td>
-          <td style="text-align: left">Yes (when recording)</td>
+          <td>AZURE_SUBSCRIPTION_ID</td>
+          <td>The Azure Subscription ID</td>
+          <td>Yes</td>
+          <td>Yes (when recording)</td>
       </tr>
       <tr>
-          <td style="text-align: left">AZURE_TENANT_ID</td>
-          <td style="text-align: left">The Azure Tenant ID</td>
-          <td style="text-align: left">Yes</td>
-          <td style="text-align: left">Yes (when recording)</td>
+          <td>AZURE_TENANT_ID</td>
+          <td>The Azure Tenant ID</td>
+          <td>Yes</td>
+          <td>Yes (when recording)</td>
       </tr>
       <tr>
-          <td style="text-align: left">TEST_BILLING_ID</td>
-          <td style="text-align: left">The Azure billing ID</td>
-          <td style="text-align: left">No</td>
-          <td style="text-align: left">Yes (when recording SubscriptionAlias tests)</td>
+          <td>TEST_BILLING_ID</td>
+          <td>The Azure billing ID</td>
+          <td>No</td>
+          <td>Yes (when recording SubscriptionAlias tests)</td>
       </tr>
       <tr>
-          <td style="text-align: left">CODECOV_TOKEN</td>
-          <td style="text-align: left">The token to <a href="https://app.codecov.io/gh/Azure/azure-service-operator">https://app.codecov.io/gh/Azure/azure-service-operator</a></td>
-          <td style="text-align: left">Yes</td>
-          <td style="text-align: left">No</td>
+          <td>CODECOV_TOKEN</td>
+          <td>The token to <a href="https://app.codecov.io/gh/Azure/azure-service-operator">https://app.codecov.io/gh/Azure/azure-service-operator</a></td>
+          <td>Yes</td>
+          <td>No</td>
       </tr>
       <tr>
-          <td style="text-align: left">REGISTRY_LOGIN</td>
-          <td style="text-align: left">The Azure Container Registry to log in to (for az acr login &ndash;name {name})</td>
-          <td style="text-align: left">Yes</td>
-          <td style="text-align: left">No</td>
+          <td>REGISTRY_LOGIN</td>
+          <td>The Azure Container Registry to log in to (for az acr login &ndash;name {name})</td>
+          <td>Yes</td>
+          <td>No</td>
       </tr>
       <tr>
-          <td style="text-align: left">REGISTRY_PRERELEASE</td>
-          <td style="text-align: left">The path to the container prerelease registry (right now this isn&rsquo;t used)</td>
-          <td style="text-align: left">No</td>
-          <td style="text-align: left">No</td>
+          <td>REGISTRY_PRERELEASE</td>
+          <td>The path to the container prerelease registry (right now this isn&rsquo;t used)</td>
+          <td>No</td>
+          <td>No</td>
       </tr>
       <tr>
-          <td style="text-align: left">REGISTRY_PUBLIC</td>
-          <td style="text-align: left">The path to the container release registry, used in &ndash;tag &ldquo;{REGISTRY_PUBLIC}/{CONTROLLER_DOCKER_IMAGE}&rdquo;</td>
-          <td style="text-align: left">No</td>
-          <td style="text-align: left">No</td>
+          <td>REGISTRY_PUBLIC</td>
+          <td>The path to the container release registry, used in &ndash;tag &ldquo;{REGISTRY_PUBLIC}/{CONTROLLER_DOCKER_IMAGE}&rdquo;</td>
+          <td>No</td>
+          <td>No</td>
       </tr>
   </tbody>
 </table>
@@ -934,26 +928,26 @@ as you may just be working on a single feature or test. In order to run a subset
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Environment Variable</th>
-          <th style="text-align: left">Value</th>
+          <th>Environment Variable</th>
+          <th>Value</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">AZURE_SUBSCRIPTION_ID</td>
-          <td style="text-align: left">The Azure Subscription ID</td>
+          <td>AZURE_SUBSCRIPTION_ID</td>
+          <td>The Azure Subscription ID</td>
       </tr>
       <tr>
-          <td style="text-align: left">AZURE_TENANT_ID</td>
-          <td style="text-align: left">The Azure Tenant ID</td>
+          <td>AZURE_TENANT_ID</td>
+          <td>The Azure Tenant ID</td>
       </tr>
       <tr>
-          <td style="text-align: left">KIND_OIDC_STORAGE_ACCOUNT_RG</td>
-          <td style="text-align: left">The resource group containing the Azure storage account for OIDC federation</td>
+          <td>KIND_OIDC_STORAGE_ACCOUNT_RG</td>
+          <td>The resource group containing the Azure storage account for OIDC federation</td>
       </tr>
       <tr>
-          <td style="text-align: left">KIND_OIDC_STORAGE_ACCOUNT</td>
-          <td style="text-align: left">The Azure storage account name. Storage account names must be globally unique.</td>
+          <td>KIND_OIDC_STORAGE_ACCOUNT</td>
+          <td>The Azure storage account name. Storage account names must be globally unique.</td>
       </tr>
   </tbody>
 </table>
@@ -1008,7 +1002,7 @@ testing as well.</p>
 </footer>
 
     </div>
-    <script src="/azure-service-operator/js/main.min.0a5a30b73411b7a841784b6f4d46f4e0b1b95d576fa3cadd81db9d5ae468e8c2.js" integrity="sha256-ClowtzQRt6hBeEtvTUb04LG5XVdvo8rdgdudWuRo6MI=" crossorigin="anonymous"></script>
+    <script src="/azure-service-operator/js/main.min.4096f09e0b199950620fc06165ef2a2791e1bee9067e27b14c4a54f02c0e33bd.js" integrity="sha256-QJbwngsZmVBiD8BhZe8qJ5HhvukGfiexTEpU8CwOM70=" crossorigin="anonymous"></script>
 <script defer src="/azure-service-operator/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/azure-service-operator/js/tabpane-persist.js'></script>
 

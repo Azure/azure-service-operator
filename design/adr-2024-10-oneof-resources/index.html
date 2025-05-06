@@ -19,7 +19,9 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>2024-10 OneOf Resouces | Azure Service Operator</title>
-<meta name="description" content="Powerful, extensible, and feature-packed frontend toolkit. Build and customize with Sass, utilize prebuilt grid system and components, and bring projects to life with powerful JavaScript plugins.">
+<meta name="description" content="Context One of the core features of OpenAPI (aka Swagger) specifications is the ability to handle polymorphism by requiring a part of the structure to match one-of several possible schemas.
+Azure Service Operator (ASO) has good support for use of OneOf definitions, but during import of Kusto resources we’ve run into a problem where our approach for handling them is conflicting with other decisions we made elsewhere.
+Background: OneOf types While the OneOf structure is a really useful and expressive way to design APIs, there’s no direct equivilent in the Go type system, or in the way Kubernetes CRDs may be defined (the later likely being driven by the former).">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/design/adr-2024-10-oneof-resources/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="2024-10 OneOf Resouces">
@@ -39,13 +41,8 @@ Background: OneOf types While the OneOf structure is a really useful and express
   <meta name="twitter:description" content="Context One of the core features of OpenAPI (aka Swagger) specifications is the ability to handle polymorphism by requiring a part of the structure to match one-of several possible schemas.
 Azure Service Operator (ASO) has good support for use of OneOf definitions, but during import of Kusto resources we’ve run into a problem where our approach for handling them is conflicting with other decisions we made elsewhere.
 Background: OneOf types While the OneOf structure is a really useful and expressive way to design APIs, there’s no direct equivilent in the Go type system, or in the way Kubernetes CRDs may be defined (the later likely being driven by the former).">
-
-
-
-
-<link rel="preload" href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" as="style">
-<link href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" rel="stylesheet" integrity="">
-
+<link rel="preload" href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" as="style" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
+<link href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" rel="stylesheet" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -870,7 +867,6 @@ Background: OneOf types While the OneOf structure is a really useful and express
     2024-10 OneOf Resouces</li>
   </ol>
 </nav>
-            
 <div class="td-content">
 	<h1>2024-10 OneOf Resouces</h1>
   
@@ -1090,7 +1086,7 @@ ClustersDatabase_Spec *-- ReadOnlyFollowingDatabase</pre>
 <h2 id="references">References</h2>
 <p>None</p>
 
-  <div class="section-index">
+	<div class="section-index">
     
     
     </div>
@@ -1181,7 +1177,7 @@ ClustersDatabase_Spec *-- ReadOnlyFollowingDatabase</pre>
 
   })(jQuery);
 </script>
-<script src="/azure-service-operator/js/main.min.0a5a30b73411b7a841784b6f4d46f4e0b1b95d576fa3cadd81db9d5ae468e8c2.js" integrity="sha256-ClowtzQRt6hBeEtvTUb04LG5XVdvo8rdgdudWuRo6MI=" crossorigin="anonymous"></script>
+<script src="/azure-service-operator/js/main.min.4096f09e0b199950620fc06165ef2a2791e1bee9067e27b14c4a54f02c0e33bd.js" integrity="sha256-QJbwngsZmVBiD8BhZe8qJ5HhvukGfiexTEpU8CwOM70=" crossorigin="anonymous"></script>
 <script defer src="/azure-service-operator/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/azure-service-operator/js/tabpane-persist.js'></script>
 

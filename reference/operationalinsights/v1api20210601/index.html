@@ -18,13 +18,13 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>operationalinsights.azure.com/v1api20210601 | Azure Service Operator</title>
-<meta name="description" content=" APIVersion Value Description &ldquo;2021-06-01&rdquo; Workspace Generator information: - Generated from: /operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2021-06-01/Workspaces.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourcegroups/​{resourceGroupName}/​providers/​Microsoft.OperationalInsights/workspaces/{workspaceName}
+<meta name="description" content="APIVersion Value Description “2021-06-01” Workspace Generator information: - Generated from: /operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2021-06-01/Workspaces.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourcegroups/​{resourceGroupName}/​providers/​Microsoft.OperationalInsights/workspaces/{workspaceName}
 Used by: WorkspaceList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Workspace_SpecOptional status Workspace_STATUSOptional Workspace_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be. stringOptional etag The etag of the workspace. stringOptional features Workspace features. WorkspaceFeaturesOptional forceCmkForQuery Indicates whether customer managed storage is mandatory for query management. boolOptional location The geo-location where the resource lives stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure WorkspaceOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired provisioningState The provisioning state of the workspace. WorkspaceProperties_ProvisioningStateOptional publicNetworkAccessForIngestion The network access type for accessing Log Analytics ingestion. PublicNetworkAccessTypeOptional publicNetworkAccessForQuery The network access type for accessing Log Analytics query. PublicNetworkAccessTypeOptional retentionInDays The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers documentation for details. intOptional sku The SKU of the workspace. WorkspaceSkuOptional tags Resource tags. map[string]stringOptional workspaceCapping The daily volume cap for ingestion. WorkspaceCappingOptional Workspace_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional createdDate Workspace creation date. stringOptional customerId This is a read-only property. Represents the ID associated with the workspace. stringOptional etag The etag of the workspace. stringOptional features Workspace features. WorkspaceFeatures_STATUSOptional forceCmkForQuery Indicates whether customer managed storage is mandatory for query management. boolOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional location The geo-location where the resource lives stringOptional modifiedDate Workspace modification date. stringOptional name The name of the resource stringOptional privateLinkScopedResources List of linked private link scope resources. PrivateLinkScopedResource_STATUS[]Optional provisioningState The provisioning state of the workspace. WorkspaceProperties_ProvisioningState_STATUSOptional publicNetworkAccessForIngestion The network access type for accessing Log Analytics ingestion. PublicNetworkAccessType_STATUSOptional publicNetworkAccessForQuery The network access type for accessing Log Analytics query. PublicNetworkAccessType_STATUSOptional retentionInDays The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers documentation for details. intOptional sku The SKU of the workspace. WorkspaceSku_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo; stringOptional workspaceCapping The daily volume cap for ingestion. WorkspaceCapping_STATUSOptional WorkspaceList Generator information: - Generated from: /operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2021-06-01/Workspaces.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourcegroups/​{resourceGroupName}/​providers/​Microsoft.OperationalInsights/workspaces/{workspaceName}">
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Workspace_SpecOptional status Workspace_STATUSOptional Workspace_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional etag The etag of the workspace. stringOptional features Workspace features. WorkspaceFeaturesOptional forceCmkForQuery Indicates whether customer managed storage is mandatory for query management. boolOptional location The geo-location where the resource lives stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure WorkspaceOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired provisioningState The provisioning state of the workspace. WorkspaceProperties_ProvisioningStateOptional publicNetworkAccessForIngestion The network access type for accessing Log Analytics ingestion. PublicNetworkAccessTypeOptional publicNetworkAccessForQuery The network access type for accessing Log Analytics query. PublicNetworkAccessTypeOptional retentionInDays The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers documentation for details. intOptional sku The SKU of the workspace. WorkspaceSkuOptional tags Resource tags. map[string]stringOptional workspaceCapping The daily volume cap for ingestion. WorkspaceCappingOptional Workspace_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional createdDate Workspace creation date. stringOptional customerId This is a read-only property. Represents the ID associated with the workspace. stringOptional etag The etag of the workspace. stringOptional features Workspace features. WorkspaceFeatures_STATUSOptional forceCmkForQuery Indicates whether customer managed storage is mandatory for query management. boolOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional location The geo-location where the resource lives stringOptional modifiedDate Workspace modification date. stringOptional name The name of the resource stringOptional privateLinkScopedResources List of linked private link scope resources. PrivateLinkScopedResource_STATUS[]Optional provisioningState The provisioning state of the workspace. WorkspaceProperties_ProvisioningState_STATUSOptional publicNetworkAccessForIngestion The network access type for accessing Log Analytics ingestion. PublicNetworkAccessType_STATUSOptional publicNetworkAccessForQuery The network access type for accessing Log Analytics query. PublicNetworkAccessType_STATUSOptional retentionInDays The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers documentation for details. intOptional sku The SKU of the workspace. WorkspaceSku_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional workspaceCapping The daily volume cap for ingestion. WorkspaceCapping_STATUSOptional WorkspaceList Generator information: - Generated from: /operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2021-06-01/Workspaces.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourcegroups/​{resourceGroupName}/​providers/​Microsoft.OperationalInsights/workspaces/{workspaceName}">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/operationalinsights/v1api20210601/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="operationalinsights.azure.com/v1api20210601">
-  <meta property="og:description" content=" APIVersion Value Description “2021-06-01” Workspace Generator information: - Generated from: /operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2021-06-01/Workspaces.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourcegroups/​{resourceGroupName}/​providers/​Microsoft.OperationalInsights/workspaces/{workspaceName}
+  <meta property="og:description" content="APIVersion Value Description “2021-06-01” Workspace Generator information: - Generated from: /operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2021-06-01/Workspaces.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourcegroups/​{resourceGroupName}/​providers/​Microsoft.OperationalInsights/workspaces/{workspaceName}
 Used by: WorkspaceList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Workspace_SpecOptional status Workspace_STATUSOptional Workspace_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional etag The etag of the workspace. stringOptional features Workspace features. WorkspaceFeaturesOptional forceCmkForQuery Indicates whether customer managed storage is mandatory for query management. boolOptional location The geo-location where the resource lives stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure WorkspaceOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired provisioningState The provisioning state of the workspace. WorkspaceProperties_ProvisioningStateOptional publicNetworkAccessForIngestion The network access type for accessing Log Analytics ingestion. PublicNetworkAccessTypeOptional publicNetworkAccessForQuery The network access type for accessing Log Analytics query. PublicNetworkAccessTypeOptional retentionInDays The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers documentation for details. intOptional sku The SKU of the workspace. WorkspaceSkuOptional tags Resource tags. map[string]stringOptional workspaceCapping The daily volume cap for ingestion. WorkspaceCappingOptional Workspace_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional createdDate Workspace creation date. stringOptional customerId This is a read-only property. Represents the ID associated with the workspace. stringOptional etag The etag of the workspace. stringOptional features Workspace features. WorkspaceFeatures_STATUSOptional forceCmkForQuery Indicates whether customer managed storage is mandatory for query management. boolOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional location The geo-location where the resource lives stringOptional modifiedDate Workspace modification date. stringOptional name The name of the resource stringOptional privateLinkScopedResources List of linked private link scope resources. PrivateLinkScopedResource_STATUS[]Optional provisioningState The provisioning state of the workspace. WorkspaceProperties_ProvisioningState_STATUSOptional publicNetworkAccessForIngestion The network access type for accessing Log Analytics ingestion. PublicNetworkAccessType_STATUSOptional publicNetworkAccessForQuery The network access type for accessing Log Analytics query. PublicNetworkAccessType_STATUSOptional retentionInDays The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers documentation for details. intOptional sku The SKU of the workspace. WorkspaceSku_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional workspaceCapping The daily volume cap for ingestion. WorkspaceCapping_STATUSOptional WorkspaceList Generator information: - Generated from: /operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2021-06-01/Workspaces.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourcegroups/​{resourceGroupName}/​providers/​Microsoft.OperationalInsights/workspaces/{workspaceName}">
   <meta property="og:locale" content="en_us">
@@ -32,22 +32,17 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Workspace_SpecO
     <meta property="article:section" content="reference">
 
   <meta itemprop="name" content="operationalinsights.azure.com/v1api20210601">
-  <meta itemprop="description" content=" APIVersion Value Description “2021-06-01” Workspace Generator information: - Generated from: /operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2021-06-01/Workspaces.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourcegroups/​{resourceGroupName}/​providers/​Microsoft.OperationalInsights/workspaces/{workspaceName}
+  <meta itemprop="description" content="APIVersion Value Description “2021-06-01” Workspace Generator information: - Generated from: /operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2021-06-01/Workspaces.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourcegroups/​{resourceGroupName}/​providers/​Microsoft.OperationalInsights/workspaces/{workspaceName}
 Used by: WorkspaceList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Workspace_SpecOptional status Workspace_STATUSOptional Workspace_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional etag The etag of the workspace. stringOptional features Workspace features. WorkspaceFeaturesOptional forceCmkForQuery Indicates whether customer managed storage is mandatory for query management. boolOptional location The geo-location where the resource lives stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure WorkspaceOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired provisioningState The provisioning state of the workspace. WorkspaceProperties_ProvisioningStateOptional publicNetworkAccessForIngestion The network access type for accessing Log Analytics ingestion. PublicNetworkAccessTypeOptional publicNetworkAccessForQuery The network access type for accessing Log Analytics query. PublicNetworkAccessTypeOptional retentionInDays The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers documentation for details. intOptional sku The SKU of the workspace. WorkspaceSkuOptional tags Resource tags. map[string]stringOptional workspaceCapping The daily volume cap for ingestion. WorkspaceCappingOptional Workspace_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional createdDate Workspace creation date. stringOptional customerId This is a read-only property. Represents the ID associated with the workspace. stringOptional etag The etag of the workspace. stringOptional features Workspace features. WorkspaceFeatures_STATUSOptional forceCmkForQuery Indicates whether customer managed storage is mandatory for query management. boolOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional location The geo-location where the resource lives stringOptional modifiedDate Workspace modification date. stringOptional name The name of the resource stringOptional privateLinkScopedResources List of linked private link scope resources. PrivateLinkScopedResource_STATUS[]Optional provisioningState The provisioning state of the workspace. WorkspaceProperties_ProvisioningState_STATUSOptional publicNetworkAccessForIngestion The network access type for accessing Log Analytics ingestion. PublicNetworkAccessType_STATUSOptional publicNetworkAccessForQuery The network access type for accessing Log Analytics query. PublicNetworkAccessType_STATUSOptional retentionInDays The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers documentation for details. intOptional sku The SKU of the workspace. WorkspaceSku_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional workspaceCapping The daily volume cap for ingestion. WorkspaceCapping_STATUSOptional WorkspaceList Generator information: - Generated from: /operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2021-06-01/Workspaces.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourcegroups/​{resourceGroupName}/​providers/​Microsoft.OperationalInsights/workspaces/{workspaceName}">
   <meta itemprop="wordCount" content="1320">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="operationalinsights.azure.com/v1api20210601">
-  <meta name="twitter:description" content=" APIVersion Value Description “2021-06-01” Workspace Generator information: - Generated from: /operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2021-06-01/Workspaces.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourcegroups/​{resourceGroupName}/​providers/​Microsoft.OperationalInsights/workspaces/{workspaceName}
+  <meta name="twitter:description" content="APIVersion Value Description “2021-06-01” Workspace Generator information: - Generated from: /operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2021-06-01/Workspaces.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourcegroups/​{resourceGroupName}/​providers/​Microsoft.OperationalInsights/workspaces/{workspaceName}
 Used by: WorkspaceList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Workspace_SpecOptional status Workspace_STATUSOptional Workspace_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional etag The etag of the workspace. stringOptional features Workspace features. WorkspaceFeaturesOptional forceCmkForQuery Indicates whether customer managed storage is mandatory for query management. boolOptional location The geo-location where the resource lives stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure WorkspaceOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired provisioningState The provisioning state of the workspace. WorkspaceProperties_ProvisioningStateOptional publicNetworkAccessForIngestion The network access type for accessing Log Analytics ingestion. PublicNetworkAccessTypeOptional publicNetworkAccessForQuery The network access type for accessing Log Analytics query. PublicNetworkAccessTypeOptional retentionInDays The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers documentation for details. intOptional sku The SKU of the workspace. WorkspaceSkuOptional tags Resource tags. map[string]stringOptional workspaceCapping The daily volume cap for ingestion. WorkspaceCappingOptional Workspace_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional createdDate Workspace creation date. stringOptional customerId This is a read-only property. Represents the ID associated with the workspace. stringOptional etag The etag of the workspace. stringOptional features Workspace features. WorkspaceFeatures_STATUSOptional forceCmkForQuery Indicates whether customer managed storage is mandatory for query management. boolOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional location The geo-location where the resource lives stringOptional modifiedDate Workspace modification date. stringOptional name The name of the resource stringOptional privateLinkScopedResources List of linked private link scope resources. PrivateLinkScopedResource_STATUS[]Optional provisioningState The provisioning state of the workspace. WorkspaceProperties_ProvisioningState_STATUSOptional publicNetworkAccessForIngestion The network access type for accessing Log Analytics ingestion. PublicNetworkAccessType_STATUSOptional publicNetworkAccessForQuery The network access type for accessing Log Analytics query. PublicNetworkAccessType_STATUSOptional retentionInDays The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers documentation for details. intOptional sku The SKU of the workspace. WorkspaceSku_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional workspaceCapping The daily volume cap for ingestion. WorkspaceCapping_STATUSOptional WorkspaceList Generator information: - Generated from: /operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2021-06-01/Workspaces.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourcegroups/​{resourceGroupName}/​providers/​Microsoft.OperationalInsights/workspaces/{workspaceName}">
-
-
-
-
-<link rel="preload" href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" as="style">
-<link href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" rel="stylesheet" integrity="">
-
+<link rel="preload" href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" as="style" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
+<link href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" rel="stylesheet" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -857,7 +852,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Workspace_SpecO
     v1api20210601</li>
   </ol>
 </nav>
-            
 <div class="td-content">
 	<h1>operationalinsights.azure.com/v1api20210601</h1>
 	
@@ -869,14 +863,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Workspace_SpecO
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;2021-06-01&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;2021-06-01&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -886,31 +880,31 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Workspace_SpecO
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left"><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta">metav1.ObjectMeta</a></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta">metav1.ObjectMeta</a></td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">spec</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"><a href="#Workspace_Spec">Workspace_Spec</a><br/><small>Optional</small></td>
+          <td>spec</td>
+          <td></td>
+          <td><a href="#Workspace_Spec">Workspace_Spec</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">status</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"><a href="#Workspace_STATUS">Workspace_STATUS</a><br/><small>Optional</small></td>
+          <td>status</td>
+          <td></td>
+          <td><a href="#Workspace_STATUS">Workspace_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -918,81 +912,81 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Workspace_SpecO
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">azureName</td>
-          <td style="text-align: left">The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>azureName</td>
+          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">etag</td>
-          <td style="text-align: left">The etag of the workspace.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>etag</td>
+          <td>The etag of the workspace.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">features</td>
-          <td style="text-align: left">Workspace features.</td>
-          <td style="text-align: left"><a href="#WorkspaceFeatures">WorkspaceFeatures</a><br/><small>Optional</small></td>
+          <td>features</td>
+          <td>Workspace features.</td>
+          <td><a href="#WorkspaceFeatures">WorkspaceFeatures</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">forceCmkForQuery</td>
-          <td style="text-align: left">Indicates whether customer managed storage is mandatory for query management.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>forceCmkForQuery</td>
+          <td>Indicates whether customer managed storage is mandatory for query management.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">location</td>
-          <td style="text-align: left">The geo-location where the resource lives</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>location</td>
+          <td>The geo-location where the resource lives</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">operatorSpec</td>
-          <td style="text-align: left">The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td style="text-align: left"><a href="#WorkspaceOperatorSpec">WorkspaceOperatorSpec</a><br/><small>Optional</small></td>
+          <td>operatorSpec</td>
+          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+          <td><a href="#WorkspaceOperatorSpec">WorkspaceOperatorSpec</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">owner</td>
-          <td style="text-align: left">The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
+          <td>owner</td>
+          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">provisioningState</td>
-          <td style="text-align: left">The provisioning state of the workspace.</td>
-          <td style="text-align: left"><a href="#WorkspaceProperties_ProvisioningState">WorkspaceProperties_ProvisioningState</a><br/><small>Optional</small></td>
+          <td>provisioningState</td>
+          <td>The provisioning state of the workspace.</td>
+          <td><a href="#WorkspaceProperties_ProvisioningState">WorkspaceProperties_ProvisioningState</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">publicNetworkAccessForIngestion</td>
-          <td style="text-align: left">The network access type for accessing Log Analytics ingestion.</td>
-          <td style="text-align: left"><a href="#PublicNetworkAccessType">PublicNetworkAccessType</a><br/><small>Optional</small></td>
+          <td>publicNetworkAccessForIngestion</td>
+          <td>The network access type for accessing Log Analytics ingestion.</td>
+          <td><a href="#PublicNetworkAccessType">PublicNetworkAccessType</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">publicNetworkAccessForQuery</td>
-          <td style="text-align: left">The network access type for accessing Log Analytics query.</td>
-          <td style="text-align: left"><a href="#PublicNetworkAccessType">PublicNetworkAccessType</a><br/><small>Optional</small></td>
+          <td>publicNetworkAccessForQuery</td>
+          <td>The network access type for accessing Log Analytics query.</td>
+          <td><a href="#PublicNetworkAccessType">PublicNetworkAccessType</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">retentionInDays</td>
-          <td style="text-align: left">The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers documentation for details.</td>
-          <td style="text-align: left">int<br/><small>Optional</small></td>
+          <td>retentionInDays</td>
+          <td>The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers documentation for details.</td>
+          <td>int<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">sku</td>
-          <td style="text-align: left">The SKU of the workspace.</td>
-          <td style="text-align: left"><a href="#WorkspaceSku">WorkspaceSku</a><br/><small>Optional</small></td>
+          <td>sku</td>
+          <td>The SKU of the workspace.</td>
+          <td><a href="#WorkspaceSku">WorkspaceSku</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">tags</td>
-          <td style="text-align: left">Resource tags.</td>
-          <td style="text-align: left">map[string]string<br/><small>Optional</small></td>
+          <td>tags</td>
+          <td>Resource tags.</td>
+          <td>map[string]string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">workspaceCapping</td>
-          <td style="text-align: left">The daily volume cap for ingestion.</td>
-          <td style="text-align: left"><a href="#WorkspaceCapping">WorkspaceCapping</a><br/><small>Optional</small></td>
+          <td>workspaceCapping</td>
+          <td>The daily volume cap for ingestion.</td>
+          <td><a href="#WorkspaceCapping">WorkspaceCapping</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1000,106 +994,106 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Workspace_SpecO
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">conditions</td>
-          <td style="text-align: left">The observed state of the resource</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+          <td>conditions</td>
+          <td>The observed state of the resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">createdDate</td>
-          <td style="text-align: left">Workspace creation date.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>createdDate</td>
+          <td>Workspace creation date.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">customerId</td>
-          <td style="text-align: left">This is a read-only property. Represents the ID associated with the workspace.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>customerId</td>
+          <td>This is a read-only property. Represents the ID associated with the workspace.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">etag</td>
-          <td style="text-align: left">The etag of the workspace.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>etag</td>
+          <td>The etag of the workspace.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">features</td>
-          <td style="text-align: left">Workspace features.</td>
-          <td style="text-align: left"><a href="#WorkspaceFeatures_STATUS">WorkspaceFeatures_STATUS</a><br/><small>Optional</small></td>
+          <td>features</td>
+          <td>Workspace features.</td>
+          <td><a href="#WorkspaceFeatures_STATUS">WorkspaceFeatures_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">forceCmkForQuery</td>
-          <td style="text-align: left">Indicates whether customer managed storage is mandatory for query management.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>forceCmkForQuery</td>
+          <td>Indicates whether customer managed storage is mandatory for query management.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">id</td>
-          <td style="text-align: left">Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>id</td>
+          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">location</td>
-          <td style="text-align: left">The geo-location where the resource lives</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>location</td>
+          <td>The geo-location where the resource lives</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">modifiedDate</td>
-          <td style="text-align: left">Workspace modification date.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>modifiedDate</td>
+          <td>Workspace modification date.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">name</td>
-          <td style="text-align: left">The name of the resource</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>name</td>
+          <td>The name of the resource</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">privateLinkScopedResources</td>
-          <td style="text-align: left">List of linked private link scope resources.</td>
-          <td style="text-align: left"><a href="#PrivateLinkScopedResource_STATUS">PrivateLinkScopedResource_STATUS[]</a><br/><small>Optional</small></td>
+          <td>privateLinkScopedResources</td>
+          <td>List of linked private link scope resources.</td>
+          <td><a href="#PrivateLinkScopedResource_STATUS">PrivateLinkScopedResource_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">provisioningState</td>
-          <td style="text-align: left">The provisioning state of the workspace.</td>
-          <td style="text-align: left"><a href="#WorkspaceProperties_ProvisioningState_STATUS">WorkspaceProperties_ProvisioningState_STATUS</a><br/><small>Optional</small></td>
+          <td>provisioningState</td>
+          <td>The provisioning state of the workspace.</td>
+          <td><a href="#WorkspaceProperties_ProvisioningState_STATUS">WorkspaceProperties_ProvisioningState_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">publicNetworkAccessForIngestion</td>
-          <td style="text-align: left">The network access type for accessing Log Analytics ingestion.</td>
-          <td style="text-align: left"><a href="#PublicNetworkAccessType_STATUS">PublicNetworkAccessType_STATUS</a><br/><small>Optional</small></td>
+          <td>publicNetworkAccessForIngestion</td>
+          <td>The network access type for accessing Log Analytics ingestion.</td>
+          <td><a href="#PublicNetworkAccessType_STATUS">PublicNetworkAccessType_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">publicNetworkAccessForQuery</td>
-          <td style="text-align: left">The network access type for accessing Log Analytics query.</td>
-          <td style="text-align: left"><a href="#PublicNetworkAccessType_STATUS">PublicNetworkAccessType_STATUS</a><br/><small>Optional</small></td>
+          <td>publicNetworkAccessForQuery</td>
+          <td>The network access type for accessing Log Analytics query.</td>
+          <td><a href="#PublicNetworkAccessType_STATUS">PublicNetworkAccessType_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">retentionInDays</td>
-          <td style="text-align: left">The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers documentation for details.</td>
-          <td style="text-align: left">int<br/><small>Optional</small></td>
+          <td>retentionInDays</td>
+          <td>The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers documentation for details.</td>
+          <td>int<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">sku</td>
-          <td style="text-align: left">The SKU of the workspace.</td>
-          <td style="text-align: left"><a href="#WorkspaceSku_STATUS">WorkspaceSku_STATUS</a><br/><small>Optional</small></td>
+          <td>sku</td>
+          <td>The SKU of the workspace.</td>
+          <td><a href="#WorkspaceSku_STATUS">WorkspaceSku_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">tags</td>
-          <td style="text-align: left">Resource tags.</td>
-          <td style="text-align: left">map[string]string<br/><small>Optional</small></td>
+          <td>tags</td>
+          <td>Resource tags.</td>
+          <td>map[string]string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">type</td>
-          <td style="text-align: left">The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>type</td>
+          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">workspaceCapping</td>
-          <td style="text-align: left">The daily volume cap for ingestion.</td>
-          <td style="text-align: left"><a href="#WorkspaceCapping_STATUS">WorkspaceCapping_STATUS</a><br/><small>Optional</small></td>
+          <td>workspaceCapping</td>
+          <td>The daily volume cap for ingestion.</td>
+          <td><a href="#WorkspaceCapping_STATUS">WorkspaceCapping_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1108,26 +1102,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Workspace_SpecO
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left"><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta">metav1.ListMeta</a></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta">metav1.ListMeta</a></td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">items</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"><a href="#Workspace">Workspace[]</a><br/><small>Optional</small></td>
+          <td>items</td>
+          <td></td>
+          <td><a href="#Workspace">Workspace[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1136,81 +1130,81 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Workspace_SpecO
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">azureName</td>
-          <td style="text-align: left">The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>azureName</td>
+          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">etag</td>
-          <td style="text-align: left">The etag of the workspace.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>etag</td>
+          <td>The etag of the workspace.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">features</td>
-          <td style="text-align: left">Workspace features.</td>
-          <td style="text-align: left"><a href="#WorkspaceFeatures">WorkspaceFeatures</a><br/><small>Optional</small></td>
+          <td>features</td>
+          <td>Workspace features.</td>
+          <td><a href="#WorkspaceFeatures">WorkspaceFeatures</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">forceCmkForQuery</td>
-          <td style="text-align: left">Indicates whether customer managed storage is mandatory for query management.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>forceCmkForQuery</td>
+          <td>Indicates whether customer managed storage is mandatory for query management.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">location</td>
-          <td style="text-align: left">The geo-location where the resource lives</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>location</td>
+          <td>The geo-location where the resource lives</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">operatorSpec</td>
-          <td style="text-align: left">The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td style="text-align: left"><a href="#WorkspaceOperatorSpec">WorkspaceOperatorSpec</a><br/><small>Optional</small></td>
+          <td>operatorSpec</td>
+          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+          <td><a href="#WorkspaceOperatorSpec">WorkspaceOperatorSpec</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">owner</td>
-          <td style="text-align: left">The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
+          <td>owner</td>
+          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">provisioningState</td>
-          <td style="text-align: left">The provisioning state of the workspace.</td>
-          <td style="text-align: left"><a href="#WorkspaceProperties_ProvisioningState">WorkspaceProperties_ProvisioningState</a><br/><small>Optional</small></td>
+          <td>provisioningState</td>
+          <td>The provisioning state of the workspace.</td>
+          <td><a href="#WorkspaceProperties_ProvisioningState">WorkspaceProperties_ProvisioningState</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">publicNetworkAccessForIngestion</td>
-          <td style="text-align: left">The network access type for accessing Log Analytics ingestion.</td>
-          <td style="text-align: left"><a href="#PublicNetworkAccessType">PublicNetworkAccessType</a><br/><small>Optional</small></td>
+          <td>publicNetworkAccessForIngestion</td>
+          <td>The network access type for accessing Log Analytics ingestion.</td>
+          <td><a href="#PublicNetworkAccessType">PublicNetworkAccessType</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">publicNetworkAccessForQuery</td>
-          <td style="text-align: left">The network access type for accessing Log Analytics query.</td>
-          <td style="text-align: left"><a href="#PublicNetworkAccessType">PublicNetworkAccessType</a><br/><small>Optional</small></td>
+          <td>publicNetworkAccessForQuery</td>
+          <td>The network access type for accessing Log Analytics query.</td>
+          <td><a href="#PublicNetworkAccessType">PublicNetworkAccessType</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">retentionInDays</td>
-          <td style="text-align: left">The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers documentation for details.</td>
-          <td style="text-align: left">int<br/><small>Optional</small></td>
+          <td>retentionInDays</td>
+          <td>The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers documentation for details.</td>
+          <td>int<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">sku</td>
-          <td style="text-align: left">The SKU of the workspace.</td>
-          <td style="text-align: left"><a href="#WorkspaceSku">WorkspaceSku</a><br/><small>Optional</small></td>
+          <td>sku</td>
+          <td>The SKU of the workspace.</td>
+          <td><a href="#WorkspaceSku">WorkspaceSku</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">tags</td>
-          <td style="text-align: left">Resource tags.</td>
-          <td style="text-align: left">map[string]string<br/><small>Optional</small></td>
+          <td>tags</td>
+          <td>Resource tags.</td>
+          <td>map[string]string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">workspaceCapping</td>
-          <td style="text-align: left">The daily volume cap for ingestion.</td>
-          <td style="text-align: left"><a href="#WorkspaceCapping">WorkspaceCapping</a><br/><small>Optional</small></td>
+          <td>workspaceCapping</td>
+          <td>The daily volume cap for ingestion.</td>
+          <td><a href="#WorkspaceCapping">WorkspaceCapping</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1220,106 +1214,106 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Workspace_SpecO
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">conditions</td>
-          <td style="text-align: left">The observed state of the resource</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+          <td>conditions</td>
+          <td>The observed state of the resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">createdDate</td>
-          <td style="text-align: left">Workspace creation date.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>createdDate</td>
+          <td>Workspace creation date.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">customerId</td>
-          <td style="text-align: left">This is a read-only property. Represents the ID associated with the workspace.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>customerId</td>
+          <td>This is a read-only property. Represents the ID associated with the workspace.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">etag</td>
-          <td style="text-align: left">The etag of the workspace.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>etag</td>
+          <td>The etag of the workspace.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">features</td>
-          <td style="text-align: left">Workspace features.</td>
-          <td style="text-align: left"><a href="#WorkspaceFeatures_STATUS">WorkspaceFeatures_STATUS</a><br/><small>Optional</small></td>
+          <td>features</td>
+          <td>Workspace features.</td>
+          <td><a href="#WorkspaceFeatures_STATUS">WorkspaceFeatures_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">forceCmkForQuery</td>
-          <td style="text-align: left">Indicates whether customer managed storage is mandatory for query management.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>forceCmkForQuery</td>
+          <td>Indicates whether customer managed storage is mandatory for query management.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">id</td>
-          <td style="text-align: left">Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>id</td>
+          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">location</td>
-          <td style="text-align: left">The geo-location where the resource lives</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>location</td>
+          <td>The geo-location where the resource lives</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">modifiedDate</td>
-          <td style="text-align: left">Workspace modification date.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>modifiedDate</td>
+          <td>Workspace modification date.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">name</td>
-          <td style="text-align: left">The name of the resource</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>name</td>
+          <td>The name of the resource</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">privateLinkScopedResources</td>
-          <td style="text-align: left">List of linked private link scope resources.</td>
-          <td style="text-align: left"><a href="#PrivateLinkScopedResource_STATUS">PrivateLinkScopedResource_STATUS[]</a><br/><small>Optional</small></td>
+          <td>privateLinkScopedResources</td>
+          <td>List of linked private link scope resources.</td>
+          <td><a href="#PrivateLinkScopedResource_STATUS">PrivateLinkScopedResource_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">provisioningState</td>
-          <td style="text-align: left">The provisioning state of the workspace.</td>
-          <td style="text-align: left"><a href="#WorkspaceProperties_ProvisioningState_STATUS">WorkspaceProperties_ProvisioningState_STATUS</a><br/><small>Optional</small></td>
+          <td>provisioningState</td>
+          <td>The provisioning state of the workspace.</td>
+          <td><a href="#WorkspaceProperties_ProvisioningState_STATUS">WorkspaceProperties_ProvisioningState_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">publicNetworkAccessForIngestion</td>
-          <td style="text-align: left">The network access type for accessing Log Analytics ingestion.</td>
-          <td style="text-align: left"><a href="#PublicNetworkAccessType_STATUS">PublicNetworkAccessType_STATUS</a><br/><small>Optional</small></td>
+          <td>publicNetworkAccessForIngestion</td>
+          <td>The network access type for accessing Log Analytics ingestion.</td>
+          <td><a href="#PublicNetworkAccessType_STATUS">PublicNetworkAccessType_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">publicNetworkAccessForQuery</td>
-          <td style="text-align: left">The network access type for accessing Log Analytics query.</td>
-          <td style="text-align: left"><a href="#PublicNetworkAccessType_STATUS">PublicNetworkAccessType_STATUS</a><br/><small>Optional</small></td>
+          <td>publicNetworkAccessForQuery</td>
+          <td>The network access type for accessing Log Analytics query.</td>
+          <td><a href="#PublicNetworkAccessType_STATUS">PublicNetworkAccessType_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">retentionInDays</td>
-          <td style="text-align: left">The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers documentation for details.</td>
-          <td style="text-align: left">int<br/><small>Optional</small></td>
+          <td>retentionInDays</td>
+          <td>The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers documentation for details.</td>
+          <td>int<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">sku</td>
-          <td style="text-align: left">The SKU of the workspace.</td>
-          <td style="text-align: left"><a href="#WorkspaceSku_STATUS">WorkspaceSku_STATUS</a><br/><small>Optional</small></td>
+          <td>sku</td>
+          <td>The SKU of the workspace.</td>
+          <td><a href="#WorkspaceSku_STATUS">WorkspaceSku_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">tags</td>
-          <td style="text-align: left">Resource tags.</td>
-          <td style="text-align: left">map[string]string<br/><small>Optional</small></td>
+          <td>tags</td>
+          <td>Resource tags.</td>
+          <td>map[string]string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">type</td>
-          <td style="text-align: left">The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>type</td>
+          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">workspaceCapping</td>
-          <td style="text-align: left">The daily volume cap for ingestion.</td>
-          <td style="text-align: left"><a href="#WorkspaceCapping_STATUS">WorkspaceCapping_STATUS</a><br/><small>Optional</small></td>
+          <td>workspaceCapping</td>
+          <td>The daily volume cap for ingestion.</td>
+          <td><a href="#WorkspaceCapping_STATUS">WorkspaceCapping_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1329,21 +1323,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Workspace_SpecO
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">resourceId</td>
-          <td style="text-align: left">The full resource Id of the private link scope resource.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>resourceId</td>
+          <td>The full resource Id of the private link scope resource.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">scopeId</td>
-          <td style="text-align: left">The private link scope unique Identifier.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>scopeId</td>
+          <td>The private link scope unique Identifier.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1353,18 +1347,18 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Workspace_SpecO
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Disabled&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Disabled&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Enabled&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Enabled&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -1374,18 +1368,18 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Workspace_SpecO
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Disabled&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Disabled&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Enabled&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Enabled&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -1395,16 +1389,16 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Workspace_SpecO
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">dailyQuotaGb</td>
-          <td style="text-align: left">The workspace daily quota for ingestion.</td>
-          <td style="text-align: left">float64<br/><small>Optional</small></td>
+          <td>dailyQuotaGb</td>
+          <td>The workspace daily quota for ingestion.</td>
+          <td>float64<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1414,26 +1408,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Workspace_SpecO
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">dailyQuotaGb</td>
-          <td style="text-align: left">The workspace daily quota for ingestion.</td>
-          <td style="text-align: left">float64<br/><small>Optional</small></td>
+          <td>dailyQuotaGb</td>
+          <td>The workspace daily quota for ingestion.</td>
+          <td>float64<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">dataIngestionStatus</td>
-          <td style="text-align: left">The status of data ingestion for this workspace.</td>
-          <td style="text-align: left"><a href="#WorkspaceCapping_DataIngestionStatus_STATUS">WorkspaceCapping_DataIngestionStatus_STATUS</a><br/><small>Optional</small></td>
+          <td>dataIngestionStatus</td>
+          <td>The status of data ingestion for this workspace.</td>
+          <td><a href="#WorkspaceCapping_DataIngestionStatus_STATUS">WorkspaceCapping_DataIngestionStatus_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">quotaNextResetTime</td>
-          <td style="text-align: left">The time when the quota will be rest.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>quotaNextResetTime</td>
+          <td>The time when the quota will be rest.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1443,36 +1437,36 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Workspace_SpecO
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">clusterResourceReference</td>
-          <td style="text-align: left">Dedicated LA cluster resourceId that is linked to the workspaces.</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+          <td>clusterResourceReference</td>
+          <td>Dedicated LA cluster resourceId that is linked to the workspaces.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">disableLocalAuth</td>
-          <td style="text-align: left">Disable Non-AAD based Auth.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>disableLocalAuth</td>
+          <td>Disable Non-AAD based Auth.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">enableDataExport</td>
-          <td style="text-align: left">Flag that indicate if data should be exported.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>enableDataExport</td>
+          <td>Flag that indicate if data should be exported.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">enableLogAccessUsingOnlyResourcePermissions</td>
-          <td style="text-align: left">Flag that indicate which permission to use - resource or workspace or both.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>enableLogAccessUsingOnlyResourcePermissions</td>
+          <td>Flag that indicate which permission to use - resource or workspace or both.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">immediatePurgeDataOn30Days</td>
-          <td style="text-align: left">Flag that describes if we want to remove the data after 30 days.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>immediatePurgeDataOn30Days</td>
+          <td>Flag that describes if we want to remove the data after 30 days.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1482,36 +1476,36 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Workspace_SpecO
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">clusterResourceId</td>
-          <td style="text-align: left">Dedicated LA cluster resourceId that is linked to the workspaces.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>clusterResourceId</td>
+          <td>Dedicated LA cluster resourceId that is linked to the workspaces.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">disableLocalAuth</td>
-          <td style="text-align: left">Disable Non-AAD based Auth.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>disableLocalAuth</td>
+          <td>Disable Non-AAD based Auth.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">enableDataExport</td>
-          <td style="text-align: left">Flag that indicate if data should be exported.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>enableDataExport</td>
+          <td>Flag that indicate if data should be exported.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">enableLogAccessUsingOnlyResourcePermissions</td>
-          <td style="text-align: left">Flag that indicate which permission to use - resource or workspace or both.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>enableLogAccessUsingOnlyResourcePermissions</td>
+          <td>Flag that indicate which permission to use - resource or workspace or both.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">immediatePurgeDataOn30Days</td>
-          <td style="text-align: left">Flag that describes if we want to remove the data after 30 days.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>immediatePurgeDataOn30Days</td>
+          <td>Flag that describes if we want to remove the data after 30 days.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1521,21 +1515,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Workspace_SpecO
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">configMapExpressions</td>
-          <td style="text-align: left">configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+          <td>configMapExpressions</td>
+          <td>configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">secretExpressions</td>
-          <td style="text-align: left">configures where to place operator written dynamic secrets (created with CEL expressions).</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+          <td>secretExpressions</td>
+          <td>configures where to place operator written dynamic secrets (created with CEL expressions).</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1544,38 +1538,38 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Workspace_SpecO
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Canceled&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Canceled&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Creating&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Creating&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Deleting&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Deleting&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Failed&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Failed&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;ProvisioningAccount&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;ProvisioningAccount&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Succeeded&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Succeeded&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Updating&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Updating&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -1584,38 +1578,38 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Workspace_SpecO
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Canceled&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Canceled&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Creating&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Creating&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Deleting&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Deleting&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Failed&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Failed&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;ProvisioningAccount&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;ProvisioningAccount&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Succeeded&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Succeeded&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Updating&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Updating&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -1625,21 +1619,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Workspace_SpecO
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">capacityReservationLevel</td>
-          <td style="text-align: left">The capacity reservation level in GB for this workspace, when CapacityReservation sku is selected.</td>
-          <td style="text-align: left"><a href="#WorkspaceSku_CapacityReservationLevel">WorkspaceSku_CapacityReservationLevel</a><br/><small>Optional</small></td>
+          <td>capacityReservationLevel</td>
+          <td>The capacity reservation level in GB for this workspace, when CapacityReservation sku is selected.</td>
+          <td><a href="#WorkspaceSku_CapacityReservationLevel">WorkspaceSku_CapacityReservationLevel</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">name</td>
-          <td style="text-align: left">The name of the SKU.</td>
-          <td style="text-align: left"><a href="#WorkspaceSku_Name">WorkspaceSku_Name</a><br/><small>Required</small></td>
+          <td>name</td>
+          <td>The name of the SKU.</td>
+          <td><a href="#WorkspaceSku_Name">WorkspaceSku_Name</a><br/><small>Required</small></td>
       </tr>
   </tbody>
 </table>
@@ -1649,26 +1643,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Workspace_SpecO
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">capacityReservationLevel</td>
-          <td style="text-align: left">The capacity reservation level in GB for this workspace, when CapacityReservation sku is selected.</td>
-          <td style="text-align: left"><a href="#WorkspaceSku_CapacityReservationLevel_STATUS">WorkspaceSku_CapacityReservationLevel_STATUS</a><br/><small>Optional</small></td>
+          <td>capacityReservationLevel</td>
+          <td>The capacity reservation level in GB for this workspace, when CapacityReservation sku is selected.</td>
+          <td><a href="#WorkspaceSku_CapacityReservationLevel_STATUS">WorkspaceSku_CapacityReservationLevel_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">lastSkuUpdate</td>
-          <td style="text-align: left">The last time when the sku was updated.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>lastSkuUpdate</td>
+          <td>The last time when the sku was updated.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">name</td>
-          <td style="text-align: left">The name of the SKU.</td>
-          <td style="text-align: left"><a href="#WorkspaceSku_Name_STATUS">WorkspaceSku_Name_STATUS</a><br/><small>Optional</small></td>
+          <td>name</td>
+          <td>The name of the SKU.</td>
+          <td><a href="#WorkspaceSku_Name_STATUS">WorkspaceSku_Name_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1677,34 +1671,34 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Workspace_SpecO
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;ApproachingQuota&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;ApproachingQuota&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;ForceOff&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;ForceOff&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;ForceOn&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;ForceOn&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;OverQuota&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;OverQuota&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;RespectQuota&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;RespectQuota&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;SubscriptionSuspended&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;SubscriptionSuspended&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -1713,42 +1707,42 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Workspace_SpecO
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">100</td>
-          <td style="text-align: left"></td>
+          <td>100</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">200</td>
-          <td style="text-align: left"></td>
+          <td>200</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">300</td>
-          <td style="text-align: left"></td>
+          <td>300</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">400</td>
-          <td style="text-align: left"></td>
+          <td>400</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">500</td>
-          <td style="text-align: left"></td>
+          <td>500</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">1000</td>
-          <td style="text-align: left"></td>
+          <td>1000</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">2000</td>
-          <td style="text-align: left"></td>
+          <td>2000</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">5000</td>
-          <td style="text-align: left"></td>
+          <td>5000</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -1757,42 +1751,42 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Workspace_SpecO
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">100</td>
-          <td style="text-align: left"></td>
+          <td>100</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">200</td>
-          <td style="text-align: left"></td>
+          <td>200</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">300</td>
-          <td style="text-align: left"></td>
+          <td>300</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">400</td>
-          <td style="text-align: left"></td>
+          <td>400</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">500</td>
-          <td style="text-align: left"></td>
+          <td>500</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">1000</td>
-          <td style="text-align: left"></td>
+          <td>1000</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">2000</td>
-          <td style="text-align: left"></td>
+          <td>2000</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">5000</td>
-          <td style="text-align: left"></td>
+          <td>5000</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -1801,42 +1795,42 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Workspace_SpecO
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;CapacityReservation&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;CapacityReservation&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Free&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Free&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;LACluster&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;LACluster&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;PerGB2018&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;PerGB2018&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;PerNode&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;PerNode&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Premium&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Premium&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Standalone&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Standalone&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Standard&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Standard&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -1845,42 +1839,42 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Workspace_SpecO
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;CapacityReservation&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;CapacityReservation&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Free&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Free&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;LACluster&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;LACluster&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;PerGB2018&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;PerGB2018&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;PerNode&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;PerNode&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Premium&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Premium&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Standalone&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Standalone&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Standard&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Standard&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -1918,7 +1912,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Workspace_SpecO
 </footer>
 
     </div>
-    <script src="/azure-service-operator/js/main.min.0a5a30b73411b7a841784b6f4d46f4e0b1b95d576fa3cadd81db9d5ae468e8c2.js" integrity="sha256-ClowtzQRt6hBeEtvTUb04LG5XVdvo8rdgdudWuRo6MI=" crossorigin="anonymous"></script>
+    <script src="/azure-service-operator/js/main.min.4096f09e0b199950620fc06165ef2a2791e1bee9067e27b14c4a54f02c0e33bd.js" integrity="sha256-QJbwngsZmVBiD8BhZe8qJ5HhvukGfiexTEpU8CwOM70=" crossorigin="anonymous"></script>
 <script defer src="/azure-service-operator/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/azure-service-operator/js/tabpane-persist.js'></script>
 

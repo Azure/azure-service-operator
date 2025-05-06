@@ -37,13 +37,8 @@ In Kubernetes, all versions must be safely round-tripable through each other. Th
   <meta name="twitter:title" content="2022-12: Conversion Augmentation">
   <meta name="twitter:description" content="Context The Kubernetes ecosystem has strong requirements around backward and forward compatibility of resource versions:
 In Kubernetes, all versions must be safely round-tripable through each other. This means that if we convert from version 1 to version 2, and then back to version 1, we must not lose information. Thus, any change we make to our API must be compatible with whatever we supported in v1, and also need to make sure anything we add in v2 is supported in v1.">
-
-
-
-
-<link rel="preload" href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" as="style">
-<link href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" rel="stylesheet" integrity="">
-
+<link rel="preload" href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" as="style" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
+<link href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" rel="stylesheet" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -843,7 +838,6 @@ In Kubernetes, all versions must be safely round-tripable through each other. Th
     2022-12: Conversion Augmentation</li>
   </ol>
 </nav>
-            
 <div class="td-content">
 	<h1>2022-12: Conversion Augmentation</h1>
 	
@@ -853,8 +847,7 @@ In Kubernetes, all versions must be safely round-tripable through each other. Th
 	<h2 id="context">Context</h2>
 <p>The Kubernetes ecosystem has <a href="https://book.kubebuilder.io/multiversion-tutorial/api-changes.html">strong requirements</a> around backward and forward compatibility of resource versions:</p>
 <blockquote>
-<p>In Kubernetes, all versions must be safely round-tripable through each other. This means that if we convert from version 1 to version 2, and then back to version 1, we must not lose information. Thus, any change we make to our API must be compatible with whatever we supported in v1, and also need to make sure anything we add in v2 is supported in v1.</p>
-</blockquote>
+<p>In Kubernetes, all versions must be safely round-tripable through each other. This means that if we convert from version 1 to version 2, and then back to version 1, we must not lose information. Thus, any change we make to our API must be compatible with whatever we supported in v1, and also need to make sure anything we add in v2 is supported in v1.</p></blockquote>
 <p>To achieve this, we are <a href="../versioning/">code generating conversions</a> between versions of our resources.</p>
 <p>However, we&rsquo;ve always known that we&rsquo;d need the capability to augment these conversions with some hand-written code, if only because we would quickly hit a point of diminishing returns if we try to handle everything with the generator.</p>
 <p>To minimize the amount of work needed to augment the conversions, we will trigger the extension point after the code generator has done its work. This means that the user will only need to write the code to handle the differences between the two versions, and not the common properties that are handled by the code generator.</p>
@@ -872,14 +865,14 @@ In Kubernetes, all versions must be safely round-tripable through each other. Th
 </ul>
 <h3 id="generic-interface-implementation">Generic interface implementation</h3>
 <p>In our <code>genruntime</code> package, we&rsquo;ll define a new generic interface to capture the semantics of conversion augmentation:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Assignable</span>[<span style="color:#a6e22e">T</span> <span style="color:#a6e22e">any</span>] <span style="color:#66d9ef">interface</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Assignable</span>[<span style="color:#a6e22e">T</span> <span style="color:#66d9ef">any</span>] <span style="color:#66d9ef">interface</span> {
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">AssignPropertiesTo</span>(<span style="color:#a6e22e">dst</span> <span style="color:#a6e22e">T</span>) <span style="color:#66d9ef">error</span>
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">AssignPropertiesFrom</span>(<span style="color:#a6e22e">src</span> <span style="color:#a6e22e">T</span>) <span style="color:#66d9ef">error</span>
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>Conversions always need to be bi-directional, so we force both <code>AssignPropertiesTo</code> and <code>AssignPropertiesFrom</code> to be implemented together. (We can&rsquo;t implement the conversions by implementing <code>AssignPropertiesTo()</code> on both sides of the link because the types are declared in different packages, for different API versions, and we need to avoid a circular package dependency.)</p>
 <p>We then update the code generation for the already generated <code>AssignProperties_To_*</code> and <code>AssignProperties_From_*</code> methods to look for this interface and call it if it&rsquo;s present. The type used for the type parameter will be the &ldquo;upstream&rdquo; type in our conversion chain.</p>
 <p>For example, for the <code>v1beta20210101</code> version of <code>BatchAccount</code>, the existing method <code>AssignProperties_From_BatchAccount</code> will updated with the following additional code:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">sourceAsAny</span> <span style="color:#a6e22e">any</span> = <span style="color:#a6e22e">source</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">sourceAsAny</span> <span style="color:#66d9ef">any</span> = <span style="color:#a6e22e">source</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#a6e22e">src</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">sourceAsAny</span>.(<span style="color:#a6e22e">genruntime</span>.<span style="color:#a6e22e">Assignable</span>[<span style="color:#f92672">*</span><span style="color:#a6e22e">v20210101s</span>.<span style="color:#a6e22e">BatchAccount</span>]); <span style="color:#a6e22e">ok</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">src</span>.<span style="color:#a6e22e">AssignPropertiesFrom</span>(<span style="color:#a6e22e">source</span>)
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
@@ -899,7 +892,7 @@ In Kubernetes, all versions must be safely round-tripable through each other. Th
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">AssignPropertiesFrom</span>(<span style="color:#a6e22e">src</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">v20210101s</span>.<span style="color:#a6e22e">BatchAccount</span>) <span style="color:#66d9ef">error</span>
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>This interface would then be detected and used if present:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">sourceAsAny</span> <span style="color:#a6e22e">any</span> = <span style="color:#a6e22e">source</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">sourceAsAny</span> <span style="color:#66d9ef">any</span> = <span style="color:#a6e22e">source</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#a6e22e">src</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">sourceAsAny</span>.(<span style="color:#a6e22e">assignableBatchAccount</span>); <span style="color:#a6e22e">ok</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">src</span>.<span style="color:#a6e22e">AssignPropertiesFrom</span>(<span style="color:#a6e22e">source</span>)
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
@@ -987,7 +980,7 @@ Conversions between different versions of a resource are handled by conversions 
 </footer>
 
     </div>
-    <script src="/azure-service-operator/js/main.min.0a5a30b73411b7a841784b6f4d46f4e0b1b95d576fa3cadd81db9d5ae468e8c2.js" integrity="sha256-ClowtzQRt6hBeEtvTUb04LG5XVdvo8rdgdudWuRo6MI=" crossorigin="anonymous"></script>
+    <script src="/azure-service-operator/js/main.min.4096f09e0b199950620fc06165ef2a2791e1bee9067e27b14c4a54f02c0e33bd.js" integrity="sha256-QJbwngsZmVBiD8BhZe8qJ5HhvukGfiexTEpU8CwOM70=" crossorigin="anonymous"></script>
 <script defer src="/azure-service-operator/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/azure-service-operator/js/tabpane-persist.js'></script>
 

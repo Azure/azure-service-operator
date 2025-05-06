@@ -18,7 +18,7 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>Type References &amp; ownership | Azure Service Operator</title>
-<meta name="description" content="Related reading Kubernetes garbage collection. Kubernetes RBAC Related Projects ASO: Azure Service Operator k8s-infra: The handcrafted precurser to the code generation tool being designed. Goals Provide a way for customers to express relationships between Azure resources in an idiomatic Kubernetes way. Provide automatic ownership and garbage collection (using Kubernetes garbage collection) where appropriate (e.g. ResourceGroup as an owner of all the resources inside of it) Ideally ResourceGroup is handled the same as other owners and isn&rsquo;t special cased. Define how Kubernetes interacts with Azure resources not created/managed by Kubernetes, for example resources which were created prior to the customer onboarding to the Azure Service Operator. References should be extensible to work across multiple Azure subscriptions, although initially we may not support that. Non-goals Managing ownership for resources/resource hierarchies that were not created by the service operator. While this proposal allows references to point to external resources not managed by the service operator, the operator is not watching/monitoring the resource in question and as such cannot propagate deletes. Put another way: for the operator to manage ownership/object lifecycles, the entire resource hierarchy must exist within Kubernetes. If only part of the resource hierarchy is managed by the service operator, only those parts can have their lifecycles managed. Different kinds of resource relationships in Azure Related/linked resources Two resources are related to one another (&ldquo;has-a&rdquo; relationship), but there is no ownership. Example: VMSS → Subnet (json schema).">
+<meta name="description" content="Related reading Kubernetes garbage collection. Kubernetes RBAC Related Projects ASO: Azure Service Operator k8s-infra: The handcrafted precurser to the code generation tool being designed. Goals Provide a way for customers to express relationships between Azure resources in an idiomatic Kubernetes way. Provide automatic ownership and garbage collection (using Kubernetes garbage collection) where appropriate (e.g. ResourceGroup as an owner of all the resources inside of it) Ideally ResourceGroup is handled the same as other owners and isn’t special cased. Define how Kubernetes interacts with Azure resources not created/managed by Kubernetes, for example resources which were created prior to the customer onboarding to the Azure Service Operator. References should be extensible to work across multiple Azure subscriptions, although initially we may not support that. Non-goals Managing ownership for resources/resource hierarchies that were not created by the service operator. While this proposal allows references to point to external resources not managed by the service operator, the operator is not watching/monitoring the resource in question and as such cannot propagate deletes. Put another way: for the operator to manage ownership/object lifecycles, the entire resource hierarchy must exist within Kubernetes. If only part of the resource hierarchy is managed by the service operator, only those parts can have their lifecycles managed. Different kinds of resource relationships in Azure Related/linked resources Two resources are related to one another (“has-a” relationship), but there is no ownership. Example: VMSS → Subnet (json schema).">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/design/type-references-and-ownership/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="Type References & ownership">
@@ -33,13 +33,8 @@
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Type References & ownership">
   <meta name="twitter:description" content="Related reading Kubernetes garbage collection. Kubernetes RBAC Related Projects ASO: Azure Service Operator k8s-infra: The handcrafted precurser to the code generation tool being designed. Goals Provide a way for customers to express relationships between Azure resources in an idiomatic Kubernetes way. Provide automatic ownership and garbage collection (using Kubernetes garbage collection) where appropriate (e.g. ResourceGroup as an owner of all the resources inside of it) Ideally ResourceGroup is handled the same as other owners and isn’t special cased. Define how Kubernetes interacts with Azure resources not created/managed by Kubernetes, for example resources which were created prior to the customer onboarding to the Azure Service Operator. References should be extensible to work across multiple Azure subscriptions, although initially we may not support that. Non-goals Managing ownership for resources/resource hierarchies that were not created by the service operator. While this proposal allows references to point to external resources not managed by the service operator, the operator is not watching/monitoring the resource in question and as such cannot propagate deletes. Put another way: for the operator to manage ownership/object lifecycles, the entire resource hierarchy must exist within Kubernetes. If only part of the resource hierarchy is managed by the service operator, only those parts can have their lifecycles managed. Different kinds of resource relationships in Azure Related/linked resources Two resources are related to one another (“has-a” relationship), but there is no ownership. Example: VMSS → Subnet (json schema).">
-
-
-
-
-<link rel="preload" href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" as="style">
-<link href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" rel="stylesheet" integrity="">
-
+<link rel="preload" href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" as="style" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
+<link href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" rel="stylesheet" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -883,7 +878,6 @@
     Type References &amp; ownership</li>
   </ol>
 </nav>
-            
 <div class="td-content">
 	<h1>Type References &amp; ownership</h1>
 	
@@ -1028,8 +1022,8 @@ There are two patterns for ownership in k8s-infra today.</p>
 <p>One pattern is used for ResourceGroup, where
 <a href="https://github.com/Azure/k8s-infra/blob/14105b1cb3f6967cd086c9f8f75fb16bb85d6318/apis/microsoft.compute/v1/virtualmachinescaleset_types.go#L323">top level resources have a link to the resource group they are in</a>.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">VirtualMachineScaleSetSpec</span> <span style="color:#66d9ef">struct</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// +kubebuilder:validation:Required
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">ResourceGroupRef</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">azcorev1</span>.<span style="color:#a6e22e">KnownTypeReference</span> <span style="color:#e6db74">`json:&#34;resourceGroupRef&#34; group:&#34;microsoft.resources.infra.azure.com&#34; kind:&#34;ResourceGroup&#34;`</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// +kubebuilder:validation:Required</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ResourceGroupRef</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">azcorev1</span>.<span style="color:#a6e22e">KnownTypeReference</span> <span style="color:#e6db74">`json:&#34;resourceGroupRef&#34; group:&#34;microsoft.resources.infra.azure.com&#34; kind:&#34;ResourceGroup&#34;`</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">...</span>
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>The other pattern is where the owning resource has links to the dependent resources it is expecting to have:</p>
@@ -1069,30 +1063,30 @@ we know the group and version statically at compile time, but the customer has a
 Two types allows us to clearly express what we&rsquo;re expecting for each reference. The resulting YAMLs look basically the same
 to the customer, and the required-ness of the fields will give push-back when customers need to specify a group or kind and
 have not.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// KnownResourceReference is a resource reference to a known type.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">KnownResourceReference</span> <span style="color:#66d9ef">struct</span> {
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// This is the name of the Kubernetes resource to reference.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">Name</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;name&#34;`</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// KnownResourceReference is a resource reference to a known type.</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">KnownResourceReference</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// This is the name of the Kubernetes resource to reference.</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Name</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;name&#34;`</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// References across namespaces are not supported.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// Note that ownership across namespaces in Kubernetes is not allowed, but technically resource
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// references are. There are RBAC considerations here though so probably easier to just start by
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// disallowing cross-namespace references for now
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// References across namespaces are not supported.</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// Note that ownership across namespaces in Kubernetes is not allowed, but technically resource</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// references are. There are RBAC considerations here though so probably easier to just start by</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// disallowing cross-namespace references for now</span>
+</span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">ResourceReference</span> <span style="color:#66d9ef">struct</span> {
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// The group of the referenced resource.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">Group</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;group&#34;`</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// The kind of the referenced resource.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">Kind</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;kind&#34;`</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// The name of the referenced resource.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">Name</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;name&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// The group of the referenced resource.</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Group</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;group&#34;`</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// The kind of the referenced resource.</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Kind</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;kind&#34;`</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// The name of the referenced resource.</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Name</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;name&#34;`</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Note: Version is not required here because references are all about linking one Kubernetes
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// resource to another, and Kubernetes resources are uniquely identified by group, kind, (optionally namespace) and
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// name - the versions are just giving a different view on the same resource
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Note: Version is not required here because references are all about linking one Kubernetes</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// resource to another, and Kubernetes resources are uniquely identified by group, kind, (optionally namespace) and</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// name - the versions are just giving a different view on the same resource</span>
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h3 id="how-to-represent-ownership-and-dependent-resources">How to represent ownership and dependent resources</h3>
 <p>We will use the same <code>KnownResourceReference</code> type as an additional <code>Owner</code> field on dependent resource specifications.</p>
 <p>When we determine that a resource is a dependent resource of another resource kind, we will code-generate
@@ -1115,13 +1109,13 @@ group/kind information all names they supply must point to the right kind of res
 <h3 id="how-to-represent-a-resource-generically">How to represent a resource generically</h3>
 <p>In addition to representing references generically, we will need the ability to reference ARM resources generically,
 so that the generic controller can act on them without needing to cast to their specific type.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// TODO: There may be more in this interface, or it may get rolled into MetaObject depending on yet to be determined implementation details
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">ArmResource</span> <span style="color:#66d9ef">interface</span> {
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// Name returns the ARM resource name
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">Name</span>() <span style="color:#66d9ef">string</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// TODO: There may be more in this interface, or it may get rolled into MetaObject depending on yet to be determined implementation details</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">ArmResource</span> <span style="color:#66d9ef">interface</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// Name returns the ARM resource name</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Name</span>() <span style="color:#66d9ef">string</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Owner returns the ResourceReference so that we can extract the Group/Kind for easier lookups
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">Owner</span>() <span style="color:#f92672">*</span><span style="color:#a6e22e">ResourceReference</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Owner returns the ResourceReference so that we can extract the Group/Kind for easier lookups</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Owner</span>() <span style="color:#f92672">*</span><span style="color:#a6e22e">ResourceReference</span>
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h3 id="how-to-identify-resource-relationships">How to identify resource relationships</h3>
 <p><strong>For related (not owned) resources</strong> we must find each field that represents a resource reference and transform its type to <code>ResourceReference</code>.
@@ -1225,9 +1219,9 @@ another type prior to serialization to/from ARM. This is also a useful hook for 
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">result</span>
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// +kubebuilder:object:root=true
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// +kubebuilder:storageversion
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">VirtualNetworksSubnets</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// +kubebuilder:object:root=true</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// +kubebuilder:storageversion</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">VirtualNetworksSubnets</span> <span style="color:#66d9ef">struct</span> {
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">metav1</span>.<span style="color:#a6e22e">TypeMeta</span>   <span style="color:#e6db74">`json:&#34;,inline&#34;`</span>
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">metav1</span>.<span style="color:#a6e22e">ObjectMeta</span> <span style="color:#e6db74">`json:&#34;metadata,omitempty&#34;`</span>
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Spec</span>              <span style="color:#a6e22e">VirtualNetworksSubnetsSpec</span> <span style="color:#e6db74">`json:&#34;spec,omitempty&#34;`</span>
@@ -1257,35 +1251,35 @@ another type prior to serialization to/from ARM. This is also a useful hook for 
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">VirtualNetworksSubnetsSpec</span> <span style="color:#66d9ef">struct</span> {
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// +kubebuilder:validation:Required
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">ApiVersion</span> <span style="color:#a6e22e">VirtualNetworksSubnetsSpecApiVersion</span> <span style="color:#e6db74">`json:&#34;apiVersion&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// +kubebuilder:validation:Required</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">ApiVersion</span> <span style="color:#a6e22e">VirtualNetworksSubnetsSpecApiVersion</span> <span style="color:#e6db74">`json:&#34;apiVersion&#34;`</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// +kubebuilder:validation:Required
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">Name</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;name&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// +kubebuilder:validation:Required</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Name</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;name&#34;`</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// +kubebuilder:validation:Required
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">Owner</span> <span style="color:#a6e22e">genruntime</span>.<span style="color:#a6e22e">KnownResourceReference</span> <span style="color:#e6db74">`json:&#34;owner&#34; group:&#34;microsoft.network&#34; kind:&#34;VirtualNetworks&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// +kubebuilder:validation:Required</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Owner</span> <span style="color:#a6e22e">genruntime</span>.<span style="color:#a6e22e">KnownResourceReference</span> <span style="color:#e6db74">`json:&#34;owner&#34; group:&#34;microsoft.network&#34; kind:&#34;VirtualNetworks&#34;`</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// +kubebuilder:validation:Required
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">//Properties: Properties of the subnet.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">Properties</span> <span style="color:#a6e22e">SubnetPropertiesFormat</span> <span style="color:#e6db74">`json:&#34;properties&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// +kubebuilder:validation:Required</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">//Properties: Properties of the subnet.</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Properties</span> <span style="color:#a6e22e">SubnetPropertiesFormat</span> <span style="color:#e6db74">`json:&#34;properties&#34;`</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// +kubebuilder:validation:Required
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">Type</span> <span style="color:#a6e22e">VirtualNetworksSubnetsSpecType</span> <span style="color:#e6db74">`json:&#34;type&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// +kubebuilder:validation:Required</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Type</span> <span style="color:#a6e22e">VirtualNetworksSubnetsSpecType</span> <span style="color:#e6db74">`json:&#34;type&#34;`</span>
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// No KubeBuilder comments required here because not ever used to generate CRD
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">VirtualNetworksSubnetsSpecArm</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// No KubeBuilder comments required here because not ever used to generate CRD</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">VirtualNetworksSubnetsSpecArm</span> <span style="color:#66d9ef">struct</span> {
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">ApiVersion</span> <span style="color:#a6e22e">VirtualNetworksSubnetsSpecApiVersion</span> <span style="color:#e6db74">`json:&#34;apiVersion&#34;`</span>
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Name</span>       <span style="color:#66d9ef">string</span>                               <span style="color:#e6db74">`json:&#34;name&#34;`</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">//Properties: Properties of the subnet.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">Properties</span> <span style="color:#a6e22e">SubnetPropertiesFormat</span>         <span style="color:#e6db74">`json:&#34;properties&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">//Properties: Properties of the subnet.</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Properties</span> <span style="color:#a6e22e">SubnetPropertiesFormat</span>         <span style="color:#e6db74">`json:&#34;properties&#34;`</span>
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Type</span>       <span style="color:#a6e22e">VirtualNetworksSubnetsSpecType</span> <span style="color:#e6db74">`json:&#34;type&#34;`</span>
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// This interface implementation would be autogenerated for ARM resources with references
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">_</span> <span style="color:#a6e22e">genruntime</span>.<span style="color:#a6e22e">ArmTransformer</span> = <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">VirtualNetworksSubnetsSpec</span>{}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// This interface implementation would be autogenerated for ARM resources with references</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">_</span> <span style="color:#a6e22e">genruntime</span>.<span style="color:#a6e22e">ArmTransformer</span> = <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">VirtualNetworksSubnetsSpec</span>{}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">transformer</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">VirtualNetworksSubnetsSpec</span>) <span style="color:#a6e22e">ToArm</span>(<span style="color:#a6e22e">owningName</span> <span style="color:#66d9ef">string</span>) (<span style="color:#66d9ef">interface</span>{}, <span style="color:#66d9ef">error</span>) {
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">result</span> = <span style="color:#a6e22e">VirtualNetworksSubnetsSpecArm</span>{}
@@ -1310,35 +1304,35 @@ another type prior to serialization to/from ARM. This is also a useful hook for 
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h3 id="controller-example">Controller example</h3>
 <p>Putting it all together, here&rsquo;s what a generic controller reconciliation loop would look like using the interfaces discussed previously.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// Example usage -- error handling elided for brevity
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">gr</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">GenericReconciler</span>) <span style="color:#a6e22e">Reconcile</span>(<span style="color:#a6e22e">req</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Request</span>) (<span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Result</span>, <span style="color:#66d9ef">error</span>) {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// Example usage -- error handling elided for brevity</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">gr</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">GenericReconciler</span>) <span style="color:#a6e22e">Reconcile</span>(<span style="color:#a6e22e">req</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Request</span>) (<span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Result</span>, <span style="color:#66d9ef">error</span>) {
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">scheme</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">...</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">gvk</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">...</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">client</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">...</span>
 </span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Load the object from etcd
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">obj</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">scheme</span>.<span style="color:#a6e22e">New</span>(<span style="color:#a6e22e">gvk</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Load the object from etcd</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">obj</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">scheme</span>.<span style="color:#a6e22e">New</span>(<span style="color:#a6e22e">gvk</span>)
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">resource</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">Get</span>(<span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">NamespacedName</span>, <span style="color:#a6e22e">obj</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Get the owner details
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">armResource</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">obj</span>.(<span style="color:#a6e22e">ARMResource</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Get the owner details</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">armResource</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">obj</span>.(<span style="color:#a6e22e">ARMResource</span>)
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ownerRef</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">armResource</span>.<span style="color:#a6e22e">Owner</span>()
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Perform a get from Azure to see current resource state    
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">armId</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">helpers</span>.<span style="color:#a6e22e">GetArmId</span>(<span style="color:#a6e22e">resource</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">objFromAzure</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">scheme</span>.new(<span style="color:#a6e22e">gvk</span>) <span style="color:#75715e">// We need to provide the empty type to deserialize into
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Somehow construct a new object of type etcdObject
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">armTransformer</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">objFromAzure</span>.(<span style="color:#a6e22e">ARMTransformer</span>); <span style="color:#a6e22e">ok</span> {
-</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">result</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">armTransformer</span>.<span style="color:#a6e22e">ToArm</span>(<span style="color:#e6db74">&#34;&#34;</span>) <span style="color:#75715e">// This just converts from an empty kube shape to an empty arm shape
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#a6e22e">armClient</span>.<span style="color:#a6e22e">GetIt</span>(<span style="color:#a6e22e">armId</span>, <span style="color:#a6e22e">result</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Perform a get from Azure to see current resource state    </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">armId</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">helpers</span>.<span style="color:#a6e22e">GetArmId</span>(<span style="color:#a6e22e">resource</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">objFromAzure</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">scheme</span>.new(<span style="color:#a6e22e">gvk</span>) <span style="color:#75715e">// We need to provide the empty type to deserialize into</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Somehow construct a new object of type etcdObject</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">armTransformer</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">objFromAzure</span>.(<span style="color:#a6e22e">ARMTransformer</span>); <span style="color:#a6e22e">ok</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">result</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">armTransformer</span>.<span style="color:#a6e22e">ToArm</span>(<span style="color:#e6db74">&#34;&#34;</span>) <span style="color:#75715e">// This just converts from an empty kube shape to an empty arm shape</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">armClient</span>.<span style="color:#a6e22e">GetIt</span>(<span style="color:#a6e22e">armId</span>, <span style="color:#a6e22e">result</span>)
 </span></span><span style="display:flex;"><span>    
 </span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">armTransformer</span>.<span style="color:#a6e22e">FromArm</span>(<span style="color:#a6e22e">ownerRef</span>, <span style="color:#a6e22e">result</span>)
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Perform a put to update resource state
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// Walk the owner hierarchy (assuming owner has no owner here for simplicity) to build owner name
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">ownerGvk</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">ownerRef</span>.<span style="color:#a6e22e">ToGvk</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Perform a put to update resource state</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Walk the owner hierarchy (assuming owner has no owner here for simplicity) to build owner name</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ownerGvk</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">ownerRef</span>.<span style="color:#a6e22e">ToGvk</span>()
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">owner</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">scheme</span>.<span style="color:#a6e22e">New</span>(<span style="color:#a6e22e">ownerGvk</span>)
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ownerArmResource</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">owner</span>.(<span style="color:#a6e22e">ARMResource</span>)
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ownerId</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">owner</span>.<span style="color:#a6e22e">Name</span>()
@@ -1422,25 +1416,25 @@ one behavior which is best for our case?</li>
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">KnownKubernetesReference</span> <span style="color:#66d9ef">struct</span> {
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// This is the name of the Kubernetes resource to reference.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">Name</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;name&#34;`</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// References across namespaces are not supported.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// Note that ownership across namespaces in Kubernetes is not allowed, but technically resource
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// references are. There are RBAC considerations here though so probably easier to just start by
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// disallowing cross-namespace references for now
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// This is the name of the Kubernetes resource to reference.</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Name</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;name&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// References across namespaces are not supported.</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// Note that ownership across namespaces in Kubernetes is not allowed, but technically resource</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// references are. There are RBAC considerations here though so probably easier to just start by</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// disallowing cross-namespace references for now</span>
+</span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">KubernetesReference</span> <span style="color:#66d9ef">struct</span> {
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// The group of the referenced resource.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">Group</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;group&#34;`</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// The kind of the referenced resource.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">Kind</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;kind&#34;`</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// The name of the referenced resource.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">Name</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;name&#34;`</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// Note: Version is not required here because references are all about linking one Kubernetes
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// resource to another, and Kubernetes resources are uniquely identified by group, kind, (optionally namespace) and
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// name - the versions are just giving a different view on the same resource
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// The group of the referenced resource.</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Group</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;group&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// The kind of the referenced resource.</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Kind</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;kind&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// The name of the referenced resource.</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Name</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;name&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// Note: Version is not required here because references are all about linking one Kubernetes</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// resource to another, and Kubernetes resources are uniquely identified by group, kind, (optionally namespace) and</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// name - the versions are just giving a different view on the same resource</span>
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h3 id="advantages-compared-to-what-we-chose">Advantages compared to what we chose</h3>
 <ul>
 <li>Can track resources which are not tracked by Kubernetes.</li>
@@ -1528,7 +1522,7 @@ the intent for how many we want, so having that also on the owner seems duplicat
 </footer>
 
     </div>
-    <script src="/azure-service-operator/js/main.min.0a5a30b73411b7a841784b6f4d46f4e0b1b95d576fa3cadd81db9d5ae468e8c2.js" integrity="sha256-ClowtzQRt6hBeEtvTUb04LG5XVdvo8rdgdudWuRo6MI=" crossorigin="anonymous"></script>
+    <script src="/azure-service-operator/js/main.min.4096f09e0b199950620fc06165ef2a2791e1bee9067e27b14c4a54f02c0e33bd.js" integrity="sha256-QJbwngsZmVBiD8BhZe8qJ5HhvukGfiexTEpU8CwOM70=" crossorigin="anonymous"></script>
 <script defer src="/azure-service-operator/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/azure-service-operator/js/tabpane-persist.js'></script>
 

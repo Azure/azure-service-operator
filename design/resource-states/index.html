@@ -18,7 +18,7 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>Proposal for reporting resource Status | Azure Service Operator</title>
-<meta name="description" content="What Status are we talking about? There are two types of Status that we&rsquo;re interested in understanding and reporting to the user when running an operator that creates resources in Azure:
+<meta name="description" content="What Status are we talking about? There are two types of Status that we’re interested in understanding and reporting to the user when running an operator that creates resources in Azure:
 The Status of the operator and its actions on the resource. Has the resource successfully been reconciled? Is the operator in the progress of driving the resource to its goal state (defined in the spec), or has it already done so and is now waiting for more changes before taking further action? The State of the resource in Azure. What fields are set in Azure? There are often defaults and other values which, while you may not have specified them in the spec have been applied on the server side and we want to show to you. This document is focused on the first type of Status defined above.">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/design/resource-states/">
   <meta property="og:site_name" content="Azure Service Operator">
@@ -37,13 +37,8 @@ The Status of the operator and its actions on the resource. Has the resource suc
   <meta name="twitter:title" content="Proposal for reporting resource Status">
   <meta name="twitter:description" content="What Status are we talking about? There are two types of Status that we’re interested in understanding and reporting to the user when running an operator that creates resources in Azure:
 The Status of the operator and its actions on the resource. Has the resource successfully been reconciled? Is the operator in the progress of driving the resource to its goal state (defined in the spec), or has it already done so and is now waiting for more changes before taking further action? The State of the resource in Azure. What fields are set in Azure? There are often defaults and other values which, while you may not have specified them in the spec have been applied on the server side and we want to show to you. This document is focused on the first type of Status defined above.">
-
-
-
-
-<link rel="preload" href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" as="style">
-<link href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" rel="stylesheet" integrity="">
-
+<link rel="preload" href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" as="style" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
+<link href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" rel="stylesheet" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -844,7 +839,6 @@ The Status of the operator and its actions on the resource. Has the resource suc
     Resource status</li>
   </ol>
 </nav>
-            
 <div class="td-content">
 	<h1>Proposal for reporting resource Status</h1>
 	
@@ -904,28 +898,21 @@ as annotations (<code>deploymentId</code> possibly), while others are obviously 
 <h2 id="more-on-conditions">More on conditions</h2>
 <p>These best practices were gathered from <a href="https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#typical-status-properties">conditions API conventions</a> as of July 2021.</p>
 <blockquote>
-<p>Some resources in the v1 API contain fields called phase, and associated message, reason, and other status fields. The pattern of using phase is deprecated. Newer API types should use conditions instead. Phase was essentially a state-machine enumeration field, that contradicted system-design principles and hampered evolution, since adding new enum values breaks backward compatibility. Rather than encouraging clients to infer implicit properties from phases, we prefer to explicitly expose the individual conditions that clients need to monitor. Conditions also have the benefit that it is possible to create some conditions with uniform meaning across all resource types, while still exposing others that are unique to specific resource types. See <a href="https://github.com/kubernetes/kubernetes/issues/7856">#7856</a> for more details and discussion.</p>
-</blockquote>
+<p>Some resources in the v1 API contain fields called phase, and associated message, reason, and other status fields. The pattern of using phase is deprecated. Newer API types should use conditions instead. Phase was essentially a state-machine enumeration field, that contradicted system-design principles and hampered evolution, since adding new enum values breaks backward compatibility. Rather than encouraging clients to infer implicit properties from phases, we prefer to explicitly expose the individual conditions that clients need to monitor. Conditions also have the benefit that it is possible to create some conditions with uniform meaning across all resource types, while still exposing others that are unique to specific resource types. See <a href="https://github.com/kubernetes/kubernetes/issues/7856">#7856</a> for more details and discussion.</p></blockquote>
 <blockquote>
-<p>In condition types, and everywhere else they appear in the API, Reason is intended to be a one-word, CamelCase representation of the category of cause of the current status, and Message is intended to be a human-readable phrase or sentence, which may contain specific details of the individual occurrence. Reason is intended to be used in concise output, such as one-line kubectl get output, and in summarizing occurrences of causes, whereas Message is intended to be presented to users in detailed status explanations, such as kubectl describe output.</p>
-</blockquote>
+<p>In condition types, and everywhere else they appear in the API, Reason is intended to be a one-word, CamelCase representation of the category of cause of the current status, and Message is intended to be a human-readable phrase or sentence, which may contain specific details of the individual occurrence. Reason is intended to be used in concise output, such as one-line kubectl get output, and in summarizing occurrences of causes, whereas Message is intended to be presented to users in detailed status explanations, such as kubectl describe output.</p></blockquote>
 <blockquote>
-<p>In general, condition values may change back and forth, but some condition transitions may be monotonic, depending on the resource and condition type. However, conditions are observations and not, themselves, state machines, nor do we define comprehensive state machines for objects, nor behaviors associated with state transitions. The system is level-based rather than edge-triggered, and should assume an Open World.</p>
-</blockquote>
+<p>In general, condition values may change back and forth, but some condition transitions may be monotonic, depending on the resource and condition type. However, conditions are observations and not, themselves, state machines, nor do we define comprehensive state machines for objects, nor behaviors associated with state transitions. The system is level-based rather than edge-triggered, and should assume an Open World.</p></blockquote>
 <blockquote>
-<p>Controllers should apply their conditions to a resource the first time they visit the resource, even if the status is Unknown. This allows other components in the system to know that the condition exists and the controller is making progress on reconciling that resource.</p>
-</blockquote>
+<p>Controllers should apply their conditions to a resource the first time they visit the resource, even if the status is Unknown. This allows other components in the system to know that the condition exists and the controller is making progress on reconciling that resource.</p></blockquote>
 <p>These from <a href="https://github.com/kubernetes/enhancements/tree/master/keps/sig-api-machinery/1623-standardize-conditions">standardizing conditions</a>:</p>
 <blockquote>
-<p>reason is required and must not be empty. The actor setting the value should always describe why the condition is the way it is, even if that value is &ldquo;unknown unknowns&rdquo;. No other actor has the information to make a better choice.</p>
-</blockquote>
+<p>reason is required and must not be empty. The actor setting the value should always describe why the condition is the way it is, even if that value is &ldquo;unknown unknowns&rdquo;. No other actor has the information to make a better choice.</p></blockquote>
 <p>Some other best practices on <a href="https://github.com/kubernetes/community/blob/4c9ef2d/contributors/design-proposals/architecture/principles.md">Kubernetes design principles</a>:</p>
 <blockquote>
-<p>Object status must be 100% reconstructable by observation. Any history kept must be just an optimization and not required for correct operation.</p>
-</blockquote>
+<p>Object status must be 100% reconstructable by observation. Any history kept must be just an optimization and not required for correct operation.</p></blockquote>
 <blockquote>
-<p>Do not define comprehensive state machines for objects with behaviors associated with state transitions and/or &ldquo;assumed&rdquo; states that cannot be ascertained by observation.</p>
-</blockquote>
+<p>Do not define comprehensive state machines for objects with behaviors associated with state transitions and/or &ldquo;assumed&rdquo; states that cannot be ascertained by observation.</p></blockquote>
 <h2 id="proposal">Proposal</h2>
 <h3 id="goals">Goals</h3>
 <ul>
@@ -941,32 +928,32 @@ as annotations (<code>deploymentId</code> possibly), while others are obviously 
 <p>All resource&rsquo;s <code>Status</code>&rsquo;s will have a top level <code>Conditions</code> field which is a collection of type <code>Condition</code>. This collection supports extension (through conditions with different type names).
 Initially we will expose a single <code>Ready</code> condition across all resources, representing the high level availability of the resource and its readiness for use.</p>
 <p>The structure of the <code>Condition</code> is based on the <a href="https://github.com/kubernetes/enhancements/tree/master/keps/sig-api-machinery/1623-standardize-conditions">recommended shape of conditions KEP</a> as well as the <a href="https://github.com/kubernetes-sigs/cluster-api/blob/master/docs/proposals/20200506-conditions.md">Cluster API conditions proposal</a> and is as follows:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// ConditionSeverity expresses the severity of a Condition.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">ConditionSeverity</span> <span style="color:#66d9ef">string</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// ConditionSeverity expresses the severity of a Condition.</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">ConditionSeverity</span> <span style="color:#66d9ef">string</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> (
-</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// ConditionSeverityError specifies that a failure of a condition type
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// should be viewed as an error. Errors are fatal to reconciliation and
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// mean that the user must take some action to resolve
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// the problem before reconciliation will be attempted again.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#a6e22e">ConditionSeverityError</span> <span style="color:#a6e22e">ConditionSeverity</span> = <span style="color:#e6db74">&#34;Error&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// ConditionSeverityError specifies that a failure of a condition type</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// should be viewed as an error. Errors are fatal to reconciliation and</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// mean that the user must take some action to resolve</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// the problem before reconciliation will be attempted again.</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ConditionSeverityError</span> <span style="color:#a6e22e">ConditionSeverity</span> = <span style="color:#e6db74">&#34;Error&#34;</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// ConditionSeverityWarning specifies that a failure of a condition type
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// should be viewed as a warning. Warnings are informational. The operator
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// may be able to retry through the warning without any action from the user, but
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// in some cases user action to resolve the warning will be required.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#a6e22e">ConditionSeverityWarning</span> <span style="color:#a6e22e">ConditionSeverity</span> = <span style="color:#e6db74">&#34;Warning&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// ConditionSeverityWarning specifies that a failure of a condition type</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// should be viewed as a warning. Warnings are informational. The operator</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// may be able to retry through the warning without any action from the user, but</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// in some cases user action to resolve the warning will be required.</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ConditionSeverityWarning</span> <span style="color:#a6e22e">ConditionSeverity</span> = <span style="color:#e6db74">&#34;Warning&#34;</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// ConditionSeverityInfo specifies that a failure of a condition type
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// should be viewed as purely informational. Things are working.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// This is the happy path.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#a6e22e">ConditionSeverityInfo</span> <span style="color:#a6e22e">ConditionSeverity</span> = <span style="color:#e6db74">&#34;Info&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// ConditionSeverityInfo specifies that a failure of a condition type</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// should be viewed as purely informational. Things are working.</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// This is the happy path.</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ConditionSeverityInfo</span> <span style="color:#a6e22e">ConditionSeverity</span> = <span style="color:#e6db74">&#34;Info&#34;</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// ConditionSeverityNone specifies that there is no condition severity.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// For conditions which have positive polarity (Status == True is their normal/healthy state), this will set when Status == True
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// For conditions which have negative polarity (Status == False is their normal/healthy state), this will be set when Status == False.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// Conditions in Status == Unknown always have a severity of None as well.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// This is the default state for conditions.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#a6e22e">ConditionSeverityNone</span> <span style="color:#a6e22e">ConditionSeverity</span> = <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// ConditionSeverityNone specifies that there is no condition severity.</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// For conditions which have positive polarity (Status == True is their normal/healthy state), this will set when Status == True</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// For conditions which have negative polarity (Status == False is their normal/healthy state), this will be set when Status == False.</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Conditions in Status == Unknown always have a severity of None as well.</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// This is the default state for conditions.</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ConditionSeverityNone</span> <span style="color:#a6e22e">ConditionSeverity</span> = <span style="color:#e6db74">&#34;&#34;</span>
 </span></span><span style="display:flex;"><span>)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">ConditionType</span> <span style="color:#66d9ef">string</span>
@@ -974,35 +961,35 @@ Initially we will expose a single <code>Ready</code> condition across all resour
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ConditionTypeReady</span> = <span style="color:#e6db74">&#34;Ready&#34;</span>
 </span></span><span style="display:flex;"><span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// Condition defines an extension to status (an observation) of a resource
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Condition</span> <span style="color:#66d9ef">struct</span> {
-</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Type of condition.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// +kubebuilder:validation:Required
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#a6e22e">Type</span> <span style="color:#a6e22e">ConditionType</span> <span style="color:#e6db74">`json:&#34;type&#34;`</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Condition defines an extension to status (an observation) of a resource</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Condition</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Type of condition.</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// +kubebuilder:validation:Required</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">Type</span> <span style="color:#a6e22e">ConditionType</span> <span style="color:#e6db74">`json:&#34;type&#34;`</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Status of the condition, one of True, False, or Unknown.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// +kubebuilder:validation:Required
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#a6e22e">Status</span> <span style="color:#a6e22e">metav1</span>.<span style="color:#a6e22e">ConditionStatus</span> <span style="color:#e6db74">`json:&#34;status&#34;`</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Status of the condition, one of True, False, or Unknown.</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// +kubebuilder:validation:Required</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">Status</span> <span style="color:#a6e22e">metav1</span>.<span style="color:#a6e22e">ConditionStatus</span> <span style="color:#e6db74">`json:&#34;status&#34;`</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Severity with which to treat failures of this type of condition.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// For conditions which have positive polarity (Status == True is their normal/healthy state), this will be omitted when Status == True
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// For conditions which have negative polarity (Status == False is their normal/healthy state), this will be omitted when Status == False.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// This is omitted in all cases when Status == Unknown
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// +kubebuilder:validation:Optional
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#a6e22e">Severity</span> <span style="color:#a6e22e">ConditionSeverity</span> <span style="color:#e6db74">`json:&#34;severity,omitempty&#34;`</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Severity with which to treat failures of this type of condition.</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// For conditions which have positive polarity (Status == True is their normal/healthy state), this will be omitted when Status == True</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// For conditions which have negative polarity (Status == False is their normal/healthy state), this will be omitted when Status == False.</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// This is omitted in all cases when Status == Unknown</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// +kubebuilder:validation:Optional</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">Severity</span> <span style="color:#a6e22e">ConditionSeverity</span> <span style="color:#e6db74">`json:&#34;severity,omitempty&#34;`</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// LastTransitionTime is the last time the condition changed.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// +kubebuilder:validation:Required
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#a6e22e">LastTransitionTime</span> <span style="color:#a6e22e">metav1</span>.<span style="color:#a6e22e">Time</span> <span style="color:#e6db74">`json:&#34;lastTransitionTime&#34;`</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// LastTransitionTime is the last time the condition changed.</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// +kubebuilder:validation:Required</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">LastTransitionTime</span> <span style="color:#a6e22e">metav1</span>.<span style="color:#a6e22e">Time</span> <span style="color:#e6db74">`json:&#34;lastTransitionTime&#34;`</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Reason for the condition&#39;s last transition.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// Reasons are upper CamelCase (PascalCase) with no spaces. A reason is always provided, this field will not be empty.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// +kubebuilder:validation:Required
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#a6e22e">Reason</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;reason&#34;`</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Reason for the condition&#39;s last transition.</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Reasons are upper CamelCase (PascalCase) with no spaces. A reason is always provided, this field will not be empty.</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// +kubebuilder:validation:Required</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">Reason</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;reason&#34;`</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Message is a human readable message indicating details about the transition. This field may be empty.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// +kubebuilder:validation:Optional
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#a6e22e">Message</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;message,omitempty&#34;`</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Message is a human readable message indicating details about the transition. This field may be empty.</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// +kubebuilder:validation:Optional</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">Message</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;message,omitempty&#34;`</span>
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h3 id="the-ready-condition">The <code>Ready</code> condition</h3>
 <p>The <code>Condition</code> definition above discusses support for arbitrary conditions. In practice at least for now, ASO will only expose a single <code>Ready</code> condition.
@@ -1014,31 +1001,31 @@ The addition of a <code>Severity</code> field inspired by <a href="https://githu
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Reason</th>
-          <th style="text-align: left">Severity</th>
-          <th style="text-align: left">Meaning</th>
+          <th>Reason</th>
+          <th>Severity</th>
+          <th>Meaning</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">Reconciling</td>
-          <td style="text-align: left">Info</td>
-          <td style="text-align: left">A request has been submitted to Azure. The operator may be waiting for a response from Azure.</td>
+          <td>Reconciling</td>
+          <td>Info</td>
+          <td>A request has been submitted to Azure. The operator may be waiting for a response from Azure.</td>
       </tr>
       <tr>
-          <td style="text-align: left">WaitingForOwner</td>
-          <td style="text-align: left">Warning</td>
-          <td style="text-align: left">The <code>owner</code> of this resource cannot be found in Kubernetes. Progress is blocked until the <code>owner</code> is created.</td>
+          <td>WaitingForOwner</td>
+          <td>Warning</td>
+          <td>The <code>owner</code> of this resource cannot be found in Kubernetes. Progress is blocked until the <code>owner</code> is created.</td>
       </tr>
       <tr>
-          <td style="text-align: left">Deleting</td>
-          <td style="text-align: left">Info</td>
-          <td style="text-align: left">The resource is being deleted.</td>
+          <td>Deleting</td>
+          <td>Info</td>
+          <td>The resource is being deleted.</td>
       </tr>
       <tr>
-          <td style="text-align: left">Succeeded</td>
-          <td style="text-align: left">None (&quot;&quot;/empty)</td>
-          <td style="text-align: left">The <code>spec</code> has successfully been applied. No additional changes are being attempted at this time.</td>
+          <td>Succeeded</td>
+          <td>None (&quot;&quot;/empty)</td>
+          <td>The <code>spec</code> has successfully been applied. No additional changes are being attempted at this time.</td>
       </tr>
   </tbody>
 </table>
@@ -1090,26 +1077,26 @@ The addition of a <code>Severity</code> field inspired by <a href="https://githu
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Status of deployment</th>
-          <th style="text-align: left">State of resource</th>
+          <th>Status of deployment</th>
+          <th>State of resource</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">4xx HTTP error code when creating deployment</td>
-          <td style="text-align: left">Resource does not exist</td>
+          <td>4xx HTTP error code when creating deployment</td>
+          <td>Resource does not exist</td>
       </tr>
       <tr>
-          <td style="text-align: left">Deployment accepted, but fails after polling</td>
-          <td style="text-align: left">Resource may or may not exist (depends on the RP)</td>
+          <td>Deployment accepted, but fails after polling</td>
+          <td>Resource may or may not exist (depends on the RP)</td>
       </tr>
       <tr>
-          <td style="text-align: left">Deployment succeeds</td>
-          <td style="text-align: left">Resource has <code>Failed</code> <code>provisioningState</code> - The spec doesn&rsquo;t say this is impossible but it&rsquo;s probably very rare</td>
+          <td>Deployment succeeds</td>
+          <td>Resource has <code>Failed</code> <code>provisioningState</code> - The spec doesn&rsquo;t say this is impossible but it&rsquo;s probably very rare</td>
       </tr>
       <tr>
-          <td style="text-align: left">Deployment succeeds</td>
-          <td style="text-align: left">Resource has <code>Succeeded</code> <code>provisioningState</code></td>
+          <td>Deployment succeeds</td>
+          <td>Resource has <code>Succeeded</code> <code>provisioningState</code></td>
       </tr>
   </tbody>
 </table>
@@ -1149,7 +1136,7 @@ This means we have to handle cases where the deployment failed but the resource 
 </footer>
 
     </div>
-    <script src="/azure-service-operator/js/main.min.0a5a30b73411b7a841784b6f4d46f4e0b1b95d576fa3cadd81db9d5ae468e8c2.js" integrity="sha256-ClowtzQRt6hBeEtvTUb04LG5XVdvo8rdgdudWuRo6MI=" crossorigin="anonymous"></script>
+    <script src="/azure-service-operator/js/main.min.4096f09e0b199950620fc06165ef2a2791e1bee9067e27b14c4a54f02c0e33bd.js" integrity="sha256-QJbwngsZmVBiD8BhZe8qJ5HhvukGfiexTEpU8CwOM70=" crossorigin="anonymous"></script>
 <script defer src="/azure-service-operator/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/azure-service-operator/js/tabpane-persist.js'></script>
 

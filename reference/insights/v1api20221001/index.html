@@ -18,13 +18,13 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>insights.azure.com/v1api20221001 | Azure Service Operator</title>
-<meta name="description" content=" APIVersion Value Description &ldquo;2022-10-01&rdquo; AutoscaleSetting Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2022-10-01/autoscale_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourcegroups/​{resourceGroupName}/​providers/​Microsoft.Insights/autoscalesettings/{autoscaleSettingName}
+<meta name="description" content="APIVersion Value Description “2022-10-01” AutoscaleSetting Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2022-10-01/autoscale_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourcegroups/​{resourceGroupName}/​providers/​Microsoft.Insights/autoscalesettings/{autoscaleSettingName}
 Used by: AutoscaleSettingList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSetting_SpecOptional status Autoscalesetting_STATUSOptional AutoscaleSetting_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be. stringOptional enabled the enabled flag. Specifies whether automatic scaling is enabled for the resource. The default value is &lsquo;false&rsquo;. boolOptional location Resource location stringRequired name the name of the autoscale setting. stringOptional notifications the collection of notifications. AutoscaleNotification[]Optional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure AutoscaleSettingOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired predictiveAutoscalePolicy the predictive autoscale policy mode. PredictiveAutoscalePolicyOptional profiles the collection of automatic scaling profiles that specify different scaling parameters for different time periods. A maximum of 20 profiles can be specified. AutoscaleProfile[]Required tags Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater in length than 128 characters and a value no greater in length than 256 characters. map[string]stringOptional targetResourceLocation the location of the resource that the autoscale setting should be added to. stringOptional targetResourceUriReference the resource identifier of the resource that the autoscale setting should be added to. genruntime.ResourceReferenceOptional Autoscalesetting_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional enabled the enabled flag. Specifies whether automatic scaling is enabled for the resource. The default value is &lsquo;false&rsquo;. boolOptional id Azure resource Id stringOptional location Resource location stringOptional name Azure resource name stringOptional notifications the collection of notifications. AutoscaleNotification_STATUS[]Optional predictiveAutoscalePolicy the predictive autoscale policy mode. PredictiveAutoscalePolicy_STATUSOptional profiles the collection of automatic scaling profiles that specify different scaling parameters for different time periods. A maximum of 20 profiles can be specified. AutoscaleProfile_STATUS[]Optional properties_name the name of the autoscale setting. stringOptional systemData The system metadata related to the response. SystemData_STATUSOptional tags Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater in length than 128 characters and a value no greater in length than 256 characters. map[string]stringOptional targetResourceLocation the location of the resource that the autoscale setting should be added to. stringOptional targetResourceUri the resource identifier of the resource that the autoscale setting should be added to. stringOptional type Azure resource type stringOptional AutoscaleSettingList Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2022-10-01/autoscale_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourcegroups/​{resourceGroupName}/​providers/​Microsoft.Insights/autoscalesettings/{autoscaleSettingName}">
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSetting_SpecOptional status Autoscalesetting_STATUSOptional AutoscaleSetting_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional enabled the enabled flag. Specifies whether automatic scaling is enabled for the resource. The default value is ‘false’. boolOptional location Resource location stringRequired name the name of the autoscale setting. stringOptional notifications the collection of notifications. AutoscaleNotification[]Optional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure AutoscaleSettingOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired predictiveAutoscalePolicy the predictive autoscale policy mode. PredictiveAutoscalePolicyOptional profiles the collection of automatic scaling profiles that specify different scaling parameters for different time periods. A maximum of 20 profiles can be specified. AutoscaleProfile[]Required tags Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater in length than 128 characters and a value no greater in length than 256 characters. map[string]stringOptional targetResourceLocation the location of the resource that the autoscale setting should be added to. stringOptional targetResourceUriReference the resource identifier of the resource that the autoscale setting should be added to. genruntime.ResourceReferenceOptional Autoscalesetting_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional enabled the enabled flag. Specifies whether automatic scaling is enabled for the resource. The default value is ‘false’. boolOptional id Azure resource Id stringOptional location Resource location stringOptional name Azure resource name stringOptional notifications the collection of notifications. AutoscaleNotification_STATUS[]Optional predictiveAutoscalePolicy the predictive autoscale policy mode. PredictiveAutoscalePolicy_STATUSOptional profiles the collection of automatic scaling profiles that specify different scaling parameters for different time periods. A maximum of 20 profiles can be specified. AutoscaleProfile_STATUS[]Optional properties_name the name of the autoscale setting. stringOptional systemData The system metadata related to the response. SystemData_STATUSOptional tags Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater in length than 128 characters and a value no greater in length than 256 characters. map[string]stringOptional targetResourceLocation the location of the resource that the autoscale setting should be added to. stringOptional targetResourceUri the resource identifier of the resource that the autoscale setting should be added to. stringOptional type Azure resource type stringOptional AutoscaleSettingList Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2022-10-01/autoscale_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourcegroups/​{resourceGroupName}/​providers/​Microsoft.Insights/autoscalesettings/{autoscaleSettingName}">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/insights/v1api20221001/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="insights.azure.com/v1api20221001">
-  <meta property="og:description" content=" APIVersion Value Description “2022-10-01” AutoscaleSetting Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2022-10-01/autoscale_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourcegroups/​{resourceGroupName}/​providers/​Microsoft.Insights/autoscalesettings/{autoscaleSettingName}
+  <meta property="og:description" content="APIVersion Value Description “2022-10-01” AutoscaleSetting Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2022-10-01/autoscale_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourcegroups/​{resourceGroupName}/​providers/​Microsoft.Insights/autoscalesettings/{autoscaleSettingName}
 Used by: AutoscaleSettingList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSetting_SpecOptional status Autoscalesetting_STATUSOptional AutoscaleSetting_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional enabled the enabled flag. Specifies whether automatic scaling is enabled for the resource. The default value is ‘false’. boolOptional location Resource location stringRequired name the name of the autoscale setting. stringOptional notifications the collection of notifications. AutoscaleNotification[]Optional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure AutoscaleSettingOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired predictiveAutoscalePolicy the predictive autoscale policy mode. PredictiveAutoscalePolicyOptional profiles the collection of automatic scaling profiles that specify different scaling parameters for different time periods. A maximum of 20 profiles can be specified. AutoscaleProfile[]Required tags Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater in length than 128 characters and a value no greater in length than 256 characters. map[string]stringOptional targetResourceLocation the location of the resource that the autoscale setting should be added to. stringOptional targetResourceUriReference the resource identifier of the resource that the autoscale setting should be added to. genruntime.ResourceReferenceOptional Autoscalesetting_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional enabled the enabled flag. Specifies whether automatic scaling is enabled for the resource. The default value is ‘false’. boolOptional id Azure resource Id stringOptional location Resource location stringOptional name Azure resource name stringOptional notifications the collection of notifications. AutoscaleNotification_STATUS[]Optional predictiveAutoscalePolicy the predictive autoscale policy mode. PredictiveAutoscalePolicy_STATUSOptional profiles the collection of automatic scaling profiles that specify different scaling parameters for different time periods. A maximum of 20 profiles can be specified. AutoscaleProfile_STATUS[]Optional properties_name the name of the autoscale setting. stringOptional systemData The system metadata related to the response. SystemData_STATUSOptional tags Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater in length than 128 characters and a value no greater in length than 256 characters. map[string]stringOptional targetResourceLocation the location of the resource that the autoscale setting should be added to. stringOptional targetResourceUri the resource identifier of the resource that the autoscale setting should be added to. stringOptional type Azure resource type stringOptional AutoscaleSettingList Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2022-10-01/autoscale_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourcegroups/​{resourceGroupName}/​providers/​Microsoft.Insights/autoscalesettings/{autoscaleSettingName}">
   <meta property="og:locale" content="en_us">
@@ -32,22 +32,17 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
     <meta property="article:section" content="reference">
 
   <meta itemprop="name" content="insights.azure.com/v1api20221001">
-  <meta itemprop="description" content=" APIVersion Value Description “2022-10-01” AutoscaleSetting Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2022-10-01/autoscale_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourcegroups/​{resourceGroupName}/​providers/​Microsoft.Insights/autoscalesettings/{autoscaleSettingName}
+  <meta itemprop="description" content="APIVersion Value Description “2022-10-01” AutoscaleSetting Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2022-10-01/autoscale_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourcegroups/​{resourceGroupName}/​providers/​Microsoft.Insights/autoscalesettings/{autoscaleSettingName}
 Used by: AutoscaleSettingList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSetting_SpecOptional status Autoscalesetting_STATUSOptional AutoscaleSetting_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional enabled the enabled flag. Specifies whether automatic scaling is enabled for the resource. The default value is ‘false’. boolOptional location Resource location stringRequired name the name of the autoscale setting. stringOptional notifications the collection of notifications. AutoscaleNotification[]Optional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure AutoscaleSettingOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired predictiveAutoscalePolicy the predictive autoscale policy mode. PredictiveAutoscalePolicyOptional profiles the collection of automatic scaling profiles that specify different scaling parameters for different time periods. A maximum of 20 profiles can be specified. AutoscaleProfile[]Required tags Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater in length than 128 characters and a value no greater in length than 256 characters. map[string]stringOptional targetResourceLocation the location of the resource that the autoscale setting should be added to. stringOptional targetResourceUriReference the resource identifier of the resource that the autoscale setting should be added to. genruntime.ResourceReferenceOptional Autoscalesetting_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional enabled the enabled flag. Specifies whether automatic scaling is enabled for the resource. The default value is ‘false’. boolOptional id Azure resource Id stringOptional location Resource location stringOptional name Azure resource name stringOptional notifications the collection of notifications. AutoscaleNotification_STATUS[]Optional predictiveAutoscalePolicy the predictive autoscale policy mode. PredictiveAutoscalePolicy_STATUSOptional profiles the collection of automatic scaling profiles that specify different scaling parameters for different time periods. A maximum of 20 profiles can be specified. AutoscaleProfile_STATUS[]Optional properties_name the name of the autoscale setting. stringOptional systemData The system metadata related to the response. SystemData_STATUSOptional tags Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater in length than 128 characters and a value no greater in length than 256 characters. map[string]stringOptional targetResourceLocation the location of the resource that the autoscale setting should be added to. stringOptional targetResourceUri the resource identifier of the resource that the autoscale setting should be added to. stringOptional type Azure resource type stringOptional AutoscaleSettingList Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2022-10-01/autoscale_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourcegroups/​{resourceGroupName}/​providers/​Microsoft.Insights/autoscalesettings/{autoscaleSettingName}">
   <meta itemprop="wordCount" content="4725">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="insights.azure.com/v1api20221001">
-  <meta name="twitter:description" content=" APIVersion Value Description “2022-10-01” AutoscaleSetting Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2022-10-01/autoscale_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourcegroups/​{resourceGroupName}/​providers/​Microsoft.Insights/autoscalesettings/{autoscaleSettingName}
+  <meta name="twitter:description" content="APIVersion Value Description “2022-10-01” AutoscaleSetting Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2022-10-01/autoscale_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourcegroups/​{resourceGroupName}/​providers/​Microsoft.Insights/autoscalesettings/{autoscaleSettingName}
 Used by: AutoscaleSettingList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSetting_SpecOptional status Autoscalesetting_STATUSOptional AutoscaleSetting_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional enabled the enabled flag. Specifies whether automatic scaling is enabled for the resource. The default value is ‘false’. boolOptional location Resource location stringRequired name the name of the autoscale setting. stringOptional notifications the collection of notifications. AutoscaleNotification[]Optional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure AutoscaleSettingOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired predictiveAutoscalePolicy the predictive autoscale policy mode. PredictiveAutoscalePolicyOptional profiles the collection of automatic scaling profiles that specify different scaling parameters for different time periods. A maximum of 20 profiles can be specified. AutoscaleProfile[]Required tags Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater in length than 128 characters and a value no greater in length than 256 characters. map[string]stringOptional targetResourceLocation the location of the resource that the autoscale setting should be added to. stringOptional targetResourceUriReference the resource identifier of the resource that the autoscale setting should be added to. genruntime.ResourceReferenceOptional Autoscalesetting_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional enabled the enabled flag. Specifies whether automatic scaling is enabled for the resource. The default value is ‘false’. boolOptional id Azure resource Id stringOptional location Resource location stringOptional name Azure resource name stringOptional notifications the collection of notifications. AutoscaleNotification_STATUS[]Optional predictiveAutoscalePolicy the predictive autoscale policy mode. PredictiveAutoscalePolicy_STATUSOptional profiles the collection of automatic scaling profiles that specify different scaling parameters for different time periods. A maximum of 20 profiles can be specified. AutoscaleProfile_STATUS[]Optional properties_name the name of the autoscale setting. stringOptional systemData The system metadata related to the response. SystemData_STATUSOptional tags Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater in length than 128 characters and a value no greater in length than 256 characters. map[string]stringOptional targetResourceLocation the location of the resource that the autoscale setting should be added to. stringOptional targetResourceUri the resource identifier of the resource that the autoscale setting should be added to. stringOptional type Azure resource type stringOptional AutoscaleSettingList Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2022-10-01/autoscale_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourcegroups/​{resourceGroupName}/​providers/​Microsoft.Insights/autoscalesettings/{autoscaleSettingName}">
-
-
-
-
-<link rel="preload" href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" as="style">
-<link href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" rel="stylesheet" integrity="">
-
+<link rel="preload" href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" as="style" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
+<link href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" rel="stylesheet" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -888,7 +883,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
     v1api20221001</li>
   </ol>
 </nav>
-            
 <div class="td-content">
 	<h1>insights.azure.com/v1api20221001</h1>
 	
@@ -900,14 +894,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;2022-10-01&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;2022-10-01&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -917,31 +911,31 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left"><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta">metav1.ObjectMeta</a></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta">metav1.ObjectMeta</a></td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">spec</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"><a href="#AutoscaleSetting_Spec">AutoscaleSetting_Spec</a><br/><small>Optional</small></td>
+          <td>spec</td>
+          <td></td>
+          <td><a href="#AutoscaleSetting_Spec">AutoscaleSetting_Spec</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">status</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"><a href="#Autoscalesetting_STATUS">Autoscalesetting_STATUS</a><br/><small>Optional</small></td>
+          <td>status</td>
+          <td></td>
+          <td><a href="#Autoscalesetting_STATUS">Autoscalesetting_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -949,71 +943,71 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">azureName</td>
-          <td style="text-align: left">The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>azureName</td>
+          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">enabled</td>
-          <td style="text-align: left">the enabled flag. Specifies whether automatic scaling is enabled for the resource. The default value is &lsquo;false&rsquo;.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>enabled</td>
+          <td>the enabled flag. Specifies whether automatic scaling is enabled for the resource. The default value is &lsquo;false&rsquo;.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">location</td>
-          <td style="text-align: left">Resource location</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>location</td>
+          <td>Resource location</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">name</td>
-          <td style="text-align: left">the name of the autoscale setting.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>name</td>
+          <td>the name of the autoscale setting.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">notifications</td>
-          <td style="text-align: left">the collection of notifications.</td>
-          <td style="text-align: left"><a href="#AutoscaleNotification">AutoscaleNotification[]</a><br/><small>Optional</small></td>
+          <td>notifications</td>
+          <td>the collection of notifications.</td>
+          <td><a href="#AutoscaleNotification">AutoscaleNotification[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">operatorSpec</td>
-          <td style="text-align: left">The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td style="text-align: left"><a href="#AutoscaleSettingOperatorSpec">AutoscaleSettingOperatorSpec</a><br/><small>Optional</small></td>
+          <td>operatorSpec</td>
+          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+          <td><a href="#AutoscaleSettingOperatorSpec">AutoscaleSettingOperatorSpec</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">owner</td>
-          <td style="text-align: left">The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
+          <td>owner</td>
+          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">predictiveAutoscalePolicy</td>
-          <td style="text-align: left">the predictive autoscale policy mode.</td>
-          <td style="text-align: left"><a href="#PredictiveAutoscalePolicy">PredictiveAutoscalePolicy</a><br/><small>Optional</small></td>
+          <td>predictiveAutoscalePolicy</td>
+          <td>the predictive autoscale policy mode.</td>
+          <td><a href="#PredictiveAutoscalePolicy">PredictiveAutoscalePolicy</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">profiles</td>
-          <td style="text-align: left">the collection of automatic scaling profiles that specify different scaling parameters for different time periods. A maximum of 20 profiles can be specified.</td>
-          <td style="text-align: left"><a href="#AutoscaleProfile">AutoscaleProfile[]</a><br/><small>Required</small></td>
+          <td>profiles</td>
+          <td>the collection of automatic scaling profiles that specify different scaling parameters for different time periods. A maximum of 20 profiles can be specified.</td>
+          <td><a href="#AutoscaleProfile">AutoscaleProfile[]</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">tags</td>
-          <td style="text-align: left">Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater in length than 128 characters and a value no greater in length than 256 characters.</td>
-          <td style="text-align: left">map[string]string<br/><small>Optional</small></td>
+          <td>tags</td>
+          <td>Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater in length than 128 characters and a value no greater in length than 256 characters.</td>
+          <td>map[string]string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">targetResourceLocation</td>
-          <td style="text-align: left">the location of the resource that the autoscale setting should be added to.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>targetResourceLocation</td>
+          <td>the location of the resource that the autoscale setting should be added to.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">targetResourceUriReference</td>
-          <td style="text-align: left">the resource identifier of the resource that the autoscale setting should be added to.</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+          <td>targetResourceUriReference</td>
+          <td>the resource identifier of the resource that the autoscale setting should be added to.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1021,81 +1015,81 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">conditions</td>
-          <td style="text-align: left">The observed state of the resource</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+          <td>conditions</td>
+          <td>The observed state of the resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">enabled</td>
-          <td style="text-align: left">the enabled flag. Specifies whether automatic scaling is enabled for the resource. The default value is &lsquo;false&rsquo;.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>enabled</td>
+          <td>the enabled flag. Specifies whether automatic scaling is enabled for the resource. The default value is &lsquo;false&rsquo;.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">id</td>
-          <td style="text-align: left">Azure resource Id</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>id</td>
+          <td>Azure resource Id</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">location</td>
-          <td style="text-align: left">Resource location</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>location</td>
+          <td>Resource location</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">name</td>
-          <td style="text-align: left">Azure resource name</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>name</td>
+          <td>Azure resource name</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">notifications</td>
-          <td style="text-align: left">the collection of notifications.</td>
-          <td style="text-align: left"><a href="#AutoscaleNotification_STATUS">AutoscaleNotification_STATUS[]</a><br/><small>Optional</small></td>
+          <td>notifications</td>
+          <td>the collection of notifications.</td>
+          <td><a href="#AutoscaleNotification_STATUS">AutoscaleNotification_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">predictiveAutoscalePolicy</td>
-          <td style="text-align: left">the predictive autoscale policy mode.</td>
-          <td style="text-align: left"><a href="#PredictiveAutoscalePolicy_STATUS">PredictiveAutoscalePolicy_STATUS</a><br/><small>Optional</small></td>
+          <td>predictiveAutoscalePolicy</td>
+          <td>the predictive autoscale policy mode.</td>
+          <td><a href="#PredictiveAutoscalePolicy_STATUS">PredictiveAutoscalePolicy_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">profiles</td>
-          <td style="text-align: left">the collection of automatic scaling profiles that specify different scaling parameters for different time periods. A maximum of 20 profiles can be specified.</td>
-          <td style="text-align: left"><a href="#AutoscaleProfile_STATUS">AutoscaleProfile_STATUS[]</a><br/><small>Optional</small></td>
+          <td>profiles</td>
+          <td>the collection of automatic scaling profiles that specify different scaling parameters for different time periods. A maximum of 20 profiles can be specified.</td>
+          <td><a href="#AutoscaleProfile_STATUS">AutoscaleProfile_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">properties_name</td>
-          <td style="text-align: left">the name of the autoscale setting.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>properties_name</td>
+          <td>the name of the autoscale setting.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">systemData</td>
-          <td style="text-align: left">The system metadata related to the response.</td>
-          <td style="text-align: left"><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
+          <td>systemData</td>
+          <td>The system metadata related to the response.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">tags</td>
-          <td style="text-align: left">Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater in length than 128 characters and a value no greater in length than 256 characters.</td>
-          <td style="text-align: left">map[string]string<br/><small>Optional</small></td>
+          <td>tags</td>
+          <td>Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater in length than 128 characters and a value no greater in length than 256 characters.</td>
+          <td>map[string]string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">targetResourceLocation</td>
-          <td style="text-align: left">the location of the resource that the autoscale setting should be added to.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>targetResourceLocation</td>
+          <td>the location of the resource that the autoscale setting should be added to.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">targetResourceUri</td>
-          <td style="text-align: left">the resource identifier of the resource that the autoscale setting should be added to.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>targetResourceUri</td>
+          <td>the resource identifier of the resource that the autoscale setting should be added to.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">type</td>
-          <td style="text-align: left">Azure resource type</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>type</td>
+          <td>Azure resource type</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1104,26 +1098,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left"><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta">metav1.ListMeta</a></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta">metav1.ListMeta</a></td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">items</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"><a href="#AutoscaleSetting">AutoscaleSetting[]</a><br/><small>Optional</small></td>
+          <td>items</td>
+          <td></td>
+          <td><a href="#AutoscaleSetting">AutoscaleSetting[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1132,71 +1126,71 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">azureName</td>
-          <td style="text-align: left">The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>azureName</td>
+          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">enabled</td>
-          <td style="text-align: left">the enabled flag. Specifies whether automatic scaling is enabled for the resource. The default value is &lsquo;false&rsquo;.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>enabled</td>
+          <td>the enabled flag. Specifies whether automatic scaling is enabled for the resource. The default value is &lsquo;false&rsquo;.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">location</td>
-          <td style="text-align: left">Resource location</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>location</td>
+          <td>Resource location</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">name</td>
-          <td style="text-align: left">the name of the autoscale setting.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>name</td>
+          <td>the name of the autoscale setting.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">notifications</td>
-          <td style="text-align: left">the collection of notifications.</td>
-          <td style="text-align: left"><a href="#AutoscaleNotification">AutoscaleNotification[]</a><br/><small>Optional</small></td>
+          <td>notifications</td>
+          <td>the collection of notifications.</td>
+          <td><a href="#AutoscaleNotification">AutoscaleNotification[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">operatorSpec</td>
-          <td style="text-align: left">The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td style="text-align: left"><a href="#AutoscaleSettingOperatorSpec">AutoscaleSettingOperatorSpec</a><br/><small>Optional</small></td>
+          <td>operatorSpec</td>
+          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+          <td><a href="#AutoscaleSettingOperatorSpec">AutoscaleSettingOperatorSpec</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">owner</td>
-          <td style="text-align: left">The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
+          <td>owner</td>
+          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">predictiveAutoscalePolicy</td>
-          <td style="text-align: left">the predictive autoscale policy mode.</td>
-          <td style="text-align: left"><a href="#PredictiveAutoscalePolicy">PredictiveAutoscalePolicy</a><br/><small>Optional</small></td>
+          <td>predictiveAutoscalePolicy</td>
+          <td>the predictive autoscale policy mode.</td>
+          <td><a href="#PredictiveAutoscalePolicy">PredictiveAutoscalePolicy</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">profiles</td>
-          <td style="text-align: left">the collection of automatic scaling profiles that specify different scaling parameters for different time periods. A maximum of 20 profiles can be specified.</td>
-          <td style="text-align: left"><a href="#AutoscaleProfile">AutoscaleProfile[]</a><br/><small>Required</small></td>
+          <td>profiles</td>
+          <td>the collection of automatic scaling profiles that specify different scaling parameters for different time periods. A maximum of 20 profiles can be specified.</td>
+          <td><a href="#AutoscaleProfile">AutoscaleProfile[]</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">tags</td>
-          <td style="text-align: left">Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater in length than 128 characters and a value no greater in length than 256 characters.</td>
-          <td style="text-align: left">map[string]string<br/><small>Optional</small></td>
+          <td>tags</td>
+          <td>Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater in length than 128 characters and a value no greater in length than 256 characters.</td>
+          <td>map[string]string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">targetResourceLocation</td>
-          <td style="text-align: left">the location of the resource that the autoscale setting should be added to.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>targetResourceLocation</td>
+          <td>the location of the resource that the autoscale setting should be added to.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">targetResourceUriReference</td>
-          <td style="text-align: left">the resource identifier of the resource that the autoscale setting should be added to.</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+          <td>targetResourceUriReference</td>
+          <td>the resource identifier of the resource that the autoscale setting should be added to.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1205,81 +1199,81 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">conditions</td>
-          <td style="text-align: left">The observed state of the resource</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+          <td>conditions</td>
+          <td>The observed state of the resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">enabled</td>
-          <td style="text-align: left">the enabled flag. Specifies whether automatic scaling is enabled for the resource. The default value is &lsquo;false&rsquo;.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>enabled</td>
+          <td>the enabled flag. Specifies whether automatic scaling is enabled for the resource. The default value is &lsquo;false&rsquo;.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">id</td>
-          <td style="text-align: left">Azure resource Id</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>id</td>
+          <td>Azure resource Id</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">location</td>
-          <td style="text-align: left">Resource location</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>location</td>
+          <td>Resource location</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">name</td>
-          <td style="text-align: left">Azure resource name</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>name</td>
+          <td>Azure resource name</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">notifications</td>
-          <td style="text-align: left">the collection of notifications.</td>
-          <td style="text-align: left"><a href="#AutoscaleNotification_STATUS">AutoscaleNotification_STATUS[]</a><br/><small>Optional</small></td>
+          <td>notifications</td>
+          <td>the collection of notifications.</td>
+          <td><a href="#AutoscaleNotification_STATUS">AutoscaleNotification_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">predictiveAutoscalePolicy</td>
-          <td style="text-align: left">the predictive autoscale policy mode.</td>
-          <td style="text-align: left"><a href="#PredictiveAutoscalePolicy_STATUS">PredictiveAutoscalePolicy_STATUS</a><br/><small>Optional</small></td>
+          <td>predictiveAutoscalePolicy</td>
+          <td>the predictive autoscale policy mode.</td>
+          <td><a href="#PredictiveAutoscalePolicy_STATUS">PredictiveAutoscalePolicy_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">profiles</td>
-          <td style="text-align: left">the collection of automatic scaling profiles that specify different scaling parameters for different time periods. A maximum of 20 profiles can be specified.</td>
-          <td style="text-align: left"><a href="#AutoscaleProfile_STATUS">AutoscaleProfile_STATUS[]</a><br/><small>Optional</small></td>
+          <td>profiles</td>
+          <td>the collection of automatic scaling profiles that specify different scaling parameters for different time periods. A maximum of 20 profiles can be specified.</td>
+          <td><a href="#AutoscaleProfile_STATUS">AutoscaleProfile_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">properties_name</td>
-          <td style="text-align: left">the name of the autoscale setting.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>properties_name</td>
+          <td>the name of the autoscale setting.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">systemData</td>
-          <td style="text-align: left">The system metadata related to the response.</td>
-          <td style="text-align: left"><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
+          <td>systemData</td>
+          <td>The system metadata related to the response.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">tags</td>
-          <td style="text-align: left">Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater in length than 128 characters and a value no greater in length than 256 characters.</td>
-          <td style="text-align: left">map[string]string<br/><small>Optional</small></td>
+          <td>tags</td>
+          <td>Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater in length than 128 characters and a value no greater in length than 256 characters.</td>
+          <td>map[string]string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">targetResourceLocation</td>
-          <td style="text-align: left">the location of the resource that the autoscale setting should be added to.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>targetResourceLocation</td>
+          <td>the location of the resource that the autoscale setting should be added to.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">targetResourceUri</td>
-          <td style="text-align: left">the resource identifier of the resource that the autoscale setting should be added to.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>targetResourceUri</td>
+          <td>the resource identifier of the resource that the autoscale setting should be added to.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">type</td>
-          <td style="text-align: left">Azure resource type</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>type</td>
+          <td>Azure resource type</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1289,26 +1283,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">email</td>
-          <td style="text-align: left">the email notification.</td>
-          <td style="text-align: left"><a href="#EmailNotification">EmailNotification</a><br/><small>Optional</small></td>
+          <td>email</td>
+          <td>the email notification.</td>
+          <td><a href="#EmailNotification">EmailNotification</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">operation</td>
-          <td style="text-align: left">the operation associated with the notification and its value must be &ldquo;scale&rdquo;</td>
-          <td style="text-align: left"><a href="#AutoscaleNotification_Operation">AutoscaleNotification_Operation</a><br/><small>Required</small></td>
+          <td>operation</td>
+          <td>the operation associated with the notification and its value must be &ldquo;scale&rdquo;</td>
+          <td><a href="#AutoscaleNotification_Operation">AutoscaleNotification_Operation</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">webhooks</td>
-          <td style="text-align: left">the collection of webhook notifications.</td>
-          <td style="text-align: left"><a href="#WebhookNotification">WebhookNotification[]</a><br/><small>Optional</small></td>
+          <td>webhooks</td>
+          <td>the collection of webhook notifications.</td>
+          <td><a href="#WebhookNotification">WebhookNotification[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1318,26 +1312,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">email</td>
-          <td style="text-align: left">the email notification.</td>
-          <td style="text-align: left"><a href="#EmailNotification_STATUS">EmailNotification_STATUS</a><br/><small>Optional</small></td>
+          <td>email</td>
+          <td>the email notification.</td>
+          <td><a href="#EmailNotification_STATUS">EmailNotification_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">operation</td>
-          <td style="text-align: left">the operation associated with the notification and its value must be &ldquo;scale&rdquo;</td>
-          <td style="text-align: left"><a href="#AutoscaleNotification_Operation_STATUS">AutoscaleNotification_Operation_STATUS</a><br/><small>Optional</small></td>
+          <td>operation</td>
+          <td>the operation associated with the notification and its value must be &ldquo;scale&rdquo;</td>
+          <td><a href="#AutoscaleNotification_Operation_STATUS">AutoscaleNotification_Operation_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">webhooks</td>
-          <td style="text-align: left">the collection of webhook notifications.</td>
-          <td style="text-align: left"><a href="#WebhookNotification_STATUS">WebhookNotification_STATUS[]</a><br/><small>Optional</small></td>
+          <td>webhooks</td>
+          <td>the collection of webhook notifications.</td>
+          <td><a href="#WebhookNotification_STATUS">WebhookNotification_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1347,36 +1341,36 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">capacity</td>
-          <td style="text-align: left">the number of instances that can be used during this profile.</td>
-          <td style="text-align: left"><a href="#ScaleCapacity">ScaleCapacity</a><br/><small>Required</small></td>
+          <td>capacity</td>
+          <td>the number of instances that can be used during this profile.</td>
+          <td><a href="#ScaleCapacity">ScaleCapacity</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">fixedDate</td>
-          <td style="text-align: left">the specific date-time for the profile. This element is not used if the Recurrence element is used.</td>
-          <td style="text-align: left"><a href="#TimeWindow">TimeWindow</a><br/><small>Optional</small></td>
+          <td>fixedDate</td>
+          <td>the specific date-time for the profile. This element is not used if the Recurrence element is used.</td>
+          <td><a href="#TimeWindow">TimeWindow</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">name</td>
-          <td style="text-align: left">the name of the profile.</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>name</td>
+          <td>the name of the profile.</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">recurrence</td>
-          <td style="text-align: left">the repeating times at which this profile begins. This element is not used if the FixedDate element is used.</td>
-          <td style="text-align: left"><a href="#Recurrence">Recurrence</a><br/><small>Optional</small></td>
+          <td>recurrence</td>
+          <td>the repeating times at which this profile begins. This element is not used if the FixedDate element is used.</td>
+          <td><a href="#Recurrence">Recurrence</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">rules</td>
-          <td style="text-align: left">the collection of rules that provide the triggers and parameters for the scaling action. A maximum of 10 rules can be specified.</td>
-          <td style="text-align: left"><a href="#ScaleRule">ScaleRule[]</a><br/><small>Required</small></td>
+          <td>rules</td>
+          <td>the collection of rules that provide the triggers and parameters for the scaling action. A maximum of 10 rules can be specified.</td>
+          <td><a href="#ScaleRule">ScaleRule[]</a><br/><small>Required</small></td>
       </tr>
   </tbody>
 </table>
@@ -1386,36 +1380,36 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">capacity</td>
-          <td style="text-align: left">the number of instances that can be used during this profile.</td>
-          <td style="text-align: left"><a href="#ScaleCapacity_STATUS">ScaleCapacity_STATUS</a><br/><small>Required</small></td>
+          <td>capacity</td>
+          <td>the number of instances that can be used during this profile.</td>
+          <td><a href="#ScaleCapacity_STATUS">ScaleCapacity_STATUS</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">fixedDate</td>
-          <td style="text-align: left">the specific date-time for the profile. This element is not used if the Recurrence element is used.</td>
-          <td style="text-align: left"><a href="#TimeWindow_STATUS">TimeWindow_STATUS</a><br/><small>Optional</small></td>
+          <td>fixedDate</td>
+          <td>the specific date-time for the profile. This element is not used if the Recurrence element is used.</td>
+          <td><a href="#TimeWindow_STATUS">TimeWindow_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">name</td>
-          <td style="text-align: left">the name of the profile.</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>name</td>
+          <td>the name of the profile.</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">recurrence</td>
-          <td style="text-align: left">the repeating times at which this profile begins. This element is not used if the FixedDate element is used.</td>
-          <td style="text-align: left"><a href="#Recurrence_STATUS">Recurrence_STATUS</a><br/><small>Optional</small></td>
+          <td>recurrence</td>
+          <td>the repeating times at which this profile begins. This element is not used if the FixedDate element is used.</td>
+          <td><a href="#Recurrence_STATUS">Recurrence_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">rules</td>
-          <td style="text-align: left">the collection of rules that provide the triggers and parameters for the scaling action. A maximum of 10 rules can be specified.</td>
-          <td style="text-align: left"><a href="#ScaleRule_STATUS">ScaleRule_STATUS[]</a><br/><small>Required</small></td>
+          <td>rules</td>
+          <td>the collection of rules that provide the triggers and parameters for the scaling action. A maximum of 10 rules can be specified.</td>
+          <td><a href="#ScaleRule_STATUS">ScaleRule_STATUS[]</a><br/><small>Required</small></td>
       </tr>
   </tbody>
 </table>
@@ -1425,21 +1419,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">configMapExpressions</td>
-          <td style="text-align: left">configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+          <td>configMapExpressions</td>
+          <td>configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">secretExpressions</td>
-          <td style="text-align: left">configures where to place operator written dynamic secrets (created with CEL expressions).</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+          <td>secretExpressions</td>
+          <td>configures where to place operator written dynamic secrets (created with CEL expressions).</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1449,21 +1443,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">scaleLookAheadTime</td>
-          <td style="text-align: left">the amount of time to specify by which instances are launched in advance. It must be between 1 minute and 60 minutes in ISO 8601 format.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>scaleLookAheadTime</td>
+          <td>the amount of time to specify by which instances are launched in advance. It must be between 1 minute and 60 minutes in ISO 8601 format.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">scaleMode</td>
-          <td style="text-align: left">the predictive autoscale mode</td>
-          <td style="text-align: left"><a href="#PredictiveAutoscalePolicy_ScaleMode">PredictiveAutoscalePolicy_ScaleMode</a><br/><small>Required</small></td>
+          <td>scaleMode</td>
+          <td>the predictive autoscale mode</td>
+          <td><a href="#PredictiveAutoscalePolicy_ScaleMode">PredictiveAutoscalePolicy_ScaleMode</a><br/><small>Required</small></td>
       </tr>
   </tbody>
 </table>
@@ -1473,21 +1467,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">scaleLookAheadTime</td>
-          <td style="text-align: left">the amount of time to specify by which instances are launched in advance. It must be between 1 minute and 60 minutes in ISO 8601 format.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>scaleLookAheadTime</td>
+          <td>the amount of time to specify by which instances are launched in advance. It must be between 1 minute and 60 minutes in ISO 8601 format.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">scaleMode</td>
-          <td style="text-align: left">the predictive autoscale mode</td>
-          <td style="text-align: left"><a href="#PredictiveAutoscalePolicy_ScaleMode_STATUS">PredictiveAutoscalePolicy_ScaleMode_STATUS</a><br/><small>Optional</small></td>
+          <td>scaleMode</td>
+          <td>the predictive autoscale mode</td>
+          <td><a href="#PredictiveAutoscalePolicy_ScaleMode_STATUS">PredictiveAutoscalePolicy_ScaleMode_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1497,41 +1491,41 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">createdAt</td>
-          <td style="text-align: left">The timestamp of resource creation (UTC).</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>createdAt</td>
+          <td>The timestamp of resource creation (UTC).</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">createdBy</td>
-          <td style="text-align: left">The identity that created the resource.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>createdBy</td>
+          <td>The identity that created the resource.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">createdByType</td>
-          <td style="text-align: left">The type of identity that created the resource.</td>
-          <td style="text-align: left"><a href="#SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS</a><br/><small>Optional</small></td>
+          <td>createdByType</td>
+          <td>The type of identity that created the resource.</td>
+          <td><a href="#SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">lastModifiedAt</td>
-          <td style="text-align: left">The timestamp of resource last modification (UTC)</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>lastModifiedAt</td>
+          <td>The timestamp of resource last modification (UTC)</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">lastModifiedBy</td>
-          <td style="text-align: left">The identity that last modified the resource.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>lastModifiedBy</td>
+          <td>The identity that last modified the resource.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">lastModifiedByType</td>
-          <td style="text-align: left">The type of identity that last modified the resource.</td>
-          <td style="text-align: left"><a href="#SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS</a><br/><small>Optional</small></td>
+          <td>lastModifiedByType</td>
+          <td>The type of identity that last modified the resource.</td>
+          <td><a href="#SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1540,14 +1534,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Scale&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Scale&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -1556,14 +1550,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Scale&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Scale&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -1573,26 +1567,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">customEmails</td>
-          <td style="text-align: left">the custom e-mails list. This value can be null or empty, in which case this attribute will be ignored.</td>
-          <td style="text-align: left">string[]<br/><small>Optional</small></td>
+          <td>customEmails</td>
+          <td>the custom e-mails list. This value can be null or empty, in which case this attribute will be ignored.</td>
+          <td>string[]<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">sendToSubscriptionAdministrator</td>
-          <td style="text-align: left">a value indicating whether to send email to subscription administrator.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>sendToSubscriptionAdministrator</td>
+          <td>a value indicating whether to send email to subscription administrator.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">sendToSubscriptionCoAdministrators</td>
-          <td style="text-align: left">a value indicating whether to send email to subscription co-administrators.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>sendToSubscriptionCoAdministrators</td>
+          <td>a value indicating whether to send email to subscription co-administrators.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1602,26 +1596,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">customEmails</td>
-          <td style="text-align: left">the custom e-mails list. This value can be null or empty, in which case this attribute will be ignored.</td>
-          <td style="text-align: left">string[]<br/><small>Optional</small></td>
+          <td>customEmails</td>
+          <td>the custom e-mails list. This value can be null or empty, in which case this attribute will be ignored.</td>
+          <td>string[]<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">sendToSubscriptionAdministrator</td>
-          <td style="text-align: left">a value indicating whether to send email to subscription administrator.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>sendToSubscriptionAdministrator</td>
+          <td>a value indicating whether to send email to subscription administrator.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">sendToSubscriptionCoAdministrators</td>
-          <td style="text-align: left">a value indicating whether to send email to subscription co-administrators.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>sendToSubscriptionCoAdministrators</td>
+          <td>a value indicating whether to send email to subscription co-administrators.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1630,22 +1624,22 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Disabled&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Disabled&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Enabled&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Enabled&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;ForecastOnly&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;ForecastOnly&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -1654,22 +1648,22 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Disabled&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Disabled&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Enabled&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Enabled&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;ForecastOnly&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;ForecastOnly&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -1679,21 +1673,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">frequency</td>
-          <td style="text-align: left">the recurrence frequency. How often the schedule profile should take effect. This value must be Week, meaning each week will have the same set of profiles. For example, to set a daily schedule, set schedule to every day of the week. The frequency property specifies that the schedule is repeated weekly.</td>
-          <td style="text-align: left"><a href="#Recurrence_Frequency">Recurrence_Frequency</a><br/><small>Required</small></td>
+          <td>frequency</td>
+          <td>the recurrence frequency. How often the schedule profile should take effect. This value must be Week, meaning each week will have the same set of profiles. For example, to set a daily schedule, set schedule to every day of the week. The frequency property specifies that the schedule is repeated weekly.</td>
+          <td><a href="#Recurrence_Frequency">Recurrence_Frequency</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">schedule</td>
-          <td style="text-align: left">the scheduling constraints for when the profile begins.</td>
-          <td style="text-align: left"><a href="#RecurrentSchedule">RecurrentSchedule</a><br/><small>Required</small></td>
+          <td>schedule</td>
+          <td>the scheduling constraints for when the profile begins.</td>
+          <td><a href="#RecurrentSchedule">RecurrentSchedule</a><br/><small>Required</small></td>
       </tr>
   </tbody>
 </table>
@@ -1703,21 +1697,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">frequency</td>
-          <td style="text-align: left">the recurrence frequency. How often the schedule profile should take effect. This value must be Week, meaning each week will have the same set of profiles. For example, to set a daily schedule, set schedule to every day of the week. The frequency property specifies that the schedule is repeated weekly.</td>
-          <td style="text-align: left"><a href="#Recurrence_Frequency_STATUS">Recurrence_Frequency_STATUS</a><br/><small>Required</small></td>
+          <td>frequency</td>
+          <td>the recurrence frequency. How often the schedule profile should take effect. This value must be Week, meaning each week will have the same set of profiles. For example, to set a daily schedule, set schedule to every day of the week. The frequency property specifies that the schedule is repeated weekly.</td>
+          <td><a href="#Recurrence_Frequency_STATUS">Recurrence_Frequency_STATUS</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">schedule</td>
-          <td style="text-align: left">the scheduling constraints for when the profile begins.</td>
-          <td style="text-align: left"><a href="#RecurrentSchedule_STATUS">RecurrentSchedule_STATUS</a><br/><small>Required</small></td>
+          <td>schedule</td>
+          <td>the scheduling constraints for when the profile begins.</td>
+          <td><a href="#RecurrentSchedule_STATUS">RecurrentSchedule_STATUS</a><br/><small>Required</small></td>
       </tr>
   </tbody>
 </table>
@@ -1727,26 +1721,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">default</td>
-          <td style="text-align: left">the number of instances that will be set if metrics are not available for evaluation. The default is only used if the current instance count is lower than the default.</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>default</td>
+          <td>the number of instances that will be set if metrics are not available for evaluation. The default is only used if the current instance count is lower than the default.</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">maximum</td>
-          <td style="text-align: left">the maximum number of instances for the resource. The actual maximum number of instances is limited by the cores that are available in the subscription.</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>maximum</td>
+          <td>the maximum number of instances for the resource. The actual maximum number of instances is limited by the cores that are available in the subscription.</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">minimum</td>
-          <td style="text-align: left">the minimum number of instances for the resource.</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>minimum</td>
+          <td>the minimum number of instances for the resource.</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
   </tbody>
 </table>
@@ -1756,26 +1750,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">default</td>
-          <td style="text-align: left">the number of instances that will be set if metrics are not available for evaluation. The default is only used if the current instance count is lower than the default.</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>default</td>
+          <td>the number of instances that will be set if metrics are not available for evaluation. The default is only used if the current instance count is lower than the default.</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">maximum</td>
-          <td style="text-align: left">the maximum number of instances for the resource. The actual maximum number of instances is limited by the cores that are available in the subscription.</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>maximum</td>
+          <td>the maximum number of instances for the resource. The actual maximum number of instances is limited by the cores that are available in the subscription.</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">minimum</td>
-          <td style="text-align: left">the minimum number of instances for the resource.</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>minimum</td>
+          <td>the minimum number of instances for the resource.</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
   </tbody>
 </table>
@@ -1785,21 +1779,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">metricTrigger</td>
-          <td style="text-align: left">the trigger that results in a scaling action.</td>
-          <td style="text-align: left"><a href="#MetricTrigger">MetricTrigger</a><br/><small>Required</small></td>
+          <td>metricTrigger</td>
+          <td>the trigger that results in a scaling action.</td>
+          <td><a href="#MetricTrigger">MetricTrigger</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">scaleAction</td>
-          <td style="text-align: left">the parameters for the scaling action.</td>
-          <td style="text-align: left"><a href="#ScaleAction">ScaleAction</a><br/><small>Required</small></td>
+          <td>scaleAction</td>
+          <td>the parameters for the scaling action.</td>
+          <td><a href="#ScaleAction">ScaleAction</a><br/><small>Required</small></td>
       </tr>
   </tbody>
 </table>
@@ -1809,21 +1803,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">metricTrigger</td>
-          <td style="text-align: left">the trigger that results in a scaling action.</td>
-          <td style="text-align: left"><a href="#MetricTrigger_STATUS">MetricTrigger_STATUS</a><br/><small>Required</small></td>
+          <td>metricTrigger</td>
+          <td>the trigger that results in a scaling action.</td>
+          <td><a href="#MetricTrigger_STATUS">MetricTrigger_STATUS</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">scaleAction</td>
-          <td style="text-align: left">the parameters for the scaling action.</td>
-          <td style="text-align: left"><a href="#ScaleAction_STATUS">ScaleAction_STATUS</a><br/><small>Required</small></td>
+          <td>scaleAction</td>
+          <td>the parameters for the scaling action.</td>
+          <td><a href="#ScaleAction_STATUS">ScaleAction_STATUS</a><br/><small>Required</small></td>
       </tr>
   </tbody>
 </table>
@@ -1832,26 +1826,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Application&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Application&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Key&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Key&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;ManagedIdentity&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;ManagedIdentity&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;User&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;User&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -1860,26 +1854,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Application&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Application&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Key&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Key&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;ManagedIdentity&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;ManagedIdentity&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;User&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;User&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -1889,26 +1883,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">end</td>
-          <td style="text-align: left">the end time for the profile in ISO 8601 format.</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>end</td>
+          <td>the end time for the profile in ISO 8601 format.</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">start</td>
-          <td style="text-align: left">the start time for the profile in ISO 8601 format.</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>start</td>
+          <td>the start time for the profile in ISO 8601 format.</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">timeZone</td>
-          <td style="text-align: left">the timezone of the start and end times for the profile. Some examples of valid time zones are: Dateline Standard Time, UTC-11, Hawaiian Standard Time, Alaskan Standard Time, Pacific Standard Time (Mexico), Pacific Standard Time, US Mountain Standard Time, Mountain Standard Time (Mexico), Mountain Standard Time, Central America Standard Time, Central Standard Time, Central Standard Time (Mexico), Canada Central Standard Time, SA Pacific Standard Time, Eastern Standard Time, US Eastern Standard Time, Venezuela Standard Time, Paraguay Standard Time, Atlantic Standard Time, Central Brazilian Standard Time, SA Western Standard Time, Pacific SA Standard Time, Newfoundland Standard Time, E. South America Standard Time, Argentina Standard Time, SA Eastern Standard Time, Greenland Standard Time, Montevideo Standard Time, Bahia Standard Time, UTC-02, Mid-Atlantic Standard Time, Azores Standard Time, Cape Verde Standard Time, Morocco Standard Time, UTC, GMT Standard Time, Greenwich Standard Time, W. Europe Standard Time, Central Europe Standard Time, Romance Standard Time, Central European Standard Time, W. Central Africa Standard Time, Namibia Standard Time, Jordan Standard Time, GTB Standard Time, Middle East Standard Time, Egypt Standard Time, Syria Standard Time, E. Europe Standard Time, South Africa Standard Time, FLE Standard Time, Turkey Standard Time, Israel Standard Time, Kaliningrad Standard Time, Libya Standard Time, Arabic Standard Time, Arab Standard Time, Belarus Standard Time, Russian Standard Time, E. Africa Standard Time, Iran Standard Time, Arabian Standard Time, Azerbaijan Standard Time, Russia Time Zone 3, Mauritius Standard Time, Georgian Standard Time, Caucasus Standard Time, Afghanistan Standard Time, West Asia Standard Time, Ekaterinburg Standard Time, Pakistan Standard Time, India Standard Time, Sri Lanka Standard Time, Nepal Standard Time, Central Asia Standard Time, Bangladesh Standard Time, N. Central Asia Standard Time, Myanmar Standard Time, SE Asia Standard Time, North Asia Standard Time, China Standard Time, North Asia East Standard Time, Singapore Standard Time, W. Australia Standard Time, Taipei Standard Time, Ulaanbaatar Standard Time, Tokyo Standard Time, Korea Standard Time, Yakutsk Standard Time, Cen. Australia Standard Time, AUS Central Standard Time, E. Australia Standard Time, AUS Eastern Standard Time, West Pacific Standard Time, Tasmania Standard Time, Magadan Standard Time, Vladivostok Standard Time, Russia Time Zone 10, Central Pacific Standard Time, Russia Time Zone 11, New Zealand Standard Time, UTC+12, Fiji Standard Time, Kamchatka Standard Time, Tonga Standard Time, Samoa Standard Time, Line Islands Standard Time</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>timeZone</td>
+          <td>the timezone of the start and end times for the profile. Some examples of valid time zones are: Dateline Standard Time, UTC-11, Hawaiian Standard Time, Alaskan Standard Time, Pacific Standard Time (Mexico), Pacific Standard Time, US Mountain Standard Time, Mountain Standard Time (Mexico), Mountain Standard Time, Central America Standard Time, Central Standard Time, Central Standard Time (Mexico), Canada Central Standard Time, SA Pacific Standard Time, Eastern Standard Time, US Eastern Standard Time, Venezuela Standard Time, Paraguay Standard Time, Atlantic Standard Time, Central Brazilian Standard Time, SA Western Standard Time, Pacific SA Standard Time, Newfoundland Standard Time, E. South America Standard Time, Argentina Standard Time, SA Eastern Standard Time, Greenland Standard Time, Montevideo Standard Time, Bahia Standard Time, UTC-02, Mid-Atlantic Standard Time, Azores Standard Time, Cape Verde Standard Time, Morocco Standard Time, UTC, GMT Standard Time, Greenwich Standard Time, W. Europe Standard Time, Central Europe Standard Time, Romance Standard Time, Central European Standard Time, W. Central Africa Standard Time, Namibia Standard Time, Jordan Standard Time, GTB Standard Time, Middle East Standard Time, Egypt Standard Time, Syria Standard Time, E. Europe Standard Time, South Africa Standard Time, FLE Standard Time, Turkey Standard Time, Israel Standard Time, Kaliningrad Standard Time, Libya Standard Time, Arabic Standard Time, Arab Standard Time, Belarus Standard Time, Russian Standard Time, E. Africa Standard Time, Iran Standard Time, Arabian Standard Time, Azerbaijan Standard Time, Russia Time Zone 3, Mauritius Standard Time, Georgian Standard Time, Caucasus Standard Time, Afghanistan Standard Time, West Asia Standard Time, Ekaterinburg Standard Time, Pakistan Standard Time, India Standard Time, Sri Lanka Standard Time, Nepal Standard Time, Central Asia Standard Time, Bangladesh Standard Time, N. Central Asia Standard Time, Myanmar Standard Time, SE Asia Standard Time, North Asia Standard Time, China Standard Time, North Asia East Standard Time, Singapore Standard Time, W. Australia Standard Time, Taipei Standard Time, Ulaanbaatar Standard Time, Tokyo Standard Time, Korea Standard Time, Yakutsk Standard Time, Cen. Australia Standard Time, AUS Central Standard Time, E. Australia Standard Time, AUS Eastern Standard Time, West Pacific Standard Time, Tasmania Standard Time, Magadan Standard Time, Vladivostok Standard Time, Russia Time Zone 10, Central Pacific Standard Time, Russia Time Zone 11, New Zealand Standard Time, UTC+12, Fiji Standard Time, Kamchatka Standard Time, Tonga Standard Time, Samoa Standard Time, Line Islands Standard Time</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1918,26 +1912,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">end</td>
-          <td style="text-align: left">the end time for the profile in ISO 8601 format.</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>end</td>
+          <td>the end time for the profile in ISO 8601 format.</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">start</td>
-          <td style="text-align: left">the start time for the profile in ISO 8601 format.</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>start</td>
+          <td>the start time for the profile in ISO 8601 format.</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">timeZone</td>
-          <td style="text-align: left">the timezone of the start and end times for the profile. Some examples of valid time zones are: Dateline Standard Time, UTC-11, Hawaiian Standard Time, Alaskan Standard Time, Pacific Standard Time (Mexico), Pacific Standard Time, US Mountain Standard Time, Mountain Standard Time (Mexico), Mountain Standard Time, Central America Standard Time, Central Standard Time, Central Standard Time (Mexico), Canada Central Standard Time, SA Pacific Standard Time, Eastern Standard Time, US Eastern Standard Time, Venezuela Standard Time, Paraguay Standard Time, Atlantic Standard Time, Central Brazilian Standard Time, SA Western Standard Time, Pacific SA Standard Time, Newfoundland Standard Time, E. South America Standard Time, Argentina Standard Time, SA Eastern Standard Time, Greenland Standard Time, Montevideo Standard Time, Bahia Standard Time, UTC-02, Mid-Atlantic Standard Time, Azores Standard Time, Cape Verde Standard Time, Morocco Standard Time, UTC, GMT Standard Time, Greenwich Standard Time, W. Europe Standard Time, Central Europe Standard Time, Romance Standard Time, Central European Standard Time, W. Central Africa Standard Time, Namibia Standard Time, Jordan Standard Time, GTB Standard Time, Middle East Standard Time, Egypt Standard Time, Syria Standard Time, E. Europe Standard Time, South Africa Standard Time, FLE Standard Time, Turkey Standard Time, Israel Standard Time, Kaliningrad Standard Time, Libya Standard Time, Arabic Standard Time, Arab Standard Time, Belarus Standard Time, Russian Standard Time, E. Africa Standard Time, Iran Standard Time, Arabian Standard Time, Azerbaijan Standard Time, Russia Time Zone 3, Mauritius Standard Time, Georgian Standard Time, Caucasus Standard Time, Afghanistan Standard Time, West Asia Standard Time, Ekaterinburg Standard Time, Pakistan Standard Time, India Standard Time, Sri Lanka Standard Time, Nepal Standard Time, Central Asia Standard Time, Bangladesh Standard Time, N. Central Asia Standard Time, Myanmar Standard Time, SE Asia Standard Time, North Asia Standard Time, China Standard Time, North Asia East Standard Time, Singapore Standard Time, W. Australia Standard Time, Taipei Standard Time, Ulaanbaatar Standard Time, Tokyo Standard Time, Korea Standard Time, Yakutsk Standard Time, Cen. Australia Standard Time, AUS Central Standard Time, E. Australia Standard Time, AUS Eastern Standard Time, West Pacific Standard Time, Tasmania Standard Time, Magadan Standard Time, Vladivostok Standard Time, Russia Time Zone 10, Central Pacific Standard Time, Russia Time Zone 11, New Zealand Standard Time, UTC+12, Fiji Standard Time, Kamchatka Standard Time, Tonga Standard Time, Samoa Standard Time, Line Islands Standard Time</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>timeZone</td>
+          <td>the timezone of the start and end times for the profile. Some examples of valid time zones are: Dateline Standard Time, UTC-11, Hawaiian Standard Time, Alaskan Standard Time, Pacific Standard Time (Mexico), Pacific Standard Time, US Mountain Standard Time, Mountain Standard Time (Mexico), Mountain Standard Time, Central America Standard Time, Central Standard Time, Central Standard Time (Mexico), Canada Central Standard Time, SA Pacific Standard Time, Eastern Standard Time, US Eastern Standard Time, Venezuela Standard Time, Paraguay Standard Time, Atlantic Standard Time, Central Brazilian Standard Time, SA Western Standard Time, Pacific SA Standard Time, Newfoundland Standard Time, E. South America Standard Time, Argentina Standard Time, SA Eastern Standard Time, Greenland Standard Time, Montevideo Standard Time, Bahia Standard Time, UTC-02, Mid-Atlantic Standard Time, Azores Standard Time, Cape Verde Standard Time, Morocco Standard Time, UTC, GMT Standard Time, Greenwich Standard Time, W. Europe Standard Time, Central Europe Standard Time, Romance Standard Time, Central European Standard Time, W. Central Africa Standard Time, Namibia Standard Time, Jordan Standard Time, GTB Standard Time, Middle East Standard Time, Egypt Standard Time, Syria Standard Time, E. Europe Standard Time, South Africa Standard Time, FLE Standard Time, Turkey Standard Time, Israel Standard Time, Kaliningrad Standard Time, Libya Standard Time, Arabic Standard Time, Arab Standard Time, Belarus Standard Time, Russian Standard Time, E. Africa Standard Time, Iran Standard Time, Arabian Standard Time, Azerbaijan Standard Time, Russia Time Zone 3, Mauritius Standard Time, Georgian Standard Time, Caucasus Standard Time, Afghanistan Standard Time, West Asia Standard Time, Ekaterinburg Standard Time, Pakistan Standard Time, India Standard Time, Sri Lanka Standard Time, Nepal Standard Time, Central Asia Standard Time, Bangladesh Standard Time, N. Central Asia Standard Time, Myanmar Standard Time, SE Asia Standard Time, North Asia Standard Time, China Standard Time, North Asia East Standard Time, Singapore Standard Time, W. Australia Standard Time, Taipei Standard Time, Ulaanbaatar Standard Time, Tokyo Standard Time, Korea Standard Time, Yakutsk Standard Time, Cen. Australia Standard Time, AUS Central Standard Time, E. Australia Standard Time, AUS Eastern Standard Time, West Pacific Standard Time, Tasmania Standard Time, Magadan Standard Time, Vladivostok Standard Time, Russia Time Zone 10, Central Pacific Standard Time, Russia Time Zone 11, New Zealand Standard Time, UTC+12, Fiji Standard Time, Kamchatka Standard Time, Tonga Standard Time, Samoa Standard Time, Line Islands Standard Time</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1947,21 +1941,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">properties</td>
-          <td style="text-align: left">a property bag of settings. This value can be empty.</td>
-          <td style="text-align: left">map[string]string<br/><small>Optional</small></td>
+          <td>properties</td>
+          <td>a property bag of settings. This value can be empty.</td>
+          <td>map[string]string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">serviceUri</td>
-          <td style="text-align: left">the service address to receive the notification.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>serviceUri</td>
+          <td>the service address to receive the notification.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1971,21 +1965,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">properties</td>
-          <td style="text-align: left">a property bag of settings. This value can be empty.</td>
-          <td style="text-align: left">map[string]string<br/><small>Optional</small></td>
+          <td>properties</td>
+          <td>a property bag of settings. This value can be empty.</td>
+          <td>map[string]string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">serviceUri</td>
-          <td style="text-align: left">the service address to receive the notification.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>serviceUri</td>
+          <td>the service address to receive the notification.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1995,71 +1989,71 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">dimensions</td>
-          <td style="text-align: left">List of dimension conditions. For example: [{&ldquo;DimensionName&rdquo;:&ldquo;AppName&rdquo;,&ldquo;Operator&rdquo;:&ldquo;Equals&rdquo;,&ldquo;Values&rdquo;:[&ldquo;App1&rdquo;]},{&ldquo;DimensionName&rdquo;:&ldquo;Deployment&rdquo;,&ldquo;Operator&rdquo;:&ldquo;Equals&rdquo;,&ldquo;Values&rdquo;:[&ldquo;default&rdquo;]}].</td>
-          <td style="text-align: left"><a href="#ScaleRuleMetricDimension">ScaleRuleMetricDimension[]</a><br/><small>Optional</small></td>
+          <td>dimensions</td>
+          <td>List of dimension conditions. For example: [{&ldquo;DimensionName&rdquo;:&ldquo;AppName&rdquo;,&ldquo;Operator&rdquo;:&ldquo;Equals&rdquo;,&ldquo;Values&rdquo;:[&ldquo;App1&rdquo;]},{&ldquo;DimensionName&rdquo;:&ldquo;Deployment&rdquo;,&ldquo;Operator&rdquo;:&ldquo;Equals&rdquo;,&ldquo;Values&rdquo;:[&ldquo;default&rdquo;]}].</td>
+          <td><a href="#ScaleRuleMetricDimension">ScaleRuleMetricDimension[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">dividePerInstance</td>
-          <td style="text-align: left">a value indicating whether metric should divide per instance.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>dividePerInstance</td>
+          <td>a value indicating whether metric should divide per instance.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">metricName</td>
-          <td style="text-align: left">the name of the metric that defines what the rule monitors.</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>metricName</td>
+          <td>the name of the metric that defines what the rule monitors.</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">metricNamespace</td>
-          <td style="text-align: left">the namespace of the metric that defines what the rule monitors.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>metricNamespace</td>
+          <td>the namespace of the metric that defines what the rule monitors.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">metricResourceLocation</td>
-          <td style="text-align: left">the location of the resource the rule monitors.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>metricResourceLocation</td>
+          <td>the location of the resource the rule monitors.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">metricResourceUriReference</td>
-          <td style="text-align: left">the resource identifier of the resource the rule monitors.</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Required</small></td>
+          <td>metricResourceUriReference</td>
+          <td>the resource identifier of the resource the rule monitors.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">operator</td>
-          <td style="text-align: left">the operator that is used to compare the metric data and the threshold.</td>
-          <td style="text-align: left"><a href="#MetricTrigger_Operator">MetricTrigger_Operator</a><br/><small>Required</small></td>
+          <td>operator</td>
+          <td>the operator that is used to compare the metric data and the threshold.</td>
+          <td><a href="#MetricTrigger_Operator">MetricTrigger_Operator</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">statistic</td>
-          <td style="text-align: left">the metric statistic type. How the metrics from multiple instances are combined.</td>
-          <td style="text-align: left"><a href="#MetricTrigger_Statistic">MetricTrigger_Statistic</a><br/><small>Required</small></td>
+          <td>statistic</td>
+          <td>the metric statistic type. How the metrics from multiple instances are combined.</td>
+          <td><a href="#MetricTrigger_Statistic">MetricTrigger_Statistic</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">threshold</td>
-          <td style="text-align: left">the threshold of the metric that triggers the scale action.</td>
-          <td style="text-align: left">float64<br/><small>Required</small></td>
+          <td>threshold</td>
+          <td>the threshold of the metric that triggers the scale action.</td>
+          <td>float64<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">timeAggregation</td>
-          <td style="text-align: left">time aggregation type. How the data that is collected should be combined over time. The default value is Average.</td>
-          <td style="text-align: left"><a href="#MetricTrigger_TimeAggregation">MetricTrigger_TimeAggregation</a><br/><small>Required</small></td>
+          <td>timeAggregation</td>
+          <td>time aggregation type. How the data that is collected should be combined over time. The default value is Average.</td>
+          <td><a href="#MetricTrigger_TimeAggregation">MetricTrigger_TimeAggregation</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">timeGrain</td>
-          <td style="text-align: left">the granularity of metrics the rule monitors. Must be one of the predefined values returned from metric definitions for the metric. Must be between 12 hours and 1 minute.</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>timeGrain</td>
+          <td>the granularity of metrics the rule monitors. Must be one of the predefined values returned from metric definitions for the metric. Must be between 12 hours and 1 minute.</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">timeWindow</td>
-          <td style="text-align: left">the range of time in which instance data is collected. This value must be greater than the delay in metric collection, which can vary from resource-to-resource. Must be between 12 hours and 5 minutes.</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>timeWindow</td>
+          <td>the range of time in which instance data is collected. This value must be greater than the delay in metric collection, which can vary from resource-to-resource. Must be between 12 hours and 5 minutes.</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
   </tbody>
 </table>
@@ -2069,71 +2063,71 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">dimensions</td>
-          <td style="text-align: left">List of dimension conditions. For example: [{&ldquo;DimensionName&rdquo;:&ldquo;AppName&rdquo;,&ldquo;Operator&rdquo;:&ldquo;Equals&rdquo;,&ldquo;Values&rdquo;:[&ldquo;App1&rdquo;]},{&ldquo;DimensionName&rdquo;:&ldquo;Deployment&rdquo;,&ldquo;Operator&rdquo;:&ldquo;Equals&rdquo;,&ldquo;Values&rdquo;:[&ldquo;default&rdquo;]}].</td>
-          <td style="text-align: left"><a href="#ScaleRuleMetricDimension_STATUS">ScaleRuleMetricDimension_STATUS[]</a><br/><small>Optional</small></td>
+          <td>dimensions</td>
+          <td>List of dimension conditions. For example: [{&ldquo;DimensionName&rdquo;:&ldquo;AppName&rdquo;,&ldquo;Operator&rdquo;:&ldquo;Equals&rdquo;,&ldquo;Values&rdquo;:[&ldquo;App1&rdquo;]},{&ldquo;DimensionName&rdquo;:&ldquo;Deployment&rdquo;,&ldquo;Operator&rdquo;:&ldquo;Equals&rdquo;,&ldquo;Values&rdquo;:[&ldquo;default&rdquo;]}].</td>
+          <td><a href="#ScaleRuleMetricDimension_STATUS">ScaleRuleMetricDimension_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">dividePerInstance</td>
-          <td style="text-align: left">a value indicating whether metric should divide per instance.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>dividePerInstance</td>
+          <td>a value indicating whether metric should divide per instance.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">metricName</td>
-          <td style="text-align: left">the name of the metric that defines what the rule monitors.</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>metricName</td>
+          <td>the name of the metric that defines what the rule monitors.</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">metricNamespace</td>
-          <td style="text-align: left">the namespace of the metric that defines what the rule monitors.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>metricNamespace</td>
+          <td>the namespace of the metric that defines what the rule monitors.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">metricResourceLocation</td>
-          <td style="text-align: left">the location of the resource the rule monitors.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>metricResourceLocation</td>
+          <td>the location of the resource the rule monitors.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">metricResourceUri</td>
-          <td style="text-align: left">the resource identifier of the resource the rule monitors.</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>metricResourceUri</td>
+          <td>the resource identifier of the resource the rule monitors.</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">operator</td>
-          <td style="text-align: left">the operator that is used to compare the metric data and the threshold.</td>
-          <td style="text-align: left"><a href="#MetricTrigger_Operator_STATUS">MetricTrigger_Operator_STATUS</a><br/><small>Required</small></td>
+          <td>operator</td>
+          <td>the operator that is used to compare the metric data and the threshold.</td>
+          <td><a href="#MetricTrigger_Operator_STATUS">MetricTrigger_Operator_STATUS</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">statistic</td>
-          <td style="text-align: left">the metric statistic type. How the metrics from multiple instances are combined.</td>
-          <td style="text-align: left"><a href="#MetricTrigger_Statistic_STATUS">MetricTrigger_Statistic_STATUS</a><br/><small>Required</small></td>
+          <td>statistic</td>
+          <td>the metric statistic type. How the metrics from multiple instances are combined.</td>
+          <td><a href="#MetricTrigger_Statistic_STATUS">MetricTrigger_Statistic_STATUS</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">threshold</td>
-          <td style="text-align: left">the threshold of the metric that triggers the scale action.</td>
-          <td style="text-align: left">float64<br/><small>Required</small></td>
+          <td>threshold</td>
+          <td>the threshold of the metric that triggers the scale action.</td>
+          <td>float64<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">timeAggregation</td>
-          <td style="text-align: left">time aggregation type. How the data that is collected should be combined over time. The default value is Average.</td>
-          <td style="text-align: left"><a href="#MetricTrigger_TimeAggregation_STATUS">MetricTrigger_TimeAggregation_STATUS</a><br/><small>Required</small></td>
+          <td>timeAggregation</td>
+          <td>time aggregation type. How the data that is collected should be combined over time. The default value is Average.</td>
+          <td><a href="#MetricTrigger_TimeAggregation_STATUS">MetricTrigger_TimeAggregation_STATUS</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">timeGrain</td>
-          <td style="text-align: left">the granularity of metrics the rule monitors. Must be one of the predefined values returned from metric definitions for the metric. Must be between 12 hours and 1 minute.</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>timeGrain</td>
+          <td>the granularity of metrics the rule monitors. Must be one of the predefined values returned from metric definitions for the metric. Must be between 12 hours and 1 minute.</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">timeWindow</td>
-          <td style="text-align: left">the range of time in which instance data is collected. This value must be greater than the delay in metric collection, which can vary from resource-to-resource. Must be between 12 hours and 5 minutes.</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>timeWindow</td>
+          <td>the range of time in which instance data is collected. This value must be greater than the delay in metric collection, which can vary from resource-to-resource. Must be between 12 hours and 5 minutes.</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
   </tbody>
 </table>
@@ -2142,42 +2136,42 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Day&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Day&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Hour&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Hour&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Minute&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Minute&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Month&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Month&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;None&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;None&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Second&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Second&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Week&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Week&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Year&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Year&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2186,42 +2180,42 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Day&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Day&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Hour&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Hour&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Minute&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Minute&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Month&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Month&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;None&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;None&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Second&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Second&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Week&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Week&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Year&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Year&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2231,31 +2225,31 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">days</td>
-          <td style="text-align: left">the collection of days that the profile takes effect on. Possible values are Sunday through Saturday.</td>
-          <td style="text-align: left">string[]<br/><small>Required</small></td>
+          <td>days</td>
+          <td>the collection of days that the profile takes effect on. Possible values are Sunday through Saturday.</td>
+          <td>string[]<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">hours</td>
-          <td style="text-align: left">A collection of hours that the profile takes effect on. Values supported are 0 to 23 on the 24-hour clock (AM/PM times are not supported).</td>
-          <td style="text-align: left">int[]<br/><small>Required</small></td>
+          <td>hours</td>
+          <td>A collection of hours that the profile takes effect on. Values supported are 0 to 23 on the 24-hour clock (AM/PM times are not supported).</td>
+          <td>int[]<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">minutes</td>
-          <td style="text-align: left">A collection of minutes at which the profile takes effect at.</td>
-          <td style="text-align: left">int[]<br/><small>Required</small></td>
+          <td>minutes</td>
+          <td>A collection of minutes at which the profile takes effect at.</td>
+          <td>int[]<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">timeZone</td>
-          <td style="text-align: left">the timezone for the hours of the profile. Some examples of valid time zones are: Dateline Standard Time, UTC-11, Hawaiian Standard Time, Alaskan Standard Time, Pacific Standard Time (Mexico), Pacific Standard Time, US Mountain Standard Time, Mountain Standard Time (Mexico), Mountain Standard Time, Central America Standard Time, Central Standard Time, Central Standard Time (Mexico), Canada Central Standard Time, SA Pacific Standard Time, Eastern Standard Time, US Eastern Standard Time, Venezuela Standard Time, Paraguay Standard Time, Atlantic Standard Time, Central Brazilian Standard Time, SA Western Standard Time, Pacific SA Standard Time, Newfoundland Standard Time, E. South America Standard Time, Argentina Standard Time, SA Eastern Standard Time, Greenland Standard Time, Montevideo Standard Time, Bahia Standard Time, UTC-02, Mid-Atlantic Standard Time, Azores Standard Time, Cape Verde Standard Time, Morocco Standard Time, UTC, GMT Standard Time, Greenwich Standard Time, W. Europe Standard Time, Central Europe Standard Time, Romance Standard Time, Central European Standard Time, W. Central Africa Standard Time, Namibia Standard Time, Jordan Standard Time, GTB Standard Time, Middle East Standard Time, Egypt Standard Time, Syria Standard Time, E. Europe Standard Time, South Africa Standard Time, FLE Standard Time, Turkey Standard Time, Israel Standard Time, Kaliningrad Standard Time, Libya Standard Time, Arabic Standard Time, Arab Standard Time, Belarus Standard Time, Russian Standard Time, E. Africa Standard Time, Iran Standard Time, Arabian Standard Time, Azerbaijan Standard Time, Russia Time Zone 3, Mauritius Standard Time, Georgian Standard Time, Caucasus Standard Time, Afghanistan Standard Time, West Asia Standard Time, Ekaterinburg Standard Time, Pakistan Standard Time, India Standard Time, Sri Lanka Standard Time, Nepal Standard Time, Central Asia Standard Time, Bangladesh Standard Time, N. Central Asia Standard Time, Myanmar Standard Time, SE Asia Standard Time, North Asia Standard Time, China Standard Time, North Asia East Standard Time, Singapore Standard Time, W. Australia Standard Time, Taipei Standard Time, Ulaanbaatar Standard Time, Tokyo Standard Time, Korea Standard Time, Yakutsk Standard Time, Cen. Australia Standard Time, AUS Central Standard Time, E. Australia Standard Time, AUS Eastern Standard Time, West Pacific Standard Time, Tasmania Standard Time, Magadan Standard Time, Vladivostok Standard Time, Russia Time Zone 10, Central Pacific Standard Time, Russia Time Zone 11, New Zealand Standard Time, UTC+12, Fiji Standard Time, Kamchatka Standard Time, Tonga Standard Time, Samoa Standard Time, Line Islands Standard Time</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>timeZone</td>
+          <td>the timezone for the hours of the profile. Some examples of valid time zones are: Dateline Standard Time, UTC-11, Hawaiian Standard Time, Alaskan Standard Time, Pacific Standard Time (Mexico), Pacific Standard Time, US Mountain Standard Time, Mountain Standard Time (Mexico), Mountain Standard Time, Central America Standard Time, Central Standard Time, Central Standard Time (Mexico), Canada Central Standard Time, SA Pacific Standard Time, Eastern Standard Time, US Eastern Standard Time, Venezuela Standard Time, Paraguay Standard Time, Atlantic Standard Time, Central Brazilian Standard Time, SA Western Standard Time, Pacific SA Standard Time, Newfoundland Standard Time, E. South America Standard Time, Argentina Standard Time, SA Eastern Standard Time, Greenland Standard Time, Montevideo Standard Time, Bahia Standard Time, UTC-02, Mid-Atlantic Standard Time, Azores Standard Time, Cape Verde Standard Time, Morocco Standard Time, UTC, GMT Standard Time, Greenwich Standard Time, W. Europe Standard Time, Central Europe Standard Time, Romance Standard Time, Central European Standard Time, W. Central Africa Standard Time, Namibia Standard Time, Jordan Standard Time, GTB Standard Time, Middle East Standard Time, Egypt Standard Time, Syria Standard Time, E. Europe Standard Time, South Africa Standard Time, FLE Standard Time, Turkey Standard Time, Israel Standard Time, Kaliningrad Standard Time, Libya Standard Time, Arabic Standard Time, Arab Standard Time, Belarus Standard Time, Russian Standard Time, E. Africa Standard Time, Iran Standard Time, Arabian Standard Time, Azerbaijan Standard Time, Russia Time Zone 3, Mauritius Standard Time, Georgian Standard Time, Caucasus Standard Time, Afghanistan Standard Time, West Asia Standard Time, Ekaterinburg Standard Time, Pakistan Standard Time, India Standard Time, Sri Lanka Standard Time, Nepal Standard Time, Central Asia Standard Time, Bangladesh Standard Time, N. Central Asia Standard Time, Myanmar Standard Time, SE Asia Standard Time, North Asia Standard Time, China Standard Time, North Asia East Standard Time, Singapore Standard Time, W. Australia Standard Time, Taipei Standard Time, Ulaanbaatar Standard Time, Tokyo Standard Time, Korea Standard Time, Yakutsk Standard Time, Cen. Australia Standard Time, AUS Central Standard Time, E. Australia Standard Time, AUS Eastern Standard Time, West Pacific Standard Time, Tasmania Standard Time, Magadan Standard Time, Vladivostok Standard Time, Russia Time Zone 10, Central Pacific Standard Time, Russia Time Zone 11, New Zealand Standard Time, UTC+12, Fiji Standard Time, Kamchatka Standard Time, Tonga Standard Time, Samoa Standard Time, Line Islands Standard Time</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
   </tbody>
 </table>
@@ -2265,31 +2259,31 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">days</td>
-          <td style="text-align: left">the collection of days that the profile takes effect on. Possible values are Sunday through Saturday.</td>
-          <td style="text-align: left">string[]<br/><small>Required</small></td>
+          <td>days</td>
+          <td>the collection of days that the profile takes effect on. Possible values are Sunday through Saturday.</td>
+          <td>string[]<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">hours</td>
-          <td style="text-align: left">A collection of hours that the profile takes effect on. Values supported are 0 to 23 on the 24-hour clock (AM/PM times are not supported).</td>
-          <td style="text-align: left">int[]<br/><small>Required</small></td>
+          <td>hours</td>
+          <td>A collection of hours that the profile takes effect on. Values supported are 0 to 23 on the 24-hour clock (AM/PM times are not supported).</td>
+          <td>int[]<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">minutes</td>
-          <td style="text-align: left">A collection of minutes at which the profile takes effect at.</td>
-          <td style="text-align: left">int[]<br/><small>Required</small></td>
+          <td>minutes</td>
+          <td>A collection of minutes at which the profile takes effect at.</td>
+          <td>int[]<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">timeZone</td>
-          <td style="text-align: left">the timezone for the hours of the profile. Some examples of valid time zones are: Dateline Standard Time, UTC-11, Hawaiian Standard Time, Alaskan Standard Time, Pacific Standard Time (Mexico), Pacific Standard Time, US Mountain Standard Time, Mountain Standard Time (Mexico), Mountain Standard Time, Central America Standard Time, Central Standard Time, Central Standard Time (Mexico), Canada Central Standard Time, SA Pacific Standard Time, Eastern Standard Time, US Eastern Standard Time, Venezuela Standard Time, Paraguay Standard Time, Atlantic Standard Time, Central Brazilian Standard Time, SA Western Standard Time, Pacific SA Standard Time, Newfoundland Standard Time, E. South America Standard Time, Argentina Standard Time, SA Eastern Standard Time, Greenland Standard Time, Montevideo Standard Time, Bahia Standard Time, UTC-02, Mid-Atlantic Standard Time, Azores Standard Time, Cape Verde Standard Time, Morocco Standard Time, UTC, GMT Standard Time, Greenwich Standard Time, W. Europe Standard Time, Central Europe Standard Time, Romance Standard Time, Central European Standard Time, W. Central Africa Standard Time, Namibia Standard Time, Jordan Standard Time, GTB Standard Time, Middle East Standard Time, Egypt Standard Time, Syria Standard Time, E. Europe Standard Time, South Africa Standard Time, FLE Standard Time, Turkey Standard Time, Israel Standard Time, Kaliningrad Standard Time, Libya Standard Time, Arabic Standard Time, Arab Standard Time, Belarus Standard Time, Russian Standard Time, E. Africa Standard Time, Iran Standard Time, Arabian Standard Time, Azerbaijan Standard Time, Russia Time Zone 3, Mauritius Standard Time, Georgian Standard Time, Caucasus Standard Time, Afghanistan Standard Time, West Asia Standard Time, Ekaterinburg Standard Time, Pakistan Standard Time, India Standard Time, Sri Lanka Standard Time, Nepal Standard Time, Central Asia Standard Time, Bangladesh Standard Time, N. Central Asia Standard Time, Myanmar Standard Time, SE Asia Standard Time, North Asia Standard Time, China Standard Time, North Asia East Standard Time, Singapore Standard Time, W. Australia Standard Time, Taipei Standard Time, Ulaanbaatar Standard Time, Tokyo Standard Time, Korea Standard Time, Yakutsk Standard Time, Cen. Australia Standard Time, AUS Central Standard Time, E. Australia Standard Time, AUS Eastern Standard Time, West Pacific Standard Time, Tasmania Standard Time, Magadan Standard Time, Vladivostok Standard Time, Russia Time Zone 10, Central Pacific Standard Time, Russia Time Zone 11, New Zealand Standard Time, UTC+12, Fiji Standard Time, Kamchatka Standard Time, Tonga Standard Time, Samoa Standard Time, Line Islands Standard Time</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>timeZone</td>
+          <td>the timezone for the hours of the profile. Some examples of valid time zones are: Dateline Standard Time, UTC-11, Hawaiian Standard Time, Alaskan Standard Time, Pacific Standard Time (Mexico), Pacific Standard Time, US Mountain Standard Time, Mountain Standard Time (Mexico), Mountain Standard Time, Central America Standard Time, Central Standard Time, Central Standard Time (Mexico), Canada Central Standard Time, SA Pacific Standard Time, Eastern Standard Time, US Eastern Standard Time, Venezuela Standard Time, Paraguay Standard Time, Atlantic Standard Time, Central Brazilian Standard Time, SA Western Standard Time, Pacific SA Standard Time, Newfoundland Standard Time, E. South America Standard Time, Argentina Standard Time, SA Eastern Standard Time, Greenland Standard Time, Montevideo Standard Time, Bahia Standard Time, UTC-02, Mid-Atlantic Standard Time, Azores Standard Time, Cape Verde Standard Time, Morocco Standard Time, UTC, GMT Standard Time, Greenwich Standard Time, W. Europe Standard Time, Central Europe Standard Time, Romance Standard Time, Central European Standard Time, W. Central Africa Standard Time, Namibia Standard Time, Jordan Standard Time, GTB Standard Time, Middle East Standard Time, Egypt Standard Time, Syria Standard Time, E. Europe Standard Time, South Africa Standard Time, FLE Standard Time, Turkey Standard Time, Israel Standard Time, Kaliningrad Standard Time, Libya Standard Time, Arabic Standard Time, Arab Standard Time, Belarus Standard Time, Russian Standard Time, E. Africa Standard Time, Iran Standard Time, Arabian Standard Time, Azerbaijan Standard Time, Russia Time Zone 3, Mauritius Standard Time, Georgian Standard Time, Caucasus Standard Time, Afghanistan Standard Time, West Asia Standard Time, Ekaterinburg Standard Time, Pakistan Standard Time, India Standard Time, Sri Lanka Standard Time, Nepal Standard Time, Central Asia Standard Time, Bangladesh Standard Time, N. Central Asia Standard Time, Myanmar Standard Time, SE Asia Standard Time, North Asia Standard Time, China Standard Time, North Asia East Standard Time, Singapore Standard Time, W. Australia Standard Time, Taipei Standard Time, Ulaanbaatar Standard Time, Tokyo Standard Time, Korea Standard Time, Yakutsk Standard Time, Cen. Australia Standard Time, AUS Central Standard Time, E. Australia Standard Time, AUS Eastern Standard Time, West Pacific Standard Time, Tasmania Standard Time, Magadan Standard Time, Vladivostok Standard Time, Russia Time Zone 10, Central Pacific Standard Time, Russia Time Zone 11, New Zealand Standard Time, UTC+12, Fiji Standard Time, Kamchatka Standard Time, Tonga Standard Time, Samoa Standard Time, Line Islands Standard Time</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
   </tbody>
 </table>
@@ -2299,31 +2293,31 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">cooldown</td>
-          <td style="text-align: left">the amount of time to wait since the last scaling action before this action occurs. It must be between 1 week and 1 minute in ISO 8601 format.</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>cooldown</td>
+          <td>the amount of time to wait since the last scaling action before this action occurs. It must be between 1 week and 1 minute in ISO 8601 format.</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">direction</td>
-          <td style="text-align: left">the scale direction. Whether the scaling action increases or decreases the number of instances.</td>
-          <td style="text-align: left"><a href="#ScaleAction_Direction">ScaleAction_Direction</a><br/><small>Required</small></td>
+          <td>direction</td>
+          <td>the scale direction. Whether the scaling action increases or decreases the number of instances.</td>
+          <td><a href="#ScaleAction_Direction">ScaleAction_Direction</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">type</td>
-          <td style="text-align: left">the type of action that should occur when the scale rule fires.</td>
-          <td style="text-align: left"><a href="#ScaleAction_Type">ScaleAction_Type</a><br/><small>Required</small></td>
+          <td>type</td>
+          <td>the type of action that should occur when the scale rule fires.</td>
+          <td><a href="#ScaleAction_Type">ScaleAction_Type</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">value</td>
-          <td style="text-align: left">the number of instances that are involved in the scaling action. This value must be 1 or greater. The default value is 1.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>value</td>
+          <td>the number of instances that are involved in the scaling action. This value must be 1 or greater. The default value is 1.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -2333,31 +2327,31 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">cooldown</td>
-          <td style="text-align: left">the amount of time to wait since the last scaling action before this action occurs. It must be between 1 week and 1 minute in ISO 8601 format.</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>cooldown</td>
+          <td>the amount of time to wait since the last scaling action before this action occurs. It must be between 1 week and 1 minute in ISO 8601 format.</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">direction</td>
-          <td style="text-align: left">the scale direction. Whether the scaling action increases or decreases the number of instances.</td>
-          <td style="text-align: left"><a href="#ScaleAction_Direction_STATUS">ScaleAction_Direction_STATUS</a><br/><small>Required</small></td>
+          <td>direction</td>
+          <td>the scale direction. Whether the scaling action increases or decreases the number of instances.</td>
+          <td><a href="#ScaleAction_Direction_STATUS">ScaleAction_Direction_STATUS</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">type</td>
-          <td style="text-align: left">the type of action that should occur when the scale rule fires.</td>
-          <td style="text-align: left"><a href="#ScaleAction_Type_STATUS">ScaleAction_Type_STATUS</a><br/><small>Required</small></td>
+          <td>type</td>
+          <td>the type of action that should occur when the scale rule fires.</td>
+          <td><a href="#ScaleAction_Type_STATUS">ScaleAction_Type_STATUS</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">value</td>
-          <td style="text-align: left">the number of instances that are involved in the scaling action. This value must be 1 or greater. The default value is 1.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>value</td>
+          <td>the number of instances that are involved in the scaling action. This value must be 1 or greater. The default value is 1.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -2366,34 +2360,34 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Equals&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Equals&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;GreaterThan&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;GreaterThan&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;GreaterThanOrEqual&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;GreaterThanOrEqual&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;LessThan&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;LessThan&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;LessThanOrEqual&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;LessThanOrEqual&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;NotEquals&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;NotEquals&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2402,34 +2396,34 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Equals&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Equals&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;GreaterThan&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;GreaterThan&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;GreaterThanOrEqual&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;GreaterThanOrEqual&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;LessThan&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;LessThan&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;LessThanOrEqual&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;LessThanOrEqual&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;NotEquals&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;NotEquals&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2438,30 +2432,30 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Average&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Average&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Count&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Count&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Max&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Max&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Min&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Min&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Sum&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Sum&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2470,30 +2464,30 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Average&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Average&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Count&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Count&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Max&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Max&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Min&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Min&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Sum&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Sum&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2502,34 +2496,34 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Average&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Average&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Count&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Count&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Last&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Last&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Maximum&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Maximum&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Minimum&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Minimum&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Total&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Total&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2538,34 +2532,34 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Average&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Average&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Count&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Count&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Last&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Last&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Maximum&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Maximum&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Minimum&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Minimum&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Total&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Total&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2574,22 +2568,22 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Decrease&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Decrease&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Increase&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Increase&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;None&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;None&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2598,22 +2592,22 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Decrease&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Decrease&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Increase&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Increase&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;None&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;None&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2622,26 +2616,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;ChangeCount&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;ChangeCount&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;ExactCount&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;ExactCount&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;PercentChangeCount&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;PercentChangeCount&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;ServiceAllowedNextValue&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;ServiceAllowedNextValue&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2650,26 +2644,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;ChangeCount&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;ChangeCount&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;ExactCount&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;ExactCount&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;PercentChangeCount&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;PercentChangeCount&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;ServiceAllowedNextValue&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;ServiceAllowedNextValue&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2679,26 +2673,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">DimensionName</td>
-          <td style="text-align: left">Name of the dimension.</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>DimensionName</td>
+          <td>Name of the dimension.</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">Operator</td>
-          <td style="text-align: left">the dimension operator. Only &lsquo;Equals&rsquo; and &lsquo;NotEquals&rsquo; are supported. &lsquo;Equals&rsquo; being equal to any of the values. &lsquo;NotEquals&rsquo; being not equal to all of the values</td>
-          <td style="text-align: left"><a href="#ScaleRuleMetricDimension_Operator">ScaleRuleMetricDimension_Operator</a><br/><small>Required</small></td>
+          <td>Operator</td>
+          <td>the dimension operator. Only &lsquo;Equals&rsquo; and &lsquo;NotEquals&rsquo; are supported. &lsquo;Equals&rsquo; being equal to any of the values. &lsquo;NotEquals&rsquo; being not equal to all of the values</td>
+          <td><a href="#ScaleRuleMetricDimension_Operator">ScaleRuleMetricDimension_Operator</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">Values</td>
-          <td style="text-align: left">list of dimension values. For example: [&ldquo;App1&rdquo;,&ldquo;App2&rdquo;].</td>
-          <td style="text-align: left">string[]<br/><small>Required</small></td>
+          <td>Values</td>
+          <td>list of dimension values. For example: [&ldquo;App1&rdquo;,&ldquo;App2&rdquo;].</td>
+          <td>string[]<br/><small>Required</small></td>
       </tr>
   </tbody>
 </table>
@@ -2708,26 +2702,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">DimensionName</td>
-          <td style="text-align: left">Name of the dimension.</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>DimensionName</td>
+          <td>Name of the dimension.</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">Operator</td>
-          <td style="text-align: left">the dimension operator. Only &lsquo;Equals&rsquo; and &lsquo;NotEquals&rsquo; are supported. &lsquo;Equals&rsquo; being equal to any of the values. &lsquo;NotEquals&rsquo; being not equal to all of the values</td>
-          <td style="text-align: left"><a href="#ScaleRuleMetricDimension_Operator_STATUS">ScaleRuleMetricDimension_Operator_STATUS</a><br/><small>Required</small></td>
+          <td>Operator</td>
+          <td>the dimension operator. Only &lsquo;Equals&rsquo; and &lsquo;NotEquals&rsquo; are supported. &lsquo;Equals&rsquo; being equal to any of the values. &lsquo;NotEquals&rsquo; being not equal to all of the values</td>
+          <td><a href="#ScaleRuleMetricDimension_Operator_STATUS">ScaleRuleMetricDimension_Operator_STATUS</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">Values</td>
-          <td style="text-align: left">list of dimension values. For example: [&ldquo;App1&rdquo;,&ldquo;App2&rdquo;].</td>
-          <td style="text-align: left">string[]<br/><small>Required</small></td>
+          <td>Values</td>
+          <td>list of dimension values. For example: [&ldquo;App1&rdquo;,&ldquo;App2&rdquo;].</td>
+          <td>string[]<br/><small>Required</small></td>
       </tr>
   </tbody>
 </table>
@@ -2736,18 +2730,18 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Equals&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Equals&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;NotEquals&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;NotEquals&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2756,18 +2750,18 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Equals&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Equals&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;NotEquals&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;NotEquals&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2805,7 +2799,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
 </footer>
 
     </div>
-    <script src="/azure-service-operator/js/main.min.0a5a30b73411b7a841784b6f4d46f4e0b1b95d576fa3cadd81db9d5ae468e8c2.js" integrity="sha256-ClowtzQRt6hBeEtvTUb04LG5XVdvo8rdgdudWuRo6MI=" crossorigin="anonymous"></script>
+    <script src="/azure-service-operator/js/main.min.4096f09e0b199950620fc06165ef2a2791e1bee9067e27b14c4a54f02c0e33bd.js" integrity="sha256-QJbwngsZmVBiD8BhZe8qJ5HhvukGfiexTEpU8CwOM70=" crossorigin="anonymous"></script>
 <script defer src="/azure-service-operator/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/azure-service-operator/js/tabpane-persist.js'></script>
 

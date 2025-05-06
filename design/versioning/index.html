@@ -19,7 +19,9 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>Resource versioning | Azure Service Operator</title>
-<meta name="description" content="Powerful, extensible, and feature-packed frontend toolkit. Build and customize with Sass, utilize prebuilt grid system and components, and bring projects to life with powerful JavaScript plugins.">
+<meta name="description" content="Specification for how storage versioning will operate for code generated CRD definitions.
+We’re generating a large number of CRD definitions based on the JSON schema definitions published for Azure Resource Manager use.
+Goals Principle of Least Surprise: The goal of the service operator is to allow users to consume Azure resources without having to leave the tooling they are familiar with. We therefore want to do things in the idiomatic Kubernetes fashion, so that they don’t experience any nasty surprises.">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/design/versioning/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="Resource versioning">
@@ -39,13 +41,8 @@ Goals Principle of Least Surprise: The goal of the service operator is to allow 
   <meta name="twitter:description" content="Specification for how storage versioning will operate for code generated CRD definitions.
 We’re generating a large number of CRD definitions based on the JSON schema definitions published for Azure Resource Manager use.
 Goals Principle of Least Surprise: The goal of the service operator is to allow users to consume Azure resources without having to leave the tooling they are familiar with. We therefore want to do things in the idiomatic Kubernetes fashion, so that they don’t experience any nasty surprises.">
-
-
-
-
-<link rel="preload" href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" as="style">
-<link href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" rel="stylesheet" integrity="">
-
+<link rel="preload" href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" as="style" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
+<link href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" rel="stylesheet" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -866,7 +863,6 @@ Goals Principle of Least Surprise: The goal of the service operator is to allow 
     Resource versioning</li>
   </ol>
 </nav>
-            
 <div class="td-content">
 	<h1>Resource versioning</h1>
   
@@ -882,8 +878,7 @@ Goals Principle of Least Surprise: The goal of the service operator is to allow 
 <p><strong>No modification of generated files.</strong> Manual modification of generated files is a known antipattern that greatly increases the complexity and burden of updates. If some files have been manually changed, every difference showing after code generation needs to be manually reviewed before being committed. This is tedious and error prone because the vast majority of auto generated changes will be perfectly fine. Worse, this process would need to be repeated every time we want to update the operator.</p>
 <p><strong>Compliance with Kubernetes versioning.</strong> To quote <a href="https://book.kubebuilder.io/multiversion-tutorial/api-changes.html">Kubebuilder&rsquo;s documentation</a>:</p>
 <blockquote>
-<p>In Kubernetes, all versions must be safely round-tripable through each other. This means that if we convert from version 1 to version 2, and then back to version 1, we must not lose information. Thus, any change we make to our API must be compatible with whatever we supported in v1, and also need to make sure anything we add in v2 is supported in v1.</p>
-</blockquote>
+<p>In Kubernetes, all versions must be safely round-tripable through each other. This means that if we convert from version 1 to version 2, and then back to version 1, we must not lose information. Thus, any change we make to our API must be compatible with whatever we supported in v1, and also need to make sure anything we add in v2 is supported in v1.</p></blockquote>
 <p><strong>Consistency of experience:</strong> Early adopters should have a similar experience with the latest release of the service operator as new users who are adopting it for the first time. We don&rsquo;t want early adopters to be penalized for their enthusiasm.</p>
 <h2 id="non-goals">Non-Goals</h2>
 <p><strong>Coverage of every case by code generation:</strong> While it&rsquo;s likely that very high coverage will be achievable with code generation, we don&rsquo;t believe that it will be practical to handle every possible situation automatically. It&rsquo;s therefore necessary for the solution to have some form of extensibility allowing for the injection of hand written code.</p>
@@ -942,14 +937,14 @@ Goals Principle of Least Surprise: The goal of the service operator is to allow 
 <p>The latest non-preview storage version will be selected as the definitive storage version (or <em>hub</em> version) for use by the controller.</p>
 <h3 id="generated-conversion-methods">Generated conversion methods</h3>
 <p>Each of the structs generated for ARM API will have the normal <code>ConvertTo()</code> and <code>ConvertFrom()</code> methods generated automatically, implementing the required <a href="https://book.kubebuilder.io/multiversion-tutorial/conversion.html">Convertible</a> interface:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// ConvertTo converts this Person to the matching storage version.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertTo</span>(<span style="color:#a6e22e">raw</span> <span style="color:#a6e22e">conversion</span>.<span style="color:#a6e22e">Hub</span>) <span style="color:#66d9ef">error</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// ConvertTo converts this Person to the matching storage version.</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertTo</span>(<span style="color:#a6e22e">raw</span> <span style="color:#a6e22e">conversion</span>.<span style="color:#a6e22e">Hub</span>) <span style="color:#66d9ef">error</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">p</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">raw</span>.(<span style="color:#f92672">*</span><span style="color:#a6e22e">storage</span>.<span style="color:#a6e22e">Person</span>)
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ConvertToStorage</span>(<span style="color:#a6e22e">p</span>)
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// ConvertFrom converts from the matching storage version
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertFrom</span>(<span style="color:#a6e22e">raw</span> <span style="color:#a6e22e">conversion</span>.<span style="color:#a6e22e">Hub</span>) <span style="color:#66d9ef">error</span> {
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ConvertFrom converts from the matching storage version</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertFrom</span>(<span style="color:#a6e22e">raw</span> <span style="color:#a6e22e">conversion</span>.<span style="color:#a6e22e">Hub</span>) <span style="color:#66d9ef">error</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">p</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">raw</span>.(<span style="color:#f92672">*</span><span style="color:#a6e22e">storage</span>.<span style="color:#a6e22e">Person</span>)
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ConvertFromStorage</span>(<span style="color:#a6e22e">p</span>)
 </span></span><span style="display:flex;"><span>}
@@ -973,25 +968,21 @@ Goals Principle of Least Surprise: The goal of the service operator is to allow 
 <li>Custom types are generated independently for each version, so they will never be identical types</li>
 </ul>
 <blockquote>
-<p><em><strong>TODO: Show an example that includes all the cases</strong></em></p>
-</blockquote>
+<p><em><strong>TODO: Show an example that includes all the cases</strong></em></p></blockquote>
 <h3 id="external-metadata-for-common-changes">External Metadata for common changes</h3>
 <p>We&rsquo;ll capture common changes between versions in metadata (likely a YAML file) that we bundle with the code generator, allowing it to handle a wider range of scenarios.</p>
 <p><strong>If a property is renamed</strong> in a particular API version, conversion from the prior API version to that point of change will instead match based on the new name of the property on the storage type.</p>
 <p>There are more than 40 cases of properties being renamed across versions of the ARM API.</p>
 <blockquote>
-<p><em><strong>TODO: Show an example</strong></em></p>
-</blockquote>
+<p><em><strong>TODO: Show an example</strong></em></p></blockquote>
 <p><strong>If a type has been renamed</strong> in a particular API version, conversion from the API version <em>prior</em> to that point of change will instead match based on the new type of the property on the storage type.</p>
 <p>There are 160 cases of properties changing type across versions of the ARM API. Many of these can be handled automatically by capturing type renames in metadata.</p>
 <blockquote>
-<p><em><strong>TODO: Show an example</strong></em></p>
-</blockquote>
+<p><em><strong>TODO: Show an example</strong></em></p></blockquote>
 <blockquote>
 <p><em><strong>Outstanding Issue:</strong></em> Are there other kinds of common change we want to support?<br>
 Are there other cases of changes between versions that we may be able to handle automatically.
-Can we find examples? Do we want to support these cases?</p>
-</blockquote>
+Can we find examples? Do we want to support these cases?</p></blockquote>
 <h3 id="standard-extension-points">Standard extension points</h3>
 <p>Code generation will include interfaces to allow easy injection of manual conversion steps.</p>
 <p>For each storage type, two interfaces will be generated, one for each direction of conversion.</p>
@@ -1125,7 +1116,7 @@ Can we find examples? Do we want to support these cases?</p>
 </ul>
 <p><a href="https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definition-versioning/">https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definition-versioning/</a></p>
 
-  <div class="section-index">
+	<div class="section-index">
     
     
     <hr class="panel-line">
@@ -1167,7 +1158,7 @@ Can we find examples? Do we want to support these cases?</p>
 </footer>
 
     </div>
-    <script src="/azure-service-operator/js/main.min.0a5a30b73411b7a841784b6f4d46f4e0b1b95d576fa3cadd81db9d5ae468e8c2.js" integrity="sha256-ClowtzQRt6hBeEtvTUb04LG5XVdvo8rdgdudWuRo6MI=" crossorigin="anonymous"></script>
+    <script src="/azure-service-operator/js/main.min.4096f09e0b199950620fc06165ef2a2791e1bee9067e27b14c4a54f02c0e33bd.js" integrity="sha256-QJbwngsZmVBiD8BhZe8qJ5HhvukGfiexTEpU8CwOM70=" crossorigin="anonymous"></script>
 <script defer src="/azure-service-operator/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/azure-service-operator/js/tabpane-persist.js'></script>
 

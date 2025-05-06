@@ -18,13 +18,13 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>dbformysql.azure.com/ | Azure Service Operator</title>
-<meta name="description" content=" User User is a MySQL user
+<meta name="description" content="User User is a MySQL user
 Used by: UserList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec UserSpecOptional status UserStatusOptional UserSpec Property Description Type aadUser AADUser contains details for creating an AAD user. AADUserSpecOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be. If not specified, the default is the name of the Kubernetes object. When creating a local user, this will be the name of the user created. When creating an AAD user, this must have a specific format depending on the type of AAD user being created. For managed identity: &ldquo;my-managed-identity-name&rdquo; For standard AAD user: &ldquo;myuser@mydomain.onmicrosoft.com&rdquo; For AAD group: &ldquo;my-group&rdquo; stringOptional databasePrivileges The database-level roles assigned to the user (keyed by database name). Privileges include the following: SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, REFERENCES, INDEX, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, EVENT, TRIGGER map[string]string[]Optional hostname Hostname is the host the user will connect from. If omitted, the default is to allow connection from any hostname. stringOptional localUser LocalUser contains details for creating a standard (non-aad) MySQL User LocalUserSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a dbformysql.azure.com/FlexibleServer resource genruntime.KubernetesOwnerReferenceRequired privileges The server-level roles assigned to the user. Privileges include the following: RELOAD, PROCESS, SHOW DATABASES, REPLICATION SLAVE, REPLICATION CLIENT, CREATE USER string[]Optional UserStatus Property Description Type conditions The observed state of the resource conditions.Condition[]Optional UserList Property Description Type metav1.TypeMeta metav1.ListMeta items User[]Optional UserSpec Used by: User.">
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec UserSpecOptional status UserStatusOptional UserSpec Property Description Type aadUser AADUser contains details for creating an AAD user. AADUserSpecOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. If not specified, the default is the name of the Kubernetes object. When creating a local user, this will be the name of the user created. When creating an AAD user, this must have a specific format depending on the type of AAD user being created. For managed identity: “my-managed-identity-name” For standard AAD user: “myuser@mydomain.onmicrosoft.com” For AAD group: “my-group” stringOptional databasePrivileges The database-level roles assigned to the user (keyed by database name). Privileges include the following: SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, REFERENCES, INDEX, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, EVENT, TRIGGER map[string]string[]Optional hostname Hostname is the host the user will connect from. If omitted, the default is to allow connection from any hostname. stringOptional localUser LocalUser contains details for creating a standard (non-aad) MySQL User LocalUserSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a dbformysql.azure.com/FlexibleServer resource genruntime.KubernetesOwnerReferenceRequired privileges The server-level roles assigned to the user. Privileges include the following: RELOAD, PROCESS, SHOW DATABASES, REPLICATION SLAVE, REPLICATION CLIENT, CREATE USER string[]Optional UserStatus Property Description Type conditions The observed state of the resource conditions.Condition[]Optional UserList Property Description Type metav1.TypeMeta metav1.ListMeta items User[]Optional UserSpec Used by: User.">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/dbformysql/v1/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="dbformysql.azure.com/">
-  <meta property="og:description" content=" User User is a MySQL user
+  <meta property="og:description" content="User User is a MySQL user
 Used by: UserList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec UserSpecOptional status UserStatusOptional UserSpec Property Description Type aadUser AADUser contains details for creating an AAD user. AADUserSpecOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. If not specified, the default is the name of the Kubernetes object. When creating a local user, this will be the name of the user created. When creating an AAD user, this must have a specific format depending on the type of AAD user being created. For managed identity: “my-managed-identity-name” For standard AAD user: “myuser@mydomain.onmicrosoft.com” For AAD group: “my-group” stringOptional databasePrivileges The database-level roles assigned to the user (keyed by database name). Privileges include the following: SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, REFERENCES, INDEX, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, EVENT, TRIGGER map[string]string[]Optional hostname Hostname is the host the user will connect from. If omitted, the default is to allow connection from any hostname. stringOptional localUser LocalUser contains details for creating a standard (non-aad) MySQL User LocalUserSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a dbformysql.azure.com/FlexibleServer resource genruntime.KubernetesOwnerReferenceRequired privileges The server-level roles assigned to the user. Privileges include the following: RELOAD, PROCESS, SHOW DATABASES, REPLICATION SLAVE, REPLICATION CLIENT, CREATE USER string[]Optional UserStatus Property Description Type conditions The observed state of the resource conditions.Condition[]Optional UserList Property Description Type metav1.TypeMeta metav1.ListMeta items User[]Optional UserSpec Used by: User.">
   <meta property="og:locale" content="en_us">
@@ -32,22 +32,17 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec UserSpecOptiona
     <meta property="article:section" content="reference">
 
   <meta itemprop="name" content="dbformysql.azure.com/">
-  <meta itemprop="description" content=" User User is a MySQL user
+  <meta itemprop="description" content="User User is a MySQL user
 Used by: UserList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec UserSpecOptional status UserStatusOptional UserSpec Property Description Type aadUser AADUser contains details for creating an AAD user. AADUserSpecOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. If not specified, the default is the name of the Kubernetes object. When creating a local user, this will be the name of the user created. When creating an AAD user, this must have a specific format depending on the type of AAD user being created. For managed identity: “my-managed-identity-name” For standard AAD user: “myuser@mydomain.onmicrosoft.com” For AAD group: “my-group” stringOptional databasePrivileges The database-level roles assigned to the user (keyed by database name). Privileges include the following: SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, REFERENCES, INDEX, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, EVENT, TRIGGER map[string]string[]Optional hostname Hostname is the host the user will connect from. If omitted, the default is to allow connection from any hostname. stringOptional localUser LocalUser contains details for creating a standard (non-aad) MySQL User LocalUserSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a dbformysql.azure.com/FlexibleServer resource genruntime.KubernetesOwnerReferenceRequired privileges The server-level roles assigned to the user. Privileges include the following: RELOAD, PROCESS, SHOW DATABASES, REPLICATION SLAVE, REPLICATION CLIENT, CREATE USER string[]Optional UserStatus Property Description Type conditions The observed state of the resource conditions.Condition[]Optional UserList Property Description Type metav1.TypeMeta metav1.ListMeta items User[]Optional UserSpec Used by: User.">
   <meta itemprop="wordCount" content="965">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="dbformysql.azure.com/">
-  <meta name="twitter:description" content=" User User is a MySQL user
+  <meta name="twitter:description" content="User User is a MySQL user
 Used by: UserList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec UserSpecOptional status UserStatusOptional UserSpec Property Description Type aadUser AADUser contains details for creating an AAD user. AADUserSpecOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. If not specified, the default is the name of the Kubernetes object. When creating a local user, this will be the name of the user created. When creating an AAD user, this must have a specific format depending on the type of AAD user being created. For managed identity: “my-managed-identity-name” For standard AAD user: “myuser@mydomain.onmicrosoft.com” For AAD group: “my-group” stringOptional databasePrivileges The database-level roles assigned to the user (keyed by database name). Privileges include the following: SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, REFERENCES, INDEX, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, EVENT, TRIGGER map[string]string[]Optional hostname Hostname is the host the user will connect from. If omitted, the default is to allow connection from any hostname. stringOptional localUser LocalUser contains details for creating a standard (non-aad) MySQL User LocalUserSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a dbformysql.azure.com/FlexibleServer resource genruntime.KubernetesOwnerReferenceRequired privileges The server-level roles assigned to the user. Privileges include the following: RELOAD, PROCESS, SHOW DATABASES, REPLICATION SLAVE, REPLICATION CLIENT, CREATE USER string[]Optional UserStatus Property Description Type conditions The observed state of the resource conditions.Condition[]Optional UserList Property Description Type metav1.TypeMeta metav1.ListMeta items User[]Optional UserSpec Used by: User.">
-
-
-
-
-<link rel="preload" href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" as="style">
-<link href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" rel="stylesheet" integrity="">
-
+<link rel="preload" href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" as="style" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
+<link href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" rel="stylesheet" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -841,7 +836,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec UserSpecOptiona
     dbformysql.azure.com/</li>
   </ol>
 </nav>
-            
 <div class="td-content">
 	<h1>dbformysql.azure.com/</h1>
 	
@@ -855,31 +849,31 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec UserSpecOptiona
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left"><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta">metav1.ObjectMeta</a></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta">metav1.ObjectMeta</a></td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">spec</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"><a href="#UserSpec">UserSpec</a><br/><small>Optional</small></td>
+          <td>spec</td>
+          <td></td>
+          <td><a href="#UserSpec">UserSpec</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">status</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"><a href="#UserStatus">UserStatus</a><br/><small>Optional</small></td>
+          <td>status</td>
+          <td></td>
+          <td><a href="#UserStatus">UserStatus</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -887,46 +881,46 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec UserSpecOptiona
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">aadUser</td>
-          <td style="text-align: left">AADUser contains details for creating an AAD user.</td>
-          <td style="text-align: left"><a href="#AADUserSpec">AADUserSpec</a><br/><small>Optional</small></td>
+          <td>aadUser</td>
+          <td>AADUser contains details for creating an AAD user.</td>
+          <td><a href="#AADUserSpec">AADUserSpec</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">azureName</td>
-          <td style="text-align: left">The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be. If not specified, the default is the name of the Kubernetes object. When creating a local user, this will be the name of the user created. When creating an AAD user, this must have a specific format depending on the type of AAD user being created. For managed identity: &ldquo;my-managed-identity-name&rdquo; For standard AAD user: &ldquo;<a href="mailto:myuser@mydomain.onmicrosoft.com">myuser@mydomain.onmicrosoft.com</a>&rdquo; For AAD group: &ldquo;my-group&rdquo;</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>azureName</td>
+          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be. If not specified, the default is the name of the Kubernetes object. When creating a local user, this will be the name of the user created. When creating an AAD user, this must have a specific format depending on the type of AAD user being created. For managed identity: &ldquo;my-managed-identity-name&rdquo; For standard AAD user: &ldquo;<a href="mailto:myuser@mydomain.onmicrosoft.com">myuser@mydomain.onmicrosoft.com</a>&rdquo; For AAD group: &ldquo;my-group&rdquo;</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">databasePrivileges</td>
-          <td style="text-align: left">The database-level roles assigned to the user (keyed by database name). Privileges include the following: SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, REFERENCES, INDEX, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, EVENT, TRIGGER</td>
-          <td style="text-align: left">map[string]string[]<br/><small>Optional</small></td>
+          <td>databasePrivileges</td>
+          <td>The database-level roles assigned to the user (keyed by database name). Privileges include the following: SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, REFERENCES, INDEX, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, EVENT, TRIGGER</td>
+          <td>map[string]string[]<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">hostname</td>
-          <td style="text-align: left">Hostname is the host the user will connect from. If omitted, the default is to allow connection from any hostname.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>hostname</td>
+          <td>Hostname is the host the user will connect from. If omitted, the default is to allow connection from any hostname.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">localUser</td>
-          <td style="text-align: left">LocalUser contains details for creating a standard (non-aad) MySQL User</td>
-          <td style="text-align: left"><a href="#LocalUserSpec">LocalUserSpec</a><br/><small>Optional</small></td>
+          <td>localUser</td>
+          <td>LocalUser contains details for creating a standard (non-aad) MySQL User</td>
+          <td><a href="#LocalUserSpec">LocalUserSpec</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">owner</td>
-          <td style="text-align: left">The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a dbformysql.azure.com/FlexibleServer resource</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KubernetesOwnerReference">genruntime.KubernetesOwnerReference</a><br/><small>Required</small></td>
+          <td>owner</td>
+          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a dbformysql.azure.com/FlexibleServer resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KubernetesOwnerReference">genruntime.KubernetesOwnerReference</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">privileges</td>
-          <td style="text-align: left">The server-level roles assigned to the user. Privileges include the following: RELOAD, PROCESS, SHOW DATABASES, REPLICATION SLAVE, REPLICATION CLIENT, CREATE USER</td>
-          <td style="text-align: left">string[]<br/><small>Optional</small></td>
+          <td>privileges</td>
+          <td>The server-level roles assigned to the user. Privileges include the following: RELOAD, PROCESS, SHOW DATABASES, REPLICATION SLAVE, REPLICATION CLIENT, CREATE USER</td>
+          <td>string[]<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -934,16 +928,16 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec UserSpecOptiona
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">conditions</td>
-          <td style="text-align: left">The observed state of the resource</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+          <td>conditions</td>
+          <td>The observed state of the resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -951,26 +945,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec UserSpecOptiona
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left"><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta">metav1.ListMeta</a></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta">metav1.ListMeta</a></td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">items</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"><a href="#User">User[]</a><br/><small>Optional</small></td>
+          <td>items</td>
+          <td></td>
+          <td><a href="#User">User[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -979,46 +973,46 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec UserSpecOptiona
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">aadUser</td>
-          <td style="text-align: left">AADUser contains details for creating an AAD user.</td>
-          <td style="text-align: left"><a href="#AADUserSpec">AADUserSpec</a><br/><small>Optional</small></td>
+          <td>aadUser</td>
+          <td>AADUser contains details for creating an AAD user.</td>
+          <td><a href="#AADUserSpec">AADUserSpec</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">azureName</td>
-          <td style="text-align: left">The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be. If not specified, the default is the name of the Kubernetes object. When creating a local user, this will be the name of the user created. When creating an AAD user, this must have a specific format depending on the type of AAD user being created. For managed identity: &ldquo;my-managed-identity-name&rdquo; For standard AAD user: &ldquo;<a href="mailto:myuser@mydomain.onmicrosoft.com">myuser@mydomain.onmicrosoft.com</a>&rdquo; For AAD group: &ldquo;my-group&rdquo;</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>azureName</td>
+          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be. If not specified, the default is the name of the Kubernetes object. When creating a local user, this will be the name of the user created. When creating an AAD user, this must have a specific format depending on the type of AAD user being created. For managed identity: &ldquo;my-managed-identity-name&rdquo; For standard AAD user: &ldquo;<a href="mailto:myuser@mydomain.onmicrosoft.com">myuser@mydomain.onmicrosoft.com</a>&rdquo; For AAD group: &ldquo;my-group&rdquo;</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">databasePrivileges</td>
-          <td style="text-align: left">The database-level roles assigned to the user (keyed by database name). Privileges include the following: SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, REFERENCES, INDEX, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, EVENT, TRIGGER</td>
-          <td style="text-align: left">map[string]string[]<br/><small>Optional</small></td>
+          <td>databasePrivileges</td>
+          <td>The database-level roles assigned to the user (keyed by database name). Privileges include the following: SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, REFERENCES, INDEX, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, EVENT, TRIGGER</td>
+          <td>map[string]string[]<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">hostname</td>
-          <td style="text-align: left">Hostname is the host the user will connect from. If omitted, the default is to allow connection from any hostname.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>hostname</td>
+          <td>Hostname is the host the user will connect from. If omitted, the default is to allow connection from any hostname.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">localUser</td>
-          <td style="text-align: left">LocalUser contains details for creating a standard (non-aad) MySQL User</td>
-          <td style="text-align: left"><a href="#LocalUserSpec">LocalUserSpec</a><br/><small>Optional</small></td>
+          <td>localUser</td>
+          <td>LocalUser contains details for creating a standard (non-aad) MySQL User</td>
+          <td><a href="#LocalUserSpec">LocalUserSpec</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">owner</td>
-          <td style="text-align: left">The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a dbformysql.azure.com/FlexibleServer resource</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KubernetesOwnerReference">genruntime.KubernetesOwnerReference</a><br/><small>Required</small></td>
+          <td>owner</td>
+          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a dbformysql.azure.com/FlexibleServer resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KubernetesOwnerReference">genruntime.KubernetesOwnerReference</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">privileges</td>
-          <td style="text-align: left">The server-level roles assigned to the user. Privileges include the following: RELOAD, PROCESS, SHOW DATABASES, REPLICATION SLAVE, REPLICATION CLIENT, CREATE USER</td>
-          <td style="text-align: left">string[]<br/><small>Optional</small></td>
+          <td>privileges</td>
+          <td>The server-level roles assigned to the user. Privileges include the following: RELOAD, PROCESS, SHOW DATABASES, REPLICATION SLAVE, REPLICATION CLIENT, CREATE USER</td>
+          <td>string[]<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1027,16 +1021,16 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec UserSpecOptiona
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">conditions</td>
-          <td style="text-align: left">The observed state of the resource</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+          <td>conditions</td>
+          <td>The observed state of the resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1045,21 +1039,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec UserSpecOptiona
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">alias</td>
-          <td style="text-align: left">Alias is the short name associated with the user. This is required if the AzureName is longer than 32 characters. Note that Alias denotes the name used to manage the SQL user in MySQL, NOT the name used to log in to the SQL server. When logging in to the SQL server and prompted to provider the username, supply the AzureName.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>alias</td>
+          <td>Alias is the short name associated with the user. This is required if the AzureName is longer than 32 characters. Note that Alias denotes the name used to manage the SQL user in MySQL, NOT the name used to log in to the SQL server. When logging in to the SQL server and prompted to provider the username, supply the AzureName.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">serverAdminUsername</td>
-          <td style="text-align: left">ServerAdminUsername is the username of the Server administrator. If your server admin was configured with Azure Service Operator, this should match the value of the Administrator&rsquo;s $.spec.login field. If the administrator is a group, the ServerAdminUsername should be the group name, not the actual username of the identity to log in with. For example if the administrator group is &ldquo;admin-group&rdquo; and identity &ldquo;my-identity&rdquo; is a member of that group, the ServerAdminUsername should be &ldquo;admin-group&rdquo;</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>serverAdminUsername</td>
+          <td>ServerAdminUsername is the username of the Server administrator. If your server admin was configured with Azure Service Operator, this should match the value of the Administrator&rsquo;s $.spec.login field. If the administrator is a group, the ServerAdminUsername should be the group name, not the actual username of the identity to log in with. For example if the administrator group is &ldquo;admin-group&rdquo; and identity &ldquo;my-identity&rdquo; is a member of that group, the ServerAdminUsername should be &ldquo;admin-group&rdquo;</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
   </tbody>
 </table>
@@ -1069,26 +1063,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec UserSpecOptiona
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">password</td>
-          <td style="text-align: left">Password is the password to use for the user</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference">genruntime.SecretReference</a><br/><small>Required</small></td>
+          <td>password</td>
+          <td>Password is the password to use for the user</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference">genruntime.SecretReference</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">serverAdminPassword</td>
-          <td style="text-align: left">ServerAdminPassword is a reference to a secret containing the servers administrator password. If specified, the operator uses the ServerAdminUsername and ServerAdminPassword to log into the server as a local administrator. If NOT specified, the operator uses its identity to log into the server. The operator can only successfully log into the server if its identity is the administrator of the server or if its identity is a member of a group which is the administrator of the server. If the administrator is a group, the ServerAdminUsername should be the group name, not the actual username of the identity to log in with. For example if the administrator group is &ldquo;admin-group&rdquo; and identity &ldquo;my-identity&rdquo; is a member of that group, the ServerAdminUsername should be &ldquo;admin-group&rdquo;</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference">genruntime.SecretReference</a><br/><small>Optional</small></td>
+          <td>serverAdminPassword</td>
+          <td>ServerAdminPassword is a reference to a secret containing the servers administrator password. If specified, the operator uses the ServerAdminUsername and ServerAdminPassword to log into the server as a local administrator. If NOT specified, the operator uses its identity to log into the server. The operator can only successfully log into the server if its identity is the administrator of the server or if its identity is a member of a group which is the administrator of the server. If the administrator is a group, the ServerAdminUsername should be the group name, not the actual username of the identity to log in with. For example if the administrator group is &ldquo;admin-group&rdquo; and identity &ldquo;my-identity&rdquo; is a member of that group, the ServerAdminUsername should be &ldquo;admin-group&rdquo;</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference">genruntime.SecretReference</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">serverAdminUsername</td>
-          <td style="text-align: left">ServerAdminUsername is the username of the Server administrator. If the administrator is a group, the ServerAdminUsername should be the group name, not the actual username of the identity to log in with. For example if the administrator group is &ldquo;admin-group&rdquo; and identity &ldquo;my-identity&rdquo; is a member of that group, the ServerAdminUsername should be &ldquo;admin-group&rdquo;.</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>serverAdminUsername</td>
+          <td>ServerAdminUsername is the username of the Server administrator. If the administrator is a group, the ServerAdminUsername should be the group name, not the actual username of the identity to log in with. For example if the administrator group is &ldquo;admin-group&rdquo; and identity &ldquo;my-identity&rdquo; is a member of that group, the ServerAdminUsername should be &ldquo;admin-group&rdquo;.</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
   </tbody>
 </table>
@@ -1126,7 +1120,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec UserSpecOptiona
 </footer>
 
     </div>
-    <script src="/azure-service-operator/js/main.min.0a5a30b73411b7a841784b6f4d46f4e0b1b95d576fa3cadd81db9d5ae468e8c2.js" integrity="sha256-ClowtzQRt6hBeEtvTUb04LG5XVdvo8rdgdudWuRo6MI=" crossorigin="anonymous"></script>
+    <script src="/azure-service-operator/js/main.min.4096f09e0b199950620fc06165ef2a2791e1bee9067e27b14c4a54f02c0e33bd.js" integrity="sha256-QJbwngsZmVBiD8BhZe8qJ5HhvukGfiexTEpU8CwOM70=" crossorigin="anonymous"></script>
 <script defer src="/azure-service-operator/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/azure-service-operator/js/tabpane-persist.js'></script>
 

@@ -19,7 +19,9 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>Compute Supported Resources | Azure Service Operator</title>
-<meta name="description" content="Powerful, extensible, and feature-packed frontend toolkit. Build and customize with Sass, utilize prebuilt grid system and components, and bring projects to life with powerful JavaScript plugins.">
+<meta name="description" content="To install the CRDs for these resources, your ASO configuration must include compute.azure.com/* as a one of the configured CRD patterns. See CRD Management in ASO for details on doing this for both Helm and YAML based installations.
+Latest Released Versions These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
+Resource ARM Version CRD Version Supported From Sample Disk 2024-03-02 v1api20240302 v2.9.0 View DiskAccess 2024-03-02 v1api20240302 v2.9.0 View DiskEncryptionSet 2024-03-02 v1api20240302 v2.9.0 View Image 2022-03-01 v1api20220301 v2.0.0 View Snapshot 2024-03-02 v1api20240302 v2.9.0 View VirtualMachine 2022-03-01 v1api20220301 v2.0.0 View VirtualMachineScaleSet 2022-03-01 v1api20220301 v2.0.0 View VirtualMachineScaleSetsExtension 2022-03-01 v1api20220301 v2.6.0 View VirtualMachinesExtension 2022-03-01 v1api20220301 v2.6.0 View Other Supported Versions These are older versions of resourced still available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/compute/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="Compute Supported Resources">
@@ -39,13 +41,8 @@ Resource ARM Version CRD Version Supported From Sample Disk 2024-03-02 v1api2024
   <meta name="twitter:description" content="To install the CRDs for these resources, your ASO configuration must include compute.azure.com/* as a one of the configured CRD patterns. See CRD Management in ASO for details on doing this for both Helm and YAML based installations.
 Latest Released Versions These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
 Resource ARM Version CRD Version Supported From Sample Disk 2024-03-02 v1api20240302 v2.9.0 View DiskAccess 2024-03-02 v1api20240302 v2.9.0 View DiskEncryptionSet 2024-03-02 v1api20240302 v2.9.0 View Image 2022-03-01 v1api20220301 v2.0.0 View Snapshot 2024-03-02 v1api20240302 v2.9.0 View VirtualMachine 2022-03-01 v1api20220301 v2.0.0 View VirtualMachineScaleSet 2022-03-01 v1api20220301 v2.0.0 View VirtualMachineScaleSetsExtension 2022-03-01 v1api20220301 v2.6.0 View VirtualMachinesExtension 2022-03-01 v1api20220301 v2.6.0 View Other Supported Versions These are older versions of resourced still available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.">
-
-
-
-
-<link rel="preload" href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" as="style">
-<link href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" rel="stylesheet" integrity="">
-
+<link rel="preload" href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" as="style" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
+<link href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" rel="stylesheet" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -832,7 +829,6 @@ Resource ARM Version CRD Version Supported From Sample Disk 2024-03-02 v1api2024
     Compute</li>
   </ol>
 </nav>
-            
 <div class="td-content">
 	<h1>Compute Supported Resources</h1>
   
@@ -845,76 +841,76 @@ Resource ARM Version CRD Version Supported From Sample Disk 2024-03-02 v1api2024
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Resource</th>
-          <th style="text-align: left">ARM Version</th>
-          <th style="text-align: left">CRD Version</th>
-          <th style="text-align: left">Supported From</th>
-          <th style="text-align: left">Sample</th>
+          <th>Resource</th>
+          <th>ARM Version</th>
+          <th>CRD Version</th>
+          <th>Supported From</th>
+          <th>Sample</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/compute/v1api20240302/#Disk">Disk</a></td>
-          <td style="text-align: left">2024-03-02</td>
-          <td style="text-align: left">v1api20240302</td>
-          <td style="text-align: left">v2.9.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20240302_disk.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/compute/v1api20240302/#Disk">Disk</a></td>
+          <td>2024-03-02</td>
+          <td>v1api20240302</td>
+          <td>v2.9.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20240302_disk.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/compute/v1api20240302/#DiskAccess">DiskAccess</a></td>
-          <td style="text-align: left">2024-03-02</td>
-          <td style="text-align: left">v1api20240302</td>
-          <td style="text-align: left">v2.9.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20240302_diskaccess.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/compute/v1api20240302/#DiskAccess">DiskAccess</a></td>
+          <td>2024-03-02</td>
+          <td>v1api20240302</td>
+          <td>v2.9.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20240302_diskaccess.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/compute/v1api20240302/#DiskEncryptionSet">DiskEncryptionSet</a></td>
-          <td style="text-align: left">2024-03-02</td>
-          <td style="text-align: left">v1api20240302</td>
-          <td style="text-align: left">v2.9.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20240302_diskencryptionset.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/compute/v1api20240302/#DiskEncryptionSet">DiskEncryptionSet</a></td>
+          <td>2024-03-02</td>
+          <td>v1api20240302</td>
+          <td>v2.9.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20240302_diskencryptionset.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/compute/v1api20220301/#Image">Image</a></td>
-          <td style="text-align: left">2022-03-01</td>
-          <td style="text-align: left">v1api20220301</td>
-          <td style="text-align: left">v2.0.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20220301_image.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/compute/v1api20220301/#Image">Image</a></td>
+          <td>2022-03-01</td>
+          <td>v1api20220301</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20220301_image.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/compute/v1api20240302/#Snapshot">Snapshot</a></td>
-          <td style="text-align: left">2024-03-02</td>
-          <td style="text-align: left">v1api20240302</td>
-          <td style="text-align: left">v2.9.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20240302_snapshot.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/compute/v1api20240302/#Snapshot">Snapshot</a></td>
+          <td>2024-03-02</td>
+          <td>v1api20240302</td>
+          <td>v2.9.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20240302_snapshot.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/compute/v1api20220301/#VirtualMachine">VirtualMachine</a></td>
-          <td style="text-align: left">2022-03-01</td>
-          <td style="text-align: left">v1api20220301</td>
-          <td style="text-align: left">v2.0.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20220301_virtualmachine.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/compute/v1api20220301/#VirtualMachine">VirtualMachine</a></td>
+          <td>2022-03-01</td>
+          <td>v1api20220301</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20220301_virtualmachine.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/compute/v1api20220301/#VirtualMachineScaleSet">VirtualMachineScaleSet</a></td>
-          <td style="text-align: left">2022-03-01</td>
-          <td style="text-align: left">v1api20220301</td>
-          <td style="text-align: left">v2.0.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20220301_virtualmachinescaleset.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/compute/v1api20220301/#VirtualMachineScaleSet">VirtualMachineScaleSet</a></td>
+          <td>2022-03-01</td>
+          <td>v1api20220301</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20220301_virtualmachinescaleset.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/compute/v1api20220301/#VirtualMachineScaleSetsExtension">VirtualMachineScaleSetsExtension</a></td>
-          <td style="text-align: left">2022-03-01</td>
-          <td style="text-align: left">v1api20220301</td>
-          <td style="text-align: left">v2.6.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20220301_virtualmachinescalesetsextension.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/compute/v1api20220301/#VirtualMachineScaleSetsExtension">VirtualMachineScaleSetsExtension</a></td>
+          <td>2022-03-01</td>
+          <td>v1api20220301</td>
+          <td>v2.6.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20220301_virtualmachinescalesetsextension.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/compute/v1api20220301/#VirtualMachinesExtension">VirtualMachinesExtension</a></td>
-          <td style="text-align: left">2022-03-01</td>
-          <td style="text-align: left">v1api20220301</td>
-          <td style="text-align: left">v2.6.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20220301_virtualmachinesextension.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/compute/v1api20220301/#VirtualMachinesExtension">VirtualMachinesExtension</a></td>
+          <td>2022-03-01</td>
+          <td>v1api20220301</td>
+          <td>v2.6.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20220301_virtualmachinesextension.yaml">View</a></td>
       </tr>
   </tbody>
 </table>
@@ -923,74 +919,74 @@ Resource ARM Version CRD Version Supported From Sample Disk 2024-03-02 v1api2024
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Resource</th>
-          <th style="text-align: left">ARM Version</th>
-          <th style="text-align: left">CRD Version</th>
-          <th style="text-align: left">Supported From</th>
-          <th style="text-align: left">Sample</th>
+          <th>Resource</th>
+          <th>ARM Version</th>
+          <th>CRD Version</th>
+          <th>Supported From</th>
+          <th>Sample</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/compute/v1api20200930/#Disk">Disk</a></td>
-          <td style="text-align: left">2020-09-30</td>
-          <td style="text-align: left">v1api20200930</td>
-          <td style="text-align: left">v2.0.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20200930_disk.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/compute/v1api20200930/#Disk">Disk</a></td>
+          <td>2020-09-30</td>
+          <td>v1api20200930</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20200930_disk.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/compute/v1api20220702/#DiskEncryptionSet">DiskEncryptionSet</a></td>
-          <td style="text-align: left">2022-07-02</td>
-          <td style="text-align: left">v1api20220702</td>
-          <td style="text-align: left">v2.3.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20220702_diskencryptionset.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/compute/v1api20220702/#DiskEncryptionSet">DiskEncryptionSet</a></td>
+          <td>2022-07-02</td>
+          <td>v1api20220702</td>
+          <td>v2.3.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20220702_diskencryptionset.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/compute/v1api20210701/#Image">Image</a></td>
-          <td style="text-align: left">2021-07-01</td>
-          <td style="text-align: left">v1api20210701</td>
-          <td style="text-align: left">v2.0.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20210701_image.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/compute/v1api20210701/#Image">Image</a></td>
+          <td>2021-07-01</td>
+          <td>v1api20210701</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20210701_image.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/compute/v1api20200930/#Snapshot">Snapshot</a></td>
-          <td style="text-align: left">2020-09-30</td>
-          <td style="text-align: left">v1api20200930</td>
-          <td style="text-align: left">v2.0.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20200930_snapshot.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/compute/v1api20200930/#Snapshot">Snapshot</a></td>
+          <td>2020-09-30</td>
+          <td>v1api20200930</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20200930_snapshot.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/compute/v1api20201201/#VirtualMachine">VirtualMachine</a></td>
-          <td style="text-align: left">2020-12-01</td>
-          <td style="text-align: left">v1api20201201</td>
-          <td style="text-align: left">v2.0.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20201201_virtualmachine.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/compute/v1api20201201/#VirtualMachine">VirtualMachine</a></td>
+          <td>2020-12-01</td>
+          <td>v1api20201201</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20201201_virtualmachine.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/compute/v1api20201201/#VirtualMachineScaleSet">VirtualMachineScaleSet</a></td>
-          <td style="text-align: left">2020-12-01</td>
-          <td style="text-align: left">v1api20201201</td>
-          <td style="text-align: left">v2.0.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20201201_virtualmachinescaleset.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/compute/v1api20201201/#VirtualMachineScaleSet">VirtualMachineScaleSet</a></td>
+          <td>2020-12-01</td>
+          <td>v1api20201201</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20201201_virtualmachinescaleset.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/compute/v1api20201201/#VirtualMachineScaleSetsExtension">VirtualMachineScaleSetsExtension</a></td>
-          <td style="text-align: left">2020-12-01</td>
-          <td style="text-align: left">v1api20201201</td>
-          <td style="text-align: left">v2.6.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20201201_virtualmachinescalesetsextension.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/compute/v1api20201201/#VirtualMachineScaleSetsExtension">VirtualMachineScaleSetsExtension</a></td>
+          <td>2020-12-01</td>
+          <td>v1api20201201</td>
+          <td>v2.6.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20201201_virtualmachinescalesetsextension.yaml">View</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="/azure-service-operator/reference/compute/v1api20201201/#VirtualMachinesExtension">VirtualMachinesExtension</a></td>
-          <td style="text-align: left">2020-12-01</td>
-          <td style="text-align: left">v1api20201201</td>
-          <td style="text-align: left">v2.6.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20201201_virtualmachinesextension.yaml">View</a></td>
+          <td><a href="/azure-service-operator/reference/compute/v1api20201201/#VirtualMachinesExtension">VirtualMachinesExtension</a></td>
+          <td>2020-12-01</td>
+          <td>v1api20201201</td>
+          <td>v2.6.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20201201_virtualmachinesextension.yaml">View</a></td>
       </tr>
   </tbody>
 </table>
 
-  <div class="section-index">
+	<div class="section-index">
     
     
     </div>
@@ -1025,7 +1021,7 @@ Resource ARM Version CRD Version Supported From Sample Disk 2024-03-02 v1api2024
 </footer>
 
     </div>
-    <script src="/azure-service-operator/js/main.min.0a5a30b73411b7a841784b6f4d46f4e0b1b95d576fa3cadd81db9d5ae468e8c2.js" integrity="sha256-ClowtzQRt6hBeEtvTUb04LG5XVdvo8rdgdudWuRo6MI=" crossorigin="anonymous"></script>
+    <script src="/azure-service-operator/js/main.min.4096f09e0b199950620fc06165ef2a2791e1bee9067e27b14c4a54f02c0e33bd.js" integrity="sha256-QJbwngsZmVBiD8BhZe8qJ5HhvukGfiexTEpU8CwOM70=" crossorigin="anonymous"></script>
 <script defer src="/azure-service-operator/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/azure-service-operator/js/tabpane-persist.js'></script>
 

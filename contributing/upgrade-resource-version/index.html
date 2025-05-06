@@ -33,13 +33,8 @@
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Upgrading a resource">
   <meta name="twitter:description" content="Step by step walkthrough of upgrading a resource version">
-
-
-
-
-<link rel="preload" href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" as="style">
-<link href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" rel="stylesheet" integrity="">
-
+<link rel="preload" href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" as="style" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
+<link href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" rel="stylesheet" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -837,7 +832,6 @@
     Upgrading a resource</li>
   </ol>
 </nav>
-            
 <div class="td-content">
 	<h1>Upgrading a resource</h1>
   <div class="lead">Step by step walkthrough of upgrading a resource version</div>
@@ -902,9 +896,9 @@ You may need to add it to the &#39;objectModelConfiguration&#39; section of the 
 </span></span><span style="display:flex;"><span>*<span style="color:#e6db74">&#34;github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515/storage&#34;</span>.DatabaseAccount 
 </span></span><span style="display:flex;"><span>does not implement <span style="color:#e6db74">&#34;sigs.k8s.io/controller-runtime/pkg/conversion&#34;</span>.Hub <span style="color:#f92672">(</span>missing method Hub<span style="color:#f92672">)</span>
 </span></span></code></pre></div><p>This compilation error is expected - caused by a specific type assertion in an extension for DatabaseAccount.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>	<span style="color:#75715e">// Type assert that we are the hub type. This will fail to compile if
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// the hub type has been changed but this extension has not
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">_</span> <span style="color:#a6e22e">conversion</span>.<span style="color:#a6e22e">Hub</span> = <span style="color:#a6e22e">typedObj</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>	<span style="color:#75715e">// Type assert that we are the hub type. This will fail to compile if</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// the hub type has been changed but this extension has not</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">_</span> <span style="color:#a6e22e">conversion</span>.<span style="color:#a6e22e">Hub</span> = <span style="color:#a6e22e">typedObj</span>
 </span></span></code></pre></div><p>For each resource, there&rsquo;s a canonical <em>hub version</em>, the version of the resource that&rsquo;s stored (persisted) in Kubernetes. Adding a new (later) version of a resource changes the hub version to a new one.</p>
 <p>As a part of adding a new version of a resource, we need to review any extensions written for that resource to make sure they will still work properly.
 To ensure we do this, our ASO convention is that each extension includes a specific type assertion designed to trigger a compilation error if/when the hub version changes.</p>
@@ -912,10 +906,10 @@ To ensure we do this, our ASO convention is that each extension includes a speci
 <p>We update the extension by changing the import path to the new version of the resource:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">import</span> (
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">...</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Add
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">documentdb</span> <span style="color:#e6db74">&#34;github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage&#34;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Remove
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">documentdb</span> <span style="color:#e6db74">&#34;github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515/storage&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Add</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">documentdb</span> <span style="color:#e6db74">&#34;github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Remove</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">documentdb</span> <span style="color:#e6db74">&#34;github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515/storage&#34;</span>
 </span></span><span style="display:flex;"><span>)
 </span></span></code></pre></div><p>After doing this, we can see compilation errors in the extension - the property <code>OperatorSpec</code> is missing:</p>
 <p><img src="operatorspec-missing.png" alt="Operator spec missing"></p>
@@ -984,22 +978,22 @@ To ensure we do this, our ASO convention is that each extension includes a speci
 <p>Fortunately, the ASO code generator creates infrastructure to allow us to implement this conversion easily.</p>
 <p>In <code>v1api20210515/storage/database_account_types_gen.go</code> the interface <code>augmentConversionForDatabaseAccount_Spec</code> is what we want, allowing us to <em>augment</em> the existing conversions of <code>DatabaseAccount_Spec</code>. We mustn&rsquo;t (can&rsquo;t!) modify the code-generated files, so we write the code in a separate file.</p>
 <p>Create a new file <code>v1api20210515/storage/database_account_types.go</code> (same base name as the generated file, but without <code>_gen</code>), in which we implement the <code>augmentConversionForDatabaseAccount_Spec</code> interface by writing two methods: <code>AssignPropertiesFrom</code> and <code>AssignPropertiesTo</code>. Here&rsquo;s the full code, with commentary.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// Copyright (c) Microsoft Corporation.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// Licensed under the MIT license.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">package</span> <span style="color:#a6e22e">storage</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// Copyright (c) Microsoft Corporation.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Licensed under the MIT license.</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">storage</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">v20231115s</span> <span style="color:#e6db74">&#34;github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage&#34;</span>
 </span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;github.com/Azure/azure-service-operator/v2/pkg/genruntime&#34;</span>
 </span></span><span style="display:flex;"><span>)
 </span></span></code></pre></div><p>Explicitly declaring that we need to implement the interface gives us safety that we&rsquo;ve implemented the methods correctly. It also protects the extension from future changes to the generator - if we ever decided to change the generated <code>augument*</code> interfaces, this <em>type assertion ensures</em> the extension will fail to compile and we&rsquo;ll know we need to update it.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// Ensure databaseAccount implements augmentConversionForDatabaseAccount
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">_</span> <span style="color:#a6e22e">augmentConversionForDatabaseAccount_Spec</span> = <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">DatabaseAccount_Spec</span>{}
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// Ensure databaseAccount implements augmentConversionForDatabaseAccount</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">_</span> <span style="color:#a6e22e">augmentConversionForDatabaseAccount_Spec</span> = <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">DatabaseAccount_Spec</span>{}
 </span></span></code></pre></div><p>To down-convert from the new version to the old version, we need to convert the <code>NetworkAclBypassResourceReferences</code> into a list of strings, by selecting the <code>ARMID</code> property of each.</p>
 <p>We don&rsquo;t have to worry about any other properties on the Specs, only <code>NetworkAclBypassResourceReferences</code> and <code>NetworkAclBypassResourceIds</code> - the interface <em>augments</em> the existing conversion methods and is called by the generated code after most of the heavy lifting is complete.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">account</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">DatabaseAccount_Spec</span>) <span style="color:#a6e22e">AssignPropertiesFrom</span>(<span style="color:#a6e22e">src</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">v20231115s</span>.<span style="color:#a6e22e">DatabaseAccount_Spec</span>) <span style="color:#66d9ef">error</span> {
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// Copy any references that point directly to ARM resources into NetworkAclBypassResourceIds
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">src</span>.<span style="color:#a6e22e">NetworkAclBypassResourceReferences</span>) &gt; <span style="color:#ae81ff">0</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// Copy any references that point directly to ARM resources into NetworkAclBypassResourceIds</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">src</span>.<span style="color:#a6e22e">NetworkAclBypassResourceReferences</span>) &gt; <span style="color:#ae81ff">0</span> {
 </span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">ids</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">string</span>, <span style="color:#ae81ff">0</span>, len(<span style="color:#a6e22e">src</span>.<span style="color:#a6e22e">NetworkAclBypassResourceReferences</span>))
 </span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">ref</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">src</span>.<span style="color:#a6e22e">NetworkAclBypassResourceReferences</span> {
 </span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">ids</span> = append(<span style="color:#a6e22e">ids</span>, <span style="color:#a6e22e">ref</span>.<span style="color:#a6e22e">ARMID</span>)
@@ -1016,8 +1010,8 @@ To ensure we do this, our ASO convention is that each extension includes a speci
 </span></span></code></pre></div><p>Note how we&rsquo;re careful not to store an empty slice if there are no references to ARM resources, we store a <strong>nil</strong> instead. This is forced by the way the YAML serialization library works. Since we&rsquo;ve handled the property <code>NetworkAclBypassResourceReferences</code>, we remove it from the <code>PropertyBag</code> to avoid duplicating data.</p>
 <p>To up convert from the old version to the new version, we do the reverse. Fortunately, this direction is lossless - we can always convert a list of ARM IDs into a list of references.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">account</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">DatabaseAccount_Spec</span>) <span style="color:#a6e22e">AssignPropertiesTo</span>(<span style="color:#a6e22e">dst</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">v20231115s</span>.<span style="color:#a6e22e">DatabaseAccount_Spec</span>) <span style="color:#66d9ef">error</span> {
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// Copy all ARM IDs into NetworkAclBypassResourceReferences
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">account</span>.<span style="color:#a6e22e">NetworkAclBypassResourceIds</span>) &gt; <span style="color:#ae81ff">0</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// Copy all ARM IDs into NetworkAclBypassResourceReferences</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">account</span>.<span style="color:#a6e22e">NetworkAclBypassResourceIds</span>) &gt; <span style="color:#ae81ff">0</span> {
 </span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">references</span> <span style="color:#f92672">:=</span> make([]<span style="color:#a6e22e">genruntime</span>.<span style="color:#a6e22e">ResourceReference</span>, <span style="color:#ae81ff">0</span>, len(<span style="color:#a6e22e">account</span>.<span style="color:#a6e22e">NetworkAclBypassResourceIds</span>))
 </span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">ref</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">account</span>.<span style="color:#a6e22e">NetworkAclBypassResourceIds</span> {
 </span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">krr</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">genruntime</span>.<span style="color:#a6e22e">ResourceReference</span>{
@@ -1136,13 +1130,13 @@ To ensure we do this, our ASO convention is that each extension includes a speci
 </span></span></code></pre></div><p>We create a test context, conventionally called <code>tc</code>, which provides a infrastructure support for the test.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>	<span style="color:#a6e22e">tc</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">globalTestContext</span>.<span style="color:#a6e22e">ForTest</span>(<span style="color:#a6e22e">t</span>)
 </span></span></code></pre></div><p>First use of the test context is to create a dedicated resource group for this test. The name of this resource group is random, but deterministic, allowing multiple tests to run side-by-side without interfering with each other, and ensuring the test is repeatable.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>	<span style="color:#75715e">// Create our resource group
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">rg</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">tc</span>.<span style="color:#a6e22e">CreateTestResourceGroupAndWait</span>()
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>	<span style="color:#75715e">// Create our resource group</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">rg</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">tc</span>.<span style="color:#a6e22e">CreateTestResourceGroupAndWait</span>()
 </span></span></code></pre></div><p>We declare <code>acct</code> as a <code>DatabaseAccount</code> object, and set the properties we want to use for testing with a MongoDB database.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>	<span style="color:#a6e22e">tc</span>.<span style="color:#a6e22e">AzureRegion</span> = <span style="color:#a6e22e">to</span>.<span style="color:#a6e22e">Ptr</span>(<span style="color:#e6db74">&#34;australiaeast&#34;</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// Declare a Cosmos DB account for our MongoDB database
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">kind</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">documentdb</span>.<span style="color:#a6e22e">DatabaseAccount_Kind_Spec_MongoDB</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// Declare a Cosmos DB account for our MongoDB database</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">kind</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">documentdb</span>.<span style="color:#a6e22e">DatabaseAccount_Kind_Spec_MongoDB</span>
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">offerType</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">documentdb</span>.<span style="color:#a6e22e">DatabaseAccountOfferType_Standard</span>
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">acct</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">documentdb</span>.<span style="color:#a6e22e">DatabaseAccount</span>{
 </span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">ObjectMeta</span>: <span style="color:#a6e22e">tc</span>.<span style="color:#a6e22e">MakeObjectMetaWithName</span>(<span style="color:#a6e22e">tc</span>.<span style="color:#a6e22e">NoSpaceNamer</span>.<span style="color:#a6e22e">GenerateName</span>(<span style="color:#e6db74">&#34;db&#34;</span>)),
@@ -1156,20 +1150,20 @@ To ensure we do this, our ASO convention is that each extension includes a speci
 </span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">DatabaseAccountOfferType</span>: <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">offerType</span>,
 </span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Locations</span>: []<span style="color:#a6e22e">documentdb</span>.<span style="color:#a6e22e">Location</span>{
 </span></span><span style="display:flex;"><span>				{
-</span></span><span style="display:flex;"><span>					<span style="color:#a6e22e">LocationName</span>: <span style="color:#a6e22e">to</span>.<span style="color:#a6e22e">Ptr</span>(<span style="color:#e6db74">&#34;australiaeast&#34;</span>), <span style="color:#75715e">// Capacity constraints //  tc.AzureRegion,
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>				},
+</span></span><span style="display:flex;"><span>					<span style="color:#a6e22e">LocationName</span>: <span style="color:#a6e22e">to</span>.<span style="color:#a6e22e">Ptr</span>(<span style="color:#e6db74">&#34;australiaeast&#34;</span>), <span style="color:#75715e">// Capacity constraints //  tc.AzureRegion,</span>
+</span></span><span style="display:flex;"><span>				},
 </span></span><span style="display:flex;"><span>			},
 </span></span><span style="display:flex;"><span>		},
 </span></span><span style="display:flex;"><span>	}
 </span></span></code></pre></div><p>At the time of writing, we couldn&rsquo;t deploy these into the usual ASO test region, so the test is hard coded to use <code>australiaeast</code>: by overriding the default value for <code>tc.AzureRegion</code>. Applying the override in this way ensures all the resources in the test are co-located in the same region.</p>
 <p>Next we declare a MongoDB database called <code>db</code> and configure that as well. Key here is the configuration of its <code>Owner</code> as the account we just created.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>	<span style="color:#75715e">// Declare a MongoDB database
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">name</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">tc</span>.<span style="color:#a6e22e">Namer</span>.<span style="color:#a6e22e">GenerateName</span>(<span style="color:#e6db74">&#34;mongo&#34;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>	<span style="color:#75715e">// Declare a MongoDB database</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">name</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">tc</span>.<span style="color:#a6e22e">Namer</span>.<span style="color:#a6e22e">GenerateName</span>(<span style="color:#e6db74">&#34;mongo&#34;</span>)
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">db</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">documentdb</span>.<span style="color:#a6e22e">MongodbDatabase</span>{
 </span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">ObjectMeta</span>: <span style="color:#a6e22e">tc</span>.<span style="color:#a6e22e">MakeObjectMetaWithName</span>(<span style="color:#a6e22e">name</span>),
 </span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">Spec</span>: <span style="color:#a6e22e">documentdb</span>.<span style="color:#a6e22e">DatabaseAccounts_MongodbDatabase_Spec</span>{
-</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Location</span>: <span style="color:#a6e22e">to</span>.<span style="color:#a6e22e">Ptr</span>(<span style="color:#e6db74">&#34;australiaeast&#34;</span>), <span style="color:#75715e">// Capacity constraints //  tc.AzureRegion,
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>			<span style="color:#a6e22e">Options</span>: <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">documentdb</span>.<span style="color:#a6e22e">CreateUpdateOptions</span>{
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Location</span>: <span style="color:#a6e22e">to</span>.<span style="color:#a6e22e">Ptr</span>(<span style="color:#e6db74">&#34;australiaeast&#34;</span>), <span style="color:#75715e">// Capacity constraints //  tc.AzureRegion,</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Options</span>: <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">documentdb</span>.<span style="color:#a6e22e">CreateUpdateOptions</span>{
 </span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">AutoscaleSettings</span>: <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">documentdb</span>.<span style="color:#a6e22e">AutoscaleSettings</span>{
 </span></span><span style="display:flex;"><span>					<span style="color:#a6e22e">MaxThroughput</span>: <span style="color:#a6e22e">to</span>.<span style="color:#a6e22e">Ptr</span>(<span style="color:#ae81ff">4000</span>),
 </span></span><span style="display:flex;"><span>				},
@@ -1182,25 +1176,25 @@ To ensure we do this, our ASO convention is that each extension includes a speci
 </span></span><span style="display:flex;"><span>	}
 </span></span></code></pre></div><p>Now we create both resources in Azure and wait for them to be created.</p>
 <p>ASO is supposed to take care of sequencing the creation of resources, in this case so that the account is created before the database. Creating all resources at once by calling <code>CreateResourcesAndWait</code> is a straightforward way to test that this works for the new resource.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>	<span style="color:#75715e">// Create both resources in Azure
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">tc</span>.<span style="color:#a6e22e">CreateResourcesAndWait</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">acct</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">db</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>	<span style="color:#75715e">// Create both resources in Azure</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">tc</span>.<span style="color:#a6e22e">CreateResourcesAndWait</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">acct</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">db</span>)
 </span></span></code></pre></div><p>A few quick assertions to ensure the resources were created properly.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>	<span style="color:#75715e">// Perform some assertions on the resources we just created
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">expectedKind</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">documentdb</span>.<span style="color:#a6e22e">DatabaseAccount_Kind_STATUS_MongoDB</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>	<span style="color:#75715e">// Perform some assertions on the resources we just created</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">expectedKind</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">documentdb</span>.<span style="color:#a6e22e">DatabaseAccount_Kind_STATUS_MongoDB</span>
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">tc</span>.<span style="color:#a6e22e">Expect</span>(<span style="color:#a6e22e">acct</span>.<span style="color:#a6e22e">Status</span>.<span style="color:#a6e22e">Kind</span>).<span style="color:#a6e22e">ToNot</span>(<span style="color:#a6e22e">BeNil</span>())
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">tc</span>.<span style="color:#a6e22e">Expect</span>(<span style="color:#f92672">*</span><span style="color:#a6e22e">acct</span>.<span style="color:#a6e22e">Status</span>.<span style="color:#a6e22e">Kind</span>).<span style="color:#a6e22e">To</span>(<span style="color:#a6e22e">Equal</span>(<span style="color:#a6e22e">expectedKind</span>))
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">tc</span>.<span style="color:#a6e22e">Expect</span>(<span style="color:#a6e22e">acct</span>.<span style="color:#a6e22e">Status</span>.<span style="color:#a6e22e">Id</span>).<span style="color:#a6e22e">ToNot</span>(<span style="color:#a6e22e">BeNil</span>())
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">tc</span>.<span style="color:#a6e22e">Expect</span>(<span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Status</span>.<span style="color:#a6e22e">Id</span>).<span style="color:#a6e22e">ToNot</span>(<span style="color:#a6e22e">BeNil</span>())
 </span></span></code></pre></div><p>Next, we make a change to the account to verify that ASO is able to update the resource in Azure.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>	<span style="color:#75715e">// Update the account to ensure that works
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">tc</span>.<span style="color:#a6e22e">LogSectionf</span>(<span style="color:#e6db74">&#34;Updating tags on account&#34;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>	<span style="color:#75715e">// Update the account to ensure that works</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">tc</span>.<span style="color:#a6e22e">LogSectionf</span>(<span style="color:#e6db74">&#34;Updating tags on account&#34;</span>)
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">old</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">acct</span>.<span style="color:#a6e22e">DeepCopy</span>()
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">acct</span>.<span style="color:#a6e22e">Spec</span>.<span style="color:#a6e22e">Tags</span> = <span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">string</span>{<span style="color:#e6db74">&#34;scratchcard&#34;</span>: <span style="color:#e6db74">&#34;lanyard&#34;</span>}
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">tc</span>.<span style="color:#a6e22e">PatchResourceAndWait</span>(<span style="color:#a6e22e">old</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">acct</span>)
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">tc</span>.<span style="color:#a6e22e">Expect</span>(<span style="color:#a6e22e">acct</span>.<span style="color:#a6e22e">Status</span>.<span style="color:#a6e22e">Tags</span>).<span style="color:#a6e22e">To</span>(<span style="color:#a6e22e">HaveKey</span>(<span style="color:#e6db74">&#34;scratchcard&#34;</span>))
 </span></span></code></pre></div><p>With the MongoDB database created, we&rsquo;ve unlocked a couple of additional scenarios that we can test in parallel.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>	<span style="color:#75715e">// Run sub-tests
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">tc</span>.<span style="color:#a6e22e">RunParallelSubtests</span>(
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>	<span style="color:#75715e">// Run sub-tests</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">tc</span>.<span style="color:#a6e22e">RunParallelSubtests</span>(
 </span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">testcommon</span>.<span style="color:#a6e22e">Subtest</span>{
 </span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Name</span>: <span style="color:#e6db74">&#34;CosmosDB MongoDB Collection CRUD&#34;</span>,
 </span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Test</span>: <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">tc</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testcommon</span>.<span style="color:#a6e22e">KubePerTestContext</span>) {
@@ -1214,8 +1208,8 @@ To ensure we do this, our ASO convention is that each extension includes a speci
 </span></span><span style="display:flex;"><span>			},
 </span></span><span style="display:flex;"><span>		})
 </span></span></code></pre></div><p>Finally, we delete the resources one at a time and make sure the deletions work. First the database:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>	<span style="color:#75715e">// Delete the database and make sure it goes away
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">armId</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Status</span>.<span style="color:#a6e22e">Id</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>	<span style="color:#75715e">// Delete the database and make sure it goes away</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">armId</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Status</span>.<span style="color:#a6e22e">Id</span>
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">tc</span>.<span style="color:#a6e22e">DeleteResourceAndWait</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">db</span>)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">exists</span>, <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">tc</span>.<span style="color:#a6e22e">AzureClient</span>.<span style="color:#a6e22e">CheckExistenceWithGetByID</span>(
@@ -1225,8 +1219,8 @@ To ensure we do this, our ASO convention is that each extension includes a speci
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">tc</span>.<span style="color:#a6e22e">Expect</span>(<span style="color:#a6e22e">err</span>).<span style="color:#a6e22e">ToNot</span>(<span style="color:#a6e22e">HaveOccurred</span>())
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">tc</span>.<span style="color:#a6e22e">Expect</span>(<span style="color:#a6e22e">exists</span>).<span style="color:#a6e22e">To</span>(<span style="color:#a6e22e">BeFalse</span>())
 </span></span></code></pre></div><p>And then the account:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>	<span style="color:#75715e">// Delete the account and make sure it goes away
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">armId</span> = <span style="color:#f92672">*</span><span style="color:#a6e22e">acct</span>.<span style="color:#a6e22e">Status</span>.<span style="color:#a6e22e">Id</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>	<span style="color:#75715e">// Delete the account and make sure it goes away</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">armId</span> = <span style="color:#f92672">*</span><span style="color:#a6e22e">acct</span>.<span style="color:#a6e22e">Status</span>.<span style="color:#a6e22e">Id</span>
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">tc</span>.<span style="color:#a6e22e">DeleteResourceAndWait</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">acct</span>)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">exists</span>, <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">tc</span>.<span style="color:#a6e22e">AzureClient</span>.<span style="color:#a6e22e">CheckExistenceWithGetByID</span>(
@@ -1285,7 +1279,7 @@ Microsoft.Azure.Documents.Common/2.14.0\\\&#34;\\n}\\n--------------------------
 LastTransitionTime = \&#34;2024-04-19 04:16:49 +0000 UTC\&#34;&#34;
 </code></pre><p>In this case, I needed to remove the <code>disableLocalAuth</code> property from the sample, as it&rsquo;s not supported for MongoDB accounts. So much for adding it proactively earlier!</p>
 
-  <div class="section-index">
+	<div class="section-index">
     
     
     </div>
@@ -1320,7 +1314,7 @@ LastTransitionTime = \&#34;2024-04-19 04:16:49 +0000 UTC\&#34;&#34;
 </footer>
 
     </div>
-    <script src="/azure-service-operator/js/main.min.0a5a30b73411b7a841784b6f4d46f4e0b1b95d576fa3cadd81db9d5ae468e8c2.js" integrity="sha256-ClowtzQRt6hBeEtvTUb04LG5XVdvo8rdgdudWuRo6MI=" crossorigin="anonymous"></script>
+    <script src="/azure-service-operator/js/main.min.4096f09e0b199950620fc06165ef2a2791e1bee9067e27b14c4a54f02c0e33bd.js" integrity="sha256-QJbwngsZmVBiD8BhZe8qJ5HhvukGfiexTEpU8CwOM70=" crossorigin="anonymous"></script>
 <script defer src="/azure-service-operator/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/azure-service-operator/js/tabpane-persist.js'></script>
 

@@ -41,13 +41,8 @@ We have had a longstanding item (#1433) to allow users to be more selective abou
   <meta name="twitter:description" content="Context Outstanding issues:
 #2920: kube-apiserver persistently high memory usage with large number of CRDs. #1433: Allow users to control which CRDs are installed CRDs consume kube-apiserver resources even if no instances of the CRDs are ever created. For more details, see #2920.
 We have had a longstanding item (#1433) to allow users to be more selective about what CRDs to install. As the number of CRDs installed by ASO increases, this becomes more critical in order to mitigate the kube-apiserver memory usage problem.">
-
-
-
-
-<link rel="preload" href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" as="style">
-<link href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" rel="stylesheet" integrity="">
-
+<link rel="preload" href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" as="style" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
+<link href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" rel="stylesheet" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -819,9 +814,9 @@ We have had a longstanding item (#1433) to allow users to be more selective abou
     </li>
     <li><a href="#decision">Decision</a>
       <ul>
-        <li><a href="#answer-to-question-1-what-to-install-by-defaultquestion-1-what-to-install-by-default">Answer to <a href="#question-1-what-to-install-by-default">question #1: What to install by default?</a></a></li>
-        <li><a href="#answer-to-question-2-how-do-users-specify-what-crds-to-installquestion-2-how-do-users-specify-what-crds-to-install">Answer to <a href="#question-2-how-do-users-specify-what-crds-to-install">question #2: How do users specify what CRDs to install?</a></a></li>
-        <li><a href="#answer-to-question-3-how-do-we-ensure-consistent-configuration-as-aso-is-upgradedquestion-3-how-do-we-ensure-consistent-configuration-as-aso-is-upgraded">Answer to <a href="#question-3-how-do-we-ensure-consistent-configuration-as-aso-is-upgraded">question #3: How do we ensure consistent configuration as ASO is upgraded?</a></a></li>
+        <li><a href="#answer-to-question-1-what-to-install-by-default">Answer to <a href="#question-1-what-to-install-by-default">question #1: What to install by default?</a></a></li>
+        <li><a href="#answer-to-question-2-how-do-users-specify-what-crds-to-install">Answer to <a href="#question-2-how-do-users-specify-what-crds-to-install">question #2: How do users specify what CRDs to install?</a></a></li>
+        <li><a href="#answer-to-question-3-how-do-we-ensure-consistent-configuration-as-aso-is-upgraded">Answer to <a href="#question-3-how-do-we-ensure-consistent-configuration-as-aso-is-upgraded">question #3: How do we ensure consistent configuration as ASO is upgraded?</a></a></li>
         <li><a href="#open-questions-and-their-answers">Open questions and their answers</a></li>
       </ul>
     </li>
@@ -848,7 +843,6 @@ We have had a longstanding item (#1433) to allow users to be more selective abou
     2023-05: Installing only selected CRDs</li>
   </ol>
 </nav>
-            
 <div class="td-content">
 	<h1>2023-05: Installing only selected CRDs</h1>
 	
@@ -1058,16 +1052,16 @@ the non-persistent storage.</p>
 <li>???</li>
 </ul>
 <h2 id="decision">Decision</h2>
-<h3 id="answer-to-question-1-what-to-install-by-defaultquestion-1-what-to-install-by-default">Answer to <a href="#question-1-what-to-install-by-default">question #1: What to install by default?</a></h3>
+<h3 id="answer-to-question-1-what-to-install-by-default">Answer to <a href="#question-1-what-to-install-by-default">question #1: What to install by default?</a></h3>
 <p>A combination of  <a href="#answer-1b-nothing-by-default">Answer 1b: Nothing by default</a> and
 <a href="#answer-1c-mandatory-configuration">Answer 1c: Mandatory configuration</a>.</p>
 <p>Specifically, the operator pod should exit with an error if there are no CRDs configured in <code>--crd-pattern</code> <em>and</em> no
 existing CRDs in the cluster. If a <code>--crd-pattern</code> is specified, or if there are already existing ASO CRDs in the cluster
 then the pod will launch without an error, install/upgrade the required CRDs and then start watches on those CRDs.</p>
-<h3 id="answer-to-question-2-how-do-users-specify-what-crds-to-installquestion-2-how-do-users-specify-what-crds-to-install">Answer to <a href="#question-2-how-do-users-specify-what-crds-to-install">question #2: How do users specify what CRDs to install?</a></h3>
+<h3 id="answer-to-question-2-how-do-users-specify-what-crds-to-install">Answer to <a href="#question-2-how-do-users-specify-what-crds-to-install">question #2: How do users specify what CRDs to install?</a></h3>
 <p><a href="#answer-2a-using-the-existing-command-line-parameter">Answer 2a: Using the existing command line parameter</a></p>
 <p>This parameter will come to mean: &ldquo;New CRDs to install to the cluster&rdquo;.</p>
-<h3 id="answer-to-question-3-how-do-we-ensure-consistent-configuration-as-aso-is-upgradedquestion-3-how-do-we-ensure-consistent-configuration-as-aso-is-upgraded">Answer to <a href="#question-3-how-do-we-ensure-consistent-configuration-as-aso-is-upgraded">question #3: How do we ensure consistent configuration as ASO is upgraded?</a></h3>
+<h3 id="answer-to-question-3-how-do-we-ensure-consistent-configuration-as-aso-is-upgraded">Answer to <a href="#question-3-how-do-we-ensure-consistent-configuration-as-aso-is-upgraded">question #3: How do we ensure consistent configuration as ASO is upgraded?</a></h3>
 <p><a href="#answer-3c-query-existing-crds-and-always-support-those">Answer 3c: Query existing CRDs and always support those</a>.</p>
 <p>Note that users may manage their own CRDs. In Helm, they can do this by setting <code>installCRDs</code> in values.yaml to <code>false</code>.
 When <code>installCRDs</code> is set to <code>false</code>, the operator only has CRD <code>read,list,watch</code> permissions and cannot update CRDs. We
@@ -1130,7 +1124,7 @@ also want <code>microsoft.storage/storageAccounts</code> since that&rsquo;s the 
 </footer>
 
     </div>
-    <script src="/azure-service-operator/js/main.min.0a5a30b73411b7a841784b6f4d46f4e0b1b95d576fa3cadd81db9d5ae468e8c2.js" integrity="sha256-ClowtzQRt6hBeEtvTUb04LG5XVdvo8rdgdudWuRo6MI=" crossorigin="anonymous"></script>
+    <script src="/azure-service-operator/js/main.min.4096f09e0b199950620fc06165ef2a2791e1bee9067e27b14c4a54f02c0e33bd.js" integrity="sha256-QJbwngsZmVBiD8BhZe8qJ5HhvukGfiexTEpU8CwOM70=" crossorigin="anonymous"></script>
 <script defer src="/azure-service-operator/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/azure-service-operator/js/tabpane-persist.js'></script>
 

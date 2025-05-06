@@ -18,13 +18,13 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>Customize the behaviour of generated resource | Azure Service Operator</title>
-<meta name="description" content=" Note In most cases, a code generated resource will work out of the box with no changes, and there will be no need to customize its behaviour by implementing an extensions.
+<meta name="description" content="Note In most cases, a code generated resource will work out of the box with no changes, and there will be no need to customize its behaviour by implementing an extensions.
 Unless you have a specific need, you can skip this step and move on to writing a test.
 In an ideal world, the code generated resource will work out of the box with no changes. However, in practice, this is not always the case.">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/implement-extensions/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="Customize the behaviour of generated resource">
-  <meta property="og:description" content=" Note In most cases, a code generated resource will work out of the box with no changes, and there will be no need to customize its behaviour by implementing an extensions.
+  <meta property="og:description" content="Note In most cases, a code generated resource will work out of the box with no changes, and there will be no need to customize its behaviour by implementing an extensions.
 Unless you have a specific need, you can skip this step and move on to writing a test.
 In an ideal world, the code generated resource will work out of the box with no changes. However, in practice, this is not always the case.">
   <meta property="og:locale" content="en_us">
@@ -32,22 +32,17 @@ In an ideal world, the code generated resource will work out of the box with no 
     <meta property="article:section" content="contributing">
 
   <meta itemprop="name" content="Customize the behaviour of generated resource">
-  <meta itemprop="description" content=" Note In most cases, a code generated resource will work out of the box with no changes, and there will be no need to customize its behaviour by implementing an extensions.
+  <meta itemprop="description" content="Note In most cases, a code generated resource will work out of the box with no changes, and there will be no need to customize its behaviour by implementing an extensions.
 Unless you have a specific need, you can skip this step and move on to writing a test.
 In an ideal world, the code generated resource will work out of the box with no changes. However, in practice, this is not always the case.">
   <meta itemprop="wordCount" content="432">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Customize the behaviour of generated resource">
-  <meta name="twitter:description" content=" Note In most cases, a code generated resource will work out of the box with no changes, and there will be no need to customize its behaviour by implementing an extensions.
+  <meta name="twitter:description" content="Note In most cases, a code generated resource will work out of the box with no changes, and there will be no need to customize its behaviour by implementing an extensions.
 Unless you have a specific need, you can skip this step and move on to writing a test.
 In an ideal world, the code generated resource will work out of the box with no changes. However, in practice, this is not always the case.">
-
-
-
-
-<link rel="preload" href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" as="style">
-<link href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" rel="stylesheet" integrity="">
-
+<link rel="preload" href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" as="style" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
+<link href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" rel="stylesheet" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -831,7 +826,6 @@ In an ideal world, the code generated resource will work out of the box with no 
     Customize behaviour</li>
   </ol>
 </nav>
-            
 <div class="td-content">
 	<h1>Customize the behaviour of generated resource</h1>
 	
@@ -861,56 +855,56 @@ Reach out to us if you want some guidance on which (if any) extension points are
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Extension pont</th>
-          <th style="text-align: left">Purpose</th>
-          <th style="text-align: left">Example</th>
+          <th>Extension pont</th>
+          <th>Purpose</th>
+          <th>Example</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">ARMResourceModifier</td>
-          <td style="text-align: left">Provides a hook allowing resources to modify the payload that will be sent to ARM just before it is sent.</td>
-          <td style="text-align: left">Used by KeyVault <a href="https://github.com/Azure/azure-service-operator/blob/a6ed2d1d093ed0f0404e709a6b7b969e12d6605d/v2/api/keyvault/customizations/vault_extensions.go#L44">Vaults</a> to allow specifying create modes like <code>createOrRecover</code>.</td>
+          <td>ARMResourceModifier</td>
+          <td>Provides a hook allowing resources to modify the payload that will be sent to ARM just before it is sent.</td>
+          <td>Used by KeyVault <a href="https://github.com/Azure/azure-service-operator/blob/a6ed2d1d093ed0f0404e709a6b7b969e12d6605d/v2/api/keyvault/customizations/vault_extensions.go#L44">Vaults</a> to allow specifying create modes like <code>createOrRecover</code>.</td>
       </tr>
       <tr>
-          <td style="text-align: left">Claimer</td>
-          <td style="text-align: left">Customize how the reconciler claims a resource</td>
-          <td style="text-align: left"></td>
+          <td>Claimer</td>
+          <td>Customize how the reconciler claims a resource</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">Deleter</td>
-          <td style="text-align: left">Customize how the reconciler deletes a resource</td>
-          <td style="text-align: left"></td>
+          <td>Deleter</td>
+          <td>Customize how the reconciler deletes a resource</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">ErrorClassifier</td>
-          <td style="text-align: left">Customize how the reconciler reacts to specific errors returned by Azure</td>
-          <td style="text-align: left">Used by DocumentDB <a href="https://github.com/Azure/azure-service-operator/blob/176fee93ea4aa80f38615047371d501a819d618b/v2/api/documentdb/customizations/sql_role_assignment_extension_types.go#L25">SqlRoleAssignment</a> to retry assignments that fail because the referenced identity is not yet available.</td>
+          <td>ErrorClassifier</td>
+          <td>Customize how the reconciler reacts to specific errors returned by Azure</td>
+          <td>Used by DocumentDB <a href="https://github.com/Azure/azure-service-operator/blob/176fee93ea4aa80f38615047371d501a819d618b/v2/api/documentdb/customizations/sql_role_assignment_extension_types.go#L25">SqlRoleAssignment</a> to retry assignments that fail because the referenced identity is not yet available.</td>
       </tr>
       <tr>
-          <td style="text-align: left">Importer</td>
-          <td style="text-align: left">An optional interface that can be implemented by resource extensions to customize the import process in asoctl</td>
-          <td style="text-align: left"></td>
+          <td>Importer</td>
+          <td>An optional interface that can be implemented by resource extensions to customize the import process in asoctl</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">KubernetesSecretExporter</td>
-          <td style="text-align: left">Implemented when a resource needs to export a Kubernetes secret</td>
-          <td style="text-align: left">Used by EventHub <a href="https://github.com/Azure/azure-service-operator/blob/176fee93ea4aa80f38615047371d501a819d618b/v2/api/eventhub/customizations/namespaces_eventhubs_authorization_rule_extension.go#L36">NamespacesEventhubsAuthorizationRule</a> to publish requested secrets to the cluster.</td>
+          <td>KubernetesSecretExporter</td>
+          <td>Implemented when a resource needs to export a Kubernetes secret</td>
+          <td>Used by EventHub <a href="https://github.com/Azure/azure-service-operator/blob/176fee93ea4aa80f38615047371d501a819d618b/v2/api/eventhub/customizations/namespaces_eventhubs_authorization_rule_extension.go#L36">NamespacesEventhubsAuthorizationRule</a> to publish requested secrets to the cluster.</td>
       </tr>
       <tr>
-          <td style="text-align: left">PostReconciliationChecker</td>
-          <td style="text-align: left">Implemented when a resource needs to perform additional checks after reconciliation against Azure</td>
-          <td style="text-align: left"></td>
+          <td>PostReconciliationChecker</td>
+          <td>Implemented when a resource needs to perform additional checks after reconciliation against Azure</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">PreReconciliationChecker</td>
-          <td style="text-align: left">implemented by resources that want to do extra checks before proceeding with a full ARM reconcile.</td>
-          <td style="text-align: left"></td>
+          <td>PreReconciliationChecker</td>
+          <td>implemented by resources that want to do extra checks before proceeding with a full ARM reconcile.</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">SuccessfulCreationHandler</td>
-          <td style="text-align: left">Implemented by resources that need to perform additional actions after a successful creation</td>
-          <td style="text-align: left"></td>
+          <td>SuccessfulCreationHandler</td>
+          <td>Implemented by resources that need to perform additional actions after a successful creation</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -950,7 +944,7 @@ Reach out to us if you want some guidance on which (if any) extension points are
 </footer>
 
     </div>
-    <script src="/azure-service-operator/js/main.min.0a5a30b73411b7a841784b6f4d46f4e0b1b95d576fa3cadd81db9d5ae468e8c2.js" integrity="sha256-ClowtzQRt6hBeEtvTUb04LG5XVdvo8rdgdudWuRo6MI=" crossorigin="anonymous"></script>
+    <script src="/azure-service-operator/js/main.min.4096f09e0b199950620fc06165ef2a2791e1bee9067e27b14c4a54f02c0e33bd.js" integrity="sha256-QJbwngsZmVBiD8BhZe8qJ5HhvukGfiexTEpU8CwOM70=" crossorigin="anonymous"></script>
 <script defer src="/azure-service-operator/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/azure-service-operator/js/tabpane-persist.js'></script>
 

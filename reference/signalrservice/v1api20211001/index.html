@@ -18,13 +18,13 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>signalrservice.azure.com/v1api20211001 | Azure Service Operator</title>
-<meta name="description" content=" APIVersion Value Description &ldquo;2021-10-01&rdquo; SignalR Generator information: - Generated from: /signalr/resource-manager/Microsoft.SignalRService/stable/2021-10-01/signalr.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.SignalRService/signalR/{resourceName}
+<meta name="description" content="APIVersion Value Description “2021-10-01” SignalR Generator information: - Generated from: /signalr/resource-manager/Microsoft.SignalRService/stable/2021-10-01/signalr.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.SignalRService/signalR/{resourceName}
 Used by: SignalRList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOptional status SignalR_STATUSOptional SignalR_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be. stringOptional cors Cross-Origin Resource Sharing (CORS) settings. SignalRCorsSettingsOptional disableAadAuth DisableLocalAuth Enable or disable aad auth When set as true, connection with AuthType=aad won&rsquo;t work. boolOptional disableLocalAuth DisableLocalAuth Enable or disable local auth with AccessKey When set as true, connection with AccessKey=xxx won&rsquo;t work. boolOptional features List of the featureFlags. FeatureFlags that are not included in the parameters for the update operation will not be modified. And the response will only include featureFlags that are explicitly set. When a featureFlag is not explicitly set, its globally default value will be used But keep in mind, the default value doesn&rsquo;t mean &ldquo;false&rdquo;. It varies in terms of different FeatureFlags. SignalRFeature[]Optional identity A class represent managed identities used for request and response ManagedIdentityOptional kind The kind of the service, it can be SignalR or RawWebSockets ServiceKindOptional location The GEO location of the resource. e.g. West US East US networkACLs Network ACLs for the resource SignalRNetworkACLsOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure SignalROperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired publicNetworkAccess Enable or disable public network access. Default to &ldquo;Enabled&rdquo;. When it&rsquo;s Enabled, network ACLs still apply. When it&rsquo;s Disabled, public network access is always disabled no matter what you set in network ACLs. stringOptional resourceLogConfiguration Resource log configuration of a Microsoft.SignalRService resource. ResourceLogConfigurationOptional sku The billing information of the resource. ResourceSkuOptional tags Tags of the service which is a list of key value pairs that describe the resource. map[string]stringOptional tls TLS settings for the resource SignalRTlsSettingsOptional upstream The settings for the Upstream when the service is in server-less mode. ServerlessUpstreamSettingsOptional SignalR_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional cors Cross-Origin Resource Sharing (CORS) settings. SignalRCorsSettings_STATUSOptional disableAadAuth DisableLocalAuth Enable or disable aad auth When set as true, connection with AuthType=aad won&rsquo;t work. boolOptional disableLocalAuth DisableLocalAuth Enable or disable local auth with AccessKey When set as true, connection with AccessKey=xxx won&rsquo;t work. boolOptional externalIP The publicly accessible IP of the resource. stringOptional features List of the featureFlags. FeatureFlags that are not included in the parameters for the update operation will not be modified. And the response will only include featureFlags that are explicitly set. When a featureFlag is not explicitly set, its globally default value will be used But keep in mind, the default value doesn&rsquo;t mean &ldquo;false&rdquo;. It varies in terms of different FeatureFlags. SignalRFeature_STATUS[]Optional hostName FQDN of the service instance. stringOptional hostNamePrefix Deprecated. stringOptional id Fully qualified resource Id for the resource. stringOptional identity A class represent managed identities used for request and response ManagedIdentity_STATUSOptional kind The kind of the service, it can be SignalR or RawWebSockets ServiceKind_STATUSOptional location The GEO location of the resource. e.g. West US East US name The name of the resource. stringOptional networkACLs Network ACLs for the resource SignalRNetworkACLs_STATUSOptional privateEndpointConnections Private endpoint connections to the resource. PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded[]Optional provisioningState Provisioning state of the resource. ProvisioningState_STATUSOptional publicNetworkAccess Enable or disable public network access. Default to &ldquo;Enabled&rdquo;. When it&rsquo;s Enabled, network ACLs still apply. When it&rsquo;s Disabled, public network access is always disabled no matter what you set in network ACLs. stringOptional publicPort The publicly accessible port of the resource which is designed for browser/client side usage. intOptional resourceLogConfiguration Resource log configuration of a Microsoft.SignalRService resource. ResourceLogConfiguration_STATUSOptional serverPort The publicly accessible port of the resource which is designed for customer server side usage. intOptional sharedPrivateLinkResources The list of shared private link resources. SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded[]Optional sku The billing information of the resource. ResourceSku_STATUSOptional systemData Metadata pertaining to creation and last modification of the resource. SystemData_STATUSOptional tags Tags of the service which is a list of key value pairs that describe the resource. map[string]stringOptional tls TLS settings for the resource SignalRTlsSettings_STATUSOptional type The type of the resource - e.g. &ldquo;Microsoft.SignalRService/SignalR&rdquo; stringOptional upstream The settings for the Upstream when the service is in server-less mode. ServerlessUpstreamSettings_STATUSOptional version Version of the resource. Probably you need the same or higher version of client SDKs. stringOptional SignalRList Generator information: - Generated from: /signalr/resource-manager/Microsoft.SignalRService/stable/2021-10-01/signalr.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.SignalRService/signalR/{resourceName}">
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOptional status SignalR_STATUSOptional SignalR_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional cors Cross-Origin Resource Sharing (CORS) settings. SignalRCorsSettingsOptional disableAadAuth DisableLocalAuth Enable or disable aad auth When set as true, connection with AuthType=aad won’t work. boolOptional disableLocalAuth DisableLocalAuth Enable or disable local auth with AccessKey When set as true, connection with AccessKey=xxx won’t work. boolOptional features List of the featureFlags. FeatureFlags that are not included in the parameters for the update operation will not be modified. And the response will only include featureFlags that are explicitly set. When a featureFlag is not explicitly set, its globally default value will be used But keep in mind, the default value doesn’t mean “false”. It varies in terms of different FeatureFlags. SignalRFeature[]Optional identity A class represent managed identities used for request and response ManagedIdentityOptional kind The kind of the service, it can be SignalR or RawWebSockets ServiceKindOptional location The GEO location of the resource. e.g. West US East US networkACLs Network ACLs for the resource SignalRNetworkACLsOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure SignalROperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired publicNetworkAccess Enable or disable public network access. Default to “Enabled”. When it’s Enabled, network ACLs still apply. When it’s Disabled, public network access is always disabled no matter what you set in network ACLs. stringOptional resourceLogConfiguration Resource log configuration of a Microsoft.SignalRService resource. ResourceLogConfigurationOptional sku The billing information of the resource. ResourceSkuOptional tags Tags of the service which is a list of key value pairs that describe the resource. map[string]stringOptional tls TLS settings for the resource SignalRTlsSettingsOptional upstream The settings for the Upstream when the service is in server-less mode. ServerlessUpstreamSettingsOptional SignalR_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional cors Cross-Origin Resource Sharing (CORS) settings. SignalRCorsSettings_STATUSOptional disableAadAuth DisableLocalAuth Enable or disable aad auth When set as true, connection with AuthType=aad won’t work. boolOptional disableLocalAuth DisableLocalAuth Enable or disable local auth with AccessKey When set as true, connection with AccessKey=xxx won’t work. boolOptional externalIP The publicly accessible IP of the resource. stringOptional features List of the featureFlags. FeatureFlags that are not included in the parameters for the update operation will not be modified. And the response will only include featureFlags that are explicitly set. When a featureFlag is not explicitly set, its globally default value will be used But keep in mind, the default value doesn’t mean “false”. It varies in terms of different FeatureFlags. SignalRFeature_STATUS[]Optional hostName FQDN of the service instance. stringOptional hostNamePrefix Deprecated. stringOptional id Fully qualified resource Id for the resource. stringOptional identity A class represent managed identities used for request and response ManagedIdentity_STATUSOptional kind The kind of the service, it can be SignalR or RawWebSockets ServiceKind_STATUSOptional location The GEO location of the resource. e.g. West US East US name The name of the resource. stringOptional networkACLs Network ACLs for the resource SignalRNetworkACLs_STATUSOptional privateEndpointConnections Private endpoint connections to the resource. PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded[]Optional provisioningState Provisioning state of the resource. ProvisioningState_STATUSOptional publicNetworkAccess Enable or disable public network access. Default to “Enabled”. When it’s Enabled, network ACLs still apply. When it’s Disabled, public network access is always disabled no matter what you set in network ACLs. stringOptional publicPort The publicly accessible port of the resource which is designed for browser/client side usage. intOptional resourceLogConfiguration Resource log configuration of a Microsoft.SignalRService resource. ResourceLogConfiguration_STATUSOptional serverPort The publicly accessible port of the resource which is designed for customer server side usage. intOptional sharedPrivateLinkResources The list of shared private link resources. SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded[]Optional sku The billing information of the resource. ResourceSku_STATUSOptional systemData Metadata pertaining to creation and last modification of the resource. SystemData_STATUSOptional tags Tags of the service which is a list of key value pairs that describe the resource. map[string]stringOptional tls TLS settings for the resource SignalRTlsSettings_STATUSOptional type The type of the resource - e.g. “Microsoft.SignalRService/SignalR” stringOptional upstream The settings for the Upstream when the service is in server-less mode. ServerlessUpstreamSettings_STATUSOptional version Version of the resource. Probably you need the same or higher version of client SDKs. stringOptional SignalRList Generator information: - Generated from: /signalr/resource-manager/Microsoft.SignalRService/stable/2021-10-01/signalr.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.SignalRService/signalR/{resourceName}">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/signalrservice/v1api20211001/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="signalrservice.azure.com/v1api20211001">
-  <meta property="og:description" content=" APIVersion Value Description “2021-10-01” SignalR Generator information: - Generated from: /signalr/resource-manager/Microsoft.SignalRService/stable/2021-10-01/signalr.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.SignalRService/signalR/{resourceName}
+  <meta property="og:description" content="APIVersion Value Description “2021-10-01” SignalR Generator information: - Generated from: /signalr/resource-manager/Microsoft.SignalRService/stable/2021-10-01/signalr.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.SignalRService/signalR/{resourceName}
 Used by: SignalRList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOptional status SignalR_STATUSOptional SignalR_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional cors Cross-Origin Resource Sharing (CORS) settings. SignalRCorsSettingsOptional disableAadAuth DisableLocalAuth Enable or disable aad auth When set as true, connection with AuthType=aad won’t work. boolOptional disableLocalAuth DisableLocalAuth Enable or disable local auth with AccessKey When set as true, connection with AccessKey=xxx won’t work. boolOptional features List of the featureFlags. FeatureFlags that are not included in the parameters for the update operation will not be modified. And the response will only include featureFlags that are explicitly set. When a featureFlag is not explicitly set, its globally default value will be used But keep in mind, the default value doesn’t mean “false”. It varies in terms of different FeatureFlags. SignalRFeature[]Optional identity A class represent managed identities used for request and response ManagedIdentityOptional kind The kind of the service, it can be SignalR or RawWebSockets ServiceKindOptional location The GEO location of the resource. e.g. West US East US networkACLs Network ACLs for the resource SignalRNetworkACLsOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure SignalROperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired publicNetworkAccess Enable or disable public network access. Default to “Enabled”. When it’s Enabled, network ACLs still apply. When it’s Disabled, public network access is always disabled no matter what you set in network ACLs. stringOptional resourceLogConfiguration Resource log configuration of a Microsoft.SignalRService resource. ResourceLogConfigurationOptional sku The billing information of the resource. ResourceSkuOptional tags Tags of the service which is a list of key value pairs that describe the resource. map[string]stringOptional tls TLS settings for the resource SignalRTlsSettingsOptional upstream The settings for the Upstream when the service is in server-less mode. ServerlessUpstreamSettingsOptional SignalR_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional cors Cross-Origin Resource Sharing (CORS) settings. SignalRCorsSettings_STATUSOptional disableAadAuth DisableLocalAuth Enable or disable aad auth When set as true, connection with AuthType=aad won’t work. boolOptional disableLocalAuth DisableLocalAuth Enable or disable local auth with AccessKey When set as true, connection with AccessKey=xxx won’t work. boolOptional externalIP The publicly accessible IP of the resource. stringOptional features List of the featureFlags. FeatureFlags that are not included in the parameters for the update operation will not be modified. And the response will only include featureFlags that are explicitly set. When a featureFlag is not explicitly set, its globally default value will be used But keep in mind, the default value doesn’t mean “false”. It varies in terms of different FeatureFlags. SignalRFeature_STATUS[]Optional hostName FQDN of the service instance. stringOptional hostNamePrefix Deprecated. stringOptional id Fully qualified resource Id for the resource. stringOptional identity A class represent managed identities used for request and response ManagedIdentity_STATUSOptional kind The kind of the service, it can be SignalR or RawWebSockets ServiceKind_STATUSOptional location The GEO location of the resource. e.g. West US East US name The name of the resource. stringOptional networkACLs Network ACLs for the resource SignalRNetworkACLs_STATUSOptional privateEndpointConnections Private endpoint connections to the resource. PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded[]Optional provisioningState Provisioning state of the resource. ProvisioningState_STATUSOptional publicNetworkAccess Enable or disable public network access. Default to “Enabled”. When it’s Enabled, network ACLs still apply. When it’s Disabled, public network access is always disabled no matter what you set in network ACLs. stringOptional publicPort The publicly accessible port of the resource which is designed for browser/client side usage. intOptional resourceLogConfiguration Resource log configuration of a Microsoft.SignalRService resource. ResourceLogConfiguration_STATUSOptional serverPort The publicly accessible port of the resource which is designed for customer server side usage. intOptional sharedPrivateLinkResources The list of shared private link resources. SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded[]Optional sku The billing information of the resource. ResourceSku_STATUSOptional systemData Metadata pertaining to creation and last modification of the resource. SystemData_STATUSOptional tags Tags of the service which is a list of key value pairs that describe the resource. map[string]stringOptional tls TLS settings for the resource SignalRTlsSettings_STATUSOptional type The type of the resource - e.g. “Microsoft.SignalRService/SignalR” stringOptional upstream The settings for the Upstream when the service is in server-less mode. ServerlessUpstreamSettings_STATUSOptional version Version of the resource. Probably you need the same or higher version of client SDKs. stringOptional SignalRList Generator information: - Generated from: /signalr/resource-manager/Microsoft.SignalRService/stable/2021-10-01/signalr.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.SignalRService/signalR/{resourceName}">
   <meta property="og:locale" content="en_us">
@@ -32,22 +32,17 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
     <meta property="article:section" content="reference">
 
   <meta itemprop="name" content="signalrservice.azure.com/v1api20211001">
-  <meta itemprop="description" content=" APIVersion Value Description “2021-10-01” SignalR Generator information: - Generated from: /signalr/resource-manager/Microsoft.SignalRService/stable/2021-10-01/signalr.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.SignalRService/signalR/{resourceName}
+  <meta itemprop="description" content="APIVersion Value Description “2021-10-01” SignalR Generator information: - Generated from: /signalr/resource-manager/Microsoft.SignalRService/stable/2021-10-01/signalr.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.SignalRService/signalR/{resourceName}
 Used by: SignalRList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOptional status SignalR_STATUSOptional SignalR_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional cors Cross-Origin Resource Sharing (CORS) settings. SignalRCorsSettingsOptional disableAadAuth DisableLocalAuth Enable or disable aad auth When set as true, connection with AuthType=aad won’t work. boolOptional disableLocalAuth DisableLocalAuth Enable or disable local auth with AccessKey When set as true, connection with AccessKey=xxx won’t work. boolOptional features List of the featureFlags. FeatureFlags that are not included in the parameters for the update operation will not be modified. And the response will only include featureFlags that are explicitly set. When a featureFlag is not explicitly set, its globally default value will be used But keep in mind, the default value doesn’t mean “false”. It varies in terms of different FeatureFlags. SignalRFeature[]Optional identity A class represent managed identities used for request and response ManagedIdentityOptional kind The kind of the service, it can be SignalR or RawWebSockets ServiceKindOptional location The GEO location of the resource. e.g. West US East US networkACLs Network ACLs for the resource SignalRNetworkACLsOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure SignalROperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired publicNetworkAccess Enable or disable public network access. Default to “Enabled”. When it’s Enabled, network ACLs still apply. When it’s Disabled, public network access is always disabled no matter what you set in network ACLs. stringOptional resourceLogConfiguration Resource log configuration of a Microsoft.SignalRService resource. ResourceLogConfigurationOptional sku The billing information of the resource. ResourceSkuOptional tags Tags of the service which is a list of key value pairs that describe the resource. map[string]stringOptional tls TLS settings for the resource SignalRTlsSettingsOptional upstream The settings for the Upstream when the service is in server-less mode. ServerlessUpstreamSettingsOptional SignalR_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional cors Cross-Origin Resource Sharing (CORS) settings. SignalRCorsSettings_STATUSOptional disableAadAuth DisableLocalAuth Enable or disable aad auth When set as true, connection with AuthType=aad won’t work. boolOptional disableLocalAuth DisableLocalAuth Enable or disable local auth with AccessKey When set as true, connection with AccessKey=xxx won’t work. boolOptional externalIP The publicly accessible IP of the resource. stringOptional features List of the featureFlags. FeatureFlags that are not included in the parameters for the update operation will not be modified. And the response will only include featureFlags that are explicitly set. When a featureFlag is not explicitly set, its globally default value will be used But keep in mind, the default value doesn’t mean “false”. It varies in terms of different FeatureFlags. SignalRFeature_STATUS[]Optional hostName FQDN of the service instance. stringOptional hostNamePrefix Deprecated. stringOptional id Fully qualified resource Id for the resource. stringOptional identity A class represent managed identities used for request and response ManagedIdentity_STATUSOptional kind The kind of the service, it can be SignalR or RawWebSockets ServiceKind_STATUSOptional location The GEO location of the resource. e.g. West US East US name The name of the resource. stringOptional networkACLs Network ACLs for the resource SignalRNetworkACLs_STATUSOptional privateEndpointConnections Private endpoint connections to the resource. PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded[]Optional provisioningState Provisioning state of the resource. ProvisioningState_STATUSOptional publicNetworkAccess Enable or disable public network access. Default to “Enabled”. When it’s Enabled, network ACLs still apply. When it’s Disabled, public network access is always disabled no matter what you set in network ACLs. stringOptional publicPort The publicly accessible port of the resource which is designed for browser/client side usage. intOptional resourceLogConfiguration Resource log configuration of a Microsoft.SignalRService resource. ResourceLogConfiguration_STATUSOptional serverPort The publicly accessible port of the resource which is designed for customer server side usage. intOptional sharedPrivateLinkResources The list of shared private link resources. SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded[]Optional sku The billing information of the resource. ResourceSku_STATUSOptional systemData Metadata pertaining to creation and last modification of the resource. SystemData_STATUSOptional tags Tags of the service which is a list of key value pairs that describe the resource. map[string]stringOptional tls TLS settings for the resource SignalRTlsSettings_STATUSOptional type The type of the resource - e.g. “Microsoft.SignalRService/SignalR” stringOptional upstream The settings for the Upstream when the service is in server-less mode. ServerlessUpstreamSettings_STATUSOptional version Version of the resource. Probably you need the same or higher version of client SDKs. stringOptional SignalRList Generator information: - Generated from: /signalr/resource-manager/Microsoft.SignalRService/stable/2021-10-01/signalr.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.SignalRService/signalR/{resourceName}">
   <meta itemprop="wordCount" content="4291">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="signalrservice.azure.com/v1api20211001">
-  <meta name="twitter:description" content=" APIVersion Value Description “2021-10-01” SignalR Generator information: - Generated from: /signalr/resource-manager/Microsoft.SignalRService/stable/2021-10-01/signalr.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.SignalRService/signalR/{resourceName}
+  <meta name="twitter:description" content="APIVersion Value Description “2021-10-01” SignalR Generator information: - Generated from: /signalr/resource-manager/Microsoft.SignalRService/stable/2021-10-01/signalr.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.SignalRService/signalR/{resourceName}
 Used by: SignalRList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOptional status SignalR_STATUSOptional SignalR_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional cors Cross-Origin Resource Sharing (CORS) settings. SignalRCorsSettingsOptional disableAadAuth DisableLocalAuth Enable or disable aad auth When set as true, connection with AuthType=aad won’t work. boolOptional disableLocalAuth DisableLocalAuth Enable or disable local auth with AccessKey When set as true, connection with AccessKey=xxx won’t work. boolOptional features List of the featureFlags. FeatureFlags that are not included in the parameters for the update operation will not be modified. And the response will only include featureFlags that are explicitly set. When a featureFlag is not explicitly set, its globally default value will be used But keep in mind, the default value doesn’t mean “false”. It varies in terms of different FeatureFlags. SignalRFeature[]Optional identity A class represent managed identities used for request and response ManagedIdentityOptional kind The kind of the service, it can be SignalR or RawWebSockets ServiceKindOptional location The GEO location of the resource. e.g. West US East US networkACLs Network ACLs for the resource SignalRNetworkACLsOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure SignalROperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired publicNetworkAccess Enable or disable public network access. Default to “Enabled”. When it’s Enabled, network ACLs still apply. When it’s Disabled, public network access is always disabled no matter what you set in network ACLs. stringOptional resourceLogConfiguration Resource log configuration of a Microsoft.SignalRService resource. ResourceLogConfigurationOptional sku The billing information of the resource. ResourceSkuOptional tags Tags of the service which is a list of key value pairs that describe the resource. map[string]stringOptional tls TLS settings for the resource SignalRTlsSettingsOptional upstream The settings for the Upstream when the service is in server-less mode. ServerlessUpstreamSettingsOptional SignalR_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional cors Cross-Origin Resource Sharing (CORS) settings. SignalRCorsSettings_STATUSOptional disableAadAuth DisableLocalAuth Enable or disable aad auth When set as true, connection with AuthType=aad won’t work. boolOptional disableLocalAuth DisableLocalAuth Enable or disable local auth with AccessKey When set as true, connection with AccessKey=xxx won’t work. boolOptional externalIP The publicly accessible IP of the resource. stringOptional features List of the featureFlags. FeatureFlags that are not included in the parameters for the update operation will not be modified. And the response will only include featureFlags that are explicitly set. When a featureFlag is not explicitly set, its globally default value will be used But keep in mind, the default value doesn’t mean “false”. It varies in terms of different FeatureFlags. SignalRFeature_STATUS[]Optional hostName FQDN of the service instance. stringOptional hostNamePrefix Deprecated. stringOptional id Fully qualified resource Id for the resource. stringOptional identity A class represent managed identities used for request and response ManagedIdentity_STATUSOptional kind The kind of the service, it can be SignalR or RawWebSockets ServiceKind_STATUSOptional location The GEO location of the resource. e.g. West US East US name The name of the resource. stringOptional networkACLs Network ACLs for the resource SignalRNetworkACLs_STATUSOptional privateEndpointConnections Private endpoint connections to the resource. PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded[]Optional provisioningState Provisioning state of the resource. ProvisioningState_STATUSOptional publicNetworkAccess Enable or disable public network access. Default to “Enabled”. When it’s Enabled, network ACLs still apply. When it’s Disabled, public network access is always disabled no matter what you set in network ACLs. stringOptional publicPort The publicly accessible port of the resource which is designed for browser/client side usage. intOptional resourceLogConfiguration Resource log configuration of a Microsoft.SignalRService resource. ResourceLogConfiguration_STATUSOptional serverPort The publicly accessible port of the resource which is designed for customer server side usage. intOptional sharedPrivateLinkResources The list of shared private link resources. SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded[]Optional sku The billing information of the resource. ResourceSku_STATUSOptional systemData Metadata pertaining to creation and last modification of the resource. SystemData_STATUSOptional tags Tags of the service which is a list of key value pairs that describe the resource. map[string]stringOptional tls TLS settings for the resource SignalRTlsSettings_STATUSOptional type The type of the resource - e.g. “Microsoft.SignalRService/SignalR” stringOptional upstream The settings for the Upstream when the service is in server-less mode. ServerlessUpstreamSettings_STATUSOptional version Version of the resource. Probably you need the same or higher version of client SDKs. stringOptional SignalRList Generator information: - Generated from: /signalr/resource-manager/Microsoft.SignalRService/stable/2021-10-01/signalr.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.SignalRService/signalR/{resourceName}">
-
-
-
-
-<link rel="preload" href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" as="style">
-<link href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" rel="stylesheet" integrity="">
-
+<link rel="preload" href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" as="style" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
+<link href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" rel="stylesheet" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -892,7 +887,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
     v1api20211001</li>
   </ol>
 </nav>
-            
 <div class="td-content">
 	<h1>signalrservice.azure.com/v1api20211001</h1>
 	
@@ -904,14 +898,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;2021-10-01&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;2021-10-01&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -921,31 +915,31 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left"><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta">metav1.ObjectMeta</a></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta">metav1.ObjectMeta</a></td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">spec</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"><a href="#SignalR_Spec">SignalR_Spec</a><br/><small>Optional</small></td>
+          <td>spec</td>
+          <td></td>
+          <td><a href="#SignalR_Spec">SignalR_Spec</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">status</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"><a href="#SignalR_STATUS">SignalR_STATUS</a><br/><small>Optional</small></td>
+          <td>status</td>
+          <td></td>
+          <td><a href="#SignalR_STATUS">SignalR_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -953,96 +947,96 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">azureName</td>
-          <td style="text-align: left">The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>azureName</td>
+          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">cors</td>
-          <td style="text-align: left">Cross-Origin Resource Sharing (CORS) settings.</td>
-          <td style="text-align: left"><a href="#SignalRCorsSettings">SignalRCorsSettings</a><br/><small>Optional</small></td>
+          <td>cors</td>
+          <td>Cross-Origin Resource Sharing (CORS) settings.</td>
+          <td><a href="#SignalRCorsSettings">SignalRCorsSettings</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">disableAadAuth</td>
-          <td style="text-align: left">DisableLocalAuth Enable or disable aad auth When set as true, connection with AuthType=aad won&rsquo;t work.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>disableAadAuth</td>
+          <td>DisableLocalAuth Enable or disable aad auth When set as true, connection with AuthType=aad won&rsquo;t work.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">disableLocalAuth</td>
-          <td style="text-align: left">DisableLocalAuth Enable or disable local auth with AccessKey When set as true, connection with AccessKey=xxx won&rsquo;t work.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>disableLocalAuth</td>
+          <td>DisableLocalAuth Enable or disable local auth with AccessKey When set as true, connection with AccessKey=xxx won&rsquo;t work.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">features</td>
-          <td style="text-align: left">List of the featureFlags. FeatureFlags that are not included in the parameters for the update operation will not be modified. And the response will only include featureFlags that are explicitly set. When a featureFlag is not explicitly set, its globally default value will be used But keep in mind, the default value doesn&rsquo;t mean &ldquo;false&rdquo;. It varies in terms of different FeatureFlags.</td>
-          <td style="text-align: left"><a href="#SignalRFeature">SignalRFeature[]</a><br/><small>Optional</small></td>
+          <td>features</td>
+          <td>List of the featureFlags. FeatureFlags that are not included in the parameters for the update operation will not be modified. And the response will only include featureFlags that are explicitly set. When a featureFlag is not explicitly set, its globally default value will be used But keep in mind, the default value doesn&rsquo;t mean &ldquo;false&rdquo;. It varies in terms of different FeatureFlags.</td>
+          <td><a href="#SignalRFeature">SignalRFeature[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">identity</td>
-          <td style="text-align: left">A class represent managed identities used for request and response</td>
-          <td style="text-align: left"><a href="#ManagedIdentity">ManagedIdentity</a><br/><small>Optional</small></td>
+          <td>identity</td>
+          <td>A class represent managed identities used for request and response</td>
+          <td><a href="#ManagedIdentity">ManagedIdentity</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">kind</td>
-          <td style="text-align: left">The kind of the service, it can be SignalR or RawWebSockets</td>
-          <td style="text-align: left"><a href="#ServiceKind">ServiceKind</a><br/><small>Optional</small></td>
+          <td>kind</td>
+          <td>The kind of the service, it can be SignalR or RawWebSockets</td>
+          <td><a href="#ServiceKind">ServiceKind</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">location</td>
-          <td style="text-align: left">The GEO location of the resource. e.g. West US</td>
-          <td style="text-align: left">East US</td>
+          <td>location</td>
+          <td>The GEO location of the resource. e.g. West US</td>
+          <td>East US</td>
       </tr>
       <tr>
-          <td style="text-align: left">networkACLs</td>
-          <td style="text-align: left">Network ACLs for the resource</td>
-          <td style="text-align: left"><a href="#SignalRNetworkACLs">SignalRNetworkACLs</a><br/><small>Optional</small></td>
+          <td>networkACLs</td>
+          <td>Network ACLs for the resource</td>
+          <td><a href="#SignalRNetworkACLs">SignalRNetworkACLs</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">operatorSpec</td>
-          <td style="text-align: left">The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td style="text-align: left"><a href="#SignalROperatorSpec">SignalROperatorSpec</a><br/><small>Optional</small></td>
+          <td>operatorSpec</td>
+          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+          <td><a href="#SignalROperatorSpec">SignalROperatorSpec</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">owner</td>
-          <td style="text-align: left">The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
+          <td>owner</td>
+          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">publicNetworkAccess</td>
-          <td style="text-align: left">Enable or disable public network access. Default to &ldquo;Enabled&rdquo;. When it&rsquo;s Enabled, network ACLs still apply. When it&rsquo;s Disabled, public network access is always disabled no matter what you set in network ACLs.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>publicNetworkAccess</td>
+          <td>Enable or disable public network access. Default to &ldquo;Enabled&rdquo;. When it&rsquo;s Enabled, network ACLs still apply. When it&rsquo;s Disabled, public network access is always disabled no matter what you set in network ACLs.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">resourceLogConfiguration</td>
-          <td style="text-align: left">Resource log configuration of a Microsoft.SignalRService resource.</td>
-          <td style="text-align: left"><a href="#ResourceLogConfiguration">ResourceLogConfiguration</a><br/><small>Optional</small></td>
+          <td>resourceLogConfiguration</td>
+          <td>Resource log configuration of a Microsoft.SignalRService resource.</td>
+          <td><a href="#ResourceLogConfiguration">ResourceLogConfiguration</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">sku</td>
-          <td style="text-align: left">The billing information of the resource.</td>
-          <td style="text-align: left"><a href="#ResourceSku">ResourceSku</a><br/><small>Optional</small></td>
+          <td>sku</td>
+          <td>The billing information of the resource.</td>
+          <td><a href="#ResourceSku">ResourceSku</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">tags</td>
-          <td style="text-align: left">Tags of the service which is a list of key value pairs that describe the resource.</td>
-          <td style="text-align: left">map[string]string<br/><small>Optional</small></td>
+          <td>tags</td>
+          <td>Tags of the service which is a list of key value pairs that describe the resource.</td>
+          <td>map[string]string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">tls</td>
-          <td style="text-align: left">TLS settings for the resource</td>
-          <td style="text-align: left"><a href="#SignalRTlsSettings">SignalRTlsSettings</a><br/><small>Optional</small></td>
+          <td>tls</td>
+          <td>TLS settings for the resource</td>
+          <td><a href="#SignalRTlsSettings">SignalRTlsSettings</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">upstream</td>
-          <td style="text-align: left">The settings for the Upstream when the service is in server-less mode.</td>
-          <td style="text-align: left"><a href="#ServerlessUpstreamSettings">ServerlessUpstreamSettings</a><br/><small>Optional</small></td>
+          <td>upstream</td>
+          <td>The settings for the Upstream when the service is in server-less mode.</td>
+          <td><a href="#ServerlessUpstreamSettings">ServerlessUpstreamSettings</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1050,151 +1044,151 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">conditions</td>
-          <td style="text-align: left">The observed state of the resource</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+          <td>conditions</td>
+          <td>The observed state of the resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">cors</td>
-          <td style="text-align: left">Cross-Origin Resource Sharing (CORS) settings.</td>
-          <td style="text-align: left"><a href="#SignalRCorsSettings_STATUS">SignalRCorsSettings_STATUS</a><br/><small>Optional</small></td>
+          <td>cors</td>
+          <td>Cross-Origin Resource Sharing (CORS) settings.</td>
+          <td><a href="#SignalRCorsSettings_STATUS">SignalRCorsSettings_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">disableAadAuth</td>
-          <td style="text-align: left">DisableLocalAuth Enable or disable aad auth When set as true, connection with AuthType=aad won&rsquo;t work.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>disableAadAuth</td>
+          <td>DisableLocalAuth Enable or disable aad auth When set as true, connection with AuthType=aad won&rsquo;t work.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">disableLocalAuth</td>
-          <td style="text-align: left">DisableLocalAuth Enable or disable local auth with AccessKey When set as true, connection with AccessKey=xxx won&rsquo;t work.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>disableLocalAuth</td>
+          <td>DisableLocalAuth Enable or disable local auth with AccessKey When set as true, connection with AccessKey=xxx won&rsquo;t work.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">externalIP</td>
-          <td style="text-align: left">The publicly accessible IP of the resource.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>externalIP</td>
+          <td>The publicly accessible IP of the resource.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">features</td>
-          <td style="text-align: left">List of the featureFlags. FeatureFlags that are not included in the parameters for the update operation will not be modified. And the response will only include featureFlags that are explicitly set. When a featureFlag is not explicitly set, its globally default value will be used But keep in mind, the default value doesn&rsquo;t mean &ldquo;false&rdquo;. It varies in terms of different FeatureFlags.</td>
-          <td style="text-align: left"><a href="#SignalRFeature_STATUS">SignalRFeature_STATUS[]</a><br/><small>Optional</small></td>
+          <td>features</td>
+          <td>List of the featureFlags. FeatureFlags that are not included in the parameters for the update operation will not be modified. And the response will only include featureFlags that are explicitly set. When a featureFlag is not explicitly set, its globally default value will be used But keep in mind, the default value doesn&rsquo;t mean &ldquo;false&rdquo;. It varies in terms of different FeatureFlags.</td>
+          <td><a href="#SignalRFeature_STATUS">SignalRFeature_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">hostName</td>
-          <td style="text-align: left">FQDN of the service instance.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>hostName</td>
+          <td>FQDN of the service instance.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">hostNamePrefix</td>
-          <td style="text-align: left">Deprecated.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>hostNamePrefix</td>
+          <td>Deprecated.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">id</td>
-          <td style="text-align: left">Fully qualified resource Id for the resource.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>id</td>
+          <td>Fully qualified resource Id for the resource.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">identity</td>
-          <td style="text-align: left">A class represent managed identities used for request and response</td>
-          <td style="text-align: left"><a href="#ManagedIdentity_STATUS">ManagedIdentity_STATUS</a><br/><small>Optional</small></td>
+          <td>identity</td>
+          <td>A class represent managed identities used for request and response</td>
+          <td><a href="#ManagedIdentity_STATUS">ManagedIdentity_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">kind</td>
-          <td style="text-align: left">The kind of the service, it can be SignalR or RawWebSockets</td>
-          <td style="text-align: left"><a href="#ServiceKind_STATUS">ServiceKind_STATUS</a><br/><small>Optional</small></td>
+          <td>kind</td>
+          <td>The kind of the service, it can be SignalR or RawWebSockets</td>
+          <td><a href="#ServiceKind_STATUS">ServiceKind_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">location</td>
-          <td style="text-align: left">The GEO location of the resource. e.g. West US</td>
-          <td style="text-align: left">East US</td>
+          <td>location</td>
+          <td>The GEO location of the resource. e.g. West US</td>
+          <td>East US</td>
       </tr>
       <tr>
-          <td style="text-align: left">name</td>
-          <td style="text-align: left">The name of the resource.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>name</td>
+          <td>The name of the resource.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">networkACLs</td>
-          <td style="text-align: left">Network ACLs for the resource</td>
-          <td style="text-align: left"><a href="#SignalRNetworkACLs_STATUS">SignalRNetworkACLs_STATUS</a><br/><small>Optional</small></td>
+          <td>networkACLs</td>
+          <td>Network ACLs for the resource</td>
+          <td><a href="#SignalRNetworkACLs_STATUS">SignalRNetworkACLs_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">privateEndpointConnections</td>
-          <td style="text-align: left">Private endpoint connections to the resource.</td>
-          <td style="text-align: left"><a href="#PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded">PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded[]</a><br/><small>Optional</small></td>
+          <td>privateEndpointConnections</td>
+          <td>Private endpoint connections to the resource.</td>
+          <td><a href="#PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded">PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">provisioningState</td>
-          <td style="text-align: left">Provisioning state of the resource.</td>
-          <td style="text-align: left"><a href="#ProvisioningState_STATUS">ProvisioningState_STATUS</a><br/><small>Optional</small></td>
+          <td>provisioningState</td>
+          <td>Provisioning state of the resource.</td>
+          <td><a href="#ProvisioningState_STATUS">ProvisioningState_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">publicNetworkAccess</td>
-          <td style="text-align: left">Enable or disable public network access. Default to &ldquo;Enabled&rdquo;. When it&rsquo;s Enabled, network ACLs still apply. When it&rsquo;s Disabled, public network access is always disabled no matter what you set in network ACLs.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>publicNetworkAccess</td>
+          <td>Enable or disable public network access. Default to &ldquo;Enabled&rdquo;. When it&rsquo;s Enabled, network ACLs still apply. When it&rsquo;s Disabled, public network access is always disabled no matter what you set in network ACLs.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">publicPort</td>
-          <td style="text-align: left">The publicly accessible port of the resource which is designed for browser/client side usage.</td>
-          <td style="text-align: left">int<br/><small>Optional</small></td>
+          <td>publicPort</td>
+          <td>The publicly accessible port of the resource which is designed for browser/client side usage.</td>
+          <td>int<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">resourceLogConfiguration</td>
-          <td style="text-align: left">Resource log configuration of a Microsoft.SignalRService resource.</td>
-          <td style="text-align: left"><a href="#ResourceLogConfiguration_STATUS">ResourceLogConfiguration_STATUS</a><br/><small>Optional</small></td>
+          <td>resourceLogConfiguration</td>
+          <td>Resource log configuration of a Microsoft.SignalRService resource.</td>
+          <td><a href="#ResourceLogConfiguration_STATUS">ResourceLogConfiguration_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">serverPort</td>
-          <td style="text-align: left">The publicly accessible port of the resource which is designed for customer server side usage.</td>
-          <td style="text-align: left">int<br/><small>Optional</small></td>
+          <td>serverPort</td>
+          <td>The publicly accessible port of the resource which is designed for customer server side usage.</td>
+          <td>int<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">sharedPrivateLinkResources</td>
-          <td style="text-align: left">The list of shared private link resources.</td>
-          <td style="text-align: left"><a href="#SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded">SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded[]</a><br/><small>Optional</small></td>
+          <td>sharedPrivateLinkResources</td>
+          <td>The list of shared private link resources.</td>
+          <td><a href="#SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded">SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">sku</td>
-          <td style="text-align: left">The billing information of the resource.</td>
-          <td style="text-align: left"><a href="#ResourceSku_STATUS">ResourceSku_STATUS</a><br/><small>Optional</small></td>
+          <td>sku</td>
+          <td>The billing information of the resource.</td>
+          <td><a href="#ResourceSku_STATUS">ResourceSku_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">systemData</td>
-          <td style="text-align: left">Metadata pertaining to creation and last modification of the resource.</td>
-          <td style="text-align: left"><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
+          <td>systemData</td>
+          <td>Metadata pertaining to creation and last modification of the resource.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">tags</td>
-          <td style="text-align: left">Tags of the service which is a list of key value pairs that describe the resource.</td>
-          <td style="text-align: left">map[string]string<br/><small>Optional</small></td>
+          <td>tags</td>
+          <td>Tags of the service which is a list of key value pairs that describe the resource.</td>
+          <td>map[string]string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">tls</td>
-          <td style="text-align: left">TLS settings for the resource</td>
-          <td style="text-align: left"><a href="#SignalRTlsSettings_STATUS">SignalRTlsSettings_STATUS</a><br/><small>Optional</small></td>
+          <td>tls</td>
+          <td>TLS settings for the resource</td>
+          <td><a href="#SignalRTlsSettings_STATUS">SignalRTlsSettings_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">type</td>
-          <td style="text-align: left">The type of the resource - e.g. &ldquo;Microsoft.SignalRService/SignalR&rdquo;</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>type</td>
+          <td>The type of the resource - e.g. &ldquo;Microsoft.SignalRService/SignalR&rdquo;</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">upstream</td>
-          <td style="text-align: left">The settings for the Upstream when the service is in server-less mode.</td>
-          <td style="text-align: left"><a href="#ServerlessUpstreamSettings_STATUS">ServerlessUpstreamSettings_STATUS</a><br/><small>Optional</small></td>
+          <td>upstream</td>
+          <td>The settings for the Upstream when the service is in server-less mode.</td>
+          <td><a href="#ServerlessUpstreamSettings_STATUS">ServerlessUpstreamSettings_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">version</td>
-          <td style="text-align: left">Version of the resource. Probably you need the same or higher version of client SDKs.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>version</td>
+          <td>Version of the resource. Probably you need the same or higher version of client SDKs.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1203,26 +1197,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left"><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta">metav1.ListMeta</a></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta">metav1.ListMeta</a></td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">items</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"><a href="#SignalR">SignalR[]</a><br/><small>Optional</small></td>
+          <td>items</td>
+          <td></td>
+          <td><a href="#SignalR">SignalR[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1231,96 +1225,96 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">azureName</td>
-          <td style="text-align: left">The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>azureName</td>
+          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">cors</td>
-          <td style="text-align: left">Cross-Origin Resource Sharing (CORS) settings.</td>
-          <td style="text-align: left"><a href="#SignalRCorsSettings">SignalRCorsSettings</a><br/><small>Optional</small></td>
+          <td>cors</td>
+          <td>Cross-Origin Resource Sharing (CORS) settings.</td>
+          <td><a href="#SignalRCorsSettings">SignalRCorsSettings</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">disableAadAuth</td>
-          <td style="text-align: left">DisableLocalAuth Enable or disable aad auth When set as true, connection with AuthType=aad won&rsquo;t work.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>disableAadAuth</td>
+          <td>DisableLocalAuth Enable or disable aad auth When set as true, connection with AuthType=aad won&rsquo;t work.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">disableLocalAuth</td>
-          <td style="text-align: left">DisableLocalAuth Enable or disable local auth with AccessKey When set as true, connection with AccessKey=xxx won&rsquo;t work.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>disableLocalAuth</td>
+          <td>DisableLocalAuth Enable or disable local auth with AccessKey When set as true, connection with AccessKey=xxx won&rsquo;t work.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">features</td>
-          <td style="text-align: left">List of the featureFlags. FeatureFlags that are not included in the parameters for the update operation will not be modified. And the response will only include featureFlags that are explicitly set. When a featureFlag is not explicitly set, its globally default value will be used But keep in mind, the default value doesn&rsquo;t mean &ldquo;false&rdquo;. It varies in terms of different FeatureFlags.</td>
-          <td style="text-align: left"><a href="#SignalRFeature">SignalRFeature[]</a><br/><small>Optional</small></td>
+          <td>features</td>
+          <td>List of the featureFlags. FeatureFlags that are not included in the parameters for the update operation will not be modified. And the response will only include featureFlags that are explicitly set. When a featureFlag is not explicitly set, its globally default value will be used But keep in mind, the default value doesn&rsquo;t mean &ldquo;false&rdquo;. It varies in terms of different FeatureFlags.</td>
+          <td><a href="#SignalRFeature">SignalRFeature[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">identity</td>
-          <td style="text-align: left">A class represent managed identities used for request and response</td>
-          <td style="text-align: left"><a href="#ManagedIdentity">ManagedIdentity</a><br/><small>Optional</small></td>
+          <td>identity</td>
+          <td>A class represent managed identities used for request and response</td>
+          <td><a href="#ManagedIdentity">ManagedIdentity</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">kind</td>
-          <td style="text-align: left">The kind of the service, it can be SignalR or RawWebSockets</td>
-          <td style="text-align: left"><a href="#ServiceKind">ServiceKind</a><br/><small>Optional</small></td>
+          <td>kind</td>
+          <td>The kind of the service, it can be SignalR or RawWebSockets</td>
+          <td><a href="#ServiceKind">ServiceKind</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">location</td>
-          <td style="text-align: left">The GEO location of the resource. e.g. West US</td>
-          <td style="text-align: left">East US</td>
+          <td>location</td>
+          <td>The GEO location of the resource. e.g. West US</td>
+          <td>East US</td>
       </tr>
       <tr>
-          <td style="text-align: left">networkACLs</td>
-          <td style="text-align: left">Network ACLs for the resource</td>
-          <td style="text-align: left"><a href="#SignalRNetworkACLs">SignalRNetworkACLs</a><br/><small>Optional</small></td>
+          <td>networkACLs</td>
+          <td>Network ACLs for the resource</td>
+          <td><a href="#SignalRNetworkACLs">SignalRNetworkACLs</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">operatorSpec</td>
-          <td style="text-align: left">The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td style="text-align: left"><a href="#SignalROperatorSpec">SignalROperatorSpec</a><br/><small>Optional</small></td>
+          <td>operatorSpec</td>
+          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+          <td><a href="#SignalROperatorSpec">SignalROperatorSpec</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">owner</td>
-          <td style="text-align: left">The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
+          <td>owner</td>
+          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">publicNetworkAccess</td>
-          <td style="text-align: left">Enable or disable public network access. Default to &ldquo;Enabled&rdquo;. When it&rsquo;s Enabled, network ACLs still apply. When it&rsquo;s Disabled, public network access is always disabled no matter what you set in network ACLs.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>publicNetworkAccess</td>
+          <td>Enable or disable public network access. Default to &ldquo;Enabled&rdquo;. When it&rsquo;s Enabled, network ACLs still apply. When it&rsquo;s Disabled, public network access is always disabled no matter what you set in network ACLs.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">resourceLogConfiguration</td>
-          <td style="text-align: left">Resource log configuration of a Microsoft.SignalRService resource.</td>
-          <td style="text-align: left"><a href="#ResourceLogConfiguration">ResourceLogConfiguration</a><br/><small>Optional</small></td>
+          <td>resourceLogConfiguration</td>
+          <td>Resource log configuration of a Microsoft.SignalRService resource.</td>
+          <td><a href="#ResourceLogConfiguration">ResourceLogConfiguration</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">sku</td>
-          <td style="text-align: left">The billing information of the resource.</td>
-          <td style="text-align: left"><a href="#ResourceSku">ResourceSku</a><br/><small>Optional</small></td>
+          <td>sku</td>
+          <td>The billing information of the resource.</td>
+          <td><a href="#ResourceSku">ResourceSku</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">tags</td>
-          <td style="text-align: left">Tags of the service which is a list of key value pairs that describe the resource.</td>
-          <td style="text-align: left">map[string]string<br/><small>Optional</small></td>
+          <td>tags</td>
+          <td>Tags of the service which is a list of key value pairs that describe the resource.</td>
+          <td>map[string]string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">tls</td>
-          <td style="text-align: left">TLS settings for the resource</td>
-          <td style="text-align: left"><a href="#SignalRTlsSettings">SignalRTlsSettings</a><br/><small>Optional</small></td>
+          <td>tls</td>
+          <td>TLS settings for the resource</td>
+          <td><a href="#SignalRTlsSettings">SignalRTlsSettings</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">upstream</td>
-          <td style="text-align: left">The settings for the Upstream when the service is in server-less mode.</td>
-          <td style="text-align: left"><a href="#ServerlessUpstreamSettings">ServerlessUpstreamSettings</a><br/><small>Optional</small></td>
+          <td>upstream</td>
+          <td>The settings for the Upstream when the service is in server-less mode.</td>
+          <td><a href="#ServerlessUpstreamSettings">ServerlessUpstreamSettings</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1329,151 +1323,151 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">conditions</td>
-          <td style="text-align: left">The observed state of the resource</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+          <td>conditions</td>
+          <td>The observed state of the resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">cors</td>
-          <td style="text-align: left">Cross-Origin Resource Sharing (CORS) settings.</td>
-          <td style="text-align: left"><a href="#SignalRCorsSettings_STATUS">SignalRCorsSettings_STATUS</a><br/><small>Optional</small></td>
+          <td>cors</td>
+          <td>Cross-Origin Resource Sharing (CORS) settings.</td>
+          <td><a href="#SignalRCorsSettings_STATUS">SignalRCorsSettings_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">disableAadAuth</td>
-          <td style="text-align: left">DisableLocalAuth Enable or disable aad auth When set as true, connection with AuthType=aad won&rsquo;t work.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>disableAadAuth</td>
+          <td>DisableLocalAuth Enable or disable aad auth When set as true, connection with AuthType=aad won&rsquo;t work.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">disableLocalAuth</td>
-          <td style="text-align: left">DisableLocalAuth Enable or disable local auth with AccessKey When set as true, connection with AccessKey=xxx won&rsquo;t work.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>disableLocalAuth</td>
+          <td>DisableLocalAuth Enable or disable local auth with AccessKey When set as true, connection with AccessKey=xxx won&rsquo;t work.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">externalIP</td>
-          <td style="text-align: left">The publicly accessible IP of the resource.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>externalIP</td>
+          <td>The publicly accessible IP of the resource.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">features</td>
-          <td style="text-align: left">List of the featureFlags. FeatureFlags that are not included in the parameters for the update operation will not be modified. And the response will only include featureFlags that are explicitly set. When a featureFlag is not explicitly set, its globally default value will be used But keep in mind, the default value doesn&rsquo;t mean &ldquo;false&rdquo;. It varies in terms of different FeatureFlags.</td>
-          <td style="text-align: left"><a href="#SignalRFeature_STATUS">SignalRFeature_STATUS[]</a><br/><small>Optional</small></td>
+          <td>features</td>
+          <td>List of the featureFlags. FeatureFlags that are not included in the parameters for the update operation will not be modified. And the response will only include featureFlags that are explicitly set. When a featureFlag is not explicitly set, its globally default value will be used But keep in mind, the default value doesn&rsquo;t mean &ldquo;false&rdquo;. It varies in terms of different FeatureFlags.</td>
+          <td><a href="#SignalRFeature_STATUS">SignalRFeature_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">hostName</td>
-          <td style="text-align: left">FQDN of the service instance.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>hostName</td>
+          <td>FQDN of the service instance.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">hostNamePrefix</td>
-          <td style="text-align: left">Deprecated.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>hostNamePrefix</td>
+          <td>Deprecated.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">id</td>
-          <td style="text-align: left">Fully qualified resource Id for the resource.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>id</td>
+          <td>Fully qualified resource Id for the resource.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">identity</td>
-          <td style="text-align: left">A class represent managed identities used for request and response</td>
-          <td style="text-align: left"><a href="#ManagedIdentity_STATUS">ManagedIdentity_STATUS</a><br/><small>Optional</small></td>
+          <td>identity</td>
+          <td>A class represent managed identities used for request and response</td>
+          <td><a href="#ManagedIdentity_STATUS">ManagedIdentity_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">kind</td>
-          <td style="text-align: left">The kind of the service, it can be SignalR or RawWebSockets</td>
-          <td style="text-align: left"><a href="#ServiceKind_STATUS">ServiceKind_STATUS</a><br/><small>Optional</small></td>
+          <td>kind</td>
+          <td>The kind of the service, it can be SignalR or RawWebSockets</td>
+          <td><a href="#ServiceKind_STATUS">ServiceKind_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">location</td>
-          <td style="text-align: left">The GEO location of the resource. e.g. West US</td>
-          <td style="text-align: left">East US</td>
+          <td>location</td>
+          <td>The GEO location of the resource. e.g. West US</td>
+          <td>East US</td>
       </tr>
       <tr>
-          <td style="text-align: left">name</td>
-          <td style="text-align: left">The name of the resource.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>name</td>
+          <td>The name of the resource.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">networkACLs</td>
-          <td style="text-align: left">Network ACLs for the resource</td>
-          <td style="text-align: left"><a href="#SignalRNetworkACLs_STATUS">SignalRNetworkACLs_STATUS</a><br/><small>Optional</small></td>
+          <td>networkACLs</td>
+          <td>Network ACLs for the resource</td>
+          <td><a href="#SignalRNetworkACLs_STATUS">SignalRNetworkACLs_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">privateEndpointConnections</td>
-          <td style="text-align: left">Private endpoint connections to the resource.</td>
-          <td style="text-align: left"><a href="#PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded">PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded[]</a><br/><small>Optional</small></td>
+          <td>privateEndpointConnections</td>
+          <td>Private endpoint connections to the resource.</td>
+          <td><a href="#PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded">PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">provisioningState</td>
-          <td style="text-align: left">Provisioning state of the resource.</td>
-          <td style="text-align: left"><a href="#ProvisioningState_STATUS">ProvisioningState_STATUS</a><br/><small>Optional</small></td>
+          <td>provisioningState</td>
+          <td>Provisioning state of the resource.</td>
+          <td><a href="#ProvisioningState_STATUS">ProvisioningState_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">publicNetworkAccess</td>
-          <td style="text-align: left">Enable or disable public network access. Default to &ldquo;Enabled&rdquo;. When it&rsquo;s Enabled, network ACLs still apply. When it&rsquo;s Disabled, public network access is always disabled no matter what you set in network ACLs.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>publicNetworkAccess</td>
+          <td>Enable or disable public network access. Default to &ldquo;Enabled&rdquo;. When it&rsquo;s Enabled, network ACLs still apply. When it&rsquo;s Disabled, public network access is always disabled no matter what you set in network ACLs.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">publicPort</td>
-          <td style="text-align: left">The publicly accessible port of the resource which is designed for browser/client side usage.</td>
-          <td style="text-align: left">int<br/><small>Optional</small></td>
+          <td>publicPort</td>
+          <td>The publicly accessible port of the resource which is designed for browser/client side usage.</td>
+          <td>int<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">resourceLogConfiguration</td>
-          <td style="text-align: left">Resource log configuration of a Microsoft.SignalRService resource.</td>
-          <td style="text-align: left"><a href="#ResourceLogConfiguration_STATUS">ResourceLogConfiguration_STATUS</a><br/><small>Optional</small></td>
+          <td>resourceLogConfiguration</td>
+          <td>Resource log configuration of a Microsoft.SignalRService resource.</td>
+          <td><a href="#ResourceLogConfiguration_STATUS">ResourceLogConfiguration_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">serverPort</td>
-          <td style="text-align: left">The publicly accessible port of the resource which is designed for customer server side usage.</td>
-          <td style="text-align: left">int<br/><small>Optional</small></td>
+          <td>serverPort</td>
+          <td>The publicly accessible port of the resource which is designed for customer server side usage.</td>
+          <td>int<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">sharedPrivateLinkResources</td>
-          <td style="text-align: left">The list of shared private link resources.</td>
-          <td style="text-align: left"><a href="#SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded">SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded[]</a><br/><small>Optional</small></td>
+          <td>sharedPrivateLinkResources</td>
+          <td>The list of shared private link resources.</td>
+          <td><a href="#SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded">SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">sku</td>
-          <td style="text-align: left">The billing information of the resource.</td>
-          <td style="text-align: left"><a href="#ResourceSku_STATUS">ResourceSku_STATUS</a><br/><small>Optional</small></td>
+          <td>sku</td>
+          <td>The billing information of the resource.</td>
+          <td><a href="#ResourceSku_STATUS">ResourceSku_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">systemData</td>
-          <td style="text-align: left">Metadata pertaining to creation and last modification of the resource.</td>
-          <td style="text-align: left"><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
+          <td>systemData</td>
+          <td>Metadata pertaining to creation and last modification of the resource.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">tags</td>
-          <td style="text-align: left">Tags of the service which is a list of key value pairs that describe the resource.</td>
-          <td style="text-align: left">map[string]string<br/><small>Optional</small></td>
+          <td>tags</td>
+          <td>Tags of the service which is a list of key value pairs that describe the resource.</td>
+          <td>map[string]string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">tls</td>
-          <td style="text-align: left">TLS settings for the resource</td>
-          <td style="text-align: left"><a href="#SignalRTlsSettings_STATUS">SignalRTlsSettings_STATUS</a><br/><small>Optional</small></td>
+          <td>tls</td>
+          <td>TLS settings for the resource</td>
+          <td><a href="#SignalRTlsSettings_STATUS">SignalRTlsSettings_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">type</td>
-          <td style="text-align: left">The type of the resource - e.g. &ldquo;Microsoft.SignalRService/SignalR&rdquo;</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>type</td>
+          <td>The type of the resource - e.g. &ldquo;Microsoft.SignalRService/SignalR&rdquo;</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">upstream</td>
-          <td style="text-align: left">The settings for the Upstream when the service is in server-less mode.</td>
-          <td style="text-align: left"><a href="#ServerlessUpstreamSettings_STATUS">ServerlessUpstreamSettings_STATUS</a><br/><small>Optional</small></td>
+          <td>upstream</td>
+          <td>The settings for the Upstream when the service is in server-less mode.</td>
+          <td><a href="#ServerlessUpstreamSettings_STATUS">ServerlessUpstreamSettings_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">version</td>
-          <td style="text-align: left">Version of the resource. Probably you need the same or higher version of client SDKs.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>version</td>
+          <td>Version of the resource. Probably you need the same or higher version of client SDKs.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1483,21 +1477,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">type</td>
-          <td style="text-align: left">Represents the identity type: systemAssigned, userAssigned, None</td>
-          <td style="text-align: left"><a href="#ManagedIdentityType">ManagedIdentityType</a><br/><small>Optional</small></td>
+          <td>type</td>
+          <td>Represents the identity type: systemAssigned, userAssigned, None</td>
+          <td><a href="#ManagedIdentityType">ManagedIdentityType</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">userAssignedIdentities</td>
-          <td style="text-align: left">Get or set the user assigned identities</td>
-          <td style="text-align: left"><a href="#UserAssignedIdentityDetails">UserAssignedIdentityDetails[]</a><br/><small>Optional</small></td>
+          <td>userAssignedIdentities</td>
+          <td>Get or set the user assigned identities</td>
+          <td><a href="#UserAssignedIdentityDetails">UserAssignedIdentityDetails[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1507,31 +1501,31 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">principalId</td>
-          <td style="text-align: left">Get the principal id for the system assigned identity. Only be used in response.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>principalId</td>
+          <td>Get the principal id for the system assigned identity. Only be used in response.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">tenantId</td>
-          <td style="text-align: left">Get the tenant id for the system assigned identity. Only be used in response</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>tenantId</td>
+          <td>Get the tenant id for the system assigned identity. Only be used in response</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">type</td>
-          <td style="text-align: left">Represents the identity type: systemAssigned, userAssigned, None</td>
-          <td style="text-align: left"><a href="#ManagedIdentityType_STATUS">ManagedIdentityType_STATUS</a><br/><small>Optional</small></td>
+          <td>type</td>
+          <td>Represents the identity type: systemAssigned, userAssigned, None</td>
+          <td><a href="#ManagedIdentityType_STATUS">ManagedIdentityType_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">userAssignedIdentities</td>
-          <td style="text-align: left">Get or set the user assigned identities</td>
-          <td style="text-align: left"><a href="#UserAssignedIdentityProperty_STATUS">map[string]UserAssignedIdentityProperty_STATUS</a><br/><small>Optional</small></td>
+          <td>userAssignedIdentities</td>
+          <td>Get or set the user assigned identities</td>
+          <td><a href="#UserAssignedIdentityProperty_STATUS">map[string]UserAssignedIdentityProperty_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1541,16 +1535,16 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">id</td>
-          <td style="text-align: left">Fully qualified resource Id for the resource.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>id</td>
+          <td>Fully qualified resource Id for the resource.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1560,46 +1554,46 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Canceled&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Canceled&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Creating&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Creating&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Deleting&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Deleting&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Failed&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Failed&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Moving&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Moving&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Running&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Running&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Succeeded&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Succeeded&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Unknown&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Unknown&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Updating&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Updating&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -1609,16 +1603,16 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">categories</td>
-          <td style="text-align: left">Gets or sets the list of category configurations.</td>
-          <td style="text-align: left"><a href="#ResourceLogCategory">ResourceLogCategory[]</a><br/><small>Optional</small></td>
+          <td>categories</td>
+          <td>Gets or sets the list of category configurations.</td>
+          <td><a href="#ResourceLogCategory">ResourceLogCategory[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1628,16 +1622,16 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">categories</td>
-          <td style="text-align: left">Gets or sets the list of category configurations.</td>
-          <td style="text-align: left"><a href="#ResourceLogCategory_STATUS">ResourceLogCategory_STATUS[]</a><br/><small>Optional</small></td>
+          <td>categories</td>
+          <td>Gets or sets the list of category configurations.</td>
+          <td><a href="#ResourceLogCategory_STATUS">ResourceLogCategory_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1647,26 +1641,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">capacity</td>
-          <td style="text-align: left">Optional, integer. The unit count of the resource. 1 by default. If present, following values are allowed: Free: 1 Standard: 1,2,5,10,20,50,100</td>
-          <td style="text-align: left">int<br/><small>Optional</small></td>
+          <td>capacity</td>
+          <td>Optional, integer. The unit count of the resource. 1 by default. If present, following values are allowed: Free: 1 Standard: 1,2,5,10,20,50,100</td>
+          <td>int<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">name</td>
-          <td style="text-align: left">The name of the SKU. Required. Allowed values: Standard_S1, Free_F1</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>name</td>
+          <td>The name of the SKU. Required. Allowed values: Standard_S1, Free_F1</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">tier</td>
-          <td style="text-align: left">Optional tier of this particular SKU. &lsquo;Standard&rsquo; or &lsquo;Free&rsquo;. <code>Basic</code> is deprecated, use <code>Standard</code> instead.</td>
-          <td style="text-align: left"><a href="#SignalRSkuTier">SignalRSkuTier</a><br/><small>Optional</small></td>
+          <td>tier</td>
+          <td>Optional tier of this particular SKU. &lsquo;Standard&rsquo; or &lsquo;Free&rsquo;. <code>Basic</code> is deprecated, use <code>Standard</code> instead.</td>
+          <td><a href="#SignalRSkuTier">SignalRSkuTier</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1676,36 +1670,36 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">capacity</td>
-          <td style="text-align: left">Optional, integer. The unit count of the resource. 1 by default. If present, following values are allowed: Free: 1 Standard: 1,2,5,10,20,50,100</td>
-          <td style="text-align: left">int<br/><small>Optional</small></td>
+          <td>capacity</td>
+          <td>Optional, integer. The unit count of the resource. 1 by default. If present, following values are allowed: Free: 1 Standard: 1,2,5,10,20,50,100</td>
+          <td>int<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">family</td>
-          <td style="text-align: left">Not used. Retained for future use.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>family</td>
+          <td>Not used. Retained for future use.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">name</td>
-          <td style="text-align: left">The name of the SKU. Required. Allowed values: Standard_S1, Free_F1</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>name</td>
+          <td>The name of the SKU. Required. Allowed values: Standard_S1, Free_F1</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">size</td>
-          <td style="text-align: left">Not used. Retained for future use.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>size</td>
+          <td>Not used. Retained for future use.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">tier</td>
-          <td style="text-align: left">Optional tier of this particular SKU. &lsquo;Standard&rsquo; or &lsquo;Free&rsquo;. <code>Basic</code> is deprecated, use <code>Standard</code> instead.</td>
-          <td style="text-align: left"><a href="#SignalRSkuTier_STATUS">SignalRSkuTier_STATUS</a><br/><small>Optional</small></td>
+          <td>tier</td>
+          <td>Optional tier of this particular SKU. &lsquo;Standard&rsquo; or &lsquo;Free&rsquo;. <code>Basic</code> is deprecated, use <code>Standard</code> instead.</td>
+          <td><a href="#SignalRSkuTier_STATUS">SignalRSkuTier_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1715,16 +1709,16 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">templates</td>
-          <td style="text-align: left">Gets or sets the list of Upstream URL templates. Order matters, and the first matching template takes effects.</td>
-          <td style="text-align: left"><a href="#UpstreamTemplate">UpstreamTemplate[]</a><br/><small>Optional</small></td>
+          <td>templates</td>
+          <td>Gets or sets the list of Upstream URL templates. Order matters, and the first matching template takes effects.</td>
+          <td><a href="#UpstreamTemplate">UpstreamTemplate[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1734,16 +1728,16 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">templates</td>
-          <td style="text-align: left">Gets or sets the list of Upstream URL templates. Order matters, and the first matching template takes effects.</td>
-          <td style="text-align: left"><a href="#UpstreamTemplate_STATUS">UpstreamTemplate_STATUS[]</a><br/><small>Optional</small></td>
+          <td>templates</td>
+          <td>Gets or sets the list of Upstream URL templates. Order matters, and the first matching template takes effects.</td>
+          <td><a href="#UpstreamTemplate_STATUS">UpstreamTemplate_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1753,18 +1747,18 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;RawWebSockets&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;RawWebSockets&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;SignalR&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;SignalR&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -1774,18 +1768,18 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;RawWebSockets&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;RawWebSockets&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;SignalR&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;SignalR&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -1795,16 +1789,16 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">id</td>
-          <td style="text-align: left">Fully qualified resource Id for the resource.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>id</td>
+          <td>Fully qualified resource Id for the resource.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1814,16 +1808,16 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">allowedOrigins</td>
-          <td style="text-align: left">Gets or sets the list of origins that should be allowed to make cross-origin calls (for example: <a href="http://example.com:12345">http://example.com:12345</a>). Use &ldquo;*&rdquo; to allow all. If omitted, allow all by default.</td>
-          <td style="text-align: left">string[]<br/><small>Optional</small></td>
+          <td>allowedOrigins</td>
+          <td>Gets or sets the list of origins that should be allowed to make cross-origin calls (for example: <a href="http://example.com:12345">http://example.com:12345</a>). Use &ldquo;*&rdquo; to allow all. If omitted, allow all by default.</td>
+          <td>string[]<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1833,16 +1827,16 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">allowedOrigins</td>
-          <td style="text-align: left">Gets or sets the list of origins that should be allowed to make cross-origin calls (for example: <a href="http://example.com:12345">http://example.com:12345</a>). Use &ldquo;*&rdquo; to allow all. If omitted, allow all by default.</td>
-          <td style="text-align: left">string[]<br/><small>Optional</small></td>
+          <td>allowedOrigins</td>
+          <td>Gets or sets the list of origins that should be allowed to make cross-origin calls (for example: <a href="http://example.com:12345">http://example.com:12345</a>). Use &ldquo;*&rdquo; to allow all. If omitted, allow all by default.</td>
+          <td>string[]<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1852,26 +1846,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">flag</td>
-          <td style="text-align: left">FeatureFlags is the supported features of Azure SignalR service. - ServiceMode: Flag for backend server for SignalR service. Values allowed: &ldquo;Default&rdquo;: have your own backend server; &ldquo;Serverless&rdquo;: your application doesn&rsquo;t have a backend server; &ldquo;Classic&rdquo;: for backward compatibility. Support both Default and Serverless mode but not recommended; &ldquo;PredefinedOnly&rdquo;: for future use. - EnableConnectivityLogs: &ldquo;true&rdquo;/&ldquo;false&rdquo;, to enable/disable the connectivity log category respectively. - EnableMessagingLogs: &ldquo;true&rdquo;/&ldquo;false&rdquo;, to enable/disable the connectivity log category respectively. - EnableLiveTrace: Live Trace allows you to know what&rsquo;s happening inside Azure SignalR service, it will give you live traces in real time, it will be helpful when you developing your own Azure SignalR based web application or self-troubleshooting some issues. Please note that live traces are counted as outbound messages that will be charged. Values allowed: &ldquo;true&rdquo;/&ldquo;false&rdquo;, to enable/disable live trace feature.</td>
-          <td style="text-align: left"><a href="#FeatureFlags">FeatureFlags</a><br/><small>Required</small></td>
+          <td>flag</td>
+          <td>FeatureFlags is the supported features of Azure SignalR service. - ServiceMode: Flag for backend server for SignalR service. Values allowed: &ldquo;Default&rdquo;: have your own backend server; &ldquo;Serverless&rdquo;: your application doesn&rsquo;t have a backend server; &ldquo;Classic&rdquo;: for backward compatibility. Support both Default and Serverless mode but not recommended; &ldquo;PredefinedOnly&rdquo;: for future use. - EnableConnectivityLogs: &ldquo;true&rdquo;/&ldquo;false&rdquo;, to enable/disable the connectivity log category respectively. - EnableMessagingLogs: &ldquo;true&rdquo;/&ldquo;false&rdquo;, to enable/disable the connectivity log category respectively. - EnableLiveTrace: Live Trace allows you to know what&rsquo;s happening inside Azure SignalR service, it will give you live traces in real time, it will be helpful when you developing your own Azure SignalR based web application or self-troubleshooting some issues. Please note that live traces are counted as outbound messages that will be charged. Values allowed: &ldquo;true&rdquo;/&ldquo;false&rdquo;, to enable/disable live trace feature.</td>
+          <td><a href="#FeatureFlags">FeatureFlags</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">properties</td>
-          <td style="text-align: left">Optional properties related to this feature.</td>
-          <td style="text-align: left">map[string]string<br/><small>Optional</small></td>
+          <td>properties</td>
+          <td>Optional properties related to this feature.</td>
+          <td>map[string]string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">value</td>
-          <td style="text-align: left">Value of the feature flag. See Azure SignalR service document <a href="https://docs.microsoft.com/azure/azure-signalr/">https://docs.microsoft.com/azure/azure-signalr/</a> for allowed values.</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>value</td>
+          <td>Value of the feature flag. See Azure SignalR service document <a href="https://docs.microsoft.com/azure/azure-signalr/">https://docs.microsoft.com/azure/azure-signalr/</a> for allowed values.</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
   </tbody>
 </table>
@@ -1881,26 +1875,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">flag</td>
-          <td style="text-align: left">FeatureFlags is the supported features of Azure SignalR service. - ServiceMode: Flag for backend server for SignalR service. Values allowed: &ldquo;Default&rdquo;: have your own backend server; &ldquo;Serverless&rdquo;: your application doesn&rsquo;t have a backend server; &ldquo;Classic&rdquo;: for backward compatibility. Support both Default and Serverless mode but not recommended; &ldquo;PredefinedOnly&rdquo;: for future use. - EnableConnectivityLogs: &ldquo;true&rdquo;/&ldquo;false&rdquo;, to enable/disable the connectivity log category respectively. - EnableMessagingLogs: &ldquo;true&rdquo;/&ldquo;false&rdquo;, to enable/disable the connectivity log category respectively. - EnableLiveTrace: Live Trace allows you to know what&rsquo;s happening inside Azure SignalR service, it will give you live traces in real time, it will be helpful when you developing your own Azure SignalR based web application or self-troubleshooting some issues. Please note that live traces are counted as outbound messages that will be charged. Values allowed: &ldquo;true&rdquo;/&ldquo;false&rdquo;, to enable/disable live trace feature.</td>
-          <td style="text-align: left"><a href="#FeatureFlags_STATUS">FeatureFlags_STATUS</a><br/><small>Optional</small></td>
+          <td>flag</td>
+          <td>FeatureFlags is the supported features of Azure SignalR service. - ServiceMode: Flag for backend server for SignalR service. Values allowed: &ldquo;Default&rdquo;: have your own backend server; &ldquo;Serverless&rdquo;: your application doesn&rsquo;t have a backend server; &ldquo;Classic&rdquo;: for backward compatibility. Support both Default and Serverless mode but not recommended; &ldquo;PredefinedOnly&rdquo;: for future use. - EnableConnectivityLogs: &ldquo;true&rdquo;/&ldquo;false&rdquo;, to enable/disable the connectivity log category respectively. - EnableMessagingLogs: &ldquo;true&rdquo;/&ldquo;false&rdquo;, to enable/disable the connectivity log category respectively. - EnableLiveTrace: Live Trace allows you to know what&rsquo;s happening inside Azure SignalR service, it will give you live traces in real time, it will be helpful when you developing your own Azure SignalR based web application or self-troubleshooting some issues. Please note that live traces are counted as outbound messages that will be charged. Values allowed: &ldquo;true&rdquo;/&ldquo;false&rdquo;, to enable/disable live trace feature.</td>
+          <td><a href="#FeatureFlags_STATUS">FeatureFlags_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">properties</td>
-          <td style="text-align: left">Optional properties related to this feature.</td>
-          <td style="text-align: left">map[string]string<br/><small>Optional</small></td>
+          <td>properties</td>
+          <td>Optional properties related to this feature.</td>
+          <td>map[string]string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">value</td>
-          <td style="text-align: left">Value of the feature flag. See Azure SignalR service document <a href="https://docs.microsoft.com/azure/azure-signalr/">https://docs.microsoft.com/azure/azure-signalr/</a> for allowed values.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>value</td>
+          <td>Value of the feature flag. See Azure SignalR service document <a href="https://docs.microsoft.com/azure/azure-signalr/">https://docs.microsoft.com/azure/azure-signalr/</a> for allowed values.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1910,26 +1904,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">defaultAction</td>
-          <td style="text-align: left">Azure Networking ACL Action.</td>
-          <td style="text-align: left"><a href="#ACLAction">ACLAction</a><br/><small>Optional</small></td>
+          <td>defaultAction</td>
+          <td>Azure Networking ACL Action.</td>
+          <td><a href="#ACLAction">ACLAction</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">privateEndpoints</td>
-          <td style="text-align: left">ACLs for requests from private endpoints</td>
-          <td style="text-align: left"><a href="#PrivateEndpointACL">PrivateEndpointACL[]</a><br/><small>Optional</small></td>
+          <td>privateEndpoints</td>
+          <td>ACLs for requests from private endpoints</td>
+          <td><a href="#PrivateEndpointACL">PrivateEndpointACL[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">publicNetwork</td>
-          <td style="text-align: left">Network ACL</td>
-          <td style="text-align: left"><a href="#NetworkACL">NetworkACL</a><br/><small>Optional</small></td>
+          <td>publicNetwork</td>
+          <td>Network ACL</td>
+          <td><a href="#NetworkACL">NetworkACL</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1939,26 +1933,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">defaultAction</td>
-          <td style="text-align: left">Azure Networking ACL Action.</td>
-          <td style="text-align: left"><a href="#ACLAction_STATUS">ACLAction_STATUS</a><br/><small>Optional</small></td>
+          <td>defaultAction</td>
+          <td>Azure Networking ACL Action.</td>
+          <td><a href="#ACLAction_STATUS">ACLAction_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">privateEndpoints</td>
-          <td style="text-align: left">ACLs for requests from private endpoints</td>
-          <td style="text-align: left"><a href="#PrivateEndpointACL_STATUS">PrivateEndpointACL_STATUS[]</a><br/><small>Optional</small></td>
+          <td>privateEndpoints</td>
+          <td>ACLs for requests from private endpoints</td>
+          <td><a href="#PrivateEndpointACL_STATUS">PrivateEndpointACL_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">publicNetwork</td>
-          <td style="text-align: left">Network ACL</td>
-          <td style="text-align: left"><a href="#NetworkACL_STATUS">NetworkACL_STATUS</a><br/><small>Optional</small></td>
+          <td>publicNetwork</td>
+          <td>Network ACL</td>
+          <td><a href="#NetworkACL_STATUS">NetworkACL_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1968,26 +1962,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">configMapExpressions</td>
-          <td style="text-align: left">configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+          <td>configMapExpressions</td>
+          <td>configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">secretExpressions</td>
-          <td style="text-align: left">configures where to place operator written dynamic secrets (created with CEL expressions).</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+          <td>secretExpressions</td>
+          <td>configures where to place operator written dynamic secrets (created with CEL expressions).</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">secrets</td>
-          <td style="text-align: left">configures where to place Azure generated secrets.</td>
-          <td style="text-align: left"><a href="#SignalROperatorSecrets">SignalROperatorSecrets</a><br/><small>Optional</small></td>
+          <td>secrets</td>
+          <td>configures where to place Azure generated secrets.</td>
+          <td><a href="#SignalROperatorSecrets">SignalROperatorSecrets</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1997,16 +1991,16 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">clientCertEnabled</td>
-          <td style="text-align: left">Request client certificate during TLS handshake if enabled</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>clientCertEnabled</td>
+          <td>Request client certificate during TLS handshake if enabled</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -2016,16 +2010,16 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">clientCertEnabled</td>
-          <td style="text-align: left">Request client certificate during TLS handshake if enabled</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>clientCertEnabled</td>
+          <td>Request client certificate during TLS handshake if enabled</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -2035,41 +2029,41 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">createdAt</td>
-          <td style="text-align: left">The timestamp of resource creation (UTC).</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>createdAt</td>
+          <td>The timestamp of resource creation (UTC).</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">createdBy</td>
-          <td style="text-align: left">The identity that created the resource.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>createdBy</td>
+          <td>The identity that created the resource.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">createdByType</td>
-          <td style="text-align: left">The type of identity that created the resource.</td>
-          <td style="text-align: left"><a href="#SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS</a><br/><small>Optional</small></td>
+          <td>createdByType</td>
+          <td>The type of identity that created the resource.</td>
+          <td><a href="#SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">lastModifiedAt</td>
-          <td style="text-align: left">The timestamp of resource last modification (UTC)</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>lastModifiedAt</td>
+          <td>The timestamp of resource last modification (UTC)</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">lastModifiedBy</td>
-          <td style="text-align: left">The identity that last modified the resource.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>lastModifiedBy</td>
+          <td>The identity that last modified the resource.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">lastModifiedByType</td>
-          <td style="text-align: left">The type of identity that last modified the resource.</td>
-          <td style="text-align: left"><a href="#SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS</a><br/><small>Optional</small></td>
+          <td>lastModifiedByType</td>
+          <td>The type of identity that last modified the resource.</td>
+          <td><a href="#SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -2079,18 +2073,18 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Allow&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Allow&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Deny&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Deny&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2100,18 +2094,18 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Allow&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Allow&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Deny&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Deny&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2121,26 +2115,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;EnableConnectivityLogs&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;EnableConnectivityLogs&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;EnableLiveTrace&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;EnableLiveTrace&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;EnableMessagingLogs&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;EnableMessagingLogs&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;ServiceMode&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;ServiceMode&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2150,26 +2144,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;EnableConnectivityLogs&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;EnableConnectivityLogs&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;EnableLiveTrace&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;EnableLiveTrace&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;EnableMessagingLogs&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;EnableMessagingLogs&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;ServiceMode&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;ServiceMode&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2179,22 +2173,22 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;None&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;None&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;SystemAssigned&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;SystemAssigned&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;UserAssigned&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;UserAssigned&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2204,22 +2198,22 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;None&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;None&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;SystemAssigned&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;SystemAssigned&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;UserAssigned&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;UserAssigned&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2229,21 +2223,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">allow</td>
-          <td style="text-align: left">Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.</td>
-          <td style="text-align: left"><a href="#SignalRRequestType">SignalRRequestType[]</a><br/><small>Optional</small></td>
+          <td>allow</td>
+          <td>Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.</td>
+          <td><a href="#SignalRRequestType">SignalRRequestType[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">deny</td>
-          <td style="text-align: left">Denied request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.</td>
-          <td style="text-align: left"><a href="#SignalRRequestType">SignalRRequestType[]</a><br/><small>Optional</small></td>
+          <td>deny</td>
+          <td>Denied request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.</td>
+          <td><a href="#SignalRRequestType">SignalRRequestType[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -2253,21 +2247,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">allow</td>
-          <td style="text-align: left">Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.</td>
-          <td style="text-align: left"><a href="#SignalRRequestType_STATUS">SignalRRequestType_STATUS[]</a><br/><small>Optional</small></td>
+          <td>allow</td>
+          <td>Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.</td>
+          <td><a href="#SignalRRequestType_STATUS">SignalRRequestType_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">deny</td>
-          <td style="text-align: left">Denied request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.</td>
-          <td style="text-align: left"><a href="#SignalRRequestType_STATUS">SignalRRequestType_STATUS[]</a><br/><small>Optional</small></td>
+          <td>deny</td>
+          <td>Denied request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.</td>
+          <td><a href="#SignalRRequestType_STATUS">SignalRRequestType_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -2277,26 +2271,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">allow</td>
-          <td style="text-align: left">Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.</td>
-          <td style="text-align: left"><a href="#SignalRRequestType">SignalRRequestType[]</a><br/><small>Optional</small></td>
+          <td>allow</td>
+          <td>Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.</td>
+          <td><a href="#SignalRRequestType">SignalRRequestType[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">deny</td>
-          <td style="text-align: left">Denied request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.</td>
-          <td style="text-align: left"><a href="#SignalRRequestType">SignalRRequestType[]</a><br/><small>Optional</small></td>
+          <td>deny</td>
+          <td>Denied request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.</td>
+          <td><a href="#SignalRRequestType">SignalRRequestType[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">name</td>
-          <td style="text-align: left">Name of the private endpoint connection</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>name</td>
+          <td>Name of the private endpoint connection</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
   </tbody>
 </table>
@@ -2306,26 +2300,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">allow</td>
-          <td style="text-align: left">Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.</td>
-          <td style="text-align: left"><a href="#SignalRRequestType_STATUS">SignalRRequestType_STATUS[]</a><br/><small>Optional</small></td>
+          <td>allow</td>
+          <td>Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.</td>
+          <td><a href="#SignalRRequestType_STATUS">SignalRRequestType_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">deny</td>
-          <td style="text-align: left">Denied request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.</td>
-          <td style="text-align: left"><a href="#SignalRRequestType_STATUS">SignalRRequestType_STATUS[]</a><br/><small>Optional</small></td>
+          <td>deny</td>
+          <td>Denied request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.</td>
+          <td><a href="#SignalRRequestType_STATUS">SignalRRequestType_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">name</td>
-          <td style="text-align: left">Name of the private endpoint connection</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>name</td>
+          <td>Name of the private endpoint connection</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -2335,21 +2329,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">enabled</td>
-          <td style="text-align: left">Indicates whether or the resource log category is enabled. Available values: true, false. Case insensitive.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>enabled</td>
+          <td>Indicates whether or the resource log category is enabled. Available values: true, false. Case insensitive.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">name</td>
-          <td style="text-align: left">Gets or sets the resource log category&rsquo;s name. Available values: ConnectivityLogs, MessagingLogs. Case insensitive.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>name</td>
+          <td>Gets or sets the resource log category&rsquo;s name. Available values: ConnectivityLogs, MessagingLogs. Case insensitive.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -2359,21 +2353,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">enabled</td>
-          <td style="text-align: left">Indicates whether or the resource log category is enabled. Available values: true, false. Case insensitive.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>enabled</td>
+          <td>Indicates whether or the resource log category is enabled. Available values: true, false. Case insensitive.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">name</td>
-          <td style="text-align: left">Gets or sets the resource log category&rsquo;s name. Available values: ConnectivityLogs, MessagingLogs. Case insensitive.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>name</td>
+          <td>Gets or sets the resource log category&rsquo;s name. Available values: ConnectivityLogs, MessagingLogs. Case insensitive.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -2382,31 +2376,31 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">primaryConnectionString</td>
-          <td style="text-align: left">indicates where the PrimaryConnectionString secret should be placed. If omitted, the secret will not be retrieved from Azure.</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">genruntime.SecretDestination</a><br/><small>Optional</small></td>
+          <td>primaryConnectionString</td>
+          <td>indicates where the PrimaryConnectionString secret should be placed. If omitted, the secret will not be retrieved from Azure.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">genruntime.SecretDestination</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">primaryKey</td>
-          <td style="text-align: left">indicates where the PrimaryKey secret should be placed. If omitted, the secret will not be retrieved from Azure.</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">genruntime.SecretDestination</a><br/><small>Optional</small></td>
+          <td>primaryKey</td>
+          <td>indicates where the PrimaryKey secret should be placed. If omitted, the secret will not be retrieved from Azure.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">genruntime.SecretDestination</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">secondaryConnectionString</td>
-          <td style="text-align: left">indicates where the SecondaryConnectionString secret should be placed. If omitted, the secret will not be retrieved from Azure.</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">genruntime.SecretDestination</a><br/><small>Optional</small></td>
+          <td>secondaryConnectionString</td>
+          <td>indicates where the SecondaryConnectionString secret should be placed. If omitted, the secret will not be retrieved from Azure.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">genruntime.SecretDestination</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">secondaryKey</td>
-          <td style="text-align: left">indicates where the SecondaryKey secret should be placed. If omitted, the secret will not be retrieved from Azure.</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">genruntime.SecretDestination</a><br/><small>Optional</small></td>
+          <td>secondaryKey</td>
+          <td>indicates where the SecondaryKey secret should be placed. If omitted, the secret will not be retrieved from Azure.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">genruntime.SecretDestination</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -2416,26 +2410,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Basic&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Basic&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Free&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Free&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Premium&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Premium&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Standard&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Standard&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2445,26 +2439,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Basic&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Basic&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Free&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Free&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Premium&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Premium&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Standard&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Standard&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2473,26 +2467,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Application&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Application&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Key&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Key&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;ManagedIdentity&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;ManagedIdentity&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;User&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;User&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2501,26 +2495,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Application&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Application&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Key&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Key&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;ManagedIdentity&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;ManagedIdentity&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;User&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;User&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2530,36 +2524,36 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">auth</td>
-          <td style="text-align: left">Upstream auth settings. If not set, no auth is used for upstream messages.</td>
-          <td style="text-align: left"><a href="#UpstreamAuthSettings">UpstreamAuthSettings</a><br/><small>Optional</small></td>
+          <td>auth</td>
+          <td>Upstream auth settings. If not set, no auth is used for upstream messages.</td>
+          <td><a href="#UpstreamAuthSettings">UpstreamAuthSettings</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">categoryPattern</td>
-          <td style="text-align: left">Gets or sets the matching pattern for category names. If not set, it matches any category. There are 3 kind of patterns supported: 1. &ldquo;*&rdquo;, it to matches any category name 2. Combine multiple categories with &ldquo;,&rdquo;, for example &ldquo;connections,messages&rdquo;, it matches category &ldquo;connections&rdquo; and &ldquo;messages&rdquo; 3. The single category name, for example, &ldquo;connections&rdquo;, it matches the category &ldquo;connections&rdquo;</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>categoryPattern</td>
+          <td>Gets or sets the matching pattern for category names. If not set, it matches any category. There are 3 kind of patterns supported: 1. &ldquo;*&rdquo;, it to matches any category name 2. Combine multiple categories with &ldquo;,&rdquo;, for example &ldquo;connections,messages&rdquo;, it matches category &ldquo;connections&rdquo; and &ldquo;messages&rdquo; 3. The single category name, for example, &ldquo;connections&rdquo;, it matches the category &ldquo;connections&rdquo;</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">eventPattern</td>
-          <td style="text-align: left">Gets or sets the matching pattern for event names. If not set, it matches any event. There are 3 kind of patterns supported: 1. &ldquo;*&rdquo;, it to matches any event name 2. Combine multiple events with &ldquo;,&rdquo;, for example &ldquo;connect,disconnect&rdquo;, it matches event &ldquo;connect&rdquo; and &ldquo;disconnect&rdquo; 3. The single event name, for example, &ldquo;connect&rdquo;, it matches &ldquo;connect&rdquo;</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>eventPattern</td>
+          <td>Gets or sets the matching pattern for event names. If not set, it matches any event. There are 3 kind of patterns supported: 1. &ldquo;*&rdquo;, it to matches any event name 2. Combine multiple events with &ldquo;,&rdquo;, for example &ldquo;connect,disconnect&rdquo;, it matches event &ldquo;connect&rdquo; and &ldquo;disconnect&rdquo; 3. The single event name, for example, &ldquo;connect&rdquo;, it matches &ldquo;connect&rdquo;</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">hubPattern</td>
-          <td style="text-align: left">Gets or sets the matching pattern for hub names. If not set, it matches any hub. There are 3 kind of patterns supported: 1. &ldquo;*&rdquo;, it to matches any hub name 2. Combine multiple hubs with &ldquo;,&rdquo;, for example &ldquo;hub1,hub2&rdquo;, it matches &ldquo;hub1&rdquo; and &ldquo;hub2&rdquo; 3. The single hub name, for example, &ldquo;hub1&rdquo;, it matches &ldquo;hub1&rdquo;</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>hubPattern</td>
+          <td>Gets or sets the matching pattern for hub names. If not set, it matches any hub. There are 3 kind of patterns supported: 1. &ldquo;*&rdquo;, it to matches any hub name 2. Combine multiple hubs with &ldquo;,&rdquo;, for example &ldquo;hub1,hub2&rdquo;, it matches &ldquo;hub1&rdquo; and &ldquo;hub2&rdquo; 3. The single hub name, for example, &ldquo;hub1&rdquo;, it matches &ldquo;hub1&rdquo;</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">urlTemplate</td>
-          <td style="text-align: left">Gets or sets the Upstream URL template. You can use 3 predefined parameters {hub}, {category} {event} inside the template, the value of the Upstream URL is dynamically calculated when the client request comes in. For example, if the urlTemplate is <code>http://example.com/{hub}/api/{event}</code>, with a client request from hub <code>chat</code> connects, it will first POST to this URL: <code>http://example.com/chat/api/connect</code>.</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>urlTemplate</td>
+          <td>Gets or sets the Upstream URL template. You can use 3 predefined parameters {hub}, {category} {event} inside the template, the value of the Upstream URL is dynamically calculated when the client request comes in. For example, if the urlTemplate is <code>http://example.com/{hub}/api/{event}</code>, with a client request from hub <code>chat</code> connects, it will first POST to this URL: <code>http://example.com/chat/api/connect</code>.</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
   </tbody>
 </table>
@@ -2569,36 +2563,36 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">auth</td>
-          <td style="text-align: left">Upstream auth settings. If not set, no auth is used for upstream messages.</td>
-          <td style="text-align: left"><a href="#UpstreamAuthSettings_STATUS">UpstreamAuthSettings_STATUS</a><br/><small>Optional</small></td>
+          <td>auth</td>
+          <td>Upstream auth settings. If not set, no auth is used for upstream messages.</td>
+          <td><a href="#UpstreamAuthSettings_STATUS">UpstreamAuthSettings_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">categoryPattern</td>
-          <td style="text-align: left">Gets or sets the matching pattern for category names. If not set, it matches any category. There are 3 kind of patterns supported: 1. &ldquo;*&rdquo;, it to matches any category name 2. Combine multiple categories with &ldquo;,&rdquo;, for example &ldquo;connections,messages&rdquo;, it matches category &ldquo;connections&rdquo; and &ldquo;messages&rdquo; 3. The single category name, for example, &ldquo;connections&rdquo;, it matches the category &ldquo;connections&rdquo;</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>categoryPattern</td>
+          <td>Gets or sets the matching pattern for category names. If not set, it matches any category. There are 3 kind of patterns supported: 1. &ldquo;*&rdquo;, it to matches any category name 2. Combine multiple categories with &ldquo;,&rdquo;, for example &ldquo;connections,messages&rdquo;, it matches category &ldquo;connections&rdquo; and &ldquo;messages&rdquo; 3. The single category name, for example, &ldquo;connections&rdquo;, it matches the category &ldquo;connections&rdquo;</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">eventPattern</td>
-          <td style="text-align: left">Gets or sets the matching pattern for event names. If not set, it matches any event. There are 3 kind of patterns supported: 1. &ldquo;*&rdquo;, it to matches any event name 2. Combine multiple events with &ldquo;,&rdquo;, for example &ldquo;connect,disconnect&rdquo;, it matches event &ldquo;connect&rdquo; and &ldquo;disconnect&rdquo; 3. The single event name, for example, &ldquo;connect&rdquo;, it matches &ldquo;connect&rdquo;</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>eventPattern</td>
+          <td>Gets or sets the matching pattern for event names. If not set, it matches any event. There are 3 kind of patterns supported: 1. &ldquo;*&rdquo;, it to matches any event name 2. Combine multiple events with &ldquo;,&rdquo;, for example &ldquo;connect,disconnect&rdquo;, it matches event &ldquo;connect&rdquo; and &ldquo;disconnect&rdquo; 3. The single event name, for example, &ldquo;connect&rdquo;, it matches &ldquo;connect&rdquo;</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">hubPattern</td>
-          <td style="text-align: left">Gets or sets the matching pattern for hub names. If not set, it matches any hub. There are 3 kind of patterns supported: 1. &ldquo;*&rdquo;, it to matches any hub name 2. Combine multiple hubs with &ldquo;,&rdquo;, for example &ldquo;hub1,hub2&rdquo;, it matches &ldquo;hub1&rdquo; and &ldquo;hub2&rdquo; 3. The single hub name, for example, &ldquo;hub1&rdquo;, it matches &ldquo;hub1&rdquo;</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>hubPattern</td>
+          <td>Gets or sets the matching pattern for hub names. If not set, it matches any hub. There are 3 kind of patterns supported: 1. &ldquo;*&rdquo;, it to matches any hub name 2. Combine multiple hubs with &ldquo;,&rdquo;, for example &ldquo;hub1,hub2&rdquo;, it matches &ldquo;hub1&rdquo; and &ldquo;hub2&rdquo; 3. The single hub name, for example, &ldquo;hub1&rdquo;, it matches &ldquo;hub1&rdquo;</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">urlTemplate</td>
-          <td style="text-align: left">Gets or sets the Upstream URL template. You can use 3 predefined parameters {hub}, {category} {event} inside the template, the value of the Upstream URL is dynamically calculated when the client request comes in. For example, if the urlTemplate is <code>http://example.com/{hub}/api/{event}</code>, with a client request from hub <code>chat</code> connects, it will first POST to this URL: <code>http://example.com/chat/api/connect</code>.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>urlTemplate</td>
+          <td>Gets or sets the Upstream URL template. You can use 3 predefined parameters {hub}, {category} {event} inside the template, the value of the Upstream URL is dynamically calculated when the client request comes in. For example, if the urlTemplate is <code>http://example.com/{hub}/api/{event}</code>, with a client request from hub <code>chat</code> connects, it will first POST to this URL: <code>http://example.com/chat/api/connect</code>.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -2608,16 +2602,16 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">reference</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+          <td>reference</td>
+          <td></td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -2627,21 +2621,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">clientId</td>
-          <td style="text-align: left">Get the client id for the user assigned identity</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>clientId</td>
+          <td>Get the client id for the user assigned identity</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">principalId</td>
-          <td style="text-align: left">Get the principal id for the user assigned identity</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>principalId</td>
+          <td>Get the principal id for the user assigned identity</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -2651,26 +2645,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;ClientConnection&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;ClientConnection&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;RESTAPI&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;RESTAPI&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;ServerConnection&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;ServerConnection&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Trace&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Trace&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2680,26 +2674,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;ClientConnection&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;ClientConnection&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;RESTAPI&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;RESTAPI&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;ServerConnection&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;ServerConnection&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Trace&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Trace&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2709,21 +2703,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">managedIdentity</td>
-          <td style="text-align: left">Managed identity settings for upstream.</td>
-          <td style="text-align: left"><a href="#ManagedIdentitySettings">ManagedIdentitySettings</a><br/><small>Optional</small></td>
+          <td>managedIdentity</td>
+          <td>Managed identity settings for upstream.</td>
+          <td><a href="#ManagedIdentitySettings">ManagedIdentitySettings</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">type</td>
-          <td style="text-align: left">Upstream auth type enum.</td>
-          <td style="text-align: left"><a href="#UpstreamAuthType">UpstreamAuthType</a><br/><small>Optional</small></td>
+          <td>type</td>
+          <td>Upstream auth type enum.</td>
+          <td><a href="#UpstreamAuthType">UpstreamAuthType</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -2733,21 +2727,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">managedIdentity</td>
-          <td style="text-align: left">Managed identity settings for upstream.</td>
-          <td style="text-align: left"><a href="#ManagedIdentitySettings_STATUS">ManagedIdentitySettings_STATUS</a><br/><small>Optional</small></td>
+          <td>managedIdentity</td>
+          <td>Managed identity settings for upstream.</td>
+          <td><a href="#ManagedIdentitySettings_STATUS">ManagedIdentitySettings_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">type</td>
-          <td style="text-align: left">Upstream auth type enum.</td>
-          <td style="text-align: left"><a href="#UpstreamAuthType_STATUS">UpstreamAuthType_STATUS</a><br/><small>Optional</small></td>
+          <td>type</td>
+          <td>Upstream auth type enum.</td>
+          <td><a href="#UpstreamAuthType_STATUS">UpstreamAuthType_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -2757,16 +2751,16 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">resource</td>
-          <td style="text-align: left">The Resource indicating the App ID URI of the target resource. It also appears in the aud (audience) claim of the issued token.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>resource</td>
+          <td>The Resource indicating the App ID URI of the target resource. It also appears in the aud (audience) claim of the issued token.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -2776,16 +2770,16 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">resource</td>
-          <td style="text-align: left">The Resource indicating the App ID URI of the target resource. It also appears in the aud (audience) claim of the issued token.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>resource</td>
+          <td>The Resource indicating the App ID URI of the target resource. It also appears in the aud (audience) claim of the issued token.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -2795,18 +2789,18 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;ManagedIdentity&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;ManagedIdentity&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;None&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;None&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2816,18 +2810,18 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;ManagedIdentity&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;ManagedIdentity&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;None&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;None&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2865,7 +2859,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SignalR_SpecOpt
 </footer>
 
     </div>
-    <script src="/azure-service-operator/js/main.min.0a5a30b73411b7a841784b6f4d46f4e0b1b95d576fa3cadd81db9d5ae468e8c2.js" integrity="sha256-ClowtzQRt6hBeEtvTUb04LG5XVdvo8rdgdudWuRo6MI=" crossorigin="anonymous"></script>
+    <script src="/azure-service-operator/js/main.min.4096f09e0b199950620fc06165ef2a2791e1bee9067e27b14c4a54f02c0e33bd.js" integrity="sha256-QJbwngsZmVBiD8BhZe8qJ5HhvukGfiexTEpU8CwOM70=" crossorigin="anonymous"></script>
 <script defer src="/azure-service-operator/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/azure-service-operator/js/tabpane-persist.js'></script>
 

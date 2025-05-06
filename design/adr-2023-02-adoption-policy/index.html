@@ -18,8 +18,8 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>2023-02: Adoption Policy | Azure Service Operator</title>
-<meta name="description" content="Context Resources which exist in Azure prior to being created in Kubernetes are &ldquo;adopted&rdquo; by the operator when the resource is created in Kubernetes. Today this adoption process is automatic and implicit. As a user there isn&rsquo;t an easy way to tell if a resource you&rsquo;re about to kubectl apply already exists in Azure (will be adopted) or does not exist in Azure (will be created).
-We already have support for reconcile-policy which is related to adoption. Some of reconcile-policy&rsquo;s primary use cases are for when the user does not want ASO to fully manage an adopted resource.">
+<meta name="description" content="Context Resources which exist in Azure prior to being created in Kubernetes are “adopted” by the operator when the resource is created in Kubernetes. Today this adoption process is automatic and implicit. As a user there isn’t an easy way to tell if a resource you’re about to kubectl apply already exists in Azure (will be adopted) or does not exist in Azure (will be created).
+We already have support for reconcile-policy which is related to adoption. Some of reconcile-policy’s primary use cases are for when the user does not want ASO to fully manage an adopted resource.">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/design/adr-2023-02-adoption-policy/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="2023-02: Adoption Policy">
@@ -37,13 +37,8 @@ We already have support for reconcile-policy which is related to adoption. Some 
   <meta name="twitter:title" content="2023-02: Adoption Policy">
   <meta name="twitter:description" content="Context Resources which exist in Azure prior to being created in Kubernetes are “adopted” by the operator when the resource is created in Kubernetes. Today this adoption process is automatic and implicit. As a user there isn’t an easy way to tell if a resource you’re about to kubectl apply already exists in Azure (will be adopted) or does not exist in Azure (will be created).
 We already have support for reconcile-policy which is related to adoption. Some of reconcile-policy’s primary use cases are for when the user does not want ASO to fully manage an adopted resource.">
-
-
-
-
-<link rel="preload" href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" as="style">
-<link href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" rel="stylesheet" integrity="">
-
+<link rel="preload" href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" as="style" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
+<link href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" rel="stylesheet" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -835,7 +830,6 @@ We already have support for reconcile-policy which is related to adoption. Some 
     2023-02: Adoption Policy</li>
   </ol>
 </nav>
-            
 <div class="td-content">
 	<h1>2023-02: Adoption Policy</h1>
 	
@@ -905,8 +899,7 @@ easily be recovered.</li>
 <p><a href="https://cloud.google.com/config-connector/docs/how-to/managing-deleting-resources#creating_a_resource">GCP</a> does it this way:</p>
 <blockquote>
 <p>When you create a resource, Config Connector creates the resource if it doesn&rsquo;t exist. If a Google Cloud resource
-already exists with the same name, then Config Connector acquires the resource and manages it.</p>
-</blockquote>
+already exists with the same name, then Config Connector acquires the resource and manages it.</p></blockquote>
 <p>GCP also <a href="https://cloud.google.com/config-connector/docs/how-to/managing-deleting-resources">supports</a> a
 <code>reconcile-policy</code>-like annotation, so doing it like this would basically be doing it exactly like GCP.</p>
 <p>Kubernetes has a similar concept for <code>StorageClasses</code>/<code>PersistentVolumes</code> called
@@ -936,8 +929,7 @@ Jay Pipes had an interesting comment:</p>
 no surprises and is actually hard to misuse. It doesn&rsquo;t have surprises because our interface to delete a resource
 is to call kubectl delete on that resource. This is as non-surprising as it gets. It is hard to misuse because
 calling kubectl delete is an explicit action the user has to take and it&rsquo;s not a confusing verb or semantic.
-&ldquo;delete&rdquo; means to remove the resource.</p>
-</blockquote>
+&ldquo;delete&rdquo; means to remove the resource.</p></blockquote>
 <p>It&rsquo;s important to note that ACK does adoption differently than ASO though (see
 <a href="https://github.com/aws-controllers-k8s/sagemaker-controller#60-adopt-resources">example</a>), so adoption is much more
 explicit for them. We don&rsquo;t want to have such explicit adoption though as covered in
@@ -988,90 +980,90 @@ The full matrix of possibilities (where there is overlap) is:</p>
 <table>
   <thead>
       <tr>
-          <th style="text-align: left"><code>reconcile-policy</code></th>
-          <th style="text-align: left"><code>adoption-policy</code></th>
-          <th style="text-align: left">Resource already exists in Azure?</th>
-          <th style="text-align: left">Behavior</th>
+          <th><code>reconcile-policy</code></th>
+          <th><code>adoption-policy</code></th>
+          <th>Resource already exists in Azure?</th>
+          <th>Behavior</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">Unspecified</td>
-          <td style="text-align: left">Unspecified</td>
-          <td style="text-align: left">Yes</td>
-          <td style="text-align: left">Fully manages the resource¹</td>
+          <td>Unspecified</td>
+          <td>Unspecified</td>
+          <td>Yes</td>
+          <td>Fully manages the resource¹</td>
       </tr>
       <tr>
-          <td style="text-align: left">Unspecified</td>
-          <td style="text-align: left">skip-if-exists</td>
-          <td style="text-align: left">Yes</td>
-          <td style="text-align: left">Skips managing the resource</td>
+          <td>Unspecified</td>
+          <td>skip-if-exists</td>
+          <td>Yes</td>
+          <td>Skips managing the resource</td>
       </tr>
       <tr>
-          <td style="text-align: left">Unspecified</td>
-          <td style="text-align: left">skip-if-exists</td>
-          <td style="text-align: left">No</td>
-          <td style="text-align: left">Fully manages the resource</td>
+          <td>Unspecified</td>
+          <td>skip-if-exists</td>
+          <td>No</td>
+          <td>Fully manages the resource</td>
       </tr>
       <tr>
-          <td style="text-align: left">detach-on-delete</td>
-          <td style="text-align: left">skip-if-exists</td>
-          <td style="text-align: left">Yes</td>
-          <td style="text-align: left">Skips managing the resource</td>
+          <td>detach-on-delete</td>
+          <td>skip-if-exists</td>
+          <td>Yes</td>
+          <td>Skips managing the resource</td>
       </tr>
       <tr>
-          <td style="text-align: left">detach-on-delete</td>
-          <td style="text-align: left">skip-if-exists</td>
-          <td style="text-align: left">No</td>
-          <td style="text-align: left">Manages the resource, detaches on delete</td>
+          <td>detach-on-delete</td>
+          <td>skip-if-exists</td>
+          <td>No</td>
+          <td>Manages the resource, detaches on delete</td>
       </tr>
       <tr>
-          <td style="text-align: left">skip</td>
-          <td style="text-align: left">skip-if-exists</td>
-          <td style="text-align: left">Yes</td>
-          <td style="text-align: left">Skips managing the resource</td>
+          <td>skip</td>
+          <td>skip-if-exists</td>
+          <td>Yes</td>
+          <td>Skips managing the resource</td>
       </tr>
       <tr>
-          <td style="text-align: left">skip</td>
-          <td style="text-align: left">skip-if-exists</td>
-          <td style="text-align: left">No</td>
-          <td style="text-align: left">Skips managing the resource</td>
+          <td>skip</td>
+          <td>skip-if-exists</td>
+          <td>No</td>
+          <td>Skips managing the resource</td>
       </tr>
       <tr>
-          <td style="text-align: left">Unspecified</td>
-          <td style="text-align: left">detach-on-delete-if-exists</td>
-          <td style="text-align: left">Yes</td>
-          <td style="text-align: left">Manages the resource, detaches on delete</td>
+          <td>Unspecified</td>
+          <td>detach-on-delete-if-exists</td>
+          <td>Yes</td>
+          <td>Manages the resource, detaches on delete</td>
       </tr>
       <tr>
-          <td style="text-align: left">Unspecified</td>
-          <td style="text-align: left">detach-on-delete-if-exists</td>
-          <td style="text-align: left">No</td>
-          <td style="text-align: left">Fully manages the resource</td>
+          <td>Unspecified</td>
+          <td>detach-on-delete-if-exists</td>
+          <td>No</td>
+          <td>Fully manages the resource</td>
       </tr>
       <tr>
-          <td style="text-align: left">detach-on-delete</td>
-          <td style="text-align: left">detach-on-delete-if-exists</td>
-          <td style="text-align: left">Yes</td>
-          <td style="text-align: left">Manages the resource, detaches on delete</td>
+          <td>detach-on-delete</td>
+          <td>detach-on-delete-if-exists</td>
+          <td>Yes</td>
+          <td>Manages the resource, detaches on delete</td>
       </tr>
       <tr>
-          <td style="text-align: left">detach-on-delete</td>
-          <td style="text-align: left">detach-on-delete-if-exists</td>
-          <td style="text-align: left">No</td>
-          <td style="text-align: left">Manages the resource, detaches on delete</td>
+          <td>detach-on-delete</td>
+          <td>detach-on-delete-if-exists</td>
+          <td>No</td>
+          <td>Manages the resource, detaches on delete</td>
       </tr>
       <tr>
-          <td style="text-align: left">skip</td>
-          <td style="text-align: left">detach-on-delete-if-exists</td>
-          <td style="text-align: left">Yes</td>
-          <td style="text-align: left">Skips managing the resource</td>
+          <td>skip</td>
+          <td>detach-on-delete-if-exists</td>
+          <td>Yes</td>
+          <td>Skips managing the resource</td>
       </tr>
       <tr>
-          <td style="text-align: left">skip</td>
-          <td style="text-align: left">detach-on-delete-if-exists</td>
-          <td style="text-align: left">No</td>
-          <td style="text-align: left">Skips managing the resource</td>
+          <td>skip</td>
+          <td>detach-on-delete-if-exists</td>
+          <td>No</td>
+          <td>Skips managing the resource</td>
       </tr>
   </tbody>
 </table>
@@ -1205,7 +1197,7 @@ customer need. If instead we allowed both to be set then it&rsquo;s hard to take
 </footer>
 
     </div>
-    <script src="/azure-service-operator/js/main.min.0a5a30b73411b7a841784b6f4d46f4e0b1b95d576fa3cadd81db9d5ae468e8c2.js" integrity="sha256-ClowtzQRt6hBeEtvTUb04LG5XVdvo8rdgdudWuRo6MI=" crossorigin="anonymous"></script>
+    <script src="/azure-service-operator/js/main.min.4096f09e0b199950620fc06165ef2a2791e1bee9067e27b14c4a54f02c0e33bd.js" integrity="sha256-QJbwngsZmVBiD8BhZe8qJ5HhvukGfiexTEpU8CwOM70=" crossorigin="anonymous"></script>
 <script defer src="/azure-service-operator/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/azure-service-operator/js/tabpane-persist.js'></script>
 

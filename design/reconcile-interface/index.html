@@ -41,13 +41,8 @@ type Reconciler interface { // Reconcile performs a full reconciliation for the 
   <meta name="twitter:description" content="Reconciler Interface Today the interface is:
 type Reconciler interface { Reconcile( ctx context.Context, log logr.Logger, eventRecorder record.EventRecorder, obj MetaObject) (ctrl.Result, error) } This is pretty similar to the interface that controller-runtime gives us:
 type Reconciler interface { // Reconcile performs a full reconciliation for the object referred to by the Request. // The Controller will requeue the Request to be processed again if an error is non-nil or // Result.Requeue is true, otherwise upon completion it will remove the work from the queue. Reconcile(context.Context, Request) (Result, error) } The problem with the interface at this level is that each controller must duplicate certain checks. This not only involves needless code duplication, but also opens the door for subtle bugs when differences occur.">
-
-
-
-
-<link rel="preload" href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" as="style">
-<link href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" rel="stylesheet" integrity="">
-
+<link rel="preload" href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" as="style" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
+<link href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" rel="stylesheet" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -838,7 +833,6 @@ type Reconciler interface { // Reconcile performs a full reconciliation for the 
     Improving the Reconciler interface</li>
   </ol>
 </nav>
-            
 <div class="td-content">
 	<h1>Improving the Reconciler interface</h1>
 	
@@ -856,10 +850,10 @@ type Reconciler interface { // Reconcile performs a full reconciliation for the 
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>This is pretty similar to the interface that controller-runtime gives us:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Reconciler</span> <span style="color:#66d9ef">interface</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Reconcile performs a full reconciliation for the object referred to by the Request.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// The Controller will requeue the Request to be processed again if an error is non-nil or
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// Result.Requeue is true, otherwise upon completion it will remove the work from the queue.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">Reconcile</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">Request</span>) (<span style="color:#a6e22e">Result</span>, <span style="color:#66d9ef">error</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Reconcile performs a full reconciliation for the object referred to by the Request.</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// The Controller will requeue the Request to be processed again if an error is non-nil or</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Result.Requeue is true, otherwise upon completion it will remove the work from the queue.</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Reconcile</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">Request</span>) (<span style="color:#a6e22e">Result</span>, <span style="color:#66d9ef">error</span>)
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>The problem with the interface at this level is that each controller must duplicate certain checks. This not only involves needless code duplication, but also opens the door for subtle bugs when differences occur.</p>
 <h2 id="whats-duplicated-today">What&rsquo;s duplicated today</h2>
@@ -890,8 +884,8 @@ type Reconciler interface { // Reconcile performs a full reconciliation for the 
 </span></span></code></pre></div><p>Most of the implementation of <code>handleSkipReconcile</code> is also duplicated. For ARM resources we <em>also</em> want to populate status as part of that call, which requires a GET call to ARM; not every kind of resource will need this extra step.</p>
 <h3 id="claiming-a-resource">Claiming a resource</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">NeedToClaimResource</span>(<span style="color:#a6e22e">user</span>) {
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// TODO: This assumes we&#39;re requeing and doing the &#34;stages&#34; thing, which I am not sure if it makes sense to do for everybody anymore
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">ClaimResource</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">log</span>, <span style="color:#a6e22e">user</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// TODO: This assumes we&#39;re requeing and doing the &#34;stages&#34; thing, which I am not sure if it makes sense to do for everybody anymore</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">ClaimResource</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">log</span>, <span style="color:#a6e22e">user</span>)
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Result</span>{}, <span style="color:#a6e22e">err</span>
 </span></span><span style="display:flex;"><span>        }
@@ -900,8 +894,8 @@ type Reconciler interface { // Reconcile performs a full reconciliation for the 
 An example of a resource specific claiming activity is checking that the owner exists. Only resource types that support owner will do this. There may be additional parts to the <code>Claim</code> workflow as well, such as
 determining what the ARM ID of the resource is going to be and saving that as an annotation.</p>
 <h3 id="checking-if-a-resource-has-been-claimed-before-deletion">Checking if a resource has been claimed before deletion</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>    <span style="color:#75715e">// If we have no resourceID to begin with, or no finalizer, the Azure resource was never created
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">hasFinalizer</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">controllerutil</span>.<span style="color:#a6e22e">ContainsFinalizer</span>(<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Obj</span>, <span style="color:#a6e22e">reconcilers</span>.<span style="color:#a6e22e">GenericControllerFinalizer</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>    <span style="color:#75715e">// If we have no resourceID to begin with, or no finalizer, the Azure resource was never created</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">hasFinalizer</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">controllerutil</span>.<span style="color:#a6e22e">ContainsFinalizer</span>(<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Obj</span>, <span style="color:#a6e22e">reconcilers</span>.<span style="color:#a6e22e">GenericControllerFinalizer</span>)
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">resourceID</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">genruntime</span>.<span style="color:#a6e22e">GetResourceIDOrDefault</span>(<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Obj</span>)
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">resourceID</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;&#34;</span> <span style="color:#f92672">||</span> !<span style="color:#a6e22e">hasFinalizer</span> {
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Result</span>{}, <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">RemoveResourceFinalizer</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Log</span>, <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Obj</span>)
@@ -926,30 +920,30 @@ determining what the ARM ID of the resource is going to be and saving that as an
 </span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">eventRecorder</span> <span style="color:#a6e22e">record</span>.<span style="color:#a6e22e">EventRecorder</span>,
 </span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">obj</span> <span style="color:#a6e22e">MetaObject</span>) (<span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Result</span>, <span style="color:#66d9ef">error</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// No ctrl.Result return here. An error means we can&#39;t proceed, no error means proceed directly to CreateOrUpdate.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">Claim</span>(
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// No ctrl.Result return here. An error means we can&#39;t proceed, no error means proceed directly to CreateOrUpdate.</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Claim</span>(
 </span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>,
 </span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">log</span> <span style="color:#a6e22e">logr</span>.<span style="color:#a6e22e">Logger</span>,
 </span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">eventRecorder</span> <span style="color:#a6e22e">record</span>.<span style="color:#a6e22e">EventRecorder</span>,
 </span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">obj</span> <span style="color:#a6e22e">MetaObject</span>) <span style="color:#66d9ef">error</span> 
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// This is only called by the GenericController in cases where CreateOrUpdate couldn&#39;t be called due to reconcile policy
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// No ctrl.Result return here. An error means we couldn&#39;t get the status. Generic Controller will set the Ready condition
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// with this error and automatically retry.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">UpdateStatus</span>(
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// This is only called by the GenericController in cases where CreateOrUpdate couldn&#39;t be called due to reconcile policy</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// No ctrl.Result return here. An error means we couldn&#39;t get the status. Generic Controller will set the Ready condition</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// with this error and automatically retry.</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">UpdateStatus</span>(
 </span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>,
 </span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">log</span> <span style="color:#a6e22e">logr</span>.<span style="color:#a6e22e">Logger</span>,
 </span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">eventRecorder</span> <span style="color:#a6e22e">record</span>.<span style="color:#a6e22e">EventRecorder</span>,
 </span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">obj</span> <span style="color:#a6e22e">MetaObject</span>) <span style="color:#66d9ef">error</span>
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>Here&rsquo;s a sketch of what this would look like in the generic controller. This code is just illustrative, it&rsquo;d be refactored to be a bit less verbose in the actual implementation:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>    <span style="color:#75715e">// Check namespace annotation to ensure we aren&#39;t reconciling resource that this controller doesn&#39;t &#34;own&#34;. This exists in generic controller today
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">CheckNamespaceAnnotation</span>() {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>    <span style="color:#75715e">// Check namespace annotation to ensure we aren&#39;t reconciling resource that this controller doesn&#39;t &#34;own&#34;. This exists in generic controller today</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">CheckNamespaceAnnotation</span>() {
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Result</span>{}, <span style="color:#66d9ef">nil</span>
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Claim the resource
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">gr</span>.<span style="color:#a6e22e">Reconciler</span>.<span style="color:#a6e22e">Claim</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">log</span>, <span style="color:#a6e22e">gr</span>.<span style="color:#a6e22e">Recorder</span>, <span style="color:#a6e22e">metaObj</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Claim the resource</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">gr</span>.<span style="color:#a6e22e">Reconciler</span>.<span style="color:#a6e22e">Claim</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">log</span>, <span style="color:#a6e22e">gr</span>.<span style="color:#a6e22e">Recorder</span>, <span style="color:#a6e22e">metaObj</span>)
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">readyErr</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">conditions</span>.<span style="color:#a6e22e">AsReadyConditionImpactingError</span>(<span style="color:#a6e22e">err</span>); <span style="color:#a6e22e">ok</span> {
 </span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">readyErr</span>, <span style="color:#e6db74">&#34;Encountered error impacting Ready condition&#34;</span>)
 </span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">gr</span>.<span style="color:#a6e22e">WriteReadyConditionError</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">metaObj</span>, <span style="color:#a6e22e">readyErr</span>)
@@ -966,30 +960,30 @@ determining what the ARM ID of the resource is going to be and saving that as an
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Result</span>{}, <span style="color:#a6e22e">reconcilers</span>.<span style="color:#a6e22e">IgnoreNotFoundAndConflict</span>(<span style="color:#a6e22e">err</span>)
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Take the action needed
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">result</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Result</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Take the action needed</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">result</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Result</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">err</span> <span style="color:#66d9ef">error</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">metaObj</span>.<span style="color:#a6e22e">GetDeletionTimestamp</span>().<span style="color:#a6e22e">IsZero</span>() {
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Check the reconcile policy to ensure we&#39;re allowed to issue a delete
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#a6e22e">reconcilePolicy</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">GetReconcilePolicy</span>(<span style="color:#a6e22e">metaObj</span>, <span style="color:#a6e22e">log</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Check the reconcile policy to ensure we&#39;re allowed to issue a delete</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">reconcilePolicy</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">GetReconcilePolicy</span>(<span style="color:#a6e22e">metaObj</span>, <span style="color:#a6e22e">log</span>)
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">reconcilePolicy</span>.<span style="color:#a6e22e">AllowsDelete</span>() {
 </span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">V</span>(<span style="color:#a6e22e">Info</span>).<span style="color:#a6e22e">Info</span>(<span style="color:#e6db74">&#34;Bypassing delete of resource due to policy&#34;</span>, <span style="color:#e6db74">&#34;policy&#34;</span>, <span style="color:#a6e22e">reconcilePolicy</span>)
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Result</span>{}, <span style="color:#a6e22e">RemoveResourceFinalizer</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">log</span>, <span style="color:#a6e22e">metaObj</span>)
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Check if we actually need to issue a delete
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#a6e22e">hasFinalizer</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">controllerutil</span>.<span style="color:#a6e22e">ContainsFinalizer</span>(<span style="color:#a6e22e">metaObj</span>, <span style="color:#a6e22e">reconcilers</span>.<span style="color:#a6e22e">GenericControllerFinalizer</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Check if we actually need to issue a delete</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">hasFinalizer</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">controllerutil</span>.<span style="color:#a6e22e">ContainsFinalizer</span>(<span style="color:#a6e22e">metaObj</span>, <span style="color:#a6e22e">reconcilers</span>.<span style="color:#a6e22e">GenericControllerFinalizer</span>)
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">hasFinalizer</span> {
 </span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Info</span>(<span style="color:#e6db74">&#34;Deleted resource&#34;</span>)
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Result</span>{}, <span style="color:#66d9ef">nil</span>
 </span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">result</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Delete</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">log</span>, <span style="color:#a6e22e">gr</span>.<span style="color:#a6e22e">Recorder</span>, <span style="color:#a6e22e">metaObj</span>) <span style="color:#75715e">// It would be the responsibility of the reconcilers delete to check anything specific that it did during Claim and short-circuit if needed
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    } <span style="color:#66d9ef">else</span> {
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Check the reconcile policy to ensure we&#39;re allowed to issue a create or update
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#a6e22e">reconcilePolicy</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">reconcilers</span>.<span style="color:#a6e22e">GetReconcilePolicy</span>(<span style="color:#a6e22e">metaObj</span>, <span style="color:#a6e22e">log</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">result</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Delete</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">log</span>, <span style="color:#a6e22e">gr</span>.<span style="color:#a6e22e">Recorder</span>, <span style="color:#a6e22e">metaObj</span>) <span style="color:#75715e">// It would be the responsibility of the reconcilers delete to check anything specific that it did during Claim and short-circuit if needed</span>
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Check the reconcile policy to ensure we&#39;re allowed to issue a create or update</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">reconcilePolicy</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">reconcilers</span>.<span style="color:#a6e22e">GetReconcilePolicy</span>(<span style="color:#a6e22e">metaObj</span>, <span style="color:#a6e22e">log</span>)
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">reconcilePolicy</span>.<span style="color:#a6e22e">AllowsModify</span>() {
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">handleSkipReconcile</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">log</span>, <span style="color:#a6e22e">metaObj</span>) <span style="color:#75715e">// This would call GetStatus to optionally fill out the status and Commit that
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        }
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">handleSkipReconcile</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">log</span>, <span style="color:#a6e22e">metaObj</span>) <span style="color:#75715e">// This would call GetStatus to optionally fill out the status and Commit that</span>
+</span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">result</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">CreateOrUpdate</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">log</span>, <span style="color:#a6e22e">gr</span>.<span style="color:#a6e22e">Recorder</span>, <span style="color:#a6e22e">metaObj</span>)
 </span></span><span style="display:flex;"><span>    }
@@ -1058,7 +1052,7 @@ especially important because the handcrafted resources may not be HTTP based (<c
 </footer>
 
     </div>
-    <script src="/azure-service-operator/js/main.min.0a5a30b73411b7a841784b6f4d46f4e0b1b95d576fa3cadd81db9d5ae468e8c2.js" integrity="sha256-ClowtzQRt6hBeEtvTUb04LG5XVdvo8rdgdudWuRo6MI=" crossorigin="anonymous"></script>
+    <script src="/azure-service-operator/js/main.min.4096f09e0b199950620fc06165ef2a2791e1bee9067e27b14c4a54f02c0e33bd.js" integrity="sha256-QJbwngsZmVBiD8BhZe8qJ5HhvukGfiexTEpU8CwOM70=" crossorigin="anonymous"></script>
 <script defer src="/azure-service-operator/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/azure-service-operator/js/tabpane-persist.js'></script>
 

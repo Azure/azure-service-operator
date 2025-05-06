@@ -19,7 +19,8 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>Fixed Storage Version | Azure Service Operator</title>
-<meta name="description" content="Powerful, extensible, and feature-packed frontend toolkit. Build and customize with Sass, utilize prebuilt grid system and components, and bring projects to life with powerful JavaScript plugins.">
+<meta name="description" content="This case study explores the alternative solution of using a fixed storage version where the schema of the storage version is modified to handle each additional release.
+For the purposes of discussion, we’ll be following the version by version evolution of a theoretical ARM service that provides customer resource management (CRM) services. Synthetic examples are used to allow focus on specific scenarios one by one, providing motivation for specific features.">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/design/versioning/case-studies/fixed-storage-version/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="Fixed Storage Version">
@@ -36,13 +37,8 @@ For the purposes of discussion, we’ll be following the version by version evol
   <meta name="twitter:title" content="Fixed Storage Version">
   <meta name="twitter:description" content="This case study explores the alternative solution of using a fixed storage version where the schema of the storage version is modified to handle each additional release.
 For the purposes of discussion, we’ll be following the version by version evolution of a theoretical ARM service that provides customer resource management (CRM) services. Synthetic examples are used to allow focus on specific scenarios one by one, providing motivation for specific features.">
-
-
-
-
-<link rel="preload" href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" as="style">
-<link href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" rel="stylesheet" integrity="">
-
+<link rel="preload" href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" as="style" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
+<link href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" rel="stylesheet" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -880,7 +876,6 @@ For the purposes of discussion, we’ll be following the version by version evol
     Fixed Storage Version</li>
   </ol>
 </nav>
-            
 <div class="td-content">
 	<h1>Fixed Storage Version</h1>
   
@@ -908,8 +903,8 @@ For the purposes of discussion, we’ll be following the version by version evol
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">LastName</span>  <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// Hub marks this type as a conversion hub.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">Hub</span>() {}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Hub marks this type as a conversion hub.</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">Hub</span>() {}
 </span></span></code></pre></div><p>By convention, a fixed storage version is noted as v1</p>
 <p>Every property is marked as optional. Optionality doesn&rsquo;t matter at this point, as we are only concerned with a single version of the API. However, as we&rsquo;ll see with later versions, forward and backward compatibility issues would arise if they were not optional.</p>
 <h2 id="storage-conversion">Storage Conversion</h2>
@@ -918,32 +913,32 @@ For the purposes of discussion, we’ll be following the version by version evol
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;v1&#34;</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// ConvertTo converts this Person to the Hub storage version.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertTo</span>(<span style="color:#a6e22e">raw</span> <span style="color:#a6e22e">conversion</span>.<span style="color:#a6e22e">Hub</span>) <span style="color:#66d9ef">error</span> {
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ConvertTo converts this Person to the Hub storage version.</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertTo</span>(<span style="color:#a6e22e">raw</span> <span style="color:#a6e22e">conversion</span>.<span style="color:#a6e22e">Hub</span>) <span style="color:#66d9ef">error</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">p</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">raw</span>.(<span style="color:#f92672">*</span><span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">Person</span>)
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ConvertToStorage</span>(<span style="color:#a6e22e">p</span>)
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// ConvertToStorage converts this Person to a storage version
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertToStorage</span>(<span style="color:#a6e22e">dest</span> <span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Copy simple properties across
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">FirstName</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">FirstName</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ConvertToStorage converts this Person to a storage version</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertToStorage</span>(<span style="color:#a6e22e">dest</span> <span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Copy simple properties across</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">FirstName</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">FirstName</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">Id</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">Id</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">LastName</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">LastName</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// ConvertFrom converts from the Hub storage version
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertFrom</span>(<span style="color:#a6e22e">raw</span> <span style="color:#a6e22e">conversion</span>.<span style="color:#a6e22e">Hub</span>) <span style="color:#66d9ef">error</span> {
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ConvertFrom converts from the Hub storage version</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertFrom</span>(<span style="color:#a6e22e">raw</span> <span style="color:#a6e22e">conversion</span>.<span style="color:#a6e22e">Hub</span>) <span style="color:#66d9ef">error</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">p</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">raw</span>.(<span style="color:#f92672">*</span><span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">Person</span>)
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ConvertFromStorage</span>(<span style="color:#a6e22e">p</span>)
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// ConvertFrom converts from a storage version to this version.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertFromStorage</span>(<span style="color:#a6e22e">source</span> <span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Copy simple properties across
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">FirstName</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">FirstName</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ConvertFrom converts from a storage version to this version.</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertFromStorage</span>(<span style="color:#a6e22e">source</span> <span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Copy simple properties across</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">FirstName</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">FirstName</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">Id</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">Id</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">LastName</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">LastName</span>
 </span></span><span style="display:flex;"><span>
@@ -976,8 +971,8 @@ For the purposes of discussion, we’ll be following the version by version evol
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Person</span> <span style="color:#66d9ef">struct</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Id</span>         <span style="color:#a6e22e">Guid</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">FirstName</span>  <span style="color:#66d9ef">string</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">MiddleName</span> <span style="color:#66d9ef">string</span> <span style="color:#75715e">// *** New ***
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">LastName</span>   <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">MiddleName</span> <span style="color:#66d9ef">string</span> <span style="color:#75715e">// *** New ***</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">LastName</span>   <span style="color:#66d9ef">string</span>
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>The storage version is updated with the addition of the new property:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">v1</span>
@@ -986,34 +981,34 @@ For the purposes of discussion, we’ll be following the version by version evol
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">FirstName</span>  <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Id</span>         <span style="color:#f92672">*</span><span style="color:#a6e22e">Guid</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">LastName</span>   <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">MiddleName</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span> <span style="color:#75715e">// *** New ***
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">MiddleName</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span> <span style="color:#75715e">// *** New ***</span>
+</span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// Hub marks this type as a conversion hub.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">Hub</span>() {}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Hub marks this type as a conversion hub.</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">Hub</span>() {}
 </span></span></code></pre></div><h2 id="storage-conversions">Storage Conversions</h2>
 <p>Conversions to and from earlier versions of Person are unchanged, as those versions do not support <code>MiddleName</code>. For the new version of <code>Person</code>, the new property will be included in the generated methods:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">v20130303</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;v1&#34;</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// ConvertTo converts this Person to the Hub version.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertToStorage</span>(<span style="color:#a6e22e">dest</span> <span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ConvertTo converts this Person to the Hub version.</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertToStorage</span>(<span style="color:#a6e22e">dest</span> <span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">FirstName</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">FirstName</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">Id</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">Id</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">LastName</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">LastName</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">MiddleName</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">MiddleName</span> <span style="color:#75715e">// *** New property copied too ***
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">MiddleName</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">MiddleName</span> <span style="color:#75715e">// *** New property copied too ***</span>
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// ConvertFrom converts from the Hub version to this version.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertFromStorage</span>(<span style="color:#a6e22e">source</span> <span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ConvertFrom converts from the Hub version to this version.</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertFromStorage</span>(<span style="color:#a6e22e">source</span> <span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">FirstName</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">FirstName</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">Id</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">Id</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">LastName</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">LastName</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">MiddleName</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">MiddleName</span> <span style="color:#75715e">// *** New property copied too ***
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">MiddleName</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">MiddleName</span> <span style="color:#75715e">// *** New property copied too ***</span>
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>The new property is shown at the end of the list not because it is new, but because values are copied across in alphabetical order to guarantee that code generation is deterministic and generates the same result each time.</p>
@@ -1028,8 +1023,8 @@ For the purposes of discussion, we’ll be following the version by version evol
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">v20140404preview</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Person</span> <span style="color:#66d9ef">struct</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Id</span>         <span style="color:#a6e22e">Guid</span>   <span style="color:#75715e">// *** Only Id is unchanged from the prior version ***
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">FullName</span>   <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Id</span>         <span style="color:#a6e22e">Guid</span>   <span style="color:#75715e">// *** Only Id is unchanged from the prior version ***</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">FullName</span>   <span style="color:#66d9ef">string</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">FamilyName</span> <span style="color:#66d9ef">string</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">KnownAs</span>    <span style="color:#66d9ef">string</span>
 </span></span><span style="display:flex;"><span>}
@@ -1037,25 +1032,25 @@ For the purposes of discussion, we’ll be following the version by version evol
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">v1</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Person</span> <span style="color:#66d9ef">struct</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">FamilyName</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span> <span style="color:#75715e">// *** New ***
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">FirstName</span>  <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">FullName</span>   <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span> <span style="color:#75715e">// *** New ***
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">Id</span>         <span style="color:#f92672">*</span><span style="color:#a6e22e">Guid</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">KnownAs</span>    <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span> <span style="color:#75715e">// *** New ***
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">LastName</span>   <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">FamilyName</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span> <span style="color:#75715e">// *** New ***</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">FirstName</span>  <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">FullName</span>   <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span> <span style="color:#75715e">// *** New ***</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Id</span>         <span style="color:#f92672">*</span><span style="color:#a6e22e">Guid</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">KnownAs</span>    <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span> <span style="color:#75715e">// *** New ***</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">LastName</span>   <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">MiddleName</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// Hub marks this type as a conversion hub.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">Hub</span>() {}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Hub marks this type as a conversion hub.</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">Hub</span>() {}
 </span></span></code></pre></div><h2 id="storage-conversion-2">Storage Conversion</h2>
 <p>The new properties are copied to and from the storage version. Ensuring that all properties are optional makes it possible to leave the unused properties empty.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">v20140404preview</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#a6e22e">storage</span> <span style="color:#e6db74">&#34;v20130303storage&#34;</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// ConvertTo converts this Person to the Hub version.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertToStorage</span>(<span style="color:#a6e22e">dest</span> <span style="color:#a6e22e">storage</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ConvertTo converts this Person to the Hub version.</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertToStorage</span>(<span style="color:#a6e22e">dest</span> <span style="color:#a6e22e">storage</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">FamilyName</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">FamilyName</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">FullName</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">FullName</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">Id</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">Id</span>
@@ -1064,8 +1059,8 @@ For the purposes of discussion, we’ll be following the version by version evol
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// ConvertFrom converts from the Hub version to this version.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertFromStorage</span>(<span style="color:#a6e22e">source</span> <span style="color:#a6e22e">storage</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ConvertFrom converts from the Hub version to this version.</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertFromStorage</span>(<span style="color:#a6e22e">source</span> <span style="color:#a6e22e">storage</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">FamilyName</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">FamilyName</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">FullName</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">FullName</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">Id</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">Id</span>
@@ -1080,15 +1075,15 @@ For the purposes of discussion, we’ll be following the version by version evol
 <p>To allow injection of manual conversion steps, two interfaces will be generated as follows:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">v1</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// AssignableToPerson is implemented on an API version 
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// of `Person` to update the storage version
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">AssignableToPerson</span> <span style="color:#66d9ef">interface</span> {
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// AssignableToPerson is implemented on an API version </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// of `Person` to update the storage version</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">AssignableToPerson</span> <span style="color:#66d9ef">interface</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">AssignTo</span>(<span style="color:#a6e22e">person</span> <span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span>
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// AssignableFromPerson is implemented on an API version 
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// of `Person` to populate it from the storage version
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">AssignableFromPerson</span> <span style="color:#66d9ef">interface</span> {
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// AssignableFromPerson is implemented on an API version </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// of `Person` to populate it from the storage version</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">AssignableFromPerson</span> <span style="color:#66d9ef">interface</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">AssignFrom</span>(<span style="color:#a6e22e">person</span> <span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span>
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>This interface can be optionally implemented by API versions (spoke types) to <em>augment</em> (not replace) the generated conversion.</p>
@@ -1097,24 +1092,24 @@ For the purposes of discussion, we’ll be following the version by version evol
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#a6e22e">v1</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// ConvertTo converts this Person to the Hub version.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertToStorage</span>(<span style="color:#a6e22e">dest</span> <span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// … elided …
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// *** Check for the interface and use it if found ***
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">assignable</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">person</span>.(<span style="color:#a6e22e">AssignableToPerson</span>); <span style="color:#a6e22e">ok</span> {
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ConvertTo converts this Person to the Hub version.</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertToStorage</span>(<span style="color:#a6e22e">dest</span> <span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// … elided …</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// *** Check for the interface and use it if found ***</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">assignable</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">person</span>.(<span style="color:#a6e22e">AssignableToPerson</span>); <span style="color:#a6e22e">ok</span> {
 </span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">assignable</span>.<span style="color:#a6e22e">AssignTo</span>(<span style="color:#a6e22e">dest</span>)
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// ConvertFrom converts from the Hub version to this version.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertFromStorage</span>(<span style="color:#a6e22e">source</span> <span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// … elided …
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// *** Check for the interface and use it if found ***
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">assignable</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">person</span>.(<span style="color:#a6e22e">AssignableFromPerson</span>); <span style="color:#a6e22e">ok</span> {
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ConvertFrom converts from the Hub version to this version.</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertFromStorage</span>(<span style="color:#a6e22e">source</span> <span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// … elided …</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// *** Check for the interface and use it if found ***</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">assignable</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">person</span>.(<span style="color:#a6e22e">AssignableFromPerson</span>); <span style="color:#a6e22e">ok</span> {
 </span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">assignable</span>.<span style="color:#a6e22e">AssignFrom</span>(<span style="color:#a6e22e">source</span>)
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
@@ -1130,28 +1125,28 @@ For the purposes of discussion, we’ll be following the version by version evol
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Person</span> <span style="color:#66d9ef">struct</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Id</span>         <span style="color:#a6e22e">Guid</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">LegalName</span>  <span style="color:#66d9ef">string</span> <span style="color:#75715e">// *** Was FullName in preview ***
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">FamilyName</span> <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">LegalName</span>  <span style="color:#66d9ef">string</span> <span style="color:#75715e">// *** Was FullName in preview ***</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">FamilyName</span> <span style="color:#66d9ef">string</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">KnownAs</span>    <span style="color:#66d9ef">string</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">AlphaKey</span>   <span style="color:#66d9ef">string</span> <span style="color:#75715e">// *** Added after preview ***
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">AlphaKey</span>   <span style="color:#66d9ef">string</span> <span style="color:#75715e">// *** Added after preview ***</span>
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>The two new properties need to be added to the storage version to allow this to be stored:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">v1</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Person</span> <span style="color:#66d9ef">struct</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Id</span>         <span style="color:#f92672">*</span><span style="color:#a6e22e">Guid</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">AlphaKey</span>   <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span> <span style="color:#75715e">// *** New ***
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">FamilyName</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">AlphaKey</span>   <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span> <span style="color:#75715e">// *** New ***</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">FamilyName</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">FirstName</span>  <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">FullName</span>   <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">KnownAs</span>    <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">LastName</span>   <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">LegalName</span>  <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span> <span style="color:#75715e">// *** New ***
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">MiddleName</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">LegalName</span>  <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span> <span style="color:#75715e">// *** New ***</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">MiddleName</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// Hub marks this type as a conversion hub.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">Hub</span>() {}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Hub marks this type as a conversion hub.</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">Hub</span>() {}
 </span></span></code></pre></div><h2 id="issue-property-bloat">Issue: Property Bloat</h2>
 <p>As our API evolves over time, our storage version is accumulating all the properties that have ever existed, bloating the storage version with obsolete properties that are seldom (if ever) used.</p>
 <p>For example, only preview users would ever have used <code>FullName</code> as it became <code>LegalName</code> in the general release; most users will never use <code>FullName</code>.</p>
@@ -1163,32 +1158,32 @@ For the purposes of discussion, we’ll be following the version by version evol
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#a6e22e">v1</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// ConvertTo converts this Person to the Hub version.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertToStorage</span>(<span style="color:#a6e22e">dest</span> <span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ConvertTo converts this Person to the Hub version.</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertToStorage</span>(<span style="color:#a6e22e">dest</span> <span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">AlphaKey</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">AlphaKey</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">FamilyName</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">FamilyName</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">Id</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">Id</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">KnownAs</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">KnownAs</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">LegalName</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">LegalName</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// *** Check for the interface and use it if found ***
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">assignable</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">person</span>.(<span style="color:#a6e22e">AssignableToPerson</span>); <span style="color:#a6e22e">ok</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// *** Check for the interface and use it if found ***</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">assignable</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">person</span>.(<span style="color:#a6e22e">AssignableToPerson</span>); <span style="color:#a6e22e">ok</span> {
 </span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">assignable</span>.<span style="color:#a6e22e">AssignTo</span>(<span style="color:#a6e22e">dest</span>)
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// ConvertFrom converts from the Hub version to this version.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertFromStorage</span>(<span style="color:#a6e22e">source</span> <span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ConvertFrom converts from the Hub version to this version.</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertFromStorage</span>(<span style="color:#a6e22e">source</span> <span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">AlphaKey</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">AlphaKey</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">FamilyName</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">FamilyName</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">Id</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">Id</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">KnownAs</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">KnownAs</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">LegalName</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">LegalName</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// *** Check for the interface and use it if found ***
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">assignable</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">person</span>.(<span style="color:#a6e22e">AssignableFromPerson</span>); <span style="color:#a6e22e">ok</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// *** Check for the interface and use it if found ***</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">assignable</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">person</span>.(<span style="color:#a6e22e">AssignableFromPerson</span>); <span style="color:#a6e22e">ok</span> {
 </span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">assignable</span>.<span style="color:#a6e22e">AssignFrom</span>(<span style="color:#a6e22e">source</span>)
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
@@ -1210,8 +1205,8 @@ For the purposes of discussion, we’ll be following the version by version evol
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">PopulateLegacyProperties</span>() {
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">FirstName</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">KnownAs</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">FamilyName</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">FamilyName</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">MiddleName</span> = <span style="color:#75715e">// ... elided ...
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">MiddleName</span> = <span style="color:#75715e">// ... elided ...</span>
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>These methods are manually authored, so the names are arbitary. However, we will provide some guidance for implementers to encouarage consistency as the operator is updated and improved.</p>
 <p>With these methods available, implementing the interface <code>AssignableToPerson</code> becomes straightforward. For the <code>2011-01-01</code> release of <code>Person</code>:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">v20110101</span>
@@ -1245,26 +1240,26 @@ For the purposes of discussion, we’ll be following the version by version evol
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">LegalName</span>  <span style="color:#66d9ef">string</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">FamilyName</span> <span style="color:#66d9ef">string</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">KnownAs</span>    <span style="color:#66d9ef">string</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">SortKey</span>    <span style="color:#66d9ef">string</span> <span style="color:#75715e">// *** Used to be AlphaKey ***
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">SortKey</span>    <span style="color:#66d9ef">string</span> <span style="color:#75715e">// *** Used to be AlphaKey ***</span>
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>As expected the storage version is also extended:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">v1</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Person</span> <span style="color:#66d9ef">struct</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Id</span>         <span style="color:#f92672">*</span><span style="color:#a6e22e">Guid</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">AlphaKey</span>   <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span> <span style="color:#75715e">// ** Debris ***
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">FamilyName</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">AlphaKey</span>   <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span> <span style="color:#75715e">// ** Debris ***</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">FamilyName</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">FirstName</span>  <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">FullName</span>   <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">KnownAs</span>    <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">LastName</span>   <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">LegalName</span>  <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">MiddleName</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">SortKey</span>    <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span> <span style="color:#75715e">// ** New ***
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">SortKey</span>    <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span> <span style="color:#75715e">// ** New ***</span>
+</span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// Hub marks this type as a conversion hub.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">Hub</span>() {}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Hub marks this type as a conversion hub.</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">Hub</span>() {}
 </span></span></code></pre></div><p>Again, we see the issue of <strong>property bloat</strong> where the storage type needs to have both <code>AlphaKey</code> and <code>SortKey</code> for backward compatibility.</p>
 <h2 id="storage-conversion-4">Storage Conversion</h2>
 <p>By documenting the renames in the configuration of our code generator, this rename will be automatically handled within the <code>ConvertTo()</code> and <code>ConvertFrom()</code> methods, as shown here for the <code>2014-04-04</code> version of <code>Person</code>:</p>
@@ -1272,15 +1267,15 @@ For the purposes of discussion, we’ll be following the version by version evol
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#a6e22e">v1</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// ConvertTo converts this Person to the Hub version.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertToStorage</span>(<span style="color:#a6e22e">dest</span> <span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">AlphaKey</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">AlphaKey</span> <span style="color:#75715e">// *** Store it the old way ***
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">FamilyName</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">FamilyName</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ConvertTo converts this Person to the Hub version.</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertToStorage</span>(<span style="color:#a6e22e">dest</span> <span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">AlphaKey</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">AlphaKey</span> <span style="color:#75715e">// *** Store it the old way ***</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">FamilyName</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">FamilyName</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">Id</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">Id</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">KnownAs</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">KnownAs</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">LegalName</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">LegalName</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">SortKey</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">AlphaKey</span> <span style="color:#75715e">// *** Rename is automatically handled ***
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">SortKey</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">AlphaKey</span> <span style="color:#75715e">// *** Rename is automatically handled ***</span>
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">assignable</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">person</span>.(<span style="color:#a6e22e">AssignableToPerson</span>); <span style="color:#a6e22e">ok</span> {
 </span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">assignable</span>.<span style="color:#a6e22e">AssignTo</span>(<span style="color:#a6e22e">dest</span>)
 </span></span><span style="display:flex;"><span>    }
@@ -1288,10 +1283,10 @@ For the purposes of discussion, we’ll be following the version by version evol
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// ConvertFrom converts from the Hub version to this version.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertFromStorage</span>(<span style="color:#a6e22e">source</span> <span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">AlphaKey</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">SortKey</span> <span style="color:#75715e">// *** Rename is automatically handled ***
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">FamilyName</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">FamilyName</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ConvertFrom converts from the Hub version to this version.</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertFromStorage</span>(<span style="color:#a6e22e">source</span> <span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">AlphaKey</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">SortKey</span> <span style="color:#75715e">// *** Rename is automatically handled ***</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">FamilyName</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">FamilyName</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">Id</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">Id</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">KnownAs</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">KnownAs</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">LegalName</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">LegalName</span>
@@ -1308,15 +1303,15 @@ For the purposes of discussion, we’ll be following the version by version evol
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#a6e22e">v1</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// ConvertTo converts this Person to the Hub version.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertToStorage</span>(<span style="color:#a6e22e">dest</span> <span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">AlphaKey</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">SortKey</span> <span style="color:#75715e">// *** Back compatibility ***
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">FamilyName</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">FamilyName</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ConvertTo converts this Person to the Hub version.</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertToStorage</span>(<span style="color:#a6e22e">dest</span> <span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">AlphaKey</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">SortKey</span> <span style="color:#75715e">// *** Back compatibility ***</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">FamilyName</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">FamilyName</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">Id</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">Id</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">KnownAs</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">KnownAs</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">LegalName</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">LegalName</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">SortKey</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">SortKey</span> <span style="color:#75715e">// *** New ***
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">SortKey</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">SortKey</span> <span style="color:#75715e">// *** New ***</span>
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">assignable</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">person</span>.(<span style="color:#a6e22e">AssignableToPerson</span>); <span style="color:#a6e22e">ok</span> {
 </span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">assignable</span>.<span style="color:#a6e22e">AssignTo</span>(<span style="color:#a6e22e">dest</span>)
 </span></span><span style="display:flex;"><span>    }
@@ -1324,14 +1319,14 @@ For the purposes of discussion, we’ll be following the version by version evol
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// ConvertFrom converts from the Hub version to this version.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertFromStorage</span>(<span style="color:#a6e22e">source</span> <span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ConvertFrom converts from the Hub version to this version.</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertFromStorage</span>(<span style="color:#a6e22e">source</span> <span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">FamilyName</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">FamilyName</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">Id</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">Id</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">KnownAs</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">KnownAs</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">LegalName</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">LegalName</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">SortKey</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">SortKey</span> <span style="color:#75715e">// *** New ***
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">SortKey</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">SortKey</span> <span style="color:#75715e">// *** New ***</span>
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">assignable</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">person</span>.(<span style="color:#a6e22e">AssignableFromPerson</span>); <span style="color:#a6e22e">ok</span> {
 </span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">assignable</span>.<span style="color:#a6e22e">AssignFrom</span>(<span style="color:#a6e22e">source</span>)
 </span></span><span style="display:flex;"><span>    }
@@ -1374,8 +1369,8 @@ For the purposes of discussion, we’ll be following the version by version evol
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">KnownAs</span>        <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">LastName</span>       <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">LegalName</span>      <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">MailingAddress</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Address</span> <span style="color:#75715e">// *** New ***
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">MiddleName</span>     <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">MailingAddress</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Address</span> <span style="color:#75715e">// *** New ***</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">MiddleName</span>     <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">SortKey</span>        <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
@@ -1385,24 +1380,24 @@ For the purposes of discussion, we’ll be following the version by version evol
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Street</span>      <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// Hub marks this type as a conversion hub.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">Hub</span>() {}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Hub marks this type as a conversion hub.</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">Hub</span>() {}
 </span></span></code></pre></div><h2 id="storage-conversion-5">Storage Conversion</h2>
 <p>The required <code>ConvertToStorage()</code> and <code>ConvertFromStorage()</code> methods get generated in the expected way:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">v20160606</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#a6e22e">v1</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// ConvertTo converts this Person to the Hub version.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertToStorage</span>(<span style="color:#a6e22e">dest</span> <span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ConvertTo converts this Person to the Hub version.</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertToStorage</span>(<span style="color:#a6e22e">dest</span> <span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">SortKey</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">AlphaKey</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">FamilyName</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">FamilyName</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">Id</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">Id</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">KnownAs</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">KnownAs</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">LegalName</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">LegalName</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// *** Copy the mailing address over too ***
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">address</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">storage</span>.<span style="color:#a6e22e">Address</span>{}
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// *** Copy the mailing address over too ***</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">address</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">storage</span>.<span style="color:#a6e22e">Address</span>{}
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">MailingAddress</span>.<span style="color:#a6e22e">ConvertToStorage</span>(<span style="color:#a6e22e">address</span>)
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">err</span>
@@ -1420,8 +1415,8 @@ For the purposes of discussion, we’ll be following the version by version evol
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// ConvertToStorage converts this Address to the hub storage version
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">address</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Address</span>) <span style="color:#a6e22e">ConvertToStorage</span>(<span style="color:#a6e22e">dest</span> <span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">Address</span>) <span style="color:#66d9ef">error</span> {
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ConvertToStorage converts this Address to the hub storage version</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">address</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Address</span>) <span style="color:#a6e22e">ConvertToStorage</span>(<span style="color:#a6e22e">dest</span> <span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">Address</span>) <span style="color:#66d9ef">error</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">Street</span> = <span style="color:#a6e22e">address</span>.<span style="color:#a6e22e">Street</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">City</span> = <span style="color:#a6e22e">address</span>.<span style="color:#a6e22e">City</span>
 </span></span><span style="display:flex;"><span>
@@ -1435,16 +1430,16 @@ For the purposes of discussion, we’ll be following the version by version evol
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// ConvertFrom converts from the Hub version to this version.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertFromStorage</span>(<span style="color:#a6e22e">source</span> <span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">AlphaKey</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">SortKey</span> <span style="color:#75715e">// *** Rename still is automatically handled ***
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">FamilyName</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">FamilyName</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ConvertFrom converts from the Hub version to this version.</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertFromStorage</span>(<span style="color:#a6e22e">source</span> <span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">AlphaKey</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">SortKey</span> <span style="color:#75715e">// *** Rename still is automatically handled ***</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">FamilyName</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">FamilyName</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">Id</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">Id</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">KnownAs</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">KnownAs</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">LegalName</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">LegalName</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// *** Copy the mailing address over too ***
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">storage</span>.<span style="color:#a6e22e">MailingAddress</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// *** Copy the mailing address over too ***</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">storage</span>.<span style="color:#a6e22e">MailingAddress</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
 </span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">address</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">Address</span>{}
 </span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">address</span>.<span style="color:#a6e22e">ConvertFromStorage</span>(<span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">Address</span>)
 </span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">MailingAddress</span> = <span style="color:#a6e22e">address</span>
@@ -1460,8 +1455,8 @@ For the purposes of discussion, we’ll be following the version by version evol
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// ConvertFromStorage converts from the hub storage version to this version
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">address</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Address</span>) <span style="color:#a6e22e">ConvertFromStorage</span>(<span style="color:#a6e22e">source</span> <span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">Address</span>) <span style="color:#66d9ef">error</span> {
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ConvertFromStorage converts from the hub storage version to this version</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">address</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Address</span>) <span style="color:#a6e22e">ConvertFromStorage</span>(<span style="color:#a6e22e">source</span> <span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">Address</span>) <span style="color:#66d9ef">error</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">address</span>.<span style="color:#a6e22e">Street</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">Street</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">address</span>.<span style="color:#a6e22e">City</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">City</span>
 </span></span><span style="display:flex;"><span>
@@ -1494,8 +1489,8 @@ For the purposes of discussion, we’ll be following the version by version evol
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">FamilyName</span>     <span style="color:#66d9ef">string</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">KnownAs</span>        <span style="color:#66d9ef">string</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">SortKey</span>        <span style="color:#66d9ef">string</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">MailingAddress</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Address</span> <span style="color:#75715e">// *** Was mandatory, now optional ***
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">MailingAddress</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Address</span> <span style="color:#75715e">// *** Was mandatory, now optional ***</span>
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h2 id="storage-conversion-6">Storage Conversion</h2>
 <p>The storage version is identical to that generated used previously (because all properties are marked as optional anyway) and are not shown here.</p>
 <p>What does change is the <code>ConvertToStorage()</code> method, which now needs to handle the case where the <code>MailingAddress</code> has not been included:</p>
@@ -1503,16 +1498,16 @@ For the purposes of discussion, we’ll be following the version by version evol
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#a6e22e">v1</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// ConvertTo converts this Person to the Hub version.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertToStorage</span>(<span style="color:#a6e22e">dest</span> <span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ConvertTo converts this Person to the Hub version.</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertToStorage</span>(<span style="color:#a6e22e">dest</span> <span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">FamilyName</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">FamilyName</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">Id</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">Id</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">KnownAs</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">KnownAs</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">LegalName</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">LegalName</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">SortKey</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">AlphaKey</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// *** Need to check whether we have a mailing address to copy ***
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">MailingAddress</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// *** Need to check whether we have a mailing address to copy ***</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">MailingAddress</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
 </span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">address</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">storage</span>.<span style="color:#a6e22e">Address</span>{}
 </span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">MailingAddress</span>.<span style="color:#a6e22e">ConvertToStorage</span>(<span style="color:#a6e22e">address</span>)
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
@@ -1561,8 +1556,8 @@ For the purposes of discussion, we’ll be following the version by version evol
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Street</span>      <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// Hub marks this type as a conversion hub.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">Hub</span>() {}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Hub marks this type as a conversion hub.</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">Hub</span>() {}
 </span></span></code></pre></div><p>References to <code>FirstName</code>, <code>MiddleName</code> and <code>LastName</code> will disappear across all the generated <code>ConvertFromStorage()</code> and <code>ConvertToStorage()</code> methods as well.</p>
 <p><strong>This is a breaking change.</strong> Existing long time users of the service operator, with CRDs serialized containing any of the properties <code>FirstName</code>, <code>MiddleName</code> and <code>LastName</code> will find that their clusters break when this version of the service operator is deployed.</p>
 <p>Without explicit intervention in the operator, their only mitigation would be to revert back to the earlier version of the service operator and <em>never upgrade it ever again.</em></p>
@@ -1581,8 +1576,8 @@ For the purposes of discussion, we’ll be following the version by version evol
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">v20180808</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Address</span> <span style="color:#66d9ef">struct</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// FullAddress shows the entire address as should be used on postage
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">FullAddress</span> <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// FullAddress shows the entire address as should be used on postage</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">FullAddress</span> <span style="color:#66d9ef">string</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">City</span>        <span style="color:#66d9ef">string</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Country</span>     <span style="color:#66d9ef">string</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">PostCode</span>    <span style="color:#66d9ef">string</span>
@@ -1592,10 +1587,10 @@ For the purposes of discussion, we’ll be following the version by version evol
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Address</span> <span style="color:#66d9ef">struct</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">City</span>        <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Country</span>     <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span> <span style="color:#75715e">// *** New ***
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">FullAddress</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span> <span style="color:#75715e">// *** New ***
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">PostCode</span>    <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span> <span style="color:#75715e">// *** New ***
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">Street</span>      <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Country</span>     <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span> <span style="color:#75715e">// *** New ***</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">FullAddress</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span> <span style="color:#75715e">// *** New ***</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">PostCode</span>    <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span> <span style="color:#75715e">// *** New ***</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Street</span>      <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>These changes are entirely similar to those previously covered in version <code>2014-04-04</code>, above.</p>
 <h2 id="version-map-8">Version Map</h2>
@@ -1642,9 +1637,9 @@ For the purposes of discussion, we’ll be following the version by version evol
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">FullName</span>       <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">KnownAs</span>        <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">LegalName</span>      <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">MailingAddress</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Address</span>  <span style="color:#75715e">// *** Existing property ***
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">MailingAddress</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Location</span> <span style="color:#75715e">// *** New property with the same name ***
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">SortKey</span>        <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">MailingAddress</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Address</span>  <span style="color:#75715e">// *** Existing property ***</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">MailingAddress</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Location</span> <span style="color:#75715e">// *** New property with the same name ***</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">SortKey</span>        <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>We can&rsquo;t have two properties with the same name, either we create a single property that handles both types, or we must change the name of one of them.</p>
 <p>We can&rsquo;t change the name of the existing property, because that would break existing users who already have serialised resources. For similar reasons, we can&rsquo;t change the type of the existing property.</p>
@@ -1682,13 +1677,13 @@ For the purposes of discussion, we’ll be following the version by version evol
 <p>The conversion methods need to change as well. If we configure metadata detailing the rename (as we did for properties in version <code>2015-05-05</code>), we can generate the required conversions automatically:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">v20170707</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// *** Updated storage version ***
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">import</span> <span style="color:#a6e22e">v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// *** Updated storage version ***</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#a6e22e">v1</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// ConvertTo converts this Person to the Hub version.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertToStorage</span>(<span style="color:#a6e22e">dest</span> <span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ... elided properties ...
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ConvertTo converts this Person to the Hub version.</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertToStorage</span>(<span style="color:#a6e22e">dest</span> <span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ... elided properties ...</span>
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">MailingAddress</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
 </span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">address</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">storage</span>.<span style="color:#a6e22e">Location</span>{}
 </span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">MailingAddress</span>.<span style="color:#a6e22e">ConvertToStorage</span>(<span style="color:#a6e22e">address</span>)
@@ -1709,14 +1704,14 @@ For the purposes of discussion, we’ll be following the version by version evol
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// ConvertToStorage converts this Address to the hub storage version
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// ** Different parameter type for dest *** 
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">address</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Address</span>) <span style="color:#a6e22e">ConvertToStorage</span>(<span style="color:#a6e22e">dest</span> <span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">Location</span>) <span style="color:#66d9ef">error</span> {
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ConvertToStorage converts this Address to the hub storage version</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ** Different parameter type for dest *** </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">address</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Address</span>) <span style="color:#a6e22e">ConvertToStorage</span>(<span style="color:#a6e22e">dest</span> <span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">Location</span>) <span style="color:#66d9ef">error</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">Street</span> = <span style="color:#a6e22e">address</span>.<span style="color:#a6e22e">Street</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">City</span> = <span style="color:#a6e22e">address</span>.<span style="color:#a6e22e">City</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// *** Interface has been renamed too **
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">assignable</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">person</span>.(<span style="color:#a6e22e">AssignableToLocation</span>); <span style="color:#a6e22e">ok</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// *** Interface has been renamed too **</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">assignable</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">person</span>.(<span style="color:#a6e22e">AssignableToLocation</span>); <span style="color:#a6e22e">ok</span> {
 </span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">assignable</span>.<span style="color:#a6e22e">AssignTo</span>(<span style="color:#a6e22e">dest</span>)
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#a6e22e">nill</span> {
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">err</span>
@@ -1731,7 +1726,7 @@ For the purposes of discussion, we’ll be following the version by version evol
 <h2 id="how-often-do-properties-change-their-type">How often do properties change their type?</h2>
 <p>At the time of writing, there are <strong>160</strong> version-to-version changes where the type of the property changes. This count excludes cases where an optional property become mandatory, or vice versa.</p>
 
-  <div class="section-index">
+	<div class="section-index">
     
     
     </div>
@@ -1766,7 +1761,7 @@ For the purposes of discussion, we’ll be following the version by version evol
 </footer>
 
     </div>
-    <script src="/azure-service-operator/js/main.min.0a5a30b73411b7a841784b6f4d46f4e0b1b95d576fa3cadd81db9d5ae468e8c2.js" integrity="sha256-ClowtzQRt6hBeEtvTUb04LG5XVdvo8rdgdudWuRo6MI=" crossorigin="anonymous"></script>
+    <script src="/azure-service-operator/js/main.min.4096f09e0b199950620fc06165ef2a2791e1bee9067e27b14c4a54f02c0e33bd.js" integrity="sha256-QJbwngsZmVBiD8BhZe8qJ5HhvukGfiexTEpU8CwOM70=" crossorigin="anonymous"></script>
 <script defer src="/azure-service-operator/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/azure-service-operator/js/tabpane-persist.js'></script>
 

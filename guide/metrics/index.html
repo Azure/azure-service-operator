@@ -20,7 +20,7 @@
 <title>Metrics | Azure Service Operator</title>
 <meta name="description" content="Prometheus metrics are exposed for ASOv2 which can be helpful in diagnosability and tracing. The metrics exposed fall into two groups: Azure based metrics, and reconciler metrics (from controller-runtime).
 Toggling the metrics By default, secure metrics for ASOv2 are turned on and can be toggled by the following options:
-ASOv2 Helm Chart While installing the Helm chart, we can turn the metrics _**on**_ and _**off**_ and set the metrics expose address using the below settings. Also, we can change the settings inside `values.yaml` file for ASOv2 Helm chart. ``` --set metrics.enable=true/false (default: true) --set metrics.secure=true/false (default: true) --set metrics.profiling=true/false (default: false) --set metrics.address=0.0.0.0:8443 (default) ``` Deployment YAML In the deployment yaml, we can turn _**off**_ the metrics by omitting the `metrics-addr` flag. We can also change to use a different metrics-addr by changing the default value of that same flag. ``` spec: containers: - args: - --metrics-addr=0.0.0.0:8080 (default) - --secure-metrics=true/false (default: true) - --profiling-metrics=true/false (default: false) ``` Scraping Metrics Securely via HTTPs using RBAC A ServiceAccount token is required to scrape metrics securely. The corresponding ServiceAccount needs permissions on the &ldquo;/metrics&rdquo; and &ldquo;debug/pprof&rdquo; paths. This can be achieved e.g. by following the Kubernetes documentation.">
+ASOv2 Helm Chart While installing the Helm chart, we can turn the metrics _**on**_ and _**off**_ and set the metrics expose address using the below settings. Also, we can change the settings inside `values.yaml` file for ASOv2 Helm chart. ``` --set metrics.enable=true/false (default: true) --set metrics.secure=true/false (default: true) --set metrics.profiling=true/false (default: false) --set metrics.address=0.0.0.0:8443 (default) ``` Deployment YAML In the deployment yaml, we can turn _**off**_ the metrics by omitting the `metrics-addr` flag. We can also change to use a different metrics-addr by changing the default value of that same flag. ``` spec: containers: - args: - --metrics-addr=0.0.0.0:8080 (default) - --secure-metrics=true/false (default: true) - --profiling-metrics=true/false (default: false) ``` Scraping Metrics Securely via HTTPs using RBAC A ServiceAccount token is required to scrape metrics securely. The corresponding ServiceAccount needs permissions on the “/metrics” and “debug/pprof” paths. This can be achieved e.g. by following the Kubernetes documentation.">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/metrics/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="Metrics">
@@ -41,13 +41,8 @@ ASOv2 Helm Chart While installing the Helm chart, we can turn the metrics _**on*
   <meta name="twitter:description" content="Prometheus metrics are exposed for ASOv2 which can be helpful in diagnosability and tracing. The metrics exposed fall into two groups: Azure based metrics, and reconciler metrics (from controller-runtime).
 Toggling the metrics By default, secure metrics for ASOv2 are turned on and can be toggled by the following options:
 ASOv2 Helm Chart While installing the Helm chart, we can turn the metrics _**on**_ and _**off**_ and set the metrics expose address using the below settings. Also, we can change the settings inside `values.yaml` file for ASOv2 Helm chart. ``` --set metrics.enable=true/false (default: true) --set metrics.secure=true/false (default: true) --set metrics.profiling=true/false (default: false) --set metrics.address=0.0.0.0:8443 (default) ``` Deployment YAML In the deployment yaml, we can turn _**off**_ the metrics by omitting the `metrics-addr` flag. We can also change to use a different metrics-addr by changing the default value of that same flag. ``` spec: containers: - args: - --metrics-addr=0.0.0.0:8080 (default) - --secure-metrics=true/false (default: true) - --profiling-metrics=true/false (default: false) ``` Scraping Metrics Securely via HTTPs using RBAC A ServiceAccount token is required to scrape metrics securely. The corresponding ServiceAccount needs permissions on the “/metrics” and “debug/pprof” paths. This can be achieved e.g. by following the Kubernetes documentation.">
-
-
-
-
-<link rel="preload" href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" as="style">
-<link href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" rel="stylesheet" integrity="">
-
+<link rel="preload" href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" as="style" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
+<link href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" rel="stylesheet" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -840,7 +835,6 @@ ASOv2 Helm Chart While installing the Helm chart, we can turn the metrics _**on*
     Metrics</li>
   </ol>
 </nav>
-            
 <div class="td-content">
 	<h1>Metrics</h1>
 	
@@ -965,398 +959,398 @@ about the workqueue metrics from controller-runtime.</p>
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Metric</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Metric Type</th>
-          <th style="text-align: left">Label 1</th>
-          <th style="text-align: left">Label 2</th>
-          <th style="text-align: left">Label 3</th>
+          <th>Metric</th>
+          <th>Description</th>
+          <th>Metric Type</th>
+          <th>Label 1</th>
+          <th>Label 2</th>
+          <th>Label 3</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left"><code>azure_successful_requests_total</code></td>
-          <td style="text-align: left">Total number of requests to Azure we received responses for. responseCode may be a failure such as 4xx or 5xx.</td>
-          <td style="text-align: left">counter</td>
-          <td style="text-align: left">resource</td>
-          <td style="text-align: left">requestType</td>
-          <td style="text-align: left">responseCode</td>
+          <td><code>azure_successful_requests_total</code></td>
+          <td>Total number of requests to Azure we received responses for. responseCode may be a failure such as 4xx or 5xx.</td>
+          <td>counter</td>
+          <td>resource</td>
+          <td>requestType</td>
+          <td>responseCode</td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>azure_failed_requests_total</code></td>
-          <td style="text-align: left">Total number of requests which we didn&rsquo;t receive a response from Azure for.</td>
-          <td style="text-align: left">counter</td>
-          <td style="text-align: left">resource</td>
-          <td style="text-align: left">requestType</td>
-          <td style="text-align: left"></td>
+          <td><code>azure_failed_requests_total</code></td>
+          <td>Total number of requests which we didn&rsquo;t receive a response from Azure for.</td>
+          <td>counter</td>
+          <td>resource</td>
+          <td>requestType</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>azure_requests_time_seconds</code></td>
-          <td style="text-align: left">Tracks the duration of round-trip time taken by request to Azure.</td>
-          <td style="text-align: left">histogram</td>
-          <td style="text-align: left">resource</td>
-          <td style="text-align: left">requestType</td>
-          <td style="text-align: left"></td>
+          <td><code>azure_requests_time_seconds</code></td>
+          <td>Tracks the duration of round-trip time taken by request to Azure.</td>
+          <td>histogram</td>
+          <td>resource</td>
+          <td>requestType</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>controller_runtime_reconcile_total</code></td>
-          <td style="text-align: left">Total number of reconciliations per controller.</td>
-          <td style="text-align: left">counter</td>
-          <td style="text-align: left">controller</td>
-          <td style="text-align: left">result</td>
-          <td style="text-align: left"></td>
+          <td><code>controller_runtime_reconcile_total</code></td>
+          <td>Total number of reconciliations per controller.</td>
+          <td>counter</td>
+          <td>controller</td>
+          <td>result</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>controller_runtime_errors_total</code></td>
-          <td style="text-align: left">Total number of errors per controller.</td>
-          <td style="text-align: left">counter</td>
-          <td style="text-align: left">controller</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><code>controller_runtime_errors_total</code></td>
+          <td>Total number of errors per controller.</td>
+          <td>counter</td>
+          <td>controller</td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>controller_runtime_reconcile_panics_total</code></td>
-          <td style="text-align: left">Total number of panics per controller.</td>
-          <td style="text-align: left">counter</td>
-          <td style="text-align: left">controller</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><code>controller_runtime_reconcile_panics_total</code></td>
+          <td>Total number of panics per controller.</td>
+          <td>counter</td>
+          <td>controller</td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>controller_runtime_terminal_reconcile_errors_total</code></td>
-          <td style="text-align: left">Total number of terminal reconciliation errors per controller.</td>
-          <td style="text-align: left">counter</td>
-          <td style="text-align: left">controller</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><code>controller_runtime_terminal_reconcile_errors_total</code></td>
+          <td>Total number of terminal reconciliation errors per controller.</td>
+          <td>counter</td>
+          <td>controller</td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>controller_runtime_reconcile_time_seconds</code></td>
-          <td style="text-align: left">Tracks the duration of reconciliations.</td>
-          <td style="text-align: left">histogram</td>
-          <td style="text-align: left">controller</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><code>controller_runtime_reconcile_time_seconds</code></td>
+          <td>Tracks the duration of reconciliations.</td>
+          <td>histogram</td>
+          <td>controller</td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>controller_runtime_max_concurrent_reconciles</code></td>
-          <td style="text-align: left">Number of concurrent reconciles per controller.</td>
-          <td style="text-align: left">gauge</td>
-          <td style="text-align: left">controller</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><code>controller_runtime_max_concurrent_reconciles</code></td>
+          <td>Number of concurrent reconciles per controller.</td>
+          <td>gauge</td>
+          <td>controller</td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>controller_runtime_active_workers</code></td>
-          <td style="text-align: left">Number of active workers per controller.</td>
-          <td style="text-align: left">gauge</td>
-          <td style="text-align: left">controller</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><code>controller_runtime_active_workers</code></td>
+          <td>Number of active workers per controller.</td>
+          <td>gauge</td>
+          <td>controller</td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>controller_runtime_webhook_panics_total</code></td>
-          <td style="text-align: left">Total number of webhook panics.</td>
-          <td style="text-align: left">counter</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><code>controller_runtime_webhook_panics_total</code></td>
+          <td>Total number of webhook panics.</td>
+          <td>counter</td>
+          <td></td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>controller_runtime_webhook_requests_in_flight</code></td>
-          <td style="text-align: left">Total number of webhook requests in flight.</td>
-          <td style="text-align: left">gauge</td>
-          <td style="text-align: left">webhook</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><code>controller_runtime_webhook_requests_in_flight</code></td>
+          <td>Total number of webhook requests in flight.</td>
+          <td>gauge</td>
+          <td>webhook</td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>controller_runtime_webhook_requests_total</code></td>
-          <td style="text-align: left">Total number of webhook requests by HTTP status code.</td>
-          <td style="text-align: left">gauge</td>
-          <td style="text-align: left">webhook</td>
-          <td style="text-align: left">code</td>
-          <td style="text-align: left"></td>
+          <td><code>controller_runtime_webhook_requests_total</code></td>
+          <td>Total number of webhook requests by HTTP status code.</td>
+          <td>gauge</td>
+          <td>webhook</td>
+          <td>code</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>workqueue_depth</code></td>
-          <td style="text-align: left">Total depth of the work queue per controller.</td>
-          <td style="text-align: left">gauge</td>
-          <td style="text-align: left">controller</td>
-          <td style="text-align: left">name</td>
-          <td style="text-align: left"></td>
+          <td><code>workqueue_depth</code></td>
+          <td>Total depth of the work queue per controller.</td>
+          <td>gauge</td>
+          <td>controller</td>
+          <td>name</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>workqueue_adds_total</code></td>
-          <td style="text-align: left">Total adds handled by the work queue per controller.</td>
-          <td style="text-align: left">counter</td>
-          <td style="text-align: left">controller</td>
-          <td style="text-align: left">name</td>
-          <td style="text-align: left"></td>
+          <td><code>workqueue_adds_total</code></td>
+          <td>Total adds handled by the work queue per controller.</td>
+          <td>counter</td>
+          <td>controller</td>
+          <td>name</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>workqueue_queue_duration_seconds</code></td>
-          <td style="text-align: left">How long items stay in workqueue before being acted upon.</td>
-          <td style="text-align: left">histogram</td>
-          <td style="text-align: left">controller</td>
-          <td style="text-align: left">name</td>
-          <td style="text-align: left"></td>
+          <td><code>workqueue_queue_duration_seconds</code></td>
+          <td>How long items stay in workqueue before being acted upon.</td>
+          <td>histogram</td>
+          <td>controller</td>
+          <td>name</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>workqueue_work_duration_seconds</code></td>
-          <td style="text-align: left">How long processing an item from the workqueue takes.</td>
-          <td style="text-align: left">histogram</td>
-          <td style="text-align: left">controller</td>
-          <td style="text-align: left">name</td>
-          <td style="text-align: left"></td>
+          <td><code>workqueue_work_duration_seconds</code></td>
+          <td>How long processing an item from the workqueue takes.</td>
+          <td>histogram</td>
+          <td>controller</td>
+          <td>name</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>workqueue_unfinished_work_seconds</code></td>
-          <td style="text-align: left">How many seconds of work have been done not observed by work_duration. Related to stuck threads.</td>
-          <td style="text-align: left">gauge</td>
-          <td style="text-align: left">controller</td>
-          <td style="text-align: left">name</td>
-          <td style="text-align: left"></td>
+          <td><code>workqueue_unfinished_work_seconds</code></td>
+          <td>How many seconds of work have been done not observed by work_duration. Related to stuck threads.</td>
+          <td>gauge</td>
+          <td>controller</td>
+          <td>name</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>workqueue_longest_running_processor_seconds</code></td>
-          <td style="text-align: left">How many seconds has the longest running processor been running.</td>
-          <td style="text-align: left">gauge</td>
-          <td style="text-align: left">controller</td>
-          <td style="text-align: left">name</td>
-          <td style="text-align: left"></td>
+          <td><code>workqueue_longest_running_processor_seconds</code></td>
+          <td>How many seconds has the longest running processor been running.</td>
+          <td>gauge</td>
+          <td>controller</td>
+          <td>name</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>workqueue_retries_total</code></td>
-          <td style="text-align: left">Total number of retries handled by workqueue.</td>
-          <td style="text-align: left">counter</td>
-          <td style="text-align: left">controller</td>
-          <td style="text-align: left">name</td>
-          <td style="text-align: left"></td>
+          <td><code>workqueue_retries_total</code></td>
+          <td>Total number of retries handled by workqueue.</td>
+          <td>counter</td>
+          <td>controller</td>
+          <td>name</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>go_gc_duration_seconds</code></td>
-          <td style="text-align: left">Wall-time pause duration in garbage collection cycles</td>
-          <td style="text-align: left">summary</td>
-          <td style="text-align: left">controller</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><code>go_gc_duration_seconds</code></td>
+          <td>Wall-time pause duration in garbage collection cycles</td>
+          <td>summary</td>
+          <td>controller</td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>go_gc_gogc_percent</code></td>
-          <td style="text-align: left">Heap size target percentage configured by the user</td>
-          <td style="text-align: left">gauge</td>
-          <td style="text-align: left">controller</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><code>go_gc_gogc_percent</code></td>
+          <td>Heap size target percentage configured by the user</td>
+          <td>gauge</td>
+          <td>controller</td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>go_gc_gomemlimit_bytes</code></td>
-          <td style="text-align: left">Runtime memory limit configured by the user</td>
-          <td style="text-align: left">gauge</td>
-          <td style="text-align: left">controller</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><code>go_gc_gomemlimit_bytes</code></td>
+          <td>Runtime memory limit configured by the user</td>
+          <td>gauge</td>
+          <td>controller</td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>go_goroutines</code></td>
-          <td style="text-align: left">Number of goroutines that currently exist</td>
-          <td style="text-align: left">gauge</td>
-          <td style="text-align: left">controller</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><code>go_goroutines</code></td>
+          <td>Number of goroutines that currently exist</td>
+          <td>gauge</td>
+          <td>controller</td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>go_info</code></td>
-          <td style="text-align: left">Information about the Go environment</td>
-          <td style="text-align: left">gauge</td>
-          <td style="text-align: left">controller</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><code>go_info</code></td>
+          <td>Information about the Go environment</td>
+          <td>gauge</td>
+          <td>controller</td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>go_memstats_alloc_bytes</code></td>
-          <td style="text-align: left">Number of bytes allocated in heap and currently in use</td>
-          <td style="text-align: left">gauge</td>
-          <td style="text-align: left">controller</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><code>go_memstats_alloc_bytes</code></td>
+          <td>Number of bytes allocated in heap and currently in use</td>
+          <td>gauge</td>
+          <td>controller</td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>go_memstats_alloc_bytes_total</code></td>
-          <td style="text-align: left">Total number of bytes allocated in heap until now</td>
-          <td style="text-align: left">counter</td>
-          <td style="text-align: left">controller</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><code>go_memstats_alloc_bytes_total</code></td>
+          <td>Total number of bytes allocated in heap until now</td>
+          <td>counter</td>
+          <td>controller</td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>go_memstats_buck_hash_sys_bytes</code></td>
-          <td style="text-align: left">Number of bytes used by the profiling bucket hash table</td>
-          <td style="text-align: left">gauge</td>
-          <td style="text-align: left">controller</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><code>go_memstats_buck_hash_sys_bytes</code></td>
+          <td>Number of bytes used by the profiling bucket hash table</td>
+          <td>gauge</td>
+          <td>controller</td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>go_memstats_frees_total</code></td>
-          <td style="text-align: left">Total number of heap objects frees</td>
-          <td style="text-align: left">counter</td>
-          <td style="text-align: left">controller</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><code>go_memstats_frees_total</code></td>
+          <td>Total number of heap objects frees</td>
+          <td>counter</td>
+          <td>controller</td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>go_memstats_gc_sys_bytes</code></td>
-          <td style="text-align: left">Number of bytes used for garbage collection system metadata</td>
-          <td style="text-align: left">gauge</td>
-          <td style="text-align: left">controller</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><code>go_memstats_gc_sys_bytes</code></td>
+          <td>Number of bytes used for garbage collection system metadata</td>
+          <td>gauge</td>
+          <td>controller</td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>go_memstats_heap_alloc_bytes</code></td>
-          <td style="text-align: left">Number of heap bytes allocated and currently in use</td>
-          <td style="text-align: left">gauge</td>
-          <td style="text-align: left">controller</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><code>go_memstats_heap_alloc_bytes</code></td>
+          <td>Number of heap bytes allocated and currently in use</td>
+          <td>gauge</td>
+          <td>controller</td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>go_memstats_heap_idle_bytes</code></td>
-          <td style="text-align: left">Number of heap bytes waiting to be used</td>
-          <td style="text-align: left">gauge</td>
-          <td style="text-align: left">controller</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><code>go_memstats_heap_idle_bytes</code></td>
+          <td>Number of heap bytes waiting to be used</td>
+          <td>gauge</td>
+          <td>controller</td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>go_memstats_heap_inuse_bytes</code></td>
-          <td style="text-align: left">Number of heap bytes that are in use</td>
-          <td style="text-align: left">gauge</td>
-          <td style="text-align: left">controller</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><code>go_memstats_heap_inuse_bytes</code></td>
+          <td>Number of heap bytes that are in use</td>
+          <td>gauge</td>
+          <td>controller</td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>go_memstats_heap_objects</code></td>
-          <td style="text-align: left">Number of currently allocated objects</td>
-          <td style="text-align: left">gauge</td>
-          <td style="text-align: left">controller</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><code>go_memstats_heap_objects</code></td>
+          <td>Number of currently allocated objects</td>
+          <td>gauge</td>
+          <td>controller</td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>go_memstats_heap_released_bytes</code></td>
-          <td style="text-align: left">Number of heap bytes released to OS</td>
-          <td style="text-align: left">gauge</td>
-          <td style="text-align: left">controller</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><code>go_memstats_heap_released_bytes</code></td>
+          <td>Number of heap bytes released to OS</td>
+          <td>gauge</td>
+          <td>controller</td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>go_memstats_heap_sys_bytes</code></td>
-          <td style="text-align: left">Number of heap bytes obtained from system</td>
-          <td style="text-align: left">gauge</td>
-          <td style="text-align: left">controller</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><code>go_memstats_heap_sys_bytes</code></td>
+          <td>Number of heap bytes obtained from system</td>
+          <td>gauge</td>
+          <td>controller</td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>go_memstats_last_gc_time_seconds</code></td>
-          <td style="text-align: left">Number of seconds since 1970 of last garbage collection</td>
-          <td style="text-align: left">gauge</td>
-          <td style="text-align: left">controller</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><code>go_memstats_last_gc_time_seconds</code></td>
+          <td>Number of seconds since 1970 of last garbage collection</td>
+          <td>gauge</td>
+          <td>controller</td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>go_memstats_mallocs_total</code></td>
-          <td style="text-align: left">Total number of heap objects allocated</td>
-          <td style="text-align: left">counter</td>
-          <td style="text-align: left">controller</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><code>go_memstats_mallocs_total</code></td>
+          <td>Total number of heap objects allocated</td>
+          <td>counter</td>
+          <td>controller</td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>go_memstats_mcache_inuse_bytes</code></td>
-          <td style="text-align: left">Number of bytes in use by mcache structures</td>
-          <td style="text-align: left">gauge</td>
-          <td style="text-align: left">controller</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><code>go_memstats_mcache_inuse_bytes</code></td>
+          <td>Number of bytes in use by mcache structures</td>
+          <td>gauge</td>
+          <td>controller</td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>go_memstats_mcache_sys_bytes</code></td>
-          <td style="text-align: left">Number of bytes used for mcache structures obtained from system</td>
-          <td style="text-align: left">gauge</td>
-          <td style="text-align: left">controller</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><code>go_memstats_mcache_sys_bytes</code></td>
+          <td>Number of bytes used for mcache structures obtained from system</td>
+          <td>gauge</td>
+          <td>controller</td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>go_memstats_mspan_inuse_bytes</code></td>
-          <td style="text-align: left">Number of bytes in use by mspan structures</td>
-          <td style="text-align: left">gauge</td>
-          <td style="text-align: left">controller</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><code>go_memstats_mspan_inuse_bytes</code></td>
+          <td>Number of bytes in use by mspan structures</td>
+          <td>gauge</td>
+          <td>controller</td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>go_memstats_mspan_sys_bytes</code></td>
-          <td style="text-align: left">Number of bytes used for mspan structures obtained from system</td>
-          <td style="text-align: left">gauge</td>
-          <td style="text-align: left">controller</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><code>go_memstats_mspan_sys_bytes</code></td>
+          <td>Number of bytes used for mspan structures obtained from system</td>
+          <td>gauge</td>
+          <td>controller</td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>go_memstats_next_gc_bytes</code></td>
-          <td style="text-align: left">Number of heap bytes when next garbage collection will take place</td>
-          <td style="text-align: left">gauge</td>
-          <td style="text-align: left">controller</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><code>go_memstats_next_gc_bytes</code></td>
+          <td>Number of heap bytes when next garbage collection will take place</td>
+          <td>gauge</td>
+          <td>controller</td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>go_memstats_other_sys_bytes</code></td>
-          <td style="text-align: left">Number of bytes used for other system allocations</td>
-          <td style="text-align: left">gauge</td>
-          <td style="text-align: left">controller</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><code>go_memstats_other_sys_bytes</code></td>
+          <td>Number of bytes used for other system allocations</td>
+          <td>gauge</td>
+          <td>controller</td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>go_memstats_stack_inuse_bytes</code></td>
-          <td style="text-align: left">Number of bytes obtained from system for stack allocator in non-CGO environments</td>
-          <td style="text-align: left">gauge</td>
-          <td style="text-align: left">controller</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><code>go_memstats_stack_inuse_bytes</code></td>
+          <td>Number of bytes obtained from system for stack allocator in non-CGO environments</td>
+          <td>gauge</td>
+          <td>controller</td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>go_memstats_stack_sys_bytes</code></td>
-          <td style="text-align: left">Number of bytes obtained from system for stack allocator</td>
-          <td style="text-align: left">gauge</td>
-          <td style="text-align: left">controller</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><code>go_memstats_stack_sys_bytes</code></td>
+          <td>Number of bytes obtained from system for stack allocator</td>
+          <td>gauge</td>
+          <td>controller</td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>go_memstats_sys_bytes</code></td>
-          <td style="text-align: left">Number of bytes obtained from system</td>
-          <td style="text-align: left">gauge</td>
-          <td style="text-align: left">controller</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><code>go_memstats_sys_bytes</code></td>
+          <td>Number of bytes obtained from system</td>
+          <td>gauge</td>
+          <td>controller</td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>go_sched_gomaxprocs_threads</code></td>
-          <td style="text-align: left">Current runtime.GOMAXPROCS setting</td>
-          <td style="text-align: left">gauge</td>
-          <td style="text-align: left">controller</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><code>go_sched_gomaxprocs_threads</code></td>
+          <td>Current runtime.GOMAXPROCS setting</td>
+          <td>gauge</td>
+          <td>controller</td>
+          <td></td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -1406,7 +1400,7 @@ is an independent metric. Below are the labels used in ASOv2 metrics:</p>
 </footer>
 
     </div>
-    <script src="/azure-service-operator/js/main.min.0a5a30b73411b7a841784b6f4d46f4e0b1b95d576fa3cadd81db9d5ae468e8c2.js" integrity="sha256-ClowtzQRt6hBeEtvTUb04LG5XVdvo8rdgdudWuRo6MI=" crossorigin="anonymous"></script>
+    <script src="/azure-service-operator/js/main.min.4096f09e0b199950620fc06165ef2a2791e1bee9067e27b14c4a54f02c0e33bd.js" integrity="sha256-QJbwngsZmVBiD8BhZe8qJ5HhvukGfiexTEpU8CwOM70=" crossorigin="anonymous"></script>
 <script defer src="/azure-service-operator/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/azure-service-operator/js/tabpane-persist.js'></script>
 

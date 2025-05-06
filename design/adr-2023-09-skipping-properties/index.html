@@ -19,7 +19,8 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>2023-09 Complex Properties that Skip Versions | Azure Service Operator</title>
-<meta name="description" content="Powerful, extensible, and feature-packed frontend toolkit. Build and customize with Sass, utilize prebuilt grid system and components, and bring projects to life with powerful JavaScript plugins.">
+<meta name="description" content="Context We have a long standing issue (originally documented in #1776) where our conversions between versions will break if a complex (object valued) property is reintroduced with a different shape in a later version after being removed in an earlier one.
+TL;DR: The crux of the problem is that we can currently end up with two different versions (shapes) of the same property serialized in a property bag on the same intermediate version.">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/design/adr-2023-09-skipping-properties/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="2023-09 Complex Properties that Skip Versions">
@@ -36,13 +37,8 @@ TL;DR: The crux of the problem is that we can currently end up with two differen
   <meta name="twitter:title" content="2023-09 Complex Properties that Skip Versions">
   <meta name="twitter:description" content="Context We have a long standing issue (originally documented in #1776) where our conversions between versions will break if a complex (object valued) property is reintroduced with a different shape in a later version after being removed in an earlier one.
 TL;DR: The crux of the problem is that we can currently end up with two different versions (shapes) of the same property serialized in a property bag on the same intermediate version.">
-
-
-
-
-<link rel="preload" href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" as="style">
-<link href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" rel="stylesheet" integrity="">
-
+<link rel="preload" href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" as="style" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
+<link href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" rel="stylesheet" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -841,7 +837,6 @@ TL;DR: The crux of the problem is that we can currently end up with two differen
     2023-09 Complex Properties that Skip Versions</li>
   </ol>
 </nav>
-            
 <div class="td-content">
 	<h1>2023-09 Complex Properties that Skip Versions</h1>
   
@@ -861,11 +856,7 @@ TL;DR: The crux of the problem is that we can currently end up with two differen
 [v4.Person|FullName string;FamilyName string; KnownAs string|Properties PropertyBag]
 
 -->
-
-<figure>
-    <img src="./conversion-v3-v4-class.png"/> 
-</figure>
-
+<img src="./conversion-v3-v4-class.png" alt="Conversion from v3 to v4" />
 <p>When we convert from v3 to v4 (v3 -&gt; v4) the <code>ResidentialAddress</code> property gets serialized into the <code>PropertyBag</code> on the v4 Person. Note that the bag contains a v3 <code>Address</code> in a serialized form.</p>
 <p>To illustrate, consider this concrete example:</p>
 <!-- yuml.me
@@ -876,11 +867,7 @@ TL;DR: The crux of the problem is that we can currently end up with two differen
 [v4.Person]-.-[ResidentialAddress {bg:cornsilk}|Label:\n'1313 S. Harbor Blvd',\n'Anaheim',\n'CA 92803',\n'USA']
 
 -->
-
-<figure>
-    <img src="./conversion-v3-v4-instance.png"/> 
-</figure>
-
+<img src="./conversion-v3-v4-instance.png" alt="Conversion from v3 to v4" />
 <p>As YAML, the v3 version of Mickey would be:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">fullName</span>: <span style="color:#ae81ff">Michael Theodore Mouse</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">familyName</span>: <span style="color:#ae81ff">Mouse</span>
@@ -890,7 +877,7 @@ TL;DR: The crux of the problem is that we can currently end up with two differen
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        1313 S. Harbor Blvd
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        Anaheim
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        CA 92803
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        USA</span>        
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        USA</span>
 </span></span></code></pre></div><p>There is no <code>ResidentialAddress</code> property on the v4 <code>Person</code> to store Mickey&rsquo;s residential address, so it gets safely stashed away in the <code>PropertyBag</code>:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">fullName</span>: <span style="color:#ae81ff">Michael Theodore Mouse</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">familyName</span>: <span style="color:#ae81ff">Mouse</span>
@@ -908,11 +895,7 @@ TL;DR: The crux of the problem is that we can currently end up with two differen
 [v5.Person]--[v5.Address|Street string; Suburb string; City string; Country string|Properties PropertyBag]
 
 -->
-
-<figure>
-    <img src="./conversion-v4-v5-class.png"/> 
-</figure>
-
+<img  src="./conversion-v4-v5-class.png" alt="Conversion from v4 to v5" />
 <p>When we convert from v5 to v4, again the <code>ResidentialAddress</code> property gets serialized into the <code>PropertyBag</code> on the v4 Person.</p>
 <p>Again, it&rsquo;s useful to see a concrete example:</p>
 <!-- yuml.me
@@ -923,11 +906,7 @@ TL;DR: The crux of the problem is that we can currently end up with two differen
 [v5.Person]->[v5.Address|Street: 1313 S. Harbor Blvd\nSuburb:\nCity: Anaheim, CA 92803\nCountry: USA|Properties PropertyBag]
 
 -->
-
-<figure>
-    <img src="./conversion-v4-v5-instance.png"/> 
-</figure>
-
+<img src="./conversion-v4-v5-instance.png" alt="Conversion from v4 to v5" />
 <p>As before, there is no <code>ResidentialAddress</code> property on the v4 <code>Person</code> to store Mickey&rsquo;s residential address, so it gets safely stashed away in the <code>PropertyBag</code>.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">fullName</span>: <span style="color:#ae81ff">Michael Theodore Mouse</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">familyName</span>: <span style="color:#ae81ff">Mouse</span>
@@ -948,11 +927,7 @@ In the other case, we have a v4 <code>Person</code> the property bag contains a 
 [v4.Person]-.-[v5.ResidentialAddress {bg:cornsilk}|Street: '1313 S. Harbor Blvd'\nSuburb: ''\nCity: 'Anaheim, CA 92803'\nCountry: 'USA']
 
 -->
-
-<figure>
-    <img src="./conflict-v3-v5.png"/> 
-</figure>
-
+<img src="./conflict-v3-v5.png" alt="Conflict between v3 and v5" />
 <p>While round trips between <em>adjacent</em> versions work fine, we run into problems when we attempt longer conversion chains. We end up stuck part-way through with a fatal problem.</p>
 <!-- yuml.me 
 
@@ -965,11 +940,7 @@ In the other case, we have a v4 <code>Person</code> the property bag contains a 
 [v5.Person]--[v5.Address|Street string; Suburb string; City string; Country string|Properties PropertyBag]
 
 -->
-
-<figure>
-    <img src="./conversion-v3-v4-v5-class.png"/> 
-</figure>
-
+<img src="./conversion-v3-v4-v5-class.png" alt="Conversion from v3 to v4 to v5" />
 <p>Compare the two different kinds of v4 Person we end up with for Mickey.</p>
 <p>First when we start from v3:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">fullName</span>: <span style="color:#ae81ff">Michael Theodore Mouse</span>
@@ -1009,11 +980,7 @@ In the other case, we have a v4 <code>Person</code> the property bag contains a 
 [v5.Person|FullName string;FamilyName string; KnownAs string;ResidentialAddress v5.Address|Properties PropertyBag]
 [v5.Person]->[v5.Address|Street string; Suburb string; City string; Country string|Properties PropertyBag]
 -->
-
-<figure>
-    <img src="./rejected-solution-synthetic-property.png"/> 
-</figure>
-
+<img src="./rejected-solution-synthetic-property.png" alt="Rejected solution with synthetic property" />
 <p>The shape of <code>Address</code> when reintroduced will always match the shape of <code>Address</code> when removed, so we can always serialize the same shape in-to or out-of the property bag, ensuring any <code>Address</code> has the a consistent shape.</p>
 <p>Pros:</p>
 <ul>
@@ -1041,11 +1008,7 @@ In the other case, we have a v4 <code>Person</code> the property bag contains a 
 [v5.Person]--[v5.Address|Street string; Suburb string; City string; Country string|Properties PropertyBag]
 
 -->
-
-<figure>
-    <img src="./conversion-direction.png"/> 
-</figure>
-
+<img src="./conversion-direction.png" alt="Conversion direction" />
 <p>These conversions are enabled by having each package <strong>import</strong> the next version of the resource, forming a directed acyclic graph leading from the earliest version to the latest.</p>
 <p><strong>Observation</strong>: Not only <em>should</em> we implement our change in a way that&rsquo;s consistent with the direction of conversion already present, we <em>must</em> do so, as the Go compiler will not allow us to introduce a circular dependency between packages.</p>
 <h3 id="constraint-multi-generational-skips">Constraint: Multi-generational skips</h3>
@@ -1067,26 +1030,22 @@ In the other case, we have a v4 <code>Person</code> the property bag contains a 
 [v8.Person]--[v8.Address|Street string; Suburb string; City string; Country string|Properties PropertyBag]
 
 -->
-
-<figure>
-    <img src="./conversion-multigenerational-class.png"/> 
-</figure>
-
+<img src="./conversion-multigenerational-class.png" alt="Conversion from v3 to v8" />
 <h3 id="constraint-augmentation-of-conversions">Constraint: Augmentation of conversions</h3>
 <p>We&rsquo;re already generating support to allow augmentation of the generated conversions by hand-written code. This is used to handle cases where the generated conversions are insufficient, or where we need to handle special cases.</p>
 <p>It&rsquo;s highly desirable that we leverage this existing functionality for skipping properties, rather than building something new.</p>
 <h3 id="proposed-solution">Proposed Solution</h3>
 <p>Given that any existing resources will have property bags containing instances in the earlier shape, standardize on using that shape - and only that shape - when storing the instance in the property bag.</p>
 <p>Instead of writing the later shape into the property bag using code like this:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// ResidentialAddress
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">if</span> <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">ResidentialAddress</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// ResidentialAddress</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">ResidentialAddress</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">propertyBag</span>.<span style="color:#a6e22e">Add</span>(<span style="color:#e6db74">&#34;ResidentialAddress&#34;</span>, <span style="color:#f92672">*</span><span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">ResidentialAddress</span>)
 </span></span><span style="display:flex;"><span>} <span style="color:#66d9ef">else</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">propertyBag</span>.<span style="color:#a6e22e">Remove</span>(<span style="color:#e6db74">&#34;ResidentialAddress&#34;</span>)
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>We will write the earlier shape into the property bag using code like this:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// ResidentialAddress
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">if</span> <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">ResidentialAddress</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// ResidentialAddress</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">ResidentialAddress</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">address</span> <span style="color:#a6e22e">v4</span>.<span style="color:#a6e22e">Address</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">address</span>.<span style="color:#a6e22e">AssignProperties_From</span>(<span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">ResidentialAddress</span>)
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">propertyBag</span>.<span style="color:#a6e22e">Add</span>(<span style="color:#e6db74">&#34;ResidentialAddress&#34;</span>, <span style="color:#a6e22e">address</span>)
@@ -1094,8 +1053,8 @@ In the other case, we have a v4 <code>Person</code> the property bag contains a 
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">propertyBag</span>.<span style="color:#a6e22e">Remove</span>(<span style="color:#e6db74">&#34;ResidentialAddress&#34;</span>)
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>Reading the value from the property bag will also need to change. Instead of:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// ResidentialAddress
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">if</span> <span style="color:#a6e22e">propertyBag</span>.<span style="color:#a6e22e">Contains</span>(<span style="color:#e6db74">&#34;ResidentialAddress&#34;</span>) {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// ResidentialAddress</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#a6e22e">propertyBag</span>.<span style="color:#a6e22e">Contains</span>(<span style="color:#e6db74">&#34;ResidentialAddress&#34;</span>) {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">residentialAddress</span> <span style="color:#a6e22e">v5</span>.<span style="color:#a6e22e">Address</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">propertyBag</span>.<span style="color:#a6e22e">Pull</span>(<span style="color:#e6db74">&#34;ResidentialAddress&#34;</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">residentialAddress</span>)
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
@@ -1107,8 +1066,8 @@ In the other case, we have a v4 <code>Person</code> the property bag contains a 
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">destination</span>.<span style="color:#a6e22e">ResidentialAddress</span> = <span style="color:#66d9ef">nil</span>
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>We will read the earlier shape and convert it as required.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// ResidentialAddress
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">if</span> <span style="color:#a6e22e">propertyBag</span>.<span style="color:#a6e22e">Contains</span>(<span style="color:#e6db74">&#34;ResidentialAddress&#34;</span>) {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// ResidentialAddress</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#a6e22e">propertyBag</span>.<span style="color:#a6e22e">Contains</span>(<span style="color:#e6db74">&#34;ResidentialAddress&#34;</span>) {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">staging</span> <span style="color:#a6e22e">v4compat</span>.<span style="color:#a6e22e">Address</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">propertyBag</span>.<span style="color:#a6e22e">Pull</span>(<span style="color:#e6db74">&#34;ResidentialAddress&#34;</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">staging</span>)
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
@@ -1138,11 +1097,7 @@ In the other case, we have a v4 <code>Person</code> the property bag contains a 
 [v5.Person]->[v5.Address|Street string; Suburb string; City string; Country string|Properties PropertyBag]
 
 -->
-
-<figure>
-    <img src="./proposed-solution-class.png"/> 
-</figure>
-
+<img src="./proposed-solution-class.png" alt="Proposed solution class diagram" />
 <p>Observe that we haven&rsquo;t introduced a <code>ResidentialAddress</code> property to the v4 <code>Person</code>, the instance still lives in the property bag.</p>
 <p>To avoid problems with circular dependencies (as noted above), we will clone the old (e.g. v3) shape and any related types forward. In the diagram above, we&rsquo;ve isolated these into a <code>compat</code> subpackage, but we could also clone them into the v4 package itself. Doing a clone will maintain the required invariant that the contents of the property bag will always match the shape of the earlier version of the property.</p>
 <p>Our existing conversion framework supports writing hand-crafted conversions between shapes, migrating data between the two shapes. By introducing a new type and leveraging the existing framework for the conversion, we gain support for writing these hand-crafted conversions between shapes.</p>
@@ -1172,7 +1127,7 @@ In the other case, we have a v4 <code>Person</code> the property bag contains a 
 <p>TBC
 ``</p>
 
-  <div class="section-index">
+	<div class="section-index">
     
     
     </div>
@@ -1207,7 +1162,7 @@ In the other case, we have a v4 <code>Person</code> the property bag contains a 
 </footer>
 
     </div>
-    <script src="/azure-service-operator/js/main.min.0a5a30b73411b7a841784b6f4d46f4e0b1b95d576fa3cadd81db9d5ae468e8c2.js" integrity="sha256-ClowtzQRt6hBeEtvTUb04LG5XVdvo8rdgdudWuRo6MI=" crossorigin="anonymous"></script>
+    <script src="/azure-service-operator/js/main.min.4096f09e0b199950620fc06165ef2a2791e1bee9067e27b14c4a54f02c0e33bd.js" integrity="sha256-QJbwngsZmVBiD8BhZe8qJ5HhvukGfiexTEpU8CwOM70=" crossorigin="anonymous"></script>
 <script defer src="/azure-service-operator/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/azure-service-operator/js/tabpane-persist.js'></script>
 

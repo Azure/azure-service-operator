@@ -18,13 +18,13 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>compute.azure.com/v1api20220702 | Azure Service Operator</title>
-<meta name="description" content=" APIVersion Value Description &ldquo;2022-07-02&rdquo; DiskEncryptionSet Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/diskEncryptionSet.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}
+<meta name="description" content="APIVersion Value Description “2022-07-02” DiskEncryptionSet Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/diskEncryptionSet.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}
 Used by: DiskEncryptionSetList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiskEncryptionSet_SpecOptional status DiskEncryptionSet_STATUSOptional DiskEncryptionSet_Spec Property Description Type activeKey The key vault key which is currently used by this disk encryption set. KeyForDiskEncryptionSetOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be. stringOptional encryptionType The type of key used to encrypt the data of the disk. DiskEncryptionSetTypeOptional federatedClientId Multi-tenant application client id to access key vault in a different tenant. Setting the value to &lsquo;None&rsquo; will clear the property. stringOptional federatedClientIdFromConfig Multi-tenant application client id to access key vault in a different tenant. Setting the value to &lsquo;None&rsquo; will clear the property. genruntime.ConfigMapReferenceOptional identity The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used to encrypt disks. EncryptionSetIdentityOptional location Resource location stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure DiskEncryptionSetOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired rotationToLatestKeyVersionEnabled Set this flag to true to enable auto-updating of this disk encryption set to the latest key version. boolOptional tags Resource tags map[string]stringOptional DiskEncryptionSet_STATUS Property Description Type activeKey The key vault key which is currently used by this disk encryption set. KeyForDiskEncryptionSet_STATUSOptional autoKeyRotationError The error that was encountered during auto-key rotation. If an error is present, then auto-key rotation will not be attempted until the error on this disk encryption set is fixed. ApiError_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional encryptionType The type of key used to encrypt the data of the disk. DiskEncryptionSetType_STATUSOptional federatedClientId Multi-tenant application client id to access key vault in a different tenant. Setting the value to &lsquo;None&rsquo; will clear the property. stringOptional id Resource Id stringOptional identity The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used to encrypt disks. EncryptionSetIdentity_STATUSOptional lastKeyRotationTimestamp The time when the active key of this disk encryption set was updated. stringOptional location Resource location stringOptional name Resource name stringOptional previousKeys A readonly collection of key vault keys previously used by this disk encryption set while a key rotation is in progress. It will be empty if there is no ongoing key rotation. KeyForDiskEncryptionSet_STATUS[]Optional provisioningState The disk encryption set provisioning state. stringOptional rotationToLatestKeyVersionEnabled Set this flag to true to enable auto-updating of this disk encryption set to the latest key version. boolOptional tags Resource tags map[string]stringOptional type Resource type stringOptional DiskEncryptionSetList Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/diskEncryptionSet.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}">
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiskEncryptionSet_SpecOptional status DiskEncryptionSet_STATUSOptional DiskEncryptionSet_Spec Property Description Type activeKey The key vault key which is currently used by this disk encryption set. KeyForDiskEncryptionSetOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional encryptionType The type of key used to encrypt the data of the disk. DiskEncryptionSetTypeOptional federatedClientId Multi-tenant application client id to access key vault in a different tenant. Setting the value to ‘None’ will clear the property. stringOptional federatedClientIdFromConfig Multi-tenant application client id to access key vault in a different tenant. Setting the value to ‘None’ will clear the property. genruntime.ConfigMapReferenceOptional identity The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used to encrypt disks. EncryptionSetIdentityOptional location Resource location stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure DiskEncryptionSetOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired rotationToLatestKeyVersionEnabled Set this flag to true to enable auto-updating of this disk encryption set to the latest key version. boolOptional tags Resource tags map[string]stringOptional DiskEncryptionSet_STATUS Property Description Type activeKey The key vault key which is currently used by this disk encryption set. KeyForDiskEncryptionSet_STATUSOptional autoKeyRotationError The error that was encountered during auto-key rotation. If an error is present, then auto-key rotation will not be attempted until the error on this disk encryption set is fixed. ApiError_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional encryptionType The type of key used to encrypt the data of the disk. DiskEncryptionSetType_STATUSOptional federatedClientId Multi-tenant application client id to access key vault in a different tenant. Setting the value to ‘None’ will clear the property. stringOptional id Resource Id stringOptional identity The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used to encrypt disks. EncryptionSetIdentity_STATUSOptional lastKeyRotationTimestamp The time when the active key of this disk encryption set was updated. stringOptional location Resource location stringOptional name Resource name stringOptional previousKeys A readonly collection of key vault keys previously used by this disk encryption set while a key rotation is in progress. It will be empty if there is no ongoing key rotation. KeyForDiskEncryptionSet_STATUS[]Optional provisioningState The disk encryption set provisioning state. stringOptional rotationToLatestKeyVersionEnabled Set this flag to true to enable auto-updating of this disk encryption set to the latest key version. boolOptional tags Resource tags map[string]stringOptional type Resource type stringOptional DiskEncryptionSetList Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/diskEncryptionSet.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/compute/v1api20220702/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="compute.azure.com/v1api20220702">
-  <meta property="og:description" content=" APIVersion Value Description “2022-07-02” DiskEncryptionSet Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/diskEncryptionSet.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}
+  <meta property="og:description" content="APIVersion Value Description “2022-07-02” DiskEncryptionSet Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/diskEncryptionSet.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}
 Used by: DiskEncryptionSetList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiskEncryptionSet_SpecOptional status DiskEncryptionSet_STATUSOptional DiskEncryptionSet_Spec Property Description Type activeKey The key vault key which is currently used by this disk encryption set. KeyForDiskEncryptionSetOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional encryptionType The type of key used to encrypt the data of the disk. DiskEncryptionSetTypeOptional federatedClientId Multi-tenant application client id to access key vault in a different tenant. Setting the value to ‘None’ will clear the property. stringOptional federatedClientIdFromConfig Multi-tenant application client id to access key vault in a different tenant. Setting the value to ‘None’ will clear the property. genruntime.ConfigMapReferenceOptional identity The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used to encrypt disks. EncryptionSetIdentityOptional location Resource location stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure DiskEncryptionSetOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired rotationToLatestKeyVersionEnabled Set this flag to true to enable auto-updating of this disk encryption set to the latest key version. boolOptional tags Resource tags map[string]stringOptional DiskEncryptionSet_STATUS Property Description Type activeKey The key vault key which is currently used by this disk encryption set. KeyForDiskEncryptionSet_STATUSOptional autoKeyRotationError The error that was encountered during auto-key rotation. If an error is present, then auto-key rotation will not be attempted until the error on this disk encryption set is fixed. ApiError_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional encryptionType The type of key used to encrypt the data of the disk. DiskEncryptionSetType_STATUSOptional federatedClientId Multi-tenant application client id to access key vault in a different tenant. Setting the value to ‘None’ will clear the property. stringOptional id Resource Id stringOptional identity The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used to encrypt disks. EncryptionSetIdentity_STATUSOptional lastKeyRotationTimestamp The time when the active key of this disk encryption set was updated. stringOptional location Resource location stringOptional name Resource name stringOptional previousKeys A readonly collection of key vault keys previously used by this disk encryption set while a key rotation is in progress. It will be empty if there is no ongoing key rotation. KeyForDiskEncryptionSet_STATUS[]Optional provisioningState The disk encryption set provisioning state. stringOptional rotationToLatestKeyVersionEnabled Set this flag to true to enable auto-updating of this disk encryption set to the latest key version. boolOptional tags Resource tags map[string]stringOptional type Resource type stringOptional DiskEncryptionSetList Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/diskEncryptionSet.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}">
   <meta property="og:locale" content="en_us">
@@ -32,22 +32,17 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiskEncryptionS
     <meta property="article:section" content="reference">
 
   <meta itemprop="name" content="compute.azure.com/v1api20220702">
-  <meta itemprop="description" content=" APIVersion Value Description “2022-07-02” DiskEncryptionSet Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/diskEncryptionSet.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}
+  <meta itemprop="description" content="APIVersion Value Description “2022-07-02” DiskEncryptionSet Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/diskEncryptionSet.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}
 Used by: DiskEncryptionSetList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiskEncryptionSet_SpecOptional status DiskEncryptionSet_STATUSOptional DiskEncryptionSet_Spec Property Description Type activeKey The key vault key which is currently used by this disk encryption set. KeyForDiskEncryptionSetOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional encryptionType The type of key used to encrypt the data of the disk. DiskEncryptionSetTypeOptional federatedClientId Multi-tenant application client id to access key vault in a different tenant. Setting the value to ‘None’ will clear the property. stringOptional federatedClientIdFromConfig Multi-tenant application client id to access key vault in a different tenant. Setting the value to ‘None’ will clear the property. genruntime.ConfigMapReferenceOptional identity The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used to encrypt disks. EncryptionSetIdentityOptional location Resource location stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure DiskEncryptionSetOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired rotationToLatestKeyVersionEnabled Set this flag to true to enable auto-updating of this disk encryption set to the latest key version. boolOptional tags Resource tags map[string]stringOptional DiskEncryptionSet_STATUS Property Description Type activeKey The key vault key which is currently used by this disk encryption set. KeyForDiskEncryptionSet_STATUSOptional autoKeyRotationError The error that was encountered during auto-key rotation. If an error is present, then auto-key rotation will not be attempted until the error on this disk encryption set is fixed. ApiError_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional encryptionType The type of key used to encrypt the data of the disk. DiskEncryptionSetType_STATUSOptional federatedClientId Multi-tenant application client id to access key vault in a different tenant. Setting the value to ‘None’ will clear the property. stringOptional id Resource Id stringOptional identity The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used to encrypt disks. EncryptionSetIdentity_STATUSOptional lastKeyRotationTimestamp The time when the active key of this disk encryption set was updated. stringOptional location Resource location stringOptional name Resource name stringOptional previousKeys A readonly collection of key vault keys previously used by this disk encryption set while a key rotation is in progress. It will be empty if there is no ongoing key rotation. KeyForDiskEncryptionSet_STATUS[]Optional provisioningState The disk encryption set provisioning state. stringOptional rotationToLatestKeyVersionEnabled Set this flag to true to enable auto-updating of this disk encryption set to the latest key version. boolOptional tags Resource tags map[string]stringOptional type Resource type stringOptional DiskEncryptionSetList Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/diskEncryptionSet.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}">
   <meta itemprop="wordCount" content="1734">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="compute.azure.com/v1api20220702">
-  <meta name="twitter:description" content=" APIVersion Value Description “2022-07-02” DiskEncryptionSet Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/diskEncryptionSet.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}
+  <meta name="twitter:description" content="APIVersion Value Description “2022-07-02” DiskEncryptionSet Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/diskEncryptionSet.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}
 Used by: DiskEncryptionSetList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiskEncryptionSet_SpecOptional status DiskEncryptionSet_STATUSOptional DiskEncryptionSet_Spec Property Description Type activeKey The key vault key which is currently used by this disk encryption set. KeyForDiskEncryptionSetOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional encryptionType The type of key used to encrypt the data of the disk. DiskEncryptionSetTypeOptional federatedClientId Multi-tenant application client id to access key vault in a different tenant. Setting the value to ‘None’ will clear the property. stringOptional federatedClientIdFromConfig Multi-tenant application client id to access key vault in a different tenant. Setting the value to ‘None’ will clear the property. genruntime.ConfigMapReferenceOptional identity The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used to encrypt disks. EncryptionSetIdentityOptional location Resource location stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure DiskEncryptionSetOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired rotationToLatestKeyVersionEnabled Set this flag to true to enable auto-updating of this disk encryption set to the latest key version. boolOptional tags Resource tags map[string]stringOptional DiskEncryptionSet_STATUS Property Description Type activeKey The key vault key which is currently used by this disk encryption set. KeyForDiskEncryptionSet_STATUSOptional autoKeyRotationError The error that was encountered during auto-key rotation. If an error is present, then auto-key rotation will not be attempted until the error on this disk encryption set is fixed. ApiError_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional encryptionType The type of key used to encrypt the data of the disk. DiskEncryptionSetType_STATUSOptional federatedClientId Multi-tenant application client id to access key vault in a different tenant. Setting the value to ‘None’ will clear the property. stringOptional id Resource Id stringOptional identity The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used to encrypt disks. EncryptionSetIdentity_STATUSOptional lastKeyRotationTimestamp The time when the active key of this disk encryption set was updated. stringOptional location Resource location stringOptional name Resource name stringOptional previousKeys A readonly collection of key vault keys previously used by this disk encryption set while a key rotation is in progress. It will be empty if there is no ongoing key rotation. KeyForDiskEncryptionSet_STATUS[]Optional provisioningState The disk encryption set provisioning state. stringOptional rotationToLatestKeyVersionEnabled Set this flag to true to enable auto-updating of this disk encryption set to the latest key version. boolOptional tags Resource tags map[string]stringOptional type Resource type stringOptional DiskEncryptionSetList Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/diskEncryptionSet.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}">
-
-
-
-
-<link rel="preload" href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" as="style">
-<link href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" rel="stylesheet" integrity="">
-
+<link rel="preload" href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" as="style" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
+<link href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" rel="stylesheet" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -856,7 +851,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiskEncryptionS
     v1api20220702</li>
   </ol>
 </nav>
-            
 <div class="td-content">
 	<h1>compute.azure.com/v1api20220702</h1>
 	
@@ -868,14 +862,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiskEncryptionS
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;2022-07-02&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;2022-07-02&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -885,31 +879,31 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiskEncryptionS
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left"><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta">metav1.ObjectMeta</a></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta">metav1.ObjectMeta</a></td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">spec</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"><a href="#DiskEncryptionSet_Spec">DiskEncryptionSet_Spec</a><br/><small>Optional</small></td>
+          <td>spec</td>
+          <td></td>
+          <td><a href="#DiskEncryptionSet_Spec">DiskEncryptionSet_Spec</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">status</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"><a href="#DiskEncryptionSet_STATUS">DiskEncryptionSet_STATUS</a><br/><small>Optional</small></td>
+          <td>status</td>
+          <td></td>
+          <td><a href="#DiskEncryptionSet_STATUS">DiskEncryptionSet_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -917,66 +911,66 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiskEncryptionS
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">activeKey</td>
-          <td style="text-align: left">The key vault key which is currently used by this disk encryption set.</td>
-          <td style="text-align: left"><a href="#KeyForDiskEncryptionSet">KeyForDiskEncryptionSet</a><br/><small>Optional</small></td>
+          <td>activeKey</td>
+          <td>The key vault key which is currently used by this disk encryption set.</td>
+          <td><a href="#KeyForDiskEncryptionSet">KeyForDiskEncryptionSet</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">azureName</td>
-          <td style="text-align: left">The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>azureName</td>
+          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">encryptionType</td>
-          <td style="text-align: left">The type of key used to encrypt the data of the disk.</td>
-          <td style="text-align: left"><a href="#DiskEncryptionSetType">DiskEncryptionSetType</a><br/><small>Optional</small></td>
+          <td>encryptionType</td>
+          <td>The type of key used to encrypt the data of the disk.</td>
+          <td><a href="#DiskEncryptionSetType">DiskEncryptionSetType</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">federatedClientId</td>
-          <td style="text-align: left">Multi-tenant application client id to access key vault in a different tenant. Setting the value to &lsquo;None&rsquo; will clear the property.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>federatedClientId</td>
+          <td>Multi-tenant application client id to access key vault in a different tenant. Setting the value to &lsquo;None&rsquo; will clear the property.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">federatedClientIdFromConfig</td>
-          <td style="text-align: left">Multi-tenant application client id to access key vault in a different tenant. Setting the value to &lsquo;None&rsquo; will clear the property.</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">genruntime.ConfigMapReference</a><br/><small>Optional</small></td>
+          <td>federatedClientIdFromConfig</td>
+          <td>Multi-tenant application client id to access key vault in a different tenant. Setting the value to &lsquo;None&rsquo; will clear the property.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">genruntime.ConfigMapReference</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">identity</td>
-          <td style="text-align: left">The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used to encrypt disks.</td>
-          <td style="text-align: left"><a href="#EncryptionSetIdentity">EncryptionSetIdentity</a><br/><small>Optional</small></td>
+          <td>identity</td>
+          <td>The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used to encrypt disks.</td>
+          <td><a href="#EncryptionSetIdentity">EncryptionSetIdentity</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">location</td>
-          <td style="text-align: left">Resource location</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>location</td>
+          <td>Resource location</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">operatorSpec</td>
-          <td style="text-align: left">The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td style="text-align: left"><a href="#DiskEncryptionSetOperatorSpec">DiskEncryptionSetOperatorSpec</a><br/><small>Optional</small></td>
+          <td>operatorSpec</td>
+          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+          <td><a href="#DiskEncryptionSetOperatorSpec">DiskEncryptionSetOperatorSpec</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">owner</td>
-          <td style="text-align: left">The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
+          <td>owner</td>
+          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">rotationToLatestKeyVersionEnabled</td>
-          <td style="text-align: left">Set this flag to true to enable auto-updating of this disk encryption set to the latest key version.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>rotationToLatestKeyVersionEnabled</td>
+          <td>Set this flag to true to enable auto-updating of this disk encryption set to the latest key version.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">tags</td>
-          <td style="text-align: left">Resource tags</td>
-          <td style="text-align: left">map[string]string<br/><small>Optional</small></td>
+          <td>tags</td>
+          <td>Resource tags</td>
+          <td>map[string]string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -984,86 +978,86 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiskEncryptionS
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">activeKey</td>
-          <td style="text-align: left">The key vault key which is currently used by this disk encryption set.</td>
-          <td style="text-align: left"><a href="#KeyForDiskEncryptionSet_STATUS">KeyForDiskEncryptionSet_STATUS</a><br/><small>Optional</small></td>
+          <td>activeKey</td>
+          <td>The key vault key which is currently used by this disk encryption set.</td>
+          <td><a href="#KeyForDiskEncryptionSet_STATUS">KeyForDiskEncryptionSet_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">autoKeyRotationError</td>
-          <td style="text-align: left">The error that was encountered during auto-key rotation. If an error is present, then auto-key rotation will not be attempted until the error on this disk encryption set is fixed.</td>
-          <td style="text-align: left"><a href="#ApiError_STATUS">ApiError_STATUS</a><br/><small>Optional</small></td>
+          <td>autoKeyRotationError</td>
+          <td>The error that was encountered during auto-key rotation. If an error is present, then auto-key rotation will not be attempted until the error on this disk encryption set is fixed.</td>
+          <td><a href="#ApiError_STATUS">ApiError_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">conditions</td>
-          <td style="text-align: left">The observed state of the resource</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+          <td>conditions</td>
+          <td>The observed state of the resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">encryptionType</td>
-          <td style="text-align: left">The type of key used to encrypt the data of the disk.</td>
-          <td style="text-align: left"><a href="#DiskEncryptionSetType_STATUS">DiskEncryptionSetType_STATUS</a><br/><small>Optional</small></td>
+          <td>encryptionType</td>
+          <td>The type of key used to encrypt the data of the disk.</td>
+          <td><a href="#DiskEncryptionSetType_STATUS">DiskEncryptionSetType_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">federatedClientId</td>
-          <td style="text-align: left">Multi-tenant application client id to access key vault in a different tenant. Setting the value to &lsquo;None&rsquo; will clear the property.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>federatedClientId</td>
+          <td>Multi-tenant application client id to access key vault in a different tenant. Setting the value to &lsquo;None&rsquo; will clear the property.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">id</td>
-          <td style="text-align: left">Resource Id</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>id</td>
+          <td>Resource Id</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">identity</td>
-          <td style="text-align: left">The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used to encrypt disks.</td>
-          <td style="text-align: left"><a href="#EncryptionSetIdentity_STATUS">EncryptionSetIdentity_STATUS</a><br/><small>Optional</small></td>
+          <td>identity</td>
+          <td>The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used to encrypt disks.</td>
+          <td><a href="#EncryptionSetIdentity_STATUS">EncryptionSetIdentity_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">lastKeyRotationTimestamp</td>
-          <td style="text-align: left">The time when the active key of this disk encryption set was updated.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>lastKeyRotationTimestamp</td>
+          <td>The time when the active key of this disk encryption set was updated.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">location</td>
-          <td style="text-align: left">Resource location</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>location</td>
+          <td>Resource location</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">name</td>
-          <td style="text-align: left">Resource name</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>name</td>
+          <td>Resource name</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">previousKeys</td>
-          <td style="text-align: left">A readonly collection of key vault keys previously used by this disk encryption set while a key rotation is in progress. It will be empty if there is no ongoing key rotation.</td>
-          <td style="text-align: left"><a href="#KeyForDiskEncryptionSet_STATUS">KeyForDiskEncryptionSet_STATUS[]</a><br/><small>Optional</small></td>
+          <td>previousKeys</td>
+          <td>A readonly collection of key vault keys previously used by this disk encryption set while a key rotation is in progress. It will be empty if there is no ongoing key rotation.</td>
+          <td><a href="#KeyForDiskEncryptionSet_STATUS">KeyForDiskEncryptionSet_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">provisioningState</td>
-          <td style="text-align: left">The disk encryption set provisioning state.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>provisioningState</td>
+          <td>The disk encryption set provisioning state.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">rotationToLatestKeyVersionEnabled</td>
-          <td style="text-align: left">Set this flag to true to enable auto-updating of this disk encryption set to the latest key version.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>rotationToLatestKeyVersionEnabled</td>
+          <td>Set this flag to true to enable auto-updating of this disk encryption set to the latest key version.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">tags</td>
-          <td style="text-align: left">Resource tags</td>
-          <td style="text-align: left">map[string]string<br/><small>Optional</small></td>
+          <td>tags</td>
+          <td>Resource tags</td>
+          <td>map[string]string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">type</td>
-          <td style="text-align: left">Resource type</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>type</td>
+          <td>Resource type</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1072,26 +1066,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiskEncryptionS
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left"><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta">metav1.ListMeta</a></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta">metav1.ListMeta</a></td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">items</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"><a href="#DiskEncryptionSet">DiskEncryptionSet[]</a><br/><small>Optional</small></td>
+          <td>items</td>
+          <td></td>
+          <td><a href="#DiskEncryptionSet">DiskEncryptionSet[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1100,66 +1094,66 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiskEncryptionS
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">activeKey</td>
-          <td style="text-align: left">The key vault key which is currently used by this disk encryption set.</td>
-          <td style="text-align: left"><a href="#KeyForDiskEncryptionSet">KeyForDiskEncryptionSet</a><br/><small>Optional</small></td>
+          <td>activeKey</td>
+          <td>The key vault key which is currently used by this disk encryption set.</td>
+          <td><a href="#KeyForDiskEncryptionSet">KeyForDiskEncryptionSet</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">azureName</td>
-          <td style="text-align: left">The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>azureName</td>
+          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">encryptionType</td>
-          <td style="text-align: left">The type of key used to encrypt the data of the disk.</td>
-          <td style="text-align: left"><a href="#DiskEncryptionSetType">DiskEncryptionSetType</a><br/><small>Optional</small></td>
+          <td>encryptionType</td>
+          <td>The type of key used to encrypt the data of the disk.</td>
+          <td><a href="#DiskEncryptionSetType">DiskEncryptionSetType</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">federatedClientId</td>
-          <td style="text-align: left">Multi-tenant application client id to access key vault in a different tenant. Setting the value to &lsquo;None&rsquo; will clear the property.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>federatedClientId</td>
+          <td>Multi-tenant application client id to access key vault in a different tenant. Setting the value to &lsquo;None&rsquo; will clear the property.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">federatedClientIdFromConfig</td>
-          <td style="text-align: left">Multi-tenant application client id to access key vault in a different tenant. Setting the value to &lsquo;None&rsquo; will clear the property.</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">genruntime.ConfigMapReference</a><br/><small>Optional</small></td>
+          <td>federatedClientIdFromConfig</td>
+          <td>Multi-tenant application client id to access key vault in a different tenant. Setting the value to &lsquo;None&rsquo; will clear the property.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">genruntime.ConfigMapReference</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">identity</td>
-          <td style="text-align: left">The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used to encrypt disks.</td>
-          <td style="text-align: left"><a href="#EncryptionSetIdentity">EncryptionSetIdentity</a><br/><small>Optional</small></td>
+          <td>identity</td>
+          <td>The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used to encrypt disks.</td>
+          <td><a href="#EncryptionSetIdentity">EncryptionSetIdentity</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">location</td>
-          <td style="text-align: left">Resource location</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>location</td>
+          <td>Resource location</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">operatorSpec</td>
-          <td style="text-align: left">The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td style="text-align: left"><a href="#DiskEncryptionSetOperatorSpec">DiskEncryptionSetOperatorSpec</a><br/><small>Optional</small></td>
+          <td>operatorSpec</td>
+          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+          <td><a href="#DiskEncryptionSetOperatorSpec">DiskEncryptionSetOperatorSpec</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">owner</td>
-          <td style="text-align: left">The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
+          <td>owner</td>
+          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">rotationToLatestKeyVersionEnabled</td>
-          <td style="text-align: left">Set this flag to true to enable auto-updating of this disk encryption set to the latest key version.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>rotationToLatestKeyVersionEnabled</td>
+          <td>Set this flag to true to enable auto-updating of this disk encryption set to the latest key version.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">tags</td>
-          <td style="text-align: left">Resource tags</td>
-          <td style="text-align: left">map[string]string<br/><small>Optional</small></td>
+          <td>tags</td>
+          <td>Resource tags</td>
+          <td>map[string]string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1169,86 +1163,86 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiskEncryptionS
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">activeKey</td>
-          <td style="text-align: left">The key vault key which is currently used by this disk encryption set.</td>
-          <td style="text-align: left"><a href="#KeyForDiskEncryptionSet_STATUS">KeyForDiskEncryptionSet_STATUS</a><br/><small>Optional</small></td>
+          <td>activeKey</td>
+          <td>The key vault key which is currently used by this disk encryption set.</td>
+          <td><a href="#KeyForDiskEncryptionSet_STATUS">KeyForDiskEncryptionSet_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">autoKeyRotationError</td>
-          <td style="text-align: left">The error that was encountered during auto-key rotation. If an error is present, then auto-key rotation will not be attempted until the error on this disk encryption set is fixed.</td>
-          <td style="text-align: left"><a href="#ApiError_STATUS">ApiError_STATUS</a><br/><small>Optional</small></td>
+          <td>autoKeyRotationError</td>
+          <td>The error that was encountered during auto-key rotation. If an error is present, then auto-key rotation will not be attempted until the error on this disk encryption set is fixed.</td>
+          <td><a href="#ApiError_STATUS">ApiError_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">conditions</td>
-          <td style="text-align: left">The observed state of the resource</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+          <td>conditions</td>
+          <td>The observed state of the resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">encryptionType</td>
-          <td style="text-align: left">The type of key used to encrypt the data of the disk.</td>
-          <td style="text-align: left"><a href="#DiskEncryptionSetType_STATUS">DiskEncryptionSetType_STATUS</a><br/><small>Optional</small></td>
+          <td>encryptionType</td>
+          <td>The type of key used to encrypt the data of the disk.</td>
+          <td><a href="#DiskEncryptionSetType_STATUS">DiskEncryptionSetType_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">federatedClientId</td>
-          <td style="text-align: left">Multi-tenant application client id to access key vault in a different tenant. Setting the value to &lsquo;None&rsquo; will clear the property.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>federatedClientId</td>
+          <td>Multi-tenant application client id to access key vault in a different tenant. Setting the value to &lsquo;None&rsquo; will clear the property.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">id</td>
-          <td style="text-align: left">Resource Id</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>id</td>
+          <td>Resource Id</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">identity</td>
-          <td style="text-align: left">The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used to encrypt disks.</td>
-          <td style="text-align: left"><a href="#EncryptionSetIdentity_STATUS">EncryptionSetIdentity_STATUS</a><br/><small>Optional</small></td>
+          <td>identity</td>
+          <td>The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used to encrypt disks.</td>
+          <td><a href="#EncryptionSetIdentity_STATUS">EncryptionSetIdentity_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">lastKeyRotationTimestamp</td>
-          <td style="text-align: left">The time when the active key of this disk encryption set was updated.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>lastKeyRotationTimestamp</td>
+          <td>The time when the active key of this disk encryption set was updated.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">location</td>
-          <td style="text-align: left">Resource location</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>location</td>
+          <td>Resource location</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">name</td>
-          <td style="text-align: left">Resource name</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>name</td>
+          <td>Resource name</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">previousKeys</td>
-          <td style="text-align: left">A readonly collection of key vault keys previously used by this disk encryption set while a key rotation is in progress. It will be empty if there is no ongoing key rotation.</td>
-          <td style="text-align: left"><a href="#KeyForDiskEncryptionSet_STATUS">KeyForDiskEncryptionSet_STATUS[]</a><br/><small>Optional</small></td>
+          <td>previousKeys</td>
+          <td>A readonly collection of key vault keys previously used by this disk encryption set while a key rotation is in progress. It will be empty if there is no ongoing key rotation.</td>
+          <td><a href="#KeyForDiskEncryptionSet_STATUS">KeyForDiskEncryptionSet_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">provisioningState</td>
-          <td style="text-align: left">The disk encryption set provisioning state.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>provisioningState</td>
+          <td>The disk encryption set provisioning state.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">rotationToLatestKeyVersionEnabled</td>
-          <td style="text-align: left">Set this flag to true to enable auto-updating of this disk encryption set to the latest key version.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>rotationToLatestKeyVersionEnabled</td>
+          <td>Set this flag to true to enable auto-updating of this disk encryption set to the latest key version.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">tags</td>
-          <td style="text-align: left">Resource tags</td>
-          <td style="text-align: left">map[string]string<br/><small>Optional</small></td>
+          <td>tags</td>
+          <td>Resource tags</td>
+          <td>map[string]string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">type</td>
-          <td style="text-align: left">Resource type</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>type</td>
+          <td>Resource type</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1258,36 +1252,36 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiskEncryptionS
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">code</td>
-          <td style="text-align: left">The error code.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>code</td>
+          <td>The error code.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">details</td>
-          <td style="text-align: left">The Api error details</td>
-          <td style="text-align: left"><a href="#ApiErrorBase_STATUS">ApiErrorBase_STATUS[]</a><br/><small>Optional</small></td>
+          <td>details</td>
+          <td>The Api error details</td>
+          <td><a href="#ApiErrorBase_STATUS">ApiErrorBase_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">innererror</td>
-          <td style="text-align: left">The Api inner error</td>
-          <td style="text-align: left"><a href="#InnerError_STATUS">InnerError_STATUS</a><br/><small>Optional</small></td>
+          <td>innererror</td>
+          <td>The Api inner error</td>
+          <td><a href="#InnerError_STATUS">InnerError_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">message</td>
-          <td style="text-align: left">The error message.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>message</td>
+          <td>The error message.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">target</td>
-          <td style="text-align: left">The target of the particular error.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>target</td>
+          <td>The target of the particular error.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1297,21 +1291,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiskEncryptionS
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">configMapExpressions</td>
-          <td style="text-align: left">configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+          <td>configMapExpressions</td>
+          <td>configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">secretExpressions</td>
-          <td style="text-align: left">configures where to place operator written dynamic secrets (created with CEL expressions).</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+          <td>secretExpressions</td>
+          <td>configures where to place operator written dynamic secrets (created with CEL expressions).</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1321,22 +1315,22 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiskEncryptionS
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;ConfidentialVmEncryptedWithCustomerKey&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;ConfidentialVmEncryptedWithCustomerKey&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;EncryptionAtRestWithCustomerKey&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;EncryptionAtRestWithCustomerKey&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;EncryptionAtRestWithPlatformAndCustomerKeys&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;EncryptionAtRestWithPlatformAndCustomerKeys&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -1346,22 +1340,22 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiskEncryptionS
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;ConfidentialVmEncryptedWithCustomerKey&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;ConfidentialVmEncryptedWithCustomerKey&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;EncryptionAtRestWithCustomerKey&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;EncryptionAtRestWithCustomerKey&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;EncryptionAtRestWithPlatformAndCustomerKeys&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;EncryptionAtRestWithPlatformAndCustomerKeys&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -1371,21 +1365,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiskEncryptionS
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">type</td>
-          <td style="text-align: left">The type of Managed Identity used by the DiskEncryptionSet. Only SystemAssigned is supported for new creations. Disk Encryption Sets can be updated with Identity type None during migration of subscription to a new Azure Active Directory tenant; it will cause the encrypted resources to lose access to the keys.</td>
-          <td style="text-align: left"><a href="#EncryptionSetIdentity_Type">EncryptionSetIdentity_Type</a><br/><small>Optional</small></td>
+          <td>type</td>
+          <td>The type of Managed Identity used by the DiskEncryptionSet. Only SystemAssigned is supported for new creations. Disk Encryption Sets can be updated with Identity type None during migration of subscription to a new Azure Active Directory tenant; it will cause the encrypted resources to lose access to the keys.</td>
+          <td><a href="#EncryptionSetIdentity_Type">EncryptionSetIdentity_Type</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">userAssignedIdentities</td>
-          <td style="text-align: left">The list of user identities associated with the disk encryption set. The user identity dictionary key references will be ARM resource ids in the form: &lsquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;.</td>
-          <td style="text-align: left"><a href="#UserAssignedIdentityDetails">UserAssignedIdentityDetails[]</a><br/><small>Optional</small></td>
+          <td>userAssignedIdentities</td>
+          <td>The list of user identities associated with the disk encryption set. The user identity dictionary key references will be ARM resource ids in the form: &lsquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;.</td>
+          <td><a href="#UserAssignedIdentityDetails">UserAssignedIdentityDetails[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1395,31 +1389,31 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiskEncryptionS
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">principalId</td>
-          <td style="text-align: left">The object id of the Managed Identity Resource. This will be sent to the RP from ARM via the x-ms-identity-principal-id header in the PUT request if the resource has a systemAssigned(implicit) identity</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>principalId</td>
+          <td>The object id of the Managed Identity Resource. This will be sent to the RP from ARM via the x-ms-identity-principal-id header in the PUT request if the resource has a systemAssigned(implicit) identity</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">tenantId</td>
-          <td style="text-align: left">The tenant id of the Managed Identity Resource. This will be sent to the RP from ARM via the x-ms-client-tenant-id header in the PUT request if the resource has a systemAssigned(implicit) identity</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>tenantId</td>
+          <td>The tenant id of the Managed Identity Resource. This will be sent to the RP from ARM via the x-ms-client-tenant-id header in the PUT request if the resource has a systemAssigned(implicit) identity</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">type</td>
-          <td style="text-align: left">The type of Managed Identity used by the DiskEncryptionSet. Only SystemAssigned is supported for new creations. Disk Encryption Sets can be updated with Identity type None during migration of subscription to a new Azure Active Directory tenant; it will cause the encrypted resources to lose access to the keys.</td>
-          <td style="text-align: left"><a href="#EncryptionSetIdentity_Type_STATUS">EncryptionSetIdentity_Type_STATUS</a><br/><small>Optional</small></td>
+          <td>type</td>
+          <td>The type of Managed Identity used by the DiskEncryptionSet. Only SystemAssigned is supported for new creations. Disk Encryption Sets can be updated with Identity type None during migration of subscription to a new Azure Active Directory tenant; it will cause the encrypted resources to lose access to the keys.</td>
+          <td><a href="#EncryptionSetIdentity_Type_STATUS">EncryptionSetIdentity_Type_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">userAssignedIdentities</td>
-          <td style="text-align: left">The list of user identities associated with the disk encryption set. The user identity dictionary key references will be ARM resource ids in the form: &lsquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;.</td>
-          <td style="text-align: left"><a href="#EncryptionSetIdentity_UserAssignedIdentities_STATUS">map[string]EncryptionSetIdentity_UserAssignedIdentities_STATUS</a><br/><small>Optional</small></td>
+          <td>userAssignedIdentities</td>
+          <td>The list of user identities associated with the disk encryption set. The user identity dictionary key references will be ARM resource ids in the form: &lsquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;.</td>
+          <td><a href="#EncryptionSetIdentity_UserAssignedIdentities_STATUS">map[string]EncryptionSetIdentity_UserAssignedIdentities_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1429,26 +1423,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiskEncryptionS
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">keyUrl</td>
-          <td style="text-align: left">Fully versioned Key Url pointing to a key in KeyVault. Version segment of the Url is required regardless of rotationToLatestKeyVersionEnabled value.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>keyUrl</td>
+          <td>Fully versioned Key Url pointing to a key in KeyVault. Version segment of the Url is required regardless of rotationToLatestKeyVersionEnabled value.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">keyUrlFromConfig</td>
-          <td style="text-align: left">Fully versioned Key Url pointing to a key in KeyVault. Version segment of the Url is required regardless of rotationToLatestKeyVersionEnabled value.</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">genruntime.ConfigMapReference</a><br/><small>Optional</small></td>
+          <td>keyUrlFromConfig</td>
+          <td>Fully versioned Key Url pointing to a key in KeyVault. Version segment of the Url is required regardless of rotationToLatestKeyVersionEnabled value.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">genruntime.ConfigMapReference</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">sourceVault</td>
-          <td style="text-align: left">Resource id of the KeyVault containing the key or secret. This property is optional and cannot be used if the KeyVault subscription is not the same as the Disk Encryption Set subscription.</td>
-          <td style="text-align: left"><a href="#SourceVault">SourceVault</a><br/><small>Optional</small></td>
+          <td>sourceVault</td>
+          <td>Resource id of the KeyVault containing the key or secret. This property is optional and cannot be used if the KeyVault subscription is not the same as the Disk Encryption Set subscription.</td>
+          <td><a href="#SourceVault">SourceVault</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1458,21 +1452,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiskEncryptionS
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">keyUrl</td>
-          <td style="text-align: left">Fully versioned Key Url pointing to a key in KeyVault. Version segment of the Url is required regardless of rotationToLatestKeyVersionEnabled value.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>keyUrl</td>
+          <td>Fully versioned Key Url pointing to a key in KeyVault. Version segment of the Url is required regardless of rotationToLatestKeyVersionEnabled value.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">sourceVault</td>
-          <td style="text-align: left">Resource id of the KeyVault containing the key or secret. This property is optional and cannot be used if the KeyVault subscription is not the same as the Disk Encryption Set subscription.</td>
-          <td style="text-align: left"><a href="#SourceVault_STATUS">SourceVault_STATUS</a><br/><small>Optional</small></td>
+          <td>sourceVault</td>
+          <td>Resource id of the KeyVault containing the key or secret. This property is optional and cannot be used if the KeyVault subscription is not the same as the Disk Encryption Set subscription.</td>
+          <td><a href="#SourceVault_STATUS">SourceVault_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1482,26 +1476,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiskEncryptionS
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">code</td>
-          <td style="text-align: left">The error code.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>code</td>
+          <td>The error code.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">message</td>
-          <td style="text-align: left">The error message.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>message</td>
+          <td>The error message.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">target</td>
-          <td style="text-align: left">The target of the particular error.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>target</td>
+          <td>The target of the particular error.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1510,26 +1504,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiskEncryptionS
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;None&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;None&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;SystemAssigned&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;SystemAssigned&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;SystemAssigned, UserAssigned&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;SystemAssigned, UserAssigned&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;UserAssigned&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;UserAssigned&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -1538,26 +1532,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiskEncryptionS
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;None&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;None&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;SystemAssigned&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;SystemAssigned&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;SystemAssigned, UserAssigned&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;SystemAssigned, UserAssigned&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;UserAssigned&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;UserAssigned&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -1566,21 +1560,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiskEncryptionS
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">clientId</td>
-          <td style="text-align: left">The client id of user assigned identity.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>clientId</td>
+          <td>The client id of user assigned identity.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">principalId</td>
-          <td style="text-align: left">The principal id of user assigned identity.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>principalId</td>
+          <td>The principal id of user assigned identity.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1590,21 +1584,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiskEncryptionS
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">errordetail</td>
-          <td style="text-align: left">The internal error message or exception dump.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>errordetail</td>
+          <td>The internal error message or exception dump.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">exceptiontype</td>
-          <td style="text-align: left">The exception type.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>exceptiontype</td>
+          <td>The exception type.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1614,16 +1608,16 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiskEncryptionS
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">reference</td>
-          <td style="text-align: left">Resource Id</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+          <td>reference</td>
+          <td>Resource Id</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1633,16 +1627,16 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiskEncryptionS
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">id</td>
-          <td style="text-align: left">Resource Id</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>id</td>
+          <td>Resource Id</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1652,16 +1646,16 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiskEncryptionS
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">reference</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+          <td>reference</td>
+          <td></td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1699,7 +1693,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiskEncryptionS
 </footer>
 
     </div>
-    <script src="/azure-service-operator/js/main.min.0a5a30b73411b7a841784b6f4d46f4e0b1b95d576fa3cadd81db9d5ae468e8c2.js" integrity="sha256-ClowtzQRt6hBeEtvTUb04LG5XVdvo8rdgdudWuRo6MI=" crossorigin="anonymous"></script>
+    <script src="/azure-service-operator/js/main.min.4096f09e0b199950620fc06165ef2a2791e1bee9067e27b14c4a54f02c0e33bd.js" integrity="sha256-QJbwngsZmVBiD8BhZe8qJ5HhvukGfiexTEpU8CwOM70=" crossorigin="anonymous"></script>
 <script defer src="/azure-service-operator/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/azure-service-operator/js/tabpane-persist.js'></script>
 

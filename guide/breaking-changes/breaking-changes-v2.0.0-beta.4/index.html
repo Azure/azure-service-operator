@@ -41,13 +41,8 @@ We expect that most users will find their resources are unaffected by these chan
   <meta name="twitter:description" content="In the beta.4 release of Azure Service Operator (ASO) we are pivoting to using Azure Swagger API Specifications as the sole source of truth for our code generator. This change brings with it a significant improvement in fidelity - the code we generate is now much closer to what the Azure Swagger API Specifications describe.
 Unfortunately, this change also brings with it a number of breaking changes.
 We expect that most users will find their resources are unaffected by these changes. However, if you are using a resource that is affected, you will need to take action to migrate your resources to the new format.">
-
-
-
-
-<link rel="preload" href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" as="style">
-<link href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" rel="stylesheet" integrity="">
-
+<link rel="preload" href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" as="style" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
+<link href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" rel="stylesheet" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -958,7 +953,6 @@ We expect that most users will find their resources are unaffected by these chan
     v2.0.0-beta.4</li>
   </ol>
 </nav>
-            
 <div class="td-content">
 	<h1>v2.0.0-beta.4 Breaking Changes</h1>
 	
@@ -1173,126 +1167,126 @@ We expect that most users will find their resources are unaffected by these chan
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property Path</th>
-          <th style="text-align: left">Change</th>
-          <th style="text-align: left">Reason</th>
+          <th>Property Path</th>
+          <th>Change</th>
+          <th>Reason</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">DeliveryPolicy.Rules.Actions.DeliveryRuleCacheExpiration</td>
-          <td style="text-align: left">Renamed to CacheExpiration</td>
-          <td style="text-align: left">Discriminator</td>
+          <td>DeliveryPolicy.Rules.Actions.DeliveryRuleCacheExpiration</td>
+          <td>Renamed to CacheExpiration</td>
+          <td>Discriminator</td>
       </tr>
       <tr>
-          <td style="text-align: left">DeliveryPolicy.Rules.Actions.DeliveryRuleCacheKeyQueryString</td>
-          <td style="text-align: left">Renamed to CacheKeyQueryString</td>
-          <td style="text-align: left">Discriminator</td>
+          <td>DeliveryPolicy.Rules.Actions.DeliveryRuleCacheKeyQueryString</td>
+          <td>Renamed to CacheKeyQueryString</td>
+          <td>Discriminator</td>
       </tr>
       <tr>
-          <td style="text-align: left">DeliveryPolicy.Rules.Actions.DeliveryRuleRequestHeader</td>
-          <td style="text-align: left">Renamed to ModifyRequestHeader</td>
-          <td style="text-align: left">Discriminator</td>
+          <td>DeliveryPolicy.Rules.Actions.DeliveryRuleRequestHeader</td>
+          <td>Renamed to ModifyRequestHeader</td>
+          <td>Discriminator</td>
       </tr>
       <tr>
-          <td style="text-align: left">DeliveryPolicy.Rules.Actions.DeliveryRuleResponseHeader</td>
-          <td style="text-align: left">Renamed to ModifyResponseHeader</td>
-          <td style="text-align: left">Discriminator</td>
+          <td>DeliveryPolicy.Rules.Actions.DeliveryRuleResponseHeader</td>
+          <td>Renamed to ModifyResponseHeader</td>
+          <td>Discriminator</td>
       </tr>
       <tr>
-          <td style="text-align: left">DeliveryPolicy.Rules.Actions.DeliveryRuleRouteConfigurationOverride</td>
-          <td style="text-align: left">Renamed to RouteConfigurationOverride</td>
-          <td style="text-align: left">Discriminator</td>
+          <td>DeliveryPolicy.Rules.Actions.DeliveryRuleRouteConfigurationOverride</td>
+          <td>Renamed to RouteConfigurationOverride</td>
+          <td>Discriminator</td>
       </tr>
       <tr>
-          <td style="text-align: left">DeliveryPolicy.Rules.Conditions.DeliveryRuleClientPort</td>
-          <td style="text-align: left">Renamed to ClientPort</td>
-          <td style="text-align: left">Discriminator</td>
+          <td>DeliveryPolicy.Rules.Conditions.DeliveryRuleClientPort</td>
+          <td>Renamed to ClientPort</td>
+          <td>Discriminator</td>
       </tr>
       <tr>
-          <td style="text-align: left">DeliveryPolicy.Rules.Conditions.DeliveryRuleCookies</td>
-          <td style="text-align: left">Renamed to Cookies</td>
-          <td style="text-align: left">Discriminator</td>
+          <td>DeliveryPolicy.Rules.Conditions.DeliveryRuleCookies</td>
+          <td>Renamed to Cookies</td>
+          <td>Discriminator</td>
       </tr>
       <tr>
-          <td style="text-align: left">DeliveryPolicy.Rules.Conditions.DeliveryRuleHostName</td>
-          <td style="text-align: left">Renamed to HostName</td>
-          <td style="text-align: left">Discriminator</td>
+          <td>DeliveryPolicy.Rules.Conditions.DeliveryRuleHostName</td>
+          <td>Renamed to HostName</td>
+          <td>Discriminator</td>
       </tr>
       <tr>
-          <td style="text-align: left">DeliveryPolicy.Rules.Conditions.DeliveryRuleHttpVersion</td>
-          <td style="text-align: left">Renamed to HttpVersion</td>
-          <td style="text-align: left">Discriminator</td>
+          <td>DeliveryPolicy.Rules.Conditions.DeliveryRuleHttpVersion</td>
+          <td>Renamed to HttpVersion</td>
+          <td>Discriminator</td>
       </tr>
       <tr>
-          <td style="text-align: left">DeliveryPolicy.Rules.Conditions.DeliveryRuleIsDevice</td>
-          <td style="text-align: left">Renamed to IsDevice</td>
-          <td style="text-align: left">Discriminator</td>
+          <td>DeliveryPolicy.Rules.Conditions.DeliveryRuleIsDevice</td>
+          <td>Renamed to IsDevice</td>
+          <td>Discriminator</td>
       </tr>
       <tr>
-          <td style="text-align: left">DeliveryPolicy.Rules.Conditions.DeliveryRulePostArgs</td>
-          <td style="text-align: left">Renamed to PostArgs</td>
-          <td style="text-align: left">Discriminator</td>
+          <td>DeliveryPolicy.Rules.Conditions.DeliveryRulePostArgs</td>
+          <td>Renamed to PostArgs</td>
+          <td>Discriminator</td>
       </tr>
       <tr>
-          <td style="text-align: left">DeliveryPolicy.Rules.Conditions.DeliveryRuleQueryString</td>
-          <td style="text-align: left">Renamed to QueryString</td>
-          <td style="text-align: left">Discriminator</td>
+          <td>DeliveryPolicy.Rules.Conditions.DeliveryRuleQueryString</td>
+          <td>Renamed to QueryString</td>
+          <td>Discriminator</td>
       </tr>
       <tr>
-          <td style="text-align: left">DeliveryPolicy.Rules.Conditions.DeliveryRuleRemoteAddress</td>
-          <td style="text-align: left">Renamed to RemoteAddress</td>
-          <td style="text-align: left">Discriminator</td>
+          <td>DeliveryPolicy.Rules.Conditions.DeliveryRuleRemoteAddress</td>
+          <td>Renamed to RemoteAddress</td>
+          <td>Discriminator</td>
       </tr>
       <tr>
-          <td style="text-align: left">DeliveryPolicy.Rules.Conditions.DeliveryRuleRequestBody</td>
-          <td style="text-align: left">Renamed to RequestBody</td>
-          <td style="text-align: left">Discriminator</td>
+          <td>DeliveryPolicy.Rules.Conditions.DeliveryRuleRequestBody</td>
+          <td>Renamed to RequestBody</td>
+          <td>Discriminator</td>
       </tr>
       <tr>
-          <td style="text-align: left">DeliveryPolicy.Rules.Conditions.DeliveryRuleRequestHeader</td>
-          <td style="text-align: left">Renamed to RequestHeader</td>
-          <td style="text-align: left">Discriminator</td>
+          <td>DeliveryPolicy.Rules.Conditions.DeliveryRuleRequestHeader</td>
+          <td>Renamed to RequestHeader</td>
+          <td>Discriminator</td>
       </tr>
       <tr>
-          <td style="text-align: left">DeliveryPolicy.Rules.Conditions.DeliveryRuleRequestMethod</td>
-          <td style="text-align: left">Renamed to RequestMethod</td>
-          <td style="text-align: left">Discriminator</td>
+          <td>DeliveryPolicy.Rules.Conditions.DeliveryRuleRequestMethod</td>
+          <td>Renamed to RequestMethod</td>
+          <td>Discriminator</td>
       </tr>
       <tr>
-          <td style="text-align: left">DeliveryPolicy.Rules.Conditions.DeliveryRuleRequestScheme</td>
-          <td style="text-align: left">Renamed to RequestScheme</td>
-          <td style="text-align: left">Discriminator</td>
+          <td>DeliveryPolicy.Rules.Conditions.DeliveryRuleRequestScheme</td>
+          <td>Renamed to RequestScheme</td>
+          <td>Discriminator</td>
       </tr>
       <tr>
-          <td style="text-align: left">DeliveryPolicy.Rules.Conditions.DeliveryRuleRequestUri</td>
-          <td style="text-align: left">Renamed to RequestUri</td>
-          <td style="text-align: left">Discriminator</td>
+          <td>DeliveryPolicy.Rules.Conditions.DeliveryRuleRequestUri</td>
+          <td>Renamed to RequestUri</td>
+          <td>Discriminator</td>
       </tr>
       <tr>
-          <td style="text-align: left">DeliveryPolicy.Rules.Conditions.DeliveryRuleServerPort</td>
-          <td style="text-align: left">Renamed to ServerPort</td>
-          <td style="text-align: left">Discriminator</td>
+          <td>DeliveryPolicy.Rules.Conditions.DeliveryRuleServerPort</td>
+          <td>Renamed to ServerPort</td>
+          <td>Discriminator</td>
       </tr>
       <tr>
-          <td style="text-align: left">DeliveryPolicy.Rules.Conditions.DeliveryRuleSslProtocol</td>
-          <td style="text-align: left">Renamed to SslProtocol</td>
-          <td style="text-align: left">Discriminator</td>
+          <td>DeliveryPolicy.Rules.Conditions.DeliveryRuleSslProtocol</td>
+          <td>Renamed to SslProtocol</td>
+          <td>Discriminator</td>
       </tr>
       <tr>
-          <td style="text-align: left">DeliveryPolicy.Rules.Conditions.DeliveryRuleUrlFileExtension</td>
-          <td style="text-align: left">Renamed to UrlFileExtension</td>
-          <td style="text-align: left">Discriminator</td>
+          <td>DeliveryPolicy.Rules.Conditions.DeliveryRuleUrlFileExtension</td>
+          <td>Renamed to UrlFileExtension</td>
+          <td>Discriminator</td>
       </tr>
       <tr>
-          <td style="text-align: left">DeliveryPolicy.Rules.Conditions.DeliveryRuleUrlFileName</td>
-          <td style="text-align: left">Renamed to UrlFileName</td>
-          <td style="text-align: left">Discriminator</td>
+          <td>DeliveryPolicy.Rules.Conditions.DeliveryRuleUrlFileName</td>
+          <td>Renamed to UrlFileName</td>
+          <td>Discriminator</td>
       </tr>
       <tr>
-          <td style="text-align: left">DeliveryPolicy.Rules.Conditions.DeliveryRuleUrlPath</td>
-          <td style="text-align: left">Renamed to UrlPath</td>
-          <td style="text-align: left">Discriminator</td>
+          <td>DeliveryPolicy.Rules.Conditions.DeliveryRuleUrlPath</td>
+          <td>Renamed to UrlPath</td>
+          <td>Discriminator</td>
       </tr>
   </tbody>
 </table>
@@ -1301,21 +1295,21 @@ We expect that most users will find their resources are unaffected by these chan
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property Path</th>
-          <th style="text-align: left">Change</th>
-          <th style="text-align: left">Reason</th>
+          <th>Property Path</th>
+          <th>Change</th>
+          <th>Reason</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">VirtualMachineProfile.NetworkProfile.NetworkInterfaceConfigurations.Id</td>
-          <td style="text-align: left">Renamed to Reference</td>
-          <td style="text-align: left">Reference Detection</td>
+          <td>VirtualMachineProfile.NetworkProfile.NetworkInterfaceConfigurations.Id</td>
+          <td>Renamed to Reference</td>
+          <td>Reference Detection</td>
       </tr>
       <tr>
-          <td style="text-align: left">VirtualMachineProfile.NetworkProfile.NetworkInterfaceConfigurations.IpConfigurations.Id</td>
-          <td style="text-align: left">Renamed to Reference</td>
-          <td style="text-align: left">Reference Detection</td>
+          <td>VirtualMachineProfile.NetworkProfile.NetworkInterfaceConfigurations.IpConfigurations.Id</td>
+          <td>Renamed to Reference</td>
+          <td>Reference Detection</td>
       </tr>
   </tbody>
 </table>
@@ -1324,21 +1318,21 @@ We expect that most users will find their resources are unaffected by these chan
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property Path</th>
-          <th style="text-align: left">Change</th>
-          <th style="text-align: left">Reason</th>
+          <th>Property Path</th>
+          <th>Change</th>
+          <th>Reason</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">VirtualMachineProfile.NetworkProfile.Id</td>
-          <td style="text-align: left">Renamed to Reference</td>
-          <td style="text-align: left">Reference Detection</td>
+          <td>VirtualMachineProfile.NetworkProfile.Id</td>
+          <td>Renamed to Reference</td>
+          <td>Reference Detection</td>
       </tr>
       <tr>
-          <td style="text-align: left">VirtualMachineProfile.NetworkProfile.IpConfigurations.Id</td>
-          <td style="text-align: left">Renamed to Reference</td>
-          <td style="text-align: left">Reference Detection</td>
+          <td>VirtualMachineProfile.NetworkProfile.IpConfigurations.Id</td>
+          <td>Renamed to Reference</td>
+          <td>Reference Detection</td>
       </tr>
   </tbody>
 </table>
@@ -1347,16 +1341,16 @@ We expect that most users will find their resources are unaffected by these chan
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property Path</th>
-          <th style="text-align: left">Change</th>
-          <th style="text-align: left">Reason</th>
+          <th>Property Path</th>
+          <th>Change</th>
+          <th>Reason</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">Identity.UserAssignedIdentities</td>
-          <td style="text-align: left">Removed</td>
-          <td style="text-align: left">Status Only</td>
+          <td>Identity.UserAssignedIdentities</td>
+          <td>Removed</td>
+          <td>Status Only</td>
       </tr>
   </tbody>
 </table>
@@ -1571,21 +1565,21 @@ We expect that most users will find their resources are unaffected by these chan
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property Path</th>
-          <th style="text-align: left">Change</th>
-          <th style="text-align: left">Reason</th>
+          <th>Property Path</th>
+          <th>Change</th>
+          <th>Reason</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">InputSchemaMapping.InputSchemaMappingType</td>
-          <td style="text-align: left">Removed</td>
-          <td style="text-align: left">Discriminator</td>
+          <td>InputSchemaMapping.InputSchemaMappingType</td>
+          <td>Removed</td>
+          <td>Discriminator</td>
       </tr>
       <tr>
-          <td style="text-align: left">InputSchemaMapping.Properties</td>
-          <td style="text-align: left">Renamed to Json</td>
-          <td style="text-align: left">Discriminator</td>
+          <td>InputSchemaMapping.Properties</td>
+          <td>Renamed to Json</td>
+          <td>Discriminator</td>
       </tr>
   </tbody>
 </table>
@@ -1678,16 +1672,16 @@ We expect that most users will find their resources are unaffected by these chan
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Change</th>
-          <th style="text-align: left">Reason</th>
+          <th>Property</th>
+          <th>Change</th>
+          <th>Reason</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">PrivateEndpointConnections</td>
-          <td style="text-align: left">Removed</td>
-          <td style="text-align: left">Status Only</td>
+          <td>PrivateEndpointConnections</td>
+          <td>Removed</td>
+          <td>Status Only</td>
       </tr>
   </tbody>
 </table>
@@ -1784,16 +1778,16 @@ We expect that most users will find their resources are unaffected by these chan
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property Path</th>
-          <th style="text-align: left">Change</th>
-          <th style="text-align: left">Reason</th>
+          <th>Property Path</th>
+          <th>Change</th>
+          <th>Reason</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">Identity.UserAssignedIdentities</td>
-          <td style="text-align: left">Removed</td>
-          <td style="text-align: left">Status Only</td>
+          <td>Identity.UserAssignedIdentities</td>
+          <td>Removed</td>
+          <td>Status Only</td>
       </tr>
   </tbody>
 </table>
@@ -1801,16 +1795,16 @@ We expect that most users will find their resources are unaffected by these chan
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property Path</th>
-          <th style="text-align: left">Change</th>
-          <th style="text-align: left">Reason</th>
+          <th>Property Path</th>
+          <th>Change</th>
+          <th>Reason</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">Identity.UserAssignedIdentities</td>
-          <td style="text-align: left">Removed</td>
-          <td style="text-align: left">Status Only</td>
+          <td>Identity.UserAssignedIdentities</td>
+          <td>Removed</td>
+          <td>Status Only</td>
       </tr>
   </tbody>
 </table>
@@ -2004,16 +1998,16 @@ We expect that most users will find their resources are unaffected by these chan
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property Path</th>
-          <th style="text-align: left">Change</th>
-          <th style="text-align: left">Reason</th>
+          <th>Property Path</th>
+          <th>Change</th>
+          <th>Reason</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">Identity.UserAssignedIdentities</td>
-          <td style="text-align: left">Removed</td>
-          <td style="text-align: left">Status Only</td>
+          <td>Identity.UserAssignedIdentities</td>
+          <td>Removed</td>
+          <td>Status Only</td>
       </tr>
   </tbody>
 </table>
@@ -2128,16 +2122,16 @@ We expect that most users will find their resources are unaffected by these chan
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property Path</th>
-          <th style="text-align: left">Change</th>
-          <th style="text-align: left">Reason Only</th>
+          <th>Property Path</th>
+          <th>Change</th>
+          <th>Reason Only</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">Identity.UserAssignedIdentities</td>
-          <td style="text-align: left">Removed</td>
-          <td style="text-align: left">Status Only</td>
+          <td>Identity.UserAssignedIdentities</td>
+          <td>Removed</td>
+          <td>Status Only</td>
       </tr>
   </tbody>
 </table>
@@ -2175,7 +2169,7 @@ We expect that most users will find their resources are unaffected by these chan
 </footer>
 
     </div>
-    <script src="/azure-service-operator/js/main.min.0a5a30b73411b7a841784b6f4d46f4e0b1b95d576fa3cadd81db9d5ae468e8c2.js" integrity="sha256-ClowtzQRt6hBeEtvTUb04LG5XVdvo8rdgdudWuRo6MI=" crossorigin="anonymous"></script>
+    <script src="/azure-service-operator/js/main.min.4096f09e0b199950620fc06165ef2a2791e1bee9067e27b14c4a54f02c0e33bd.js" integrity="sha256-QJbwngsZmVBiD8BhZe8qJ5HhvukGfiexTEpU8CwOM70=" crossorigin="anonymous"></script>
 <script defer src="/azure-service-operator/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/azure-service-operator/js/tabpane-persist.js'></script>
 

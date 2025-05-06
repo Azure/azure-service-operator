@@ -19,8 +19,8 @@
 
 <title>2023-04: Azure Resource Deprecation | Azure Service Operator</title>
 <meta name="description" content="Context As succinctly raised by @sakthi-vetrivel in (#2070)[https://github.com/Azure/azure-service-operator/issues/2070]:
-Today, there&rsquo;s no change to the support for an Azure Service Operator CRD when the underlying Azure service/offering is being deprecated. How should we communicate these deprecations and what timelines should we follow? How will we keep our catalog up to date?
-Starting in Kubernetes v1.19, it&rsquo;s possible to flag individual versions of a custom resource as (deprecated)[https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definition-versioning/#version-deprecation]. This results in the follow behaviour:">
+Today, there’s no change to the support for an Azure Service Operator CRD when the underlying Azure service/offering is being deprecated. How should we communicate these deprecations and what timelines should we follow? How will we keep our catalog up to date?
+Starting in Kubernetes v1.19, it’s possible to flag individual versions of a custom resource as (deprecated)[https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definition-versioning/#version-deprecation]. This results in the follow behaviour:">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/design/adr-2023-04-deprecation/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="2023-04: Azure Resource Deprecation">
@@ -41,13 +41,8 @@ Starting in Kubernetes v1.19, it’s possible to flag individual versions of a c
   <meta name="twitter:description" content="Context As succinctly raised by @sakthi-vetrivel in (#2070)[https://github.com/Azure/azure-service-operator/issues/2070]:
 Today, there’s no change to the support for an Azure Service Operator CRD when the underlying Azure service/offering is being deprecated. How should we communicate these deprecations and what timelines should we follow? How will we keep our catalog up to date?
 Starting in Kubernetes v1.19, it’s possible to flag individual versions of a custom resource as (deprecated)[https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definition-versioning/#version-deprecation]. This results in the follow behaviour:">
-
-
-
-
-<link rel="preload" href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" as="style">
-<link href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" rel="stylesheet" integrity="">
-
+<link rel="preload" href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" as="style" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
+<link href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" rel="stylesheet" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -834,7 +829,6 @@ Starting in Kubernetes v1.19, it’s possible to flag individual versions of a c
     2023-04: Azure Resource Deprecation</li>
   </ol>
 </nav>
-            
 <div class="td-content">
 	<h1>2023-04: Azure Resource Deprecation</h1>
 	
@@ -844,14 +838,12 @@ Starting in Kubernetes v1.19, it’s possible to flag individual versions of a c
 	<h2 id="context">Context</h2>
 <p>As succinctly raised by <code>@sakthi-vetrivel</code> in (#2070)[https://github.com/Azure/azure-service-operator/issues/2070]:</p>
 <blockquote>
-<p>Today, there&rsquo;s no change to the support for an Azure Service Operator CRD when the underlying Azure service/offering is being deprecated. How should we communicate these deprecations and what timelines should we follow? How will we keep our catalog up to date?</p>
-</blockquote>
+<p>Today, there&rsquo;s no change to the support for an Azure Service Operator CRD when the underlying Azure service/offering is being deprecated. How should we communicate these deprecations and what timelines should we follow? How will we keep our catalog up to date?</p></blockquote>
 <p>Starting in Kubernetes v1.19, it&rsquo;s possible to flag individual versions of a custom resource as (deprecated)[https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definition-versioning/#version-deprecation]. This results in the follow behaviour:</p>
 <blockquote>
 <p>When API requests to a deprecated version of that resource are made, a warning message is
 returned in the API response as a header. The warning message for each deprecated version of the
-resource can be customized if desired.</p>
-</blockquote>
+resource can be customized if desired.</p></blockquote>
 <h2 id="decision">Decision</h2>
 <p>To make deprecations visible, we will modify our ObjectModelConfiguration to allow flagging a particular resource (or resource version) as deprecated (including a message), with this flowing through into the generated code and our custom resource definitions.</p>
 <p>When we become aware of resource or version deprecation, we&rsquo;ll do the following:</p>
@@ -904,7 +896,7 @@ resource can be customized if desired.</p>
 </footer>
 
     </div>
-    <script src="/azure-service-operator/js/main.min.0a5a30b73411b7a841784b6f4d46f4e0b1b95d576fa3cadd81db9d5ae468e8c2.js" integrity="sha256-ClowtzQRt6hBeEtvTUb04LG5XVdvo8rdgdudWuRo6MI=" crossorigin="anonymous"></script>
+    <script src="/azure-service-operator/js/main.min.4096f09e0b199950620fc06165ef2a2791e1bee9067e27b14c4a54f02c0e33bd.js" integrity="sha256-QJbwngsZmVBiD8BhZe8qJ5HhvukGfiexTEpU8CwOM70=" crossorigin="anonymous"></script>
 <script defer src="/azure-service-operator/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/azure-service-operator/js/tabpane-persist.js'></script>
 

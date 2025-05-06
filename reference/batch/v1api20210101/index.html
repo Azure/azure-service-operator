@@ -18,13 +18,13 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>batch.azure.com/v1api20210101 | Azure Service Operator</title>
-<meta name="description" content=" APIVersion Value Description &ldquo;2021-01-01&rdquo; BatchAccount Generator information: - Generated from: /batch/resource-manager/Microsoft.Batch/stable/2021-01-01/BatchManagement.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Batch/batchAccounts/{accountName}
+<meta name="description" content="APIVersion Value Description “2021-01-01” BatchAccount Generator information: - Generated from: /batch/resource-manager/Microsoft.Batch/stable/2021-01-01/BatchManagement.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Batch/batchAccounts/{accountName}
 Used by: BatchAccountList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec BatchAccount_SpecOptional status BatchAccount_STATUSOptional BatchAccount_Spec Property Description Type autoStorage The properties related to the auto-storage account. AutoStorageBasePropertiesOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be. stringOptional encryption Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead. EncryptionPropertiesOptional identity The identity of the Batch account. BatchAccountIdentityOptional keyVaultReference A reference to the Azure key vault associated with the Batch account. KeyVaultReferenceOptional location The region in which to create the account. stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure BatchAccountOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired poolAllocationMode The pool allocation mode also affects how clients may authenticate to the Batch Service API. If the mode is BatchService, clients may authenticate using access keys or Azure Active Directory. If the mode is UserSubscription, clients must use Azure Active Directory. The default is BatchService. PoolAllocationModeOptional publicNetworkAccess If not specified, the default value is &rsquo;enabled&#39;. PublicNetworkAccessTypeOptional tags The user-specified tags associated with the account. map[string]stringOptional BatchAccount_STATUS Property Description Type accountEndpoint The account endpoint used to interact with the Batch service. stringOptional activeJobAndJobScheduleQuota intOptional autoStorage Contains information about the auto-storage account associated with a Batch account. AutoStorageProperties_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional dedicatedCoreQuota For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned. intOptional dedicatedCoreQuotaPerVMFamily A list of the dedicated core quota per Virtual Machine family for the Batch account. For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned. VirtualMachineFamilyCoreQuota_STATUS[]Optional dedicatedCoreQuotaPerVMFamilyEnforced Batch is transitioning its core quota system for dedicated cores to be enforced per Virtual Machine family. During this transitional phase, the dedicated core quota per Virtual Machine family may not yet be enforced. If this flag is false, dedicated core quota is enforced via the old dedicatedCoreQuota property on the account and does not consider Virtual Machine family. If this flag is true, dedicated core quota is enforced via the dedicatedCoreQuotaPerVMFamily property on the account, and the old dedicatedCoreQuota does not apply. boolOptional encryption Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead. EncryptionProperties_STATUSOptional id The ID of the resource. stringOptional identity The identity of the Batch account. BatchAccountIdentity_STATUSOptional keyVaultReference Identifies the Azure key vault associated with a Batch account. KeyVaultReference_STATUSOptional location The location of the resource. stringOptional lowPriorityCoreQuota For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned. intOptional name The name of the resource. stringOptional poolAllocationMode The allocation mode for creating pools in the Batch account. PoolAllocationMode_STATUSOptional poolQuota intOptional privateEndpointConnections List of private endpoint connections associated with the Batch account PrivateEndpointConnection_STATUS[]Optional provisioningState The provisioned state of the resource BatchAccountProperties_ProvisioningState_STATUSOptional publicNetworkAccess If not specified, the default value is &rsquo;enabled&#39;. PublicNetworkAccessType_STATUSOptional tags The tags of the resource. map[string]stringOptional type The type of the resource. stringOptional BatchAccountList Generator information: - Generated from: /batch/resource-manager/Microsoft.Batch/stable/2021-01-01/BatchManagement.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Batch/batchAccounts/{accountName}">
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec BatchAccount_SpecOptional status BatchAccount_STATUSOptional BatchAccount_Spec Property Description Type autoStorage The properties related to the auto-storage account. AutoStorageBasePropertiesOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional encryption Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead. EncryptionPropertiesOptional identity The identity of the Batch account. BatchAccountIdentityOptional keyVaultReference A reference to the Azure key vault associated with the Batch account. KeyVaultReferenceOptional location The region in which to create the account. stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure BatchAccountOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired poolAllocationMode The pool allocation mode also affects how clients may authenticate to the Batch Service API. If the mode is BatchService, clients may authenticate using access keys or Azure Active Directory. If the mode is UserSubscription, clients must use Azure Active Directory. The default is BatchService. PoolAllocationModeOptional publicNetworkAccess If not specified, the default value is ’enabled&#39;. PublicNetworkAccessTypeOptional tags The user-specified tags associated with the account. map[string]stringOptional BatchAccount_STATUS Property Description Type accountEndpoint The account endpoint used to interact with the Batch service. stringOptional activeJobAndJobScheduleQuota intOptional autoStorage Contains information about the auto-storage account associated with a Batch account. AutoStorageProperties_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional dedicatedCoreQuota For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned. intOptional dedicatedCoreQuotaPerVMFamily A list of the dedicated core quota per Virtual Machine family for the Batch account. For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned. VirtualMachineFamilyCoreQuota_STATUS[]Optional dedicatedCoreQuotaPerVMFamilyEnforced Batch is transitioning its core quota system for dedicated cores to be enforced per Virtual Machine family. During this transitional phase, the dedicated core quota per Virtual Machine family may not yet be enforced. If this flag is false, dedicated core quota is enforced via the old dedicatedCoreQuota property on the account and does not consider Virtual Machine family. If this flag is true, dedicated core quota is enforced via the dedicatedCoreQuotaPerVMFamily property on the account, and the old dedicatedCoreQuota does not apply. boolOptional encryption Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead. EncryptionProperties_STATUSOptional id The ID of the resource. stringOptional identity The identity of the Batch account. BatchAccountIdentity_STATUSOptional keyVaultReference Identifies the Azure key vault associated with a Batch account. KeyVaultReference_STATUSOptional location The location of the resource. stringOptional lowPriorityCoreQuota For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned. intOptional name The name of the resource. stringOptional poolAllocationMode The allocation mode for creating pools in the Batch account. PoolAllocationMode_STATUSOptional poolQuota intOptional privateEndpointConnections List of private endpoint connections associated with the Batch account PrivateEndpointConnection_STATUS[]Optional provisioningState The provisioned state of the resource BatchAccountProperties_ProvisioningState_STATUSOptional publicNetworkAccess If not specified, the default value is ’enabled&#39;. PublicNetworkAccessType_STATUSOptional tags The tags of the resource. map[string]stringOptional type The type of the resource. stringOptional BatchAccountList Generator information: - Generated from: /batch/resource-manager/Microsoft.Batch/stable/2021-01-01/BatchManagement.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Batch/batchAccounts/{accountName}">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/batch/v1api20210101/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="batch.azure.com/v1api20210101">
-  <meta property="og:description" content=" APIVersion Value Description “2021-01-01” BatchAccount Generator information: - Generated from: /batch/resource-manager/Microsoft.Batch/stable/2021-01-01/BatchManagement.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Batch/batchAccounts/{accountName}
+  <meta property="og:description" content="APIVersion Value Description “2021-01-01” BatchAccount Generator information: - Generated from: /batch/resource-manager/Microsoft.Batch/stable/2021-01-01/BatchManagement.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Batch/batchAccounts/{accountName}
 Used by: BatchAccountList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec BatchAccount_SpecOptional status BatchAccount_STATUSOptional BatchAccount_Spec Property Description Type autoStorage The properties related to the auto-storage account. AutoStorageBasePropertiesOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional encryption Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead. EncryptionPropertiesOptional identity The identity of the Batch account. BatchAccountIdentityOptional keyVaultReference A reference to the Azure key vault associated with the Batch account. KeyVaultReferenceOptional location The region in which to create the account. stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure BatchAccountOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired poolAllocationMode The pool allocation mode also affects how clients may authenticate to the Batch Service API. If the mode is BatchService, clients may authenticate using access keys or Azure Active Directory. If the mode is UserSubscription, clients must use Azure Active Directory. The default is BatchService. PoolAllocationModeOptional publicNetworkAccess If not specified, the default value is ’enabled&#39;. PublicNetworkAccessTypeOptional tags The user-specified tags associated with the account. map[string]stringOptional BatchAccount_STATUS Property Description Type accountEndpoint The account endpoint used to interact with the Batch service. stringOptional activeJobAndJobScheduleQuota intOptional autoStorage Contains information about the auto-storage account associated with a Batch account. AutoStorageProperties_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional dedicatedCoreQuota For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned. intOptional dedicatedCoreQuotaPerVMFamily A list of the dedicated core quota per Virtual Machine family for the Batch account. For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned. VirtualMachineFamilyCoreQuota_STATUS[]Optional dedicatedCoreQuotaPerVMFamilyEnforced Batch is transitioning its core quota system for dedicated cores to be enforced per Virtual Machine family. During this transitional phase, the dedicated core quota per Virtual Machine family may not yet be enforced. If this flag is false, dedicated core quota is enforced via the old dedicatedCoreQuota property on the account and does not consider Virtual Machine family. If this flag is true, dedicated core quota is enforced via the dedicatedCoreQuotaPerVMFamily property on the account, and the old dedicatedCoreQuota does not apply. boolOptional encryption Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead. EncryptionProperties_STATUSOptional id The ID of the resource. stringOptional identity The identity of the Batch account. BatchAccountIdentity_STATUSOptional keyVaultReference Identifies the Azure key vault associated with a Batch account. KeyVaultReference_STATUSOptional location The location of the resource. stringOptional lowPriorityCoreQuota For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned. intOptional name The name of the resource. stringOptional poolAllocationMode The allocation mode for creating pools in the Batch account. PoolAllocationMode_STATUSOptional poolQuota intOptional privateEndpointConnections List of private endpoint connections associated with the Batch account PrivateEndpointConnection_STATUS[]Optional provisioningState The provisioned state of the resource BatchAccountProperties_ProvisioningState_STATUSOptional publicNetworkAccess If not specified, the default value is ’enabled&#39;. PublicNetworkAccessType_STATUSOptional tags The tags of the resource. map[string]stringOptional type The type of the resource. stringOptional BatchAccountList Generator information: - Generated from: /batch/resource-manager/Microsoft.Batch/stable/2021-01-01/BatchManagement.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Batch/batchAccounts/{accountName}">
   <meta property="og:locale" content="en_us">
@@ -32,22 +32,17 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec BatchAccount_Sp
     <meta property="article:section" content="reference">
 
   <meta itemprop="name" content="batch.azure.com/v1api20210101">
-  <meta itemprop="description" content=" APIVersion Value Description “2021-01-01” BatchAccount Generator information: - Generated from: /batch/resource-manager/Microsoft.Batch/stable/2021-01-01/BatchManagement.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Batch/batchAccounts/{accountName}
+  <meta itemprop="description" content="APIVersion Value Description “2021-01-01” BatchAccount Generator information: - Generated from: /batch/resource-manager/Microsoft.Batch/stable/2021-01-01/BatchManagement.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Batch/batchAccounts/{accountName}
 Used by: BatchAccountList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec BatchAccount_SpecOptional status BatchAccount_STATUSOptional BatchAccount_Spec Property Description Type autoStorage The properties related to the auto-storage account. AutoStorageBasePropertiesOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional encryption Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead. EncryptionPropertiesOptional identity The identity of the Batch account. BatchAccountIdentityOptional keyVaultReference A reference to the Azure key vault associated with the Batch account. KeyVaultReferenceOptional location The region in which to create the account. stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure BatchAccountOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired poolAllocationMode The pool allocation mode also affects how clients may authenticate to the Batch Service API. If the mode is BatchService, clients may authenticate using access keys or Azure Active Directory. If the mode is UserSubscription, clients must use Azure Active Directory. The default is BatchService. PoolAllocationModeOptional publicNetworkAccess If not specified, the default value is ’enabled&#39;. PublicNetworkAccessTypeOptional tags The user-specified tags associated with the account. map[string]stringOptional BatchAccount_STATUS Property Description Type accountEndpoint The account endpoint used to interact with the Batch service. stringOptional activeJobAndJobScheduleQuota intOptional autoStorage Contains information about the auto-storage account associated with a Batch account. AutoStorageProperties_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional dedicatedCoreQuota For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned. intOptional dedicatedCoreQuotaPerVMFamily A list of the dedicated core quota per Virtual Machine family for the Batch account. For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned. VirtualMachineFamilyCoreQuota_STATUS[]Optional dedicatedCoreQuotaPerVMFamilyEnforced Batch is transitioning its core quota system for dedicated cores to be enforced per Virtual Machine family. During this transitional phase, the dedicated core quota per Virtual Machine family may not yet be enforced. If this flag is false, dedicated core quota is enforced via the old dedicatedCoreQuota property on the account and does not consider Virtual Machine family. If this flag is true, dedicated core quota is enforced via the dedicatedCoreQuotaPerVMFamily property on the account, and the old dedicatedCoreQuota does not apply. boolOptional encryption Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead. EncryptionProperties_STATUSOptional id The ID of the resource. stringOptional identity The identity of the Batch account. BatchAccountIdentity_STATUSOptional keyVaultReference Identifies the Azure key vault associated with a Batch account. KeyVaultReference_STATUSOptional location The location of the resource. stringOptional lowPriorityCoreQuota For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned. intOptional name The name of the resource. stringOptional poolAllocationMode The allocation mode for creating pools in the Batch account. PoolAllocationMode_STATUSOptional poolQuota intOptional privateEndpointConnections List of private endpoint connections associated with the Batch account PrivateEndpointConnection_STATUS[]Optional provisioningState The provisioned state of the resource BatchAccountProperties_ProvisioningState_STATUSOptional publicNetworkAccess If not specified, the default value is ’enabled&#39;. PublicNetworkAccessType_STATUSOptional tags The tags of the resource. map[string]stringOptional type The type of the resource. stringOptional BatchAccountList Generator information: - Generated from: /batch/resource-manager/Microsoft.Batch/stable/2021-01-01/BatchManagement.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Batch/batchAccounts/{accountName}">
   <meta itemprop="wordCount" content="2058">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="batch.azure.com/v1api20210101">
-  <meta name="twitter:description" content=" APIVersion Value Description “2021-01-01” BatchAccount Generator information: - Generated from: /batch/resource-manager/Microsoft.Batch/stable/2021-01-01/BatchManagement.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Batch/batchAccounts/{accountName}
+  <meta name="twitter:description" content="APIVersion Value Description “2021-01-01” BatchAccount Generator information: - Generated from: /batch/resource-manager/Microsoft.Batch/stable/2021-01-01/BatchManagement.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Batch/batchAccounts/{accountName}
 Used by: BatchAccountList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec BatchAccount_SpecOptional status BatchAccount_STATUSOptional BatchAccount_Spec Property Description Type autoStorage The properties related to the auto-storage account. AutoStorageBasePropertiesOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional encryption Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead. EncryptionPropertiesOptional identity The identity of the Batch account. BatchAccountIdentityOptional keyVaultReference A reference to the Azure key vault associated with the Batch account. KeyVaultReferenceOptional location The region in which to create the account. stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure BatchAccountOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired poolAllocationMode The pool allocation mode also affects how clients may authenticate to the Batch Service API. If the mode is BatchService, clients may authenticate using access keys or Azure Active Directory. If the mode is UserSubscription, clients must use Azure Active Directory. The default is BatchService. PoolAllocationModeOptional publicNetworkAccess If not specified, the default value is ’enabled&#39;. PublicNetworkAccessTypeOptional tags The user-specified tags associated with the account. map[string]stringOptional BatchAccount_STATUS Property Description Type accountEndpoint The account endpoint used to interact with the Batch service. stringOptional activeJobAndJobScheduleQuota intOptional autoStorage Contains information about the auto-storage account associated with a Batch account. AutoStorageProperties_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional dedicatedCoreQuota For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned. intOptional dedicatedCoreQuotaPerVMFamily A list of the dedicated core quota per Virtual Machine family for the Batch account. For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned. VirtualMachineFamilyCoreQuota_STATUS[]Optional dedicatedCoreQuotaPerVMFamilyEnforced Batch is transitioning its core quota system for dedicated cores to be enforced per Virtual Machine family. During this transitional phase, the dedicated core quota per Virtual Machine family may not yet be enforced. If this flag is false, dedicated core quota is enforced via the old dedicatedCoreQuota property on the account and does not consider Virtual Machine family. If this flag is true, dedicated core quota is enforced via the dedicatedCoreQuotaPerVMFamily property on the account, and the old dedicatedCoreQuota does not apply. boolOptional encryption Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead. EncryptionProperties_STATUSOptional id The ID of the resource. stringOptional identity The identity of the Batch account. BatchAccountIdentity_STATUSOptional keyVaultReference Identifies the Azure key vault associated with a Batch account. KeyVaultReference_STATUSOptional location The location of the resource. stringOptional lowPriorityCoreQuota For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned. intOptional name The name of the resource. stringOptional poolAllocationMode The allocation mode for creating pools in the Batch account. PoolAllocationMode_STATUSOptional poolQuota intOptional privateEndpointConnections List of private endpoint connections associated with the Batch account PrivateEndpointConnection_STATUS[]Optional provisioningState The provisioned state of the resource BatchAccountProperties_ProvisioningState_STATUSOptional publicNetworkAccess If not specified, the default value is ’enabled&#39;. PublicNetworkAccessType_STATUSOptional tags The tags of the resource. map[string]stringOptional type The type of the resource. stringOptional BatchAccountList Generator information: - Generated from: /batch/resource-manager/Microsoft.Batch/stable/2021-01-01/BatchManagement.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Batch/batchAccounts/{accountName}">
-
-
-
-
-<link rel="preload" href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" as="style">
-<link href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" rel="stylesheet" integrity="">
-
+<link rel="preload" href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" as="style" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
+<link href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" rel="stylesheet" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -864,7 +859,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec BatchAccount_Sp
     v1api20210101</li>
   </ol>
 </nav>
-            
 <div class="td-content">
 	<h1>batch.azure.com/v1api20210101</h1>
 	
@@ -876,14 +870,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec BatchAccount_Sp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;2021-01-01&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;2021-01-01&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -893,31 +887,31 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec BatchAccount_Sp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left"><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta">metav1.ObjectMeta</a></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta">metav1.ObjectMeta</a></td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">spec</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"><a href="#BatchAccount_Spec">BatchAccount_Spec</a><br/><small>Optional</small></td>
+          <td>spec</td>
+          <td></td>
+          <td><a href="#BatchAccount_Spec">BatchAccount_Spec</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">status</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"><a href="#BatchAccount_STATUS">BatchAccount_STATUS</a><br/><small>Optional</small></td>
+          <td>status</td>
+          <td></td>
+          <td><a href="#BatchAccount_STATUS">BatchAccount_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -925,66 +919,66 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec BatchAccount_Sp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">autoStorage</td>
-          <td style="text-align: left">The properties related to the auto-storage account.</td>
-          <td style="text-align: left"><a href="#AutoStorageBaseProperties">AutoStorageBaseProperties</a><br/><small>Optional</small></td>
+          <td>autoStorage</td>
+          <td>The properties related to the auto-storage account.</td>
+          <td><a href="#AutoStorageBaseProperties">AutoStorageBaseProperties</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">azureName</td>
-          <td style="text-align: left">The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>azureName</td>
+          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">encryption</td>
-          <td style="text-align: left">Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead.</td>
-          <td style="text-align: left"><a href="#EncryptionProperties">EncryptionProperties</a><br/><small>Optional</small></td>
+          <td>encryption</td>
+          <td>Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead.</td>
+          <td><a href="#EncryptionProperties">EncryptionProperties</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">identity</td>
-          <td style="text-align: left">The identity of the Batch account.</td>
-          <td style="text-align: left"><a href="#BatchAccountIdentity">BatchAccountIdentity</a><br/><small>Optional</small></td>
+          <td>identity</td>
+          <td>The identity of the Batch account.</td>
+          <td><a href="#BatchAccountIdentity">BatchAccountIdentity</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">keyVaultReference</td>
-          <td style="text-align: left">A reference to the Azure key vault associated with the Batch account.</td>
-          <td style="text-align: left"><a href="#KeyVaultReference">KeyVaultReference</a><br/><small>Optional</small></td>
+          <td>keyVaultReference</td>
+          <td>A reference to the Azure key vault associated with the Batch account.</td>
+          <td><a href="#KeyVaultReference">KeyVaultReference</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">location</td>
-          <td style="text-align: left">The region in which to create the account.</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>location</td>
+          <td>The region in which to create the account.</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">operatorSpec</td>
-          <td style="text-align: left">The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td style="text-align: left"><a href="#BatchAccountOperatorSpec">BatchAccountOperatorSpec</a><br/><small>Optional</small></td>
+          <td>operatorSpec</td>
+          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+          <td><a href="#BatchAccountOperatorSpec">BatchAccountOperatorSpec</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">owner</td>
-          <td style="text-align: left">The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
+          <td>owner</td>
+          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">poolAllocationMode</td>
-          <td style="text-align: left">The pool allocation mode also affects how clients may authenticate to the Batch Service API. If the mode is BatchService, clients may authenticate using access keys or Azure Active Directory. If the mode is UserSubscription, clients must use Azure Active Directory. The default is BatchService.</td>
-          <td style="text-align: left"><a href="#PoolAllocationMode">PoolAllocationMode</a><br/><small>Optional</small></td>
+          <td>poolAllocationMode</td>
+          <td>The pool allocation mode also affects how clients may authenticate to the Batch Service API. If the mode is BatchService, clients may authenticate using access keys or Azure Active Directory. If the mode is UserSubscription, clients must use Azure Active Directory. The default is BatchService.</td>
+          <td><a href="#PoolAllocationMode">PoolAllocationMode</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">publicNetworkAccess</td>
-          <td style="text-align: left">If not specified, the default value is &rsquo;enabled'.</td>
-          <td style="text-align: left"><a href="#PublicNetworkAccessType">PublicNetworkAccessType</a><br/><small>Optional</small></td>
+          <td>publicNetworkAccess</td>
+          <td>If not specified, the default value is &rsquo;enabled'.</td>
+          <td><a href="#PublicNetworkAccessType">PublicNetworkAccessType</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">tags</td>
-          <td style="text-align: left">The user-specified tags associated with the account.</td>
-          <td style="text-align: left">map[string]string<br/><small>Optional</small></td>
+          <td>tags</td>
+          <td>The user-specified tags associated with the account.</td>
+          <td>map[string]string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -992,116 +986,116 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec BatchAccount_Sp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">accountEndpoint</td>
-          <td style="text-align: left">The account endpoint used to interact with the Batch service.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>accountEndpoint</td>
+          <td>The account endpoint used to interact with the Batch service.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">activeJobAndJobScheduleQuota</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">int<br/><small>Optional</small></td>
+          <td>activeJobAndJobScheduleQuota</td>
+          <td></td>
+          <td>int<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">autoStorage</td>
-          <td style="text-align: left">Contains information about the auto-storage account associated with a Batch account.</td>
-          <td style="text-align: left"><a href="#AutoStorageProperties_STATUS">AutoStorageProperties_STATUS</a><br/><small>Optional</small></td>
+          <td>autoStorage</td>
+          <td>Contains information about the auto-storage account associated with a Batch account.</td>
+          <td><a href="#AutoStorageProperties_STATUS">AutoStorageProperties_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">conditions</td>
-          <td style="text-align: left">The observed state of the resource</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+          <td>conditions</td>
+          <td>The observed state of the resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">dedicatedCoreQuota</td>
-          <td style="text-align: left">For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned.</td>
-          <td style="text-align: left">int<br/><small>Optional</small></td>
+          <td>dedicatedCoreQuota</td>
+          <td>For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned.</td>
+          <td>int<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">dedicatedCoreQuotaPerVMFamily</td>
-          <td style="text-align: left">A list of the dedicated core quota per Virtual Machine family for the Batch account. For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned.</td>
-          <td style="text-align: left"><a href="#VirtualMachineFamilyCoreQuota_STATUS">VirtualMachineFamilyCoreQuota_STATUS[]</a><br/><small>Optional</small></td>
+          <td>dedicatedCoreQuotaPerVMFamily</td>
+          <td>A list of the dedicated core quota per Virtual Machine family for the Batch account. For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned.</td>
+          <td><a href="#VirtualMachineFamilyCoreQuota_STATUS">VirtualMachineFamilyCoreQuota_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">dedicatedCoreQuotaPerVMFamilyEnforced</td>
-          <td style="text-align: left">Batch is transitioning its core quota system for dedicated cores to be enforced per Virtual Machine family. During this transitional phase, the dedicated core quota per Virtual Machine family may not yet be enforced. If this flag is false, dedicated core quota is enforced via the old dedicatedCoreQuota property on the account and does not consider Virtual Machine family. If this flag is true, dedicated core quota is enforced via the dedicatedCoreQuotaPerVMFamily property on the account, and the old dedicatedCoreQuota does not apply.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>dedicatedCoreQuotaPerVMFamilyEnforced</td>
+          <td>Batch is transitioning its core quota system for dedicated cores to be enforced per Virtual Machine family. During this transitional phase, the dedicated core quota per Virtual Machine family may not yet be enforced. If this flag is false, dedicated core quota is enforced via the old dedicatedCoreQuota property on the account and does not consider Virtual Machine family. If this flag is true, dedicated core quota is enforced via the dedicatedCoreQuotaPerVMFamily property on the account, and the old dedicatedCoreQuota does not apply.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">encryption</td>
-          <td style="text-align: left">Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead.</td>
-          <td style="text-align: left"><a href="#EncryptionProperties_STATUS">EncryptionProperties_STATUS</a><br/><small>Optional</small></td>
+          <td>encryption</td>
+          <td>Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead.</td>
+          <td><a href="#EncryptionProperties_STATUS">EncryptionProperties_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">id</td>
-          <td style="text-align: left">The ID of the resource.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>id</td>
+          <td>The ID of the resource.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">identity</td>
-          <td style="text-align: left">The identity of the Batch account.</td>
-          <td style="text-align: left"><a href="#BatchAccountIdentity_STATUS">BatchAccountIdentity_STATUS</a><br/><small>Optional</small></td>
+          <td>identity</td>
+          <td>The identity of the Batch account.</td>
+          <td><a href="#BatchAccountIdentity_STATUS">BatchAccountIdentity_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">keyVaultReference</td>
-          <td style="text-align: left">Identifies the Azure key vault associated with a Batch account.</td>
-          <td style="text-align: left"><a href="#KeyVaultReference_STATUS">KeyVaultReference_STATUS</a><br/><small>Optional</small></td>
+          <td>keyVaultReference</td>
+          <td>Identifies the Azure key vault associated with a Batch account.</td>
+          <td><a href="#KeyVaultReference_STATUS">KeyVaultReference_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">location</td>
-          <td style="text-align: left">The location of the resource.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>location</td>
+          <td>The location of the resource.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">lowPriorityCoreQuota</td>
-          <td style="text-align: left">For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned.</td>
-          <td style="text-align: left">int<br/><small>Optional</small></td>
+          <td>lowPriorityCoreQuota</td>
+          <td>For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned.</td>
+          <td>int<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">name</td>
-          <td style="text-align: left">The name of the resource.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>name</td>
+          <td>The name of the resource.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">poolAllocationMode</td>
-          <td style="text-align: left">The allocation mode for creating pools in the Batch account.</td>
-          <td style="text-align: left"><a href="#PoolAllocationMode_STATUS">PoolAllocationMode_STATUS</a><br/><small>Optional</small></td>
+          <td>poolAllocationMode</td>
+          <td>The allocation mode for creating pools in the Batch account.</td>
+          <td><a href="#PoolAllocationMode_STATUS">PoolAllocationMode_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">poolQuota</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">int<br/><small>Optional</small></td>
+          <td>poolQuota</td>
+          <td></td>
+          <td>int<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">privateEndpointConnections</td>
-          <td style="text-align: left">List of private endpoint connections associated with the Batch account</td>
-          <td style="text-align: left"><a href="#PrivateEndpointConnection_STATUS">PrivateEndpointConnection_STATUS[]</a><br/><small>Optional</small></td>
+          <td>privateEndpointConnections</td>
+          <td>List of private endpoint connections associated with the Batch account</td>
+          <td><a href="#PrivateEndpointConnection_STATUS">PrivateEndpointConnection_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">provisioningState</td>
-          <td style="text-align: left">The provisioned state of the resource</td>
-          <td style="text-align: left"><a href="#BatchAccountProperties_ProvisioningState_STATUS">BatchAccountProperties_ProvisioningState_STATUS</a><br/><small>Optional</small></td>
+          <td>provisioningState</td>
+          <td>The provisioned state of the resource</td>
+          <td><a href="#BatchAccountProperties_ProvisioningState_STATUS">BatchAccountProperties_ProvisioningState_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">publicNetworkAccess</td>
-          <td style="text-align: left">If not specified, the default value is &rsquo;enabled'.</td>
-          <td style="text-align: left"><a href="#PublicNetworkAccessType_STATUS">PublicNetworkAccessType_STATUS</a><br/><small>Optional</small></td>
+          <td>publicNetworkAccess</td>
+          <td>If not specified, the default value is &rsquo;enabled'.</td>
+          <td><a href="#PublicNetworkAccessType_STATUS">PublicNetworkAccessType_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">tags</td>
-          <td style="text-align: left">The tags of the resource.</td>
-          <td style="text-align: left">map[string]string<br/><small>Optional</small></td>
+          <td>tags</td>
+          <td>The tags of the resource.</td>
+          <td>map[string]string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">type</td>
-          <td style="text-align: left">The type of the resource.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>type</td>
+          <td>The type of the resource.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1110,26 +1104,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec BatchAccount_Sp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left"><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta">metav1.ListMeta</a></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta">metav1.ListMeta</a></td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">items</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"><a href="#BatchAccount">BatchAccount[]</a><br/><small>Optional</small></td>
+          <td>items</td>
+          <td></td>
+          <td><a href="#BatchAccount">BatchAccount[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1138,66 +1132,66 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec BatchAccount_Sp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">autoStorage</td>
-          <td style="text-align: left">The properties related to the auto-storage account.</td>
-          <td style="text-align: left"><a href="#AutoStorageBaseProperties">AutoStorageBaseProperties</a><br/><small>Optional</small></td>
+          <td>autoStorage</td>
+          <td>The properties related to the auto-storage account.</td>
+          <td><a href="#AutoStorageBaseProperties">AutoStorageBaseProperties</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">azureName</td>
-          <td style="text-align: left">The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>azureName</td>
+          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">encryption</td>
-          <td style="text-align: left">Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead.</td>
-          <td style="text-align: left"><a href="#EncryptionProperties">EncryptionProperties</a><br/><small>Optional</small></td>
+          <td>encryption</td>
+          <td>Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead.</td>
+          <td><a href="#EncryptionProperties">EncryptionProperties</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">identity</td>
-          <td style="text-align: left">The identity of the Batch account.</td>
-          <td style="text-align: left"><a href="#BatchAccountIdentity">BatchAccountIdentity</a><br/><small>Optional</small></td>
+          <td>identity</td>
+          <td>The identity of the Batch account.</td>
+          <td><a href="#BatchAccountIdentity">BatchAccountIdentity</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">keyVaultReference</td>
-          <td style="text-align: left">A reference to the Azure key vault associated with the Batch account.</td>
-          <td style="text-align: left"><a href="#KeyVaultReference">KeyVaultReference</a><br/><small>Optional</small></td>
+          <td>keyVaultReference</td>
+          <td>A reference to the Azure key vault associated with the Batch account.</td>
+          <td><a href="#KeyVaultReference">KeyVaultReference</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">location</td>
-          <td style="text-align: left">The region in which to create the account.</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>location</td>
+          <td>The region in which to create the account.</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">operatorSpec</td>
-          <td style="text-align: left">The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td style="text-align: left"><a href="#BatchAccountOperatorSpec">BatchAccountOperatorSpec</a><br/><small>Optional</small></td>
+          <td>operatorSpec</td>
+          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+          <td><a href="#BatchAccountOperatorSpec">BatchAccountOperatorSpec</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">owner</td>
-          <td style="text-align: left">The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
+          <td>owner</td>
+          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">poolAllocationMode</td>
-          <td style="text-align: left">The pool allocation mode also affects how clients may authenticate to the Batch Service API. If the mode is BatchService, clients may authenticate using access keys or Azure Active Directory. If the mode is UserSubscription, clients must use Azure Active Directory. The default is BatchService.</td>
-          <td style="text-align: left"><a href="#PoolAllocationMode">PoolAllocationMode</a><br/><small>Optional</small></td>
+          <td>poolAllocationMode</td>
+          <td>The pool allocation mode also affects how clients may authenticate to the Batch Service API. If the mode is BatchService, clients may authenticate using access keys or Azure Active Directory. If the mode is UserSubscription, clients must use Azure Active Directory. The default is BatchService.</td>
+          <td><a href="#PoolAllocationMode">PoolAllocationMode</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">publicNetworkAccess</td>
-          <td style="text-align: left">If not specified, the default value is &rsquo;enabled'.</td>
-          <td style="text-align: left"><a href="#PublicNetworkAccessType">PublicNetworkAccessType</a><br/><small>Optional</small></td>
+          <td>publicNetworkAccess</td>
+          <td>If not specified, the default value is &rsquo;enabled'.</td>
+          <td><a href="#PublicNetworkAccessType">PublicNetworkAccessType</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">tags</td>
-          <td style="text-align: left">The user-specified tags associated with the account.</td>
-          <td style="text-align: left">map[string]string<br/><small>Optional</small></td>
+          <td>tags</td>
+          <td>The user-specified tags associated with the account.</td>
+          <td>map[string]string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1207,116 +1201,116 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec BatchAccount_Sp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">accountEndpoint</td>
-          <td style="text-align: left">The account endpoint used to interact with the Batch service.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>accountEndpoint</td>
+          <td>The account endpoint used to interact with the Batch service.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">activeJobAndJobScheduleQuota</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">int<br/><small>Optional</small></td>
+          <td>activeJobAndJobScheduleQuota</td>
+          <td></td>
+          <td>int<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">autoStorage</td>
-          <td style="text-align: left">Contains information about the auto-storage account associated with a Batch account.</td>
-          <td style="text-align: left"><a href="#AutoStorageProperties_STATUS">AutoStorageProperties_STATUS</a><br/><small>Optional</small></td>
+          <td>autoStorage</td>
+          <td>Contains information about the auto-storage account associated with a Batch account.</td>
+          <td><a href="#AutoStorageProperties_STATUS">AutoStorageProperties_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">conditions</td>
-          <td style="text-align: left">The observed state of the resource</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+          <td>conditions</td>
+          <td>The observed state of the resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">dedicatedCoreQuota</td>
-          <td style="text-align: left">For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned.</td>
-          <td style="text-align: left">int<br/><small>Optional</small></td>
+          <td>dedicatedCoreQuota</td>
+          <td>For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned.</td>
+          <td>int<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">dedicatedCoreQuotaPerVMFamily</td>
-          <td style="text-align: left">A list of the dedicated core quota per Virtual Machine family for the Batch account. For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned.</td>
-          <td style="text-align: left"><a href="#VirtualMachineFamilyCoreQuota_STATUS">VirtualMachineFamilyCoreQuota_STATUS[]</a><br/><small>Optional</small></td>
+          <td>dedicatedCoreQuotaPerVMFamily</td>
+          <td>A list of the dedicated core quota per Virtual Machine family for the Batch account. For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned.</td>
+          <td><a href="#VirtualMachineFamilyCoreQuota_STATUS">VirtualMachineFamilyCoreQuota_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">dedicatedCoreQuotaPerVMFamilyEnforced</td>
-          <td style="text-align: left">Batch is transitioning its core quota system for dedicated cores to be enforced per Virtual Machine family. During this transitional phase, the dedicated core quota per Virtual Machine family may not yet be enforced. If this flag is false, dedicated core quota is enforced via the old dedicatedCoreQuota property on the account and does not consider Virtual Machine family. If this flag is true, dedicated core quota is enforced via the dedicatedCoreQuotaPerVMFamily property on the account, and the old dedicatedCoreQuota does not apply.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>dedicatedCoreQuotaPerVMFamilyEnforced</td>
+          <td>Batch is transitioning its core quota system for dedicated cores to be enforced per Virtual Machine family. During this transitional phase, the dedicated core quota per Virtual Machine family may not yet be enforced. If this flag is false, dedicated core quota is enforced via the old dedicatedCoreQuota property on the account and does not consider Virtual Machine family. If this flag is true, dedicated core quota is enforced via the dedicatedCoreQuotaPerVMFamily property on the account, and the old dedicatedCoreQuota does not apply.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">encryption</td>
-          <td style="text-align: left">Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead.</td>
-          <td style="text-align: left"><a href="#EncryptionProperties_STATUS">EncryptionProperties_STATUS</a><br/><small>Optional</small></td>
+          <td>encryption</td>
+          <td>Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead.</td>
+          <td><a href="#EncryptionProperties_STATUS">EncryptionProperties_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">id</td>
-          <td style="text-align: left">The ID of the resource.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>id</td>
+          <td>The ID of the resource.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">identity</td>
-          <td style="text-align: left">The identity of the Batch account.</td>
-          <td style="text-align: left"><a href="#BatchAccountIdentity_STATUS">BatchAccountIdentity_STATUS</a><br/><small>Optional</small></td>
+          <td>identity</td>
+          <td>The identity of the Batch account.</td>
+          <td><a href="#BatchAccountIdentity_STATUS">BatchAccountIdentity_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">keyVaultReference</td>
-          <td style="text-align: left">Identifies the Azure key vault associated with a Batch account.</td>
-          <td style="text-align: left"><a href="#KeyVaultReference_STATUS">KeyVaultReference_STATUS</a><br/><small>Optional</small></td>
+          <td>keyVaultReference</td>
+          <td>Identifies the Azure key vault associated with a Batch account.</td>
+          <td><a href="#KeyVaultReference_STATUS">KeyVaultReference_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">location</td>
-          <td style="text-align: left">The location of the resource.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>location</td>
+          <td>The location of the resource.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">lowPriorityCoreQuota</td>
-          <td style="text-align: left">For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned.</td>
-          <td style="text-align: left">int<br/><small>Optional</small></td>
+          <td>lowPriorityCoreQuota</td>
+          <td>For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned.</td>
+          <td>int<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">name</td>
-          <td style="text-align: left">The name of the resource.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>name</td>
+          <td>The name of the resource.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">poolAllocationMode</td>
-          <td style="text-align: left">The allocation mode for creating pools in the Batch account.</td>
-          <td style="text-align: left"><a href="#PoolAllocationMode_STATUS">PoolAllocationMode_STATUS</a><br/><small>Optional</small></td>
+          <td>poolAllocationMode</td>
+          <td>The allocation mode for creating pools in the Batch account.</td>
+          <td><a href="#PoolAllocationMode_STATUS">PoolAllocationMode_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">poolQuota</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">int<br/><small>Optional</small></td>
+          <td>poolQuota</td>
+          <td></td>
+          <td>int<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">privateEndpointConnections</td>
-          <td style="text-align: left">List of private endpoint connections associated with the Batch account</td>
-          <td style="text-align: left"><a href="#PrivateEndpointConnection_STATUS">PrivateEndpointConnection_STATUS[]</a><br/><small>Optional</small></td>
+          <td>privateEndpointConnections</td>
+          <td>List of private endpoint connections associated with the Batch account</td>
+          <td><a href="#PrivateEndpointConnection_STATUS">PrivateEndpointConnection_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">provisioningState</td>
-          <td style="text-align: left">The provisioned state of the resource</td>
-          <td style="text-align: left"><a href="#BatchAccountProperties_ProvisioningState_STATUS">BatchAccountProperties_ProvisioningState_STATUS</a><br/><small>Optional</small></td>
+          <td>provisioningState</td>
+          <td>The provisioned state of the resource</td>
+          <td><a href="#BatchAccountProperties_ProvisioningState_STATUS">BatchAccountProperties_ProvisioningState_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">publicNetworkAccess</td>
-          <td style="text-align: left">If not specified, the default value is &rsquo;enabled'.</td>
-          <td style="text-align: left"><a href="#PublicNetworkAccessType_STATUS">PublicNetworkAccessType_STATUS</a><br/><small>Optional</small></td>
+          <td>publicNetworkAccess</td>
+          <td>If not specified, the default value is &rsquo;enabled'.</td>
+          <td><a href="#PublicNetworkAccessType_STATUS">PublicNetworkAccessType_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">tags</td>
-          <td style="text-align: left">The tags of the resource.</td>
-          <td style="text-align: left">map[string]string<br/><small>Optional</small></td>
+          <td>tags</td>
+          <td>The tags of the resource.</td>
+          <td>map[string]string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">type</td>
-          <td style="text-align: left">The type of the resource.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>type</td>
+          <td>The type of the resource.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1326,16 +1320,16 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec BatchAccount_Sp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">storageAccountReference</td>
-          <td style="text-align: left">The resource ID of the storage account to be used for auto-storage account.</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Required</small></td>
+          <td>storageAccountReference</td>
+          <td>The resource ID of the storage account to be used for auto-storage account.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Required</small></td>
       </tr>
   </tbody>
 </table>
@@ -1345,21 +1339,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec BatchAccount_Sp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">lastKeySync</td>
-          <td style="text-align: left">The UTC time at which storage keys were last synchronized with the Batch account.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>lastKeySync</td>
+          <td>The UTC time at which storage keys were last synchronized with the Batch account.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">storageAccountId</td>
-          <td style="text-align: left">The resource ID of the storage account to be used for auto-storage account.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>storageAccountId</td>
+          <td>The resource ID of the storage account to be used for auto-storage account.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1369,21 +1363,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec BatchAccount_Sp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">type</td>
-          <td style="text-align: left">The type of identity used for the Batch account.</td>
-          <td style="text-align: left"><a href="#BatchAccountIdentity_Type">BatchAccountIdentity_Type</a><br/><small>Required</small></td>
+          <td>type</td>
+          <td>The type of identity used for the Batch account.</td>
+          <td><a href="#BatchAccountIdentity_Type">BatchAccountIdentity_Type</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">userAssignedIdentities</td>
-          <td style="text-align: left">The list of user identities associated with the Batch account. The user identity dictionary key references will be ARM resource ids in the form: &lsquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;.</td>
-          <td style="text-align: left"><a href="#UserAssignedIdentityDetails">UserAssignedIdentityDetails[]</a><br/><small>Optional</small></td>
+          <td>userAssignedIdentities</td>
+          <td>The list of user identities associated with the Batch account. The user identity dictionary key references will be ARM resource ids in the form: &lsquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;.</td>
+          <td><a href="#UserAssignedIdentityDetails">UserAssignedIdentityDetails[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1393,31 +1387,31 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec BatchAccount_Sp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">principalId</td>
-          <td style="text-align: left">The principal id of the Batch account. This property will only be provided for a system assigned identity.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>principalId</td>
+          <td>The principal id of the Batch account. This property will only be provided for a system assigned identity.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">tenantId</td>
-          <td style="text-align: left">The tenant id associated with the Batch account. This property will only be provided for a system assigned identity.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>tenantId</td>
+          <td>The tenant id associated with the Batch account. This property will only be provided for a system assigned identity.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">type</td>
-          <td style="text-align: left">The type of identity used for the Batch account.</td>
-          <td style="text-align: left"><a href="#BatchAccountIdentity_Type_STATUS">BatchAccountIdentity_Type_STATUS</a><br/><small>Optional</small></td>
+          <td>type</td>
+          <td>The type of identity used for the Batch account.</td>
+          <td><a href="#BatchAccountIdentity_Type_STATUS">BatchAccountIdentity_Type_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">userAssignedIdentities</td>
-          <td style="text-align: left">The list of user identities associated with the Batch account. The user identity dictionary key references will be ARM resource ids in the form: &lsquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;.</td>
-          <td style="text-align: left"><a href="#BatchAccountIdentity_UserAssignedIdentities_STATUS">map[string]BatchAccountIdentity_UserAssignedIdentities_STATUS</a><br/><small>Optional</small></td>
+          <td>userAssignedIdentities</td>
+          <td>The list of user identities associated with the Batch account. The user identity dictionary key references will be ARM resource ids in the form: &lsquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;.</td>
+          <td><a href="#BatchAccountIdentity_UserAssignedIdentities_STATUS">map[string]BatchAccountIdentity_UserAssignedIdentities_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1427,21 +1421,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec BatchAccount_Sp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">configMapExpressions</td>
-          <td style="text-align: left">configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+          <td>configMapExpressions</td>
+          <td>configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">secretExpressions</td>
-          <td style="text-align: left">configures where to place operator written dynamic secrets (created with CEL expressions).</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+          <td>secretExpressions</td>
+          <td>configures where to place operator written dynamic secrets (created with CEL expressions).</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1450,34 +1444,34 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec BatchAccount_Sp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Cancelled&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Cancelled&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Creating&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Creating&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Deleting&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Deleting&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Failed&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Failed&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Invalid&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Invalid&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Succeeded&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Succeeded&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -1487,21 +1481,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec BatchAccount_Sp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">keySource</td>
-          <td style="text-align: left">Type of the key source.</td>
-          <td style="text-align: left"><a href="#EncryptionProperties_KeySource">EncryptionProperties_KeySource</a><br/><small>Optional</small></td>
+          <td>keySource</td>
+          <td>Type of the key source.</td>
+          <td><a href="#EncryptionProperties_KeySource">EncryptionProperties_KeySource</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">keyVaultProperties</td>
-          <td style="text-align: left">Additional details when using Microsoft.KeyVault</td>
-          <td style="text-align: left"><a href="#KeyVaultProperties">KeyVaultProperties</a><br/><small>Optional</small></td>
+          <td>keyVaultProperties</td>
+          <td>Additional details when using Microsoft.KeyVault</td>
+          <td><a href="#KeyVaultProperties">KeyVaultProperties</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1511,21 +1505,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec BatchAccount_Sp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">keySource</td>
-          <td style="text-align: left">Type of the key source.</td>
-          <td style="text-align: left"><a href="#EncryptionProperties_KeySource_STATUS">EncryptionProperties_KeySource_STATUS</a><br/><small>Optional</small></td>
+          <td>keySource</td>
+          <td>Type of the key source.</td>
+          <td><a href="#EncryptionProperties_KeySource_STATUS">EncryptionProperties_KeySource_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">keyVaultProperties</td>
-          <td style="text-align: left">Additional details when using Microsoft.KeyVault</td>
-          <td style="text-align: left"><a href="#KeyVaultProperties_STATUS">KeyVaultProperties_STATUS</a><br/><small>Optional</small></td>
+          <td>keyVaultProperties</td>
+          <td>Additional details when using Microsoft.KeyVault</td>
+          <td><a href="#KeyVaultProperties_STATUS">KeyVaultProperties_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1535,21 +1529,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec BatchAccount_Sp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">reference</td>
-          <td style="text-align: left">The resource ID of the Azure key vault associated with the Batch account.</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Required</small></td>
+          <td>reference</td>
+          <td>The resource ID of the Azure key vault associated with the Batch account.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">url</td>
-          <td style="text-align: left">The URL of the Azure key vault associated with the Batch account.</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>url</td>
+          <td>The URL of the Azure key vault associated with the Batch account.</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
   </tbody>
 </table>
@@ -1559,21 +1553,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec BatchAccount_Sp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">id</td>
-          <td style="text-align: left">The resource ID of the Azure key vault associated with the Batch account.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>id</td>
+          <td>The resource ID of the Azure key vault associated with the Batch account.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">url</td>
-          <td style="text-align: left">The URL of the Azure key vault associated with the Batch account.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>url</td>
+          <td>The URL of the Azure key vault associated with the Batch account.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1583,18 +1577,18 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec BatchAccount_Sp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;BatchService&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;BatchService&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;UserSubscription&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;UserSubscription&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -1604,18 +1598,18 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec BatchAccount_Sp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;BatchService&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;BatchService&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;UserSubscription&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;UserSubscription&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -1625,16 +1619,16 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec BatchAccount_Sp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">id</td>
-          <td style="text-align: left">The ID of the resource.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>id</td>
+          <td>The ID of the resource.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1644,18 +1638,18 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec BatchAccount_Sp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Disabled&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Disabled&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Enabled&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Enabled&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -1665,18 +1659,18 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec BatchAccount_Sp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Disabled&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Disabled&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Enabled&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Enabled&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -1686,21 +1680,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec BatchAccount_Sp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">coreQuota</td>
-          <td style="text-align: left">The core quota for the VM family for the Batch account.</td>
-          <td style="text-align: left">int<br/><small>Optional</small></td>
+          <td>coreQuota</td>
+          <td>The core quota for the VM family for the Batch account.</td>
+          <td>int<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">name</td>
-          <td style="text-align: left">The Virtual Machine family name.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>name</td>
+          <td>The Virtual Machine family name.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1709,22 +1703,22 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec BatchAccount_Sp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;None&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;None&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;SystemAssigned&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;SystemAssigned&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;UserAssigned&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;UserAssigned&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -1733,22 +1727,22 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec BatchAccount_Sp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;None&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;None&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;SystemAssigned&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;SystemAssigned&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;UserAssigned&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;UserAssigned&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -1757,21 +1751,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec BatchAccount_Sp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">clientId</td>
-          <td style="text-align: left">The client id of user assigned identity.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>clientId</td>
+          <td>The client id of user assigned identity.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">principalId</td>
-          <td style="text-align: left">The principal id of user assigned identity.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>principalId</td>
+          <td>The principal id of user assigned identity.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1780,18 +1774,18 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec BatchAccount_Sp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Microsoft.Batch&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Microsoft.Batch&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Microsoft.KeyVault&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Microsoft.KeyVault&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -1800,18 +1794,18 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec BatchAccount_Sp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Microsoft.Batch&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Microsoft.Batch&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Microsoft.KeyVault&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Microsoft.KeyVault&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -1821,16 +1815,16 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec BatchAccount_Sp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">keyIdentifier</td>
-          <td style="text-align: left">Full path to the versioned secret. Example <a href="https://mykeyvault.vault.azure.net/keys/testkey/6e34a81fef704045975661e297a4c053">https://mykeyvault.vault.azure.net/keys/testkey/6e34a81fef704045975661e297a4c053</a>. To be usable the following prerequisites must be met: The Batch Account has a System Assigned identity The account identity has been granted Key/Get, Key/Unwrap and Key/Wrap permissions The KeyVault has soft-delete and purge protection enabled</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>keyIdentifier</td>
+          <td>Full path to the versioned secret. Example <a href="https://mykeyvault.vault.azure.net/keys/testkey/6e34a81fef704045975661e297a4c053">https://mykeyvault.vault.azure.net/keys/testkey/6e34a81fef704045975661e297a4c053</a>. To be usable the following prerequisites must be met: The Batch Account has a System Assigned identity The account identity has been granted Key/Get, Key/Unwrap and Key/Wrap permissions The KeyVault has soft-delete and purge protection enabled</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1840,16 +1834,16 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec BatchAccount_Sp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">keyIdentifier</td>
-          <td style="text-align: left">Full path to the versioned secret. Example <a href="https://mykeyvault.vault.azure.net/keys/testkey/6e34a81fef704045975661e297a4c053">https://mykeyvault.vault.azure.net/keys/testkey/6e34a81fef704045975661e297a4c053</a>. To be usable the following prerequisites must be met: The Batch Account has a System Assigned identity The account identity has been granted Key/Get, Key/Unwrap and Key/Wrap permissions The KeyVault has soft-delete and purge protection enabled</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>keyIdentifier</td>
+          <td>Full path to the versioned secret. Example <a href="https://mykeyvault.vault.azure.net/keys/testkey/6e34a81fef704045975661e297a4c053">https://mykeyvault.vault.azure.net/keys/testkey/6e34a81fef704045975661e297a4c053</a>. To be usable the following prerequisites must be met: The Batch Account has a System Assigned identity The account identity has been granted Key/Get, Key/Unwrap and Key/Wrap permissions The KeyVault has soft-delete and purge protection enabled</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1859,16 +1853,16 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec BatchAccount_Sp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">reference</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+          <td>reference</td>
+          <td></td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1906,7 +1900,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec BatchAccount_Sp
 </footer>
 
     </div>
-    <script src="/azure-service-operator/js/main.min.0a5a30b73411b7a841784b6f4d46f4e0b1b95d576fa3cadd81db9d5ae468e8c2.js" integrity="sha256-ClowtzQRt6hBeEtvTUb04LG5XVdvo8rdgdudWuRo6MI=" crossorigin="anonymous"></script>
+    <script src="/azure-service-operator/js/main.min.4096f09e0b199950620fc06165ef2a2791e1bee9067e27b14c4a54f02c0e33bd.js" integrity="sha256-QJbwngsZmVBiD8BhZe8qJ5HhvukGfiexTEpU8CwOM70=" crossorigin="anonymous"></script>
 <script defer src="/azure-service-operator/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/azure-service-operator/js/tabpane-persist.js'></script>
 

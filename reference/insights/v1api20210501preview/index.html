@@ -18,13 +18,13 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>insights.azure.com/v1api20210501preview | Azure Service Operator</title>
-<meta name="description" content=" APIVersion Value Description &ldquo;2021-05-01-preview&rdquo; DiagnosticSetting Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/preview/2021-05-01-preview/diagnosticsSettings_API.json - ARM URI: /{resourceUri}/providers/Microsoft.Insights/diagnosticSettings/{name}
+<meta name="description" content="APIVersion Value Description “2021-05-01-preview” DiagnosticSetting Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/preview/2021-05-01-preview/diagnosticsSettings_API.json - ARM URI: /{resourceUri}/providers/Microsoft.Insights/diagnosticSettings/{name}
 Used by: DiagnosticSettingList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiagnosticSetting_SpecOptional status DiagnosticSetting_STATUSOptional DiagnosticSetting_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be. stringOptional eventHubAuthorizationRuleReference The resource Id for the event hub authorization rule. genruntime.ResourceReferenceOptional eventHubName The name of the event hub. If none is specified, the default event hub will be selected. stringOptional logAnalyticsDestinationType A string indicating whether the export to Log Analytics should use the default destination type, i.e. AzureDiagnostics, or use a destination type constructed as follows: _. Possible values are: Dedicated and null (null is default.) stringOptional logs The list of logs settings. LogSettings[]Optional marketplacePartnerReference The full ARM resource ID of the Marketplace resource to which you would like to send Diagnostic Logs. genruntime.ResourceReferenceOptional metrics The list of metric settings. MetricSettings[]Optional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure DiagnosticSettingOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an extension resource, which means that any other Azure resource can be its owner. genruntime.ArbitraryOwnerReferenceRequired serviceBusRuleId The service bus rule Id of the diagnostic setting. This is here to maintain backwards compatibility. stringOptional storageAccountReference The resource ID of the storage account to which you would like to send Diagnostic Logs. genruntime.ResourceReferenceOptional workspaceReference The full ARM resource ID of the Log Analytics workspace to which you would like to send Diagnostic Logs. Example: /​subscriptions/​4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/​resourceGroups/​insights-integration/​providers/​Microsoft.OperationalInsights/workspaces/viruela2 genruntime.ResourceReferenceOptional DiagnosticSetting_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional eventHubAuthorizationRuleId The resource Id for the event hub authorization rule. stringOptional eventHubName The name of the event hub. If none is specified, the default event hub will be selected. stringOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional logAnalyticsDestinationType A string indicating whether the export to Log Analytics should use the default destination type, i.e. AzureDiagnostics, or use a destination type constructed as follows: _. Possible values are: Dedicated and null (null is default.) stringOptional logs The list of logs settings. LogSettings_STATUS[]Optional marketplacePartnerId The full ARM resource ID of the Marketplace resource to which you would like to send Diagnostic Logs. stringOptional metrics The list of metric settings. MetricSettings_STATUS[]Optional name The name of the resource stringOptional serviceBusRuleId The service bus rule Id of the diagnostic setting. This is here to maintain backwards compatibility. stringOptional storageAccountId The resource ID of the storage account to which you would like to send Diagnostic Logs. stringOptional systemData The system metadata related to this resource. SystemData_STATUSOptional type The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo; stringOptional workspaceId The full ARM resource ID of the Log Analytics workspace to which you would like to send Diagnostic Logs. Example: /​subscriptions/​4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/​resourceGroups/​insights-integration/​providers/​Microsoft.OperationalInsights/workspaces/viruela2 stringOptional DiagnosticSettingList Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/preview/2021-05-01-preview/diagnosticsSettings_API.json - ARM URI: /{resourceUri}/providers/Microsoft.Insights/diagnosticSettings/{name}">
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiagnosticSetting_SpecOptional status DiagnosticSetting_STATUSOptional DiagnosticSetting_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional eventHubAuthorizationRuleReference The resource Id for the event hub authorization rule. genruntime.ResourceReferenceOptional eventHubName The name of the event hub. If none is specified, the default event hub will be selected. stringOptional logAnalyticsDestinationType A string indicating whether the export to Log Analytics should use the default destination type, i.e. AzureDiagnostics, or use a destination type constructed as follows: _. Possible values are: Dedicated and null (null is default.) stringOptional logs The list of logs settings. LogSettings[]Optional marketplacePartnerReference The full ARM resource ID of the Marketplace resource to which you would like to send Diagnostic Logs. genruntime.ResourceReferenceOptional metrics The list of metric settings. MetricSettings[]Optional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure DiagnosticSettingOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an extension resource, which means that any other Azure resource can be its owner. genruntime.ArbitraryOwnerReferenceRequired serviceBusRuleId The service bus rule Id of the diagnostic setting. This is here to maintain backwards compatibility. stringOptional storageAccountReference The resource ID of the storage account to which you would like to send Diagnostic Logs. genruntime.ResourceReferenceOptional workspaceReference The full ARM resource ID of the Log Analytics workspace to which you would like to send Diagnostic Logs. Example: /​subscriptions/​4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/​resourceGroups/​insights-integration/​providers/​Microsoft.OperationalInsights/workspaces/viruela2 genruntime.ResourceReferenceOptional DiagnosticSetting_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional eventHubAuthorizationRuleId The resource Id for the event hub authorization rule. stringOptional eventHubName The name of the event hub. If none is specified, the default event hub will be selected. stringOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional logAnalyticsDestinationType A string indicating whether the export to Log Analytics should use the default destination type, i.e. AzureDiagnostics, or use a destination type constructed as follows: _. Possible values are: Dedicated and null (null is default.) stringOptional logs The list of logs settings. LogSettings_STATUS[]Optional marketplacePartnerId The full ARM resource ID of the Marketplace resource to which you would like to send Diagnostic Logs. stringOptional metrics The list of metric settings. MetricSettings_STATUS[]Optional name The name of the resource stringOptional serviceBusRuleId The service bus rule Id of the diagnostic setting. This is here to maintain backwards compatibility. stringOptional storageAccountId The resource ID of the storage account to which you would like to send Diagnostic Logs. stringOptional systemData The system metadata related to this resource. SystemData_STATUSOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional workspaceId The full ARM resource ID of the Log Analytics workspace to which you would like to send Diagnostic Logs. Example: /​subscriptions/​4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/​resourceGroups/​insights-integration/​providers/​Microsoft.OperationalInsights/workspaces/viruela2 stringOptional DiagnosticSettingList Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/preview/2021-05-01-preview/diagnosticsSettings_API.json - ARM URI: /{resourceUri}/providers/Microsoft.Insights/diagnosticSettings/{name}">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/insights/v1api20210501preview/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="insights.azure.com/v1api20210501preview">
-  <meta property="og:description" content=" APIVersion Value Description “2021-05-01-preview” DiagnosticSetting Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/preview/2021-05-01-preview/diagnosticsSettings_API.json - ARM URI: /{resourceUri}/providers/Microsoft.Insights/diagnosticSettings/{name}
+  <meta property="og:description" content="APIVersion Value Description “2021-05-01-preview” DiagnosticSetting Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/preview/2021-05-01-preview/diagnosticsSettings_API.json - ARM URI: /{resourceUri}/providers/Microsoft.Insights/diagnosticSettings/{name}
 Used by: DiagnosticSettingList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiagnosticSetting_SpecOptional status DiagnosticSetting_STATUSOptional DiagnosticSetting_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional eventHubAuthorizationRuleReference The resource Id for the event hub authorization rule. genruntime.ResourceReferenceOptional eventHubName The name of the event hub. If none is specified, the default event hub will be selected. stringOptional logAnalyticsDestinationType A string indicating whether the export to Log Analytics should use the default destination type, i.e. AzureDiagnostics, or use a destination type constructed as follows: _. Possible values are: Dedicated and null (null is default.) stringOptional logs The list of logs settings. LogSettings[]Optional marketplacePartnerReference The full ARM resource ID of the Marketplace resource to which you would like to send Diagnostic Logs. genruntime.ResourceReferenceOptional metrics The list of metric settings. MetricSettings[]Optional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure DiagnosticSettingOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an extension resource, which means that any other Azure resource can be its owner. genruntime.ArbitraryOwnerReferenceRequired serviceBusRuleId The service bus rule Id of the diagnostic setting. This is here to maintain backwards compatibility. stringOptional storageAccountReference The resource ID of the storage account to which you would like to send Diagnostic Logs. genruntime.ResourceReferenceOptional workspaceReference The full ARM resource ID of the Log Analytics workspace to which you would like to send Diagnostic Logs. Example: /​subscriptions/​4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/​resourceGroups/​insights-integration/​providers/​Microsoft.OperationalInsights/workspaces/viruela2 genruntime.ResourceReferenceOptional DiagnosticSetting_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional eventHubAuthorizationRuleId The resource Id for the event hub authorization rule. stringOptional eventHubName The name of the event hub. If none is specified, the default event hub will be selected. stringOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional logAnalyticsDestinationType A string indicating whether the export to Log Analytics should use the default destination type, i.e. AzureDiagnostics, or use a destination type constructed as follows: _. Possible values are: Dedicated and null (null is default.) stringOptional logs The list of logs settings. LogSettings_STATUS[]Optional marketplacePartnerId The full ARM resource ID of the Marketplace resource to which you would like to send Diagnostic Logs. stringOptional metrics The list of metric settings. MetricSettings_STATUS[]Optional name The name of the resource stringOptional serviceBusRuleId The service bus rule Id of the diagnostic setting. This is here to maintain backwards compatibility. stringOptional storageAccountId The resource ID of the storage account to which you would like to send Diagnostic Logs. stringOptional systemData The system metadata related to this resource. SystemData_STATUSOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional workspaceId The full ARM resource ID of the Log Analytics workspace to which you would like to send Diagnostic Logs. Example: /​subscriptions/​4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/​resourceGroups/​insights-integration/​providers/​Microsoft.OperationalInsights/workspaces/viruela2 stringOptional DiagnosticSettingList Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/preview/2021-05-01-preview/diagnosticsSettings_API.json - ARM URI: /{resourceUri}/providers/Microsoft.Insights/diagnosticSettings/{name}">
   <meta property="og:locale" content="en_us">
@@ -32,22 +32,17 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiagnosticSetti
     <meta property="article:section" content="reference">
 
   <meta itemprop="name" content="insights.azure.com/v1api20210501preview">
-  <meta itemprop="description" content=" APIVersion Value Description “2021-05-01-preview” DiagnosticSetting Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/preview/2021-05-01-preview/diagnosticsSettings_API.json - ARM URI: /{resourceUri}/providers/Microsoft.Insights/diagnosticSettings/{name}
+  <meta itemprop="description" content="APIVersion Value Description “2021-05-01-preview” DiagnosticSetting Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/preview/2021-05-01-preview/diagnosticsSettings_API.json - ARM URI: /{resourceUri}/providers/Microsoft.Insights/diagnosticSettings/{name}
 Used by: DiagnosticSettingList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiagnosticSetting_SpecOptional status DiagnosticSetting_STATUSOptional DiagnosticSetting_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional eventHubAuthorizationRuleReference The resource Id for the event hub authorization rule. genruntime.ResourceReferenceOptional eventHubName The name of the event hub. If none is specified, the default event hub will be selected. stringOptional logAnalyticsDestinationType A string indicating whether the export to Log Analytics should use the default destination type, i.e. AzureDiagnostics, or use a destination type constructed as follows: _. Possible values are: Dedicated and null (null is default.) stringOptional logs The list of logs settings. LogSettings[]Optional marketplacePartnerReference The full ARM resource ID of the Marketplace resource to which you would like to send Diagnostic Logs. genruntime.ResourceReferenceOptional metrics The list of metric settings. MetricSettings[]Optional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure DiagnosticSettingOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an extension resource, which means that any other Azure resource can be its owner. genruntime.ArbitraryOwnerReferenceRequired serviceBusRuleId The service bus rule Id of the diagnostic setting. This is here to maintain backwards compatibility. stringOptional storageAccountReference The resource ID of the storage account to which you would like to send Diagnostic Logs. genruntime.ResourceReferenceOptional workspaceReference The full ARM resource ID of the Log Analytics workspace to which you would like to send Diagnostic Logs. Example: /​subscriptions/​4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/​resourceGroups/​insights-integration/​providers/​Microsoft.OperationalInsights/workspaces/viruela2 genruntime.ResourceReferenceOptional DiagnosticSetting_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional eventHubAuthorizationRuleId The resource Id for the event hub authorization rule. stringOptional eventHubName The name of the event hub. If none is specified, the default event hub will be selected. stringOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional logAnalyticsDestinationType A string indicating whether the export to Log Analytics should use the default destination type, i.e. AzureDiagnostics, or use a destination type constructed as follows: _. Possible values are: Dedicated and null (null is default.) stringOptional logs The list of logs settings. LogSettings_STATUS[]Optional marketplacePartnerId The full ARM resource ID of the Marketplace resource to which you would like to send Diagnostic Logs. stringOptional metrics The list of metric settings. MetricSettings_STATUS[]Optional name The name of the resource stringOptional serviceBusRuleId The service bus rule Id of the diagnostic setting. This is here to maintain backwards compatibility. stringOptional storageAccountId The resource ID of the storage account to which you would like to send Diagnostic Logs. stringOptional systemData The system metadata related to this resource. SystemData_STATUSOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional workspaceId The full ARM resource ID of the Log Analytics workspace to which you would like to send Diagnostic Logs. Example: /​subscriptions/​4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/​resourceGroups/​insights-integration/​providers/​Microsoft.OperationalInsights/workspaces/viruela2 stringOptional DiagnosticSettingList Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/preview/2021-05-01-preview/diagnosticsSettings_API.json - ARM URI: /{resourceUri}/providers/Microsoft.Insights/diagnosticSettings/{name}">
   <meta itemprop="wordCount" content="1619">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="insights.azure.com/v1api20210501preview">
-  <meta name="twitter:description" content=" APIVersion Value Description “2021-05-01-preview” DiagnosticSetting Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/preview/2021-05-01-preview/diagnosticsSettings_API.json - ARM URI: /{resourceUri}/providers/Microsoft.Insights/diagnosticSettings/{name}
+  <meta name="twitter:description" content="APIVersion Value Description “2021-05-01-preview” DiagnosticSetting Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/preview/2021-05-01-preview/diagnosticsSettings_API.json - ARM URI: /{resourceUri}/providers/Microsoft.Insights/diagnosticSettings/{name}
 Used by: DiagnosticSettingList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiagnosticSetting_SpecOptional status DiagnosticSetting_STATUSOptional DiagnosticSetting_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional eventHubAuthorizationRuleReference The resource Id for the event hub authorization rule. genruntime.ResourceReferenceOptional eventHubName The name of the event hub. If none is specified, the default event hub will be selected. stringOptional logAnalyticsDestinationType A string indicating whether the export to Log Analytics should use the default destination type, i.e. AzureDiagnostics, or use a destination type constructed as follows: _. Possible values are: Dedicated and null (null is default.) stringOptional logs The list of logs settings. LogSettings[]Optional marketplacePartnerReference The full ARM resource ID of the Marketplace resource to which you would like to send Diagnostic Logs. genruntime.ResourceReferenceOptional metrics The list of metric settings. MetricSettings[]Optional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure DiagnosticSettingOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an extension resource, which means that any other Azure resource can be its owner. genruntime.ArbitraryOwnerReferenceRequired serviceBusRuleId The service bus rule Id of the diagnostic setting. This is here to maintain backwards compatibility. stringOptional storageAccountReference The resource ID of the storage account to which you would like to send Diagnostic Logs. genruntime.ResourceReferenceOptional workspaceReference The full ARM resource ID of the Log Analytics workspace to which you would like to send Diagnostic Logs. Example: /​subscriptions/​4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/​resourceGroups/​insights-integration/​providers/​Microsoft.OperationalInsights/workspaces/viruela2 genruntime.ResourceReferenceOptional DiagnosticSetting_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional eventHubAuthorizationRuleId The resource Id for the event hub authorization rule. stringOptional eventHubName The name of the event hub. If none is specified, the default event hub will be selected. stringOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional logAnalyticsDestinationType A string indicating whether the export to Log Analytics should use the default destination type, i.e. AzureDiagnostics, or use a destination type constructed as follows: _. Possible values are: Dedicated and null (null is default.) stringOptional logs The list of logs settings. LogSettings_STATUS[]Optional marketplacePartnerId The full ARM resource ID of the Marketplace resource to which you would like to send Diagnostic Logs. stringOptional metrics The list of metric settings. MetricSettings_STATUS[]Optional name The name of the resource stringOptional serviceBusRuleId The service bus rule Id of the diagnostic setting. This is here to maintain backwards compatibility. stringOptional storageAccountId The resource ID of the storage account to which you would like to send Diagnostic Logs. stringOptional systemData The system metadata related to this resource. SystemData_STATUSOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional workspaceId The full ARM resource ID of the Log Analytics workspace to which you would like to send Diagnostic Logs. Example: /​subscriptions/​4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/​resourceGroups/​insights-integration/​providers/​Microsoft.OperationalInsights/workspaces/viruela2 stringOptional DiagnosticSettingList Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/preview/2021-05-01-preview/diagnosticsSettings_API.json - ARM URI: /{resourceUri}/providers/Microsoft.Insights/diagnosticSettings/{name}">
-
-
-
-
-<link rel="preload" href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" as="style">
-<link href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" rel="stylesheet" integrity="">
-
+<link rel="preload" href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" as="style" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
+<link href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" rel="stylesheet" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -850,7 +845,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiagnosticSetti
     v1api20210501preview</li>
   </ol>
 </nav>
-            
 <div class="td-content">
 	<h1>insights.azure.com/v1api20210501preview</h1>
 	
@@ -862,14 +856,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiagnosticSetti
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;2021-05-01-preview&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;2021-05-01-preview&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -879,31 +873,31 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiagnosticSetti
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left"><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta">metav1.ObjectMeta</a></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta">metav1.ObjectMeta</a></td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">spec</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"><a href="#DiagnosticSetting_Spec">DiagnosticSetting_Spec</a><br/><small>Optional</small></td>
+          <td>spec</td>
+          <td></td>
+          <td><a href="#DiagnosticSetting_Spec">DiagnosticSetting_Spec</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">status</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"><a href="#DiagnosticSetting_STATUS">DiagnosticSetting_STATUS</a><br/><small>Optional</small></td>
+          <td>status</td>
+          <td></td>
+          <td><a href="#DiagnosticSetting_STATUS">DiagnosticSetting_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -911,71 +905,71 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiagnosticSetti
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">azureName</td>
-          <td style="text-align: left">The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>azureName</td>
+          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">eventHubAuthorizationRuleReference</td>
-          <td style="text-align: left">The resource Id for the event hub authorization rule.</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+          <td>eventHubAuthorizationRuleReference</td>
+          <td>The resource Id for the event hub authorization rule.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">eventHubName</td>
-          <td style="text-align: left">The name of the event hub. If none is specified, the default event hub will be selected.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>eventHubName</td>
+          <td>The name of the event hub. If none is specified, the default event hub will be selected.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">logAnalyticsDestinationType</td>
-          <td style="text-align: left">A string indicating whether the export to Log Analytics should use the default destination type, i.e. AzureDiagnostics, or use a destination type constructed as follows: <normalized service identity>_<normalized category name>. Possible values are: Dedicated and null (null is default.)</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>logAnalyticsDestinationType</td>
+          <td>A string indicating whether the export to Log Analytics should use the default destination type, i.e. AzureDiagnostics, or use a destination type constructed as follows: <normalized service identity>_<normalized category name>. Possible values are: Dedicated and null (null is default.)</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">logs</td>
-          <td style="text-align: left">The list of logs settings.</td>
-          <td style="text-align: left"><a href="#LogSettings">LogSettings[]</a><br/><small>Optional</small></td>
+          <td>logs</td>
+          <td>The list of logs settings.</td>
+          <td><a href="#LogSettings">LogSettings[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">marketplacePartnerReference</td>
-          <td style="text-align: left">The full ARM resource ID of the Marketplace resource to which you would like to send Diagnostic Logs.</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+          <td>marketplacePartnerReference</td>
+          <td>The full ARM resource ID of the Marketplace resource to which you would like to send Diagnostic Logs.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">metrics</td>
-          <td style="text-align: left">The list of metric settings.</td>
-          <td style="text-align: left"><a href="#MetricSettings">MetricSettings[]</a><br/><small>Optional</small></td>
+          <td>metrics</td>
+          <td>The list of metric settings.</td>
+          <td><a href="#MetricSettings">MetricSettings[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">operatorSpec</td>
-          <td style="text-align: left">The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td style="text-align: left"><a href="#DiagnosticSettingOperatorSpec">DiagnosticSettingOperatorSpec</a><br/><small>Optional</small></td>
+          <td>operatorSpec</td>
+          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+          <td><a href="#DiagnosticSettingOperatorSpec">DiagnosticSettingOperatorSpec</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">owner</td>
-          <td style="text-align: left">The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an extension resource, which means that any other Azure resource can be its owner.</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ArbitraryOwnerReference">genruntime.ArbitraryOwnerReference</a><br/><small>Required</small></td>
+          <td>owner</td>
+          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an extension resource, which means that any other Azure resource can be its owner.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ArbitraryOwnerReference">genruntime.ArbitraryOwnerReference</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">serviceBusRuleId</td>
-          <td style="text-align: left">The service bus rule Id of the diagnostic setting. This is here to maintain backwards compatibility.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>serviceBusRuleId</td>
+          <td>The service bus rule Id of the diagnostic setting. This is here to maintain backwards compatibility.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">storageAccountReference</td>
-          <td style="text-align: left">The resource ID of the storage account to which you would like to send Diagnostic Logs.</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+          <td>storageAccountReference</td>
+          <td>The resource ID of the storage account to which you would like to send Diagnostic Logs.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">workspaceReference</td>
-          <td style="text-align: left">The full ARM resource ID of the Log Analytics workspace to which you would like to send Diagnostic Logs. Example: /​subscriptions/​4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/​resourceGroups/​insights-integration/​providers/​Microsoft.OperationalInsights/workspaces/viruela2</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+          <td>workspaceReference</td>
+          <td>The full ARM resource ID of the Log Analytics workspace to which you would like to send Diagnostic Logs. Example: /​subscriptions/​4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/​resourceGroups/​insights-integration/​providers/​Microsoft.OperationalInsights/workspaces/viruela2</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -983,81 +977,81 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiagnosticSetti
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">conditions</td>
-          <td style="text-align: left">The observed state of the resource</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+          <td>conditions</td>
+          <td>The observed state of the resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">eventHubAuthorizationRuleId</td>
-          <td style="text-align: left">The resource Id for the event hub authorization rule.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>eventHubAuthorizationRuleId</td>
+          <td>The resource Id for the event hub authorization rule.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">eventHubName</td>
-          <td style="text-align: left">The name of the event hub. If none is specified, the default event hub will be selected.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>eventHubName</td>
+          <td>The name of the event hub. If none is specified, the default event hub will be selected.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">id</td>
-          <td style="text-align: left">Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>id</td>
+          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">logAnalyticsDestinationType</td>
-          <td style="text-align: left">A string indicating whether the export to Log Analytics should use the default destination type, i.e. AzureDiagnostics, or use a destination type constructed as follows: <normalized service identity>_<normalized category name>. Possible values are: Dedicated and null (null is default.)</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>logAnalyticsDestinationType</td>
+          <td>A string indicating whether the export to Log Analytics should use the default destination type, i.e. AzureDiagnostics, or use a destination type constructed as follows: <normalized service identity>_<normalized category name>. Possible values are: Dedicated and null (null is default.)</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">logs</td>
-          <td style="text-align: left">The list of logs settings.</td>
-          <td style="text-align: left"><a href="#LogSettings_STATUS">LogSettings_STATUS[]</a><br/><small>Optional</small></td>
+          <td>logs</td>
+          <td>The list of logs settings.</td>
+          <td><a href="#LogSettings_STATUS">LogSettings_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">marketplacePartnerId</td>
-          <td style="text-align: left">The full ARM resource ID of the Marketplace resource to which you would like to send Diagnostic Logs.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>marketplacePartnerId</td>
+          <td>The full ARM resource ID of the Marketplace resource to which you would like to send Diagnostic Logs.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">metrics</td>
-          <td style="text-align: left">The list of metric settings.</td>
-          <td style="text-align: left"><a href="#MetricSettings_STATUS">MetricSettings_STATUS[]</a><br/><small>Optional</small></td>
+          <td>metrics</td>
+          <td>The list of metric settings.</td>
+          <td><a href="#MetricSettings_STATUS">MetricSettings_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">name</td>
-          <td style="text-align: left">The name of the resource</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>name</td>
+          <td>The name of the resource</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">serviceBusRuleId</td>
-          <td style="text-align: left">The service bus rule Id of the diagnostic setting. This is here to maintain backwards compatibility.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>serviceBusRuleId</td>
+          <td>The service bus rule Id of the diagnostic setting. This is here to maintain backwards compatibility.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">storageAccountId</td>
-          <td style="text-align: left">The resource ID of the storage account to which you would like to send Diagnostic Logs.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>storageAccountId</td>
+          <td>The resource ID of the storage account to which you would like to send Diagnostic Logs.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">systemData</td>
-          <td style="text-align: left">The system metadata related to this resource.</td>
-          <td style="text-align: left"><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
+          <td>systemData</td>
+          <td>The system metadata related to this resource.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">type</td>
-          <td style="text-align: left">The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>type</td>
+          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">workspaceId</td>
-          <td style="text-align: left">The full ARM resource ID of the Log Analytics workspace to which you would like to send Diagnostic Logs. Example: /​subscriptions/​4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/​resourceGroups/​insights-integration/​providers/​Microsoft.OperationalInsights/workspaces/viruela2</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>workspaceId</td>
+          <td>The full ARM resource ID of the Log Analytics workspace to which you would like to send Diagnostic Logs. Example: /​subscriptions/​4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/​resourceGroups/​insights-integration/​providers/​Microsoft.OperationalInsights/workspaces/viruela2</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1066,26 +1060,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiagnosticSetti
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left"><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta">metav1.ListMeta</a></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta">metav1.ListMeta</a></td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">items</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"><a href="#DiagnosticSetting">DiagnosticSetting[]</a><br/><small>Optional</small></td>
+          <td>items</td>
+          <td></td>
+          <td><a href="#DiagnosticSetting">DiagnosticSetting[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1094,71 +1088,71 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiagnosticSetti
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">azureName</td>
-          <td style="text-align: left">The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>azureName</td>
+          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">eventHubAuthorizationRuleReference</td>
-          <td style="text-align: left">The resource Id for the event hub authorization rule.</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+          <td>eventHubAuthorizationRuleReference</td>
+          <td>The resource Id for the event hub authorization rule.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">eventHubName</td>
-          <td style="text-align: left">The name of the event hub. If none is specified, the default event hub will be selected.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>eventHubName</td>
+          <td>The name of the event hub. If none is specified, the default event hub will be selected.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">logAnalyticsDestinationType</td>
-          <td style="text-align: left">A string indicating whether the export to Log Analytics should use the default destination type, i.e. AzureDiagnostics, or use a destination type constructed as follows: <normalized service identity>_<normalized category name>. Possible values are: Dedicated and null (null is default.)</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>logAnalyticsDestinationType</td>
+          <td>A string indicating whether the export to Log Analytics should use the default destination type, i.e. AzureDiagnostics, or use a destination type constructed as follows: <normalized service identity>_<normalized category name>. Possible values are: Dedicated and null (null is default.)</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">logs</td>
-          <td style="text-align: left">The list of logs settings.</td>
-          <td style="text-align: left"><a href="#LogSettings">LogSettings[]</a><br/><small>Optional</small></td>
+          <td>logs</td>
+          <td>The list of logs settings.</td>
+          <td><a href="#LogSettings">LogSettings[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">marketplacePartnerReference</td>
-          <td style="text-align: left">The full ARM resource ID of the Marketplace resource to which you would like to send Diagnostic Logs.</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+          <td>marketplacePartnerReference</td>
+          <td>The full ARM resource ID of the Marketplace resource to which you would like to send Diagnostic Logs.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">metrics</td>
-          <td style="text-align: left">The list of metric settings.</td>
-          <td style="text-align: left"><a href="#MetricSettings">MetricSettings[]</a><br/><small>Optional</small></td>
+          <td>metrics</td>
+          <td>The list of metric settings.</td>
+          <td><a href="#MetricSettings">MetricSettings[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">operatorSpec</td>
-          <td style="text-align: left">The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td style="text-align: left"><a href="#DiagnosticSettingOperatorSpec">DiagnosticSettingOperatorSpec</a><br/><small>Optional</small></td>
+          <td>operatorSpec</td>
+          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+          <td><a href="#DiagnosticSettingOperatorSpec">DiagnosticSettingOperatorSpec</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">owner</td>
-          <td style="text-align: left">The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an extension resource, which means that any other Azure resource can be its owner.</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ArbitraryOwnerReference">genruntime.ArbitraryOwnerReference</a><br/><small>Required</small></td>
+          <td>owner</td>
+          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an extension resource, which means that any other Azure resource can be its owner.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ArbitraryOwnerReference">genruntime.ArbitraryOwnerReference</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">serviceBusRuleId</td>
-          <td style="text-align: left">The service bus rule Id of the diagnostic setting. This is here to maintain backwards compatibility.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>serviceBusRuleId</td>
+          <td>The service bus rule Id of the diagnostic setting. This is here to maintain backwards compatibility.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">storageAccountReference</td>
-          <td style="text-align: left">The resource ID of the storage account to which you would like to send Diagnostic Logs.</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+          <td>storageAccountReference</td>
+          <td>The resource ID of the storage account to which you would like to send Diagnostic Logs.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">workspaceReference</td>
-          <td style="text-align: left">The full ARM resource ID of the Log Analytics workspace to which you would like to send Diagnostic Logs. Example: /​subscriptions/​4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/​resourceGroups/​insights-integration/​providers/​Microsoft.OperationalInsights/workspaces/viruela2</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+          <td>workspaceReference</td>
+          <td>The full ARM resource ID of the Log Analytics workspace to which you would like to send Diagnostic Logs. Example: /​subscriptions/​4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/​resourceGroups/​insights-integration/​providers/​Microsoft.OperationalInsights/workspaces/viruela2</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1167,81 +1161,81 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiagnosticSetti
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">conditions</td>
-          <td style="text-align: left">The observed state of the resource</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+          <td>conditions</td>
+          <td>The observed state of the resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">eventHubAuthorizationRuleId</td>
-          <td style="text-align: left">The resource Id for the event hub authorization rule.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>eventHubAuthorizationRuleId</td>
+          <td>The resource Id for the event hub authorization rule.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">eventHubName</td>
-          <td style="text-align: left">The name of the event hub. If none is specified, the default event hub will be selected.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>eventHubName</td>
+          <td>The name of the event hub. If none is specified, the default event hub will be selected.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">id</td>
-          <td style="text-align: left">Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>id</td>
+          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">logAnalyticsDestinationType</td>
-          <td style="text-align: left">A string indicating whether the export to Log Analytics should use the default destination type, i.e. AzureDiagnostics, or use a destination type constructed as follows: <normalized service identity>_<normalized category name>. Possible values are: Dedicated and null (null is default.)</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>logAnalyticsDestinationType</td>
+          <td>A string indicating whether the export to Log Analytics should use the default destination type, i.e. AzureDiagnostics, or use a destination type constructed as follows: <normalized service identity>_<normalized category name>. Possible values are: Dedicated and null (null is default.)</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">logs</td>
-          <td style="text-align: left">The list of logs settings.</td>
-          <td style="text-align: left"><a href="#LogSettings_STATUS">LogSettings_STATUS[]</a><br/><small>Optional</small></td>
+          <td>logs</td>
+          <td>The list of logs settings.</td>
+          <td><a href="#LogSettings_STATUS">LogSettings_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">marketplacePartnerId</td>
-          <td style="text-align: left">The full ARM resource ID of the Marketplace resource to which you would like to send Diagnostic Logs.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>marketplacePartnerId</td>
+          <td>The full ARM resource ID of the Marketplace resource to which you would like to send Diagnostic Logs.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">metrics</td>
-          <td style="text-align: left">The list of metric settings.</td>
-          <td style="text-align: left"><a href="#MetricSettings_STATUS">MetricSettings_STATUS[]</a><br/><small>Optional</small></td>
+          <td>metrics</td>
+          <td>The list of metric settings.</td>
+          <td><a href="#MetricSettings_STATUS">MetricSettings_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">name</td>
-          <td style="text-align: left">The name of the resource</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>name</td>
+          <td>The name of the resource</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">serviceBusRuleId</td>
-          <td style="text-align: left">The service bus rule Id of the diagnostic setting. This is here to maintain backwards compatibility.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>serviceBusRuleId</td>
+          <td>The service bus rule Id of the diagnostic setting. This is here to maintain backwards compatibility.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">storageAccountId</td>
-          <td style="text-align: left">The resource ID of the storage account to which you would like to send Diagnostic Logs.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>storageAccountId</td>
+          <td>The resource ID of the storage account to which you would like to send Diagnostic Logs.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">systemData</td>
-          <td style="text-align: left">The system metadata related to this resource.</td>
-          <td style="text-align: left"><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
+          <td>systemData</td>
+          <td>The system metadata related to this resource.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">type</td>
-          <td style="text-align: left">The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>type</td>
+          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">workspaceId</td>
-          <td style="text-align: left">The full ARM resource ID of the Log Analytics workspace to which you would like to send Diagnostic Logs. Example: /​subscriptions/​4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/​resourceGroups/​insights-integration/​providers/​Microsoft.OperationalInsights/workspaces/viruela2</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>workspaceId</td>
+          <td>The full ARM resource ID of the Log Analytics workspace to which you would like to send Diagnostic Logs. Example: /​subscriptions/​4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/​resourceGroups/​insights-integration/​providers/​Microsoft.OperationalInsights/workspaces/viruela2</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1251,21 +1245,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiagnosticSetti
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">configMapExpressions</td>
-          <td style="text-align: left">configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+          <td>configMapExpressions</td>
+          <td>configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">secretExpressions</td>
-          <td style="text-align: left">configures where to place operator written dynamic secrets (created with CEL expressions).</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+          <td>secretExpressions</td>
+          <td>configures where to place operator written dynamic secrets (created with CEL expressions).</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1275,31 +1269,31 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiagnosticSetti
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">category</td>
-          <td style="text-align: left">Name of a Diagnostic Log category for a resource type this setting is applied to. To obtain the list of Diagnostic Log categories for a resource, first perform a GET diagnostic settings operation.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>category</td>
+          <td>Name of a Diagnostic Log category for a resource type this setting is applied to. To obtain the list of Diagnostic Log categories for a resource, first perform a GET diagnostic settings operation.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">categoryGroup</td>
-          <td style="text-align: left">Name of a Diagnostic Log category group for a resource type this setting is applied to. To obtain the list of Diagnostic Log categories for a resource, first perform a GET diagnostic settings operation.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>categoryGroup</td>
+          <td>Name of a Diagnostic Log category group for a resource type this setting is applied to. To obtain the list of Diagnostic Log categories for a resource, first perform a GET diagnostic settings operation.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">enabled</td>
-          <td style="text-align: left">a value indicating whether this log is enabled.</td>
-          <td style="text-align: left">bool<br/><small>Required</small></td>
+          <td>enabled</td>
+          <td>a value indicating whether this log is enabled.</td>
+          <td>bool<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">retentionPolicy</td>
-          <td style="text-align: left">the retention policy for this log.</td>
-          <td style="text-align: left"><a href="#RetentionPolicy">RetentionPolicy</a><br/><small>Optional</small></td>
+          <td>retentionPolicy</td>
+          <td>the retention policy for this log.</td>
+          <td><a href="#RetentionPolicy">RetentionPolicy</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1309,31 +1303,31 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiagnosticSetti
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">category</td>
-          <td style="text-align: left">Name of a Diagnostic Log category for a resource type this setting is applied to. To obtain the list of Diagnostic Log categories for a resource, first perform a GET diagnostic settings operation.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>category</td>
+          <td>Name of a Diagnostic Log category for a resource type this setting is applied to. To obtain the list of Diagnostic Log categories for a resource, first perform a GET diagnostic settings operation.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">categoryGroup</td>
-          <td style="text-align: left">Name of a Diagnostic Log category group for a resource type this setting is applied to. To obtain the list of Diagnostic Log categories for a resource, first perform a GET diagnostic settings operation.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>categoryGroup</td>
+          <td>Name of a Diagnostic Log category group for a resource type this setting is applied to. To obtain the list of Diagnostic Log categories for a resource, first perform a GET diagnostic settings operation.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">enabled</td>
-          <td style="text-align: left">a value indicating whether this log is enabled.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>enabled</td>
+          <td>a value indicating whether this log is enabled.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">retentionPolicy</td>
-          <td style="text-align: left">the retention policy for this log.</td>
-          <td style="text-align: left"><a href="#RetentionPolicy_STATUS">RetentionPolicy_STATUS</a><br/><small>Optional</small></td>
+          <td>retentionPolicy</td>
+          <td>the retention policy for this log.</td>
+          <td><a href="#RetentionPolicy_STATUS">RetentionPolicy_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1343,31 +1337,31 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiagnosticSetti
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">category</td>
-          <td style="text-align: left">Name of a Diagnostic Metric category for a resource type this setting is applied to. To obtain the list of Diagnostic metric categories for a resource, first perform a GET diagnostic settings operation.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>category</td>
+          <td>Name of a Diagnostic Metric category for a resource type this setting is applied to. To obtain the list of Diagnostic metric categories for a resource, first perform a GET diagnostic settings operation.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">enabled</td>
-          <td style="text-align: left">a value indicating whether this category is enabled.</td>
-          <td style="text-align: left">bool<br/><small>Required</small></td>
+          <td>enabled</td>
+          <td>a value indicating whether this category is enabled.</td>
+          <td>bool<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">retentionPolicy</td>
-          <td style="text-align: left">the retention policy for this category.</td>
-          <td style="text-align: left"><a href="#RetentionPolicy">RetentionPolicy</a><br/><small>Optional</small></td>
+          <td>retentionPolicy</td>
+          <td>the retention policy for this category.</td>
+          <td><a href="#RetentionPolicy">RetentionPolicy</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">timeGrain</td>
-          <td style="text-align: left">the timegrain of the metric in ISO8601 format.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>timeGrain</td>
+          <td>the timegrain of the metric in ISO8601 format.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1377,31 +1371,31 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiagnosticSetti
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">category</td>
-          <td style="text-align: left">Name of a Diagnostic Metric category for a resource type this setting is applied to. To obtain the list of Diagnostic metric categories for a resource, first perform a GET diagnostic settings operation.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>category</td>
+          <td>Name of a Diagnostic Metric category for a resource type this setting is applied to. To obtain the list of Diagnostic metric categories for a resource, first perform a GET diagnostic settings operation.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">enabled</td>
-          <td style="text-align: left">a value indicating whether this category is enabled.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>enabled</td>
+          <td>a value indicating whether this category is enabled.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">retentionPolicy</td>
-          <td style="text-align: left">the retention policy for this category.</td>
-          <td style="text-align: left"><a href="#RetentionPolicy_STATUS">RetentionPolicy_STATUS</a><br/><small>Optional</small></td>
+          <td>retentionPolicy</td>
+          <td>the retention policy for this category.</td>
+          <td><a href="#RetentionPolicy_STATUS">RetentionPolicy_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">timeGrain</td>
-          <td style="text-align: left">the timegrain of the metric in ISO8601 format.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>timeGrain</td>
+          <td>the timegrain of the metric in ISO8601 format.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1411,41 +1405,41 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiagnosticSetti
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">createdAt</td>
-          <td style="text-align: left">The timestamp of resource creation (UTC).</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>createdAt</td>
+          <td>The timestamp of resource creation (UTC).</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">createdBy</td>
-          <td style="text-align: left">The identity that created the resource.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>createdBy</td>
+          <td>The identity that created the resource.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">createdByType</td>
-          <td style="text-align: left">The type of identity that created the resource.</td>
-          <td style="text-align: left"><a href="#SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS</a><br/><small>Optional</small></td>
+          <td>createdByType</td>
+          <td>The type of identity that created the resource.</td>
+          <td><a href="#SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">lastModifiedAt</td>
-          <td style="text-align: left">The timestamp of resource last modification (UTC)</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>lastModifiedAt</td>
+          <td>The timestamp of resource last modification (UTC)</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">lastModifiedBy</td>
-          <td style="text-align: left">The identity that last modified the resource.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>lastModifiedBy</td>
+          <td>The identity that last modified the resource.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">lastModifiedByType</td>
-          <td style="text-align: left">The type of identity that last modified the resource.</td>
-          <td style="text-align: left"><a href="#SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS</a><br/><small>Optional</small></td>
+          <td>lastModifiedByType</td>
+          <td>The type of identity that last modified the resource.</td>
+          <td><a href="#SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1455,21 +1449,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiagnosticSetti
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">days</td>
-          <td style="text-align: left">the number of days for the retention in days. A value of 0 will retain the events indefinitely.</td>
-          <td style="text-align: left">int<br/><small>Required</small></td>
+          <td>days</td>
+          <td>the number of days for the retention in days. A value of 0 will retain the events indefinitely.</td>
+          <td>int<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">enabled</td>
-          <td style="text-align: left">a value indicating whether the retention policy is enabled.</td>
-          <td style="text-align: left">bool<br/><small>Required</small></td>
+          <td>enabled</td>
+          <td>a value indicating whether the retention policy is enabled.</td>
+          <td>bool<br/><small>Required</small></td>
       </tr>
   </tbody>
 </table>
@@ -1479,21 +1473,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiagnosticSetti
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">days</td>
-          <td style="text-align: left">the number of days for the retention in days. A value of 0 will retain the events indefinitely.</td>
-          <td style="text-align: left">int<br/><small>Optional</small></td>
+          <td>days</td>
+          <td>the number of days for the retention in days. A value of 0 will retain the events indefinitely.</td>
+          <td>int<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">enabled</td>
-          <td style="text-align: left">a value indicating whether the retention policy is enabled.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>enabled</td>
+          <td>a value indicating whether the retention policy is enabled.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1502,26 +1496,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiagnosticSetti
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Application&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Application&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Key&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Key&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;ManagedIdentity&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;ManagedIdentity&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;User&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;User&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -1530,26 +1524,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiagnosticSetti
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Application&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Application&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Key&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Key&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;ManagedIdentity&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;ManagedIdentity&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;User&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;User&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -1587,7 +1581,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DiagnosticSetti
 </footer>
 
     </div>
-    <script src="/azure-service-operator/js/main.min.0a5a30b73411b7a841784b6f4d46f4e0b1b95d576fa3cadd81db9d5ae468e8c2.js" integrity="sha256-ClowtzQRt6hBeEtvTUb04LG5XVdvo8rdgdudWuRo6MI=" crossorigin="anonymous"></script>
+    <script src="/azure-service-operator/js/main.min.4096f09e0b199950620fc06165ef2a2791e1bee9067e27b14c4a54f02c0e33bd.js" integrity="sha256-QJbwngsZmVBiD8BhZe8qJ5HhvukGfiexTEpU8CwOM70=" crossorigin="anonymous"></script>
 <script defer src="/azure-service-operator/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/azure-service-operator/js/tabpane-persist.js'></script>
 

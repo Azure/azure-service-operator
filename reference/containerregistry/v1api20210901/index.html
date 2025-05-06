@@ -18,13 +18,13 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>containerregistry.azure.com/v1api20210901 | Azure Service Operator</title>
-<meta name="description" content=" APIVersion Value Description &ldquo;2021-09-01&rdquo; Registry Generator information: - Generated from: /containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2021-09-01/containerregistry.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerRegistry/registries/{registryName}
+<meta name="description" content="APIVersion Value Description “2021-09-01” Registry Generator information: - Generated from: /containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2021-09-01/containerregistry.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerRegistry/registries/{registryName}
 Used by: RegistryList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOptional status Registry_STATUSOptional Registry_Spec Property Description Type adminUserEnabled The value that indicates whether the admin user is enabled. boolOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be. stringOptional dataEndpointEnabled Enable a single data endpoint per region for serving data. boolOptional encryption The encryption settings of container registry. EncryptionPropertyOptional identity The identity of the container registry. IdentityPropertiesOptional location The location of the resource. This cannot be changed after the resource is created. stringRequired networkRuleBypassOptions Whether to allow trusted Azure services to access a network restricted registry. RegistryProperties_NetworkRuleBypassOptionsOptional networkRuleSet The network rule set for a container registry. NetworkRuleSetOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure RegistryOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired policies The policies for a container registry. PoliciesOptional publicNetworkAccess Whether or not public network access is allowed for the container registry. RegistryProperties_PublicNetworkAccessOptional sku The SKU of the container registry. SkuRequired tags The tags of the resource. map[string]stringOptional zoneRedundancy Whether or not zone redundancy is enabled for this container registry RegistryProperties_ZoneRedundancyOptional Registry_STATUS Property Description Type adminUserEnabled The value that indicates whether the admin user is enabled. boolOptional conditions The observed state of the resource conditions.Condition[]Optional creationDate The creation date of the container registry in ISO8601 format. stringOptional dataEndpointEnabled Enable a single data endpoint per region for serving data. boolOptional dataEndpointHostNames List of host names that will serve data when dataEndpointEnabled is true. string[]Optional encryption The encryption settings of container registry. EncryptionProperty_STATUSOptional id The resource ID. stringOptional identity The identity of the container registry. IdentityProperties_STATUSOptional location The location of the resource. This cannot be changed after the resource is created. stringOptional loginServer The URL that can be used to log into the container registry. stringOptional name The name of the resource. stringOptional networkRuleBypassOptions Whether to allow trusted Azure services to access a network restricted registry. RegistryProperties_NetworkRuleBypassOptions_STATUSOptional networkRuleSet The network rule set for a container registry. NetworkRuleSet_STATUSOptional policies The policies for a container registry. Policies_STATUSOptional privateEndpointConnections List of private endpoint connections for a container registry. PrivateEndpointConnection_STATUS[]Optional provisioningState The provisioning state of the container registry at the time the operation was called. RegistryProperties_ProvisioningState_STATUSOptional publicNetworkAccess Whether or not public network access is allowed for the container registry. RegistryProperties_PublicNetworkAccess_STATUSOptional sku The SKU of the container registry. Sku_STATUSOptional status The status of the container registry at the time the operation was called. Status_STATUSOptional systemData Metadata pertaining to creation and last modification of the resource. SystemData_STATUSOptional tags The tags of the resource. map[string]stringOptional type The type of the resource. stringOptional zoneRedundancy Whether or not zone redundancy is enabled for this container registry RegistryProperties_ZoneRedundancy_STATUSOptional RegistryList Generator information: - Generated from: /containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2021-09-01/containerregistry.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerRegistry/registries/{registryName}">
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOptional status Registry_STATUSOptional Registry_Spec Property Description Type adminUserEnabled The value that indicates whether the admin user is enabled. boolOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional dataEndpointEnabled Enable a single data endpoint per region for serving data. boolOptional encryption The encryption settings of container registry. EncryptionPropertyOptional identity The identity of the container registry. IdentityPropertiesOptional location The location of the resource. This cannot be changed after the resource is created. stringRequired networkRuleBypassOptions Whether to allow trusted Azure services to access a network restricted registry. RegistryProperties_NetworkRuleBypassOptionsOptional networkRuleSet The network rule set for a container registry. NetworkRuleSetOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure RegistryOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired policies The policies for a container registry. PoliciesOptional publicNetworkAccess Whether or not public network access is allowed for the container registry. RegistryProperties_PublicNetworkAccessOptional sku The SKU of the container registry. SkuRequired tags The tags of the resource. map[string]stringOptional zoneRedundancy Whether or not zone redundancy is enabled for this container registry RegistryProperties_ZoneRedundancyOptional Registry_STATUS Property Description Type adminUserEnabled The value that indicates whether the admin user is enabled. boolOptional conditions The observed state of the resource conditions.Condition[]Optional creationDate The creation date of the container registry in ISO8601 format. stringOptional dataEndpointEnabled Enable a single data endpoint per region for serving data. boolOptional dataEndpointHostNames List of host names that will serve data when dataEndpointEnabled is true. string[]Optional encryption The encryption settings of container registry. EncryptionProperty_STATUSOptional id The resource ID. stringOptional identity The identity of the container registry. IdentityProperties_STATUSOptional location The location of the resource. This cannot be changed after the resource is created. stringOptional loginServer The URL that can be used to log into the container registry. stringOptional name The name of the resource. stringOptional networkRuleBypassOptions Whether to allow trusted Azure services to access a network restricted registry. RegistryProperties_NetworkRuleBypassOptions_STATUSOptional networkRuleSet The network rule set for a container registry. NetworkRuleSet_STATUSOptional policies The policies for a container registry. Policies_STATUSOptional privateEndpointConnections List of private endpoint connections for a container registry. PrivateEndpointConnection_STATUS[]Optional provisioningState The provisioning state of the container registry at the time the operation was called. RegistryProperties_ProvisioningState_STATUSOptional publicNetworkAccess Whether or not public network access is allowed for the container registry. RegistryProperties_PublicNetworkAccess_STATUSOptional sku The SKU of the container registry. Sku_STATUSOptional status The status of the container registry at the time the operation was called. Status_STATUSOptional systemData Metadata pertaining to creation and last modification of the resource. SystemData_STATUSOptional tags The tags of the resource. map[string]stringOptional type The type of the resource. stringOptional zoneRedundancy Whether or not zone redundancy is enabled for this container registry RegistryProperties_ZoneRedundancy_STATUSOptional RegistryList Generator information: - Generated from: /containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2021-09-01/containerregistry.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerRegistry/registries/{registryName}">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/containerregistry/v1api20210901/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="containerregistry.azure.com/v1api20210901">
-  <meta property="og:description" content=" APIVersion Value Description “2021-09-01” Registry Generator information: - Generated from: /containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2021-09-01/containerregistry.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerRegistry/registries/{registryName}
+  <meta property="og:description" content="APIVersion Value Description “2021-09-01” Registry Generator information: - Generated from: /containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2021-09-01/containerregistry.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerRegistry/registries/{registryName}
 Used by: RegistryList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOptional status Registry_STATUSOptional Registry_Spec Property Description Type adminUserEnabled The value that indicates whether the admin user is enabled. boolOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional dataEndpointEnabled Enable a single data endpoint per region for serving data. boolOptional encryption The encryption settings of container registry. EncryptionPropertyOptional identity The identity of the container registry. IdentityPropertiesOptional location The location of the resource. This cannot be changed after the resource is created. stringRequired networkRuleBypassOptions Whether to allow trusted Azure services to access a network restricted registry. RegistryProperties_NetworkRuleBypassOptionsOptional networkRuleSet The network rule set for a container registry. NetworkRuleSetOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure RegistryOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired policies The policies for a container registry. PoliciesOptional publicNetworkAccess Whether or not public network access is allowed for the container registry. RegistryProperties_PublicNetworkAccessOptional sku The SKU of the container registry. SkuRequired tags The tags of the resource. map[string]stringOptional zoneRedundancy Whether or not zone redundancy is enabled for this container registry RegistryProperties_ZoneRedundancyOptional Registry_STATUS Property Description Type adminUserEnabled The value that indicates whether the admin user is enabled. boolOptional conditions The observed state of the resource conditions.Condition[]Optional creationDate The creation date of the container registry in ISO8601 format. stringOptional dataEndpointEnabled Enable a single data endpoint per region for serving data. boolOptional dataEndpointHostNames List of host names that will serve data when dataEndpointEnabled is true. string[]Optional encryption The encryption settings of container registry. EncryptionProperty_STATUSOptional id The resource ID. stringOptional identity The identity of the container registry. IdentityProperties_STATUSOptional location The location of the resource. This cannot be changed after the resource is created. stringOptional loginServer The URL that can be used to log into the container registry. stringOptional name The name of the resource. stringOptional networkRuleBypassOptions Whether to allow trusted Azure services to access a network restricted registry. RegistryProperties_NetworkRuleBypassOptions_STATUSOptional networkRuleSet The network rule set for a container registry. NetworkRuleSet_STATUSOptional policies The policies for a container registry. Policies_STATUSOptional privateEndpointConnections List of private endpoint connections for a container registry. PrivateEndpointConnection_STATUS[]Optional provisioningState The provisioning state of the container registry at the time the operation was called. RegistryProperties_ProvisioningState_STATUSOptional publicNetworkAccess Whether or not public network access is allowed for the container registry. RegistryProperties_PublicNetworkAccess_STATUSOptional sku The SKU of the container registry. Sku_STATUSOptional status The status of the container registry at the time the operation was called. Status_STATUSOptional systemData Metadata pertaining to creation and last modification of the resource. SystemData_STATUSOptional tags The tags of the resource. map[string]stringOptional type The type of the resource. stringOptional zoneRedundancy Whether or not zone redundancy is enabled for this container registry RegistryProperties_ZoneRedundancy_STATUSOptional RegistryList Generator information: - Generated from: /containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2021-09-01/containerregistry.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerRegistry/registries/{registryName}">
   <meta property="og:locale" content="en_us">
@@ -32,22 +32,17 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
     <meta property="article:section" content="reference">
 
   <meta itemprop="name" content="containerregistry.azure.com/v1api20210901">
-  <meta itemprop="description" content=" APIVersion Value Description “2021-09-01” Registry Generator information: - Generated from: /containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2021-09-01/containerregistry.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerRegistry/registries/{registryName}
+  <meta itemprop="description" content="APIVersion Value Description “2021-09-01” Registry Generator information: - Generated from: /containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2021-09-01/containerregistry.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerRegistry/registries/{registryName}
 Used by: RegistryList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOptional status Registry_STATUSOptional Registry_Spec Property Description Type adminUserEnabled The value that indicates whether the admin user is enabled. boolOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional dataEndpointEnabled Enable a single data endpoint per region for serving data. boolOptional encryption The encryption settings of container registry. EncryptionPropertyOptional identity The identity of the container registry. IdentityPropertiesOptional location The location of the resource. This cannot be changed after the resource is created. stringRequired networkRuleBypassOptions Whether to allow trusted Azure services to access a network restricted registry. RegistryProperties_NetworkRuleBypassOptionsOptional networkRuleSet The network rule set for a container registry. NetworkRuleSetOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure RegistryOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired policies The policies for a container registry. PoliciesOptional publicNetworkAccess Whether or not public network access is allowed for the container registry. RegistryProperties_PublicNetworkAccessOptional sku The SKU of the container registry. SkuRequired tags The tags of the resource. map[string]stringOptional zoneRedundancy Whether or not zone redundancy is enabled for this container registry RegistryProperties_ZoneRedundancyOptional Registry_STATUS Property Description Type adminUserEnabled The value that indicates whether the admin user is enabled. boolOptional conditions The observed state of the resource conditions.Condition[]Optional creationDate The creation date of the container registry in ISO8601 format. stringOptional dataEndpointEnabled Enable a single data endpoint per region for serving data. boolOptional dataEndpointHostNames List of host names that will serve data when dataEndpointEnabled is true. string[]Optional encryption The encryption settings of container registry. EncryptionProperty_STATUSOptional id The resource ID. stringOptional identity The identity of the container registry. IdentityProperties_STATUSOptional location The location of the resource. This cannot be changed after the resource is created. stringOptional loginServer The URL that can be used to log into the container registry. stringOptional name The name of the resource. stringOptional networkRuleBypassOptions Whether to allow trusted Azure services to access a network restricted registry. RegistryProperties_NetworkRuleBypassOptions_STATUSOptional networkRuleSet The network rule set for a container registry. NetworkRuleSet_STATUSOptional policies The policies for a container registry. Policies_STATUSOptional privateEndpointConnections List of private endpoint connections for a container registry. PrivateEndpointConnection_STATUS[]Optional provisioningState The provisioning state of the container registry at the time the operation was called. RegistryProperties_ProvisioningState_STATUSOptional publicNetworkAccess Whether or not public network access is allowed for the container registry. RegistryProperties_PublicNetworkAccess_STATUSOptional sku The SKU of the container registry. Sku_STATUSOptional status The status of the container registry at the time the operation was called. Status_STATUSOptional systemData Metadata pertaining to creation and last modification of the resource. SystemData_STATUSOptional tags The tags of the resource. map[string]stringOptional type The type of the resource. stringOptional zoneRedundancy Whether or not zone redundancy is enabled for this container registry RegistryProperties_ZoneRedundancy_STATUSOptional RegistryList Generator information: - Generated from: /containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2021-09-01/containerregistry.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerRegistry/registries/{registryName}">
   <meta itemprop="wordCount" content="2396">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="containerregistry.azure.com/v1api20210901">
-  <meta name="twitter:description" content=" APIVersion Value Description “2021-09-01” Registry Generator information: - Generated from: /containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2021-09-01/containerregistry.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerRegistry/registries/{registryName}
+  <meta name="twitter:description" content="APIVersion Value Description “2021-09-01” Registry Generator information: - Generated from: /containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2021-09-01/containerregistry.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerRegistry/registries/{registryName}
 Used by: RegistryList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOptional status Registry_STATUSOptional Registry_Spec Property Description Type adminUserEnabled The value that indicates whether the admin user is enabled. boolOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional dataEndpointEnabled Enable a single data endpoint per region for serving data. boolOptional encryption The encryption settings of container registry. EncryptionPropertyOptional identity The identity of the container registry. IdentityPropertiesOptional location The location of the resource. This cannot be changed after the resource is created. stringRequired networkRuleBypassOptions Whether to allow trusted Azure services to access a network restricted registry. RegistryProperties_NetworkRuleBypassOptionsOptional networkRuleSet The network rule set for a container registry. NetworkRuleSetOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure RegistryOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired policies The policies for a container registry. PoliciesOptional publicNetworkAccess Whether or not public network access is allowed for the container registry. RegistryProperties_PublicNetworkAccessOptional sku The SKU of the container registry. SkuRequired tags The tags of the resource. map[string]stringOptional zoneRedundancy Whether or not zone redundancy is enabled for this container registry RegistryProperties_ZoneRedundancyOptional Registry_STATUS Property Description Type adminUserEnabled The value that indicates whether the admin user is enabled. boolOptional conditions The observed state of the resource conditions.Condition[]Optional creationDate The creation date of the container registry in ISO8601 format. stringOptional dataEndpointEnabled Enable a single data endpoint per region for serving data. boolOptional dataEndpointHostNames List of host names that will serve data when dataEndpointEnabled is true. string[]Optional encryption The encryption settings of container registry. EncryptionProperty_STATUSOptional id The resource ID. stringOptional identity The identity of the container registry. IdentityProperties_STATUSOptional location The location of the resource. This cannot be changed after the resource is created. stringOptional loginServer The URL that can be used to log into the container registry. stringOptional name The name of the resource. stringOptional networkRuleBypassOptions Whether to allow trusted Azure services to access a network restricted registry. RegistryProperties_NetworkRuleBypassOptions_STATUSOptional networkRuleSet The network rule set for a container registry. NetworkRuleSet_STATUSOptional policies The policies for a container registry. Policies_STATUSOptional privateEndpointConnections List of private endpoint connections for a container registry. PrivateEndpointConnection_STATUS[]Optional provisioningState The provisioning state of the container registry at the time the operation was called. RegistryProperties_ProvisioningState_STATUSOptional publicNetworkAccess Whether or not public network access is allowed for the container registry. RegistryProperties_PublicNetworkAccess_STATUSOptional sku The SKU of the container registry. Sku_STATUSOptional status The status of the container registry at the time the operation was called. Status_STATUSOptional systemData Metadata pertaining to creation and last modification of the resource. SystemData_STATUSOptional tags The tags of the resource. map[string]stringOptional type The type of the resource. stringOptional zoneRedundancy Whether or not zone redundancy is enabled for this container registry RegistryProperties_ZoneRedundancy_STATUSOptional RegistryList Generator information: - Generated from: /containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2021-09-01/containerregistry.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerRegistry/registries/{registryName}">
-
-
-
-
-<link rel="preload" href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" as="style">
-<link href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" rel="stylesheet" integrity="">
-
+<link rel="preload" href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" as="style" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
+<link href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" rel="stylesheet" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -898,7 +893,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
     v1api20210901</li>
   </ol>
 </nav>
-            
 <div class="td-content">
 	<h1>containerregistry.azure.com/v1api20210901</h1>
 	
@@ -910,14 +904,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;2021-09-01&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;2021-09-01&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -927,31 +921,31 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left"><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta">metav1.ObjectMeta</a></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta">metav1.ObjectMeta</a></td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">spec</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"><a href="#Registry_Spec">Registry_Spec</a><br/><small>Optional</small></td>
+          <td>spec</td>
+          <td></td>
+          <td><a href="#Registry_Spec">Registry_Spec</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">status</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"><a href="#Registry_STATUS">Registry_STATUS</a><br/><small>Optional</small></td>
+          <td>status</td>
+          <td></td>
+          <td><a href="#Registry_STATUS">Registry_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -959,86 +953,86 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">adminUserEnabled</td>
-          <td style="text-align: left">The value that indicates whether the admin user is enabled.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>adminUserEnabled</td>
+          <td>The value that indicates whether the admin user is enabled.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">azureName</td>
-          <td style="text-align: left">The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>azureName</td>
+          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">dataEndpointEnabled</td>
-          <td style="text-align: left">Enable a single data endpoint per region for serving data.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>dataEndpointEnabled</td>
+          <td>Enable a single data endpoint per region for serving data.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">encryption</td>
-          <td style="text-align: left">The encryption settings of container registry.</td>
-          <td style="text-align: left"><a href="#EncryptionProperty">EncryptionProperty</a><br/><small>Optional</small></td>
+          <td>encryption</td>
+          <td>The encryption settings of container registry.</td>
+          <td><a href="#EncryptionProperty">EncryptionProperty</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">identity</td>
-          <td style="text-align: left">The identity of the container registry.</td>
-          <td style="text-align: left"><a href="#IdentityProperties">IdentityProperties</a><br/><small>Optional</small></td>
+          <td>identity</td>
+          <td>The identity of the container registry.</td>
+          <td><a href="#IdentityProperties">IdentityProperties</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">location</td>
-          <td style="text-align: left">The location of the resource. This cannot be changed after the resource is created.</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>location</td>
+          <td>The location of the resource. This cannot be changed after the resource is created.</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">networkRuleBypassOptions</td>
-          <td style="text-align: left">Whether to allow trusted Azure services to access a network restricted registry.</td>
-          <td style="text-align: left"><a href="#RegistryProperties_NetworkRuleBypassOptions">RegistryProperties_NetworkRuleBypassOptions</a><br/><small>Optional</small></td>
+          <td>networkRuleBypassOptions</td>
+          <td>Whether to allow trusted Azure services to access a network restricted registry.</td>
+          <td><a href="#RegistryProperties_NetworkRuleBypassOptions">RegistryProperties_NetworkRuleBypassOptions</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">networkRuleSet</td>
-          <td style="text-align: left">The network rule set for a container registry.</td>
-          <td style="text-align: left"><a href="#NetworkRuleSet">NetworkRuleSet</a><br/><small>Optional</small></td>
+          <td>networkRuleSet</td>
+          <td>The network rule set for a container registry.</td>
+          <td><a href="#NetworkRuleSet">NetworkRuleSet</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">operatorSpec</td>
-          <td style="text-align: left">The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td style="text-align: left"><a href="#RegistryOperatorSpec">RegistryOperatorSpec</a><br/><small>Optional</small></td>
+          <td>operatorSpec</td>
+          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+          <td><a href="#RegistryOperatorSpec">RegistryOperatorSpec</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">owner</td>
-          <td style="text-align: left">The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
+          <td>owner</td>
+          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">policies</td>
-          <td style="text-align: left">The policies for a container registry.</td>
-          <td style="text-align: left"><a href="#Policies">Policies</a><br/><small>Optional</small></td>
+          <td>policies</td>
+          <td>The policies for a container registry.</td>
+          <td><a href="#Policies">Policies</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">publicNetworkAccess</td>
-          <td style="text-align: left">Whether or not public network access is allowed for the container registry.</td>
-          <td style="text-align: left"><a href="#RegistryProperties_PublicNetworkAccess">RegistryProperties_PublicNetworkAccess</a><br/><small>Optional</small></td>
+          <td>publicNetworkAccess</td>
+          <td>Whether or not public network access is allowed for the container registry.</td>
+          <td><a href="#RegistryProperties_PublicNetworkAccess">RegistryProperties_PublicNetworkAccess</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">sku</td>
-          <td style="text-align: left">The SKU of the container registry.</td>
-          <td style="text-align: left"><a href="#Sku">Sku</a><br/><small>Required</small></td>
+          <td>sku</td>
+          <td>The SKU of the container registry.</td>
+          <td><a href="#Sku">Sku</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">tags</td>
-          <td style="text-align: left">The tags of the resource.</td>
-          <td style="text-align: left">map[string]string<br/><small>Optional</small></td>
+          <td>tags</td>
+          <td>The tags of the resource.</td>
+          <td>map[string]string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">zoneRedundancy</td>
-          <td style="text-align: left">Whether or not zone redundancy is enabled for this container registry</td>
-          <td style="text-align: left"><a href="#RegistryProperties_ZoneRedundancy">RegistryProperties_ZoneRedundancy</a><br/><small>Optional</small></td>
+          <td>zoneRedundancy</td>
+          <td>Whether or not zone redundancy is enabled for this container registry</td>
+          <td><a href="#RegistryProperties_ZoneRedundancy">RegistryProperties_ZoneRedundancy</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1046,126 +1040,126 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">adminUserEnabled</td>
-          <td style="text-align: left">The value that indicates whether the admin user is enabled.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>adminUserEnabled</td>
+          <td>The value that indicates whether the admin user is enabled.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">conditions</td>
-          <td style="text-align: left">The observed state of the resource</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+          <td>conditions</td>
+          <td>The observed state of the resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">creationDate</td>
-          <td style="text-align: left">The creation date of the container registry in ISO8601 format.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>creationDate</td>
+          <td>The creation date of the container registry in ISO8601 format.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">dataEndpointEnabled</td>
-          <td style="text-align: left">Enable a single data endpoint per region for serving data.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>dataEndpointEnabled</td>
+          <td>Enable a single data endpoint per region for serving data.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">dataEndpointHostNames</td>
-          <td style="text-align: left">List of host names that will serve data when dataEndpointEnabled is true.</td>
-          <td style="text-align: left">string[]<br/><small>Optional</small></td>
+          <td>dataEndpointHostNames</td>
+          <td>List of host names that will serve data when dataEndpointEnabled is true.</td>
+          <td>string[]<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">encryption</td>
-          <td style="text-align: left">The encryption settings of container registry.</td>
-          <td style="text-align: left"><a href="#EncryptionProperty_STATUS">EncryptionProperty_STATUS</a><br/><small>Optional</small></td>
+          <td>encryption</td>
+          <td>The encryption settings of container registry.</td>
+          <td><a href="#EncryptionProperty_STATUS">EncryptionProperty_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">id</td>
-          <td style="text-align: left">The resource ID.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>id</td>
+          <td>The resource ID.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">identity</td>
-          <td style="text-align: left">The identity of the container registry.</td>
-          <td style="text-align: left"><a href="#IdentityProperties_STATUS">IdentityProperties_STATUS</a><br/><small>Optional</small></td>
+          <td>identity</td>
+          <td>The identity of the container registry.</td>
+          <td><a href="#IdentityProperties_STATUS">IdentityProperties_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">location</td>
-          <td style="text-align: left">The location of the resource. This cannot be changed after the resource is created.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>location</td>
+          <td>The location of the resource. This cannot be changed after the resource is created.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">loginServer</td>
-          <td style="text-align: left">The URL that can be used to log into the container registry.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>loginServer</td>
+          <td>The URL that can be used to log into the container registry.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">name</td>
-          <td style="text-align: left">The name of the resource.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>name</td>
+          <td>The name of the resource.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">networkRuleBypassOptions</td>
-          <td style="text-align: left">Whether to allow trusted Azure services to access a network restricted registry.</td>
-          <td style="text-align: left"><a href="#RegistryProperties_NetworkRuleBypassOptions_STATUS">RegistryProperties_NetworkRuleBypassOptions_STATUS</a><br/><small>Optional</small></td>
+          <td>networkRuleBypassOptions</td>
+          <td>Whether to allow trusted Azure services to access a network restricted registry.</td>
+          <td><a href="#RegistryProperties_NetworkRuleBypassOptions_STATUS">RegistryProperties_NetworkRuleBypassOptions_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">networkRuleSet</td>
-          <td style="text-align: left">The network rule set for a container registry.</td>
-          <td style="text-align: left"><a href="#NetworkRuleSet_STATUS">NetworkRuleSet_STATUS</a><br/><small>Optional</small></td>
+          <td>networkRuleSet</td>
+          <td>The network rule set for a container registry.</td>
+          <td><a href="#NetworkRuleSet_STATUS">NetworkRuleSet_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">policies</td>
-          <td style="text-align: left">The policies for a container registry.</td>
-          <td style="text-align: left"><a href="#Policies_STATUS">Policies_STATUS</a><br/><small>Optional</small></td>
+          <td>policies</td>
+          <td>The policies for a container registry.</td>
+          <td><a href="#Policies_STATUS">Policies_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">privateEndpointConnections</td>
-          <td style="text-align: left">List of private endpoint connections for a container registry.</td>
-          <td style="text-align: left"><a href="#PrivateEndpointConnection_STATUS">PrivateEndpointConnection_STATUS[]</a><br/><small>Optional</small></td>
+          <td>privateEndpointConnections</td>
+          <td>List of private endpoint connections for a container registry.</td>
+          <td><a href="#PrivateEndpointConnection_STATUS">PrivateEndpointConnection_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">provisioningState</td>
-          <td style="text-align: left">The provisioning state of the container registry at the time the operation was called.</td>
-          <td style="text-align: left"><a href="#RegistryProperties_ProvisioningState_STATUS">RegistryProperties_ProvisioningState_STATUS</a><br/><small>Optional</small></td>
+          <td>provisioningState</td>
+          <td>The provisioning state of the container registry at the time the operation was called.</td>
+          <td><a href="#RegistryProperties_ProvisioningState_STATUS">RegistryProperties_ProvisioningState_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">publicNetworkAccess</td>
-          <td style="text-align: left">Whether or not public network access is allowed for the container registry.</td>
-          <td style="text-align: left"><a href="#RegistryProperties_PublicNetworkAccess_STATUS">RegistryProperties_PublicNetworkAccess_STATUS</a><br/><small>Optional</small></td>
+          <td>publicNetworkAccess</td>
+          <td>Whether or not public network access is allowed for the container registry.</td>
+          <td><a href="#RegistryProperties_PublicNetworkAccess_STATUS">RegistryProperties_PublicNetworkAccess_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">sku</td>
-          <td style="text-align: left">The SKU of the container registry.</td>
-          <td style="text-align: left"><a href="#Sku_STATUS">Sku_STATUS</a><br/><small>Optional</small></td>
+          <td>sku</td>
+          <td>The SKU of the container registry.</td>
+          <td><a href="#Sku_STATUS">Sku_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">status</td>
-          <td style="text-align: left">The status of the container registry at the time the operation was called.</td>
-          <td style="text-align: left"><a href="#Status_STATUS">Status_STATUS</a><br/><small>Optional</small></td>
+          <td>status</td>
+          <td>The status of the container registry at the time the operation was called.</td>
+          <td><a href="#Status_STATUS">Status_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">systemData</td>
-          <td style="text-align: left">Metadata pertaining to creation and last modification of the resource.</td>
-          <td style="text-align: left"><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
+          <td>systemData</td>
+          <td>Metadata pertaining to creation and last modification of the resource.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">tags</td>
-          <td style="text-align: left">The tags of the resource.</td>
-          <td style="text-align: left">map[string]string<br/><small>Optional</small></td>
+          <td>tags</td>
+          <td>The tags of the resource.</td>
+          <td>map[string]string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">type</td>
-          <td style="text-align: left">The type of the resource.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>type</td>
+          <td>The type of the resource.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">zoneRedundancy</td>
-          <td style="text-align: left">Whether or not zone redundancy is enabled for this container registry</td>
-          <td style="text-align: left"><a href="#RegistryProperties_ZoneRedundancy_STATUS">RegistryProperties_ZoneRedundancy_STATUS</a><br/><small>Optional</small></td>
+          <td>zoneRedundancy</td>
+          <td>Whether or not zone redundancy is enabled for this container registry</td>
+          <td><a href="#RegistryProperties_ZoneRedundancy_STATUS">RegistryProperties_ZoneRedundancy_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1174,26 +1168,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left"><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta">metav1.ListMeta</a></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta">metav1.ListMeta</a></td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">items</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"><a href="#Registry">Registry[]</a><br/><small>Optional</small></td>
+          <td>items</td>
+          <td></td>
+          <td><a href="#Registry">Registry[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1202,86 +1196,86 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">adminUserEnabled</td>
-          <td style="text-align: left">The value that indicates whether the admin user is enabled.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>adminUserEnabled</td>
+          <td>The value that indicates whether the admin user is enabled.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">azureName</td>
-          <td style="text-align: left">The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>azureName</td>
+          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">dataEndpointEnabled</td>
-          <td style="text-align: left">Enable a single data endpoint per region for serving data.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>dataEndpointEnabled</td>
+          <td>Enable a single data endpoint per region for serving data.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">encryption</td>
-          <td style="text-align: left">The encryption settings of container registry.</td>
-          <td style="text-align: left"><a href="#EncryptionProperty">EncryptionProperty</a><br/><small>Optional</small></td>
+          <td>encryption</td>
+          <td>The encryption settings of container registry.</td>
+          <td><a href="#EncryptionProperty">EncryptionProperty</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">identity</td>
-          <td style="text-align: left">The identity of the container registry.</td>
-          <td style="text-align: left"><a href="#IdentityProperties">IdentityProperties</a><br/><small>Optional</small></td>
+          <td>identity</td>
+          <td>The identity of the container registry.</td>
+          <td><a href="#IdentityProperties">IdentityProperties</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">location</td>
-          <td style="text-align: left">The location of the resource. This cannot be changed after the resource is created.</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>location</td>
+          <td>The location of the resource. This cannot be changed after the resource is created.</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">networkRuleBypassOptions</td>
-          <td style="text-align: left">Whether to allow trusted Azure services to access a network restricted registry.</td>
-          <td style="text-align: left"><a href="#RegistryProperties_NetworkRuleBypassOptions">RegistryProperties_NetworkRuleBypassOptions</a><br/><small>Optional</small></td>
+          <td>networkRuleBypassOptions</td>
+          <td>Whether to allow trusted Azure services to access a network restricted registry.</td>
+          <td><a href="#RegistryProperties_NetworkRuleBypassOptions">RegistryProperties_NetworkRuleBypassOptions</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">networkRuleSet</td>
-          <td style="text-align: left">The network rule set for a container registry.</td>
-          <td style="text-align: left"><a href="#NetworkRuleSet">NetworkRuleSet</a><br/><small>Optional</small></td>
+          <td>networkRuleSet</td>
+          <td>The network rule set for a container registry.</td>
+          <td><a href="#NetworkRuleSet">NetworkRuleSet</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">operatorSpec</td>
-          <td style="text-align: left">The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td style="text-align: left"><a href="#RegistryOperatorSpec">RegistryOperatorSpec</a><br/><small>Optional</small></td>
+          <td>operatorSpec</td>
+          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+          <td><a href="#RegistryOperatorSpec">RegistryOperatorSpec</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">owner</td>
-          <td style="text-align: left">The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
+          <td>owner</td>
+          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">policies</td>
-          <td style="text-align: left">The policies for a container registry.</td>
-          <td style="text-align: left"><a href="#Policies">Policies</a><br/><small>Optional</small></td>
+          <td>policies</td>
+          <td>The policies for a container registry.</td>
+          <td><a href="#Policies">Policies</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">publicNetworkAccess</td>
-          <td style="text-align: left">Whether or not public network access is allowed for the container registry.</td>
-          <td style="text-align: left"><a href="#RegistryProperties_PublicNetworkAccess">RegistryProperties_PublicNetworkAccess</a><br/><small>Optional</small></td>
+          <td>publicNetworkAccess</td>
+          <td>Whether or not public network access is allowed for the container registry.</td>
+          <td><a href="#RegistryProperties_PublicNetworkAccess">RegistryProperties_PublicNetworkAccess</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">sku</td>
-          <td style="text-align: left">The SKU of the container registry.</td>
-          <td style="text-align: left"><a href="#Sku">Sku</a><br/><small>Required</small></td>
+          <td>sku</td>
+          <td>The SKU of the container registry.</td>
+          <td><a href="#Sku">Sku</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">tags</td>
-          <td style="text-align: left">The tags of the resource.</td>
-          <td style="text-align: left">map[string]string<br/><small>Optional</small></td>
+          <td>tags</td>
+          <td>The tags of the resource.</td>
+          <td>map[string]string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">zoneRedundancy</td>
-          <td style="text-align: left">Whether or not zone redundancy is enabled for this container registry</td>
-          <td style="text-align: left"><a href="#RegistryProperties_ZoneRedundancy">RegistryProperties_ZoneRedundancy</a><br/><small>Optional</small></td>
+          <td>zoneRedundancy</td>
+          <td>Whether or not zone redundancy is enabled for this container registry</td>
+          <td><a href="#RegistryProperties_ZoneRedundancy">RegistryProperties_ZoneRedundancy</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1291,126 +1285,126 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">adminUserEnabled</td>
-          <td style="text-align: left">The value that indicates whether the admin user is enabled.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>adminUserEnabled</td>
+          <td>The value that indicates whether the admin user is enabled.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">conditions</td>
-          <td style="text-align: left">The observed state of the resource</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+          <td>conditions</td>
+          <td>The observed state of the resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">creationDate</td>
-          <td style="text-align: left">The creation date of the container registry in ISO8601 format.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>creationDate</td>
+          <td>The creation date of the container registry in ISO8601 format.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">dataEndpointEnabled</td>
-          <td style="text-align: left">Enable a single data endpoint per region for serving data.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>dataEndpointEnabled</td>
+          <td>Enable a single data endpoint per region for serving data.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">dataEndpointHostNames</td>
-          <td style="text-align: left">List of host names that will serve data when dataEndpointEnabled is true.</td>
-          <td style="text-align: left">string[]<br/><small>Optional</small></td>
+          <td>dataEndpointHostNames</td>
+          <td>List of host names that will serve data when dataEndpointEnabled is true.</td>
+          <td>string[]<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">encryption</td>
-          <td style="text-align: left">The encryption settings of container registry.</td>
-          <td style="text-align: left"><a href="#EncryptionProperty_STATUS">EncryptionProperty_STATUS</a><br/><small>Optional</small></td>
+          <td>encryption</td>
+          <td>The encryption settings of container registry.</td>
+          <td><a href="#EncryptionProperty_STATUS">EncryptionProperty_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">id</td>
-          <td style="text-align: left">The resource ID.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>id</td>
+          <td>The resource ID.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">identity</td>
-          <td style="text-align: left">The identity of the container registry.</td>
-          <td style="text-align: left"><a href="#IdentityProperties_STATUS">IdentityProperties_STATUS</a><br/><small>Optional</small></td>
+          <td>identity</td>
+          <td>The identity of the container registry.</td>
+          <td><a href="#IdentityProperties_STATUS">IdentityProperties_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">location</td>
-          <td style="text-align: left">The location of the resource. This cannot be changed after the resource is created.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>location</td>
+          <td>The location of the resource. This cannot be changed after the resource is created.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">loginServer</td>
-          <td style="text-align: left">The URL that can be used to log into the container registry.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>loginServer</td>
+          <td>The URL that can be used to log into the container registry.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">name</td>
-          <td style="text-align: left">The name of the resource.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>name</td>
+          <td>The name of the resource.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">networkRuleBypassOptions</td>
-          <td style="text-align: left">Whether to allow trusted Azure services to access a network restricted registry.</td>
-          <td style="text-align: left"><a href="#RegistryProperties_NetworkRuleBypassOptions_STATUS">RegistryProperties_NetworkRuleBypassOptions_STATUS</a><br/><small>Optional</small></td>
+          <td>networkRuleBypassOptions</td>
+          <td>Whether to allow trusted Azure services to access a network restricted registry.</td>
+          <td><a href="#RegistryProperties_NetworkRuleBypassOptions_STATUS">RegistryProperties_NetworkRuleBypassOptions_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">networkRuleSet</td>
-          <td style="text-align: left">The network rule set for a container registry.</td>
-          <td style="text-align: left"><a href="#NetworkRuleSet_STATUS">NetworkRuleSet_STATUS</a><br/><small>Optional</small></td>
+          <td>networkRuleSet</td>
+          <td>The network rule set for a container registry.</td>
+          <td><a href="#NetworkRuleSet_STATUS">NetworkRuleSet_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">policies</td>
-          <td style="text-align: left">The policies for a container registry.</td>
-          <td style="text-align: left"><a href="#Policies_STATUS">Policies_STATUS</a><br/><small>Optional</small></td>
+          <td>policies</td>
+          <td>The policies for a container registry.</td>
+          <td><a href="#Policies_STATUS">Policies_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">privateEndpointConnections</td>
-          <td style="text-align: left">List of private endpoint connections for a container registry.</td>
-          <td style="text-align: left"><a href="#PrivateEndpointConnection_STATUS">PrivateEndpointConnection_STATUS[]</a><br/><small>Optional</small></td>
+          <td>privateEndpointConnections</td>
+          <td>List of private endpoint connections for a container registry.</td>
+          <td><a href="#PrivateEndpointConnection_STATUS">PrivateEndpointConnection_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">provisioningState</td>
-          <td style="text-align: left">The provisioning state of the container registry at the time the operation was called.</td>
-          <td style="text-align: left"><a href="#RegistryProperties_ProvisioningState_STATUS">RegistryProperties_ProvisioningState_STATUS</a><br/><small>Optional</small></td>
+          <td>provisioningState</td>
+          <td>The provisioning state of the container registry at the time the operation was called.</td>
+          <td><a href="#RegistryProperties_ProvisioningState_STATUS">RegistryProperties_ProvisioningState_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">publicNetworkAccess</td>
-          <td style="text-align: left">Whether or not public network access is allowed for the container registry.</td>
-          <td style="text-align: left"><a href="#RegistryProperties_PublicNetworkAccess_STATUS">RegistryProperties_PublicNetworkAccess_STATUS</a><br/><small>Optional</small></td>
+          <td>publicNetworkAccess</td>
+          <td>Whether or not public network access is allowed for the container registry.</td>
+          <td><a href="#RegistryProperties_PublicNetworkAccess_STATUS">RegistryProperties_PublicNetworkAccess_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">sku</td>
-          <td style="text-align: left">The SKU of the container registry.</td>
-          <td style="text-align: left"><a href="#Sku_STATUS">Sku_STATUS</a><br/><small>Optional</small></td>
+          <td>sku</td>
+          <td>The SKU of the container registry.</td>
+          <td><a href="#Sku_STATUS">Sku_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">status</td>
-          <td style="text-align: left">The status of the container registry at the time the operation was called.</td>
-          <td style="text-align: left"><a href="#Status_STATUS">Status_STATUS</a><br/><small>Optional</small></td>
+          <td>status</td>
+          <td>The status of the container registry at the time the operation was called.</td>
+          <td><a href="#Status_STATUS">Status_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">systemData</td>
-          <td style="text-align: left">Metadata pertaining to creation and last modification of the resource.</td>
-          <td style="text-align: left"><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
+          <td>systemData</td>
+          <td>Metadata pertaining to creation and last modification of the resource.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">tags</td>
-          <td style="text-align: left">The tags of the resource.</td>
-          <td style="text-align: left">map[string]string<br/><small>Optional</small></td>
+          <td>tags</td>
+          <td>The tags of the resource.</td>
+          <td>map[string]string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">type</td>
-          <td style="text-align: left">The type of the resource.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>type</td>
+          <td>The type of the resource.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">zoneRedundancy</td>
-          <td style="text-align: left">Whether or not zone redundancy is enabled for this container registry</td>
-          <td style="text-align: left"><a href="#RegistryProperties_ZoneRedundancy_STATUS">RegistryProperties_ZoneRedundancy_STATUS</a><br/><small>Optional</small></td>
+          <td>zoneRedundancy</td>
+          <td>Whether or not zone redundancy is enabled for this container registry</td>
+          <td><a href="#RegistryProperties_ZoneRedundancy_STATUS">RegistryProperties_ZoneRedundancy_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1419,21 +1413,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">keyVaultProperties</td>
-          <td style="text-align: left">Key vault properties.</td>
-          <td style="text-align: left"><a href="#KeyVaultProperties">KeyVaultProperties</a><br/><small>Optional</small></td>
+          <td>keyVaultProperties</td>
+          <td>Key vault properties.</td>
+          <td><a href="#KeyVaultProperties">KeyVaultProperties</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">status</td>
-          <td style="text-align: left">Indicates whether or not the encryption is enabled for container registry.</td>
-          <td style="text-align: left"><a href="#EncryptionProperty_Status">EncryptionProperty_Status</a><br/><small>Optional</small></td>
+          <td>status</td>
+          <td>Indicates whether or not the encryption is enabled for container registry.</td>
+          <td><a href="#EncryptionProperty_Status">EncryptionProperty_Status</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1442,21 +1436,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">keyVaultProperties</td>
-          <td style="text-align: left">Key vault properties.</td>
-          <td style="text-align: left"><a href="#KeyVaultProperties_STATUS">KeyVaultProperties_STATUS</a><br/><small>Optional</small></td>
+          <td>keyVaultProperties</td>
+          <td>Key vault properties.</td>
+          <td><a href="#KeyVaultProperties_STATUS">KeyVaultProperties_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">status</td>
-          <td style="text-align: left">Indicates whether or not the encryption is enabled for container registry.</td>
-          <td style="text-align: left"><a href="#EncryptionProperty_Status_STATUS">EncryptionProperty_Status_STATUS</a><br/><small>Optional</small></td>
+          <td>status</td>
+          <td>Indicates whether or not the encryption is enabled for container registry.</td>
+          <td><a href="#EncryptionProperty_Status_STATUS">EncryptionProperty_Status_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1466,31 +1460,31 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">principalId</td>
-          <td style="text-align: left">The principal ID of resource identity.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>principalId</td>
+          <td>The principal ID of resource identity.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">tenantId</td>
-          <td style="text-align: left">The tenant ID of resource.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>tenantId</td>
+          <td>The tenant ID of resource.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">type</td>
-          <td style="text-align: left">The identity type.</td>
-          <td style="text-align: left"><a href="#IdentityProperties_Type">IdentityProperties_Type</a><br/><small>Optional</small></td>
+          <td>type</td>
+          <td>The identity type.</td>
+          <td><a href="#IdentityProperties_Type">IdentityProperties_Type</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">userAssignedIdentities</td>
-          <td style="text-align: left">The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: &lsquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​ providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;.</td>
-          <td style="text-align: left"><a href="#UserAssignedIdentityDetails">UserAssignedIdentityDetails[]</a><br/><small>Optional</small></td>
+          <td>userAssignedIdentities</td>
+          <td>The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: &lsquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​ providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;.</td>
+          <td><a href="#UserAssignedIdentityDetails">UserAssignedIdentityDetails[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1500,31 +1494,31 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">principalId</td>
-          <td style="text-align: left">The principal ID of resource identity.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>principalId</td>
+          <td>The principal ID of resource identity.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">tenantId</td>
-          <td style="text-align: left">The tenant ID of resource.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>tenantId</td>
+          <td>The tenant ID of resource.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">type</td>
-          <td style="text-align: left">The identity type.</td>
-          <td style="text-align: left"><a href="#IdentityProperties_Type_STATUS">IdentityProperties_Type_STATUS</a><br/><small>Optional</small></td>
+          <td>type</td>
+          <td>The identity type.</td>
+          <td><a href="#IdentityProperties_Type_STATUS">IdentityProperties_Type_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">userAssignedIdentities</td>
-          <td style="text-align: left">The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: &lsquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​ providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;.</td>
-          <td style="text-align: left"><a href="#UserIdentityProperties_STATUS">map[string]UserIdentityProperties_STATUS</a><br/><small>Optional</small></td>
+          <td>userAssignedIdentities</td>
+          <td>The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: &lsquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​ providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;.</td>
+          <td><a href="#UserIdentityProperties_STATUS">map[string]UserIdentityProperties_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1534,21 +1528,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">defaultAction</td>
-          <td style="text-align: left">The default action of allow or deny when no other rules match.</td>
-          <td style="text-align: left"><a href="#NetworkRuleSet_DefaultAction">NetworkRuleSet_DefaultAction</a><br/><small>Required</small></td>
+          <td>defaultAction</td>
+          <td>The default action of allow or deny when no other rules match.</td>
+          <td><a href="#NetworkRuleSet_DefaultAction">NetworkRuleSet_DefaultAction</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">ipRules</td>
-          <td style="text-align: left">The IP ACL rules.</td>
-          <td style="text-align: left"><a href="#IPRule">IPRule[]</a><br/><small>Optional</small></td>
+          <td>ipRules</td>
+          <td>The IP ACL rules.</td>
+          <td><a href="#IPRule">IPRule[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1558,21 +1552,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">defaultAction</td>
-          <td style="text-align: left">The default action of allow or deny when no other rules match.</td>
-          <td style="text-align: left"><a href="#NetworkRuleSet_DefaultAction_STATUS">NetworkRuleSet_DefaultAction_STATUS</a><br/><small>Optional</small></td>
+          <td>defaultAction</td>
+          <td>The default action of allow or deny when no other rules match.</td>
+          <td><a href="#NetworkRuleSet_DefaultAction_STATUS">NetworkRuleSet_DefaultAction_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">ipRules</td>
-          <td style="text-align: left">The IP ACL rules.</td>
-          <td style="text-align: left"><a href="#IPRule_STATUS">IPRule_STATUS[]</a><br/><small>Optional</small></td>
+          <td>ipRules</td>
+          <td>The IP ACL rules.</td>
+          <td><a href="#IPRule_STATUS">IPRule_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1582,31 +1576,31 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">exportPolicy</td>
-          <td style="text-align: left">The export policy for a container registry.</td>
-          <td style="text-align: left"><a href="#ExportPolicy">ExportPolicy</a><br/><small>Optional</small></td>
+          <td>exportPolicy</td>
+          <td>The export policy for a container registry.</td>
+          <td><a href="#ExportPolicy">ExportPolicy</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">quarantinePolicy</td>
-          <td style="text-align: left">The quarantine policy for a container registry.</td>
-          <td style="text-align: left"><a href="#QuarantinePolicy">QuarantinePolicy</a><br/><small>Optional</small></td>
+          <td>quarantinePolicy</td>
+          <td>The quarantine policy for a container registry.</td>
+          <td><a href="#QuarantinePolicy">QuarantinePolicy</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">retentionPolicy</td>
-          <td style="text-align: left">The retention policy for a container registry.</td>
-          <td style="text-align: left"><a href="#RetentionPolicy">RetentionPolicy</a><br/><small>Optional</small></td>
+          <td>retentionPolicy</td>
+          <td>The retention policy for a container registry.</td>
+          <td><a href="#RetentionPolicy">RetentionPolicy</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">trustPolicy</td>
-          <td style="text-align: left">The content trust policy for a container registry.</td>
-          <td style="text-align: left"><a href="#TrustPolicy">TrustPolicy</a><br/><small>Optional</small></td>
+          <td>trustPolicy</td>
+          <td>The content trust policy for a container registry.</td>
+          <td><a href="#TrustPolicy">TrustPolicy</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1616,31 +1610,31 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">exportPolicy</td>
-          <td style="text-align: left">The export policy for a container registry.</td>
-          <td style="text-align: left"><a href="#ExportPolicy_STATUS">ExportPolicy_STATUS</a><br/><small>Optional</small></td>
+          <td>exportPolicy</td>
+          <td>The export policy for a container registry.</td>
+          <td><a href="#ExportPolicy_STATUS">ExportPolicy_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">quarantinePolicy</td>
-          <td style="text-align: left">The quarantine policy for a container registry.</td>
-          <td style="text-align: left"><a href="#QuarantinePolicy_STATUS">QuarantinePolicy_STATUS</a><br/><small>Optional</small></td>
+          <td>quarantinePolicy</td>
+          <td>The quarantine policy for a container registry.</td>
+          <td><a href="#QuarantinePolicy_STATUS">QuarantinePolicy_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">retentionPolicy</td>
-          <td style="text-align: left">The retention policy for a container registry.</td>
-          <td style="text-align: left"><a href="#RetentionPolicy_STATUS">RetentionPolicy_STATUS</a><br/><small>Optional</small></td>
+          <td>retentionPolicy</td>
+          <td>The retention policy for a container registry.</td>
+          <td><a href="#RetentionPolicy_STATUS">RetentionPolicy_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">trustPolicy</td>
-          <td style="text-align: left">The content trust policy for a container registry.</td>
-          <td style="text-align: left"><a href="#TrustPolicy_STATUS">TrustPolicy_STATUS</a><br/><small>Optional</small></td>
+          <td>trustPolicy</td>
+          <td>The content trust policy for a container registry.</td>
+          <td><a href="#TrustPolicy_STATUS">TrustPolicy_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1650,16 +1644,16 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">id</td>
-          <td style="text-align: left">The resource ID.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>id</td>
+          <td>The resource ID.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1669,21 +1663,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">configMapExpressions</td>
-          <td style="text-align: left">configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+          <td>configMapExpressions</td>
+          <td>configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">secretExpressions</td>
-          <td style="text-align: left">configures where to place operator written dynamic secrets (created with CEL expressions).</td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+          <td>secretExpressions</td>
+          <td>configures where to place operator written dynamic secrets (created with CEL expressions).</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1692,18 +1686,18 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;AzureServices&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;AzureServices&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;None&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;None&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -1712,18 +1706,18 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;AzureServices&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;AzureServices&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;None&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;None&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -1732,34 +1726,34 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Canceled&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Canceled&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Creating&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Creating&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Deleting&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Deleting&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Failed&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Failed&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Succeeded&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Succeeded&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Updating&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Updating&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -1768,18 +1762,18 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Disabled&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Disabled&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Enabled&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Enabled&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -1788,18 +1782,18 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Disabled&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Disabled&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Enabled&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Enabled&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -1808,18 +1802,18 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Disabled&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Disabled&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Enabled&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Enabled&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -1828,18 +1822,18 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Disabled&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Disabled&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Enabled&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Enabled&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -1849,16 +1843,16 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">name</td>
-          <td style="text-align: left">The SKU name of the container registry. Required for registry creation.</td>
-          <td style="text-align: left"><a href="#Sku_Name">Sku_Name</a><br/><small>Required</small></td>
+          <td>name</td>
+          <td>The SKU name of the container registry. Required for registry creation.</td>
+          <td><a href="#Sku_Name">Sku_Name</a><br/><small>Required</small></td>
       </tr>
   </tbody>
 </table>
@@ -1868,21 +1862,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">name</td>
-          <td style="text-align: left">The SKU name of the container registry. Required for registry creation.</td>
-          <td style="text-align: left"><a href="#Sku_Name_STATUS">Sku_Name_STATUS</a><br/><small>Optional</small></td>
+          <td>name</td>
+          <td>The SKU name of the container registry. Required for registry creation.</td>
+          <td><a href="#Sku_Name_STATUS">Sku_Name_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">tier</td>
-          <td style="text-align: left">The SKU tier based on the SKU name.</td>
-          <td style="text-align: left"><a href="#Sku_Tier_STATUS">Sku_Tier_STATUS</a><br/><small>Optional</small></td>
+          <td>tier</td>
+          <td>The SKU tier based on the SKU name.</td>
+          <td><a href="#Sku_Tier_STATUS">Sku_Tier_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1892,26 +1886,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">displayStatus</td>
-          <td style="text-align: left">The short label for the status.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>displayStatus</td>
+          <td>The short label for the status.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">message</td>
-          <td style="text-align: left">The detailed message for the status, including alerts and error messages.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>message</td>
+          <td>The detailed message for the status, including alerts and error messages.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">timestamp</td>
-          <td style="text-align: left">The timestamp when the status was changed to the current value.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>timestamp</td>
+          <td>The timestamp when the status was changed to the current value.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1921,41 +1915,41 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">createdAt</td>
-          <td style="text-align: left">The timestamp of resource creation (UTC).</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>createdAt</td>
+          <td>The timestamp of resource creation (UTC).</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">createdBy</td>
-          <td style="text-align: left">The identity that created the resource.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>createdBy</td>
+          <td>The identity that created the resource.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">createdByType</td>
-          <td style="text-align: left">The type of identity that created the resource.</td>
-          <td style="text-align: left"><a href="#SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS</a><br/><small>Optional</small></td>
+          <td>createdByType</td>
+          <td>The type of identity that created the resource.</td>
+          <td><a href="#SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">lastModifiedAt</td>
-          <td style="text-align: left">The timestamp of resource modification (UTC).</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>lastModifiedAt</td>
+          <td>The timestamp of resource modification (UTC).</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">lastModifiedBy</td>
-          <td style="text-align: left">The identity that last modified the resource.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>lastModifiedBy</td>
+          <td>The identity that last modified the resource.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">lastModifiedByType</td>
-          <td style="text-align: left">The type of identity that last modified the resource.</td>
-          <td style="text-align: left"><a href="#SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS</a><br/><small>Optional</small></td>
+          <td>lastModifiedByType</td>
+          <td>The type of identity that last modified the resource.</td>
+          <td><a href="#SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1964,18 +1958,18 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;disabled&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;disabled&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;enabled&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;enabled&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -1984,18 +1978,18 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;disabled&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;disabled&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;enabled&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;enabled&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2005,16 +1999,16 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">status</td>
-          <td style="text-align: left">The value that indicates whether the policy is enabled or not.</td>
-          <td style="text-align: left"><a href="#ExportPolicy_Status">ExportPolicy_Status</a><br/><small>Optional</small></td>
+          <td>status</td>
+          <td>The value that indicates whether the policy is enabled or not.</td>
+          <td><a href="#ExportPolicy_Status">ExportPolicy_Status</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -2024,16 +2018,16 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">status</td>
-          <td style="text-align: left">The value that indicates whether the policy is enabled or not.</td>
-          <td style="text-align: left"><a href="#ExportPolicy_Status_STATUS">ExportPolicy_Status_STATUS</a><br/><small>Optional</small></td>
+          <td>status</td>
+          <td>The value that indicates whether the policy is enabled or not.</td>
+          <td><a href="#ExportPolicy_Status_STATUS">ExportPolicy_Status_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -2042,26 +2036,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;None&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;None&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;SystemAssigned&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;SystemAssigned&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;SystemAssigned, UserAssigned&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;SystemAssigned, UserAssigned&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;UserAssigned&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;UserAssigned&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2070,26 +2064,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;None&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;None&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;SystemAssigned&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;SystemAssigned&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;SystemAssigned, UserAssigned&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;SystemAssigned, UserAssigned&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;UserAssigned&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;UserAssigned&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2099,21 +2093,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">action</td>
-          <td style="text-align: left">The action of IP ACL rule.</td>
-          <td style="text-align: left"><a href="#IPRule_Action">IPRule_Action</a><br/><small>Optional</small></td>
+          <td>action</td>
+          <td>The action of IP ACL rule.</td>
+          <td><a href="#IPRule_Action">IPRule_Action</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">value</td>
-          <td style="text-align: left">Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.</td>
-          <td style="text-align: left">string<br/><small>Required</small></td>
+          <td>value</td>
+          <td>Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
   </tbody>
 </table>
@@ -2123,21 +2117,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">action</td>
-          <td style="text-align: left">The action of IP ACL rule.</td>
-          <td style="text-align: left"><a href="#IPRule_Action_STATUS">IPRule_Action_STATUS</a><br/><small>Optional</small></td>
+          <td>action</td>
+          <td>The action of IP ACL rule.</td>
+          <td><a href="#IPRule_Action_STATUS">IPRule_Action_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">value</td>
-          <td style="text-align: left">Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>value</td>
+          <td>Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -2146,21 +2140,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">identity</td>
-          <td style="text-align: left">The client id of the identity which will be used to access key vault.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>identity</td>
+          <td>The client id of the identity which will be used to access key vault.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">keyIdentifier</td>
-          <td style="text-align: left">Key vault uri to access the encryption key.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>keyIdentifier</td>
+          <td>Key vault uri to access the encryption key.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -2169,36 +2163,36 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">identity</td>
-          <td style="text-align: left">The client id of the identity which will be used to access key vault.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>identity</td>
+          <td>The client id of the identity which will be used to access key vault.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">keyIdentifier</td>
-          <td style="text-align: left">Key vault uri to access the encryption key.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>keyIdentifier</td>
+          <td>Key vault uri to access the encryption key.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">keyRotationEnabled</td>
-          <td style="text-align: left">Auto key rotation status for a CMK enabled registry.</td>
-          <td style="text-align: left">bool<br/><small>Optional</small></td>
+          <td>keyRotationEnabled</td>
+          <td>Auto key rotation status for a CMK enabled registry.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">lastKeyRotationTimestamp</td>
-          <td style="text-align: left">Timestamp of the last successful key rotation.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>lastKeyRotationTimestamp</td>
+          <td>Timestamp of the last successful key rotation.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">versionedKeyIdentifier</td>
-          <td style="text-align: left">The fully qualified key identifier that includes the version of the key that is actually used for encryption.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>versionedKeyIdentifier</td>
+          <td>The fully qualified key identifier that includes the version of the key that is actually used for encryption.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -2207,18 +2201,18 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Allow&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Allow&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Deny&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Deny&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2227,18 +2221,18 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Allow&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Allow&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Deny&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Deny&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2248,16 +2242,16 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">status</td>
-          <td style="text-align: left">The value that indicates whether the policy is enabled or not.</td>
-          <td style="text-align: left"><a href="#QuarantinePolicy_Status">QuarantinePolicy_Status</a><br/><small>Optional</small></td>
+          <td>status</td>
+          <td>The value that indicates whether the policy is enabled or not.</td>
+          <td><a href="#QuarantinePolicy_Status">QuarantinePolicy_Status</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -2267,16 +2261,16 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">status</td>
-          <td style="text-align: left">The value that indicates whether the policy is enabled or not.</td>
-          <td style="text-align: left"><a href="#QuarantinePolicy_Status_STATUS">QuarantinePolicy_Status_STATUS</a><br/><small>Optional</small></td>
+          <td>status</td>
+          <td>The value that indicates whether the policy is enabled or not.</td>
+          <td><a href="#QuarantinePolicy_Status_STATUS">QuarantinePolicy_Status_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -2286,21 +2280,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">days</td>
-          <td style="text-align: left">The number of days to retain an untagged manifest after which it gets purged.</td>
-          <td style="text-align: left">int<br/><small>Optional</small></td>
+          <td>days</td>
+          <td>The number of days to retain an untagged manifest after which it gets purged.</td>
+          <td>int<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">status</td>
-          <td style="text-align: left">The value that indicates whether the policy is enabled or not.</td>
-          <td style="text-align: left"><a href="#RetentionPolicy_Status">RetentionPolicy_Status</a><br/><small>Optional</small></td>
+          <td>status</td>
+          <td>The value that indicates whether the policy is enabled or not.</td>
+          <td><a href="#RetentionPolicy_Status">RetentionPolicy_Status</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -2310,26 +2304,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">days</td>
-          <td style="text-align: left">The number of days to retain an untagged manifest after which it gets purged.</td>
-          <td style="text-align: left">int<br/><small>Optional</small></td>
+          <td>days</td>
+          <td>The number of days to retain an untagged manifest after which it gets purged.</td>
+          <td>int<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">lastUpdatedTime</td>
-          <td style="text-align: left">The timestamp when the policy was last updated.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>lastUpdatedTime</td>
+          <td>The timestamp when the policy was last updated.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">status</td>
-          <td style="text-align: left">The value that indicates whether the policy is enabled or not.</td>
-          <td style="text-align: left"><a href="#RetentionPolicy_Status_STATUS">RetentionPolicy_Status_STATUS</a><br/><small>Optional</small></td>
+          <td>status</td>
+          <td>The value that indicates whether the policy is enabled or not.</td>
+          <td><a href="#RetentionPolicy_Status_STATUS">RetentionPolicy_Status_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -2338,26 +2332,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Basic&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Basic&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Classic&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Classic&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Premium&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Premium&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Standard&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Standard&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2366,26 +2360,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Basic&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Basic&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Classic&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Classic&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Premium&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Premium&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Standard&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Standard&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2394,26 +2388,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Basic&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Basic&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Classic&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Classic&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Premium&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Premium&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Standard&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Standard&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2422,26 +2416,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Application&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Application&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Key&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Key&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;ManagedIdentity&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;ManagedIdentity&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;User&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;User&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2450,26 +2444,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Application&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Application&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;Key&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Key&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;ManagedIdentity&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;ManagedIdentity&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;User&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;User&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2479,21 +2473,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">status</td>
-          <td style="text-align: left">The value that indicates whether the policy is enabled or not.</td>
-          <td style="text-align: left"><a href="#TrustPolicy_Status">TrustPolicy_Status</a><br/><small>Optional</small></td>
+          <td>status</td>
+          <td>The value that indicates whether the policy is enabled or not.</td>
+          <td><a href="#TrustPolicy_Status">TrustPolicy_Status</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">type</td>
-          <td style="text-align: left">The type of trust policy.</td>
-          <td style="text-align: left"><a href="#TrustPolicy_Type">TrustPolicy_Type</a><br/><small>Optional</small></td>
+          <td>type</td>
+          <td>The type of trust policy.</td>
+          <td><a href="#TrustPolicy_Type">TrustPolicy_Type</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -2503,21 +2497,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">status</td>
-          <td style="text-align: left">The value that indicates whether the policy is enabled or not.</td>
-          <td style="text-align: left"><a href="#TrustPolicy_Status_STATUS">TrustPolicy_Status_STATUS</a><br/><small>Optional</small></td>
+          <td>status</td>
+          <td>The value that indicates whether the policy is enabled or not.</td>
+          <td><a href="#TrustPolicy_Status_STATUS">TrustPolicy_Status_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">type</td>
-          <td style="text-align: left">The type of trust policy.</td>
-          <td style="text-align: left"><a href="#TrustPolicy_Type_STATUS">TrustPolicy_Type_STATUS</a><br/><small>Optional</small></td>
+          <td>type</td>
+          <td>The type of trust policy.</td>
+          <td><a href="#TrustPolicy_Type_STATUS">TrustPolicy_Type_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -2527,16 +2521,16 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">reference</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+          <td>reference</td>
+          <td></td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -2545,21 +2539,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Property</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Type</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">clientId</td>
-          <td style="text-align: left">The client id of user assigned identity.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>clientId</td>
+          <td>The client id of user assigned identity.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td style="text-align: left">principalId</td>
-          <td style="text-align: left">The principal id of user assigned identity.</td>
-          <td style="text-align: left">string<br/><small>Optional</small></td>
+          <td>principalId</td>
+          <td>The principal id of user assigned identity.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -2568,18 +2562,18 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;disabled&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;disabled&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;enabled&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;enabled&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2588,18 +2582,18 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;disabled&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;disabled&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;enabled&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;enabled&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2608,14 +2602,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Allow&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Allow&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2624,14 +2618,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Allow&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Allow&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2640,18 +2634,18 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;disabled&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;disabled&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;enabled&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;enabled&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2660,18 +2654,18 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;disabled&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;disabled&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;enabled&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;enabled&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2680,18 +2674,18 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;disabled&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;disabled&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;enabled&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;enabled&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2700,18 +2694,18 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;disabled&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;disabled&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;enabled&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;enabled&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2720,18 +2714,18 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;disabled&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;disabled&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;enabled&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;enabled&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2740,18 +2734,18 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;disabled&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;disabled&rdquo;</td>
+          <td></td>
       </tr>
       <tr>
-          <td style="text-align: left">&ldquo;enabled&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;enabled&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2760,14 +2754,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Notary&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Notary&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2776,14 +2770,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Value</th>
-          <th style="text-align: left">Description</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">&ldquo;Notary&rdquo;</td>
-          <td style="text-align: left"></td>
+          <td>&ldquo;Notary&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2821,7 +2815,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Registry_SpecOp
 </footer>
 
     </div>
-    <script src="/azure-service-operator/js/main.min.0a5a30b73411b7a841784b6f4d46f4e0b1b95d576fa3cadd81db9d5ae468e8c2.js" integrity="sha256-ClowtzQRt6hBeEtvTUb04LG5XVdvo8rdgdudWuRo6MI=" crossorigin="anonymous"></script>
+    <script src="/azure-service-operator/js/main.min.4096f09e0b199950620fc06165ef2a2791e1bee9067e27b14c4a54f02c0e33bd.js" integrity="sha256-QJbwngsZmVBiD8BhZe8qJ5HhvukGfiexTEpU8CwOM70=" crossorigin="anonymous"></script>
 <script defer src="/azure-service-operator/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/azure-service-operator/js/tabpane-persist.js'></script>
 

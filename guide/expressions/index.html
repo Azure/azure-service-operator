@@ -41,13 +41,8 @@ Applications that need connection strings with specific (possibly non-standard) 
   <meta name="twitter:description" content="Expressions in ASO ASO offers some support for Common Expression Language (CEL) expressions.
 Expressions in ASO can be used to build your own Secret or ConfigMap output. This helps to solve problems like:
 Applications that need connection strings with specific (possibly non-standard) formats. Exporting arbitrary fields from a resource for use by other applications. Exporting static text alongside dynamic data. CEL expressions are currently supported on most resources via the spec.operatorSpec.configMapExpressions and spec.operatorSpec.secretExpressions fields, which allow configuring expressions output to ConfigMaps and Secrets, respectively.">
-
-
-
-
-<link rel="preload" href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" as="style">
-<link href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" rel="stylesheet" integrity="">
-
+<link rel="preload" href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" as="style" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
+<link href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" rel="stylesheet" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -837,7 +832,6 @@ Applications that need connection strings with specific (possibly non-standard) 
     Expressions</li>
   </ol>
 </nav>
-            
 <div class="td-content">
 	<h1>CEL Expressions</h1>
 	
@@ -860,18 +854,18 @@ to ConfigMaps and Secrets, respectively.</p>
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Type</th>
-          <th style="text-align: left">Variable(s)</th>
+          <th>Type</th>
+          <th>Variable(s)</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">ConfigMap</td>
-          <td style="text-align: left"><code>self</code></td>
+          <td>ConfigMap</td>
+          <td><code>self</code></td>
       </tr>
       <tr>
-          <td style="text-align: left">Secret</td>
-          <td style="text-align: left"><code>self</code>, <code>secret</code></td>
+          <td>Secret</td>
+          <td><code>self</code>, <code>secret</code></td>
       </tr>
   </tbody>
 </table>
@@ -907,30 +901,30 @@ must output <code>string</code> or <code>map[string]string</code> data. Any othe
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Feature</th>
+          <th>Feature</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left"><a href="https://github.com/google/cel-spec/blob/master/doc/langdef.md#macros">Standard macros</a></td>
+          <td><a href="https://github.com/google/cel-spec/blob/master/doc/langdef.md#macros">Standard macros</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="https://github.com/google/cel-spec/blob/master/doc/langdef.md#list-of-standard-definitions">Standard functions</a></td>
+          <td><a href="https://github.com/google/cel-spec/blob/master/doc/langdef.md#list-of-standard-definitions">Standard functions</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/google/cel-go/cel#DefaultUTCTimeZone">Default UTC Time Zone</a></td>
+          <td><a href="https://pkg.go.dev/github.com/google/cel-go/cel#DefaultUTCTimeZone">Default UTC Time Zone</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/google/cel-go/cel#EagerlyValidateDeclarations">Eagerly Validate Declarations</a></td>
+          <td><a href="https://pkg.go.dev/github.com/google/cel-go/cel#EagerlyValidateDeclarations">Eagerly Validate Declarations</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/google/cel-go/ext#Strings">Extended String Library, version 3</a></td>
+          <td><a href="https://pkg.go.dev/github.com/google/cel-go/ext#Strings">Extended String Library, version 3</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/google/cel-go/cel#OptionalTypes">Optional Types</a></td>
+          <td><a href="https://pkg.go.dev/github.com/google/cel-go/cel#OptionalTypes">Optional Types</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/google/cel-go/cel#CrossTypeNumericComparisons">Cross Type Numeric comparisons</a></td>
+          <td><a href="https://pkg.go.dev/github.com/google/cel-go/cel#CrossTypeNumericComparisons">Cross Type Numeric comparisons</a></td>
       </tr>
   </tbody>
 </table>
@@ -942,42 +936,42 @@ properties whose names contain these characters must be escaped. The escaping ru
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Escape sequence</th>
-          <th style="text-align: left">Property name equivalent</th>
-          <th style="text-align: left">Unescaped example</th>
-          <th style="text-align: left">Escaped example</th>
+          <th>Escape sequence</th>
+          <th>Property name equivalent</th>
+          <th>Unescaped example</th>
+          <th>Escaped example</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">__underscores__</td>
-          <td style="text-align: left">__</td>
-          <td style="text-align: left">my__field</td>
-          <td style="text-align: left">my__underscores__field</td>
+          <td>__underscores__</td>
+          <td>__</td>
+          <td>my__field</td>
+          <td>my__underscores__field</td>
       </tr>
       <tr>
-          <td style="text-align: left">__dot__</td>
-          <td style="text-align: left">.</td>
-          <td style="text-align: left">my.field</td>
-          <td style="text-align: left">my__dot__field</td>
+          <td>__dot__</td>
+          <td>.</td>
+          <td>my.field</td>
+          <td>my__dot__field</td>
       </tr>
       <tr>
-          <td style="text-align: left">__dash__</td>
-          <td style="text-align: left">-</td>
-          <td style="text-align: left">my-field</td>
-          <td style="text-align: left">my__dash__field</td>
+          <td>__dash__</td>
+          <td>-</td>
+          <td>my-field</td>
+          <td>my__dash__field</td>
       </tr>
       <tr>
-          <td style="text-align: left">__slash__</td>
-          <td style="text-align: left">/</td>
-          <td style="text-align: left">my/field</td>
-          <td style="text-align: left">my__slash__field</td>
+          <td>__slash__</td>
+          <td>/</td>
+          <td>my/field</td>
+          <td>my__slash__field</td>
       </tr>
       <tr>
-          <td style="text-align: left">__{keyword}__</td>
-          <td style="text-align: left"><a href="https://github.com/google/cel-spec/blob/master/doc/langdef.md#syntax">CEL RESERVED keyword (false, true, in, null)</a></td>
-          <td style="text-align: left">false</td>
-          <td style="text-align: left">__false__</td>
+          <td>__{keyword}__</td>
+          <td><a href="https://github.com/google/cel-spec/blob/master/doc/langdef.md#syntax">CEL RESERVED keyword (false, true, in, null)</a></td>
+          <td>false</td>
+          <td>__false__</td>
       </tr>
   </tbody>
 </table>
@@ -1046,56 +1040,56 @@ and the resulting output, still based on the example <code>Redis</code> above.</
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">Expression</th>
-          <th style="text-align: left">Result</th>
+          <th>Description</th>
+          <th>Expression</th>
+          <th>Result</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">Hardcoded string</td>
-          <td style="text-align: left"><code>&quot;helloworld&quot;</code></td>
-          <td style="text-align: left"><code>helloworld</code></td>
+          <td>Hardcoded string</td>
+          <td><code>&quot;helloworld&quot;</code></td>
+          <td><code>helloworld</code></td>
       </tr>
       <tr>
-          <td style="text-align: left">Formatted string</td>
-          <td style="text-align: left"><code>&quot;%s:%d&quot;.format([self.spec.location, 7])</code></td>
-          <td style="text-align: left"><code>westus2:7</code></td>
+          <td>Formatted string</td>
+          <td><code>&quot;%s:%d&quot;.format([self.spec.location, 7])</code></td>
+          <td><code>westus2:7</code></td>
       </tr>
       <tr>
-          <td style="text-align: left">String math</td>
-          <td style="text-align: left"><code>self.metadata.namespace + &quot;:&quot; + self.metadata.name</code></td>
-          <td style="text-align: left"><code>default:sampleredis1</code></td>
+          <td>String math</td>
+          <td><code>self.metadata.namespace + &quot;:&quot; + self.metadata.name</code></td>
+          <td><code>default:sampleredis1</code></td>
       </tr>
       <tr>
-          <td style="text-align: left">Int output (error)</td>
-          <td style="text-align: left"><code>self.spec.sku.capacity</code></td>
-          <td style="text-align: left">Error, expression &ldquo;self.spec.sku.capacity&rdquo; must return one of [string,map(string, string)], but was int</td>
+          <td>Int output (error)</td>
+          <td><code>self.spec.sku.capacity</code></td>
+          <td>Error, expression &ldquo;self.spec.sku.capacity&rdquo; must return one of [string,map(string, string)], but was int</td>
       </tr>
       <tr>
-          <td style="text-align: left">Coerce to string</td>
-          <td style="text-align: left"><code>string(self.spec.sku.capacity)</code></td>
-          <td style="text-align: left"><code>1</code></td>
+          <td>Coerce to string</td>
+          <td><code>string(self.spec.sku.capacity)</code></td>
+          <td><code>1</code></td>
       </tr>
       <tr>
-          <td style="text-align: left">Map output</td>
-          <td style="text-align: left"><code>self.metadata.annotations</code></td>
-          <td style="text-align: left"><code>{&quot;foo&quot;: &quot;bar&quot;, &quot;baz&quot;: &quot;qux&quot;}</code></td>
+          <td>Map output</td>
+          <td><code>self.metadata.annotations</code></td>
+          <td><code>{&quot;foo&quot;: &quot;bar&quot;, &quot;baz&quot;: &quot;qux&quot;}</code></td>
       </tr>
       <tr>
-          <td style="text-align: left">Array macro</td>
-          <td style="text-align: left"><code>self.spec.zones.filter(a, int(a) % 2 == 0).join(&quot;-&quot;)</code></td>
-          <td style="text-align: left"><code>2-4</code></td>
+          <td>Array macro</td>
+          <td><code>self.spec.zones.filter(a, int(a) % 2 == 0).join(&quot;-&quot;)</code></td>
+          <td><code>2-4</code></td>
       </tr>
       <tr>
-          <td style="text-align: left">Select array item</td>
-          <td style="text-align: left"><code>self.spec.zones[0]</code></td>
-          <td style="text-align: left"><code>1</code></td>
+          <td>Select array item</td>
+          <td><code>self.spec.zones[0]</code></td>
+          <td><code>1</code></td>
       </tr>
       <tr>
-          <td style="text-align: left">Select map item</td>
-          <td style="text-align: left"><code>self.metadata.annotations[&quot;foo&quot;]</code></td>
-          <td style="text-align: left"><code>bar</code></td>
+          <td>Select map item</td>
+          <td><code>self.metadata.annotations[&quot;foo&quot;]</code></td>
+          <td><code>bar</code></td>
       </tr>
   </tbody>
 </table>
@@ -1133,7 +1127,7 @@ and the resulting output, still based on the example <code>Redis</code> above.</
 </footer>
 
     </div>
-    <script src="/azure-service-operator/js/main.min.0a5a30b73411b7a841784b6f4d46f4e0b1b95d576fa3cadd81db9d5ae468e8c2.js" integrity="sha256-ClowtzQRt6hBeEtvTUb04LG5XVdvo8rdgdudWuRo6MI=" crossorigin="anonymous"></script>
+    <script src="/azure-service-operator/js/main.min.4096f09e0b199950620fc06165ef2a2791e1bee9067e27b14c4a54f02c0e33bd.js" integrity="sha256-QJbwngsZmVBiD8BhZe8qJ5HhvukGfiexTEpU8CwOM70=" crossorigin="anonymous"></script>
 <script defer src="/azure-service-operator/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/azure-service-operator/js/tabpane-persist.js'></script>
 

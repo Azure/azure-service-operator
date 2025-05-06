@@ -19,9 +19,9 @@
 
 <title>Code generation for Crossplane | Azure Service Operator</title>
 <meta name="description" content="The patterns identified below were extrapolated from the Crossplane VNET spec.
-General notes Crossplane has the following static &ldquo;special&rdquo; properties ForProvider - this contains the actual &ldquo;spec&rdquo; as Azure would see it. DeletionPolicy ProviderConfigRef WriteConnectionSecretToRef Since these are statically shaped they should be relatively easy to add with Crossplane specific generator pipeline stages.
-Items #2-4 are included automatically by embedding the runtimev1alpha1.ResourceSpec from runtimev1alpha1 &quot;github.com/crossplane/crossplane-runtime/apis/core/v1alpha1&quot;.
-Cross resource references in Crossplane X (e.g. ResourceGroupName) - An actual field that exists in the Azure API. Can be set to any string you&rsquo;d post to the Azure API. XRef (e.g. ResourceGroupNameRef) - A reference to a named Kubernetes object of a preordained kind. Used to resolve a value for X. XNameSelector (e.g. ResourceGroupNameSelector) - A selector used to set XRef. Note that these values cascade down from the selector, to the ref, to the underlying field. If the ref is already set the selector is ignored, and if the field is already set the ref is ignored.">
+General notes Crossplane has the following static “special” properties ForProvider - this contains the actual “spec” as Azure would see it. DeletionPolicy ProviderConfigRef WriteConnectionSecretToRef Since these are statically shaped they should be relatively easy to add with Crossplane specific generator pipeline stages.
+Items #2-4 are included automatically by embedding the runtimev1alpha1.ResourceSpec from runtimev1alpha1 &#34;github.com/crossplane/crossplane-runtime/apis/core/v1alpha1&#34;.
+Cross resource references in Crossplane X (e.g. ResourceGroupName) - An actual field that exists in the Azure API. Can be set to any string you’d post to the Azure API. XRef (e.g. ResourceGroupNameRef) - A reference to a named Kubernetes object of a preordained kind. Used to resolve a value for X. XNameSelector (e.g. ResourceGroupNameSelector) - A selector used to set XRef. Note that these values cascade down from the selector, to the ref, to the underlying field. If the ref is already set the selector is ignored, and if the field is already set the ref is ignored.">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/design/crossplane/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="Code generation for Crossplane">
@@ -45,13 +45,8 @@ Cross resource references in Crossplane X (e.g. ResourceGroupName) - An actual f
 General notes Crossplane has the following static “special” properties ForProvider - this contains the actual “spec” as Azure would see it. DeletionPolicy ProviderConfigRef WriteConnectionSecretToRef Since these are statically shaped they should be relatively easy to add with Crossplane specific generator pipeline stages.
 Items #2-4 are included automatically by embedding the runtimev1alpha1.ResourceSpec from runtimev1alpha1 &#34;github.com/crossplane/crossplane-runtime/apis/core/v1alpha1&#34;.
 Cross resource references in Crossplane X (e.g. ResourceGroupName) - An actual field that exists in the Azure API. Can be set to any string you’d post to the Azure API. XRef (e.g. ResourceGroupNameRef) - A reference to a named Kubernetes object of a preordained kind. Used to resolve a value for X. XNameSelector (e.g. ResourceGroupNameSelector) - A selector used to set XRef. Note that these values cascade down from the selector, to the ref, to the underlying field. If the ref is already set the selector is ignored, and if the field is already set the ref is ignored.">
-
-
-
-
-<link rel="preload" href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" as="style">
-<link href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" rel="stylesheet" integrity="">
-
+<link rel="preload" href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" as="style" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
+<link href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" rel="stylesheet" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -822,13 +817,13 @@ Cross resource references in Crossplane X (e.g. ResourceGroupName) - An actual f
     </li>
     <li><a href="#missing-features">Missing features</a>
       <ul>
-        <li><a href="#266httpsgithubcomazurek8s-infraissues266-support-for-embedding-structsinterfaces-into-generated-types"><a href="https://github.com/Azure/k8s-infra/issues/266">#266</a> Support for embedding structs/interfaces into generated types</a></li>
+        <li><a href="#266-support-for-embedding-structsinterfaces-into-generated-types"><a href="https://github.com/Azure/k8s-infra/issues/266">#266</a> Support for embedding structs/interfaces into generated types</a></li>
         <li><a href="#support-for-additionalprintercolumns-in-the-crd-yaml">Support for <code>additionalPrinterColumns</code> in the CRD YAML</a></li>
-        <li><a href="#267httpsgithubcomazurek8s-infraissues267-detection-and-removal-of-embedded-subresources"><a href="https://github.com/Azure/k8s-infra/issues/267">#267</a> Detection and removal of embedded subresources.</a></li>
+        <li><a href="#267-detection-and-removal-of-embedded-subresources"><a href="https://github.com/Azure/k8s-infra/issues/267">#267</a> Detection and removal of embedded subresources.</a></li>
         <li><a href="#improvements-in-json-schemaswagger-upstream-for-marking-read-only-properties">Improvements in JSON schema/Swagger upstream for marking read-only properties</a></li>
         <li><a href="#a-plan-for-secrets">A plan for secrets</a></li>
         <li><a href="#support-for-resource-references-other-than-ownership">Support for resource references other than ownership</a></li>
-        <li><a href="#268httpsgithubcomazurek8s-infraissues268-promote-properties-spec-property"><a href="https://github.com/Azure/k8s-infra/issues/268">#268</a> Promote &ldquo;Properties&rdquo; Spec property</a></li>
+        <li><a href="#268-promote-properties-spec-property"><a href="https://github.com/Azure/k8s-infra/issues/268">#268</a> Promote &ldquo;Properties&rdquo; Spec property</a></li>
       </ul>
     </li>
     <li><a href="#specific-resources">Specific resources</a>
@@ -858,7 +853,6 @@ Cross resource references in Crossplane X (e.g. ResourceGroupName) - An actual f
     Crossplane support</li>
   </ol>
 </nav>
-            
 <div class="td-content">
 	<h1>Code generation for Crossplane</h1>
 	
@@ -894,12 +888,12 @@ As pointed out by @negz, it&rsquo;s a bit weird to duplicate data across Spec an
 <a href="https://github.com/Azure/k8s-infra/issues/269">#269</a> is tracking this discussion.</p>
 <h2 id="missing-features">Missing features</h2>
 <p>These are features the k8s-infra code generator is currently lacking that would be required to do a good job of generating the Crossplane CRDs.</p>
-<h3 id="266httpsgithubcomazurek8s-infraissues266-support-for-embedding-structsinterfaces-into-generated-types"><a href="https://github.com/Azure/k8s-infra/issues/266">#266</a> Support for embedding structs/interfaces into generated types</h3>
+<h3 id="266-support-for-embedding-structsinterfaces-into-generated-types"><a href="https://github.com/Azure/k8s-infra/issues/266">#266</a> Support for embedding structs/interfaces into generated types</h3>
 <p>We don&rsquo;t currently support embedding in the generated types, and we will need to in order to support
 embedding of <code>runtimev1alpha1.ResourceSpec</code> and <code>runtimev1alpha1.ResourceStatus</code>.</p>
 <h3 id="support-for-additionalprintercolumns-in-the-crd-yaml">Support for <code>additionalPrinterColumns</code> in the CRD YAML</h3>
 <p>Since these are likely custom per resource I am not sure if we want to generate them or just merge them in with hand-maintained Kustomize files.</p>
-<h3 id="267httpsgithubcomazurek8s-infraissues267-detection-and-removal-of-embedded-subresources"><a href="https://github.com/Azure/k8s-infra/issues/267">#267</a> Detection and removal of embedded subresources.</h3>
+<h3 id="267-detection-and-removal-of-embedded-subresources"><a href="https://github.com/Azure/k8s-infra/issues/267">#267</a> Detection and removal of embedded subresources.</h3>
 <p>Some of our CRDs aren&rsquo;t as clear as they should be due to the service teams embedding subresources in the parent resource as properties. For example on VNET
 we have <code>subnets</code> and <code>virtualNetworkPeerings</code> properties that really probably shouldn&rsquo;t be there (since those are their own sub-resources).</p>
 <h3 id="improvements-in-json-schemaswagger-upstream-for-marking-read-only-properties">Improvements in JSON schema/Swagger upstream for marking read-only properties</h3>
@@ -911,7 +905,7 @@ We do already have an issue tracking this at #154.</p>
 <h3 id="support-for-resource-references-other-than-ownership">Support for resource references other than ownership</h3>
 <p>We have a plan for supporting Cross resource references but don&rsquo;t currently have the data to easily detect them. Ideally we could detect these and then
 turn them into our resource reference shape, or into Crossplanes.</p>
-<h3 id="268httpsgithubcomazurek8s-infraissues268-promote-properties-spec-property"><a href="https://github.com/Azure/k8s-infra/issues/268">#268</a> Promote &ldquo;Properties&rdquo; Spec property</h3>
+<h3 id="268-promote-properties-spec-property"><a href="https://github.com/Azure/k8s-infra/issues/268">#268</a> Promote &ldquo;Properties&rdquo; Spec property</h3>
 <p>This shows up on quite a large number of resources and adds an extra level
 of nesting that doesn&rsquo;t look great.</p>
 <h2 id="specific-resources">Specific resources</h2>
@@ -979,7 +973,7 @@ create a deployment that created the VNET. Once the deployment is done (resource
 </footer>
 
     </div>
-    <script src="/azure-service-operator/js/main.min.0a5a30b73411b7a841784b6f4d46f4e0b1b95d576fa3cadd81db9d5ae468e8c2.js" integrity="sha256-ClowtzQRt6hBeEtvTUb04LG5XVdvo8rdgdudWuRo6MI=" crossorigin="anonymous"></script>
+    <script src="/azure-service-operator/js/main.min.4096f09e0b199950620fc06165ef2a2791e1bee9067e27b14c4a54f02c0e33bd.js" integrity="sha256-QJbwngsZmVBiD8BhZe8qJ5HhvukGfiexTEpU8CwOM70=" crossorigin="anonymous"></script>
 <script defer src="/azure-service-operator/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/azure-service-operator/js/tabpane-persist.js'></script>
 

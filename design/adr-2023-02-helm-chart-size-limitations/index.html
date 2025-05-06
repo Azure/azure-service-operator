@@ -18,7 +18,7 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>2023-01: Helm Chart Size Limitations and Workarounds | Azure Service Operator</title>
-<meta name="description" content="Context Helm v3 stores chart state in a Kubernetes secret by default. Kubernetes secrets are limited to a max size based on etcd&rsquo;s configuration. The default etcd configuration limits secrets to a maximum size of 1MB.
+<meta name="description" content="Context Helm v3 stores chart state in a Kubernetes secret by default. Kubernetes secrets are limited to a max size based on etcd’s configuration. The default etcd configuration limits secrets to a maximum size of 1MB.
 Our chart secret is fast approaching 1MB. In fact, outstanding PRs already cause us to surpass the 1MB limit.
 Once this limit is reached, users will be unable to install our chart. When this happens, the error looks like:">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/design/adr-2023-02-helm-chart-size-limitations/">
@@ -41,13 +41,8 @@ Once this limit is reached, users will be unable to install our chart. When this
   <meta name="twitter:description" content="Context Helm v3 stores chart state in a Kubernetes secret by default. Kubernetes secrets are limited to a max size based on etcd’s configuration. The default etcd configuration limits secrets to a maximum size of 1MB.
 Our chart secret is fast approaching 1MB. In fact, outstanding PRs already cause us to surpass the 1MB limit.
 Once this limit is reached, users will be unable to install our chart. When this happens, the error looks like:">
-
-
-
-
-<link rel="preload" href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" as="style">
-<link href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" rel="stylesheet" integrity="">
-
+<link rel="preload" href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" as="style" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
+<link href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" rel="stylesheet" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -840,7 +835,6 @@ Once this limit is reached, users will be unable to install our chart. When this
     2023-01: Helm Chart Size Limitations and Workarounds</li>
   </ol>
 </nav>
-            
 <div class="td-content">
 	<h1>2023-01: Helm Chart Size Limitations and Workarounds</h1>
 	
@@ -854,31 +848,30 @@ etcd&rsquo;s configuration. The default etcd configuration limits secrets to a m
 <a href="https://github.com/Azure/azure-service-operator/pull/2727">outstanding PRs</a> already cause us to surpass the 1MB limit.</p>
 <p>Once this limit is reached, users will be unable to install our chart. When this happens, the error looks like:</p>
 <blockquote>
-<p>Error: create: failed to create: Secret &ldquo;sh.helm.release.v1.asov2.v1&rdquo; is invalid: data: Too long: must have at most 1048576 bytes</p>
-</blockquote>
+<p>Error: create: failed to create: Secret &ldquo;sh.helm.release.v1.asov2.v1&rdquo; is invalid: data: Too long: must have at most 1048576 bytes</p></blockquote>
 <p>Digging in a bit, the Helm secret contains compressed data. This means that our chart itself can consume &gt;1MB as long
 as its compressed size is &lt;1MB. Here&rsquo;s a breakdown of our chart size right now:</p>
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Scenario</th>
-          <th style="text-align: left">Chart size</th>
-          <th style="text-align: left">Helm secret size</th>
-          <th style="text-align: left">Space savings</th>
+          <th>Scenario</th>
+          <th>Chart size</th>
+          <th>Helm secret size</th>
+          <th>Space savings</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">v2.0.0-beta.4</td>
-          <td style="text-align: left">9917 KB</td>
-          <td style="text-align: left">732 KB</td>
-          <td style="text-align: left">93%</td>
+          <td>v2.0.0-beta.4</td>
+          <td>9917 KB</td>
+          <td>732 KB</td>
+          <td>93%</td>
       </tr>
       <tr>
-          <td style="text-align: left">v2.0.0-beta.4 (all docs removed)</td>
-          <td style="text-align: left">8600 KB</td>
-          <td style="text-align: left">536 KB</td>
-          <td style="text-align: left">94%</td>
+          <td>v2.0.0-beta.4 (all docs removed)</td>
+          <td>8600 KB</td>
+          <td>536 KB</td>
+          <td>94%</td>
       </tr>
   </tbody>
 </table>
@@ -956,25 +949,25 @@ manage the CRDs from the operator, and would preclude installing ASO as an addon
 Helm deployable), it seems to make sense to manage the CRDs from the operator rather than from <code>asoctl</code>.</p>
 <h3 id="digging-in">Digging in</h3>
 <p>We will introduce a new CRD <code>InstalledResourceDefinitions.serviceoperator.azure.com</code>, with the following structure:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// +kubebuilder:object:root=true
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">InstalledResourceDefinitionsList</span> <span style="color:#66d9ef">struct</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// +kubebuilder:object:root=true</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">InstalledResourceDefinitionsList</span> <span style="color:#66d9ef">struct</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">metav1</span>.<span style="color:#a6e22e">TypeMeta</span> <span style="color:#e6db74">`json:&#34;,inline&#34;`</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">metav1</span>.<span style="color:#a6e22e">ListMeta</span> <span style="color:#e6db74">`json:&#34;metadata,omitempty&#34;`</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Items</span>           []<span style="color:#a6e22e">InstalledResourceDefinitions</span> <span style="color:#e6db74">`json:&#34;items&#34;`</span>
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">InstalledResourceDefinitionsSpec</span> <span style="color:#66d9ef">struct</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// +kubebuilder:validation:Required
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// Pattern defines the set of CRDs which should be installed.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// Currently only &#34;*&#34; (all resources) is supported.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// Future expansion will allow &#34;&lt;group&gt;.*&#34; to install all resources from a group (e.g. &#34;network.*&#34;)
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// as well as &#34;&lt;group&gt;.&lt;kind&gt; to install a specific resource only (e.g. &#34;network.virtualnetworks&#34;) 
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">Pattern</span> []<span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;pattern,omitempty&#34;`</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// +kubebuilder:validation:Required</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Pattern defines the set of CRDs which should be installed.</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Currently only &#34;*&#34; (all resources) is supported.</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Future expansion will allow &#34;&lt;group&gt;.*&#34; to install all resources from a group (e.g. &#34;network.*&#34;)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// as well as &#34;&lt;group&gt;.&lt;kind&gt; to install a specific resource only (e.g. &#34;network.virtualnetworks&#34;) </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Pattern</span> []<span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;pattern,omitempty&#34;`</span>
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">InstalledResourceDefinitionsStatus</span> <span style="color:#66d9ef">struct</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//Conditions: The observed state of the resource
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">Conditions</span> []<span style="color:#a6e22e">conditions</span>.<span style="color:#a6e22e">Condition</span> <span style="color:#e6db74">`json:&#34;conditions,omitempty&#34;`</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//Conditions: The observed state of the resource</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Conditions</span> []<span style="color:#a6e22e">conditions</span>.<span style="color:#a6e22e">Condition</span> <span style="color:#e6db74">`json:&#34;conditions,omitempty&#34;`</span>
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>This CRD <em>will</em> be included in the Helm chart and will eventually allow users to configure which resources to install.
 We will watch a magically named &ldquo;aso-installed-resources&rdquo; instance of this CRD and install CRDs according to the instructions.</p>
@@ -1086,7 +1079,7 @@ one we add above.</li>
 </footer>
 
     </div>
-    <script src="/azure-service-operator/js/main.min.0a5a30b73411b7a841784b6f4d46f4e0b1b95d576fa3cadd81db9d5ae468e8c2.js" integrity="sha256-ClowtzQRt6hBeEtvTUb04LG5XVdvo8rdgdudWuRo6MI=" crossorigin="anonymous"></script>
+    <script src="/azure-service-operator/js/main.min.4096f09e0b199950620fc06165ef2a2791e1bee9067e27b14c4a54f02c0e33bd.js" integrity="sha256-QJbwngsZmVBiD8BhZe8qJ5HhvukGfiexTEpU8CwOM70=" crossorigin="anonymous"></script>
 <script defer src="/azure-service-operator/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/azure-service-operator/js/tabpane-persist.js'></script>
 

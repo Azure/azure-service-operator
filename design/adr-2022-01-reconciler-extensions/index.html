@@ -20,7 +20,7 @@
 <title>2022-01: Reconciler Extensions | Azure Service Operator</title>
 <meta name="description" content="Context We are discovering inconsistencies in the way different Azure Resource Providers behave.
 These inconsistencies are anticipated. Given the number of disparate teams independently implementing their providers and given the way the ARM guidance has changed over time, differences in behaviour are to be expected.
-For example, the Azure Redis Resource Provider can return a HTTP conflict (409) with a retry message indicating that it&rsquo;s not a fatal error but a transient one.">
+For example, the Azure Redis Resource Provider can return a HTTP conflict (409) with a retry message indicating that it’s not a fatal error but a transient one.">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/design/adr-2022-01-reconciler-extensions/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="2022-01: Reconciler Extensions">
@@ -41,13 +41,8 @@ For example, the Azure Redis Resource Provider can return a HTTP conflict (409) 
   <meta name="twitter:description" content="Context We are discovering inconsistencies in the way different Azure Resource Providers behave.
 These inconsistencies are anticipated. Given the number of disparate teams independently implementing their providers and given the way the ARM guidance has changed over time, differences in behaviour are to be expected.
 For example, the Azure Redis Resource Provider can return a HTTP conflict (409) with a retry message indicating that it’s not a fatal error but a transient one.">
-
-
-
-
-<link rel="preload" href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" as="style">
-<link href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" rel="stylesheet" integrity="">
-
+<link rel="preload" href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" as="style" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
+<link href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" rel="stylesheet" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -838,7 +833,6 @@ For example, the Azure Redis Resource Provider can return a HTTP conflict (409) 
     2022-01: Reconciler Extensions</li>
   </ol>
 </nav>
-            
 <div class="td-content">
 	<h1>2022-01: Reconciler Extensions</h1>
 	
@@ -879,33 +873,33 @@ If multiple return values are needed, these will be wrapped in a custom struct, 
 <h3 id="example">Example</h3>
 <p>To allow customization of error handling for Azure Redis, we&rsquo;ll introduce an extension point for classification of errors.</p>
 <p>We create the required extension interface in the package <code>genruntime/extensions</code>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// error_classifier_extension.go
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// error_classifier_extension.go</span>
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">extensions</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">ErrorClassifier</span> <span style="color:#66d9ef">interface</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Classify the provided error, returning details about the error including whether it is fatal 
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// or can be retried.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// cloudError is the error returned from ARM.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// next is the function to call for standard classification behaviour.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// apiVersion is the ARM API version used for the request.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// log is a logger than can be used for telemetry.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">ClassifyError</span>(
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Classify the provided error, returning details about the error including whether it is fatal </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// or can be retried.</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// cloudError is the error returned from ARM.</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// next is the function to call for standard classification behaviour.</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// apiVersion is the ARM API version used for the request.</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// log is a logger than can be used for telemetry.</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ClassifyError</span>(
 </span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">cloudError</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">genericarmclient</span>.<span style="color:#a6e22e">CloudError</span>, 
 </span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">next</span> <span style="color:#66d9ef">func</span>(<span style="color:#f92672">*</span><span style="color:#a6e22e">genericarmclient</span>.<span style="color:#a6e22e">CloudError</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">CloudErrorDetails</span>, <span style="color:#66d9ef">error</span>),
 </span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">apiVersion</span> <span style="color:#66d9ef">string</span>, 
 </span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">log</span> <span style="color:#a6e22e">logr</span>.<span style="color:#a6e22e">Logger</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">CloudErrorDetails</span>, <span style="color:#66d9ef">error</span>)
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>In the <code>cache/customization</code> package, a host type for the extension point will be generated:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// redis_extensions.go
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// redis_extensions.go</span>
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">customization</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">RedisExtensions</span> <span style="color:#66d9ef">struct</span>{}
 </span></span></code></pre></div><p>This type doesn&rsquo;t contain any members as we require extension points to be pure functions; if they contain mutable state, we run the risk of introducing concurrency and sequence errors that would be hard to diagnose and fix.</p>
 <p>Manual implementation of the extension point will be in a different file so that it&rsquo;s not obliterated next time we re-run the generator:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// redis_extensions.go
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// redis_extensions.go</span>
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">customization</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">_</span> <span style="color:#a6e22e">extensions</span>.<span style="color:#a6e22e">ErrorClassifier</span> = <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">RedisExtensions</span>{}
@@ -924,9 +918,9 @@ If multiple return values are needed, these will be wrapped in a custom struct, 
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">inner</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">cloudError</span>.<span style="color:#a6e22e">InnerError</span>; <span style="color:#a6e22e">inner</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
 </span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">code</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">to</span>.<span style="color:#a6e22e">String</span>(<span style="color:#a6e22e">inner</span>.<span style="color:#a6e22e">Code</span>)
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">code</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;Conflict&#34;</span> {
-</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// For Azure Redis, Conflict errors may be retried, as they are 
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#75715e">// returned when a required dependency is still being created
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">Classification</span> = <span style="color:#a6e22e">CloudErrorRetryable</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// For Azure Redis, Conflict errors may be retried, as they are </span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// returned when a required dependency is still being created</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">Classification</span> = <span style="color:#a6e22e">CloudErrorRetryable</span>
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
@@ -934,39 +928,39 @@ If multiple return values are needed, these will be wrapped in a custom struct, 
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>Passing in the default behaviour as <code>next</code> allows extensions to augment and/or supplant the behaviour with a great deal of flexibility.</p>
 <p>In the generic reconciler, we make use of the extension:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// azure_generic_arm_reconciler.go
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// azure_generic_arm_reconciler.go</span>
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">AzureDeploymentReconciler</span>) <span style="color:#a6e22e">makeReadyConditionFromError</span>(
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">cloudError</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">genericarmclient</span>.<span style="color:#a6e22e">CloudError</span>) <span style="color:#a6e22e">conditions</span>.<span style="color:#a6e22e">Condition</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ... existing code elided ...
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ... existing code elided ...</span>
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ext</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">FindErrorClassifierExtension</span>()
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">errorDetails</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">ext</span>.<span style="color:#a6e22e">ClassifyError</span>(<span style="color:#a6e22e">cloudError</span>, <span style="color:#a6e22e">apiVersion</span>, <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">ClassifyCloudError</span>)
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// handle error
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// handle error</span>
+</span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ... existing code elided ...
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ... existing code elided ...</span>
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>The helper method <code>FindErrorClassifierExtension()</code> does the lookup for the extension, and always returns a default implementation that can be invoked. The consuming code therefore doesn&rsquo;t need to worry about null checking, only error handling. To ensure consistent telemetry no matter who implements an extension, this default implementation will include logging.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// error_classifier_extension.go
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// error_classifier_extension.go</span>
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">extensions</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">//TODO: This needs a better name
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">ErrorClassifierDefault</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//TODO: This needs a better name</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">ErrorClassifierDefault</span> <span style="color:#66d9ef">struct</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">extension</span> <span style="color:#a6e22e">ErrorClassifierExtension</span>
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">_</span> <span style="color:#a6e22e">ErrorClassifier</span> = <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">ErrorClassifierDefault</span>{}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// NewErrorClassifierDefault creates a new ErrorClassifier that will invoke the passed host if it implements 
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// the ErrorClassifier interface.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewErrorClassifier</span>(<span style="color:#a6e22e">host</span> <span style="color:#66d9ef">interface</span>{}) <span style="color:#f92672">*</span><span style="color:#a6e22e">LoggingErrorClassifier</span> {
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// NewErrorClassifierDefault creates a new ErrorClassifier that will invoke the passed host if it implements </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// the ErrorClassifier interface.</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewErrorClassifier</span>(<span style="color:#a6e22e">host</span> <span style="color:#66d9ef">interface</span>{}) <span style="color:#f92672">*</span><span style="color:#a6e22e">LoggingErrorClassifier</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">result</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">ErrorClassifier</span>{}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Hook up our host if appropriate
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">extension</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">host</span>.(<span style="color:#a6e22e">ErrorClassifierExtension</span>); <span style="color:#a6e22e">ok</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Hook up our host if appropriate</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">extension</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">host</span>.(<span style="color:#a6e22e">ErrorClassifierExtension</span>); <span style="color:#a6e22e">ok</span> {
 </span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">extension</span> = <span style="color:#a6e22e">extension</span>
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
@@ -1039,7 +1033,7 @@ If multiple return values are needed, these will be wrapped in a custom struct, 
 </footer>
 
     </div>
-    <script src="/azure-service-operator/js/main.min.0a5a30b73411b7a841784b6f4d46f4e0b1b95d576fa3cadd81db9d5ae468e8c2.js" integrity="sha256-ClowtzQRt6hBeEtvTUb04LG5XVdvo8rdgdudWuRo6MI=" crossorigin="anonymous"></script>
+    <script src="/azure-service-operator/js/main.min.4096f09e0b199950620fc06165ef2a2791e1bee9067e27b14c4a54f02c0e33bd.js" integrity="sha256-QJbwngsZmVBiD8BhZe8qJ5HhvukGfiexTEpU8CwOM70=" crossorigin="anonymous"></script>
 <script defer src="/azure-service-operator/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/azure-service-operator/js/tabpane-persist.js'></script>
 

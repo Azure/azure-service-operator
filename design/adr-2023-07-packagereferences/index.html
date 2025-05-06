@@ -19,7 +19,8 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>2023-07 Package References | Azure Service Operator</title>
-<meta name="description" content="Powerful, extensible, and feature-packed frontend toolkit. Build and customize with Sass, utilize prebuilt grid system and components, and bring projects to life with powerful JavaScript plugins.">
+<meta name="description" content="Context We at one point discussed the idea of pushing the spec and status types down into dedicated subpackages, given the resources themselves greater promenance. More recently, we’ve discussed pushing the ARM types (as an implementation detail) into a dedicated subpackage, in order to provide more structure to the generated code, and to reduce namespace pollution for users who choose to directly consume our object structure.
+Doing this would require introduction of a new implementation of the PackageReference interface, let’s call it SubPackageReference for this discussion.">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/design/adr-2023-07-packagereferences/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="2023-07 Package References">
@@ -36,13 +37,8 @@ Doing this would require introduction of a new implementation of the PackageRefe
   <meta name="twitter:title" content="2023-07 Package References">
   <meta name="twitter:description" content="Context We at one point discussed the idea of pushing the spec and status types down into dedicated subpackages, given the resources themselves greater promenance. More recently, we’ve discussed pushing the ARM types (as an implementation detail) into a dedicated subpackage, in order to provide more structure to the generated code, and to reduce namespace pollution for users who choose to directly consume our object structure.
 Doing this would require introduction of a new implementation of the PackageReference interface, let’s call it SubPackageReference for this discussion.">
-
-
-
-
-<link rel="preload" href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" as="style">
-<link href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" rel="stylesheet" integrity="">
-
+<link rel="preload" href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" as="style" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
+<link href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" rel="stylesheet" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -835,7 +831,6 @@ Doing this would require introduction of a new implementation of the PackageRefe
     2023-07 Package References</li>
   </ol>
 </nav>
-            
 <div class="td-content">
 	<h1>2023-07 Package References</h1>
   
@@ -847,11 +842,7 @@ Doing this would require introduction of a new implementation of the PackageRefe
 <p>Doing this would require introduction of a new implementation of the <code>PackageReference</code> interface, let&rsquo;s call it <code>SubPackageReference</code> for this discussion.</p>
 <p>As this interface is implemented, we&rsquo;ll need to revisit all the code that consumes <code>PackageReference</code> to make sure that it works as expected with the new subclass.</p>
 <p>Ideally, everything would just work. However, our existing object model in this area is a little complex:</p>
-
-<figure>
-    <img src="./current.png"/> 
-</figure>
-
+<img src="current.png" alt="Current PackageReference model" />
 <!-- yuml.me class diagram
 
 [<<interface>>;PackageReference]
@@ -886,11 +877,7 @@ Doing this would require introduction of a new implementation of the PackageRefe
 </ul>
 <h3 id="option-2">Option 2</h3>
 <p>Add <code>SubPackageReference</code> as a new implementation of <code>PackageReference</code>, and pare down the methods on <code>PackageReference</code> to just those that make sense across all implementations (e.g. removing <code>GroupVersion()</code> and <code>TryGroupVersion()</code>). Enhance and make more extensive use of <code>LocalLikePackageReference</code>.</p>
-
-<figure>
-    <img src="./option-2.png"/> 
-</figure>
-
+<img src="option-2.png" alt="Option 2 PackageReference model" />
 <!-- yuml.me class diagram
 
 [<<interface>>;PackageReference]
@@ -925,11 +912,7 @@ Doing this would require introduction of a new implementation of the PackageRefe
 <h3 id="option-3">Option 3</h3>
 <p>As a part of adding <code>SubPackageReference</code>, we might slightly rework the domain model to make illegal states impossible to represent.</p>
 <p>Not only will this be easier to understand, but it should streamline some parts of our existing codebase by removing the need to check for illegal states.</p>
-
-<figure>
-    <img src="./option-3.png"/> 
-</figure>
-
+<img src="option-3.png" alt="Option 3 PackageReference model" />
 <!-- yuml.me class diagram
 
 [<<interface>>;PackageReference]
@@ -968,11 +951,7 @@ Doing this would require introduction of a new implementation of the PackageRefe
 </ul>
 <h3 id="option-4">Option 4</h3>
 <p>As for Option 4, but we also rename types to better reflect the new semantics. Given the introduction of <code>ExternalPackageReference</code>, maybe we use <code>InternalPackageReference</code>:</p>
-
-<figure>
-    <img src="./option-4.png"/> 
-</figure>
-
+<img src="option-4.png" alt="Option 4 PackageReference model" />
 <!-- yuml.me class diagram
 
 [<<interface>>;InternalPackageReference]
@@ -1012,7 +991,7 @@ Doing this would require introduction of a new implementation of the PackageRefe
 </li>
 </ul>
 
-  <div class="section-index">
+	<div class="section-index">
     
     
     </div>
@@ -1047,7 +1026,7 @@ Doing this would require introduction of a new implementation of the PackageRefe
 </footer>
 
     </div>
-    <script src="/azure-service-operator/js/main.min.0a5a30b73411b7a841784b6f4d46f4e0b1b95d576fa3cadd81db9d5ae468e8c2.js" integrity="sha256-ClowtzQRt6hBeEtvTUb04LG5XVdvo8rdgdudWuRo6MI=" crossorigin="anonymous"></script>
+    <script src="/azure-service-operator/js/main.min.4096f09e0b199950620fc06165ef2a2791e1bee9067e27b14c4a54f02c0e33bd.js" integrity="sha256-QJbwngsZmVBiD8BhZe8qJ5HhvukGfiexTEpU8CwOM70=" crossorigin="anonymous"></script>
 <script defer src="/azure-service-operator/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/azure-service-operator/js/tabpane-persist.js'></script>
 

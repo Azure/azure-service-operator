@@ -41,13 +41,8 @@ Package Content astmodel Short for Abstract Syntax Tree Model, this package cont
   <meta name="twitter:description" content="Core to Azure Service Operator (ASO) v2 is our code generator. This consumes ARM JSON Schema and Swagger specifications and generates code for each desired resource that works with our generic operator reconciler.
 Code Structure Key packages used to structure the code of the generator are as follows:
 Package Content astmodel Short for Abstract Syntax Tree Model, this package contains the core data types for defining the Go functions, data types, and methods we generate. functions Support for generation of individual functions, based on the interface `astmodel.Function interfaces Support for generation of interface implementations, based on the astmodel.InterfaceImplementer interface testcases Support for generation of test cases (used to verify our generated code works as expected), based on the astmodel.TestCase interface astbuilder Intention revealing utility methods for creating the underlying Go abstract syntax tree we serialize as the last step of generation. codegen The core processing pipeline of the code generator codegen/pipeline Individual pipeline stages that are composed to form the code generator itself. test Support methods to make writing tests easier Directory structure overview In this diagram is shown the full directory structure of the ASO code generator, including all the packages named above.">
-
-
-
-
-<link rel="preload" href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" as="style">
-<link href="/azure-service-operator/scss/main.min.fa7087b3f11072cce9c780c2ccbb0ca0e61bf1c4d312c260ebb9fc4705d53ddf.css" rel="stylesheet" integrity="">
-
+<link rel="preload" href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" as="style" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
+<link href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" rel="stylesheet" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -837,7 +832,6 @@ Package Content astmodel Short for Abstract Syntax Tree Model, this package cont
     Code Generator</li>
   </ol>
 </nav>
-            
 <div class="td-content">
 	<h1>Code Generator</h1>
 	
@@ -850,42 +844,42 @@ Package Content astmodel Short for Abstract Syntax Tree Model, this package cont
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Package</th>
-          <th style="text-align: left">Content</th>
+          <th>Package</th>
+          <th>Content</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/tools/generator/internal/astmodel"><code>astmodel</code></a></td>
-          <td style="text-align: left">Short for <em>Abstract Syntax Tree Model</em>, this package contains the core data types for defining the Go functions, data types, and methods we generate.</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/tools/generator/internal/astmodel"><code>astmodel</code></a></td>
+          <td>Short for <em>Abstract Syntax Tree Model</em>, this package contains the core data types for defining the Go functions, data types, and methods we generate.</td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/tools/generator/internal/functions"><code>functions</code></a></td>
-          <td style="text-align: left">Support for generation of individual functions, based on the interface <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/tools/generator/internal/astmodel/function.go#L13">`astmodel.Function</a></td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/tools/generator/internal/functions"><code>functions</code></a></td>
+          <td>Support for generation of individual functions, based on the interface <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/tools/generator/internal/astmodel/function.go#L13">`astmodel.Function</a></td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/tools/generator/internal/interfaces"><code>interfaces</code></a></td>
-          <td style="text-align: left">Support for generation of interface implementations, based on the <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/tools/generator/internal/astmodel/interface_implementer.go#L19"><code>astmodel.InterfaceImplementer</code></a> interface</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/tools/generator/internal/interfaces"><code>interfaces</code></a></td>
+          <td>Support for generation of interface implementations, based on the <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/tools/generator/internal/astmodel/interface_implementer.go#L19"><code>astmodel.InterfaceImplementer</code></a> interface</td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/tools/generator/internal/testcases"><code>testcases</code></a></td>
-          <td style="text-align: left">Support for generation of test cases (used to verify our generated code works as expected), based on the <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/tools/generator/internal/astmodel/test_case.go#L11"><code>astmodel.TestCase</code></a> interface</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/tools/generator/internal/testcases"><code>testcases</code></a></td>
+          <td>Support for generation of test cases (used to verify our generated code works as expected), based on the <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/tools/generator/internal/astmodel/test_case.go#L11"><code>astmodel.TestCase</code></a> interface</td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/tools/generator/internal/astbuilder"><code>astbuilder</code></a></td>
-          <td style="text-align: left">Intention revealing utility methods for creating the underlying Go abstract syntax tree we serialize as the last step of generation.</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/tools/generator/internal/astbuilder"><code>astbuilder</code></a></td>
+          <td>Intention revealing utility methods for creating the underlying Go abstract syntax tree we serialize as the last step of generation.</td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/tools/generator/internal/codegen"><code>codegen</code></a></td>
-          <td style="text-align: left">The core processing pipeline of the code generator</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/tools/generator/internal/codegen"><code>codegen</code></a></td>
+          <td>The core processing pipeline of the code generator</td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/tools/generator/internal/codegen/pipeline"><code>codegen/pipeline</code></a></td>
-          <td style="text-align: left">Individual pipeline stages that are composed to form the code generator itself.</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/tools/generator/internal/codegen/pipeline"><code>codegen/pipeline</code></a></td>
+          <td>Individual pipeline stages that are composed to form the code generator itself.</td>
       </tr>
       <tr>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/tools/generator/internal/test"><code>test</code></a></td>
-          <td style="text-align: left">Support methods to make writing tests easier</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/tools/generator/internal/test"><code>test</code></a></td>
+          <td>Support methods to make writing tests easier</td>
       </tr>
   </tbody>
 </table>
@@ -959,7 +953,7 @@ Package Content astmodel Short for Abstract Syntax Tree Model, this package cont
 </footer>
 
     </div>
-    <script src="/azure-service-operator/js/main.min.0a5a30b73411b7a841784b6f4d46f4e0b1b95d576fa3cadd81db9d5ae468e8c2.js" integrity="sha256-ClowtzQRt6hBeEtvTUb04LG5XVdvo8rdgdudWuRo6MI=" crossorigin="anonymous"></script>
+    <script src="/azure-service-operator/js/main.min.4096f09e0b199950620fc06165ef2a2791e1bee9067e27b14c4a54f02c0e33bd.js" integrity="sha256-QJbwngsZmVBiD8BhZe8qJ5HhvukGfiexTEpU8CwOM70=" crossorigin="anonymous"></script>
 <script defer src="/azure-service-operator/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/azure-service-operator/js/tabpane-persist.js'></script>
 
