@@ -297,6 +297,9 @@ import (
 	search_v20220901 "github.com/Azure/azure-service-operator/v2/api/search/v1api20220901"
 	search_v20220901s "github.com/Azure/azure-service-operator/v2/api/search/v1api20220901/storage"
 	search_v20220901w "github.com/Azure/azure-service-operator/v2/api/search/v1api20220901/webhook"
+	search_v20231101 "github.com/Azure/azure-service-operator/v2/api/search/v1api20231101"
+	search_v20231101s "github.com/Azure/azure-service-operator/v2/api/search/v1api20231101/storage"
+	search_v20231101w "github.com/Azure/azure-service-operator/v2/api/search/v1api20231101/webhook"
 	servicebus_customizations "github.com/Azure/azure-service-operator/v2/api/servicebus/customizations"
 	servicebus_v20210101p "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview"
 	servicebus_v20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview/storage"
@@ -1689,7 +1692,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 	})
 	result = append(result, &registration.StorageType{Obj: new(resources_v20200601s.ResourceGroup)})
-	result = append(result, &registration.StorageType{Obj: new(search_v20220901s.SearchService)})
+	result = append(result, &registration.StorageType{Obj: new(search_v20231101s.SearchService)})
 	result = append(result, &registration.StorageType{Obj: new(servicebus_v20240101s.Namespace)})
 	result = append(result, &registration.StorageType{Obj: new(servicebus_v20240101s.NamespacesAuthorizationRule)})
 	result = append(result, &registration.StorageType{Obj: new(servicebus_v20240101s.NamespacesQueue)})
@@ -4031,6 +4034,12 @@ func getKnownTypes() []*registration.KnownType {
 		Validator: &search_v20220901w.SearchService{},
 	})
 	result = append(result, &registration.KnownType{Obj: new(search_v20220901s.SearchService)})
+	result = append(result, &registration.KnownType{
+		Obj:       new(search_v20231101.SearchService),
+		Defaulter: &search_v20231101w.SearchService{},
+		Validator: &search_v20231101w.SearchService{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(search_v20231101s.SearchService)})
 	result = append(
 		result,
 		&registration.KnownType{
@@ -4752,6 +4761,8 @@ func createScheme() *runtime.Scheme {
 	_ = resources_v20200601s.AddToScheme(scheme)
 	_ = search_v20220901.AddToScheme(scheme)
 	_ = search_v20220901s.AddToScheme(scheme)
+	_ = search_v20231101.AddToScheme(scheme)
+	_ = search_v20231101s.AddToScheme(scheme)
 	_ = servicebus_v20210101p.AddToScheme(scheme)
 	_ = servicebus_v20210101ps.AddToScheme(scheme)
 	_ = servicebus_v20211101.AddToScheme(scheme)

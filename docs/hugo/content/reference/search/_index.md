@@ -7,10 +7,18 @@ To install the CRDs for these resources, your ASO configuration must include `se
 
 The `authOptions` and `operatorSpec` properties on [`SearchService`](https://azure.github.io/azure-service-operator/reference/search/v1api20220901/#search.azure.com/v1api20220901.SearchService) are not supported in ASO v2.1.0; they'll be included in the next release.
 
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+| Resource      | ARM Version | CRD Version   | Supported From | Sample                                                                                                                             |
+|---------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------------|
+| SearchService | 2023-11-01  | v1api20231101 | v2.14.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/search/v1api20231101/v1api20231101_searchservice.yaml) |
+
 ### Released
 
 These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
-| Resource                                                                        | ARM Version | CRD Version   | Supported From | Sample                                                                                                                     |
-|---------------------------------------------------------------------------------|-------------|---------------|----------------|----------------------------------------------------------------------------------------------------------------------------|
-| [SearchService]({{< relref "/reference/search/v1api20220901#SearchService" >}}) | 2022-09-01  | v1api20220901 | v2.1.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/search/v1api/v1api20220901_searchservice.yaml) |
+| Resource                                                                        | ARM Version | CRD Version   | Supported From | Sample                                                                                                                             |
+|---------------------------------------------------------------------------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------------|
+| [SearchService]({{< relref "/reference/search/v1api20220901#SearchService" >}}) | 2022-09-01  | v1api20220901 | v2.1.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/search/v1api20220901/v1api20220901_searchservice.yaml) |
 
