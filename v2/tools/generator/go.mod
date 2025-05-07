@@ -1,7 +1,8 @@
 module github.com/Azure/azure-service-operator/v2/tools/generator
 
-go 1.23.0
-toolchain go1.24.1
+go 1.24.0
+
+toolchain go1.24.2
 
 // Needed to reference shared version numbering:
 replace github.com/Azure/azure-service-operator/v2 => ../../
