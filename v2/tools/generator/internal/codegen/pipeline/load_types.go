@@ -42,10 +42,10 @@ func LoadTypes(
 	config *config.Configuration,
 	log logr.Logger,
 ) *Stage {
-	return NewLegacyStage(
+	return NewStage(
 		LoadTypesStageID,
 		"Load all types from Swagger files",
-		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+		func(ctx context.Context, state *State) (*State, error) {
 			log.V(1).Info(
 				"Loading Swagger data",
 				"source", config.SchemaRoot)
@@ -120,7 +120,7 @@ func LoadTypes(
 				}
 			}
 
-			return defs, nil
+			return state.WithDefinitions(defs), nil
 		})
 }
 
