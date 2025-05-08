@@ -15,10 +15,11 @@ import (
 // has TypeName's that are all reachable as well. This check fails if there is any TypeName that refers to a type that doesn't
 // exist.
 func AssertTypesCollectionValid() *Stage {
-	return NewLegacyStage(
+	return NewStage(
 		"assertTypesStructureValid",
 		"Verify that all local TypeNames refer to a type",
-		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+		func(ctx context.Context, state *State) (*State, error) {
+			definitions := state.Definitions()
 			visitor := astmodel.TypeVisitorBuilder[any]{}.Build()
 			typeWalker := astmodel.NewTypeWalker(definitions, visitor)
 
@@ -31,6 +32,6 @@ func AssertTypesCollectionValid() *Stage {
 				}
 			}
 
-			return definitions, nil
+			return state, nil
 		})
 }

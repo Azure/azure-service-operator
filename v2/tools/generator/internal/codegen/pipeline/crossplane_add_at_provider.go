@@ -16,10 +16,11 @@ import (
 
 // AddCrossplaneAtProvider adds an "AtProvider" property as the sole property in every resource status
 func AddCrossplaneAtProvider(idFactory astmodel.IdentifierFactory) *Stage {
-	return NewLegacyStage(
+	return NewStage(
 		"addCrossplaneAtProviderProperty",
 		"Add an 'AtProvider' property on every status",
-		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+		func(ctx context.Context, state *State) (*State, error) {
+			definitions := state.Definitions()
 			result := make(astmodel.TypeDefinitionSet)
 			for _, typeDef := range definitions {
 				if _, ok := astmodel.AsResourceType(typeDef.Type()); ok {
@@ -42,7 +43,7 @@ func AddCrossplaneAtProvider(idFactory astmodel.IdentifierFactory) *Stage {
 			unmodified := definitions.Except(result)
 			result.AddTypes(unmodified)
 
-			return result, nil
+			return state.WithDefinitions(result), nil
 		})
 }
 

@@ -43,10 +43,11 @@ func checkForAnyType(description string, packages []string) *Stage {
 		expectedPackages.Add(p)
 	}
 
-	return NewLegacyStage(
+	return NewStage(
 		CheckForAnyTypeStageID,
 		description,
-		func(ctx context.Context, defs astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+		func(ctx context.Context, state *State) (*State, error) {
+			defs := state.Definitions()
 			var badNames []astmodel.InternalTypeName
 			output := make(astmodel.TypeDefinitionSet)
 			for name, def := range defs {
@@ -73,7 +74,7 @@ func checkForAnyType(description string, packages []string) *Stage {
 				return nil, eris.Errorf("AnyTypes found - add exclusions for: %s", strings.Join(badPackages, ", "))
 			}
 
-			return output, nil
+			return state.WithDefinitions(output), nil
 		})
 }
 
