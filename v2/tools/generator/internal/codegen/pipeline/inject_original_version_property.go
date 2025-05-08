@@ -21,10 +21,11 @@ const InjectOriginalVersionPropertyStageID = "injectOriginalVersionProperty"
 // types, allowing us to recover the original version used to create each custom resource, and giving the operator the
 // information needed to interact with ARM using the correct API version.
 func InjectOriginalVersionProperty() *Stage {
-	stage := NewLegacyStage(
+	return NewStage(
 		InjectOriginalVersionPropertyStageID,
 		"Inject the property OriginalVersion into each Storage Spec type",
-		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+		func(ctx context.Context, state *State) (*State, error) {
+			definitions := state.Definitions()
 			injector := astmodel.NewPropertyInjector()
 			result := definitions.Copy()
 
@@ -52,8 +53,6 @@ func InjectOriginalVersionProperty() *Stage {
 				result[defWithProp.Name()] = defWithProp
 			}
 
-			return result, nil
+			return state.WithDefinitions(result), nil
 		})
-
-	return stage
 }

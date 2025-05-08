@@ -15,10 +15,11 @@ import (
 
 // AddCrossplaneEmbeddedResourceStatus puts an embedded runtimev1alpha1.ResourceStatus on every spec type
 func AddCrossplaneEmbeddedResourceStatus(idFactory astmodel.IdentifierFactory) *Stage {
-	return NewLegacyStage(
+	return NewStage(
 		"addCrossplaneEmbeddedResourceStatus",
 		"Add an embedded runtimev1alpha1.ResourceStatus to every status type",
-		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+		func(ctx context.Context, state *State) (*State, error) {
+			definitions := state.Definitions()
 			statusTypeName := astmodel.MakeExternalTypeName(
 				CrossplaneRuntimeV1Package,
 				idFactory.CreateIdentifier("ResourceStatus", astmodel.Exported))
@@ -62,6 +63,6 @@ func AddCrossplaneEmbeddedResourceStatus(idFactory astmodel.IdentifierFactory) *
 				}
 			}
 
-			return result, nil
+			return state.WithDefinitions(result), nil
 		})
 }
