@@ -17,10 +17,11 @@ import (
 
 // NameTypesForCRD - for CRDs all inner enums and objects and validated types must be named, so we do it here
 func NameTypesForCRD(idFactory astmodel.IdentifierFactory) *Stage {
-	return NewLegacyStage(
+	return NewStage(
 		"nameTypes",
 		"Name inner types for CRD",
-		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+		func(ctx context.Context, state *State) (*State, error) {
+			definitions := state.Definitions()
 			result := make(astmodel.TypeDefinitionSet)
 
 			// this is a little bit of a hack, better way to do it?
@@ -44,13 +45,13 @@ func NameTypesForCRD(idFactory astmodel.IdentifierFactory) *Stage {
 				}
 
 				if _, ok := result[typeName]; !ok {
-					// if we didn't regenerate the “input” type in nameInnerTypes then it won’t
+					// if we didn't regenerate the "input" type in nameInnerTypes then it won't
 					// have been added to the output; do it here
 					result.Add(typeDef)
 				}
 			}
 
-			return result, nil
+			return state.WithDefinitions(result), nil
 		})
 }
 

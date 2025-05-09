@@ -20,15 +20,16 @@ import (
 // ExportControllerResourceRegistrations creates a Stage to generate type registrations
 // for resources.
 func ExportControllerResourceRegistrations(idFactory astmodel.IdentifierFactory, outputPath string) *Stage {
-	return NewLegacyStage(
+	return NewStage(
 		"exportControllerResourceRegistrations",
 		fmt.Sprintf("Export resource registrations to %q", outputPath),
-		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+		func(ctx context.Context, state *State) (*State, error) {
 			// If the configuration doesn't specify an output destination for us, just do nothing
 			if outputPath == "" {
-				return definitions, nil
+				return state, nil
 			}
 
+			definitions := state.Definitions()
 			var resources []astmodel.InternalTypeName
 			var storageVersionResources []astmodel.InternalTypeName
 			var resourceExtensions []astmodel.InternalTypeName
@@ -93,7 +94,7 @@ func ExportControllerResourceRegistrations(idFactory astmodel.IdentifierFactory,
 				return nil, eris.Wrapf(err, "failed to write controller type registration file to %q", outputPath)
 			}
 
-			return definitions, nil
+			return state, nil
 		})
 }
 

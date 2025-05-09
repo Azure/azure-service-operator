@@ -23,17 +23,22 @@ const ApplyARMConversionInterfaceStageID = "applyArmConversionInterface"
 // to all Kubernetes types.
 // The genruntime.ARMTransformer interface is used to convert from the Kubernetes type to the corresponding ARM type and back.
 func ApplyARMConversionInterface(idFactory astmodel.IdentifierFactory, config *config.ObjectModelConfiguration) *Stage {
-	return NewLegacyStage(
+	return NewStage(
 		ApplyARMConversionInterfaceStageID,
 		"Add ARM conversion interfaces to Kubernetes types",
-		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+		func(ctx context.Context, state *State) (*State, error) {
 			converter := &armConversionApplier{
-				definitions: definitions,
+				definitions: state.Definitions(),
 				idFactory:   idFactory,
 				config:      config,
 			}
 
-			return converter.transformTypes()
+			definitions, err := converter.transformTypes()
+			if err != nil {
+				return nil, err
+			}
+
+			return state.WithDefinitions(definitions), nil
 		})
 }
 

@@ -20,10 +20,11 @@ const RemoveTypeAliasesStageID = "removeAliases"
 
 // RemoveTypeAliases creates a pipeline stage removing type aliases
 func RemoveTypeAliases() *Stage {
-	return NewLegacyStage(
+	return NewStage(
 		RemoveTypeAliasesStageID,
 		"Remove type aliases",
-		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+		func(ctx context.Context, state *State) (*State, error) {
+			definitions := state.Definitions()
 			simplifyAliases := func(this *astmodel.TypeVisitor[any], it astmodel.InternalTypeName, ctx any) (astmodel.Type, error) {
 				return resolveTypeName(this, it, definitions)
 			}
@@ -48,7 +49,7 @@ func RemoveTypeAliases() *Stage {
 				return nil, kerrors.NewAggregate(errs)
 			}
 
-			return result, nil
+			return state.WithDefinitions(result), nil
 		})
 }
 

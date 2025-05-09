@@ -15,10 +15,11 @@ import (
 
 // FlattenResources flattens any resources directly inside other resources
 func FlattenResources() *Stage {
-	return NewLegacyStage(
+	return NewStage(
 		"flattenResources",
 		"Flatten nested resource types",
-		func(ctx context.Context, defs astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+		func(ctx context.Context, state *State) (*State, error) {
+			defs := state.Definitions()
 			flattenEachResource := func(
 				this *astmodel.TypeVisitor[any],
 				it *astmodel.ResourceType,
@@ -54,7 +55,7 @@ func FlattenResources() *Stage {
 				results.Add(result)
 			}
 
-			return results, nil
+			return state.WithDefinitions(results), nil
 		})
 }
 

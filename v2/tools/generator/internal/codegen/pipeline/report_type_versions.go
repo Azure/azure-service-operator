@@ -26,14 +26,15 @@ const ReportOnTypesAndVersionsStageID = "reportTypesAndVersions"
 // ReportOnTypesAndVersions creates a pipeline stage that generates a report for each group showing a matrix of all
 // types and versions
 func ReportOnTypesAndVersions(configuration *config.Configuration) *Stage {
-	return NewLegacyStage(
+	return NewStage(
 		ReportOnTypesAndVersionsStageID,
 		"Generate reports on types and versions in each package",
-		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+		func(ctx context.Context, state *State) (*State, error) {
+			definitions := state.Definitions()
 			report := NewPackagesMatrixReport()
 			report.Summarize(definitions)
 			err := report.WriteTo(configuration.FullTypesOutputPath())
-			return definitions, err
+			return state, err
 		})
 }
 

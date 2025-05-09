@@ -31,10 +31,12 @@ var (
 )
 
 func ReplaceAnyTypeWithJSON() *Stage {
-	return NewLegacyStage(
+	return NewStage(
 		"replaceAnyTypeWithJSON",
 		"Replace properties using interface{} with arbitrary JSON",
-		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+		func(ctx context.Context, state *State) (*State, error) {
+			definitions := state.Definitions()
+
 			replaceAnyWithJSON := func(it *astmodel.PrimitiveType) astmodel.Type {
 				if it == astmodel.AnyType {
 					return astmodel.JSONType
@@ -64,7 +66,7 @@ func ReplaceAnyTypeWithJSON() *Stage {
 				results.Add(d)
 			}
 
-			return results, nil
+			return state.WithDefinitions(results), nil
 		},
 	)
 }

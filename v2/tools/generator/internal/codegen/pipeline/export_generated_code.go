@@ -31,10 +31,12 @@ func ExportPackages(
 	log logr.Logger,
 ) *Stage {
 	description := fmt.Sprintf("Export packages to %q", outputPath)
-	stage := NewLegacyStage(
+	stage := NewStage(
 		ExportPackagesStageID,
 		description,
-		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+		func(ctx context.Context, state *State) (*State, error) {
+			definitions := state.Definitions()
+
 			packages, err := CreatePackagesForDefinitions(definitions)
 			if err != nil {
 				return nil, eris.Wrapf(err, "failed to assign generated definitions to packages")
@@ -45,7 +47,7 @@ func ExportPackages(
 				return nil, eris.Wrapf(err, "unable to write files into %q", outputPath)
 			}
 
-			return definitions, nil
+			return state, nil
 		})
 
 	stage.RequiresPrerequisiteStages(DeleteGeneratedCodeStageID)

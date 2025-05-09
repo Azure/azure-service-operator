@@ -12,9 +12,6 @@ import (
 
 	"github.com/rotisserie/eris"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
-
-	"github.com/Azure/azure-service-operator/v2/internal/set"
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
 // Stage represents a composable stage of processing that can transform or process the set
@@ -52,72 +49,6 @@ func NewStage(
 		action:      action,
 	}
 }
-
-// NewLegacyStage is a legacy constructor for creating a new pipeline stage that's ready for execution
-// DO NOT USE THIS FOR ANY NEW STAGES - it's kept for compatibility with an older style of pipeline stages that will be
-// migrated to the new style over time.
-func NewLegacyStage(
-	id string,
-	description string,
-	action func(context.Context, astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error),
-) *Stage {
-	if !knownLegacyStages.Contains(id) {
-		msg := fmt.Sprintf(
-			"No new legacy stages (use NewStage instead): %s is not the id of a known legacy stage",
-			id)
-		panic(msg)
-	}
-
-	return NewStage(
-		id,
-		description,
-		func(ctx context.Context, state *State) (*State, error) {
-			types, err := action(ctx, state.Definitions())
-			if err != nil {
-				return nil, err
-			}
-
-			return state.WithDefinitions(types), nil
-		})
-}
-
-var knownLegacyStages = set.Make(
-	"addCrossResourceReferences",
-	"addCrossplaneAtProviderProperty",
-	"addCrossplaneEmbeddedResourceSpec",
-	"addCrossplaneEmbeddedResourceStatus",
-	"addCrossplaneForProviderProperty",
-	"addCrossplaneOwnerProperties",
-	"allof-anyof-objects",
-	"applyArmConversionInterface",
-	"assertTypesStructureValid",
-	"augmentSpecWithStatus",
-	"collapseCrossGroupReferences",
-	"createArmTypes",
-	"deleteGenerated",
-	"determineResourceOwnership",
-	"ensureArmTypeExistsForEveryType",
-	"exportControllerResourceRegistrations",
-	"exportPackages",
-	"flattenProperties",
-	"flattenResources",
-	"injectHubFunction",
-	"injectOriginalGVKFunction",
-	"injectOriginalVersionFunction",
-	"injectOriginalVersionProperty",
-	"loadSchema",
-	"loadTypes",
-	"markStorageVersion",
-	"nameTypes",
-	"pluralizeNames",
-	"propertyRewrites",
-	"removeAliases",
-	"removeEmbeddedResources",
-	"replaceAnyTypeWithJSON",
-	"reportTypesAndVersions",
-	"rogueCheck",
-	"simplifyDefinitions",
-	"stripUnreferenced")
 
 // HasID returns true if this stage has the specified id, false otherwise
 func (stage *Stage) HasID(id string) bool {

@@ -19,16 +19,17 @@ const MarkLatestAPIVersionAsStorageVersionID = "markStorageVersion"
 
 // MarkLatestAPIVersionAsStorageVersion creates a Stage to mark a particular version as a storage version
 func MarkLatestAPIVersionAsStorageVersion() *Stage {
-	return NewLegacyStage(
+	return NewStage(
 		MarkLatestAPIVersionAsStorageVersionID,
 		"Mark the latest API version of each resource as the storage version",
-		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+		func(ctx context.Context, state *State) (*State, error) {
+			definitions := state.Definitions()
 			updatedDefs, err := MarkLatestResourceVersionsForStorage(definitions)
 			if err != nil {
 				return nil, eris.Wrapf(err, "unable to mark latest resource version as storage version")
 			}
 
-			return updatedDefs, nil
+			return state.WithDefinitions(updatedDefs), nil
 		})
 }
 

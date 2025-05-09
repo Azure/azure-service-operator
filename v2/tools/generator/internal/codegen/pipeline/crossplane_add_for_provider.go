@@ -17,10 +17,11 @@ import (
 // AddCrossplaneForProvider adds a "ForProvider" property as the sole property in every resource spec
 // and moves everything that was at the spec level down a level into the ForProvider type
 func AddCrossplaneForProvider(idFactory astmodel.IdentifierFactory) *Stage {
-	return NewLegacyStage(
+	return NewStage(
 		"addCrossplaneForProviderProperty",
 		"Add a 'ForProvider' property on every spec",
-		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+		func(ctx context.Context, state *State) (*State, error) {
+			definitions := state.Definitions()
 			result := make(astmodel.TypeDefinitionSet)
 			for _, typeDef := range definitions {
 				if _, ok := astmodel.AsResourceType(typeDef.Type()); ok {
@@ -37,7 +38,7 @@ func AddCrossplaneForProvider(idFactory astmodel.IdentifierFactory) *Stage {
 			unmodified := definitions.Except(result)
 			result.AddTypes(unmodified)
 
-			return result, nil
+			return state.WithDefinitions(result), nil
 		})
 }
 

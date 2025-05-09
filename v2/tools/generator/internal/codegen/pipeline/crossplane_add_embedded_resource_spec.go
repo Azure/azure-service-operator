@@ -17,10 +17,11 @@ var CrossplaneRuntimeV1Package = astmodel.MakeExternalPackageReference("github.c
 
 // AddCrossplaneEmbeddedResourceSpec puts an embedded runtimev1alpha1.ResourceSpec on every spec type
 func AddCrossplaneEmbeddedResourceSpec(idFactory astmodel.IdentifierFactory) *Stage {
-	return NewLegacyStage(
+	return NewStage(
 		"addCrossplaneEmbeddedResourceSpec",
 		"Add an embedded runtimev1alpha1.ResourceSpec to every spec type",
-		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+		func(ctx context.Context, state *State) (*State, error) {
+			definitions := state.Definitions()
 			specTypeName := astmodel.MakeExternalTypeName(
 				CrossplaneRuntimeV1Package,
 				idFactory.CreateIdentifier("ResourceSpec", astmodel.Exported))
@@ -54,6 +55,6 @@ func AddCrossplaneEmbeddedResourceSpec(idFactory astmodel.IdentifierFactory) *St
 				}
 			}
 
-			return result, nil
+			return state.WithDefinitions(result), nil
 		})
 }
