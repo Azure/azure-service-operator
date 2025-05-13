@@ -665,6 +665,11 @@ func (in *SearchService_STATUS) DeepCopyInto(out *SearchService_STATUS) {
 		*out = new(int)
 		**out = **in
 	}
+	if in.SemanticSearch != nil {
+		in, out := &in.SemanticSearch, &out.SemanticSearch
+		*out = new(string)
+		**out = **in
+	}
 	if in.SharedPrivateLinkResources != nil {
 		in, out := &in.SharedPrivateLinkResources, &out.SharedPrivateLinkResources
 		*out = make([]SharedPrivateLinkResource_STATUS, len(*in))
@@ -779,6 +784,11 @@ func (in *SearchService_Spec) DeepCopyInto(out *SearchService_Spec) {
 	if in.ReplicaCount != nil {
 		in, out := &in.ReplicaCount, &out.ReplicaCount
 		*out = new(int)
+		**out = **in
+	}
+	if in.SemanticSearch != nil {
+		in, out := &in.SemanticSearch, &out.SemanticSearch
+		*out = new(string)
 		**out = **in
 	}
 	if in.Sku != nil {
