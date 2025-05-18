@@ -106,6 +106,14 @@ tasks:
       - task: generator:format-code
       - task: controller:format-code
 
+  go-mod-tidy:
+    desc: Tidy the go.mod files
+    dir : v2
+    cmds:
+      - task: controller:go-mod-tidy
+      - task: asoctl:go-mod-tidy
+      - task: generator:go-mod-tidy
+
   build-docs-site:
     cmds:
       - task: doc:build-site
@@ -171,6 +179,12 @@ tasks:
       - cmd: gofumpt -l -w .
         ignore_error: true # Just in case the code doesn't build
 
+  asoctl:go-mod-tidy:
+    desc: Tidy the go.mod file
+    dir : v2/cmd/asoctl/
+    cmds:
+      - go mod tidy
+      
   asoctl:lint:
     desc: Run {{.ASOCTL_APP}} fast lint checks.
     dir: '{{.ASOCTL_ROOT}}'
@@ -261,6 +275,12 @@ tasks:
       - cmd: gofumpt -l -w .
         ignore_error: true # Just in case the code doesn't build
 
+  generator:go-mod-tidy:
+    desc: Tidy the go.mod file
+    dir : v2/tools/generator
+    cmds:
+      - go mod tidy
+
   generator:lint:
     desc: Run {{.GENERATOR_APP}} lint checks.
     dir: '{{.GENERATOR_ROOT}}'
@@ -318,6 +338,12 @@ tasks:
     cmds:
       - cmd: gofumpt -l -w .
         ignore_error: true # Just in case the code doesn't build
+
+  controller:go-mod-tidy:
+    desc: Tidy the go.mod file
+    dir : v2
+    cmds:
+      - go mod tidy
 
   controller:lint:
     desc: Run lint checks.
