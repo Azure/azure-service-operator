@@ -6,6 +6,8 @@ github.com/Azure/azure-sdk-for-go/sdk/azcore v1.18.0 h1:Gt0j3wceWMwPmiazCa8MzMA0
 github.com/Azure/azure-sdk-for-go/sdk/azcore v1.18.0/go.mod h1:Ot/6aikWnKWi4l9QB7qVSwa8iMphQNqkWALMoNT3rzM=
 github.com/Azure/azure-sdk-for-go/sdk/azidentity v1.9.0 h1:OVoM452qUFBrX+URdH3VpR299ma4kfom0yB0URYky9g=
 github.com/Azure/azure-sdk-for-go/sdk/azidentity v1.9.0/go.mod h1:kUjrAo8bgEwLeZ/CmHqNl3Z/kPm7y6FKfxxK0izYUg4=
+github.com/Azure/azure-sdk-for-go/sdk/azidentity v1.10.0 h1:j8BorDEigD8UFOSZQiSqAMOOleyQOOQPnUAwV+Ls1gA=
+github.com/Azure/azure-sdk-for-go/sdk/azidentity v1.10.0/go.mod h1:JdM5psgjfBf5fo2uWOZhflPWyDBZ/O/CNAH9CtsuZE4=
 github.com/Azure/azure-sdk-for-go/sdk/azidentity/cache v0.3.2 h1:yz1bePFlP5Vws5+8ez6T3HWXPmwOK7Yvq8QxDBD3SKY=
 github.com/Azure/azure-sdk-for-go/sdk/azidentity/cache v0.3.2/go.mod h1:Pa9ZNPuoNu/GztvBSKk9J1cDJW6vk/n0zLtV4mgd8N8=
 github.com/Azure/azure-sdk-for-go/sdk/internal v1.11.1 h1:FPKJS1T+clwv+OLGt13a8UjqeRuh0O4SJ3lUriThc+4=
@@ -153,6 +155,8 @@ github.com/jackc/pgservicefile v0.0.0-20240606120523-5a60cdf6a761 h1:iCEnooe7Ulw
 github.com/jackc/pgservicefile v0.0.0-20240606120523-5a60cdf6a761/go.mod h1:5TJZWKEWniPve33vlWYSoGYefn3gLQRzjfDlhSJ9ZKM=
 github.com/jackc/pgx/v5 v5.7.4 h1:9wKznZrhWa2QiHL+NjTSPP6yjl3451BX3imWDnokYlg=
 github.com/jackc/pgx/v5 v5.7.4/go.mod h1:ncY89UGWxg82EykZUwSpUKEfccBGGYq1xjrOpsbsfGQ=
+github.com/jackc/pgx/v5 v5.7.5 h1:JHGfMnQY+IEtGM63d+NGMjoRpysB2JBwDr5fsngwmJs=
+github.com/jackc/pgx/v5 v5.7.5/go.mod h1:aruU7o91Tc2q2cFp5h4uP3f6ztExVpyVv88Xl/8Vl8M=
 github.com/jackc/puddle/v2 v2.2.2 h1:PR8nw+E/1w0GLuRFSmiioY6UooMp6KJv0/61nB7icHo=
 github.com/jackc/puddle/v2 v2.2.2/go.mod h1:vriiEXHvEE654aYKXXjOvZM39qJ0q+azkZFrfEOc3H4=
 github.com/jellydator/ttlcache/v3 v3.3.0 h1:BdoC9cE81qXfrxeb9eoJi9dWrdhSuwXMAnHTbnBm4Wc=
@@ -251,6 +255,8 @@ github.com/stretchr/testify v1.10.0 h1:Xv5erBjTwe/5IxqUQTdXv5kgmIvbHo3QQyRwhJsOf
 github.com/stretchr/testify v1.10.0/go.mod h1:r2ic/lqez/lEtzL7wO/rwa5dbSLXVDPFyf8C91i36aY=
 github.com/vbauerster/mpb/v8 v8.10.0 h1:5ZYEWM4ovaZGAibjzW4PlQNb5k+JpzMqVwgNyk+K0M8=
 github.com/vbauerster/mpb/v8 v8.10.0/go.mod h1:DYPFebxSahB+f7tuEUGauLQ7w8ij3wMr4clsVuJCV4I=
+github.com/vbauerster/mpb/v8 v8.10.1 h1:t/ZFv/NYgoBUy2LrmkD5Vc25r+JhoS4+gRkjVbolO2Y=
+github.com/vbauerster/mpb/v8 v8.10.1/go.mod h1:+Ja4P92E3/CorSZgfDtK46D7AVbDqmBQRTmyTqPElo0=
 github.com/x448/float16 v0.8.4 h1:qLwI1I70+NjRFUR3zs1JPUCgaCXSh3SW62uAKT1mSBM=
 github.com/x448/float16 v0.8.4/go.mod h1:14CWIYCyZA/cWjXOioeEpHeN/83MdbZDRQHoFcYsOfg=
 github.com/yuin/goldmark v1.1.27/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
