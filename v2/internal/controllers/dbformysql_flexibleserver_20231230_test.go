@@ -98,7 +98,7 @@ func newFlexibleServer20231230(tc *testcommon.KubePerTestContext, rg *resources.
 	flexibleServer := &mysql.FlexibleServer{
 		ObjectMeta: tc.MakeObjectMeta("mysql"),
 		Spec: mysql.FlexibleServer_Spec{
-			Location: tc.AzureRegion,
+			Location: to.Ptr("ukwest"),
 			Owner:    testcommon.AsOwner(rg),
 			Version:  &version,
 			Sku: &mysql.MySQLServerSku{
@@ -171,7 +171,7 @@ func MySQLFlexibleServer_AADAdmin_20231230_CRUD(tc *testcommon.KubePerTestContex
 	mi := &managedidentity.UserAssignedIdentity{
 		ObjectMeta: tc.MakeObjectMeta("mi"),
 		Spec: managedidentity.UserAssignedIdentity_Spec{
-			Location: tc.AzureRegion,
+			Location: to.Ptr("ukwest"),
 			Owner:    testcommon.AsOwner(rg),
 			OperatorSpec: &managedidentity.UserAssignedIdentityOperatorSpec{
 				ConfigMaps: &managedidentity.UserAssignedIdentityOperatorConfigMaps{
