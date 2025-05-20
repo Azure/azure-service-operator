@@ -10,7 +10,7 @@ replace github.com/Azure/azure-service-operator/v2/tools/generator => ../generat
 
 require (
 	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.18.0
-	github.com/Azure/azure-sdk-for-go/sdk/azidentity v1.9.0
+	github.com/Azure/azure-sdk-for-go/sdk/azidentity v1.10.0
 	github.com/Azure/azure-service-operator/v2 v2.12.0
 	github.com/go-logr/logr v1.4.2
 	github.com/go-logr/zerologr v1.2.3
@@ -19,7 +19,7 @@ require (
 	github.com/rs/zerolog v1.34.0
 	github.com/sourcegraph/conc v0.3.0
 	github.com/spf13/cobra v1.9.1
-	github.com/vbauerster/mpb/v8 v8.10.0
+	github.com/vbauerster/mpb/v8 v8.10.1
 	golang.org/x/exp v0.0.0-20250305212735-054e65f0b394
 	k8s.io/api v0.32.3
 	k8s.io/apiextensions-apiserver v0.32.3
@@ -86,7 +86,7 @@ require (
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20240606120523-5a60cdf6a761 // indirect
-	github.com/jackc/pgx/v5 v5.7.4 // indirect
+	github.com/jackc/pgx/v5 v5.7.5 // indirect
 	github.com/jackc/puddle/v2 v2.2.2 // indirect
 	github.com/jellydator/ttlcache/v3 v3.3.0 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
