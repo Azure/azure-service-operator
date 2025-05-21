@@ -6,7 +6,7 @@ package webhook
 import (
 	"context"
 	"fmt"
-	v20220901 "github.com/Azure/azure-service-operator/v2/api/search/v1api20220901"
+	v20231101 "github.com/Azure/azure-service-operator/v2/api/search/v1api20231101"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -19,15 +19,15 @@ import (
 type SearchService struct {
 }
 
-// +kubebuilder:webhook:path=/mutate-search-azure-com-v1api20220901-searchservice,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=search.azure.com,resources=searchservices,verbs=create;update,versions=v1api20220901,name=default.v1api20220901.searchservices.search.azure.com,admissionReviewVersions=v1
+// +kubebuilder:webhook:path=/mutate-search-azure-com-v1api20231101-searchservice,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=search.azure.com,resources=searchservices,verbs=create;update,versions=v1api20231101,name=default.v1api20231101.searchservices.search.azure.com,admissionReviewVersions=v1
 
 var _ webhook.CustomDefaulter = &SearchService{}
 
 // Default applies defaults to the SearchService resource
 func (service *SearchService) Default(ctx context.Context, obj runtime.Object) error {
-	resource, ok := obj.(*v20220901.SearchService)
+	resource, ok := obj.(*v20231101.SearchService)
 	if !ok {
-		return fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/search/v1api20220901/SearchService, but got %T", obj)
+		return fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/search/v1api20231101/SearchService, but got %T", obj)
 	}
 	err := service.defaultImpl(ctx, resource)
 	if err != nil {
@@ -44,7 +44,7 @@ func (service *SearchService) Default(ctx context.Context, obj runtime.Object) e
 }
 
 // defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (service *SearchService) defaultAzureName(ctx context.Context, obj *v20220901.SearchService) error {
+func (service *SearchService) defaultAzureName(ctx context.Context, obj *v20231101.SearchService) error {
 	if obj.Spec.AzureName == "" {
 		obj.Spec.AzureName = obj.Name
 	}
@@ -52,7 +52,7 @@ func (service *SearchService) defaultAzureName(ctx context.Context, obj *v202209
 }
 
 // defaultImpl applies the code generated defaults to the SearchService resource
-func (service *SearchService) defaultImpl(ctx context.Context, obj *v20220901.SearchService) error {
+func (service *SearchService) defaultImpl(ctx context.Context, obj *v20231101.SearchService) error {
 	err := service.defaultAzureName(ctx, obj)
 	if err != nil {
 		return err
@@ -60,19 +60,19 @@ func (service *SearchService) defaultImpl(ctx context.Context, obj *v20220901.Se
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-search-azure-com-v1api20220901-searchservice,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=search.azure.com,resources=searchservices,verbs=create;update,versions=v1api20220901,name=validate.v1api20220901.searchservices.search.azure.com,admissionReviewVersions=v1
+// +kubebuilder:webhook:path=/validate-search-azure-com-v1api20231101-searchservice,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=search.azure.com,resources=searchservices,verbs=create;update,versions=v1api20231101,name=validate.v1api20231101.searchservices.search.azure.com,admissionReviewVersions=v1
 
 var _ webhook.CustomValidator = &SearchService{}
 
 // ValidateCreate validates the creation of the resource
 func (service *SearchService) ValidateCreate(ctx context.Context, resource runtime.Object) (admission.Warnings, error) {
-	obj, ok := resource.(*v20220901.SearchService)
+	obj, ok := resource.(*v20231101.SearchService)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/search/v1api20220901/SearchService, but got %T", resource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/search/v1api20231101/SearchService, but got %T", resource)
 	}
 	validations := service.createValidations()
 	var temp any = service
-	if runtimeValidator, ok := temp.(genruntime.Validator[*v20220901.SearchService]); ok {
+	if runtimeValidator, ok := temp.(genruntime.Validator[*v20231101.SearchService]); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
 	return genruntime.ValidateCreate(ctx, obj, validations)
@@ -80,13 +80,13 @@ func (service *SearchService) ValidateCreate(ctx context.Context, resource runti
 
 // ValidateDelete validates the deletion of the resource
 func (service *SearchService) ValidateDelete(ctx context.Context, resource runtime.Object) (admission.Warnings, error) {
-	obj, ok := resource.(*v20220901.SearchService)
+	obj, ok := resource.(*v20231101.SearchService)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/search/v1api20220901/SearchService, but got %T", resource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/search/v1api20231101/SearchService, but got %T", resource)
 	}
 	validations := service.deleteValidations()
 	var temp any = service
-	if runtimeValidator, ok := temp.(genruntime.Validator[*v20220901.SearchService]); ok {
+	if runtimeValidator, ok := temp.(genruntime.Validator[*v20231101.SearchService]); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
 	return genruntime.ValidateDelete(ctx, obj, validations)
@@ -94,17 +94,17 @@ func (service *SearchService) ValidateDelete(ctx context.Context, resource runti
 
 // ValidateUpdate validates an update of the resource
 func (service *SearchService) ValidateUpdate(ctx context.Context, oldResource runtime.Object, newResource runtime.Object) (admission.Warnings, error) {
-	newObj, ok := newResource.(*v20220901.SearchService)
+	newObj, ok := newResource.(*v20231101.SearchService)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/search/v1api20220901/SearchService, but got %T", newResource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/search/v1api20231101/SearchService, but got %T", newResource)
 	}
-	oldObj, ok := oldResource.(*v20220901.SearchService)
+	oldObj, ok := oldResource.(*v20231101.SearchService)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/search/v1api20220901/SearchService, but got %T", oldResource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/search/v1api20231101/SearchService, but got %T", oldResource)
 	}
 	validations := service.updateValidations()
 	var temp any = service
-	if runtimeValidator, ok := temp.(genruntime.Validator[*v20220901.SearchService]); ok {
+	if runtimeValidator, ok := temp.(genruntime.Validator[*v20231101.SearchService]); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
 	return genruntime.ValidateUpdate(
@@ -115,36 +115,36 @@ func (service *SearchService) ValidateUpdate(ctx context.Context, oldResource ru
 }
 
 // createValidations validates the creation of the resource
-func (service *SearchService) createValidations() []func(ctx context.Context, obj *v20220901.SearchService) (admission.Warnings, error) {
-	return []func(ctx context.Context, obj *v20220901.SearchService) (admission.Warnings, error){service.validateResourceReferences, service.validateOwnerReference, service.validateSecretDestinations, service.validateConfigMapDestinations}
+func (service *SearchService) createValidations() []func(ctx context.Context, obj *v20231101.SearchService) (admission.Warnings, error) {
+	return []func(ctx context.Context, obj *v20231101.SearchService) (admission.Warnings, error){service.validateResourceReferences, service.validateOwnerReference, service.validateSecretDestinations, service.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
-func (service *SearchService) deleteValidations() []func(ctx context.Context, obj *v20220901.SearchService) (admission.Warnings, error) {
+func (service *SearchService) deleteValidations() []func(ctx context.Context, obj *v20231101.SearchService) (admission.Warnings, error) {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (service *SearchService) updateValidations() []func(ctx context.Context, oldObj *v20220901.SearchService, newObj *v20220901.SearchService) (admission.Warnings, error) {
-	return []func(ctx context.Context, oldObj *v20220901.SearchService, newObj *v20220901.SearchService) (admission.Warnings, error){
-		func(ctx context.Context, oldObj *v20220901.SearchService, newObj *v20220901.SearchService) (admission.Warnings, error) {
+func (service *SearchService) updateValidations() []func(ctx context.Context, oldObj *v20231101.SearchService, newObj *v20231101.SearchService) (admission.Warnings, error) {
+	return []func(ctx context.Context, oldObj *v20231101.SearchService, newObj *v20231101.SearchService) (admission.Warnings, error){
+		func(ctx context.Context, oldObj *v20231101.SearchService, newObj *v20231101.SearchService) (admission.Warnings, error) {
 			return service.validateResourceReferences(ctx, newObj)
 		},
 		service.validateWriteOnceProperties,
-		func(ctx context.Context, oldObj *v20220901.SearchService, newObj *v20220901.SearchService) (admission.Warnings, error) {
+		func(ctx context.Context, oldObj *v20231101.SearchService, newObj *v20231101.SearchService) (admission.Warnings, error) {
 			return service.validateOwnerReference(ctx, newObj)
 		},
-		func(ctx context.Context, oldObj *v20220901.SearchService, newObj *v20220901.SearchService) (admission.Warnings, error) {
+		func(ctx context.Context, oldObj *v20231101.SearchService, newObj *v20231101.SearchService) (admission.Warnings, error) {
 			return service.validateSecretDestinations(ctx, newObj)
 		},
-		func(ctx context.Context, oldObj *v20220901.SearchService, newObj *v20220901.SearchService) (admission.Warnings, error) {
+		func(ctx context.Context, oldObj *v20231101.SearchService, newObj *v20231101.SearchService) (admission.Warnings, error) {
 			return service.validateConfigMapDestinations(ctx, newObj)
 		},
 	}
 }
 
 // validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (service *SearchService) validateConfigMapDestinations(ctx context.Context, obj *v20220901.SearchService) (admission.Warnings, error) {
+func (service *SearchService) validateConfigMapDestinations(ctx context.Context, obj *v20231101.SearchService) (admission.Warnings, error) {
 	if obj.Spec.OperatorSpec == nil {
 		return nil, nil
 	}
@@ -159,12 +159,12 @@ func (service *SearchService) validateConfigMapDestinations(ctx context.Context,
 }
 
 // validateOwnerReference validates the owner field
-func (service *SearchService) validateOwnerReference(ctx context.Context, obj *v20220901.SearchService) (admission.Warnings, error) {
+func (service *SearchService) validateOwnerReference(ctx context.Context, obj *v20231101.SearchService) (admission.Warnings, error) {
 	return genruntime.ValidateOwner(obj)
 }
 
 // validateResourceReferences validates all resource references
-func (service *SearchService) validateResourceReferences(ctx context.Context, obj *v20220901.SearchService) (admission.Warnings, error) {
+func (service *SearchService) validateResourceReferences(ctx context.Context, obj *v20231101.SearchService) (admission.Warnings, error) {
 	refs, err := reflecthelpers.FindResourceReferences(&obj.Spec)
 	if err != nil {
 		return nil, err
@@ -173,7 +173,7 @@ func (service *SearchService) validateResourceReferences(ctx context.Context, ob
 }
 
 // validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (service *SearchService) validateSecretDestinations(ctx context.Context, obj *v20220901.SearchService) (admission.Warnings, error) {
+func (service *SearchService) validateSecretDestinations(ctx context.Context, obj *v20231101.SearchService) (admission.Warnings, error) {
 	if obj.Spec.OperatorSpec == nil {
 		return nil, nil
 	}
@@ -189,6 +189,6 @@ func (service *SearchService) validateSecretDestinations(ctx context.Context, ob
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
-func (service *SearchService) validateWriteOnceProperties(ctx context.Context, oldObj *v20220901.SearchService, newObj *v20220901.SearchService) (admission.Warnings, error) {
+func (service *SearchService) validateWriteOnceProperties(ctx context.Context, oldObj *v20231101.SearchService, newObj *v20231101.SearchService) (admission.Warnings, error) {
 	return genruntime.ValidateWriteOnceProperties(oldObj, newObj)
 }

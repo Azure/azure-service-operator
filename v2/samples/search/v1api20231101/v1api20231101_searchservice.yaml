@@ -1,0 +1,33 @@
+apiVersion: search.azure.com/v1api20231101
+kind: SearchService
+metadata:
+  name: aso-sample-search
+  namespace: default
+spec:
+  encryptionWithCmk:
+    enforcement: Disabled
+  hostingMode: default
+  identity:
+    type: SystemAssigned
+  location: westus2
+  owner:
+    name: aso-sample-rg
+  partitionCount: 1
+  publicNetworkAccess: disabled
+  replicaCount: 1
+  sku:
+    name: standard
+  authOptions:
+    aadOrApiKey:
+      aadAuthFailureMode: http403
+  operatorSpec:
+    secrets:
+      adminPrimaryKey:
+        key: adminPrimaryKey
+        name: searchservicekeyssecret
+      adminSecondaryKey:
+        key: adminSecondaryKey
+        name: searchservicekeyssecret
+      queryKey:
+        key: queryKey
+        name: searchservicekeyssecret

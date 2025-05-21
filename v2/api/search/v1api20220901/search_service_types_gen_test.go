@@ -5,7 +5,8 @@ package v1api20220901
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/search/v1api20220901/storage"
+	v20220901s "github.com/Azure/azure-service-operator/v2/api/search/v1api20220901/storage"
+	v20231101s "github.com/Azure/azure-service-operator/v2/api/search/v1api20231101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +36,7 @@ func RunPropertyAssignmentTestForDataPlaneAadOrApiKeyAuthOption(subject DataPlan
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DataPlaneAadOrApiKeyAuthOption
+	var other v20220901s.DataPlaneAadOrApiKeyAuthOption
 	err := copied.AssignProperties_To_DataPlaneAadOrApiKeyAuthOption(&other)
 	if err != nil {
 		return err.Error()
@@ -138,7 +139,7 @@ func RunPropertyAssignmentTestForDataPlaneAadOrApiKeyAuthOption_STATUS(subject D
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DataPlaneAadOrApiKeyAuthOption_STATUS
+	var other v20220901s.DataPlaneAadOrApiKeyAuthOption_STATUS
 	err := copied.AssignProperties_To_DataPlaneAadOrApiKeyAuthOption_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -241,7 +242,7 @@ func RunPropertyAssignmentTestForDataPlaneAuthOptions(subject DataPlaneAuthOptio
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DataPlaneAuthOptions
+	var other v20220901s.DataPlaneAuthOptions
 	err := copied.AssignProperties_To_DataPlaneAuthOptions(&other)
 	if err != nil {
 		return err.Error()
@@ -344,7 +345,7 @@ func RunPropertyAssignmentTestForDataPlaneAuthOptions_STATUS(subject DataPlaneAu
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DataPlaneAuthOptions_STATUS
+	var other v20220901s.DataPlaneAuthOptions_STATUS
 	err := copied.AssignProperties_To_DataPlaneAuthOptions_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -447,7 +448,7 @@ func RunPropertyAssignmentTestForEncryptionWithCmk(subject EncryptionWithCmk) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.EncryptionWithCmk
+	var other v20220901s.EncryptionWithCmk
 	err := copied.AssignProperties_To_EncryptionWithCmk(&other)
 	if err != nil {
 		return err.Error()
@@ -549,7 +550,7 @@ func RunPropertyAssignmentTestForEncryptionWithCmk_STATUS(subject EncryptionWith
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.EncryptionWithCmk_STATUS
+	var other v20220901s.EncryptionWithCmk_STATUS
 	err := copied.AssignProperties_To_EncryptionWithCmk_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -653,7 +654,7 @@ func RunPropertyAssignmentTestForIdentity(subject Identity) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Identity
+	var other v20220901s.Identity
 	err := copied.AssignProperties_To_Identity(&other)
 	if err != nil {
 		return err.Error()
@@ -755,7 +756,7 @@ func RunPropertyAssignmentTestForIdentity_STATUS(subject Identity_STATUS) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Identity_STATUS
+	var other v20220901s.Identity_STATUS
 	err := copied.AssignProperties_To_Identity_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -859,7 +860,7 @@ func RunPropertyAssignmentTestForIpRule(subject IpRule) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.IpRule
+	var other v20220901s.IpRule
 	err := copied.AssignProperties_To_IpRule(&other)
 	if err != nil {
 		return err.Error()
@@ -961,7 +962,7 @@ func RunPropertyAssignmentTestForIpRule_STATUS(subject IpRule_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.IpRule_STATUS
+	var other v20220901s.IpRule_STATUS
 	err := copied.AssignProperties_To_IpRule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1063,7 +1064,7 @@ func RunPropertyAssignmentTestForNetworkRuleSet(subject NetworkRuleSet) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NetworkRuleSet
+	var other v20220901s.NetworkRuleSet
 	err := copied.AssignProperties_To_NetworkRuleSet(&other)
 	if err != nil {
 		return err.Error()
@@ -1165,7 +1166,7 @@ func RunPropertyAssignmentTestForNetworkRuleSet_STATUS(subject NetworkRuleSet_ST
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NetworkRuleSet_STATUS
+	var other v20220901s.NetworkRuleSet_STATUS
 	err := copied.AssignProperties_To_NetworkRuleSet_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1268,7 +1269,7 @@ func RunPropertyAssignmentTestForPrivateEndpointConnection_STATUS(subject Privat
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrivateEndpointConnection_STATUS
+	var other v20220901s.PrivateEndpointConnection_STATUS
 	err := copied.AssignProperties_To_PrivateEndpointConnection_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1372,7 +1373,7 @@ func RunResourceConversionTestForSearchService(subject SearchService) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.SearchService
+	var hub v20231101s.SearchService
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -1414,7 +1415,7 @@ func RunPropertyAssignmentTestForSearchService(subject SearchService) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SearchService
+	var other v20220901s.SearchService
 	err := copied.AssignProperties_To_SearchService(&other)
 	if err != nil {
 		return err.Error()
@@ -1500,6 +1501,103 @@ func AddRelatedPropertyGeneratorsForSearchService(gens map[string]gopter.Gen) {
 	gens["Status"] = SearchService_STATUSGenerator()
 }
 
+func Test_SearchServiceOperatorConfigMaps_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SearchServiceOperatorConfigMaps to SearchServiceOperatorConfigMaps via AssignProperties_To_SearchServiceOperatorConfigMaps & AssignProperties_From_SearchServiceOperatorConfigMaps returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSearchServiceOperatorConfigMaps, SearchServiceOperatorConfigMapsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSearchServiceOperatorConfigMaps tests if a specific instance of SearchServiceOperatorConfigMaps can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSearchServiceOperatorConfigMaps(subject SearchServiceOperatorConfigMaps) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20220901s.SearchServiceOperatorConfigMaps
+	err := copied.AssignProperties_To_SearchServiceOperatorConfigMaps(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SearchServiceOperatorConfigMaps
+	err = actual.AssignProperties_From_SearchServiceOperatorConfigMaps(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_SearchServiceOperatorConfigMaps_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of SearchServiceOperatorConfigMaps via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSearchServiceOperatorConfigMaps, SearchServiceOperatorConfigMapsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSearchServiceOperatorConfigMaps runs a test to see if a specific instance of SearchServiceOperatorConfigMaps round trips to JSON and back losslessly
+func RunJSONSerializationTestForSearchServiceOperatorConfigMaps(subject SearchServiceOperatorConfigMaps) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual SearchServiceOperatorConfigMaps
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of SearchServiceOperatorConfigMaps instances for property testing - lazily instantiated by
+// SearchServiceOperatorConfigMapsGenerator()
+var searchServiceOperatorConfigMapsGenerator gopter.Gen
+
+// SearchServiceOperatorConfigMapsGenerator returns a generator of SearchServiceOperatorConfigMaps instances for property testing.
+func SearchServiceOperatorConfigMapsGenerator() gopter.Gen {
+	if searchServiceOperatorConfigMapsGenerator != nil {
+		return searchServiceOperatorConfigMapsGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	searchServiceOperatorConfigMapsGenerator = gen.Struct(reflect.TypeOf(SearchServiceOperatorConfigMaps{}), generators)
+
+	return searchServiceOperatorConfigMapsGenerator
+}
+
 func Test_SearchServiceOperatorSecrets_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1517,7 +1615,7 @@ func RunPropertyAssignmentTestForSearchServiceOperatorSecrets(subject SearchServ
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SearchServiceOperatorSecrets
+	var other v20220901s.SearchServiceOperatorSecrets
 	err := copied.AssignProperties_To_SearchServiceOperatorSecrets(&other)
 	if err != nil {
 		return err.Error()
@@ -1614,7 +1712,7 @@ func RunPropertyAssignmentTestForSearchServiceOperatorSpec(subject SearchService
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SearchServiceOperatorSpec
+	var other v20220901s.SearchServiceOperatorSpec
 	err := copied.AssignProperties_To_SearchServiceOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -1697,6 +1795,7 @@ func SearchServiceOperatorSpecGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForSearchServiceOperatorSpec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForSearchServiceOperatorSpec(gens map[string]gopter.Gen) {
+	gens["ConfigMaps"] = gen.PtrOf(SearchServiceOperatorConfigMapsGenerator())
 	gens["Secrets"] = gen.PtrOf(SearchServiceOperatorSecretsGenerator())
 }
 
@@ -1717,7 +1816,7 @@ func RunPropertyAssignmentTestForSearchService_STATUS(subject SearchService_STAT
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SearchService_STATUS
+	var other v20220901s.SearchService_STATUS
 	err := copied.AssignProperties_To_SearchService_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1860,7 +1959,7 @@ func RunPropertyAssignmentTestForSearchService_Spec(subject SearchService_Spec) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SearchService_Spec
+	var other v20220901s.SearchService_Spec
 	err := copied.AssignProperties_To_SearchService_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -1990,7 +2089,7 @@ func RunPropertyAssignmentTestForSharedPrivateLinkResource_STATUS(subject Shared
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SharedPrivateLinkResource_STATUS
+	var other v20220901s.SharedPrivateLinkResource_STATUS
 	err := copied.AssignProperties_To_SharedPrivateLinkResource_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2093,7 +2192,7 @@ func RunPropertyAssignmentTestForSku(subject Sku) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Sku
+	var other v20220901s.Sku
 	err := copied.AssignProperties_To_Sku(&other)
 	if err != nil {
 		return err.Error()
@@ -2202,7 +2301,7 @@ func RunPropertyAssignmentTestForSku_STATUS(subject Sku_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Sku_STATUS
+	var other v20220901s.Sku_STATUS
 	err := copied.AssignProperties_To_Sku_STATUS(&other)
 	if err != nil {
 		return err.Error()
