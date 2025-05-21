@@ -21,26 +21,26 @@
 <title>Search Supported Resources | Azure Service Operator</title>
 <meta name="description" content="To install the CRDs for these resources, your ASO configuration must include search.azure.com/* as a one of the configured CRD patterns. See CRD Management in ASO for details on doing this for both Helm and YAML based installations.
 The authOptions and operatorSpec properties on SearchService are not supported in ASO v2.1.0; they’ll be included in the next release.
-Released These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.">
+Next Release Development of these new resources is complete and they will be available in the next release of ASO.">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/search/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="Search Supported Resources">
   <meta property="og:description" content="To install the CRDs for these resources, your ASO configuration must include search.azure.com/* as a one of the configured CRD patterns. See CRD Management in ASO for details on doing this for both Helm and YAML based installations.
 The authOptions and operatorSpec properties on SearchService are not supported in ASO v2.1.0; they’ll be included in the next release.
-Released These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.">
+Next Release Development of these new resources is complete and they will be available in the next release of ASO.">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="website">
 
   <meta itemprop="name" content="Search Supported Resources">
   <meta itemprop="description" content="To install the CRDs for these resources, your ASO configuration must include search.azure.com/* as a one of the configured CRD patterns. See CRD Management in ASO for details on doing this for both Helm and YAML based installations.
 The authOptions and operatorSpec properties on SearchService are not supported in ASO v2.1.0; they’ll be included in the next release.
-Released These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.">
-  <meta itemprop="wordCount" content="98">
+Next Release Development of these new resources is complete and they will be available in the next release of ASO.">
+  <meta itemprop="wordCount" content="131">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Search Supported Resources">
   <meta name="twitter:description" content="To install the CRDs for these resources, your ASO configuration must include search.azure.com/* as a one of the configured CRD patterns. See CRD Management in ASO for details on doing this for both Helm and YAML based installations.
 The authOptions and operatorSpec properties on SearchService are not supported in ASO v2.1.0; they’ll be included in the next release.
-Released These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.">
+Next Release Development of these new resources is complete and they will be available in the next release of ASO.">
 <link rel="preload" href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" as="style" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" rel="stylesheet" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <script
@@ -806,6 +806,7 @@ Released These resource(s) are available for use in the current release of ASO. 
   <ul>
     <li>
       <ul>
+        <li><a href="#next-release">Next Release</a></li>
         <li><a href="#released">Released</a></li>
       </ul>
     </li>
@@ -836,6 +837,28 @@ Released These resource(s) are available for use in the current release of ASO. 
 </header>
 	<p>To install the CRDs for these resources, your ASO configuration must include <code>search.azure.com/*</code> as a one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
 <p>The <code>authOptions</code> and <code>operatorSpec</code> properties on <a href="https://azure.github.io/azure-service-operator/reference/search/v1api20220901/#search.azure.com/v1api20220901.SearchService"><code>SearchService</code></a> are not supported in ASO v2.1.0; they&rsquo;ll be included in the next release.</p>
+<h3 id="next-release">Next Release</h3>
+<p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Resource</th>
+          <th>ARM Version</th>
+          <th>CRD Version</th>
+          <th>Supported From</th>
+          <th>Sample</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>SearchService</td>
+          <td>2023-11-01</td>
+          <td>v1api20231101</td>
+          <td>v2.14.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/search/v1api20231101/v1api20231101_searchservice.yaml">View</a></td>
+      </tr>
+  </tbody>
+</table>
 <h3 id="released">Released</h3>
 <p>These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
 <table>
@@ -854,7 +877,7 @@ Released These resource(s) are available for use in the current release of ASO. 
           <td>2022-09-01</td>
           <td>v1api20220901</td>
           <td>v2.1.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/search/v1api/v1api20220901_searchservice.yaml">View</a></td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/search/v1api20220901/v1api20220901_searchservice.yaml">View</a></td>
       </tr>
   </tbody>
 </table>
