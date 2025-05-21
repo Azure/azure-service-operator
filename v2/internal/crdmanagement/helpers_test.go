@@ -19,6 +19,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/controllers"
 	"github.com/Azure/azure-service-operator/v2/internal/crdmanagement"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
+	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/entra"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/generic"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
@@ -128,14 +129,19 @@ func testSetup(t *testing.T) *testData {
 }
 
 func (t *testData) getKnownStorageTypes() ([]*registration.StorageType, error) {
-	return controllers.GetKnownStorageTypes(
-		t.s,
-		func(ctx context.Context, object genruntime.ARMMetaObject) (arm.Connection, error) {
-			// For the purposes of this test, we're not really going to go to ARM so we can just do nothing here
+	clientsProvider := &controllers.ClientsProvider{
+		ARMConnectionFactory: func(ctx context.Context, obj genruntime.ARMMetaObject) (arm.Connection, error) {
 			return nil, nil
 		},
+		EntraConnectionFactory: func(ctx context.Context, obj genruntime.EntraMetaObject) (entra.Connection, error) {
+			return nil, nil
+		},
+	}
+
+	return controllers.GetKnownStorageTypes(
+		t.s,
+		clientsProvider,
 		nil, // Not used for this test
-		t.kubeClient,
 		nil, // Not used for this test
 		nil, // Not used for this test
 		generic.Options{})
