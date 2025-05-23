@@ -286,6 +286,6 @@ serviceAccount:
 # extraEnv:
 #   - name: ENV
 #     value: "prod"
-#   - name: DD_SERVICE
+#   - name: SERVICE
 #     value: "azure-service-operator"
 extraEnv: []
