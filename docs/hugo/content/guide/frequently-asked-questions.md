@@ -100,6 +100,14 @@ We instead recommend an active-passive approach, where in 1 cluster the resource
 This can be accomplished with the [serviceoperator.azure.com/reconcile-policy: skip]( {{< relref "annotations#serviceoperatorazurecomreconcile-policy" >}} )
 annotation used in the second cluster. In the case of a DR event, automation or manual action can remove the `skip` annotation in the passive cluster, turning it into active mode.
 
+### What do I do if I suspect ASO is not keeping up with reconciles?
+
+To verify whether ASO is falling behind with reconciles or not, check the [metrics]({{< relref "metrics" >}}) for the operator to see if the workqueue length is getting long. 
+
+If the workqueue length is consistently high, you can set [`MAX_CONCURRENT_RECONCILES`]({{< relref "aso-controller-settings-options" >}}#max_concurrent_reconciles) to allow multiple simultaneous reconciles for each kind of resource. We'd recommend increasing this value cautiously, starting with 2 and increasing it only if you see that ASO is still falling behind.
+
+**Background**: A separate reconciler is run for each different kind of resource. Each reconciler is non-blocking. If resource creation (or update) triggers a long-running-operation (LRO), ASO doesn't sit there polling for completion of the operation. Instead, it stores the URI of the operation on the resource as an annotation, and schedules a later revisit to the resource. Later, the LRO is picked up and checked to see if it has completed.
+
 ### Can ASO be used with IAC/GitOps tools?
 
 Yes! We strongly recommend using something like [fluxcd](https://fluxcd.io/) or [argocd](https://argo-cd.readthedocs.io/en/stable/) with ASO.
