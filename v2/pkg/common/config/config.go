@@ -101,4 +101,6 @@ const (
 	// DefaultReconcilePolicy allows to change default reconciliation policy to use when serviceoperator.azure.com/reconcile-policy annotation
 	// is not explicitly defined. If omitted, it will be automatically set to "manage"
 	DefaultReconcilePolicy = "DEFAULT_RECONCILE_POLICY"
+	// ReadReconciliationPolicyFromNamespace boolean is used to determine if we need to read reconcile policy from namespace object
+	ReadReconciliationPolicyFromNamespace = "READ_RECONCILIATION_POLICY_FROM_NAMESPACE" 
 )
