@@ -280,3 +280,12 @@ serviceAccount:
   # If not set and create is true, `azureserviceoperator-default` would be used as a name
   name: ""
   annotations: {}
+
+# List of extra environment variables to inject into the manager container
+# Example:
+# extraEnv:
+#   - name: ENV
+#     value: "prod"
+#   - name: DD_SERVICE
+#     value: "azure-service-operator"
+extraEnv: []
