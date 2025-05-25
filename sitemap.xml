@@ -488,6 +488,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/dataprotection/v1api20231101/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/search/v1api20231101/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/containerservice/v1api20231102preview/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/documentdb/v1api20231115/</loc>

@@ -3,7 +3,6 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="alternate" type="application/rss&#43;xml" href="https://azure.github.io/azure-service-operator/reference/documentdb/index.xml">
 <meta name="robots" content="index, follow">
 
 
@@ -18,29 +17,30 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>DocumentDB Supported Resources | Azure Service Operator</title>
-<meta name="description" content="To install the CRDs for these resources, your ASO configuration must include documentdb.azure.com/* as a one of the configured CRD patterns. See CRD Management in ASO for details on doing this for both Helm and YAML based installations.
-Latest Released Versions These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
-Resource ARM Version CRD Version Supported From Sample DatabaseAccount 2024-08-15 v1api20240815 v2.12.0 View MongodbDatabase 2024-08-15 v1api20240815 v2.12.0 View MongodbDatabaseCollection 2024-08-15 v1api20240815 v2.12.0 View MongodbDatabaseCollectionThroughputSetting 2024-08-15 v1api20240815 v2.12.0 View MongodbDatabaseThroughputSetting 2024-08-15 v1api20240815 v2.12.0 View MongodbUserDefinition 2024-08-15 v1api20240815 v2.12.0 View SqlDatabase 2024-08-15 v1api20240815 v2.12.0 View SqlDatabaseContainer 2024-08-15 v1api20240815 v2.12.0 View SqlDatabaseContainerStoredProcedure 2024-08-15 v1api20240815 v2.12.0 View SqlDatabaseContainerThroughputSetting 2024-08-15 v1api20240815 v2.12.0 View SqlDatabaseContainerTrigger 2024-08-15 v1api20240815 v2.12.0 View SqlDatabaseContainerUserDefinedFunction 2024-08-15 v1api20240815 v2.12.0 View SqlDatabaseThroughputSetting 2024-08-15 v1api20240815 v2.12.0 View SqlRoleAssignment 2024-08-15 v1api20240815 v2.12.0 View Other Supported Versions These are older versions of resourced still available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.">
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/documentdb/">
+<title>search.azure.com/v1api20231101 | Azure Service Operator</title>
+<meta name="description" content="APIVersion Value Description “2023-11-01” SearchService Generator information: - Generated from: /search/resource-manager/Microsoft.Search/stable/2023-11-01/search.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Search/searchServices/{searchServiceName}
+Used by: SearchServiceList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SearchService_SpecOptional status SearchService_STATUSOptional SearchService_Spec Property Description Type authOptions Defines the options for how the data plane API of a search service authenticates requests. This cannot be set if ‘disableLocalAuth’ is set to true. DataPlaneAuthOptionsOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional disableLocalAuth When set to true, calls to the search service will not be permitted to utilize API keys for authentication. This cannot be set to true if ‘dataPlaneAuthOptions’ are defined. boolOptional encryptionWithCmk Specifies any policy regarding encryption of resources (such as indexes) using customer manager keys within a search service. EncryptionWithCmkOptional hostingMode Applicable only for the standard3 SKU. You can set this property to enable up to 3 high density partitions that allow up to 1000 indexes, which is much higher than the maximum indexes allowed for any other SKU. For the standard3 SKU, the value is either ‘default’ or ‘highDensity’. For all other SKUs, this value must be ‘default’. SearchServiceProperties_HostingModeOptional identity The identity of the resource. IdentityOptional location The geo-location where the resource lives stringRequired networkRuleSet Network-specific rules that determine how the search service may be reached. NetworkRuleSetOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure SearchServiceOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired partitionCount The number of partitions in the search service; if specified, it can be 1, 2, 3, 4, 6, or 12. Values greater than 1 are only valid for standard SKUs. For ‘standard3’ services with hostingMode set to ‘highDensity’, the allowed values are between 1 and 3. intOptional publicNetworkAccess This value can be set to ’enabled’ to avoid breaking changes on existing customer resources and templates. If set to ‘disabled’, traffic over public interface is not allowed, and private endpoint connections would be the exclusive access method. SearchServiceProperties_PublicNetworkAccessOptional replicaCount The number of replicas in the search service. If specified, it must be a value between 1 and 12 inclusive for standard SKUs or between 1 and 3 inclusive for basic SKU. intOptional semanticSearch Sets options that control the availability of semantic search. This configuration is only possible for certain search SKUs in certain locations. SemanticSearchOptional sku The SKU of the search service, which determines billing rate and capacity limits. This property is required when creating a new search service. SkuOptional tags Resource tags. map[string]stringOptional SearchService_STATUS Property Description Type authOptions Defines the options for how the data plane API of a search service authenticates requests. This cannot be set if ‘disableLocalAuth’ is set to true. DataPlaneAuthOptions_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional disableLocalAuth When set to true, calls to the search service will not be permitted to utilize API keys for authentication. This cannot be set to true if ‘dataPlaneAuthOptions’ are defined. boolOptional encryptionWithCmk Specifies any policy regarding encryption of resources (such as indexes) using customer manager keys within a search service. EncryptionWithCmk_STATUSOptional hostingMode Applicable only for the standard3 SKU. You can set this property to enable up to 3 high density partitions that allow up to 1000 indexes, which is much higher than the maximum indexes allowed for any other SKU. For the standard3 SKU, the value is either ‘default’ or ‘highDensity’. For all other SKUs, this value must be ‘default’. SearchServiceProperties_HostingMode_STATUSOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional identity The identity of the resource. Identity_STATUSOptional location The geo-location where the resource lives stringOptional name The name of the resource stringOptional networkRuleSet Network-specific rules that determine how the search service may be reached. NetworkRuleSet_STATUSOptional partitionCount The number of partitions in the search service; if specified, it can be 1, 2, 3, 4, 6, or 12. Values greater than 1 are only valid for standard SKUs. For ‘standard3’ services with hostingMode set to ‘highDensity’, the allowed values are between 1 and 3. intOptional privateEndpointConnections The list of private endpoint connections to the search service. PrivateEndpointConnection_STATUS[]Optional provisioningState The state of the last provisioning operation performed on the search service. Provisioning is an intermediate state that occurs while service capacity is being established. After capacity is set up, provisioningState changes to either ‘succeeded’ or ‘failed’. Client applications can poll provisioning status (the recommended polling interval is from 30 seconds to one minute) by using the Get Search Service operation to see when an operation is completed. If you are using the free service, this value tends to come back as ‘succeeded’ directly in the call to Create search service. This is because the free service uses capacity that is already set up. SearchServiceProperties_ProvisioningState_STATUSOptional publicNetworkAccess This value can be set to ’enabled’ to avoid breaking changes on existing customer resources and templates. If set to ‘disabled’, traffic over public interface is not allowed, and private endpoint connections would be the exclusive access method. SearchServiceProperties_PublicNetworkAccess_STATUSOptional replicaCount The number of replicas in the search service. If specified, it must be a value between 1 and 12 inclusive for standard SKUs or between 1 and 3 inclusive for basic SKU. intOptional semanticSearch Sets options that control the availability of semantic search. This configuration is only possible for certain search SKUs in certain locations. SemanticSearch_STATUSOptional sharedPrivateLinkResources The list of shared private link resources managed by the search service. SharedPrivateLinkResource_STATUS[]Optional sku The SKU of the search service, which determines billing rate and capacity limits. This property is required when creating a new search service. Sku_STATUSOptional status The status of the search service. Possible values include: ‘running’: The search service is running and no provisioning operations are underway. ‘provisioning’: The search service is being provisioned or scaled up or down. ‘deleting’: The search service is being deleted. ‘degraded’: The search service is degraded. This can occur when the underlying search units are not healthy. The search service is most likely operational, but performance might be slow and some requests might be dropped. ‘disabled’: The search service is disabled. In this state, the service will reject all API requests. ’error’: The search service is in an error state. If your service is in the degraded, disabled, or error states, Microsoft is actively investigating the underlying issue. Dedicated services in these states are still chargeable based on the number of search units provisioned. SearchServiceProperties_Status_STATUSOptional statusDetails The details of the search service status. stringOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional SearchServiceList Generator information: - Generated from: /search/resource-manager/Microsoft.Search/stable/2023-11-01/search.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Search/searchServices/{searchServiceName}">
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/search/v1api20231101/">
   <meta property="og:site_name" content="Azure Service Operator">
-  <meta property="og:title" content="DocumentDB Supported Resources">
-  <meta property="og:description" content="To install the CRDs for these resources, your ASO configuration must include documentdb.azure.com/* as a one of the configured CRD patterns. See CRD Management in ASO for details on doing this for both Helm and YAML based installations.
-Latest Released Versions These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
-Resource ARM Version CRD Version Supported From Sample DatabaseAccount 2024-08-15 v1api20240815 v2.12.0 View MongodbDatabase 2024-08-15 v1api20240815 v2.12.0 View MongodbDatabaseCollection 2024-08-15 v1api20240815 v2.12.0 View MongodbDatabaseCollectionThroughputSetting 2024-08-15 v1api20240815 v2.12.0 View MongodbDatabaseThroughputSetting 2024-08-15 v1api20240815 v2.12.0 View MongodbUserDefinition 2024-08-15 v1api20240815 v2.12.0 View SqlDatabase 2024-08-15 v1api20240815 v2.12.0 View SqlDatabaseContainer 2024-08-15 v1api20240815 v2.12.0 View SqlDatabaseContainerStoredProcedure 2024-08-15 v1api20240815 v2.12.0 View SqlDatabaseContainerThroughputSetting 2024-08-15 v1api20240815 v2.12.0 View SqlDatabaseContainerTrigger 2024-08-15 v1api20240815 v2.12.0 View SqlDatabaseContainerUserDefinedFunction 2024-08-15 v1api20240815 v2.12.0 View SqlDatabaseThroughputSetting 2024-08-15 v1api20240815 v2.12.0 View SqlRoleAssignment 2024-08-15 v1api20240815 v2.12.0 View Other Supported Versions These are older versions of resourced still available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.">
+  <meta property="og:title" content="search.azure.com/v1api20231101">
+  <meta property="og:description" content="APIVersion Value Description “2023-11-01” SearchService Generator information: - Generated from: /search/resource-manager/Microsoft.Search/stable/2023-11-01/search.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Search/searchServices/{searchServiceName}
+Used by: SearchServiceList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SearchService_SpecOptional status SearchService_STATUSOptional SearchService_Spec Property Description Type authOptions Defines the options for how the data plane API of a search service authenticates requests. This cannot be set if ‘disableLocalAuth’ is set to true. DataPlaneAuthOptionsOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional disableLocalAuth When set to true, calls to the search service will not be permitted to utilize API keys for authentication. This cannot be set to true if ‘dataPlaneAuthOptions’ are defined. boolOptional encryptionWithCmk Specifies any policy regarding encryption of resources (such as indexes) using customer manager keys within a search service. EncryptionWithCmkOptional hostingMode Applicable only for the standard3 SKU. You can set this property to enable up to 3 high density partitions that allow up to 1000 indexes, which is much higher than the maximum indexes allowed for any other SKU. For the standard3 SKU, the value is either ‘default’ or ‘highDensity’. For all other SKUs, this value must be ‘default’. SearchServiceProperties_HostingModeOptional identity The identity of the resource. IdentityOptional location The geo-location where the resource lives stringRequired networkRuleSet Network-specific rules that determine how the search service may be reached. NetworkRuleSetOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure SearchServiceOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired partitionCount The number of partitions in the search service; if specified, it can be 1, 2, 3, 4, 6, or 12. Values greater than 1 are only valid for standard SKUs. For ‘standard3’ services with hostingMode set to ‘highDensity’, the allowed values are between 1 and 3. intOptional publicNetworkAccess This value can be set to ’enabled’ to avoid breaking changes on existing customer resources and templates. If set to ‘disabled’, traffic over public interface is not allowed, and private endpoint connections would be the exclusive access method. SearchServiceProperties_PublicNetworkAccessOptional replicaCount The number of replicas in the search service. If specified, it must be a value between 1 and 12 inclusive for standard SKUs or between 1 and 3 inclusive for basic SKU. intOptional semanticSearch Sets options that control the availability of semantic search. This configuration is only possible for certain search SKUs in certain locations. SemanticSearchOptional sku The SKU of the search service, which determines billing rate and capacity limits. This property is required when creating a new search service. SkuOptional tags Resource tags. map[string]stringOptional SearchService_STATUS Property Description Type authOptions Defines the options for how the data plane API of a search service authenticates requests. This cannot be set if ‘disableLocalAuth’ is set to true. DataPlaneAuthOptions_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional disableLocalAuth When set to true, calls to the search service will not be permitted to utilize API keys for authentication. This cannot be set to true if ‘dataPlaneAuthOptions’ are defined. boolOptional encryptionWithCmk Specifies any policy regarding encryption of resources (such as indexes) using customer manager keys within a search service. EncryptionWithCmk_STATUSOptional hostingMode Applicable only for the standard3 SKU. You can set this property to enable up to 3 high density partitions that allow up to 1000 indexes, which is much higher than the maximum indexes allowed for any other SKU. For the standard3 SKU, the value is either ‘default’ or ‘highDensity’. For all other SKUs, this value must be ‘default’. SearchServiceProperties_HostingMode_STATUSOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional identity The identity of the resource. Identity_STATUSOptional location The geo-location where the resource lives stringOptional name The name of the resource stringOptional networkRuleSet Network-specific rules that determine how the search service may be reached. NetworkRuleSet_STATUSOptional partitionCount The number of partitions in the search service; if specified, it can be 1, 2, 3, 4, 6, or 12. Values greater than 1 are only valid for standard SKUs. For ‘standard3’ services with hostingMode set to ‘highDensity’, the allowed values are between 1 and 3. intOptional privateEndpointConnections The list of private endpoint connections to the search service. PrivateEndpointConnection_STATUS[]Optional provisioningState The state of the last provisioning operation performed on the search service. Provisioning is an intermediate state that occurs while service capacity is being established. After capacity is set up, provisioningState changes to either ‘succeeded’ or ‘failed’. Client applications can poll provisioning status (the recommended polling interval is from 30 seconds to one minute) by using the Get Search Service operation to see when an operation is completed. If you are using the free service, this value tends to come back as ‘succeeded’ directly in the call to Create search service. This is because the free service uses capacity that is already set up. SearchServiceProperties_ProvisioningState_STATUSOptional publicNetworkAccess This value can be set to ’enabled’ to avoid breaking changes on existing customer resources and templates. If set to ‘disabled’, traffic over public interface is not allowed, and private endpoint connections would be the exclusive access method. SearchServiceProperties_PublicNetworkAccess_STATUSOptional replicaCount The number of replicas in the search service. If specified, it must be a value between 1 and 12 inclusive for standard SKUs or between 1 and 3 inclusive for basic SKU. intOptional semanticSearch Sets options that control the availability of semantic search. This configuration is only possible for certain search SKUs in certain locations. SemanticSearch_STATUSOptional sharedPrivateLinkResources The list of shared private link resources managed by the search service. SharedPrivateLinkResource_STATUS[]Optional sku The SKU of the search service, which determines billing rate and capacity limits. This property is required when creating a new search service. Sku_STATUSOptional status The status of the search service. Possible values include: ‘running’: The search service is running and no provisioning operations are underway. ‘provisioning’: The search service is being provisioned or scaled up or down. ‘deleting’: The search service is being deleted. ‘degraded’: The search service is degraded. This can occur when the underlying search units are not healthy. The search service is most likely operational, but performance might be slow and some requests might be dropped. ‘disabled’: The search service is disabled. In this state, the service will reject all API requests. ’error’: The search service is in an error state. If your service is in the degraded, disabled, or error states, Microsoft is actively investigating the underlying issue. Dedicated services in these states are still chargeable based on the number of search units provisioned. SearchServiceProperties_Status_STATUSOptional statusDetails The details of the search service status. stringOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional SearchServiceList Generator information: - Generated from: /search/resource-manager/Microsoft.Search/stable/2023-11-01/search.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Search/searchServices/{searchServiceName}">
   <meta property="og:locale" content="en_us">
-  <meta property="og:type" content="website">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="reference">
 
-  <meta itemprop="name" content="DocumentDB Supported Resources">
-  <meta itemprop="description" content="To install the CRDs for these resources, your ASO configuration must include documentdb.azure.com/* as a one of the configured CRD patterns. See CRD Management in ASO for details on doing this for both Helm and YAML based installations.
-Latest Released Versions These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
-Resource ARM Version CRD Version Supported From Sample DatabaseAccount 2024-08-15 v1api20240815 v2.12.0 View MongodbDatabase 2024-08-15 v1api20240815 v2.12.0 View MongodbDatabaseCollection 2024-08-15 v1api20240815 v2.12.0 View MongodbDatabaseCollectionThroughputSetting 2024-08-15 v1api20240815 v2.12.0 View MongodbDatabaseThroughputSetting 2024-08-15 v1api20240815 v2.12.0 View MongodbUserDefinition 2024-08-15 v1api20240815 v2.12.0 View SqlDatabase 2024-08-15 v1api20240815 v2.12.0 View SqlDatabaseContainer 2024-08-15 v1api20240815 v2.12.0 View SqlDatabaseContainerStoredProcedure 2024-08-15 v1api20240815 v2.12.0 View SqlDatabaseContainerThroughputSetting 2024-08-15 v1api20240815 v2.12.0 View SqlDatabaseContainerTrigger 2024-08-15 v1api20240815 v2.12.0 View SqlDatabaseContainerUserDefinedFunction 2024-08-15 v1api20240815 v2.12.0 View SqlDatabaseThroughputSetting 2024-08-15 v1api20240815 v2.12.0 View SqlRoleAssignment 2024-08-15 v1api20240815 v2.12.0 View Other Supported Versions These are older versions of resourced still available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.">
-  <meta itemprop="wordCount" content="319">
+  <meta itemprop="name" content="search.azure.com/v1api20231101">
+  <meta itemprop="description" content="APIVersion Value Description “2023-11-01” SearchService Generator information: - Generated from: /search/resource-manager/Microsoft.Search/stable/2023-11-01/search.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Search/searchServices/{searchServiceName}
+Used by: SearchServiceList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SearchService_SpecOptional status SearchService_STATUSOptional SearchService_Spec Property Description Type authOptions Defines the options for how the data plane API of a search service authenticates requests. This cannot be set if ‘disableLocalAuth’ is set to true. DataPlaneAuthOptionsOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional disableLocalAuth When set to true, calls to the search service will not be permitted to utilize API keys for authentication. This cannot be set to true if ‘dataPlaneAuthOptions’ are defined. boolOptional encryptionWithCmk Specifies any policy regarding encryption of resources (such as indexes) using customer manager keys within a search service. EncryptionWithCmkOptional hostingMode Applicable only for the standard3 SKU. You can set this property to enable up to 3 high density partitions that allow up to 1000 indexes, which is much higher than the maximum indexes allowed for any other SKU. For the standard3 SKU, the value is either ‘default’ or ‘highDensity’. For all other SKUs, this value must be ‘default’. SearchServiceProperties_HostingModeOptional identity The identity of the resource. IdentityOptional location The geo-location where the resource lives stringRequired networkRuleSet Network-specific rules that determine how the search service may be reached. NetworkRuleSetOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure SearchServiceOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired partitionCount The number of partitions in the search service; if specified, it can be 1, 2, 3, 4, 6, or 12. Values greater than 1 are only valid for standard SKUs. For ‘standard3’ services with hostingMode set to ‘highDensity’, the allowed values are between 1 and 3. intOptional publicNetworkAccess This value can be set to ’enabled’ to avoid breaking changes on existing customer resources and templates. If set to ‘disabled’, traffic over public interface is not allowed, and private endpoint connections would be the exclusive access method. SearchServiceProperties_PublicNetworkAccessOptional replicaCount The number of replicas in the search service. If specified, it must be a value between 1 and 12 inclusive for standard SKUs or between 1 and 3 inclusive for basic SKU. intOptional semanticSearch Sets options that control the availability of semantic search. This configuration is only possible for certain search SKUs in certain locations. SemanticSearchOptional sku The SKU of the search service, which determines billing rate and capacity limits. This property is required when creating a new search service. SkuOptional tags Resource tags. map[string]stringOptional SearchService_STATUS Property Description Type authOptions Defines the options for how the data plane API of a search service authenticates requests. This cannot be set if ‘disableLocalAuth’ is set to true. DataPlaneAuthOptions_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional disableLocalAuth When set to true, calls to the search service will not be permitted to utilize API keys for authentication. This cannot be set to true if ‘dataPlaneAuthOptions’ are defined. boolOptional encryptionWithCmk Specifies any policy regarding encryption of resources (such as indexes) using customer manager keys within a search service. EncryptionWithCmk_STATUSOptional hostingMode Applicable only for the standard3 SKU. You can set this property to enable up to 3 high density partitions that allow up to 1000 indexes, which is much higher than the maximum indexes allowed for any other SKU. For the standard3 SKU, the value is either ‘default’ or ‘highDensity’. For all other SKUs, this value must be ‘default’. SearchServiceProperties_HostingMode_STATUSOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional identity The identity of the resource. Identity_STATUSOptional location The geo-location where the resource lives stringOptional name The name of the resource stringOptional networkRuleSet Network-specific rules that determine how the search service may be reached. NetworkRuleSet_STATUSOptional partitionCount The number of partitions in the search service; if specified, it can be 1, 2, 3, 4, 6, or 12. Values greater than 1 are only valid for standard SKUs. For ‘standard3’ services with hostingMode set to ‘highDensity’, the allowed values are between 1 and 3. intOptional privateEndpointConnections The list of private endpoint connections to the search service. PrivateEndpointConnection_STATUS[]Optional provisioningState The state of the last provisioning operation performed on the search service. Provisioning is an intermediate state that occurs while service capacity is being established. After capacity is set up, provisioningState changes to either ‘succeeded’ or ‘failed’. Client applications can poll provisioning status (the recommended polling interval is from 30 seconds to one minute) by using the Get Search Service operation to see when an operation is completed. If you are using the free service, this value tends to come back as ‘succeeded’ directly in the call to Create search service. This is because the free service uses capacity that is already set up. SearchServiceProperties_ProvisioningState_STATUSOptional publicNetworkAccess This value can be set to ’enabled’ to avoid breaking changes on existing customer resources and templates. If set to ‘disabled’, traffic over public interface is not allowed, and private endpoint connections would be the exclusive access method. SearchServiceProperties_PublicNetworkAccess_STATUSOptional replicaCount The number of replicas in the search service. If specified, it must be a value between 1 and 12 inclusive for standard SKUs or between 1 and 3 inclusive for basic SKU. intOptional semanticSearch Sets options that control the availability of semantic search. This configuration is only possible for certain search SKUs in certain locations. SemanticSearch_STATUSOptional sharedPrivateLinkResources The list of shared private link resources managed by the search service. SharedPrivateLinkResource_STATUS[]Optional sku The SKU of the search service, which determines billing rate and capacity limits. This property is required when creating a new search service. Sku_STATUSOptional status The status of the search service. Possible values include: ‘running’: The search service is running and no provisioning operations are underway. ‘provisioning’: The search service is being provisioned or scaled up or down. ‘deleting’: The search service is being deleted. ‘degraded’: The search service is degraded. This can occur when the underlying search units are not healthy. The search service is most likely operational, but performance might be slow and some requests might be dropped. ‘disabled’: The search service is disabled. In this state, the service will reject all API requests. ’error’: The search service is in an error state. If your service is in the degraded, disabled, or error states, Microsoft is actively investigating the underlying issue. Dedicated services in these states are still chargeable based on the number of search units provisioned. SearchServiceProperties_Status_STATUSOptional statusDetails The details of the search service status. stringOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional SearchServiceList Generator information: - Generated from: /search/resource-manager/Microsoft.Search/stable/2023-11-01/search.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Search/searchServices/{searchServiceName}">
+  <meta itemprop="wordCount" content="3512">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="DocumentDB Supported Resources">
-  <meta name="twitter:description" content="To install the CRDs for these resources, your ASO configuration must include documentdb.azure.com/* as a one of the configured CRD patterns. See CRD Management in ASO for details on doing this for both Helm and YAML based installations.
-Latest Released Versions These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
-Resource ARM Version CRD Version Supported From Sample DatabaseAccount 2024-08-15 v1api20240815 v2.12.0 View MongodbDatabase 2024-08-15 v1api20240815 v2.12.0 View MongodbDatabaseCollection 2024-08-15 v1api20240815 v2.12.0 View MongodbDatabaseCollectionThroughputSetting 2024-08-15 v1api20240815 v2.12.0 View MongodbDatabaseThroughputSetting 2024-08-15 v1api20240815 v2.12.0 View MongodbUserDefinition 2024-08-15 v1api20240815 v2.12.0 View SqlDatabase 2024-08-15 v1api20240815 v2.12.0 View SqlDatabaseContainer 2024-08-15 v1api20240815 v2.12.0 View SqlDatabaseContainerStoredProcedure 2024-08-15 v1api20240815 v2.12.0 View SqlDatabaseContainerThroughputSetting 2024-08-15 v1api20240815 v2.12.0 View SqlDatabaseContainerTrigger 2024-08-15 v1api20240815 v2.12.0 View SqlDatabaseContainerUserDefinedFunction 2024-08-15 v1api20240815 v2.12.0 View SqlDatabaseThroughputSetting 2024-08-15 v1api20240815 v2.12.0 View SqlRoleAssignment 2024-08-15 v1api20240815 v2.12.0 View Other Supported Versions These are older versions of resourced still available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.">
+  <meta name="twitter:title" content="search.azure.com/v1api20231101">
+  <meta name="twitter:description" content="APIVersion Value Description “2023-11-01” SearchService Generator information: - Generated from: /search/resource-manager/Microsoft.Search/stable/2023-11-01/search.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Search/searchServices/{searchServiceName}
+Used by: SearchServiceList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SearchService_SpecOptional status SearchService_STATUSOptional SearchService_Spec Property Description Type authOptions Defines the options for how the data plane API of a search service authenticates requests. This cannot be set if ‘disableLocalAuth’ is set to true. DataPlaneAuthOptionsOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional disableLocalAuth When set to true, calls to the search service will not be permitted to utilize API keys for authentication. This cannot be set to true if ‘dataPlaneAuthOptions’ are defined. boolOptional encryptionWithCmk Specifies any policy regarding encryption of resources (such as indexes) using customer manager keys within a search service. EncryptionWithCmkOptional hostingMode Applicable only for the standard3 SKU. You can set this property to enable up to 3 high density partitions that allow up to 1000 indexes, which is much higher than the maximum indexes allowed for any other SKU. For the standard3 SKU, the value is either ‘default’ or ‘highDensity’. For all other SKUs, this value must be ‘default’. SearchServiceProperties_HostingModeOptional identity The identity of the resource. IdentityOptional location The geo-location where the resource lives stringRequired networkRuleSet Network-specific rules that determine how the search service may be reached. NetworkRuleSetOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure SearchServiceOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired partitionCount The number of partitions in the search service; if specified, it can be 1, 2, 3, 4, 6, or 12. Values greater than 1 are only valid for standard SKUs. For ‘standard3’ services with hostingMode set to ‘highDensity’, the allowed values are between 1 and 3. intOptional publicNetworkAccess This value can be set to ’enabled’ to avoid breaking changes on existing customer resources and templates. If set to ‘disabled’, traffic over public interface is not allowed, and private endpoint connections would be the exclusive access method. SearchServiceProperties_PublicNetworkAccessOptional replicaCount The number of replicas in the search service. If specified, it must be a value between 1 and 12 inclusive for standard SKUs or between 1 and 3 inclusive for basic SKU. intOptional semanticSearch Sets options that control the availability of semantic search. This configuration is only possible for certain search SKUs in certain locations. SemanticSearchOptional sku The SKU of the search service, which determines billing rate and capacity limits. This property is required when creating a new search service. SkuOptional tags Resource tags. map[string]stringOptional SearchService_STATUS Property Description Type authOptions Defines the options for how the data plane API of a search service authenticates requests. This cannot be set if ‘disableLocalAuth’ is set to true. DataPlaneAuthOptions_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional disableLocalAuth When set to true, calls to the search service will not be permitted to utilize API keys for authentication. This cannot be set to true if ‘dataPlaneAuthOptions’ are defined. boolOptional encryptionWithCmk Specifies any policy regarding encryption of resources (such as indexes) using customer manager keys within a search service. EncryptionWithCmk_STATUSOptional hostingMode Applicable only for the standard3 SKU. You can set this property to enable up to 3 high density partitions that allow up to 1000 indexes, which is much higher than the maximum indexes allowed for any other SKU. For the standard3 SKU, the value is either ‘default’ or ‘highDensity’. For all other SKUs, this value must be ‘default’. SearchServiceProperties_HostingMode_STATUSOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional identity The identity of the resource. Identity_STATUSOptional location The geo-location where the resource lives stringOptional name The name of the resource stringOptional networkRuleSet Network-specific rules that determine how the search service may be reached. NetworkRuleSet_STATUSOptional partitionCount The number of partitions in the search service; if specified, it can be 1, 2, 3, 4, 6, or 12. Values greater than 1 are only valid for standard SKUs. For ‘standard3’ services with hostingMode set to ‘highDensity’, the allowed values are between 1 and 3. intOptional privateEndpointConnections The list of private endpoint connections to the search service. PrivateEndpointConnection_STATUS[]Optional provisioningState The state of the last provisioning operation performed on the search service. Provisioning is an intermediate state that occurs while service capacity is being established. After capacity is set up, provisioningState changes to either ‘succeeded’ or ‘failed’. Client applications can poll provisioning status (the recommended polling interval is from 30 seconds to one minute) by using the Get Search Service operation to see when an operation is completed. If you are using the free service, this value tends to come back as ‘succeeded’ directly in the call to Create search service. This is because the free service uses capacity that is already set up. SearchServiceProperties_ProvisioningState_STATUSOptional publicNetworkAccess This value can be set to ’enabled’ to avoid breaking changes on existing customer resources and templates. If set to ‘disabled’, traffic over public interface is not allowed, and private endpoint connections would be the exclusive access method. SearchServiceProperties_PublicNetworkAccess_STATUSOptional replicaCount The number of replicas in the search service. If specified, it must be a value between 1 and 12 inclusive for standard SKUs or between 1 and 3 inclusive for basic SKU. intOptional semanticSearch Sets options that control the availability of semantic search. This configuration is only possible for certain search SKUs in certain locations. SemanticSearch_STATUSOptional sharedPrivateLinkResources The list of shared private link resources managed by the search service. SharedPrivateLinkResource_STATUS[]Optional sku The SKU of the search service, which determines billing rate and capacity limits. This property is required when creating a new search service. Sku_STATUSOptional status The status of the search service. Possible values include: ‘running’: The search service is running and no provisioning operations are underway. ‘provisioning’: The search service is being provisioned or scaled up or down. ‘deleting’: The search service is being deleted. ‘degraded’: The search service is degraded. This can occur when the underlying search units are not healthy. The search service is most likely operational, but performance might be slow and some requests might be dropped. ‘disabled’: The search service is disabled. In this state, the service will reject all API requests. ’error’: The search service is in an error state. If your service is in the degraded, disabled, or error states, Microsoft is actively investigating the underlying issue. Dedicated services in these states are still chargeable based on the number of search units provisioned. SearchServiceProperties_Status_STATUSOptional statusDetails The details of the search service status. stringOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional SearchServiceList Generator information: - Generated from: /search/resource-manager/Microsoft.Search/stable/2023-11-01/search.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Search/searchServices/{searchServiceName}">
 <link rel="preload" href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" as="style" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" rel="stylesheet" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <script
@@ -49,7 +49,7 @@ Resource ARM Version CRD Version Supported From Sample DatabaseAccount 2024-08-1
   crossorigin="anonymous"></script>
 
   </head>
-  <body class="td-section">
+  <body class="td-page">
     <header>
       <nav class="td-navbar js-navbar-scroll" data-bs-theme="dark">
 <div class="container-fluid flex-column flex-md-row">
@@ -423,14 +423,14 @@ Resource ARM Version CRD Version Supported From Sample DatabaseAccount 2024-08-1
   <a href="/azure-service-operator/reference/devices/v1api20210702/" title="devices.azure.com/v1api20210702" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedevicesv1api20210702"><span class="">v1api20210702</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreferencedocumentdb-li">
-  <a href="/azure-service-operator/reference/documentdb/" title="DocumentDB Supported Resources" class="align-left ps-0 active td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedocumentdb"><span class="td-sidebar-nav-active-item">DocumentDB</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedocumentdb-li">
+  <a href="/azure-service-operator/reference/documentdb/" title="DocumentDB Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedocumentdb"><span class="">DocumentDB</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencedocumentdbv1api20210515-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedocumentdbv1api20210515-li">
   <a href="/azure-service-operator/reference/documentdb/v1api20210515/" title="documentdb.azure.com/v1api20210515" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedocumentdbv1api20210515"><span class="">v1api20210515</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencedocumentdbv1api20231115-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedocumentdbv1api20231115-li">
   <a href="/azure-service-operator/reference/documentdb/v1api20231115/" title="documentdb.azure.com/v1api20231115" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedocumentdbv1api20231115"><span class="">v1api20231115</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencedocumentdbv1api20240815-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedocumentdbv1api20240815-li">
   <a href="/azure-service-operator/reference/documentdb/v1api20240815/" title="documentdb.azure.com/v1api20240815" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedocumentdbv1api20240815"><span class="">v1api20240815</span></a>
 </li>
   </ul>
@@ -581,13 +581,13 @@ Resource ARM Version CRD Version Supported From Sample DatabaseAccount 2024-08-1
   <a href="/azure-service-operator/reference/resources/v1api20200601/" title="resources.azure.com/v1api20200601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceresourcesv1api20200601"><span class="">v1api20200601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesearch-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreferencesearch-li">
   <a href="/azure-service-operator/reference/search/" title="Search Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesearch"><span class="">Search</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesearchv1api20220901-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencesearchv1api20220901-li">
   <a href="/azure-service-operator/reference/search/v1api20220901/" title="search.azure.com/v1api20220901" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesearchv1api20220901"><span class="">v1api20220901</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesearchv1api20231101-li">
-  <a href="/azure-service-operator/reference/search/v1api20231101/" title="search.azure.com/v1api20231101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesearchv1api20231101"><span class="">v1api20231101</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorreferencesearchv1api20231101-li">
+  <a href="/azure-service-operator/reference/search/v1api20231101/" title="search.azure.com/v1api20231101" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesearchv1api20231101"><span class="td-sidebar-nav-active-item">v1api20231101</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceservicebus-li">
@@ -806,12 +806,52 @@ Resource ARM Version CRD Version Supported From Sample DatabaseAccount 2024-08-1
             <div class="td-toc">
         <nav id="TableOfContents">
   <ul>
-    <li>
+    <li><a href="#APIVersion">APIVersion</a></li>
+    <li><a href="#SearchService">SearchService</a>
       <ul>
-        <li><a href="#latest-released-versions">Latest Released Versions</a></li>
-        <li><a href="#other-supported-versions">Other Supported Versions</a></li>
+        <li><a href="#SearchService_Spec">SearchService_Spec</a></li>
+        <li><a href="#SearchService_STATUS">SearchService_STATUS</a></li>
       </ul>
     </li>
+    <li><a href="#SearchServiceList">SearchServiceList</a></li>
+    <li><a href="#SearchService_Spec">SearchService_Spec</a></li>
+    <li><a href="#SearchService_STATUS">SearchService_STATUS</a></li>
+    <li><a href="#DataPlaneAuthOptions">DataPlaneAuthOptions</a></li>
+    <li><a href="#DataPlaneAuthOptions_STATUS">DataPlaneAuthOptions_STATUS</a></li>
+    <li><a href="#EncryptionWithCmk">EncryptionWithCmk</a></li>
+    <li><a href="#EncryptionWithCmk_STATUS">EncryptionWithCmk_STATUS</a></li>
+    <li><a href="#Identity">Identity</a></li>
+    <li><a href="#Identity_STATUS">Identity_STATUS</a></li>
+    <li><a href="#NetworkRuleSet">NetworkRuleSet</a></li>
+    <li><a href="#NetworkRuleSet_STATUS">NetworkRuleSet_STATUS</a></li>
+    <li><a href="#PrivateEndpointConnection_STATUS">PrivateEndpointConnection_STATUS</a></li>
+    <li><a href="#SearchServiceOperatorSpec">SearchServiceOperatorSpec</a></li>
+    <li><a href="#SearchServiceProperties_HostingMode">SearchServiceProperties_HostingMode</a></li>
+    <li><a href="#SearchServiceProperties_HostingMode_STATUS">SearchServiceProperties_HostingMode_STATUS</a></li>
+    <li><a href="#SearchServiceProperties_ProvisioningState_STATUS">SearchServiceProperties_ProvisioningState_STATUS</a></li>
+    <li><a href="#SearchServiceProperties_PublicNetworkAccess">SearchServiceProperties_PublicNetworkAccess</a></li>
+    <li><a href="#SearchServiceProperties_PublicNetworkAccess_STATUS">SearchServiceProperties_PublicNetworkAccess_STATUS</a></li>
+    <li><a href="#SearchServiceProperties_Status_STATUS">SearchServiceProperties_Status_STATUS</a></li>
+    <li><a href="#SemanticSearch">SemanticSearch</a></li>
+    <li><a href="#SemanticSearch_STATUS">SemanticSearch_STATUS</a></li>
+    <li><a href="#SharedPrivateLinkResource_STATUS">SharedPrivateLinkResource_STATUS</a></li>
+    <li><a href="#Sku">Sku</a></li>
+    <li><a href="#Sku_STATUS">Sku_STATUS</a></li>
+    <li><a href="#DataPlaneAadOrApiKeyAuthOption">DataPlaneAadOrApiKeyAuthOption</a></li>
+    <li><a href="#DataPlaneAadOrApiKeyAuthOption_STATUS">DataPlaneAadOrApiKeyAuthOption_STATUS</a></li>
+    <li><a href="#EncryptionWithCmk_EncryptionComplianceStatus_STATUS">EncryptionWithCmk_EncryptionComplianceStatus_STATUS</a></li>
+    <li><a href="#EncryptionWithCmk_Enforcement">EncryptionWithCmk_Enforcement</a></li>
+    <li><a href="#EncryptionWithCmk_Enforcement_STATUS">EncryptionWithCmk_Enforcement_STATUS</a></li>
+    <li><a href="#Identity_Type">Identity_Type</a></li>
+    <li><a href="#Identity_Type_STATUS">Identity_Type_STATUS</a></li>
+    <li><a href="#IpRule">IpRule</a></li>
+    <li><a href="#IpRule_STATUS">IpRule_STATUS</a></li>
+    <li><a href="#SearchServiceOperatorConfigMaps">SearchServiceOperatorConfigMaps</a></li>
+    <li><a href="#SearchServiceOperatorSecrets">SearchServiceOperatorSecrets</a></li>
+    <li><a href="#Sku_Name">Sku_Name</a></li>
+    <li><a href="#Sku_Name_STATUS">Sku_Name_STATUS</a></li>
+    <li><a href="#DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode">DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode</a></li>
+    <li><a href="#DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS">DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS</a></li>
   </ul>
 </nav>
       </div>
@@ -827,333 +867,1358 @@ Resource ARM Version CRD Version Supported From Sample DatabaseAccount 2024-08-1
   <ol class="breadcrumb">
   <li class="breadcrumb-item">
     <a href="/azure-service-operator/reference/">Supported Resources</a></li>
+  <li class="breadcrumb-item">
+    <a href="/azure-service-operator/reference/search/">Search</a></li>
   <li class="breadcrumb-item active" aria-current="page">
-    DocumentDB</li>
+    v1api20231101</li>
   </ol>
 </nav>
 <div class="td-content">
-	<h1>DocumentDB Supported Resources</h1>
-  
+	<h1>search.azure.com/v1api20231101</h1>
+	
 	<header class="article-meta">
 		
 </header>
-	<p>To install the CRDs for these resources, your ASO configuration must include <code>documentdb.azure.com/*</code> as a one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="latest-released-versions">Latest Released Versions</h3>
-<p>These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
+	<hr>
+<h2 id="APIVersion">APIVersion</h2>
 <table>
   <thead>
       <tr>
-          <th>Resource</th>
-          <th>ARM Version</th>
-          <th>CRD Version</th>
-          <th>Supported From</th>
-          <th>Sample</th>
+          <th>Value</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td><a href="/azure-service-operator/reference/documentdb/v1api20240815/#DatabaseAccount">DatabaseAccount</a></td>
-          <td>2024-08-15</td>
-          <td>v1api20240815</td>
-          <td>v2.12.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20240815/v1api20240815_databaseaccount.yaml">View</a></td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/reference/documentdb/v1api20240815/#MongodbDatabase">MongodbDatabase</a></td>
-          <td>2024-08-15</td>
-          <td>v1api20240815</td>
-          <td>v2.12.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20240815/v1api20240815_mongodbdatabase.yaml">View</a></td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/reference/documentdb/v1api20240815/#MongodbDatabaseCollection">MongodbDatabaseCollection</a></td>
-          <td>2024-08-15</td>
-          <td>v1api20240815</td>
-          <td>v2.12.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20240815/v1api20240815_mongodbdatabasecollection.yaml">View</a></td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/reference/documentdb/v1api20240815/#MongodbDatabaseCollectionThroughputSetting">MongodbDatabaseCollectionThroughputSetting</a></td>
-          <td>2024-08-15</td>
-          <td>v1api20240815</td>
-          <td>v2.12.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20240815/v1api20240815_mongodbdatabasecollectionthroughputsetting.yaml">View</a></td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/reference/documentdb/v1api20240815/#MongodbDatabaseThroughputSetting">MongodbDatabaseThroughputSetting</a></td>
-          <td>2024-08-15</td>
-          <td>v1api20240815</td>
-          <td>v2.12.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20240815/v1api20240815_mongodbdatabasethroughputsetting.yaml">View</a></td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/reference/documentdb/v1api20240815/#MongodbUserDefinition">MongodbUserDefinition</a></td>
-          <td>2024-08-15</td>
-          <td>v1api20240815</td>
-          <td>v2.12.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20240815/v1api20240815_mongodbuserdefinition.yaml">View</a></td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/reference/documentdb/v1api20240815/#SqlDatabase">SqlDatabase</a></td>
-          <td>2024-08-15</td>
-          <td>v1api20240815</td>
-          <td>v2.12.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20240815/v1api20240815_sqldatabase.yaml">View</a></td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/reference/documentdb/v1api20240815/#SqlDatabaseContainer">SqlDatabaseContainer</a></td>
-          <td>2024-08-15</td>
-          <td>v1api20240815</td>
-          <td>v2.12.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20240815/v1api20240815_sqldatabasecontainer.yaml">View</a></td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/reference/documentdb/v1api20240815/#SqlDatabaseContainerStoredProcedure">SqlDatabaseContainerStoredProcedure</a></td>
-          <td>2024-08-15</td>
-          <td>v1api20240815</td>
-          <td>v2.12.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20240815/v1api20240815_sqldatabasecontainerstoredprocedure.yaml">View</a></td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/reference/documentdb/v1api20240815/#SqlDatabaseContainerThroughputSetting">SqlDatabaseContainerThroughputSetting</a></td>
-          <td>2024-08-15</td>
-          <td>v1api20240815</td>
-          <td>v2.12.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20240815/v1api20240815_sqldatabasecontainerthroughputsetting.yaml">View</a></td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/reference/documentdb/v1api20240815/#SqlDatabaseContainerTrigger">SqlDatabaseContainerTrigger</a></td>
-          <td>2024-08-15</td>
-          <td>v1api20240815</td>
-          <td>v2.12.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20240815/v1api20240815_sqldatabasecontainertrigger.yaml">View</a></td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/reference/documentdb/v1api20240815/#SqlDatabaseContainerUserDefinedFunction">SqlDatabaseContainerUserDefinedFunction</a></td>
-          <td>2024-08-15</td>
-          <td>v1api20240815</td>
-          <td>v2.12.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20240815/v1api20240815_sqldatabasecontaineruserdefinedfunction.yaml">View</a></td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/reference/documentdb/v1api20240815/#SqlDatabaseThroughputSetting">SqlDatabaseThroughputSetting</a></td>
-          <td>2024-08-15</td>
-          <td>v1api20240815</td>
-          <td>v2.12.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20240815/v1api20240815_sqldatabasethroughputsetting.yaml">View</a></td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/reference/documentdb/v1api20240815/#SqlRoleAssignment">SqlRoleAssignment</a></td>
-          <td>2024-08-15</td>
-          <td>v1api20240815</td>
-          <td>v2.12.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20240815/v1api20240815_sqlroleassignment.yaml">View</a></td>
+          <td>&ldquo;2023-11-01&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
-<h3 id="other-supported-versions">Other Supported Versions</h3>
-<p>These are older versions of resourced still available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
+<h2 id="SearchService">SearchService</h2>
+<p>Generator information: - Generated from: /search/resource-manager/Microsoft.Search/stable/2023-11-01/search.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Search/searchServices/{searchServiceName}</p>
+<p>Used by: <a href="#SearchServiceList">SearchServiceList</a>.</p>
 <table>
   <thead>
       <tr>
-          <th>Resource</th>
-          <th>ARM Version</th>
-          <th>CRD Version</th>
-          <th>Supported From</th>
-          <th>Sample</th>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td><a href="/azure-service-operator/reference/documentdb/v1api20231115/#DatabaseAccount">DatabaseAccount</a></td>
-          <td>2023-11-15</td>
-          <td>v1api20231115</td>
-          <td>v2.8.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20231115/v1api20231115_databaseaccount.yaml">View</a></td>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td><a href="/azure-service-operator/reference/documentdb/v1api20210515/#DatabaseAccount">DatabaseAccount</a></td>
-          <td>2021-05-15</td>
-          <td>v1api20210515</td>
-          <td>v2.0.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20210515/v1api20210515_databaseaccount.yaml">View</a></td>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta">metav1.ObjectMeta</a></td>
+          <td></td>
+          <td></td>
       </tr>
       <tr>
-          <td><a href="/azure-service-operator/reference/documentdb/v1api20231115/#MongodbDatabase">MongodbDatabase</a></td>
-          <td>2023-11-15</td>
-          <td>v1api20231115</td>
-          <td>v2.8.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20231115/v1api20231115_mongodbdatabase.yaml">View</a></td>
+          <td>spec</td>
+          <td></td>
+          <td><a href="#SearchService_Spec">SearchService_Spec</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td><a href="/azure-service-operator/reference/documentdb/v1api20210515/#MongodbDatabase">MongodbDatabase</a></td>
-          <td>2021-05-15</td>
-          <td>v1api20210515</td>
-          <td>v2.0.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20210515/v1api20210515_mongodbdatabase.yaml">View</a></td>
+          <td>status</td>
+          <td></td>
+          <td><a href="#SearchService_STATUS">SearchService_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="SearchService_Spec">SearchService_Spec</h3>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>authOptions</td>
+          <td>Defines the options for how the data plane API of a search service authenticates requests. This cannot be set if &lsquo;disableLocalAuth&rsquo; is set to true.</td>
+          <td><a href="#DataPlaneAuthOptions">DataPlaneAuthOptions</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td><a href="/azure-service-operator/reference/documentdb/v1api20231115/#MongodbDatabaseCollection">MongodbDatabaseCollection</a></td>
-          <td>2023-11-15</td>
-          <td>v1api20231115</td>
-          <td>v2.8.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20231115/v1api20231115_mongodbdatabasecollection.yaml">View</a></td>
+          <td>azureName</td>
+          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td><a href="/azure-service-operator/reference/documentdb/v1api20210515/#MongodbDatabaseCollection">MongodbDatabaseCollection</a></td>
-          <td>2021-05-15</td>
-          <td>v1api20210515</td>
-          <td>v2.0.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20210515/v1api20210515_mongodbdatabasecollection.yaml">View</a></td>
+          <td>disableLocalAuth</td>
+          <td>When set to true, calls to the search service will not be permitted to utilize API keys for authentication. This cannot be set to true if &lsquo;dataPlaneAuthOptions&rsquo; are defined.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td><a href="/azure-service-operator/reference/documentdb/v1api20231115/#MongodbDatabaseCollectionThroughputSetting">MongodbDatabaseCollectionThroughputSetting</a></td>
-          <td>2023-11-15</td>
-          <td>v1api20231115</td>
-          <td>v2.8.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20231115/v1api20231115_mongodbdatabasecollectionthroughputsetting.yaml">View</a></td>
+          <td>encryptionWithCmk</td>
+          <td>Specifies any policy regarding encryption of resources (such as indexes) using customer manager keys within a search service.</td>
+          <td><a href="#EncryptionWithCmk">EncryptionWithCmk</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td><a href="/azure-service-operator/reference/documentdb/v1api20210515/#MongodbDatabaseCollectionThroughputSetting">MongodbDatabaseCollectionThroughputSetting</a></td>
-          <td>2021-05-15</td>
-          <td>v1api20210515</td>
-          <td>v2.0.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20210515/v1api20210515_mongodbdatabasecollectionthroughputsetting.yaml">View</a></td>
+          <td>hostingMode</td>
+          <td>Applicable only for the standard3 SKU. You can set this property to enable up to 3 high density partitions that allow up to 1000 indexes, which is much higher than the maximum indexes allowed for any other SKU. For the standard3 SKU, the value is either &lsquo;default&rsquo; or &lsquo;highDensity&rsquo;. For all other SKUs, this value must be &lsquo;default&rsquo;.</td>
+          <td><a href="#SearchServiceProperties_HostingMode">SearchServiceProperties_HostingMode</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td><a href="/azure-service-operator/reference/documentdb/v1api20231115/#MongodbDatabaseThroughputSetting">MongodbDatabaseThroughputSetting</a></td>
-          <td>2023-11-15</td>
-          <td>v1api20231115</td>
-          <td>v2.8.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20231115/v1api20231115_mongodbdatabasethroughputsetting.yaml">View</a></td>
+          <td>identity</td>
+          <td>The identity of the resource.</td>
+          <td><a href="#Identity">Identity</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td><a href="/azure-service-operator/reference/documentdb/v1api20210515/#MongodbDatabaseThroughputSetting">MongodbDatabaseThroughputSetting</a></td>
-          <td>2021-05-15</td>
-          <td>v1api20210515</td>
-          <td>v2.0.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20210515/v1api20210515_mongodbdatabasethroughputsetting.yaml">View</a></td>
+          <td>location</td>
+          <td>The geo-location where the resource lives</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td><a href="/azure-service-operator/reference/documentdb/v1api20231115/#SqlDatabase">SqlDatabase</a></td>
-          <td>2023-11-15</td>
-          <td>v1api20231115</td>
-          <td>v2.8.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20231115/v1api20231115_sqldatabase.yaml">View</a></td>
+          <td>networkRuleSet</td>
+          <td>Network-specific rules that determine how the search service may be reached.</td>
+          <td><a href="#NetworkRuleSet">NetworkRuleSet</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td><a href="/azure-service-operator/reference/documentdb/v1api20210515/#SqlDatabase">SqlDatabase</a></td>
-          <td>2021-05-15</td>
-          <td>v1api20210515</td>
-          <td>v2.0.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20210515/v1api20210515_sqldatabase.yaml">View</a></td>
+          <td>operatorSpec</td>
+          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+          <td><a href="#SearchServiceOperatorSpec">SearchServiceOperatorSpec</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td><a href="/azure-service-operator/reference/documentdb/v1api20231115/#SqlDatabaseContainer">SqlDatabaseContainer</a></td>
-          <td>2023-11-15</td>
-          <td>v1api20231115</td>
-          <td>v2.8.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20231115/v1api20231115_sqldatabasecontainer.yaml">View</a></td>
+          <td>owner</td>
+          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td><a href="/azure-service-operator/reference/documentdb/v1api20210515/#SqlDatabaseContainer">SqlDatabaseContainer</a></td>
-          <td>2021-05-15</td>
-          <td>v1api20210515</td>
-          <td>v2.0.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20210515/v1api20210515_sqldatabasecontainer.yaml">View</a></td>
+          <td>partitionCount</td>
+          <td>The number of partitions in the search service; if specified, it can be 1, 2, 3, 4, 6, or 12. Values greater than 1 are only valid for standard SKUs. For &lsquo;standard3&rsquo; services with hostingMode set to &lsquo;highDensity&rsquo;, the allowed values are between 1 and 3.</td>
+          <td>int<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td><a href="/azure-service-operator/reference/documentdb/v1api20231115/#SqlDatabaseContainerStoredProcedure">SqlDatabaseContainerStoredProcedure</a></td>
-          <td>2023-11-15</td>
-          <td>v1api20231115</td>
-          <td>v2.8.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20231115/v1api20231115_sqldatabasecontainerstoredprocedure.yaml">View</a></td>
+          <td>publicNetworkAccess</td>
+          <td>This value can be set to &rsquo;enabled&rsquo; to avoid breaking changes on existing customer resources and templates. If set to &lsquo;disabled&rsquo;, traffic over public interface is not allowed, and private endpoint connections would be the exclusive access method.</td>
+          <td><a href="#SearchServiceProperties_PublicNetworkAccess">SearchServiceProperties_PublicNetworkAccess</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td><a href="/azure-service-operator/reference/documentdb/v1api20210515/#SqlDatabaseContainerStoredProcedure">SqlDatabaseContainerStoredProcedure</a></td>
-          <td>2021-05-15</td>
-          <td>v1api20210515</td>
-          <td>v2.0.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20210515/v1api20210515_sqldatabasecontainerstoredprocedure.yaml">View</a></td>
+          <td>replicaCount</td>
+          <td>The number of replicas in the search service. If specified, it must be a value between 1 and 12 inclusive for standard SKUs or between 1 and 3 inclusive for basic SKU.</td>
+          <td>int<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td><a href="/azure-service-operator/reference/documentdb/v1api20231115/#SqlDatabaseContainerThroughputSetting">SqlDatabaseContainerThroughputSetting</a></td>
-          <td>2023-11-15</td>
-          <td>v1api20231115</td>
-          <td>v2.8.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20231115/v1api20231115_sqldatabasecontainerthroughputsetting.yaml">View</a></td>
+          <td>semanticSearch</td>
+          <td>Sets options that control the availability of semantic search. This configuration is only possible for certain search SKUs in certain locations.</td>
+          <td><a href="#SemanticSearch">SemanticSearch</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td><a href="/azure-service-operator/reference/documentdb/v1api20210515/#SqlDatabaseContainerThroughputSetting">SqlDatabaseContainerThroughputSetting</a></td>
-          <td>2021-05-15</td>
-          <td>v1api20210515</td>
-          <td>v2.0.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20210515/v1api20210515_sqldatabasecontainerthroughputsetting.yaml">View</a></td>
+          <td>sku</td>
+          <td>The SKU of the search service, which determines billing rate and capacity limits. This property is required when creating a new search service.</td>
+          <td><a href="#Sku">Sku</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td><a href="/azure-service-operator/reference/documentdb/v1api20231115/#SqlDatabaseContainerTrigger">SqlDatabaseContainerTrigger</a></td>
-          <td>2023-11-15</td>
-          <td>v1api20231115</td>
-          <td>v2.8.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20231115/v1api20231115_sqldatabasecontainertrigger.yaml">View</a></td>
+          <td>tags</td>
+          <td>Resource tags.</td>
+          <td>map[string]string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="SearchService_STATUS">SearchService_STATUS</h3>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>authOptions</td>
+          <td>Defines the options for how the data plane API of a search service authenticates requests. This cannot be set if &lsquo;disableLocalAuth&rsquo; is set to true.</td>
+          <td><a href="#DataPlaneAuthOptions_STATUS">DataPlaneAuthOptions_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td><a href="/azure-service-operator/reference/documentdb/v1api20210515/#SqlDatabaseContainerTrigger">SqlDatabaseContainerTrigger</a></td>
-          <td>2021-05-15</td>
-          <td>v1api20210515</td>
-          <td>v2.0.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20210515/v1api20210515_sqldatabasecontainertrigger.yaml">View</a></td>
+          <td>conditions</td>
+          <td>The observed state of the resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td><a href="/azure-service-operator/reference/documentdb/v1api20231115/#SqlDatabaseContainerUserDefinedFunction">SqlDatabaseContainerUserDefinedFunction</a></td>
-          <td>2023-11-15</td>
-          <td>v1api20231115</td>
-          <td>v2.8.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20231115/v1api20231115_sqldatabasecontaineruserdefinedfunction.yaml">View</a></td>
+          <td>disableLocalAuth</td>
+          <td>When set to true, calls to the search service will not be permitted to utilize API keys for authentication. This cannot be set to true if &lsquo;dataPlaneAuthOptions&rsquo; are defined.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td><a href="/azure-service-operator/reference/documentdb/v1api20210515/#SqlDatabaseContainerUserDefinedFunction">SqlDatabaseContainerUserDefinedFunction</a></td>
-          <td>2021-05-15</td>
-          <td>v1api20210515</td>
-          <td>v2.0.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20210515/v1api20210515_sqldatabasecontaineruserdefinedfunction.yaml">View</a></td>
+          <td>encryptionWithCmk</td>
+          <td>Specifies any policy regarding encryption of resources (such as indexes) using customer manager keys within a search service.</td>
+          <td><a href="#EncryptionWithCmk_STATUS">EncryptionWithCmk_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td><a href="/azure-service-operator/reference/documentdb/v1api20231115/#SqlDatabaseThroughputSetting">SqlDatabaseThroughputSetting</a></td>
-          <td>2023-11-15</td>
-          <td>v1api20231115</td>
-          <td>v2.8.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20231115/v1api20231115_sqldatabasethroughputsetting.yaml">View</a></td>
+          <td>hostingMode</td>
+          <td>Applicable only for the standard3 SKU. You can set this property to enable up to 3 high density partitions that allow up to 1000 indexes, which is much higher than the maximum indexes allowed for any other SKU. For the standard3 SKU, the value is either &lsquo;default&rsquo; or &lsquo;highDensity&rsquo;. For all other SKUs, this value must be &lsquo;default&rsquo;.</td>
+          <td><a href="#SearchServiceProperties_HostingMode_STATUS">SearchServiceProperties_HostingMode_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td><a href="/azure-service-operator/reference/documentdb/v1api20210515/#SqlDatabaseThroughputSetting">SqlDatabaseThroughputSetting</a></td>
-          <td>2021-05-15</td>
-          <td>v1api20210515</td>
-          <td>v2.0.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20210515/v1api20210515_sqldatabasethroughputsetting.yaml">View</a></td>
+          <td>id</td>
+          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td><a href="/azure-service-operator/reference/documentdb/v1api20231115/#SqlRoleAssignment">SqlRoleAssignment</a></td>
-          <td>2023-11-15</td>
-          <td>v1api20231115</td>
-          <td>v2.8.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20231115/v1api20231115_sqlroleassignment.yaml">View</a></td>
+          <td>identity</td>
+          <td>The identity of the resource.</td>
+          <td><a href="#Identity_STATUS">Identity_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td><a href="/azure-service-operator/reference/documentdb/v1api20210515/#SqlRoleAssignment">SqlRoleAssignment</a></td>
-          <td>2021-05-15</td>
-          <td>v1api20210515</td>
-          <td>v2.0.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20210515/v1api20210515_sqlroleassignment.yaml">View</a></td>
+          <td>location</td>
+          <td>The geo-location where the resource lives</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>The name of the resource</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>networkRuleSet</td>
+          <td>Network-specific rules that determine how the search service may be reached.</td>
+          <td><a href="#NetworkRuleSet_STATUS">NetworkRuleSet_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>partitionCount</td>
+          <td>The number of partitions in the search service; if specified, it can be 1, 2, 3, 4, 6, or 12. Values greater than 1 are only valid for standard SKUs. For &lsquo;standard3&rsquo; services with hostingMode set to &lsquo;highDensity&rsquo;, the allowed values are between 1 and 3.</td>
+          <td>int<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>privateEndpointConnections</td>
+          <td>The list of private endpoint connections to the search service.</td>
+          <td><a href="#PrivateEndpointConnection_STATUS">PrivateEndpointConnection_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>provisioningState</td>
+          <td>The state of the last provisioning operation performed on the search service. Provisioning is an intermediate state that occurs while service capacity is being established. After capacity is set up, provisioningState changes to either &lsquo;succeeded&rsquo; or &lsquo;failed&rsquo;. Client applications can poll provisioning status (the recommended polling interval is from 30 seconds to one minute) by using the Get Search Service operation to see when an operation is completed. If you are using the free service, this value tends to come back as &lsquo;succeeded&rsquo; directly in the call to Create search service. This is because the free service uses capacity that is already set up.</td>
+          <td><a href="#SearchServiceProperties_ProvisioningState_STATUS">SearchServiceProperties_ProvisioningState_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>publicNetworkAccess</td>
+          <td>This value can be set to &rsquo;enabled&rsquo; to avoid breaking changes on existing customer resources and templates. If set to &lsquo;disabled&rsquo;, traffic over public interface is not allowed, and private endpoint connections would be the exclusive access method.</td>
+          <td><a href="#SearchServiceProperties_PublicNetworkAccess_STATUS">SearchServiceProperties_PublicNetworkAccess_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>replicaCount</td>
+          <td>The number of replicas in the search service. If specified, it must be a value between 1 and 12 inclusive for standard SKUs or between 1 and 3 inclusive for basic SKU.</td>
+          <td>int<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>semanticSearch</td>
+          <td>Sets options that control the availability of semantic search. This configuration is only possible for certain search SKUs in certain locations.</td>
+          <td><a href="#SemanticSearch_STATUS">SemanticSearch_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>sharedPrivateLinkResources</td>
+          <td>The list of shared private link resources managed by the search service.</td>
+          <td><a href="#SharedPrivateLinkResource_STATUS">SharedPrivateLinkResource_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>sku</td>
+          <td>The SKU of the search service, which determines billing rate and capacity limits. This property is required when creating a new search service.</td>
+          <td><a href="#Sku_STATUS">Sku_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>status</td>
+          <td>The status of the search service. Possible values include: &lsquo;running&rsquo;: The search service is running and no provisioning operations are underway. &lsquo;provisioning&rsquo;: The search service is being provisioned or scaled up or down. &lsquo;deleting&rsquo;: The search service is being deleted. &lsquo;degraded&rsquo;: The search service is degraded. This can occur when the underlying search units are not healthy. The search service is most likely operational, but performance might be slow and some requests might be dropped. &lsquo;disabled&rsquo;: The search service is disabled. In this state, the service will reject all API requests. &rsquo;error&rsquo;: The search service is in an error state. If your service is in the degraded, disabled, or error states, Microsoft is actively investigating the underlying issue. Dedicated services in these states are still chargeable based on the number of search units provisioned.</td>
+          <td><a href="#SearchServiceProperties_Status_STATUS">SearchServiceProperties_Status_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>statusDetails</td>
+          <td>The details of the search service status.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>tags</td>
+          <td>Resource tags.</td>
+          <td>map[string]string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>type</td>
+          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SearchServiceList">SearchServiceList</h2>
+<p>Generator information: - Generated from: /search/resource-manager/Microsoft.Search/stable/2023-11-01/search.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Search/searchServices/{searchServiceName}</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta">metav1.ListMeta</a></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>items</td>
+          <td></td>
+          <td><a href="#SearchService">SearchService[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SearchService_Spec">SearchService_Spec</h2>
+<p>Used by: <a href="#SearchService">SearchService</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>authOptions</td>
+          <td>Defines the options for how the data plane API of a search service authenticates requests. This cannot be set if &lsquo;disableLocalAuth&rsquo; is set to true.</td>
+          <td><a href="#DataPlaneAuthOptions">DataPlaneAuthOptions</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>azureName</td>
+          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>disableLocalAuth</td>
+          <td>When set to true, calls to the search service will not be permitted to utilize API keys for authentication. This cannot be set to true if &lsquo;dataPlaneAuthOptions&rsquo; are defined.</td>
+          <td>bool<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>encryptionWithCmk</td>
+          <td>Specifies any policy regarding encryption of resources (such as indexes) using customer manager keys within a search service.</td>
+          <td><a href="#EncryptionWithCmk">EncryptionWithCmk</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>hostingMode</td>
+          <td>Applicable only for the standard3 SKU. You can set this property to enable up to 3 high density partitions that allow up to 1000 indexes, which is much higher than the maximum indexes allowed for any other SKU. For the standard3 SKU, the value is either &lsquo;default&rsquo; or &lsquo;highDensity&rsquo;. For all other SKUs, this value must be &lsquo;default&rsquo;.</td>
+          <td><a href="#SearchServiceProperties_HostingMode">SearchServiceProperties_HostingMode</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>identity</td>
+          <td>The identity of the resource.</td>
+          <td><a href="#Identity">Identity</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>location</td>
+          <td>The geo-location where the resource lives</td>
+          <td>string<br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>networkRuleSet</td>
+          <td>Network-specific rules that determine how the search service may be reached.</td>
+          <td><a href="#NetworkRuleSet">NetworkRuleSet</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>operatorSpec</td>
+          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+          <td><a href="#SearchServiceOperatorSpec">SearchServiceOperatorSpec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>owner</td>
+          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>partitionCount</td>
+          <td>The number of partitions in the search service; if specified, it can be 1, 2, 3, 4, 6, or 12. Values greater than 1 are only valid for standard SKUs. For &lsquo;standard3&rsquo; services with hostingMode set to &lsquo;highDensity&rsquo;, the allowed values are between 1 and 3.</td>
+          <td>int<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>publicNetworkAccess</td>
+          <td>This value can be set to &rsquo;enabled&rsquo; to avoid breaking changes on existing customer resources and templates. If set to &lsquo;disabled&rsquo;, traffic over public interface is not allowed, and private endpoint connections would be the exclusive access method.</td>
+          <td><a href="#SearchServiceProperties_PublicNetworkAccess">SearchServiceProperties_PublicNetworkAccess</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>replicaCount</td>
+          <td>The number of replicas in the search service. If specified, it must be a value between 1 and 12 inclusive for standard SKUs or between 1 and 3 inclusive for basic SKU.</td>
+          <td>int<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>semanticSearch</td>
+          <td>Sets options that control the availability of semantic search. This configuration is only possible for certain search SKUs in certain locations.</td>
+          <td><a href="#SemanticSearch">SemanticSearch</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>sku</td>
+          <td>The SKU of the search service, which determines billing rate and capacity limits. This property is required when creating a new search service.</td>
+          <td><a href="#Sku">Sku</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>tags</td>
+          <td>Resource tags.</td>
+          <td>map[string]string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SearchService_STATUS">SearchService_STATUS</h2>
+<p>Describes a search service and its current state.</p>
+<p>Used by: <a href="#SearchService">SearchService</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>authOptions</td>
+          <td>Defines the options for how the data plane API of a search service authenticates requests. This cannot be set if &lsquo;disableLocalAuth&rsquo; is set to true.</td>
+          <td><a href="#DataPlaneAuthOptions_STATUS">DataPlaneAuthOptions_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>conditions</td>
+          <td>The observed state of the resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>disableLocalAuth</td>
+          <td>When set to true, calls to the search service will not be permitted to utilize API keys for authentication. This cannot be set to true if &lsquo;dataPlaneAuthOptions&rsquo; are defined.</td>
+          <td>bool<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>encryptionWithCmk</td>
+          <td>Specifies any policy regarding encryption of resources (such as indexes) using customer manager keys within a search service.</td>
+          <td><a href="#EncryptionWithCmk_STATUS">EncryptionWithCmk_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>hostingMode</td>
+          <td>Applicable only for the standard3 SKU. You can set this property to enable up to 3 high density partitions that allow up to 1000 indexes, which is much higher than the maximum indexes allowed for any other SKU. For the standard3 SKU, the value is either &lsquo;default&rsquo; or &lsquo;highDensity&rsquo;. For all other SKUs, this value must be &lsquo;default&rsquo;.</td>
+          <td><a href="#SearchServiceProperties_HostingMode_STATUS">SearchServiceProperties_HostingMode_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>id</td>
+          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>identity</td>
+          <td>The identity of the resource.</td>
+          <td><a href="#Identity_STATUS">Identity_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>location</td>
+          <td>The geo-location where the resource lives</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>The name of the resource</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>networkRuleSet</td>
+          <td>Network-specific rules that determine how the search service may be reached.</td>
+          <td><a href="#NetworkRuleSet_STATUS">NetworkRuleSet_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>partitionCount</td>
+          <td>The number of partitions in the search service; if specified, it can be 1, 2, 3, 4, 6, or 12. Values greater than 1 are only valid for standard SKUs. For &lsquo;standard3&rsquo; services with hostingMode set to &lsquo;highDensity&rsquo;, the allowed values are between 1 and 3.</td>
+          <td>int<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>privateEndpointConnections</td>
+          <td>The list of private endpoint connections to the search service.</td>
+          <td><a href="#PrivateEndpointConnection_STATUS">PrivateEndpointConnection_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>provisioningState</td>
+          <td>The state of the last provisioning operation performed on the search service. Provisioning is an intermediate state that occurs while service capacity is being established. After capacity is set up, provisioningState changes to either &lsquo;succeeded&rsquo; or &lsquo;failed&rsquo;. Client applications can poll provisioning status (the recommended polling interval is from 30 seconds to one minute) by using the Get Search Service operation to see when an operation is completed. If you are using the free service, this value tends to come back as &lsquo;succeeded&rsquo; directly in the call to Create search service. This is because the free service uses capacity that is already set up.</td>
+          <td><a href="#SearchServiceProperties_ProvisioningState_STATUS">SearchServiceProperties_ProvisioningState_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>publicNetworkAccess</td>
+          <td>This value can be set to &rsquo;enabled&rsquo; to avoid breaking changes on existing customer resources and templates. If set to &lsquo;disabled&rsquo;, traffic over public interface is not allowed, and private endpoint connections would be the exclusive access method.</td>
+          <td><a href="#SearchServiceProperties_PublicNetworkAccess_STATUS">SearchServiceProperties_PublicNetworkAccess_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>replicaCount</td>
+          <td>The number of replicas in the search service. If specified, it must be a value between 1 and 12 inclusive for standard SKUs or between 1 and 3 inclusive for basic SKU.</td>
+          <td>int<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>semanticSearch</td>
+          <td>Sets options that control the availability of semantic search. This configuration is only possible for certain search SKUs in certain locations.</td>
+          <td><a href="#SemanticSearch_STATUS">SemanticSearch_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>sharedPrivateLinkResources</td>
+          <td>The list of shared private link resources managed by the search service.</td>
+          <td><a href="#SharedPrivateLinkResource_STATUS">SharedPrivateLinkResource_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>sku</td>
+          <td>The SKU of the search service, which determines billing rate and capacity limits. This property is required when creating a new search service.</td>
+          <td><a href="#Sku_STATUS">Sku_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>status</td>
+          <td>The status of the search service. Possible values include: &lsquo;running&rsquo;: The search service is running and no provisioning operations are underway. &lsquo;provisioning&rsquo;: The search service is being provisioned or scaled up or down. &lsquo;deleting&rsquo;: The search service is being deleted. &lsquo;degraded&rsquo;: The search service is degraded. This can occur when the underlying search units are not healthy. The search service is most likely operational, but performance might be slow and some requests might be dropped. &lsquo;disabled&rsquo;: The search service is disabled. In this state, the service will reject all API requests. &rsquo;error&rsquo;: The search service is in an error state. If your service is in the degraded, disabled, or error states, Microsoft is actively investigating the underlying issue. Dedicated services in these states are still chargeable based on the number of search units provisioned.</td>
+          <td><a href="#SearchServiceProperties_Status_STATUS">SearchServiceProperties_Status_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>statusDetails</td>
+          <td>The details of the search service status.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>tags</td>
+          <td>Resource tags.</td>
+          <td>map[string]string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>type</td>
+          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="DataPlaneAuthOptions">DataPlaneAuthOptions</h2>
+<p>Defines the options for how the search service authenticates a data plane request. This cannot be set if &lsquo;disableLocalAuth&rsquo; is set to true.</p>
+<p>Used by: <a href="#SearchService_Spec">SearchService_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>aadOrApiKey</td>
+          <td>Indicates that either the API key or an access token from a Microsoft Entra ID tenant can be used for authentication.</td>
+          <td><a href="#DataPlaneAadOrApiKeyAuthOption">DataPlaneAadOrApiKeyAuthOption</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="DataPlaneAuthOptions_STATUS">DataPlaneAuthOptions_STATUS</h2>
+<p>Defines the options for how the search service authenticates a data plane request. This cannot be set if &lsquo;disableLocalAuth&rsquo; is set to true.</p>
+<p>Used by: <a href="#SearchService_STATUS">SearchService_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>aadOrApiKey</td>
+          <td>Indicates that either the API key or an access token from a Microsoft Entra ID tenant can be used for authentication.</td>
+          <td><a href="#DataPlaneAadOrApiKeyAuthOption_STATUS">DataPlaneAadOrApiKeyAuthOption_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>apiKeyOnly</td>
+          <td>Indicates that only the API key can be used for authentication.</td>
+          <td>map[string]v1.JSON<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="EncryptionWithCmk">EncryptionWithCmk</h2>
+<p>Describes a policy that determines how resources within the search service are to be encrypted with customer=managed keys.</p>
+<p>Used by: <a href="#SearchService_Spec">SearchService_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>enforcement</td>
+          <td>Describes how a search service should enforce having one or more non-customer-encrypted resources.</td>
+          <td><a href="#EncryptionWithCmk_Enforcement">EncryptionWithCmk_Enforcement</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="EncryptionWithCmk_STATUS">EncryptionWithCmk_STATUS</h2>
+<p>Describes a policy that determines how resources within the search service are to be encrypted with customer=managed keys.</p>
+<p>Used by: <a href="#SearchService_STATUS">SearchService_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>encryptionComplianceStatus</td>
+          <td>Describes whether the search service is compliant or not with respect to having non-customer-encrypted resources. If a service has more than one non-customer-encrypted resource and &lsquo;Enforcement&rsquo; is &rsquo;enabled&rsquo; then the service will be marked as &rsquo;nonCompliant&rsquo;.</td>
+          <td><a href="#EncryptionWithCmk_EncryptionComplianceStatus_STATUS">EncryptionWithCmk_EncryptionComplianceStatus_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>enforcement</td>
+          <td>Describes how a search service should enforce having one or more non-customer-encrypted resources.</td>
+          <td><a href="#EncryptionWithCmk_Enforcement_STATUS">EncryptionWithCmk_Enforcement_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="Identity">Identity</h2>
+<p>Identity for the resource.</p>
+<p>Used by: <a href="#SearchService_Spec">SearchService_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>type</td>
+          <td>The identity type.</td>
+          <td><a href="#Identity_Type">Identity_Type</a><br/><small>Required</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="Identity_STATUS">Identity_STATUS</h2>
+<p>Identity for the resource.</p>
+<p>Used by: <a href="#SearchService_STATUS">SearchService_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>principalId</td>
+          <td>The principal ID of the system-assigned identity of the search service.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>tenantId</td>
+          <td>The tenant ID of the system-assigned identity of the search service.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>type</td>
+          <td>The identity type.</td>
+          <td><a href="#Identity_Type_STATUS">Identity_Type_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="NetworkRuleSet">NetworkRuleSet</h2>
+<p>Network-specific rules that determine how the search service can be reached.</p>
+<p>Used by: <a href="#SearchService_Spec">SearchService_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>ipRules</td>
+          <td>A list of IP restriction rules used for an IP firewall. Any IPs that do not match the rules are blocked by the firewall. These rules are only applied when the &lsquo;publicNetworkAccess&rsquo; of the search service is &rsquo;enabled&rsquo;.</td>
+          <td><a href="#IpRule">IpRule[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="NetworkRuleSet_STATUS">NetworkRuleSet_STATUS</h2>
+<p>Network-specific rules that determine how the search service can be reached.</p>
+<p>Used by: <a href="#SearchService_STATUS">SearchService_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>ipRules</td>
+          <td>A list of IP restriction rules used for an IP firewall. Any IPs that do not match the rules are blocked by the firewall. These rules are only applied when the &lsquo;publicNetworkAccess&rsquo; of the search service is &rsquo;enabled&rsquo;.</td>
+          <td><a href="#IpRule_STATUS">IpRule_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="PrivateEndpointConnection_STATUS">PrivateEndpointConnection_STATUS</h2>
+<p>Describes an existing private endpoint connection to the search service.</p>
+<p>Used by: <a href="#SearchService_STATUS">SearchService_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>id</td>
+          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SearchServiceOperatorSpec">SearchServiceOperatorSpec</h2>
+<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
+<p>Used by: <a href="#SearchService_Spec">SearchService_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>configMapExpressions</td>
+          <td>configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>configMaps</td>
+          <td>configures where to place operator written ConfigMaps.</td>
+          <td><a href="#SearchServiceOperatorConfigMaps">SearchServiceOperatorConfigMaps</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>secretExpressions</td>
+          <td>configures where to place operator written dynamic secrets (created with CEL expressions).</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>secrets</td>
+          <td>configures where to place Azure generated secrets.</td>
+          <td><a href="#SearchServiceOperatorSecrets">SearchServiceOperatorSecrets</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SearchServiceProperties_HostingMode">SearchServiceProperties_HostingMode</h2>
+<p>Used by: <a href="#SearchService_Spec">SearchService_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;default&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;highDensity&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SearchServiceProperties_HostingMode_STATUS">SearchServiceProperties_HostingMode_STATUS</h2>
+<p>Used by: <a href="#SearchService_STATUS">SearchService_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;default&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;highDensity&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SearchServiceProperties_ProvisioningState_STATUS">SearchServiceProperties_ProvisioningState_STATUS</h2>
+<p>Used by: <a href="#SearchService_STATUS">SearchService_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;failed&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;provisioning&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;succeeded&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SearchServiceProperties_PublicNetworkAccess">SearchServiceProperties_PublicNetworkAccess</h2>
+<p>Used by: <a href="#SearchService_Spec">SearchService_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;disabled&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;enabled&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SearchServiceProperties_PublicNetworkAccess_STATUS">SearchServiceProperties_PublicNetworkAccess_STATUS</h2>
+<p>Used by: <a href="#SearchService_STATUS">SearchService_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;disabled&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;enabled&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SearchServiceProperties_Status_STATUS">SearchServiceProperties_Status_STATUS</h2>
+<p>Used by: <a href="#SearchService_STATUS">SearchService_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;degraded&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;deleting&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;disabled&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;error&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;provisioning&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;running&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SemanticSearch">SemanticSearch</h2>
+<p>Sets options that control the availability of semantic ranking. This configuration is only possible for certain search SKUs in certain locations.</p>
+<p>Used by: <a href="#SearchService_Spec">SearchService_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;disabled&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;free&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;standard&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SemanticSearch_STATUS">SemanticSearch_STATUS</h2>
+<p>Sets options that control the availability of semantic ranking. This configuration is only possible for certain search SKUs in certain locations.</p>
+<p>Used by: <a href="#SearchService_STATUS">SearchService_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;disabled&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;free&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;standard&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SharedPrivateLinkResource_STATUS">SharedPrivateLinkResource_STATUS</h2>
+<p>Describes a Shared Private Link Resource managed by the search service.</p>
+<p>Used by: <a href="#SearchService_STATUS">SearchService_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>id</td>
+          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="Sku">Sku</h2>
+<p>Defines the SKU of a search service, which determines billing rate and capacity limits.</p>
+<p>Used by: <a href="#SearchService_Spec">SearchService_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>name</td>
+          <td>The SKU of the search service. Valid values include: &lsquo;free&rsquo;: Shared service. &lsquo;basic&rsquo;: Dedicated service with up to 3 replicas. &lsquo;standard&rsquo;: Dedicated service with up to 12 partitions and 12 replicas. &lsquo;standard2&rsquo;: Similar to standard, but with more capacity per search unit. &lsquo;standard3&rsquo;: The largest Standard offering with up to 12 partitions and 12 replicas (or up to 3 partitions with more indexes if you also set the hostingMode property to &lsquo;highDensity&rsquo;). &lsquo;storage_optimized_l1&rsquo;: Supports 1TB per partition, up to 12 partitions. &lsquo;storage_optimized_l2&rsquo;: Supports 2TB per partition, up to 12 partitions.&rsquo;</td>
+          <td><a href="#Sku_Name">Sku_Name</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="Sku_STATUS">Sku_STATUS</h2>
+<p>Defines the SKU of a search service, which determines billing rate and capacity limits.</p>
+<p>Used by: <a href="#SearchService_STATUS">SearchService_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>name</td>
+          <td>The SKU of the search service. Valid values include: &lsquo;free&rsquo;: Shared service. &lsquo;basic&rsquo;: Dedicated service with up to 3 replicas. &lsquo;standard&rsquo;: Dedicated service with up to 12 partitions and 12 replicas. &lsquo;standard2&rsquo;: Similar to standard, but with more capacity per search unit. &lsquo;standard3&rsquo;: The largest Standard offering with up to 12 partitions and 12 replicas (or up to 3 partitions with more indexes if you also set the hostingMode property to &lsquo;highDensity&rsquo;). &lsquo;storage_optimized_l1&rsquo;: Supports 1TB per partition, up to 12 partitions. &lsquo;storage_optimized_l2&rsquo;: Supports 2TB per partition, up to 12 partitions.&rsquo;</td>
+          <td><a href="#Sku_Name_STATUS">Sku_Name_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="DataPlaneAadOrApiKeyAuthOption">DataPlaneAadOrApiKeyAuthOption</h2>
+<p>Indicates that either the API key or an access token from a Microsoft Entra ID tenant can be used for authentication.</p>
+<p>Used by: <a href="#DataPlaneAuthOptions">DataPlaneAuthOptions</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>aadAuthFailureMode</td>
+          <td>Describes what response the data plane API of a search service would send for requests that failed authentication.</td>
+          <td><a href="#DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode">DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="DataPlaneAadOrApiKeyAuthOption_STATUS">DataPlaneAadOrApiKeyAuthOption_STATUS</h2>
+<p>Indicates that either the API key or an access token from a Microsoft Entra ID tenant can be used for authentication.</p>
+<p>Used by: <a href="#DataPlaneAuthOptions_STATUS">DataPlaneAuthOptions_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>aadAuthFailureMode</td>
+          <td>Describes what response the data plane API of a search service would send for requests that failed authentication.</td>
+          <td><a href="#DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS">DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="EncryptionWithCmk_EncryptionComplianceStatus_STATUS">EncryptionWithCmk_EncryptionComplianceStatus_STATUS</h2>
+<p>Used by: <a href="#EncryptionWithCmk_STATUS">EncryptionWithCmk_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Compliant&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;NonCompliant&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="EncryptionWithCmk_Enforcement">EncryptionWithCmk_Enforcement</h2>
+<p>Used by: <a href="#EncryptionWithCmk">EncryptionWithCmk</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Disabled&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Enabled&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Unspecified&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="EncryptionWithCmk_Enforcement_STATUS">EncryptionWithCmk_Enforcement_STATUS</h2>
+<p>Used by: <a href="#EncryptionWithCmk_STATUS">EncryptionWithCmk_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Disabled&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Enabled&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Unspecified&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="Identity_Type">Identity_Type</h2>
+<p>Used by: <a href="#Identity">Identity</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;None&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;SystemAssigned&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="Identity_Type_STATUS">Identity_Type_STATUS</h2>
+<p>Used by: <a href="#Identity_STATUS">Identity_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;None&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;SystemAssigned&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="IpRule">IpRule</h2>
+<p>The IP restriction rule of the search service.</p>
+<p>Used by: <a href="#NetworkRuleSet">NetworkRuleSet</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>value</td>
+          <td>Value corresponding to a single IPv4 address (for example, 123.1.2.3) or an IP range in CIDR format (for example, 123.1.2.3/24) to be allowed.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="IpRule_STATUS">IpRule_STATUS</h2>
+<p>The IP restriction rule of the search service.</p>
+<p>Used by: <a href="#NetworkRuleSet_STATUS">NetworkRuleSet_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>value</td>
+          <td>Value corresponding to a single IPv4 address (for example, 123.1.2.3) or an IP range in CIDR format (for example, 123.1.2.3/24) to be allowed.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SearchServiceOperatorConfigMaps">SearchServiceOperatorConfigMaps</h2>
+<p>Used by: <a href="#SearchServiceOperatorSpec">SearchServiceOperatorSpec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>identityPrincipalId</td>
+          <td>indicates where the IdentityPrincipalId config map should be placed. If omitted, no config map will be created.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapDestination">genruntime.ConfigMapDestination</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>identityTenantId</td>
+          <td>indicates where the IdentityTenantId config map should be placed. If omitted, no config map will be created.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapDestination">genruntime.ConfigMapDestination</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SearchServiceOperatorSecrets">SearchServiceOperatorSecrets</h2>
+<p>Used by: <a href="#SearchServiceOperatorSpec">SearchServiceOperatorSpec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>adminPrimaryKey</td>
+          <td>indicates where the AdminPrimaryKey secret should be placed. If omitted, the secret will not be retrieved from Azure.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">genruntime.SecretDestination</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>adminSecondaryKey</td>
+          <td>indicates where the AdminSecondaryKey secret should be placed. If omitted, the secret will not be retrieved from Azure.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">genruntime.SecretDestination</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>queryKey</td>
+          <td>indicates where the QueryKey secret should be placed. If omitted, the secret will not be retrieved from Azure.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">genruntime.SecretDestination</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="Sku_Name">Sku_Name</h2>
+<p>Used by: <a href="#Sku">Sku</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;basic&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;free&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;standard&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;standard2&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;standard3&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;storage_optimized_l1&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;storage_optimized_l2&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="Sku_Name_STATUS">Sku_Name_STATUS</h2>
+<p>Used by: <a href="#Sku_STATUS">Sku_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;basic&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;free&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;standard&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;standard2&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;standard3&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;storage_optimized_l1&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;storage_optimized_l2&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode">DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode</h2>
+<p>Used by: <a href="#DataPlaneAadOrApiKeyAuthOption">DataPlaneAadOrApiKeyAuthOption</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;http401WithBearerChallenge&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;http403&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS">DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS</h2>
+<p>Used by: <a href="#DataPlaneAadOrApiKeyAuthOption_STATUS">DataPlaneAadOrApiKeyAuthOption_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;http401WithBearerChallenge&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;http403&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
 
-	<div class="section-index">
-    
-    
-    </div>
+	
 </div>
+
 
           </main>
         </div>
