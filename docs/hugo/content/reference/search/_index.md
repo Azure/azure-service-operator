@@ -11,9 +11,9 @@ The `authOptions` and `operatorSpec` properties on [`SearchService`](https://azu
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource      | ARM Version | CRD Version   | Supported From | Sample                                                                                                                             |
-|---------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------------|
-| SearchService | 2023-11-01  | v1api20231101 | v2.14.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/search/v1api20231101/v1api20231101_searchservice.yaml) |
+| Resource                                                                        | ARM Version | CRD Version   | Supported From | Sample                                                                                                                             |
+|---------------------------------------------------------------------------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------------|
+| [SearchService]({{< relref "/reference/search/v1api20231101#SearchService" >}}) | 2023-11-01  | v1api20231101 | v2.14.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/search/v1api20231101/v1api20231101_searchservice.yaml) |
 
 ### Released
 
