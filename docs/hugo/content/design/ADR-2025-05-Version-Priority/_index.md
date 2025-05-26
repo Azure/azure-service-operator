@@ -5,7 +5,7 @@ toc_hide: true
 
 ## Context
 
-We have a problem with the way we version resources.
+As initially identified in [#4147](https://github.com/Azure/azure-service-operator/issues/4147), we have a problem with the way we version resources.
 
 If a specific resource isn't specified, Kubernetes will automatically select one for use through a process called [_version priority_](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definition-versioning/#version-priority). 
 
