@@ -20,13 +20,13 @@
 <title>Deploying Azure Service Operator v2 in multi-tenant mode | Azure Service Operator</title>
 <meta name="description" content="Multiple operator multitenancy Multiple operators deployed in different namespaces requires one deployment to handle webhooks (required because webhook configurations are cluster-level resources) and then a separate deployment for each tenant, each with its own credentials and set of namespaces that it watches for Azure resources.
 ASO may also be deployed in a multi-tenant configuration, enabling the use of separate credentials for managing resources in different Kubernetes namespaces.
-Multiple operator multitenancy deployment To deploy the operator in multi-operator multi-tenant mode the release YAML/helm installation has been split into two parts:">
+Warning We strongly recommend avoiding this deployment mode and instead using single-operator multitenancy via credential scopes. Multiple operator multitenancy deployment To deploy the operator in multi-operator multi-tenant mode the release YAML/helm installation has been split into two parts:">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/authentication/multitenant-deployment/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="Deploying Azure Service Operator v2 in multi-tenant mode">
   <meta property="og:description" content="Multiple operator multitenancy Multiple operators deployed in different namespaces requires one deployment to handle webhooks (required because webhook configurations are cluster-level resources) and then a separate deployment for each tenant, each with its own credentials and set of namespaces that it watches for Azure resources.
 ASO may also be deployed in a multi-tenant configuration, enabling the use of separate credentials for managing resources in different Kubernetes namespaces.
-Multiple operator multitenancy deployment To deploy the operator in multi-operator multi-tenant mode the release YAML/helm installation has been split into two parts:">
+Warning We strongly recommend avoiding this deployment mode and instead using single-operator multitenancy via credential scopes. Multiple operator multitenancy deployment To deploy the operator in multi-operator multi-tenant mode the release YAML/helm installation has been split into two parts:">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="guide">
@@ -34,13 +34,13 @@ Multiple operator multitenancy deployment To deploy the operator in multi-operat
   <meta itemprop="name" content="Deploying Azure Service Operator v2 in multi-tenant mode">
   <meta itemprop="description" content="Multiple operator multitenancy Multiple operators deployed in different namespaces requires one deployment to handle webhooks (required because webhook configurations are cluster-level resources) and then a separate deployment for each tenant, each with its own credentials and set of namespaces that it watches for Azure resources.
 ASO may also be deployed in a multi-tenant configuration, enabling the use of separate credentials for managing resources in different Kubernetes namespaces.
-Multiple operator multitenancy deployment To deploy the operator in multi-operator multi-tenant mode the release YAML/helm installation has been split into two parts:">
-  <meta itemprop="wordCount" content="747">
+Warning We strongly recommend avoiding this deployment mode and instead using single-operator multitenancy via credential scopes. Multiple operator multitenancy deployment To deploy the operator in multi-operator multi-tenant mode the release YAML/helm installation has been split into two parts:">
+  <meta itemprop="wordCount" content="763">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Deploying Azure Service Operator v2 in multi-tenant mode">
   <meta name="twitter:description" content="Multiple operator multitenancy Multiple operators deployed in different namespaces requires one deployment to handle webhooks (required because webhook configurations are cluster-level resources) and then a separate deployment for each tenant, each with its own credentials and set of namespaces that it watches for Azure resources.
 ASO may also be deployed in a multi-tenant configuration, enabling the use of separate credentials for managing resources in different Kubernetes namespaces.
-Multiple operator multitenancy deployment To deploy the operator in multi-operator multi-tenant mode the release YAML/helm installation has been split into two parts:">
+Warning We strongly recommend avoiding this deployment mode and instead using single-operator multitenancy via credential scopes. Multiple operator multitenancy deployment To deploy the operator in multi-operator multi-tenant mode the release YAML/helm installation has been split into two parts:">
 <link rel="preload" href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" as="style" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" rel="stylesheet" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <script
@@ -845,6 +845,15 @@ Multiple operator multitenancy deployment To deploy the operator in multi-operat
 	<h2 id="multiple-operator-multitenancy">Multiple operator multitenancy</h2>
 <p>Multiple operators deployed in different namespaces requires one deployment to handle webhooks (required because webhook configurations are cluster-level resources) and then a separate deployment for each tenant, each with its own credentials and set of namespaces that it watches for Azure resources.</p>
 <p>ASO may also be deployed in a <em>multi-tenant</em> configuration, enabling the use of separate credentials for managing resources in different Kubernetes namespaces.</p>
+
+
+<div class="alert alert-warning" role="alert">
+<h4 class="alert-heading">Warning</h4>
+
+    We strongly recommend avoiding this deployment mode and instead using single-operator multitenancy via <a href="/azure-service-operator/guide/authentication/credential-scope/">credential scopes</a>.
+
+</div>
+
 <h3 id="multiple-operator-multitenancy-deployment">Multiple operator multitenancy deployment</h3>
 <p>To deploy the operator in multi-operator multi-tenant mode the release YAML/helm installation has been split into two parts:</p>
 <ol>
