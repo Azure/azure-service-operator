@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package arm
+package errorclassification
 
 import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
