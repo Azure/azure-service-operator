@@ -29,7 +29,7 @@ require (
 	github.com/Azure/msi-dataplane v0.4.3
 	github.com/benbjohnson/clock v1.3.5
 	github.com/dnaeon/go-vcr v1.2.0
-	github.com/go-logr/logr v1.4.2
+	github.com/go-logr/logr v1.4.3
 	github.com/go-logr/zapr v1.3.0
 	github.com/go-sql-driver/mysql v1.9.2
 	github.com/google/cel-go v0.25.0
@@ -41,7 +41,7 @@ require (
 	github.com/kr/pretty v0.3.1
 	github.com/kylelemons/godebug v1.1.0
 	github.com/leanovate/gopter v0.2.11
-	github.com/microsoft/go-mssqldb v1.8.1
+	github.com/microsoft/go-mssqldb v1.8.2
 	github.com/onsi/gomega v1.37.0
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/prometheus/client_golang v1.22.0
