@@ -8,6 +8,10 @@ Multiple operators deployed in different namespaces requires one deployment to h
 
 ASO may also be deployed in a _multi-tenant_ configuration, enabling the use of separate credentials for managing resources in different Kubernetes namespaces.
 
+{{% alert title="Warning" color="warning" %}}
+We strongly recommend avoiding this deployment mode and instead using single-operator multitenancy via [credential scopes]( {{< relref "credential-scope" >}} ).
+{{% /alert %}}
+
 
 ### Multiple operator multitenancy deployment
 
