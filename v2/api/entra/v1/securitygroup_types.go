@@ -3,6 +3,8 @@
 package v1
 
 import (
+	"strings"
+
 	"github.com/microsoftgraph/msgraph-sdk-go/models"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
@@ -11,8 +13,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
 
-// +kubebuilder:rbac:groups=entra.azure.com,resources=users,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=entra.azure.com,resources={users/status,users/finalizers},verbs=get;update;patch
+// +kubebuilder:rbac:groups=entra.azure.com,resources=securitygroups,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=entra.azure.com,resources={securitygroups/status,users/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
@@ -67,11 +69,6 @@ func (group *SecurityGroup) Default() {
 // defaultImpl applies the code generated defaults to the FlexibleServer resource
 func (group *SecurityGroup) defaultImpl() { group.defaultAzureName() }
 */
-
-// AzureName returns the Azure name of the resource
-func (group *SecurityGroup) AzureName() string {
-	return group.Spec.AzureName
-}
 
 // +kubebuilder:webhook:path=/validate-entra-azure-com-v1-user,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=entra.azure.com,resources=users,verbs=create;update,versions=v1,name=validate.v1.securitygroup.entra.azure.com,admissionReviewVersions=v1
 
@@ -137,12 +134,12 @@ type SecurityGroupList struct {
 }
 
 type SecurityGroupSpec struct {
-	// EntraName: The name of the resource in Entra.
-	// This is often the same as the name of the resource in Kubernetes but it doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
+	// DisplayName: The display name of the group.
 	// +kubebuilder:validation:Required
+	DisplayName *string `json:"displayName,omitempty"`
+
 	// MailNickname: The email address of the group.
+	// +kubebuilder:validation:Required
 	MailNickname *string `json:"groupEmailAddress,omitempty"`
 
 	// Description: The description of the group.
@@ -150,6 +147,9 @@ type SecurityGroupSpec struct {
 
 	// MembershipType: The membership type of the group.
 	MembershipType *SecurityGroupMembershipType `json:"membershipType,omitempty"`
+
+	// OperatorSpec: The operator specific configuration for the resource.
+	OperatorSpec *SecurityGroupOperatorSpec `json:"operatorSpec,omitempty"`
 }
 
 // OriginalVersion returns the original API version used to create the resource.
@@ -157,15 +157,10 @@ func (spec *SecurityGroupSpec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
-// SetAzureName sets the Azure name of the resource
-func (spec *SecurityGroupSpec) SetAzureName(azureName string) {
-	spec.AzureName = azureName
-}
-
 // AssignToGroup configures the provided instance with the details of the group
 func (spec *SecurityGroupSpec) AssignToGroup(model models.Groupable) {
 	model.SetSecurityEnabled(to.Ptr(true))
-	model.SetDisplayName(&spec.AzureName)
+	model.SetDisplayName(spec.DisplayName)
 
 	if spec.MailNickname != nil {
 		model.SetMailNickname(spec.MailNickname)
@@ -181,17 +176,20 @@ func (spec *SecurityGroupSpec) AssignToGroup(model models.Groupable) {
 	}
 
 	model.SetGroupTypes(groupTypes)
+
+	// This is a security group, not a mail distribution group
+	model.SetMailEnabled(to.Ptr(false))
 }
 
 type SecurityGroupStatus struct {
-	// ID: The ID of the resource in Entra.
-	ID *string `json:"id,omitempty"`
+	// EntraID: The GUID identifing the resource in Entra
+	EntraID *string `json:"entraID,omitempty"`
+
+	// DisplayName: The display name of the group.
+	DisplayName *string `json:"displayName,omitempty"`
 
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// Name: The name of the resource in Entra.
-	Name *string `json:"azureName,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// MailNickname: The email address of the group.
@@ -203,11 +201,11 @@ type SecurityGroupStatus struct {
 
 func (status *SecurityGroupStatus) AssignFromGroup(model models.Groupable) {
 	if id := model.GetId(); id != nil {
-		status.ID = id
+		status.EntraID = id
 	}
 
 	if name := model.GetDisplayName(); name != nil {
-		status.Name = name
+		status.DisplayName = name
 	}
 
 	if mailNickname := model.GetMailNickname(); mailNickname != nil {
@@ -226,6 +224,28 @@ const (
 	SecurityGroupMembershipTypeAssigned SecurityGroupMembershipType = "assigned"
 	SecurityGroupMembershipTypeDynamic  SecurityGroupMembershipType = "dynamic"
 )
+
+type SecurityGroupOperatorSpec struct {
+	// NamingConvention: The uuid generation technique to use for any role without an explicit AzureName. One of 'stable' or
+	// 'random'.
+	// +kubebuilder:validation:Enum={"random","stable"}
+	NamingConvention *SecurityGroupNamingConvention `json:"namingConvention,omitempty"`
+}
+
+type SecurityGroupNamingConvention string
+
+const (
+	SecurityGroupNamingConventionRandom SecurityGroupNamingConvention = "random"
+	SecurityGroupNamingConventionStable SecurityGroupNamingConvention = "stable"
+)
+
+func (spec *SecurityGroupOperatorSpec) HasNamingConvention(convention SecurityGroupNamingConvention) bool {
+	if spec.NamingConvention == nil {
+		return false
+	}
+
+	return strings.EqualFold(string(*spec.NamingConvention), string(convention))
+}
 
 func init() {
 	SchemeBuilder.Register(&SecurityGroup{}, &SecurityGroupList{})

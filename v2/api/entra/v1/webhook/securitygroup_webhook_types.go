@@ -4,19 +4,21 @@ package webhook
 
 import (
 	"context"
-
-	v1 "github.com/Azure/azure-service-operator/v2/api/entra/v1"
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"strings"
 
 	"github.com/rotisserie/eris"
 	"k8s.io/apimachinery/pkg/runtime"
 	"sigs.k8s.io/controller-runtime/pkg/webhook"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
+
+	v1 "github.com/Azure/azure-service-operator/v2/api/entra/v1"
+	"github.com/Azure/azure-service-operator/v2/internal/util/randextensions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 type SecurityGroup_Webhook struct{}
 
-// +kubebuilder:webhook:path=/mutate-entra-azure-com-v1-securitygroup,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbforpostgresql.azure.com,resources=users,verbs=create;update,versions=v1,name=default.v1.users.entra.azure.com,admissionReviewVersions=v1
+// +kubebuilder:webhook:path=/mutate-entra-azure-com-v1-securitygroup,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=entra.azure.com,resources=securitygroups,verbs=create;update,versions=v1,name=default.v1.securitygroups.entra.azure.com,admissionReviewVersions=v1
 
 var _ webhook.CustomDefaulter = &SecurityGroup_Webhook{}
 
@@ -53,7 +55,7 @@ func (webhook *SecurityGroup_Webhook) defaultImpl(
 	_ context.Context,
 	securityGroup *v1.SecurityGroup,
 ) error {
-	err := webhook.defaultAzureName(securityGroup)
+	err := webhook.defaultEntraID(securityGroup)
 	if err != nil {
 		return err
 	}
@@ -61,18 +63,37 @@ func (webhook *SecurityGroup_Webhook) defaultImpl(
 	return nil
 }
 
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (webhook *SecurityGroup_Webhook) defaultAzureName(
+// defaultEntraID defaults the EntraID of the resource to the Kubernetes name
+func (webhook *SecurityGroup_Webhook) defaultEntraID(
 	securityGroup *v1.SecurityGroup,
 ) error {
-	if securityGroup.Spec.AzureName == "" {
-		securityGroup.Spec.AzureName = securityGroup.Name
+	if securityGroup.Spec.EntraID != nil {
+		// Nothing to do
+		return nil
+	}
+
+	if securityGroup.Spec.OperatorSpec == nil ||
+		securityGroup.Spec.OperatorSpec.HasNamingConvention(v1.SecurityGroupNamingConventionStable) {
+		parts := []string{
+			securityGroup.Namespace,
+			securityGroup.Name,
+		}
+
+		seed := strings.Join(parts, ":")
+		id := randextensions.MakeUUIDName(securityGroup.Name, seed)
+		securityGroup.Spec.EntraID = &id
+	}
+
+	if securityGroup.Spec.OperatorSpec != nil &&
+		securityGroup.Spec.OperatorSpec.HasNamingConvention(v1.SecurityGroupNamingConventionRandom) {
+		id := randextensions.MakeRandomUUID()
+		securityGroup.Spec.EntraID = &id
 	}
 
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-entra-azure-com-v1-securitygroup,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbforpostgresql.azure.com,resources=users,verbs=create;update,versions=v1,name=validate.v1.users.entra.azure.com,admissionReviewVersions=v1
+// +kubebuilder:webhook:path=/validate-entra-azure-com-v1-securitygroup,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=entra.azure.com,resources=securitygroups,verbs=create;update,versions=v1,name=validate.v1.securitygroups.entra.azure.com,admissionReviewVersions=v1
 
 var _ webhook.CustomValidator = &SecurityGroup_Webhook{}
 

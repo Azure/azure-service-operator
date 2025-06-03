@@ -6,9 +6,8 @@
 package entra
 
 import (
-	"k8s.io/apimachinery/pkg/types"
-
 	msgraphsdk "github.com/microsoftgraph/msgraph-sdk-go"
+	"k8s.io/apimachinery/pkg/types"
 
 	"github.com/Azure/azure-service-operator/v2/internal/identity"
 )

@@ -10,15 +10,15 @@ import (
 
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 
-	asoentra "github.com/Azure/azure-service-operator/v2/api/entra/v1"
+	"github.com/go-logr/logr"
 	msgraphsdkgo "github.com/microsoftgraph/msgraph-sdk-go"
 	msgraphmodels "github.com/microsoftgraph/msgraph-sdk-go/models"
-	ctrl "sigs.k8s.io/controller-runtime"
-
-	"github.com/go-logr/logr"
+	"github.com/microsoftgraph/msgraph-sdk-go/models/odataerrors"
 	"github.com/rotisserie/eris"
 	"k8s.io/client-go/tools/record"
+	ctrl "sigs.k8s.io/controller-runtime"
 
+	asoentra "github.com/Azure/azure-service-operator/v2/api/entra/v1"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/identity"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
@@ -81,32 +81,43 @@ func (r *EntraSecurityGroupReconciler) CreateOrUpdate(
 		return ctrl.Result{}, eris.Wrap(err, "creating entra client")
 	}
 
-	// Augment Log
-	azureName := group.Spec.AzureName
-	log = log.WithValues("azureName", azureName)
+	// If we know the group ID, we can try to load it for an update
+	var existingGroup msgraphmodels.Groupable
+	id := group.Spec.EntraID
+	if id != nil && *id != "" {
+		g, err := r.loadGroup(ctx, *id, client.Client(), log)
+		if err != nil && !r.isNotFound(err) {
+			return ctrl.Result{}, eris.Wrap(err, "getting group")
+		}
 
-	groupable, err := r.loadGroup(ctx, azureName, client.Client(), log)
-	if err != nil {
-		return ctrl.Result{}, eris.Wrap(err, "getting group")
+		existingGroup = g
 	}
 
-	var mode string
-	if groupable == nil {
-		// Creation
+	if existingGroup == nil {
+		// Creation - PUT
 		log.V(Status).Info("Creating Entra security group")
-		mode = "create"
-		groupable = msgraphmodels.NewGroup()
-	} else {
-		// Update
-		log.V(Status).Info("Updating Entra security group")
-		mode = "update"
-	}
+		newGroup := msgraphmodels.NewGroup()
+		group.Spec.AssignToGroup(newGroup)
 
-	group.Spec.AssignToGroup(groupable)
-	_, err = client.Client().Groups().Post(ctx, groupable, nil)
-	if err != nil {
-		// Failed to update
-		return ctrl.Result{}, eris.Wrapf(err, "failed to %s group", mode)
+		statusGroup, err := client.Client().Groups().Post(ctx, newGroup, nil)
+		if err != nil {
+			// Failed to create
+			return ctrl.Result{}, eris.Wrapf(err, "failed to create group %s", group.Name)
+		}
+
+		group.Status.AssignFromGroup(statusGroup)
+	} else {
+		// Update - PATCH
+		log.V(Status).Info("Updating Entra security group")
+		group.Spec.AssignToGroup(existingGroup)
+
+		statusGroup, err := client.Client().Groups().ByGroupId(*id).Patch(ctx, existingGroup, nil)
+		if err != nil {
+			// Failed to update
+			return ctrl.Result{}, eris.Wrapf(err, "failed to update group %s", group.Name)
+		}
+
+		group.Status.AssignFromGroup(statusGroup)
 	}
 
 	/*
@@ -136,11 +147,15 @@ func (r *EntraSecurityGroupReconciler) Delete(
 		return ctrl.Result{}, eris.Wrap(err, "creating entra client")
 	}
 
-	// Augment Log
-	azureName := group.Spec.AzureName
-	log = log.WithValues("azureName", azureName)
+	// If the group doesn't have an ID, something went wrong with our webhooks
+	// but we know there's nothing to delete from Entra so there's nothing to do
+	if group.Spec.EntraID == nil || *group.Spec.EntraID == "" {
+		log.V(Status).Info("No Entra ID found for security group, nothing to delete")
+		return ctrl.Result{}, nil
+	}
 
-	err = client.Client().Groups().ByGroupId(*group.Status.ID).Delete(ctx, nil)
+	id := *group.Spec.EntraID
+	err = client.Client().Groups().ByGroupId(id).Delete(ctx, nil)
 	if err != nil {
 		// If the group doesn't exist, return nil and nil as we've successfully ensured that it doesn't exist
 		if r.isNotFound(err) {
@@ -148,7 +163,12 @@ func (r *EntraSecurityGroupReconciler) Delete(
 		}
 
 		// If the error is not a 404, return the error
-		return ctrl.Result{}, eris.Wrapf(err, "failed to delete group %s", azureName)
+		var displayName string
+		if group.Spec.DisplayName != nil {
+			displayName = *group.Spec.DisplayName
+		}
+
+		return ctrl.Result{}, eris.Wrapf(err, "failed to delete group %q (%s)", displayName, id)
 	}
 
 	return ctrl.Result{}, nil
@@ -181,7 +201,8 @@ func (r *EntraSecurityGroupReconciler) UpdateStatus(
 		return eris.Wrap(err, "creating entra client")
 	}
 
-	groupable, err := r.loadGroup(ctx, group.Spec.AzureName, client.Client(), log)
+	id := *group.Spec.EntraID
+	groupable, err := r.loadGroup(ctx, id, client.Client(), log)
 	if err != nil {
 		// If the group doesn't exist, return nil and nil as we're probably in the midst of deleting it
 		if r.isNotFound(err) {
@@ -189,7 +210,7 @@ func (r *EntraSecurityGroupReconciler) UpdateStatus(
 		}
 
 		// If the error is not a 404, return the error
-		return eris.Wrapf(err, "failed to update status of security group %s", group.Spec.AzureName)
+		return eris.Wrapf(err, "failed to update status of security group %s", id)
 	}
 
 	group.Status.AssignFromGroup(groupable)
@@ -201,11 +222,11 @@ func (r *EntraSecurityGroupReconciler) UpdateStatus(
 // Returns the group and nil if it exists, nil and nil if it doesn't, or nil and an error if there was a problem.
 func (r *EntraSecurityGroupReconciler) loadGroup(
 	ctx context.Context,
-	name string,
+	id string,
 	client *msgraphsdkgo.GraphServiceClient,
 	_ logr.Logger,
 ) (msgraphmodels.Groupable, error) {
-	groupable, err := client.Groups().ByGroupId(name).Get(ctx, nil)
+	groupable, err := client.Groups().ByGroupId(id).Get(ctx, nil)
 	if err != nil {
 		// If the only problem is that the group doesn't exist, return nil and nil
 		if r.isNotFound(err) {
@@ -219,7 +240,13 @@ func (r *EntraSecurityGroupReconciler) loadGroup(
 }
 
 // isNotFound returns true if the error is a 404 error.
-func (r *EntraSecurityGroupReconciler) isNotFound(_ error) bool {
-	//!! Fix
+func (r *EntraSecurityGroupReconciler) isNotFound(err error) bool {
+	var odataError *odataerrors.ODataError
+	if eris.As(err, &odataError) {
+		if odataError.ResponseStatusCode == 404 {
+			return true
+		}
+	}
+
 	return false
 }
