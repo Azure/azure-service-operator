@@ -3,7 +3,7 @@ title: Reconciliation Failures
 weight: 1 # This is the default weight if you just want to be ordered alphabetically
 ---
 
-Sometimes you able to successfully create a resource in your Kubernetes cluster, but Azure Service Operator (ASO) experiences issues when trying to create that resource in Azure.
+Sometimes you are able to successfully create a resource in your Kubernetes cluster, but Azure Service Operator (ASO) experiences issues when trying to create that resource in Azure.
 
 **How to use this TSG**: Review [_When to apply this TSG_](#when-to-apply-this-tsg) to determine whether this TSG is relevant. Each subsection recommends one or more actions to take, these are detailed below under [_Actions_](#actions).
 
@@ -64,7 +64,7 @@ I2025-05-25T21:13:41Z] cache_redis "msg"="Error during Delete" "err"="deleting r
     " name="asotest-redis2-vscggl" namespace="aso-test-cache-redis-20230801-crud" azureName="asotest-redis2-vscggl" action="BeginDelete"
 ```
 
-Errors shown in this way come from Azure Resource Manager (ARM) and are not specific to ASO. They are the same errors you would see if you were using the Azure CLI or Azure Portal to create the resource, and can be resolved using the same research techniques.
+Errors shown in this way come from Azure Resource Manager (ARM) and are not specific to ASO. They are the same errors you would see if you were using the Azure CLI or Azure Portal, and can be resolved using the same research techniques.
 
 ### Potential actions
 
@@ -76,19 +76,19 @@ Errors shown in this way come from Azure Resource Manager (ARM) and are not spec
 
 ## Repeated failures followed by success
 
-Check the ASO logs for each attempt to reconcile the resource and take note of the reasons for failure.
+Check ASO logs or events for each attempt to reconcile the resource and take note of the reasons for failure.
 
 A sequence of near-identical failures terminated by an eventual success may indicate that creation of the resource was not possible until some precondition was satisfied.
 
-In some cases (e.g. quota issues), the precondition is external and requires intervention (e.g. a quota request) before ASO can successfully create the resource. In these cases, the customer should be provided with appropriate guidance on how to resolve the issue.
+In some cases (e.g. quota issues), the precondition is external and requires intervention (e.g. a quota request) before ASO can successfully create the resource. Based on the error message, you may be able to _fix the underlying cause_ yourself, or you may need to contact the relevant Azure product group for support.
 
-In other cases, we find that ASO is trying to create the resource too early. Fortunately, we can modify ASO to respect that precondition, so that it does not attempt to create the resource until the precondition is satisfied.
+In other cases, you might conclude that ASO is simply trying to create the resource too early. You may want to [_implement a new precondition check_](#implement-a-new-precondition-check) yourself, or [_request implementation of that check_](#request-implementation-of-a-new-precondition-check) from the ASO team by creating an [issue on GitHub](https://github.com/Azure/azure-service-operator/issues).
 
 ### Potential actions
 
 * **Fix the underlying cause**: Many errors require you to take action (e.g. quota issues require a request for more quota). In these cases, the problem will automaticaly resolve once the underlying issue is resolved.
 
-* [**Implement a new precondition check**](#implement-a-new-precondition-check): ASO is an open source project that accepts contributions. If you identify a new precondition for a specific resource, we encourage you to consider contributing changes yourself.
+* [**Implement a new precondition check**](#implement-a-new-precondition-check): It's straightforward to modify ASO to respect a new precondition, delaying creation until that precondition is satisfied. ASO is an open source project that accepts contributions, so we encourage you to consider contributing changes yourself.
 
 * [**Request implementation of a new precondition check**](#request-implementation-of-a-new-precondition-check): If contribution is not an option (for any reason), please create a [GitHub Issue](https://github.com/Azure/azure-service-operator/issues) requesting the ASO team implement the required check.
 
@@ -138,18 +138,10 @@ New feature requests go into the ASO backlog, and are prioritized by the team al
 
 # Background
 
-## Resource and property naming
-
-Azure has strong standards for resource and property naming, but they differ slightly from the conventions used in the Kubernetes ecosystem. In order to work well with other Kubernetes tools, the names of resources and properties on ASO CRDs may differ subtly from the Azure originals.
-
-**Resource names** are typically plural in Azure (e.g. Subscriptions, ManageClusters, or VirtualMachineScaleSets) but singular in ASO (Subscription, ManagedCluster, or VirtualMachineScaleSet)
-
-**References** to other ARM resources often have the suffix `ID` in Azure, though this isn't 100% consistent. ASO requires the ability to refer to resources either within the cluster (via `Group`, `Kind`, and `Name`) or within Azure (via `ARM ID`), so these properties are renamed to have a consistent `Reference` suffix.
-
 ## Preconditions for resource creation
 
 ASO already checks for a number of preconditions before attempting to create or update resources in Azure. For example, it will not attempt to create a resource if the owning resource does not exist, or if a required secret or configmap is missing.
 
 For some resources, we've found it useful to introduce additional preconditions. For example, any attempt to PUT a `containerservice ManagedCluster` will automatically fail if the `provisioningState` of the `ManagedCluster` is in a transient state (e.g. `Creating` or `Updating`). To avoid polluting the ASO logs with a large number of failures, we block reconcile attempts until the cluster reaches a stable state (e.g. `Successful` or `Failed`).
 
-Similar checks can be added for any resource, as needed, by implementing Go interface `PreReconcileCheck`. This interface provides an extension point, allowing resource behaviour to be customized where needed.
+Similar checks can be added for any resource, as needed, by implementing Go interface `PreReconcileCheck`. This interface provides an extension point, allowing resource behaviour to be customized where needed. See [PR#2686](https://github.com/Azure/azure-service-operator/pull/2686) for an example of this in action.
