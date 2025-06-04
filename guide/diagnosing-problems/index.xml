@@ -15,6 +15,13 @@
       <description>&lt;p&gt;It was once fairly easy for Azure Service Operator (ASO) users to trigger Azure Resource Manager (ARM) throttling, but this is now much less common because ARM have lifted their service limits considerably.&lt;/p&gt;&#xA;&lt;p&gt;Under the old limits, a single subscription was limited to 600 PUT requests per hour in a given region. With ASO configured to reconcile every 15m, it was possible to hit the rate limit as soon as the number of resources being reconciled closed in on 150.&lt;/p&gt;</description>
     </item>
     <item>
+      <title>Reconciliation Failures</title>
+      <link>https://azure.github.io/azure-service-operator/guide/diagnosing-problems/reconciliation-failures/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://azure.github.io/azure-service-operator/guide/diagnosing-problems/reconciliation-failures/</guid>
+      <description>&lt;p&gt;Sometimes you are able to successfully create a resource in your Kubernetes cluster, but Azure Service Operator (ASO) experiences issues when trying to create that resource in Azure.&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;How to use this TSG&lt;/strong&gt;: Review &lt;a href=&#34;#when-to-apply-this-tsg&#34;&gt;&lt;em&gt;When to apply this TSG&lt;/em&gt;&lt;/a&gt; to determine whether this TSG is relevant. Each subsection recommends one or more actions to take, these are detailed below under &lt;a href=&#34;#actions&#34;&gt;&lt;em&gt;Actions&lt;/em&gt;&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;h1 id=&#34;when-to-apply-this-tsg&#34;&gt;When to apply this TSG&lt;/h1&gt;&#xA;&lt;p&gt;This TSG applies when review of ASO logs shows:&lt;/p&gt;</description>
+    </item>
+    <item>
       <title>Reconciliation Frequencey</title>
       <link>https://azure.github.io/azure-service-operator/guide/diagnosing-problems/reconciliation-frequency/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>

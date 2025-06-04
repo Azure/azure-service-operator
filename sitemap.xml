@@ -60,6 +60,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/ownership/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/diagnosing-problems/reconciliation-failures/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/diagnosing-problems/reconciliation-frequency/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/configmaps/</loc>

@@ -183,6 +183,13 @@
       <description>&lt;h2 id=&#34;what-is-an-owner&#34;&gt;What is an owner?&lt;/h2&gt;&#xA;&lt;p&gt;Most Azure Service Operator resources have an &lt;code&gt;owner&lt;/code&gt; field, like so:&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;  owner:&#xA;    name: aso-sample-rg&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The Go type for this is either&#xA;&lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference&#34;&gt;KnownResourceReference&lt;/a&gt;&#xA;or&#xA;&lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ArbitraryOwnerReference&#34;&gt;ArbitraryOwnerReference&lt;/a&gt;, depending&#xA;on if the resource supports only a single kind of owner (&lt;code&gt;StorageAccount&lt;/code&gt;s are always owned by &lt;code&gt;ResourceGroup&lt;/code&gt;s),&#xA;or many kinds of owner (&lt;code&gt;RoleAssignment&lt;/code&gt; can be owned by any type of resource).&lt;/p&gt;&#xA;&lt;p&gt;You can tell what type of resource the owner should point to by looking at the reference documentation. For example:&lt;/p&gt;</description>
     </item>
     <item>
+      <title>Reconciliation Failures</title>
+      <link>https://azure.github.io/azure-service-operator/guide/diagnosing-problems/reconciliation-failures/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://azure.github.io/azure-service-operator/guide/diagnosing-problems/reconciliation-failures/</guid>
+      <description>&lt;p&gt;Sometimes you are able to successfully create a resource in your Kubernetes cluster, but Azure Service Operator (ASO) experiences issues when trying to create that resource in Azure.&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;How to use this TSG&lt;/strong&gt;: Review &lt;a href=&#34;#when-to-apply-this-tsg&#34;&gt;&lt;em&gt;When to apply this TSG&lt;/em&gt;&lt;/a&gt; to determine whether this TSG is relevant. Each subsection recommends one or more actions to take, these are detailed below under &lt;a href=&#34;#actions&#34;&gt;&lt;em&gt;Actions&lt;/em&gt;&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;h1 id=&#34;when-to-apply-this-tsg&#34;&gt;When to apply this TSG&lt;/h1&gt;&#xA;&lt;p&gt;This TSG applies when review of ASO logs shows:&lt;/p&gt;</description>
+    </item>
+    <item>
       <title>Reconciliation Frequencey</title>
       <link>https://azure.github.io/azure-service-operator/guide/diagnosing-problems/reconciliation-frequency/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>

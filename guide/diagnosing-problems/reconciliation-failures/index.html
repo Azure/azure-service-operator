@@ -3,7 +3,6 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="alternate" type="application/rss&#43;xml" href="https://azure.github.io/azure-service-operator/design/adr-2023-09-skipping-properties/index.xml">
 <meta name="robots" content="index, follow">
 
 
@@ -18,25 +17,30 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>2023-09 Complex Properties that Skip Versions | Azure Service Operator</title>
-<meta name="description" content="Context We have a long standing issue (originally documented in #1776) where our conversions between versions will break if a complex (object valued) property is reintroduced with a different shape in a later version after being removed in an earlier one.
-TL;DR: The crux of the problem is that we can currently end up with two different versions (shapes) of the same property serialized in a property bag on the same intermediate version.">
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/design/adr-2023-09-skipping-properties/">
+<title>Reconciliation Failures | Azure Service Operator</title>
+<meta name="description" content="Sometimes you are able to successfully create a resource in your Kubernetes cluster, but Azure Service Operator (ASO) experiences issues when trying to create that resource in Azure.
+How to use this TSG: Review When to apply this TSG to determine whether this TSG is relevant. Each subsection recommends one or more actions to take, these are detailed below under Actions.
+When to apply this TSG This TSG applies when review of ASO logs shows:">
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/diagnosing-problems/reconciliation-failures/">
   <meta property="og:site_name" content="Azure Service Operator">
-  <meta property="og:title" content="2023-09 Complex Properties that Skip Versions">
-  <meta property="og:description" content="Context We have a long standing issue (originally documented in #1776) where our conversions between versions will break if a complex (object valued) property is reintroduced with a different shape in a later version after being removed in an earlier one.
-TL;DR: The crux of the problem is that we can currently end up with two different versions (shapes) of the same property serialized in a property bag on the same intermediate version.">
+  <meta property="og:title" content="Reconciliation Failures">
+  <meta property="og:description" content="Sometimes you are able to successfully create a resource in your Kubernetes cluster, but Azure Service Operator (ASO) experiences issues when trying to create that resource in Azure.
+How to use this TSG: Review When to apply this TSG to determine whether this TSG is relevant. Each subsection recommends one or more actions to take, these are detailed below under Actions.
+When to apply this TSG This TSG applies when review of ASO logs shows:">
   <meta property="og:locale" content="en_us">
-  <meta property="og:type" content="website">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="guide">
 
-  <meta itemprop="name" content="2023-09 Complex Properties that Skip Versions">
-  <meta itemprop="description" content="Context We have a long standing issue (originally documented in #1776) where our conversions between versions will break if a complex (object valued) property is reintroduced with a different shape in a later version after being removed in an earlier one.
-TL;DR: The crux of the problem is that we can currently end up with two different versions (shapes) of the same property serialized in a property bag on the same intermediate version.">
-  <meta itemprop="wordCount" content="1941">
+  <meta itemprop="name" content="Reconciliation Failures">
+  <meta itemprop="description" content="Sometimes you are able to successfully create a resource in your Kubernetes cluster, but Azure Service Operator (ASO) experiences issues when trying to create that resource in Azure.
+How to use this TSG: Review When to apply this TSG to determine whether this TSG is relevant. Each subsection recommends one or more actions to take, these are detailed below under Actions.
+When to apply this TSG This TSG applies when review of ASO logs shows:">
+  <meta itemprop="wordCount" content="1302">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="2023-09 Complex Properties that Skip Versions">
-  <meta name="twitter:description" content="Context We have a long standing issue (originally documented in #1776) where our conversions between versions will break if a complex (object valued) property is reintroduced with a different shape in a later version after being removed in an earlier one.
-TL;DR: The crux of the problem is that we can currently end up with two different versions (shapes) of the same property serialized in a property bag on the same intermediate version.">
+  <meta name="twitter:title" content="Reconciliation Failures">
+  <meta name="twitter:description" content="Sometimes you are able to successfully create a resource in your Kubernetes cluster, but Azure Service Operator (ASO) experiences issues when trying to create that resource in Azure.
+How to use this TSG: Review When to apply this TSG to determine whether this TSG is relevant. Each subsection recommends one or more actions to take, these are detailed below under Actions.
+When to apply this TSG This TSG applies when review of ASO logs shows:">
 <link rel="preload" href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" as="style" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" rel="stylesheet" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <script
@@ -45,7 +49,7 @@ TL;DR: The crux of the problem is that we can currently end up with two differen
   crossorigin="anonymous"></script>
 
   </head>
-  <body class="td-section">
+  <body class="td-page">
     <header>
       <nav class="td-navbar js-navbar-scroll" data-bs-theme="dark">
 <div class="container-fluid flex-column flex-md-row">
@@ -53,7 +57,7 @@ TL;DR: The crux of the problem is that we can currently end up with two differen
   <div class="td-navbar-nav-scroll ms-md-auto" id="main_navbar">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" href="/azure-service-operator/guide/"><span>Guide</span></a>
+        <a class="nav-link active" href="/azure-service-operator/guide/"><span>Guide</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/azure-service-operator/tutorials/"><span>Tutorials</span></a>
@@ -68,7 +72,7 @@ TL;DR: The crux of the problem is that we can currently end up with two differen
         <a class="nav-link" href="/azure-service-operator/contributing/"><span>Contributing</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link active" href="/azure-service-operator/design/"><span>Design</span></a>
+        <a class="nav-link" href="/azure-service-operator/design/"><span>Design</span></a>
       </li>
       </ul>
   </div>
@@ -96,35 +100,35 @@ TL;DR: The crux of the problem is that we can currently end up with two differen
       <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operator-li">
   <a href="/azure-service-operator/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section tree-root" id="m-azure-service-operator"><span class="">Azure Service Operator v2</span></a>
   <ul class="ul-1">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguide-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorguide-li">
   <a href="/azure-service-operator/guide/" title="User’s Guide" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguide"><span class="">Guide</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideinstalling-from-helm-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideinstalling-from-helm-li">
   <a href="/azure-service-operator/guide/installing-from-helm/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideinstalling-from-helm"><span class="">Installation: From Helm</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideinstalling-from-yaml-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideinstalling-from-yaml-li">
   <a href="/azure-service-operator/guide/installing-from-yaml/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideinstalling-from-yaml"><span class="">Installation: From YAML</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidecrd-management-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidecrd-management-li">
   <a href="/azure-service-operator/guide/crd-management/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidecrd-management"><span class="">CRD management in ASO</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideupgrading-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideupgrading-li">
   <a href="/azure-service-operator/guide/upgrading/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideupgrading"><span class="">Upgrading</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidefrequently-asked-questions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidefrequently-asked-questions-li">
   <a href="/azure-service-operator/guide/frequently-asked-questions/" title="Frequently Asked Questions" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidefrequently-asked-questions"><span class="">FAQ</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguidediagnosing-problems-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorguidediagnosing-problems-li">
   <a href="/azure-service-operator/guide/diagnosing-problems/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidediagnosing-problems"><span class="">Diagnosing problems</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidediagnosing-problemsazure-throttling-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidediagnosing-problemsazure-throttling-li">
   <a href="/azure-service-operator/guide/diagnosing-problems/azure-throttling/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidediagnosing-problemsazure-throttling"><span class="">ARM Throttling</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidediagnosing-problemsreconciliation-failures-li">
-  <a href="/azure-service-operator/guide/diagnosing-problems/reconciliation-failures/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidediagnosing-problemsreconciliation-failures"><span class="">Reconciliation Failures</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidediagnosing-problemsreconciliation-frequency-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorguidediagnosing-problemsreconciliation-failures-li">
+  <a href="/azure-service-operator/guide/diagnosing-problems/reconciliation-failures/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidediagnosing-problemsreconciliation-failures"><span class="td-sidebar-nav-active-item">Reconciliation Failures</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidediagnosing-problemsreconciliation-frequency-li">
   <a href="/azure-service-operator/guide/diagnosing-problems/reconciliation-frequency/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidediagnosing-problemsreconciliation-frequency"><span class="">Reconciliation Frequencey</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideadoption-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideadoption-li">
   <a href="/azure-service-operator/guide/adoption/" title="Adopting existing Azure resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideadoption"><span class="">Adoption</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideannotations-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideannotations-li">
   <a href="/azure-service-operator/guide/annotations/" title="Annotations understood by the operator" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideannotations"><span class="">Annotations</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguideauthentication-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguideauthentication-li">
   <a href="/azure-service-operator/guide/authentication/" title="Authentication in Azure Service Operator" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguideauthentication"><span class="">Authentication</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideauthenticationcredential-format-li">
@@ -137,14 +141,14 @@ TL;DR: The crux of the problem is that we can currently end up with two differen
   <a href="/azure-service-operator/guide/authentication/reducing-access/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthenticationreducing-access"><span class="">Reducing Access</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguidebest-practices-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguidebest-practices-li">
   <a href="/azure-service-operator/guide/best-practices/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidebest-practices"><span class="">Best Practices</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebest-practicessecurity-li">
   <a href="/azure-service-operator/guide/best-practices/security/" title="Security Best Practices" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebest-practicessecurity"><span class="">Security</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguidebreaking-changes-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguidebreaking-changes-li">
   <a href="/azure-service-operator/guide/breaking-changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidebreaking-changes"><span class="">Breaking Changes</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2110-li">
@@ -169,23 +173,23 @@ TL;DR: The crux of the problem is that we can currently end up with two differen
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.0.0-beta.4/" title="v2.0.0-beta.4 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200-beta4"><span class="">v2.0.0-beta.4</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideconditions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideconditions-li">
   <a href="/azure-service-operator/guide/conditions/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideconditions"><span class="">Conditions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideaso-controller-settings-options-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideaso-controller-settings-options-li">
   <a href="/azure-service-operator/guide/aso-controller-settings-options/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideaso-controller-settings-options"><span class="">Configuring ASO</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideexpressions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideexpressions-li">
   <a href="/azure-service-operator/guide/expressions/" title="CEL Expressions" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideexpressions"><span class="">Expressions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidesecrets-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidesecrets-li">
   <a href="/azure-service-operator/guide/secrets/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidesecrets"><span class="">Handling secrets</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidekeyvaults-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidekeyvaults-li">
   <a href="/azure-service-operator/guide/keyvaults/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidekeyvaults"><span class="">KeyVaults</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidemetrics-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidemetrics-li">
   <a href="/azure-service-operator/guide/metrics/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidemetrics"><span class="">Metrics</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideownership-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideownership-li">
   <a href="/azure-service-operator/guide/ownership/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideownership"><span class="">Ownership</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideconfigmaps-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideconfigmaps-li">
   <a href="/azure-service-operator/guide/configmaps/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideconfigmaps"><span class="">Sharing data through ConfigMaps</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguideasov1-asov2-migration-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguideasov1-asov2-migration-li">
   <a href="/azure-service-operator/guide/asov1-asov2-migration/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguideasov1-asov2-migration"><span class="">ASOv1 to ASOv2 migration guide</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideasov1-asov2-migrationazuresql-li">
@@ -206,7 +210,7 @@ TL;DR: The crux of the problem is that we can currently end up with two differen
   <a href="/azure-service-operator/guide/asov1-asov2-migration/storagecontainer/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideasov1-asov2-migrationstoragecontainer"><span class="">Storage Container</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideuninstalling-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideuninstalling-li">
   <a href="/azure-service-operator/guide/uninstalling/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideuninstalling"><span class="">Uninstalling</span></a>
 </li>
   </ul>
@@ -695,80 +699,80 @@ TL;DR: The crux of the problem is that we can currently end up with two differen
   <a href="/azure-service-operator/contributing/upgrade-resource-version/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorcontributingupgrade-resource-version"><span class="">Upgrading a resource</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatordesign-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatordesign-li">
   <a href="/azure-service-operator/design/" title="Design &amp; Specifications" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesign"><span class="">Design</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2020-04-code-generation-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2020-04-code-generation-li">
   <a href="/azure-service-operator/design/adr-2020-04-code-generation/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2020-04-code-generation"><span class="">2020-04: Why Code Generation?</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2020-07-pipeline-architecture-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2020-07-pipeline-architecture-li">
   <a href="/azure-service-operator/design/adr-2020-07-pipeline-architecture/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2020-07-pipeline-architecture"><span class="">2020-07: Pipeline Architecture</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2020-11-abstract-syntax-trees-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2020-11-abstract-syntax-trees-li">
   <a href="/azure-service-operator/design/adr-2020-11-abstract-syntax-trees/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2020-11-abstract-syntax-trees"><span class="">2020-11: AST Library Choice</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2021-02-property-conversions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2021-02-property-conversions-li">
   <a href="/azure-service-operator/design/adr-2021-02-property-conversions/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2021-02-property-conversions"><span class="">2021-02: Property Conversions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2021-06-api-version-recovery-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2021-06-api-version-recovery-li">
   <a href="/azure-service-operator/design/adr-2021-06-api-version-recovery/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2021-06-api-version-recovery"><span class="">2021-06: API Version Recovery</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2021-08-committing-generated-code-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2021-08-committing-generated-code-li">
   <a href="/azure-service-operator/design/adr-2021-08-committing-generated-code/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2021-08-committing-generated-code"><span class="">2021-08: Committing Generated Code</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-01-reconciler-extensions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-01-reconciler-extensions-li">
   <a href="/azure-service-operator/design/adr-2022-01-reconciler-extensions/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-01-reconciler-extensions"><span class="">2022-01: Reconciler Extensions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-02-backward-compatibility-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-02-backward-compatibility-li">
   <a href="/azure-service-operator/design/adr-2022-02-backward-compatibility/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-02-backward-compatibility"><span class="">2022-02: Backward Resource Compatibility</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-08-evil-discriminator-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-08-evil-discriminator-li">
   <a href="/azure-service-operator/design/adr-2022-08-evil-discriminator/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-08-evil-discriminator"><span class="">2022-08 Evil Discriminator</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-09-reading-status-properties-of-resources-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-09-reading-status-properties-of-resources-li">
   <a href="/azure-service-operator/design/adr-2022-09-reading-status-properties-of-resources/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-09-reading-status-properties-of-resources"><span class="">2022-09: Reading Status properties from other ASO resources</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-09-multiple-credential-operator-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-09-multiple-credential-operator-li">
   <a href="/azure-service-operator/design/adr-2022-09-multiple-credential-operator/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-09-multiple-credential-operator"><span class="">2022-09: Support For Multiple Credentials Under Global Operator</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-11-resource-import-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-11-resource-import-li">
   <a href="/azure-service-operator/design/adr-2022-11-resource-import/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-11-resource-import"><span class="">2022-11: ASO v1 Migration and Resource Import</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-11-change-detection-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-11-change-detection-li">
   <a href="/azure-service-operator/design/adr-2022-11-change-detection/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-11-change-detection"><span class="">2022-11: Change Detection</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-01-conversion-augmentation-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-01-conversion-augmentation-li">
   <a href="/azure-service-operator/design/adr-2023-01-conversion-augmentation/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-01-conversion-augmentation"><span class="">2022-12: Conversion Augmentation</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-12-reconciliation-extensions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-12-reconciliation-extensions-li">
   <a href="/azure-service-operator/design/adr-2022-12-reconciliation-extensions/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-12-reconciliation-extensions"><span class="">2022-12: Reconciliation Extensions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-02-helm-chart-size-limitations-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-02-helm-chart-size-limitations-li">
   <a href="/azure-service-operator/design/adr-2023-02-helm-chart-size-limitations/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-02-helm-chart-size-limitations"><span class="">2023-01: Helm Chart Size Limitations and Workarounds</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-02-adoption-policy-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-02-adoption-policy-li">
   <a href="/azure-service-operator/design/adr-2023-02-adoption-policy/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-02-adoption-policy"><span class="">2023-02: Adoption Policy</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-03-post-reconciliation-extension-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-03-post-reconciliation-extension-li">
   <a href="/azure-service-operator/design/adr-2023-03-post-reconciliation-extension/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-03-post-reconciliation-extension"><span class="">2023-03: Post Reconciliation Extensions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-04-deprecation-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-04-deprecation-li">
   <a href="/azure-service-operator/design/adr-2023-04-deprecation/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-04-deprecation"><span class="">2023-04: Azure Resource Deprecation</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-04-patch-collections-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-04-patch-collections-li">
   <a href="/azure-service-operator/design/adr-2023-04-patch-collections/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-04-patch-collections"><span class="">2023-04: Preventing Resource Drift</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-05-installing-only-selected-crds-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-05-installing-only-selected-crds-li">
   <a href="/azure-service-operator/design/adr-2023-05-installing-only-selected-crds/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-05-installing-only-selected-crds"><span class="">2023-05: Installing only selected CRDs</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-07-goal-seeking-keyvaults-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-07-goal-seeking-keyvaults-li">
   <a href="/azure-service-operator/design/adr-2023-07-goal-seeking-keyvaults/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignadr-2023-07-goal-seeking-keyvaults"><span class="">2023-07 Goal Seeking KeyVaults</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-07-packagereferences-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-07-packagereferences-li">
   <a href="/azure-service-operator/design/adr-2023-07-packagereferences/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignadr-2023-07-packagereferences"><span class="">2023-07 Package References</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatordesignadr-2023-09-skipping-properties-li">
-  <a href="/azure-service-operator/design/adr-2023-09-skipping-properties/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignadr-2023-09-skipping-properties"><span class="td-sidebar-nav-active-item">2023-09 Complex Properties that Skip Versions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2024-02-upstream-deletion-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-09-skipping-properties-li">
+  <a href="/azure-service-operator/design/adr-2023-09-skipping-properties/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignadr-2023-09-skipping-properties"><span class="">2023-09 Complex Properties that Skip Versions</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2024-02-upstream-deletion-li">
   <a href="/azure-service-operator/design/adr-2024-02-upstream-deletion/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignadr-2024-02-upstream-deletion"><span class="">2024-02 Upstream Deletion</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2024-04-roleassignment-uuid-generation-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2024-04-roleassignment-uuid-generation-li">
   <a href="/azure-service-operator/design/adr-2024-04-roleassignment-uuid-generation/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2024-04-roleassignment-uuid-generation"><span class="">2024-04: RoleAssignments UUID Generation</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2024-05-operatorspec-custom-properties-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2024-05-operatorspec-custom-properties-li">
   <a href="/azure-service-operator/design/adr-2024-05-operatorspec-custom-properties/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignadr-2024-05-operatorspec-custom-properties"><span class="">2024-05 OperatorSpec Custom Properties</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2024-07-dynamic-export-to-secret-or-configmap-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2024-07-dynamic-export-to-secret-or-configmap-li">
   <a href="/azure-service-operator/design/adr-2024-07-dynamic-export-to-secret-or-configmap/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2024-07-dynamic-export-to-secret-or-configmap"><span class="">2024-07: Dynamic Export to Secret or ConfigMap</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2024-10-oneof-resources-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2024-10-oneof-resources-li">
   <a href="/azure-service-operator/design/adr-2024-10-oneof-resources/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignadr-2024-10-oneof-resources"><span class="">2024-10 OneOf Resouces</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignclarifying-object-structure-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignclarifying-object-structure-li">
   <a href="/azure-service-operator/design/clarifying-object-structure/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignclarifying-object-structure"><span class="">Clarifying object structure</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesigncrossplane-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesigncrossplane-li">
   <a href="/azure-service-operator/design/crossplane/" title="Code generation for Crossplane" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesigncrossplane"><span class="">Crossplane support</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesigndefaulter-validator-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesigndefaulter-validator-li">
   <a href="/azure-service-operator/design/defaulter-validator/" title="Custom validation and defaulting for code generated resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesigndefaulter-validator"><span class="">Custom validation</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignsecrets-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignsecrets-li">
   <a href="/azure-service-operator/design/secrets/" title="Managing dataplane secrets" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignsecrets"><span class="">Dataplane secrets</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignreconcile-interface-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignreconcile-interface-li">
   <a href="/azure-service-operator/design/reconcile-interface/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignreconcile-interface"><span class="">Improving the Reconciler interface</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignresource-states-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignresource-states-li">
   <a href="/azure-service-operator/design/resource-states/" title="Proposal for reporting resource Status" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignresource-states"><span class="">Resource status</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatordesignversioning-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatordesignversioning-li">
   <a href="/azure-service-operator/design/versioning/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignversioning"><span class="">Resource versioning</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatordesignversioningcase-studies-li">
@@ -784,7 +788,7 @@ TL;DR: The crux of the problem is that we can currently end up with two differen
   </ul>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesigntype-references-and-ownership-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesigntype-references-and-ownership-li">
   <a href="/azure-service-operator/design/type-references-and-ownership/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesigntype-references-and-ownership"><span class="">Type References &amp; ownership</span></a>
 </li>
   </ul>
@@ -804,24 +808,27 @@ TL;DR: The crux of the problem is that we can currently end up with two differen
             <div class="td-toc">
         <nav id="TableOfContents">
   <ul>
-    <li><a href="#context">Context</a>
+    <li><a href="#creation-fails-in-azure">Creation fails in Azure</a>
       <ul>
-        <li><a href="#conversion-between-v3-and-v4">Conversion between v3 and v4</a></li>
-        <li><a href="#conversion-between-v4-and-v5">Conversion between v4 and v5</a></li>
-        <li><a href="#the-problem">The Problem</a></li>
-        <li><a href="#constraint-serialization-format">Constraint: Serialization format</a></li>
-        <li><a href="#rejected-solution-add-a-synthetic-property">Rejected Solution: Add a synthetic property</a></li>
-        <li><a href="#constraint-direction-of-conversion">Constraint: Direction of Conversion</a></li>
-        <li><a href="#constraint-multi-generational-skips">Constraint: Multi-generational skips</a></li>
-        <li><a href="#constraint-augmentation-of-conversions">Constraint: Augmentation of conversions</a></li>
-        <li><a href="#proposed-solution">Proposed Solution</a></li>
+        <li><a href="#potential-actions">Potential actions</a></li>
       </ul>
     </li>
-    <li><a href="#decision">Decision</a></li>
-    <li><a href="#status">Status</a></li>
-    <li><a href="#consequences">Consequences</a></li>
-    <li><a href="#experience-report">Experience Report</a></li>
-    <li><a href="#references">References</a></li>
+    <li><a href="#repeated-failures-followed-by-success">Repeated failures followed by success</a>
+      <ul>
+        <li><a href="#potential-actions-1">Potential actions</a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li><a href="#contact-the-azure-product-group-for-support">Contact the Azure product group for support</a></li>
+    <li><a href="#verify-the-credentials-used-by-aso">Verify the credentials used by ASO</a></li>
+    <li><a href="#implement-a-new-precondition-check">Implement a new precondition check</a></li>
+    <li><a href="#request-implementation-of-a-new-precondition-check">Request implementation of a new precondition check</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#preconditions-for-resource-creation">Preconditions for resource creation</a></li>
   </ul>
 </nav>
       </div>
@@ -836,306 +843,130 @@ TL;DR: The crux of the problem is that we can currently end up with two differen
             <nav aria-label="breadcrumb" class="td-breadcrumbs">
   <ol class="breadcrumb">
   <li class="breadcrumb-item">
-    <a href="/azure-service-operator/design/">Design</a></li>
+    <a href="/azure-service-operator/guide/">Guide</a></li>
+  <li class="breadcrumb-item">
+    <a href="/azure-service-operator/guide/diagnosing-problems/">Diagnosing problems</a></li>
   <li class="breadcrumb-item active" aria-current="page">
-    2023-09 Complex Properties that Skip Versions</li>
+    Reconciliation Failures</li>
   </ol>
 </nav>
 <div class="td-content">
-	<h1>2023-09 Complex Properties that Skip Versions</h1>
-  
+	<h1>Reconciliation Failures</h1>
+	
 	<header class="article-meta">
 		
 </header>
-	<h2 id="context">Context</h2>
-<p>We have a long standing issue (originally documented in <a href="https://github.com/Azure/azure-service-operator/issues/1776">#1776</a>) where our conversions between versions will break if a complex (object valued) property is reintroduced with a different shape in a later version after being removed in an earlier one.</p>
-<p><strong>TL;DR:</strong> The crux of the problem is that we can currently end up with two different versions (shapes) of the same property serialized in a property bag on the same intermediate version.</p>
-<p>To clarify, consider the following examples, demonstrating the current behaviour, and then how that causes a problem. Following that, we&rsquo;ll discuss some constraints on possible solutions, and some approaches we might take.</p>
-<h3 id="conversion-between-v3-and-v4">Conversion between v3 and v4</h3>
-<p>Consider a CRM system containing details of people. In v3 of the system, we capture each person&rsquo;s residential address, but in v4 we have dropped that property:</p>
-<!-- yuml.me
-
-[v3.Person|FullName string;FamilyName string; KnownAs string; ResidentialAddress v3.Address|Properties PropertyBag]
-[v3.Person]->[v3.Address|Label multilineString|Properties PropertyBag]
-[v4.Person|FullName string;FamilyName string; KnownAs string|Properties PropertyBag]
-
--->
-<img src="./conversion-v3-v4-class.png" alt="Conversion from v3 to v4" />
-<p>When we convert from v3 to v4 (v3 -&gt; v4) the <code>ResidentialAddress</code> property gets serialized into the <code>PropertyBag</code> on the v4 Person. Note that the bag contains a v3 <code>Address</code> in a serialized form.</p>
-<p>To illustrate, consider this concrete example:</p>
-<!-- yuml.me
-
-[v3.Person|FullName: Michael Theodore Mouse;FamilyName: Mouse; KnownAs: Mickey; ResidentialAddress v3.Address|Properties PropertyBag]
-[v3.Person]->[v3.Address|Label:\n1313 S. Harbor Blvd\nAnaheim\nCA 92803\nUSA|Properties PropertyBag]
-[v4.Person|FullName: Michael Theodore Mouse;FamilyName: Mouse; KnownAs: Mickey|Properties PropertyBag]
-[v4.Person]-.-[ResidentialAddress {bg:cornsilk}|Label:\n'1313 S. Harbor Blvd',\n'Anaheim',\n'CA 92803',\n'USA']
-
--->
-<img src="./conversion-v3-v4-instance.png" alt="Conversion from v3 to v4" />
-<p>As YAML, the v3 version of Mickey would be:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">fullName</span>: <span style="color:#ae81ff">Michael Theodore Mouse</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">familyName</span>: <span style="color:#ae81ff">Mouse</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">knownAs</span>: <span style="color:#ae81ff">Mickey</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">residentialAddress</span>:
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">label</span>: |<span style="color:#e6db74">
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        1313 S. Harbor Blvd
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        Anaheim
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        CA 92803
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        USA</span>
-</span></span></code></pre></div><p>There is no <code>ResidentialAddress</code> property on the v4 <code>Person</code> to store Mickey&rsquo;s residential address, so it gets safely stashed away in the <code>PropertyBag</code>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">fullName</span>: <span style="color:#ae81ff">Michael Theodore Mouse</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">familyName</span>: <span style="color:#ae81ff">Mouse</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">knownAs</span>: <span style="color:#ae81ff">Mickey</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">propertyBag</span>:
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">residentialAddress</span>: <span style="color:#e6db74">&#34;label:\n1313 S. Harbor Blvd\nAnaheim\nCA 92803\nUSA&#34;</span>
-</span></span></code></pre></div><p>In the other direction, from v4 to v3, conversion works fine, as we can take the <code>ResidentialAddress</code> value from the property bag, deserialize the v3 <code>Address</code>, and set things up as they were before.</p>
-<p>Conversion back and forward between versions v3 and v4 works fine.</p>
-<h3 id="conversion-between-v4-and-v5">Conversion between v4 and v5</h3>
-<p>In v5, the <code>ResidentialAddress</code> is reintroduced, but with a different shape. Instead of being the single field <code>Label</code>, it now has multiple fields:</p>
-<!-- yuml.me 
-
-[v4.Person|FullName string;FamilyName string; KnownAs string|Properties PropertyBag]
-[v5.Person|FullName string;FamilyName string; KnownAs string;ResidentialAddress|Properties PropertyBag]
-[v5.Person]--[v5.Address|Street string; Suburb string; City string; Country string|Properties PropertyBag]
-
--->
-<img  src="./conversion-v4-v5-class.png" alt="Conversion from v4 to v5" />
-<p>When we convert from v5 to v4, again the <code>ResidentialAddress</code> property gets serialized into the <code>PropertyBag</code> on the v4 Person.</p>
-<p>Again, it&rsquo;s useful to see a concrete example:</p>
-<!-- yuml.me
-
-[v4.Person|FullName: Michael Theodore Mouse;FamilyName: Mouse; KnownAs: Mickey|Properties PropertyBag]
-[v4.Person]-.-[ResidentialAddress {bg:cornsilk}|Street: '1313 S. Harbor Blvd'\nSuburb: ''\nCity: 'Anaheim, CA 92803'\nCountry: 'USA']
-[v5.Person|FullName: Michael Theodore Mouse;FamilyName: Mouse; KnownAs: Mickey; ResidentialAddress v3.Address|Properties PropertyBag]
-[v5.Person]->[v5.Address|Street: 1313 S. Harbor Blvd\nSuburb:\nCity: Anaheim, CA 92803\nCountry: USA|Properties PropertyBag]
-
--->
-<img src="./conversion-v4-v5-instance.png" alt="Conversion from v4 to v5" />
-<p>As before, there is no <code>ResidentialAddress</code> property on the v4 <code>Person</code> to store Mickey&rsquo;s residential address, so it gets safely stashed away in the <code>PropertyBag</code>.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">fullName</span>: <span style="color:#ae81ff">Michael Theodore Mouse</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">familyName</span>: <span style="color:#ae81ff">Mouse</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">knownAs</span>: <span style="color:#ae81ff">Mickey</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">propertyBag</span>:
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">residentialAddress</span>: <span style="color:#e6db74">&#34;street:1313 S. Harbor Blvd;suburb:;city:Anaheim, CA 92803;country:USA&#34;</span>
-</span></span></code></pre></div><p>However, note that this time the bag contains a v5 <code>Address</code> in a serialized form, <strong>not</strong> a v3 <code>Address</code>.</p>
-<p>In the other direction, conversion from v4 to v5, works fine, as we can deserialize the v5 <code>Address</code> from the property bag.</p>
-<p>Conversion back and forward between versions v4 and v5 works fine.</p>
-<h3 id="the-problem">The Problem</h3>
-<p>Observe how we can end up with two different variants of v4 <code>Person</code>.</p>
-<p>In one case, we have a v4 <code>Person</code> where the property bag contains a v3 <code>Address</code>.
-In the other case, we have a v4 <code>Person</code> the property bag contains a v5 <code>Address</code>:</p>
-<!-- yuml.me 
-
-[v4.Person|FullName: Michael Theodore Mouse;FamilyName: Mouse; KnownAs: Mickey|Properties PropertyBag]
-[v4.Person]-.-[v3.ResidentialAddress {bg:cornsilk}|Label:\n'1313 S. Harbor Blvd',\n'Anaheim',\n'CA 92803',\n'USA']
-[v4.Person]-.-[v5.ResidentialAddress {bg:cornsilk}|Street: '1313 S. Harbor Blvd'\nSuburb: ''\nCity: 'Anaheim, CA 92803'\nCountry: 'USA']
-
--->
-<img src="./conflict-v3-v5.png" alt="Conflict between v3 and v5" />
-<p>While round trips between <em>adjacent</em> versions work fine, we run into problems when we attempt longer conversion chains. We end up stuck part-way through with a fatal problem.</p>
-<!-- yuml.me 
-
-[v3.Person|FullName string;FamilyName string; KnownAs string; ResidentialAddress v3.Address|Properties PropertyBag]
-[v3.Person]->[v3.Address|Label multilineString|Properties PropertyBag]
-
-[v4.Person|FullName string;FamilyName string; KnownAs string|Properties PropertyBag]
-
-[v5.Person|FullName string;FamilyName string; KnownAs string;ResidentialAddress|Properties PropertyBag]
-[v5.Person]--[v5.Address|Street string; Suburb string; City string; Country string|Properties PropertyBag]
-
--->
-<img src="./conversion-v3-v4-v5-class.png" alt="Conversion from v3 to v4 to v5" />
-<p>Compare the two different kinds of v4 Person we end up with for Mickey.</p>
-<p>First when we start from v3:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">fullName</span>: <span style="color:#ae81ff">Michael Theodore Mouse</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">familyName</span>: <span style="color:#ae81ff">Mouse</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">knownAs</span>: <span style="color:#ae81ff">Mickey</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">propertyBag</span>:
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">residentialAddress</span>: <span style="color:#e6db74">&#34;label:\n1313 S. Harbor Blvd\nAnaheim\nCA 92803\nUSA&#34;</span>
-</span></span></code></pre></div><p>And now when we start from v5:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">fullName</span>: <span style="color:#ae81ff">Michael Theodore Mouse</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">familyName</span>: <span style="color:#ae81ff">Mouse</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">knownAs</span>: <span style="color:#ae81ff">Mickey</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">propertyBag</span>:
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">residentialAddress</span>: <span style="color:#e6db74">&#34;street:1313 S. Harbor Blvd;suburb:;city:Anaheim, CA 92803;country:USA&#34;</span>
-</span></span></code></pre></div><p>If we have a v4 <code>Person</code> that contains a v3 <code>Address</code> in the property bag, conversion to the v5 <code>Person</code> will fail when we try to deserialize a v5 <code>Address</code> from the v3 item.</p>
-<p>This will cause the operator to fail at runtime.</p>
-<p>Similarly f we end up with a v4 <code>Person</code> that contains a v5 <code>Address</code> in the property bag, we can&rsquo;t deserialize a v3 <code>Address</code> and again the operator will fail at runtime.</p>
-<h3 id="constraint-serialization-format">Constraint: Serialization format</h3>
-<p>For each resource type, there&rsquo;s a specific hub version that&rsquo;s used for serialization - this is the version that&rsquo;s persisted within a cluster. All other versions are created on-the-fly by conversion from the hub version. By convention in ASO, this hub version is based on the the latest stable version of the resource, or the latest preview version if no stable version is available.</p>
-<p>In most cases, the hub version will be the version affected by changes to solve the skipping-property problem, so we have to assume that there are extant resources of that version.</p>
-<p>We have three possible choices:</p>
-<p><strong>Preservation</strong> - we preserve the existing serialization format exactly. Existing ASO users with affected resources will be able to seamlessly update to the new release.</p>
-<p><strong>Compatibility</strong> - we make changes to the serialization format, but in a way that&rsquo;s backward compatible with existing resources, either by restricting our changes to new properties only, or by code-generation of custom marshaling code to read the old structure. If we make no mistakes, existing ASO users with affected resources will be able to seamlessly update to the new release.</p>
-<p><strong>Breaking</strong> - the serialization format is changed, and existing resources are broken. Either users are forced to recreate the affected resources, or we add a migration tool to <code>asoctl</code> to assist. We document this as a breaking change in our release notes.</p>
-<p><strong>Decision: Preservation</strong></p>
-<p>As discussed above, the problem is that we can end up with different object shapes embedded in the PropertyBag, depending on the direction of conversion (v3 -&gt; v4 -&gt; v5 vs v5 -&gt; v4 -&gt; v3). Standardising on a consistent object shape shouldn&rsquo;t require making any other changes.</p>
-<h3 id="rejected-solution-add-a-synthetic-property">Rejected Solution: Add a synthetic property</h3>
-<p>Modify the resource version immediately prior to the reintroduction of the property to restore the property one version earlier, using the same shape as the version where it was removed. Avoid the circular dependency problems by cloning the earlier object into the appropriate package.</p>
-<p>In our example here, we would add a new <code>ResidentialAddress</code> property to the v4 <code>Person</code> that contains an address in a new v4 <code>Address</code>, created by cloning the v3 <code>Address</code>.</p>
-<!-- yuml.me
-
-[v3.Person|FullName string;FamilyName string; KnownAs string; ResidentialAddress v3.Address|Properties PropertyBag]
-[v3.Person]->[v3.Address|Label multilineString|Properties PropertyBag]
-
-[v4.Person|FullName string;FamilyName string; KnownAs string;ResidentialAddress v4.Address|Properties PropertyBag]
-[v4.Person]->[v4.Address|Label multilineString|Properties PropertyBag]
-
-[v5.Person|FullName string;FamilyName string; KnownAs string;ResidentialAddress v5.Address|Properties PropertyBag]
-[v5.Person]->[v5.Address|Street string; Suburb string; City string; Country string|Properties PropertyBag]
--->
-<img src="./rejected-solution-synthetic-property.png" alt="Rejected solution with synthetic property" />
-<p>The shape of <code>Address</code> when reintroduced will always match the shape of <code>Address</code> when removed, so we can always serialize the same shape in-to or out-of the property bag, ensuring any <code>Address</code> has the a consistent shape.</p>
-<p>Pros:</p>
+	<p>Sometimes you are able to successfully create a resource in your Kubernetes cluster, but Azure Service Operator (ASO) experiences issues when trying to create that resource in Azure.</p>
+<p><strong>How to use this TSG</strong>: Review <a href="#when-to-apply-this-tsg"><em>When to apply this TSG</em></a> to determine whether this TSG is relevant. Each subsection recommends one or more actions to take, these are detailed below under <a href="#actions"><em>Actions</em></a>.</p>
+<h1 id="when-to-apply-this-tsg">When to apply this TSG</h1>
+<p>This TSG applies when review of ASO logs shows:</p>
 <ul>
-<li>Works the way existing conversions do.</li>
-<li>We have an existing contract for augmenting conversions with custom code, allowing us to handcode the conversion between v4 and v5 to handle the mismatch in the shapes of <code>Address</code>.</li>
-<li>Addresses the central inconsistency problem, ensuring we always serialize the same shape into intermediate property bags</li>
+<li>creation of the resource fails in Azure; or</li>
+<li>repeated reconcile failures followed by successful resource creation.</li>
 </ul>
-<p>Cons:</p>
-<ul>
-<li>Changes the serialization format for existing v4 resources. This is a breaking change for existing resources.</li>
-<li>Changes the object model of released resources, a breaking change for code consumers of ASO <code>api</code> packages.</li>
-<li>When there are multi-generational skips, other questions arise: Do we introduce the new type into every intermediate version, only the last, or both first and last? Each approach has advantages and drawbacks.</li>
-</ul>
-<p>Reason for rejection: This solution requires breaking changes and is therefore too disruptive to existing resources and code consumers.</p>
-<h3 id="constraint-direction-of-conversion">Constraint: Direction of Conversion</h3>
-<p>All of the conversion functionality we currently generate for ASO resources is hosted by the earlier version of the resource. For example, the conversion from v3 to v4 is hosted by the v3 package, and the conversion from v4 to v5 is hosted by the v4 package. We can see this by looking for the generated property assignment methods on the v3 and v4 types:</p>
-<!-- yuml.me
-
-[v3.Person|FullName string;FamilyName string; KnownAs string; ResidentialAddress v3.Address|AssignPropertiesTo_Person(person v4.Person);AssignPropertiesFrom_Person(person v4.Person)|Properties PropertyBag]
-[v3.Person]->[v3.Address|Label multilineString|AssignPropertiesTo_Address(address v5.Address);AssignPropertiesFrom_Address(address v5.Address)|Properties PropertyBag]
-
-[v4.Person|FullName string;FamilyName string; KnownAs string|AssignPropertiesTo_Person(person v5.Person);AssignPropertiesFrom_Person(person v5.Person)|Properties PropertyBag]
-
-[v5.Person|FullName string;FamilyName string; KnownAs string;ResidentialAddress|Properties PropertyBag]
-[v5.Person]--[v5.Address|Street string; Suburb string; City string; Country string|Properties PropertyBag]
-
--->
-<img src="./conversion-direction.png" alt="Conversion direction" />
-<p>These conversions are enabled by having each package <strong>import</strong> the next version of the resource, forming a directed acyclic graph leading from the earliest version to the latest.</p>
-<p><strong>Observation</strong>: Not only <em>should</em> we implement our change in a way that&rsquo;s consistent with the direction of conversion already present, we <em>must</em> do so, as the Go compiler will not allow us to introduce a circular dependency between packages.</p>
-<h3 id="constraint-multi-generational-skips">Constraint: Multi-generational skips</h3>
-<p>The examples shown so far have the new property returning after just one version; we need to handle the case where the property returns after a hiatis of several versions.</p>
-<!-- yuml.me 
-
-[v3.Person|FullName string;FamilyName string; KnownAs string; ResidentialAddress v3.Address|Properties PropertyBag]
-[v3.Person]->[v3.Address|Label multilineString|Properties PropertyBag]
-
-[v4.Person|FullName string;FamilyName string; KnownAs string|Properties PropertyBag]
-
-[v5.Person|FullName string;FamilyName string; KnownAs string|Properties PropertyBag]
-
-[v6.Person|FullName string;FamilyName string; KnownAs string|Properties PropertyBag]
-
-[v7.Person|FullName string;FamilyName string; KnownAs string|Properties PropertyBag]
-
-[v8.Person|FullName string;FamilyName string; KnownAs string;ResidentialAddress|Properties PropertyBag]
-[v8.Person]--[v8.Address|Street string; Suburb string; City string; Country string|Properties PropertyBag]
-
--->
-<img src="./conversion-multigenerational-class.png" alt="Conversion from v3 to v8" />
-<h3 id="constraint-augmentation-of-conversions">Constraint: Augmentation of conversions</h3>
-<p>We&rsquo;re already generating support to allow augmentation of the generated conversions by hand-written code. This is used to handle cases where the generated conversions are insufficient, or where we need to handle special cases.</p>
-<p>It&rsquo;s highly desirable that we leverage this existing functionality for skipping properties, rather than building something new.</p>
-<h3 id="proposed-solution">Proposed Solution</h3>
-<p>Given that any existing resources will have property bags containing instances in the earlier shape, standardize on using that shape - and only that shape - when storing the instance in the property bag.</p>
-<p>Instead of writing the later shape into the property bag using code like this:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// ResidentialAddress</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">ResidentialAddress</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">propertyBag</span>.<span style="color:#a6e22e">Add</span>(<span style="color:#e6db74">&#34;ResidentialAddress&#34;</span>, <span style="color:#f92672">*</span><span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">ResidentialAddress</span>)
-</span></span><span style="display:flex;"><span>} <span style="color:#66d9ef">else</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">propertyBag</span>.<span style="color:#a6e22e">Remove</span>(<span style="color:#e6db74">&#34;ResidentialAddress&#34;</span>)
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>We will write the earlier shape into the property bag using code like this:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// ResidentialAddress</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">ResidentialAddress</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">address</span> <span style="color:#a6e22e">v4</span>.<span style="color:#a6e22e">Address</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">address</span>.<span style="color:#a6e22e">AssignProperties_From</span>(<span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">ResidentialAddress</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">propertyBag</span>.<span style="color:#a6e22e">Add</span>(<span style="color:#e6db74">&#34;ResidentialAddress&#34;</span>, <span style="color:#a6e22e">address</span>)
-</span></span><span style="display:flex;"><span>} <span style="color:#66d9ef">else</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">propertyBag</span>.<span style="color:#a6e22e">Remove</span>(<span style="color:#e6db74">&#34;ResidentialAddress&#34;</span>)
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>Reading the value from the property bag will also need to change. Instead of:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// ResidentialAddress</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#a6e22e">propertyBag</span>.<span style="color:#a6e22e">Contains</span>(<span style="color:#e6db74">&#34;ResidentialAddress&#34;</span>) {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">residentialAddress</span> <span style="color:#a6e22e">v5</span>.<span style="color:#a6e22e">Address</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">propertyBag</span>.<span style="color:#a6e22e">Pull</span>(<span style="color:#e6db74">&#34;ResidentialAddress&#34;</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">residentialAddress</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">Wrap</span>(<span style="color:#a6e22e">err</span>, <span style="color:#e6db74">&#34;pulling &#39;ResidentialAddress&#39; from propertyBag&#34;</span>)
+<p>Each of these conditions is discussed in detail, below.</p>
+<h2 id="creation-fails-in-azure">Creation fails in Azure</h2>
+<p>The most usual case where resource creation fails in Azure is an error in the requested configuration of the resource.</p>
+<p>These errors can be seen by retrieving the condition of the resource using <code>kubectl describe</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl describe resourcegroups/aso-sample-rg -n default
+</span></span><span style="display:flex;"><span>Name:         aso-sample-rg
+</span></span><span style="display:flex;"><span>Namespace:    default
+</span></span><span style="display:flex;"><span>Labels:       &lt;none&gt;
+</span></span><span style="display:flex;"><span>Annotations:  serviceoperator.azure.com/operator-namespace: azureserviceoperator-system
+</span></span><span style="display:flex;"><span>              serviceoperator.azure.com/resource-id: /subscriptions/82acd5bb-4206-47d4-9c12-a65db028483d/resourceGroups/aso-sample-rg
+</span></span><span style="display:flex;"><span>API Version:  resources.azure.com/v1beta20200601
+</span></span><span style="display:flex;"><span>Kind:         ResourceGroup
+</span></span><span style="display:flex;"><span>Metadata:
+</span></span><span style="display:flex;"><span>  ... elided ...
+</span></span><span style="display:flex;"><span>Spec:
+</span></span><span style="display:flex;"><span>  ... elided ...
+</span></span><span style="display:flex;"><span>Status:
+</span></span><span style="display:flex;"><span>  Conditions:
+</span></span><span style="display:flex;"><span>    Last Transition Time:  2023-08-31T01:25:58Z
+</span></span><span style="display:flex;"><span>    Observed Generation:   <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    Reason:                Succeeded
+</span></span><span style="display:flex;"><span>    Status:                True
+</span></span><span style="display:flex;"><span>    Type:                  Ready
+</span></span><span style="display:flex;"><span>  ... elided ...
+</span></span></code></pre></div><p>or by finding details in the ASO logs. Log errors are always logged in full, and will look similar to this example:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>I2025-05-25T21:13:41Z] cache_redis &#34;msg&#34;=&#34;Error during Delete&#34; &#34;err&#34;=&#34;deleting resource &#34;/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fanmqx/providers/Microsoft.Cache/redis/asotest-redis2-vscggl&#34;: DELETE https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fanmqx/providers/Microsoft.Cache/redis/asotest-redis2-vscggl
+</span></span><span style="display:flex;"><span>    --------------------------------------------------------------------------------
+</span></span><span style="display:flex;"><span>    RESPONSE 400: 400 Bad Request
+</span></span><span style="display:flex;"><span>    ERROR CODE: BadRequest
+</span></span><span style="display:flex;"><span>    --------------------------------------------------------------------------------
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      &#34;error&#34;: {
+</span></span><span style="display:flex;"><span>        &#34;code&#34;: &#34;BadRequest&#34;,
+</span></span><span style="display:flex;"><span>        &#34;message&#34;: &#34;Cannot delete &#39;asotest-redis2-vscggl&#39; since it has linked servers associated with it. Please remove the linked server(s) and then try deleting the cache.\r\nRequestID=8e55c6c4-ca68-477c-bcb8-db417aae80f3&#34;,
+</span></span><span style="display:flex;"><span>        &#34;target&#34;: null
+</span></span><span style="display:flex;"><span>      }
 </span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">destination</span>.<span style="color:#a6e22e">ResidentialAddress</span> = <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">residentialAddress</span>
-</span></span><span style="display:flex;"><span>} <span style="color:#66d9ef">else</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">destination</span>.<span style="color:#a6e22e">ResidentialAddress</span> = <span style="color:#66d9ef">nil</span>
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>We will read the earlier shape and convert it as required.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// ResidentialAddress</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#a6e22e">propertyBag</span>.<span style="color:#a6e22e">Contains</span>(<span style="color:#e6db74">&#34;ResidentialAddress&#34;</span>) {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">staging</span> <span style="color:#a6e22e">v4compat</span>.<span style="color:#a6e22e">Address</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">propertyBag</span>.<span style="color:#a6e22e">Pull</span>(<span style="color:#e6db74">&#34;ResidentialAddress&#34;</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">staging</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">Wrap</span>(<span style="color:#a6e22e">err</span>, <span style="color:#e6db74">&#34;pulling &#39;ResidentialAddress&#39; from propertyBag&#34;</span>)
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">residentialAddress</span> <span style="color:#a6e22e">v5</span>.<span style="color:#a6e22e">Address</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">staging</span>.<span style="color:#a6e22e">AssignProperties_To_Address</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">residentialAddress</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">Wrap</span>(<span style="color:#a6e22e">err</span>, <span style="color:#e6db74">&#34;converting &#39;Address&#39; from v4compat to v5&#34;</span>)
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">destination</span>.<span style="color:#a6e22e">ResidentialAddress</span> = <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">residentialAddress</span>
-</span></span><span style="display:flex;"><span>} <span style="color:#66d9ef">else</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">destination</span>.<span style="color:#a6e22e">ResidentialAddress</span> = <span style="color:#66d9ef">nil</span>
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>The updated object model will look like this:</p>
-<!-- yuml.me
-
-[v3.Person|FullName string;FamilyName string; KnownAs string; ResidentialAddress v3.Address|Properties PropertyBag]
-[v3.Person]->[v3.Address|Label multilineString|Properties PropertyBag]
-
-[v4.Person|FullName string;FamilyName string; KnownAs string|Properties PropertyBag]
-[v4.Person]-.-[v4/compat.Address{bg:cornsilk}|Label multilineString|Properties PropertyBag]
-
-[v5.Person|FullName string;FamilyName string; KnownAs string;ResidentialAddress v5.Address|Properties PropertyBag]
-[v5.Person]->[v5.Address|Street string; Suburb string; City string; Country string|Properties PropertyBag]
-
--->
-<img src="./proposed-solution-class.png" alt="Proposed solution class diagram" />
-<p>Observe that we haven&rsquo;t introduced a <code>ResidentialAddress</code> property to the v4 <code>Person</code>, the instance still lives in the property bag.</p>
-<p>To avoid problems with circular dependencies (as noted above), we will clone the old (e.g. v3) shape and any related types forward. In the diagram above, we&rsquo;ve isolated these into a <code>compat</code> subpackage, but we could also clone them into the v4 package itself. Doing a clone will maintain the required invariant that the contents of the property bag will always match the shape of the earlier version of the property.</p>
-<p>Our existing conversion framework supports writing hand-crafted conversions between shapes, migrating data between the two shapes. By introducing a new type and leveraging the existing framework for the conversion, we gain support for writing these hand-crafted conversions between shapes.</p>
-<p>Pros:</p>
+</span></span><span style="display:flex;"><span>    --------------------------------------------------------------------------------
+</span></span><span style="display:flex;"><span>    &#34; name=&#34;asotest-redis2-vscggl&#34; namespace=&#34;aso-test-cache-redis-20230801-crud&#34; azureName=&#34;asotest-redis2-vscggl&#34; action=&#34;BeginDelete&#34;
+</span></span></code></pre></div><p>Errors shown in this way come from Azure Resource Manager (ARM) and are not specific to ASO. They are the same errors you would see if you were using the Azure CLI or Azure Portal, and can be resolved using the same research techniques.</p>
+<h3 id="potential-actions">Potential actions</h3>
 <ul>
-<li>Addresses the central inconsistency problem, ensuring we always serialize the same shape into intermediate property bags</li>
-<li>Conversions are still driven by the earlier version, avoiding any issues with circular dependencies or needing to move conversion code elsewhere (e.g. to the later version).</li>
-<li>Isolates the compatibility type in a dedicated subpackage, where it won&rsquo;t inadvertently be picked up by documentation tools or other code consumers. (If this is not important, we can instead target the main v4 package.)</li>
-<li>Allows a hand driven conversion to be written to convert between v4 and v5 using the augmentation mechanism already in place for conversions between adjacent versions.</li>
-<li>Conversions between v3 and v4 remain unchanged</li>
-<li>Serialization format of v4 remains unchanged, ensuring compatibility with existing releases of ASO.</li>
+<li>
+<p><strong>Fix the problem</strong>: Generic Azure errors are often self-explanatory, or they can be resolved by reference to documentation, or from an online search, allowing you to fix the issue yourself.</p>
+</li>
+<li>
+<p><a href="#contact-the-azure-product-group-for-support"><strong>Contact the Azure product group for support</strong></a>: If the cause is not obvious (e.g. the response code indicates a server error), consider contacting the appropriate product group directly for support.</p>
+</li>
+<li>
+<p><a href="#verify-the-credentials-used-by-aso"><strong>Verify the credentials used by ASO</strong></a>: If the error indicates an authentication issue, verify that ASO is using the expected identity and that the identity has the correct permissions.</p>
+</li>
 </ul>
-<p>Cons:</p>
+<h2 id="repeated-failures-followed-by-success">Repeated failures followed by success</h2>
+<p>Check ASO logs or events for each attempt to reconcile the resource and take note of the reasons for failure.</p>
+<p>A sequence of near-identical failures terminated by an eventual success may indicate that creation of the resource was not possible until some precondition was satisfied.</p>
+<p>In some cases (e.g. quota issues), the precondition is external and requires intervention (e.g. a quota request) before ASO can successfully create the resource. Based on the error message, you may be able to <em>fix the underlying cause</em> yourself, or you may need to contact the relevant Azure product group for support.</p>
+<p>In other cases, you might conclude that ASO is simply trying to create the resource too early. You may want to <a href="#implement-a-new-precondition-check"><em>implement a new precondition check</em></a> yourself, or <a href="#request-implementation-of-a-new-precondition-check"><em>request implementation of that check</em></a> from the ASO team by creating an <a href="https://github.com/Azure/azure-service-operator/issues">issue on GitHub</a>.</p>
+<h3 id="potential-actions-1">Potential actions</h3>
 <ul>
-<li>Requires modification of the conversion-graph, which to this point has been immutable once constructed (we can&rsquo;t delay construction until after we inject the compatibility package as we need it to identify skipping properties).</li>
-<li>When code generating for property conversions using a property bag, we&rsquo;ll need to detect and use the <code>compat</code> subpackage.</li>
+<li>
+<p><strong>Fix the underlying cause</strong>: Many errors require you to take action (e.g. quota issues require a request for more quota). In these cases, the problem will automaticaly resolve once the underlying issue is resolved.</p>
+</li>
+<li>
+<p><a href="#implement-a-new-precondition-check"><strong>Implement a new precondition check</strong></a>: It&rsquo;s straightforward to modify ASO to respect a new precondition, delaying creation until that precondition is satisfied. ASO is an open source project that accepts contributions, so we encourage you to consider contributing changes yourself.</p>
+</li>
+<li>
+<p><a href="#request-implementation-of-a-new-precondition-check"><strong>Request implementation of a new precondition check</strong></a>: If contribution is not an option (for any reason), please create a <a href="https://github.com/Azure/azure-service-operator/issues">GitHub Issue</a> requesting the ASO team implement the required check.</p>
+</li>
 </ul>
-<h2 id="decision">Decision</h2>
-<p>Recommended.</p>
-<h2 id="status">Status</h2>
-<p>TBC</p>
-<h2 id="consequences">Consequences</h2>
-<p>TBC</p>
-<h2 id="experience-report">Experience Report</h2>
-<p>TBC</p>
-<h2 id="references">References</h2>
-<p>TBC
-``</p>
+<h1 id="actions">Actions</h1>
+<p>This section identifies specific actions you can take to resolve issues. For discussion of which action should be applied, see above.</p>
+<h2 id="contact-the-azure-product-group-for-support">Contact the Azure product group for support</h2>
+<p>For generic Azure errors, you should contact the Azure product group responsible for the resource type being used. Keep in mind that they won&rsquo;t be familiar with Azure Service Operator - some teams will bounce calls back to you if they don&rsquo;t recognize the client.</p>
+<p>Ensure you provide all the following information:</p>
+<ul>
+<li><strong>Full error details</strong> - from either the <code>condition</code> on the resource, or from ASO logs. Ensure you do not truncate any details.</li>
+<li><strong>Exact timestamp</strong> - the instant, in UTC, of the error so they can review internal logs if required. This is available both on the resource condition, and in the ASO logs.</li>
+<li><strong>Resource ID</strong> - the full ARM identifier of the resource. Usually provided by the customer, but available from the <code>serviceoperator.azure.com/resource-id</code> annotation on the resource if not.</li>
+</ul>
+<p>It may also be helpful to provide some background on ASO, including the fact it works through the normal ARM REST API, just like any other client.</p>
+<h2 id="verify-the-credentials-used-by-aso">Verify the credentials used by ASO</h2>
+<p>For authentication errors logged by ASO, it&rsquo;s possible that ASO is using the wrong identity, or that the identity does not have the correct permissions to create the resource.</p>
+<p>Review the <a href="https://azure.github.io/azure-service-operator/guide/authentication/">ASO documentation on authentication</a> and verify both that ASO is using the expected identity, and that the identity has the correct permissions.</p>
+<p>Different kinds of resources require different permissions - for example, connecting a ManagedCluster to a ContainerRegistry requires <strong>Owner</strong> permissions, not simply <strong>Contributor</strong> permissions. It&rsquo;s therefore important to check whether the specific resource type requires any special permissions.</p>
+<h2 id="implement-a-new-precondition-check">Implement a new precondition check</h2>
+<p>When a new resource precondition is identified, the fastest route to resolution is for you to implement the change yourself. ASO is an open source project that accepts contributions, and we encourage you to consider contributing enhancements.</p>
+<p>The ASO team is always available to advise on how to successfully implement new features, such as a precondition check.</p>
+<p>Moreover, external PRs take priority over other work, so if you implement the change yourself, it is likely to be merged and released more quickly than if the ASO team implements it.</p>
+<p>A good place to start is by creating a <a href="https://github.com/Azure/azure-service-operator/issues">GitHub issue</a> to discuss the proposed change.</p>
+<h2 id="request-implementation-of-a-new-precondition-check">Request implementation of a new precondition check</h2>
+<p>When a new resource precondition is identified, we can often implement the change on your behalf. This is a good option if you choose (for any reason) not to contribute a new precondition check yourself.</p>
+<p>You should create a <a href="https://github.com/Azure/azure-service-operator/issues">GitHub issue</a> requesting the change be made.</p>
+<p>Please ensure the issue contains as much information as possible about the requested change, remembering that the ASO team may not be intimately familiar with the specific resource type or the precondition that should be checked.</p>
+<p>New feature requests go into the ASO backlog, and are prioritized by the team alongside existing issues.</p>
+<h1 id="background">Background</h1>
+<h2 id="preconditions-for-resource-creation">Preconditions for resource creation</h2>
+<p>ASO already checks for a number of preconditions before attempting to create or update resources in Azure. For example, it will not attempt to create a resource if the owning resource does not exist, or if a required secret or configmap is missing.</p>
+<p>For some resources, we&rsquo;ve found it useful to introduce additional preconditions. For example, any attempt to PUT a <code>containerservice ManagedCluster</code> will automatically fail if the <code>provisioningState</code> of the <code>ManagedCluster</code> is in a transient state (e.g. <code>Creating</code> or <code>Updating</code>). To avoid polluting the ASO logs with a large number of failures, we block reconcile attempts until the cluster reaches a stable state (e.g. <code>Successful</code> or <code>Failed</code>).</p>
+<p>Similar checks can be added for any resource, as needed, by implementing Go interface <code>PreReconcileCheck</code>. This interface provides an extension point, allowing resource behaviour to be customized where needed. See <a href="https://github.com/Azure/azure-service-operator/pull/2686">PR#2686</a> for an example of this in action.</p>
 
-	<div class="section-index">
-    
-    
-    </div>
+	
 </div>
+
 
           </main>
         </div>
