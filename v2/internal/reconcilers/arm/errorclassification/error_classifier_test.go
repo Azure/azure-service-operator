@@ -3,7 +3,7 @@ Copyright (c) Microsoft Corporation.
 Licensed under the MIT license.
 */
 
-package arm_test
+package errorclassification_test
 
 import (
 	"testing"
@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
-	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
+	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm/errorclassification"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/retry"
 )
@@ -36,7 +36,7 @@ func Test_NilError_IsRetryable(t *testing.T) {
 		Message:        core.UnknownErrorMessage,
 	}
 
-	g.Expect(arm.ClassifyCloudError(nil)).To(Equal(expected))
+	g.Expect(errorclassification.ClassifyCloudError(nil)).To(Equal(expected))
 }
 
 func Test_Conflict_IsRetryable(t *testing.T) {
@@ -48,7 +48,7 @@ func Test_Conflict_IsRetryable(t *testing.T) {
 		Code:           conflictError.Code(),
 		Message:        conflictError.Message(),
 	}
-	g.Expect(arm.ClassifyCloudError(conflictError)).To(Equal(expected))
+	g.Expect(errorclassification.ClassifyCloudError(conflictError)).To(Equal(expected))
 }
 
 func Test_BadRequest_IsFatal(t *testing.T) {
@@ -60,7 +60,7 @@ func Test_BadRequest_IsFatal(t *testing.T) {
 		Code:           badRequestError.Code(),
 		Message:        badRequestError.Message(),
 	}
-	g.Expect(arm.ClassifyCloudError(badRequestError)).To(Equal(expected))
+	g.Expect(errorclassification.ClassifyCloudError(badRequestError)).To(Equal(expected))
 }
 
 func Test_Locked_IsRetryableVerySlowly(t *testing.T) {
@@ -73,7 +73,7 @@ func Test_Locked_IsRetryableVerySlowly(t *testing.T) {
 		Message:        lockedError.Message(),
 		Retry:          retry.VerySlow,
 	}
-	g.Expect(arm.ClassifyCloudError(lockedError)).To(Equal(expected))
+	g.Expect(errorclassification.ClassifyCloudError(lockedError)).To(Equal(expected))
 }
 
 func Test_ResourceGroupNotFound_IsRetryable(t *testing.T) {
@@ -85,7 +85,7 @@ func Test_ResourceGroupNotFound_IsRetryable(t *testing.T) {
 		Code:           resourceGroupNotFoundError.Code(),
 		Message:        resourceGroupNotFoundError.Message(),
 	}
-	g.Expect(arm.ClassifyCloudError(resourceGroupNotFoundError)).To(Equal(expected))
+	g.Expect(errorclassification.ClassifyCloudError(resourceGroupNotFoundError)).To(Equal(expected))
 }
 
 func Test_UnknownError_IsRetryable(t *testing.T) {
@@ -97,7 +97,7 @@ func Test_UnknownError_IsRetryable(t *testing.T) {
 		Code:           unknownError.Code(),
 		Message:        unknownError.Message(),
 	}
-	g.Expect(arm.ClassifyCloudError(unknownError)).To(Equal(expected))
+	g.Expect(errorclassification.ClassifyCloudError(unknownError)).To(Equal(expected))
 }
 
 func Test_HTTP400_IsFatal(t *testing.T) {
@@ -109,5 +109,5 @@ func Test_HTTP400_IsFatal(t *testing.T) {
 		Message:        core.UnknownErrorMessage,
 	}
 
-	g.Expect(arm.ClassifyCloudError(http400Error)).To(Equal(expected))
+	g.Expect(errorclassification.ClassifyCloudError(http400Error)).To(Equal(expected))
 }

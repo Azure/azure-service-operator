@@ -278,3 +278,62 @@ func Test_NewResourceGroup_ConflictWithMalformedErrorShape(t *testing.T) {
 	g.Expect(err).To(MatchError(ContainSubstring("OperationNotAllowed")))
 	g.Expect(err).To(MatchError(ContainSubstring("The operation is not allowed")))
 }
+
+func Test_NewResourceGroup_ErrorIncludesRequestID(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	ctx := context.Background()
+
+	server := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == http.MethodPut {
+			if r.URL.Path == "/subscriptions/12345/resourceGroups/myrg/providers/Microsoft.Fake/fakeResource/fake" {
+				w.Header().Add("x-ms-request-id", "123459999")
+				w.WriteHeader(http.StatusConflict)
+				g.Expect(w.Write([]byte(rpMalformedConflictError))).ToNot(BeZero())
+				return
+			}
+		}
+
+		g.Fail(fmt.Sprintf("unknown request attempted. Method: %s, URL: %s", r.Method, r.URL))
+	}))
+	defer server.Close()
+
+	cfg := cloud.Configuration{
+		Services: map[cloud.ServiceName]cloud.ServiceConfiguration{
+			cloud.ResourceManager: {
+				Endpoint: server.URL,
+				Audience: cloud.AzurePublic.Services[cloud.ResourceManager].Audience,
+			},
+		},
+	}
+	subscriptionId := "12345"
+
+	metrics := asometrics.NewARMClientMetrics()
+	options := &genericarmclient.GenericClientOptions{
+		HTTPClient: server.Client(),
+		Metrics:    metrics,
+	}
+	client, err := genericarmclient.NewGenericClient(cfg, creds.MockTokenCredential{}, options)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	resourceURI := fmt.Sprintf("/subscriptions/%s/resourceGroups/%s/providers/Microsoft.Fake/fakeResource/fake", subscriptionId, "myrg")
+	apiVersion := "2019-01-01"
+	resource := &resources.ResourceGroup{
+		ObjectMeta: metav1.ObjectMeta{
+			Name: "name",
+		},
+		Spec: resources.ResourceGroup_Spec{
+			Location: to.Ptr("westus"),
+		},
+	}
+
+	_, err = client.BeginCreateOrUpdateByID(ctx, resourceURI, apiVersion, resource)
+
+	g.Expect(err).To(HaveOccurred())
+	// Some basic assertions about the shape of the error
+	var cloudError *genericarmclient.CloudError
+	g.Expect(eris.As(err, &cloudError)).To(BeTrue())
+
+	g.Expect(cloudError.Error()).To(ContainSubstring("123459999"))
+	g.Expect(cloudError.RequestID()).To(Equal("123459999"))
+}
