@@ -1,10 +1,12 @@
 ---
-title: Annotations understood by the operator
-linktitle: Annotations
+title: Annotations and Labels used by the operator
+linktitle: Annotations and Labels
 weight: 1 # This is the default weight if you just want to be ordered alphabetically
 ---
 
-## Annotations specified by the user
+# Annotations
+
+## Annotations written by the user
 
 Note that unless otherwise specified, allowed values are _case sensitive_ and should be provided in lower case.
 
@@ -40,3 +42,34 @@ We recommend users avoid depending upon these annotations:
 1. `serviceoperator.azure.com/resource-id`: The ARM resource ID.
 2. `serviceoperator.azure.com/poller-resume-token`: JSON encoded token for polling long running operation.
 3. `serviceoperator.azure.com/poller-resume-id`: ID describing the poller to use.
+
+# Labels
+
+## Labels written by the operator
+
+### `serviceoperator.azure.com/owner-name`
+
+This label contains the name of the resource that owns this resource.
+It is written on every resource reconciled by ASO that has an owner. Resources without owners, such as `ResourceGroup`,
+do not have this label. The owning resource is guaranteed to be in the same namespace as the resource with this
+label.
+
+{{% alert title="Warning" color="warning" %}}
+If the owner name is longer than 63 characters it will be truncated to 63 characters.
+{{% /alert %}}
+
+### `serviceoperator.azure.com/owner-group-kind`
+
+This label contains the group-kind of the resource that owns this resource.
+It is written on every resource reconciled by ASO that has an owner. Resources without owners, such as `ResourceGroup`,
+do not have this label.
+
+{{% alert title="Warning" color="warning" %}}
+If the owning group-kind is longer than 63 characters it will be truncated to 63 characters.
+{{% /alert %}}
+
+### `serviceoperator.azure.com/owner-uid`
+
+This label contains the UID of the resource that owns this resource.
+It is written on every resource reconciled by ASO that has an owner. Resources without owners, such as `ResourceGroup`,
+do not have this label.
