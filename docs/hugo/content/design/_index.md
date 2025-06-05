@@ -39,6 +39,8 @@ ADR documents should be updated over time to keep them relevant, typically by up
 
 ## 2025
 
+[**Version Priority**]({{< relref "ADR-2025-05-Version-Priority" >}}) - a design to address the problems with version priority in Azure Service Operator, ensuring that the most recent resource version is selected by Kubernetes.
+
 [**Improving ARM References**]({{< relref "ADR-2025-01-ARM-References" >}}) - options for remedying the problems we face when we fail to identify a property as an ARM reference prior to releasing ASO.
 
 ## 2024
