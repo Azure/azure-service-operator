@@ -17,28 +17,28 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>Annotations understood by the operator | Azure Service Operator</title>
-<meta name="description" content="Annotations specified by the user Note that unless otherwise specified, allowed values are case sensitive and should be provided in lower case.
+<title>Annotations and Labels used by the operator | Azure Service Operator</title>
+<meta name="description" content="Annotations Annotations written by the user Note that unless otherwise specified, allowed values are case sensitive and should be provided in lower case.
 serviceoperator.azure.com/reconcile-policy Specifies the reconcile policy to use. Allowed values are:
 manage: The operator performs all actions as normal. This is the default if no annotation is specified. skip: All modification actions on the backing Azure resource are skipped. GETs are still issued to ensure that the resource exists. If the resource doesn’t exist, the Ready condition will show a Warning state with the details of the missing resource until the resource is created. If the resource is deleted in Kubernetes, it is not deleted in Azure. In REST API terminology, PUT and DELETE are skipped while GET is allowed. detach-on-delete: Modifications are pushed to the backing Azure resource, but if the resource is deleted in Kubernetes, it is not deleted in Azure. In REST API terminology, PUT and GET are allowed while DELETE is skipped. Unknown values default to manage.">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/annotations/">
   <meta property="og:site_name" content="Azure Service Operator">
-  <meta property="og:title" content="Annotations understood by the operator">
-  <meta property="og:description" content="Annotations specified by the user Note that unless otherwise specified, allowed values are case sensitive and should be provided in lower case.
+  <meta property="og:title" content="Annotations and Labels used by the operator">
+  <meta property="og:description" content="Annotations Annotations written by the user Note that unless otherwise specified, allowed values are case sensitive and should be provided in lower case.
 serviceoperator.azure.com/reconcile-policy Specifies the reconcile policy to use. Allowed values are:
 manage: The operator performs all actions as normal. This is the default if no annotation is specified. skip: All modification actions on the backing Azure resource are skipped. GETs are still issued to ensure that the resource exists. If the resource doesn’t exist, the Ready condition will show a Warning state with the details of the missing resource until the resource is created. If the resource is deleted in Kubernetes, it is not deleted in Azure. In REST API terminology, PUT and DELETE are skipped while GET is allowed. detach-on-delete: Modifications are pushed to the backing Azure resource, but if the resource is deleted in Kubernetes, it is not deleted in Azure. In REST API terminology, PUT and GET are allowed while DELETE is skipped. Unknown values default to manage.">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="guide">
 
-  <meta itemprop="name" content="Annotations understood by the operator">
-  <meta itemprop="description" content="Annotations specified by the user Note that unless otherwise specified, allowed values are case sensitive and should be provided in lower case.
+  <meta itemprop="name" content="Annotations and Labels used by the operator">
+  <meta itemprop="description" content="Annotations Annotations written by the user Note that unless otherwise specified, allowed values are case sensitive and should be provided in lower case.
 serviceoperator.azure.com/reconcile-policy Specifies the reconcile policy to use. Allowed values are:
 manage: The operator performs all actions as normal. This is the default if no annotation is specified. skip: All modification actions on the backing Azure resource are skipped. GETs are still issued to ensure that the resource exists. If the resource doesn’t exist, the Ready condition will show a Warning state with the details of the missing resource until the resource is created. If the resource is deleted in Kubernetes, it is not deleted in Azure. In REST API terminology, PUT and DELETE are skipped while GET is allowed. detach-on-delete: Modifications are pushed to the backing Azure resource, but if the resource is deleted in Kubernetes, it is not deleted in Azure. In REST API terminology, PUT and GET are allowed while DELETE is skipped. Unknown values default to manage.">
-  <meta itemprop="wordCount" content="272">
+  <meta itemprop="wordCount" content="441">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Annotations understood by the operator">
-  <meta name="twitter:description" content="Annotations specified by the user Note that unless otherwise specified, allowed values are case sensitive and should be provided in lower case.
+  <meta name="twitter:title" content="Annotations and Labels used by the operator">
+  <meta name="twitter:description" content="Annotations Annotations written by the user Note that unless otherwise specified, allowed values are case sensitive and should be provided in lower case.
 serviceoperator.azure.com/reconcile-policy Specifies the reconcile policy to use. Allowed values are:
 manage: The operator performs all actions as normal. This is the default if no annotation is specified. skip: All modification actions on the backing Azure resource are skipped. GETs are still issued to ensure that the resource exists. If the resource doesn’t exist, the Ready condition will show a Warning state with the details of the missing resource until the resource is created. If the resource is deleted in Kubernetes, it is not deleted in Azure. In REST API terminology, PUT and DELETE are skipped while GET is allowed. detach-on-delete: Modifications are pushed to the backing Azure resource, but if the resource is deleted in Kubernetes, it is not deleted in Azure. In REST API terminology, PUT and GET are allowed while DELETE is skipped. Unknown values default to manage.">
 <link rel="preload" href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" as="style" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
@@ -127,7 +127,7 @@ manage: The operator performs all actions as normal. This is the default if no a
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideadoption-li">
   <a href="/azure-service-operator/guide/adoption/" title="Adopting existing Azure resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideadoption"><span class="">Adoption</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorguideannotations-li">
-  <a href="/azure-service-operator/guide/annotations/" title="Annotations understood by the operator" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideannotations"><span class="td-sidebar-nav-active-item">Annotations</span></a>
+  <a href="/azure-service-operator/guide/annotations/" title="Annotations and Labels used by the operator" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideannotations"><span class="td-sidebar-nav-active-item">Annotations and Labels</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguideauthentication-li">
   <a href="/azure-service-operator/guide/authentication/" title="Authentication in Azure Service Operator" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguideauthentication"><span class="">Authentication</span></a>
   <ul class="ul-3 foldable">
@@ -808,13 +808,23 @@ manage: The operator performs all actions as normal. This is the default if no a
             <div class="td-toc">
         <nav id="TableOfContents">
   <ul>
-    <li><a href="#annotations-specified-by-the-user">Annotations specified by the user</a>
+    <li><a href="#annotations-written-by-the-user">Annotations written by the user</a>
       <ul>
         <li><a href="#serviceoperatorazurecomreconcile-policy"><code>serviceoperator.azure.com/reconcile-policy</code></a></li>
         <li><a href="#serviceoperatorazurecomcredential-from"><code>serviceoperator.azure.com/credential-from</code></a></li>
       </ul>
     </li>
     <li><a href="#annotations-written-by-the-operator">Annotations written by the operator</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#labels-written-by-the-operator">Labels written by the operator</a>
+      <ul>
+        <li><a href="#serviceoperatorazurecomowner-name"><code>serviceoperator.azure.com/owner-name</code></a></li>
+        <li><a href="#serviceoperatorazurecomowner-group-kind"><code>serviceoperator.azure.com/owner-group-kind</code></a></li>
+        <li><a href="#serviceoperatorazurecomowner-uid"><code>serviceoperator.azure.com/owner-uid</code></a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
       </div>
@@ -831,16 +841,17 @@ manage: The operator performs all actions as normal. This is the default if no a
   <li class="breadcrumb-item">
     <a href="/azure-service-operator/guide/">Guide</a></li>
   <li class="breadcrumb-item active" aria-current="page">
-    Annotations</li>
+    Annotations and Labels</li>
   </ol>
 </nav>
 <div class="td-content">
-	<h1>Annotations understood by the operator</h1>
+	<h1>Annotations and Labels used by the operator</h1>
 	
 	<header class="article-meta">
 		
 </header>
-	<h2 id="annotations-specified-by-the-user">Annotations specified by the user</h2>
+	<h1 id="annotations">Annotations</h1>
+<h2 id="annotations-written-by-the-user">Annotations written by the user</h2>
 <p>Note that unless otherwise specified, allowed values are <em>case sensitive</em> and should be provided in lower case.</p>
 <h3 id="serviceoperatorazurecomreconcile-policy"><code>serviceoperator.azure.com/reconcile-policy</code></h3>
 <p>Specifies the reconcile policy to use. Allowed values are:</p>
@@ -870,6 +881,39 @@ We recommend users avoid depending upon these annotations:</p>
 <li><code>serviceoperator.azure.com/poller-resume-token</code>: JSON encoded token for polling long running operation.</li>
 <li><code>serviceoperator.azure.com/poller-resume-id</code>: ID describing the poller to use.</li>
 </ol>
+<h1 id="labels">Labels</h1>
+<h2 id="labels-written-by-the-operator">Labels written by the operator</h2>
+<h3 id="serviceoperatorazurecomowner-name"><code>serviceoperator.azure.com/owner-name</code></h3>
+<p>This label contains the name of the resource that owns this resource.
+It is written on every resource reconciled by ASO that has an owner. Resources without owners, such as <code>ResourceGroup</code>,
+do not have this label. The owning resource is guaranteed to be in the same namespace as the resource with this
+label.</p>
+
+
+<div class="alert alert-warning" role="alert">
+<h4 class="alert-heading">Warning</h4>
+
+    If the owner name is longer than 63 characters it will be truncated to 63 characters.
+
+</div>
+
+<h3 id="serviceoperatorazurecomowner-group-kind"><code>serviceoperator.azure.com/owner-group-kind</code></h3>
+<p>This label contains the group-kind of the resource that owns this resource.
+It is written on every resource reconciled by ASO that has an owner. Resources without owners, such as <code>ResourceGroup</code>,
+do not have this label.</p>
+
+
+<div class="alert alert-warning" role="alert">
+<h4 class="alert-heading">Warning</h4>
+
+    If the owning group-kind is longer than 63 characters it will be truncated to 63 characters.
+
+</div>
+
+<h3 id="serviceoperatorazurecomowner-uid"><code>serviceoperator.azure.com/owner-uid</code></h3>
+<p>This label contains the UID of the resource that owns this resource.
+It is written on every resource reconciled by ASO that has an owner. Resources without owners, such as <code>ResourceGroup</code>,
+do not have this label.</p>
 
 	
 </div>
