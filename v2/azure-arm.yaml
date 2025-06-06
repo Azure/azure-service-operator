@@ -576,6 +576,12 @@ typeTransformers:
     remove: true
     because: This property should have been marked readonly but wasn't.
 
+  - group: documentdb
+    name: MongoRoleDefinitionResource_STATUS # This type is subsequently flattened into MongoRoleDefinition_STATUS
+    property: Type
+    remove: true
+    because: This property is documented as a string but returned as an int. See https://github.com/Azure/azure-service-operator/issues/4559 and https://github.com/Azure/azure-rest-api-specs/issues/23062.
+
   - group: compute
     name: DiskProperties  # This type is subsequently flattened into Disks_Spec
     property: DiskState
@@ -2651,6 +2657,9 @@ objectModelConfiguration:
       DatabaseAccounts_MongodbUserDefinition:
         $exportAs: MongodbUserDefinition
         $supportedFrom: v2.12.0
+      DatabaseAccounts_MongodbRoleDefinition:
+        $exportAs: MongodbRoleDefinition
+        $supportedFrom: v2.14.0
       MongoDBCollectionResource:
         Id:
           $referenceType: simple
