@@ -4,7 +4,6 @@ package webhook
 
 import (
 	"context"
-	"strings"
 
 	"github.com/rotisserie/eris"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -12,7 +11,6 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 
 	v1 "github.com/Azure/azure-service-operator/v2/api/entra/v1"
-	"github.com/Azure/azure-service-operator/v2/internal/util/randextensions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -55,41 +53,6 @@ func (webhook *SecurityGroup_Webhook) defaultImpl(
 	_ context.Context,
 	securityGroup *v1.SecurityGroup,
 ) error {
-	err := webhook.defaultEntraID(securityGroup)
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// defaultEntraID defaults the EntraID of the resource to the Kubernetes name
-func (webhook *SecurityGroup_Webhook) defaultEntraID(
-	securityGroup *v1.SecurityGroup,
-) error {
-	if securityGroup.Spec.EntraID != nil {
-		// Nothing to do
-		return nil
-	}
-
-	if securityGroup.Spec.OperatorSpec == nil ||
-		securityGroup.Spec.OperatorSpec.HasNamingConvention(v1.SecurityGroupNamingConventionStable) {
-		parts := []string{
-			securityGroup.Namespace,
-			securityGroup.Name,
-		}
-
-		seed := strings.Join(parts, ":")
-		id := randextensions.MakeUUIDName(securityGroup.Name, seed)
-		securityGroup.Spec.EntraID = &id
-	}
-
-	if securityGroup.Spec.OperatorSpec != nil &&
-		securityGroup.Spec.OperatorSpec.HasNamingConvention(v1.SecurityGroupNamingConventionRandom) {
-		id := randextensions.MakeRandomUUID()
-		securityGroup.Spec.EntraID = &id
-	}
-
 	return nil
 }
 

@@ -3,8 +3,6 @@
 package v1
 
 import (
-	"strings"
-
 	"github.com/microsoftgraph/msgraph-sdk-go/models"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
@@ -226,25 +224,31 @@ const (
 )
 
 type SecurityGroupOperatorSpec struct {
-	// NamingConvention: The uuid generation technique to use for any role without an explicit AzureName. One of 'stable' or
-	// 'random'.
-	// +kubebuilder:validation:Enum={"random","stable"}
-	NamingConvention *SecurityGroupNamingConvention `json:"namingConvention,omitempty"`
+	// CreationMode: Specifies how ASO will try to create the resource.
+	// If not specified, defaults to "AdoptOrCreate".
+	// +kubebuilder:default=AdoptOrCreate
+	// +kubebuilder:validation:Enum=AdoptOrCreate;AlwaysCreate
+	CreationMode *CreationMode `json:"creationMode,omitempty"`
 }
 
-type SecurityGroupNamingConvention string
-
-const (
-	SecurityGroupNamingConventionRandom SecurityGroupNamingConvention = "random"
-	SecurityGroupNamingConventionStable SecurityGroupNamingConvention = "stable"
-)
-
-func (spec *SecurityGroupOperatorSpec) HasNamingConvention(convention SecurityGroupNamingConvention) bool {
-	if spec.NamingConvention == nil {
-		return false
+// CreationAllowed checks if the creation mode allows ASO to create a new security group.
+func (spec *SecurityGroupOperatorSpec) CreationAllowed() bool {
+	if spec.CreationMode == nil {
+		// Default is AdoptOrCreate
+		return true
 	}
 
-	return strings.EqualFold(string(*spec.NamingConvention), string(convention))
+	return spec.CreationMode.AllowsCreation()
+}
+
+// AllowsAdoption checks if the creation mode allows ASO to adopt an existing security group.
+func (spec *SecurityGroupOperatorSpec) AdoptionAllowed() bool {
+	if spec.CreationMode == nil {
+		// Default is AdoptOrCreate
+		return true
+	}
+
+	return spec.CreationMode.AllowsAdoption()
 }
 
 func init() {
