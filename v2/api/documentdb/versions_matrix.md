@@ -125,6 +125,9 @@
 | MongoIndexOptions                                                         | v1api20210515 | v1api20231115 | v1api20240815 |
 | MongoIndexOptions_STATUS                                                  | v1api20210515 | v1api20231115 | v1api20240815 |
 | MongoIndex_STATUS                                                         | v1api20210515 | v1api20231115 | v1api20240815 |
+| MongoRoleDefinitionResource                                               |               |               | v1api20240815 |
+| MongoRoleDefinitionResource_STATUS                                        |               |               | v1api20240815 |
+| MongoRoleDefinitionResource_Type                                          |               |               | v1api20240815 |
 | MongoUserDefinitionResource                                               |               |               | v1api20240815 |
 | MongoUserDefinitionResource_STATUS                                        |               |               | v1api20240815 |
 | MongodbDatabase                                                           | v1api20210515 | v1api20231115 | v1api20240815 |
@@ -139,6 +142,9 @@
 | MongodbDatabaseThroughputSetting_Spec                                     | v1api20210515 | v1api20231115 | v1api20240815 |
 | MongodbDatabase_STATUS                                                    | v1api20210515 | v1api20231115 | v1api20240815 |
 | MongodbDatabase_Spec                                                      | v1api20210515 | v1api20231115 | v1api20240815 |
+| MongodbRoleDefinition                                                     |               |               | v1api20240815 |
+| MongodbRoleDefinition_STATUS                                              |               |               | v1api20240815 |
+| MongodbRoleDefinition_Spec                                                |               |               | v1api20240815 |
 | MongodbUserDefinition                                                     |               |               | v1api20240815 |
 | MongodbUserDefinition_STATUS                                              |               |               | v1api20240815 |
 | MongodbUserDefinition_Spec                                                |               |               | v1api20240815 |
@@ -152,6 +158,10 @@
 | PeriodicModeProperties                                                    | v1api20210515 | v1api20231115 | v1api20240815 |
 | PeriodicModeProperties_STATUS                                             | v1api20210515 | v1api20231115 | v1api20240815 |
 | PrivateEndpointConnection_STATUS                                          | v1api20210515 | v1api20231115 | v1api20240815 |
+| Privilege                                                                 |               |               | v1api20240815 |
+| Privilege_Resource                                                        |               |               | v1api20240815 |
+| Privilege_Resource_STATUS                                                 |               |               | v1api20240815 |
+| Privilege_STATUS                                                          |               |               | v1api20240815 |
 | PublicNetworkAccess                                                       | v1api20210515 | v1api20231115 | v1api20240815 |
 | PublicNetworkAccess_STATUS                                                | v1api20210515 | v1api20231115 | v1api20240815 |
 | RestoreParameters                                                         |               | v1api20231115 | v1api20240815 |

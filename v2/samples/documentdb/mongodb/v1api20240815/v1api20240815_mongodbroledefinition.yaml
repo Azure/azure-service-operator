@@ -1,0 +1,16 @@
+apiVersion: documentdb.azure.com/v1api20240815
+kind: MongodbRoleDefinition
+metadata:
+  name: sample-mongodb.dboperator
+  namespace: default
+spec:
+  owner:
+    name: aso-mongodb-acc
+  roleName: dboperator
+  databaseName: sample-mongodb
+  type: CustomRole
+  privileges:
+    - actions:
+        - dbStats
+      resource:
+        db: sample-mongodb
