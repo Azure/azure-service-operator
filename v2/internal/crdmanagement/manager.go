@@ -77,10 +77,8 @@ func NewLeaderElector(
 	leaseReleasedWait := &sync.WaitGroup{}
 	leaseReleasedWait.Add(1)
 
-	// My assumption is that OnStoppedLeading is guaranteed to
-	// be called after OnStartedLeading and we don't need to protect this
-	// shared state with a mutex.
 	var leaderContext context.Context
+	var leaderContextLock sync.Mutex // used to ensure reads/writes of leaderContext are safe
 
 	leaderElector, err := leaderelection.NewLeaderElector(leaderelection.LeaderElectionConfig{
 		Lock:          resourceLock,
@@ -91,16 +89,26 @@ func NewLeaderElector(
 			OnStartedLeading: func(ctx context.Context) {
 				log.V(Status).Info("Elected leader")
 				leaseAcquiredWait.Done()
+
+				leaderContextLock.Lock()
 				leaderContext = ctx
+				leaderContextLock.Unlock()
 			},
 			OnStoppedLeading: func() {
 				leaseReleasedWait.Done()
 
+				// Cache the channel from current leader context so it can't be changed while we're using it
+				leaderContextLock.Lock()
+				lc := leaderContext
+				leaderContextLock.Unlock()
+
 				exitCode := 1
-				select {
-				case <-leaderContext.Done():
-					exitCode = 0 // done is closed
-				default:
+				if lc != nil {
+					select {
+					case <-lc.Done():
+						exitCode = 0 // done is closed
+					default:
+					}
 				}
 
 				if exitCode == 0 {
