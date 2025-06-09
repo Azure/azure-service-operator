@@ -49,11 +49,11 @@ require (
 	github.com/samber/lo v1.50.0
 	github.com/spf13/cobra v1.9.1
 	go.uber.org/zap v1.27.0
-	golang.org/x/crypto v0.38.0
+	golang.org/x/crypto v0.39.0
 	golang.org/x/exp v0.0.0-20250305212735-054e65f0b394
-	golang.org/x/sync v0.14.0
-	golang.org/x/text v0.25.0
-	golang.org/x/time v0.11.0
+	golang.org/x/sync v0.15.0
+	golang.org/x/text v0.26.0
+	golang.org/x/time v0.12.0
 	google.golang.org/protobuf v1.36.6 // indirect
 	gopkg.in/dnaeon/go-vcr.v3 v3.2.0
 	gopkg.in/yaml.v2 v2.4.0
@@ -126,7 +126,7 @@ require (
 	go.opentelemetry.io/otel/trace v1.35.0 // indirect
 	go.opentelemetry.io/proto/otlp v1.5.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
-	golang.org/x/net v0.40.0 // indirect
+	golang.org/x/net v0.41.0 // indirect
 	golang.org/x/oauth2 v0.28.0 // indirect
 	golang.org/x/sys v0.33.0 // indirect
 	golang.org/x/term v0.32.0 // indirect
