@@ -6,6 +6,8 @@ The structure of the `README.md` file should follow the structure of this docume
 
 If you have any suggestions on additional content, please discuss by raising questions, but otherwise don't add any additional content not covered by this template.
 
+Please use simple and direct language, avoiding hyperbole. The goal is to provide clear, concise, and useful information about the package, its purpose, and how to work with it.
+
 ## Overview
 
 First, a brief - two or three sentences - description of the package, its purpose, and its main features.
