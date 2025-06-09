@@ -195,14 +195,6 @@ func hideCustomKeys(s string) string {
 
 func (r *Redactor) HideURLData(s string) string {
 	s = r.hideRecordingDataWithCustomRedaction(s)
-	s = hideBaseRequestURL(s)
 
 	return s
-}
-
-// baseURLMatcher matches the base part of a URL
-var baseURLMatcher = regexp.MustCompile(`^https://[^/]+/`)
-
-func hideBaseRequestURL(s string) string {
-	return baseURLMatcher.ReplaceAllLiteralString(s, `https://management.azure.com/`)
 }
