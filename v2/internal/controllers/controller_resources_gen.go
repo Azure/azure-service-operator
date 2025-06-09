@@ -916,6 +916,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(documentdb_v20240815s.MongodbDatabaseCollection)})
 	result = append(result, &registration.StorageType{Obj: new(documentdb_v20240815s.MongodbDatabaseCollectionThroughputSetting)})
 	result = append(result, &registration.StorageType{Obj: new(documentdb_v20240815s.MongodbDatabaseThroughputSetting)})
+	result = append(result, &registration.StorageType{Obj: new(documentdb_v20240815s.MongodbRoleDefinition)})
 	result = append(result, &registration.StorageType{
 		Obj: new(documentdb_v20240815s.MongodbUserDefinition),
 		Indexes: []registration.Index{
@@ -3148,6 +3149,11 @@ func getKnownTypes() []*registration.KnownType {
 			Validator: &documentdb_v20240815w.MongodbDatabaseThroughputSetting{},
 		},
 		&registration.KnownType{
+			Obj:       new(documentdb_v20240815.MongodbRoleDefinition),
+			Defaulter: &documentdb_v20240815w.MongodbRoleDefinition{},
+			Validator: &documentdb_v20240815w.MongodbRoleDefinition{},
+		},
+		&registration.KnownType{
 			Obj:       new(documentdb_v20240815.MongodbUserDefinition),
 			Defaulter: &documentdb_v20240815w.MongodbUserDefinition{},
 			Validator: &documentdb_v20240815w.MongodbUserDefinition{},
@@ -3199,6 +3205,7 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(documentdb_v20240815s.MongodbDatabaseCollection)},
 		&registration.KnownType{Obj: new(documentdb_v20240815s.MongodbDatabaseCollectionThroughputSetting)},
 		&registration.KnownType{Obj: new(documentdb_v20240815s.MongodbDatabaseThroughputSetting)},
+		&registration.KnownType{Obj: new(documentdb_v20240815s.MongodbRoleDefinition)},
 		&registration.KnownType{Obj: new(documentdb_v20240815s.MongodbUserDefinition)},
 		&registration.KnownType{Obj: new(documentdb_v20240815s.SqlDatabase)},
 		&registration.KnownType{Obj: new(documentdb_v20240815s.SqlDatabaseContainer)},
@@ -4880,6 +4887,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &documentdb_customizations.MongodbDatabaseCollectionThroughputSettingExtension{})
 	result = append(result, &documentdb_customizations.MongodbDatabaseExtension{})
 	result = append(result, &documentdb_customizations.MongodbDatabaseThroughputSettingExtension{})
+	result = append(result, &documentdb_customizations.MongodbRoleDefinitionExtension{})
 	result = append(result, &documentdb_customizations.MongodbUserDefinitionExtension{})
 	result = append(result, &documentdb_customizations.SqlDatabaseContainerExtension{})
 	result = append(result, &documentdb_customizations.SqlDatabaseContainerStoredProcedureExtension{})
