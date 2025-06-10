@@ -256,8 +256,8 @@ type FlexibleServersAdvancedThreatProtectionSettings_Spec struct {
 	Owner *genruntime.KnownResourceReference `group:"dbforpostgresql.azure.com" json:"owner,omitempty" kind:"FlexibleServer"`
 
 	// +kubebuilder:validation:Required
-	// State: Specifies the state of the Threat Protection, whether it is enabled or disabled or a state has not been applied
-	// yet on the specific server.
+	// State: Specifies the state of the advanced threat protection, whether it is enabled, disabled, or a state has not been
+	// applied yet on the flexible server.
 	State *ServerThreatProtectionProperties_State `json:"state,omitempty"`
 }
 
@@ -478,7 +478,7 @@ type FlexibleServersAdvancedThreatProtectionSettings_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
-	// CreationTime: Specifies the UTC creation time of the policy.
+	// CreationTime: Specifies the creation time (UTC) of the policy.
 	CreationTime *string `json:"creationTime,omitempty"`
 
 	// Id: Fully qualified resource ID for the resource. E.g.
@@ -488,8 +488,8 @@ type FlexibleServersAdvancedThreatProtectionSettings_STATUS struct {
 	// Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
-	// State: Specifies the state of the Threat Protection, whether it is enabled or disabled or a state has not been applied
-	// yet on the specific server.
+	// State: Specifies the state of the advanced threat protection, whether it is enabled, disabled, or a state has not been
+	// applied yet on the flexible server.
 	State *ServerThreatProtectionProperties_State_STATUS `json:"state,omitempty"`
 
 	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.

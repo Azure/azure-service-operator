@@ -252,10 +252,10 @@ type FlexibleServersVirtualEndpoint_Spec struct {
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-	// EndpointType: The endpoint type for the virtual endpoint.
+	// EndpointType: Type of endpoint for the virtual endpoints.
 	EndpointType *VirtualEndpointResourceProperties_EndpointType `json:"endpointType,omitempty"`
 
-	// Members: List of members for a virtual endpoint
+	// Members: List of flexible servers that one of the virtual endpoints can refer to.
 	Members []string `json:"members,omitempty"`
 
 	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
@@ -520,14 +520,14 @@ type FlexibleServersVirtualEndpoint_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
-	// EndpointType: The endpoint type for the virtual endpoint.
+	// EndpointType: Type of endpoint for the virtual endpoints.
 	EndpointType *VirtualEndpointResourceProperties_EndpointType_STATUS `json:"endpointType,omitempty"`
 
 	// Id: Fully qualified resource ID for the resource. E.g.
 	// "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 	Id *string `json:"id,omitempty"`
 
-	// Members: List of members for a virtual endpoint
+	// Members: List of flexible servers that one of the virtual endpoints can refer to.
 	Members []string `json:"members,omitempty"`
 
 	// Name: The name of the resource
@@ -539,7 +539,7 @@ type FlexibleServersVirtualEndpoint_STATUS struct {
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 
-	// VirtualEndpoints: List of virtual endpoints for a server
+	// VirtualEndpoints: List of virtual endpoints for a flexible server.
 	VirtualEndpoints []string `json:"virtualEndpoints,omitempty"`
 }
 
