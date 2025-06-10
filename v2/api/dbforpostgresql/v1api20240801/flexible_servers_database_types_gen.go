@@ -253,11 +253,11 @@ type FlexibleServersDatabase_Spec struct {
 	AzureName string `json:"azureName,omitempty"`
 
 	// +kubebuilder:validation:Pattern="^[a-zA-Z]+\\w*$"
-	// Charset: The charset of the database.
+	// Charset: Character set of the database.
 	Charset *string `json:"charset,omitempty"`
 
 	// +kubebuilder:validation:Pattern="^[a-zA-Z\\-]+([. ]|\\w)*$"
-	// Collation: The collation of the database.
+	// Collation: Collation of the database.
 	Collation *string `json:"collation,omitempty"`
 
 	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
@@ -501,10 +501,10 @@ func (database *FlexibleServersDatabase_Spec) SetAzureName(azureName string) {
 }
 
 type FlexibleServersDatabase_STATUS struct {
-	// Charset: The charset of the database.
+	// Charset: Character set of the database.
 	Charset *string `json:"charset,omitempty"`
 
-	// Collation: The collation of the database.
+	// Collation: Collation of the database.
 	Collation *string `json:"collation,omitempty"`
 
 	// Conditions: The observed state of the resource
