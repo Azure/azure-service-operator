@@ -194,13 +194,13 @@ func (r *EntraSecurityGroupReconciler) update(
 	// Update - PATCH
 	group.Spec.AssignToGroup(g)
 
-	status, err := client.Client().Groups().ByGroupId(id).Patch(ctx, g, nil)
+	_, err = client.Client().Groups().ByGroupId(id).Patch(ctx, g, nil)
 	if err != nil {
 		// Failed to update
 		return ctrl.Result{}, eris.Wrapf(err, "failed to update group %s", id)
 	}
 
-	group.Status.AssignFromGroup(status)
+	group.Status.AssignFromGroup(g)
 
 	return ctrl.Result{}, nil
 }
@@ -290,6 +290,8 @@ func (r *EntraSecurityGroupReconciler) create(
 	}
 
 	group.Status.AssignFromGroup(status)
+	setEntraID(group, *status.GetId())
+
 	return ctrl.Result{}, nil
 }
 
