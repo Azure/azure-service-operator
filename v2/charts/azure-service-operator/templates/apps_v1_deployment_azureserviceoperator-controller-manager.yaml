@@ -202,7 +202,7 @@ spec:
         {{- with .Values.extraEnv }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
-        image: {{.Values.image.repository}}
+        image: {{ tpl .Values.image.repository . }}
         imagePullPolicy: Always
         livenessProbe:
           httpGet:
