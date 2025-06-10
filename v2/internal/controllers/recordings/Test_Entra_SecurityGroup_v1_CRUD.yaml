@@ -1,0 +1,242 @@
+---
+version: 2
+interactions:
+    - id: 0
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: graph.microsoft.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://graph.microsoft.com/v1.0/groups?%24filter=displayName%20eq%20%27ASO%20Test%20Security%20Group%27
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: -1
+        uncompressed: true
+        body: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#groups","value":[]}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Type:
+                - application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8
+            Odata-Version:
+                - "4.0"
+            Request-Id:
+                - 7167885b-a311-44de-b9dc-8d764b66b883
+            Strict-Transport-Security:
+                - max-age=31536000
+            Vary:
+                - Accept-Encoding
+            X-Ms-Ags-Diagnostic:
+                - '{"ServerInfo":{"DataCenter":"Australia East","Slice":"E","Ring":"5","ScaleUnit":"002","RoleInstance":"SY2PEPF000097C5"}}'
+            X-Ms-Resource-Unit:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 461.682299ms
+    - id: 1
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: graph.microsoft.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"@odata.type":"#microsoft.graph.group","displayName":"ASO Test Security Group","groupTypes":["Unified"],"mailEnabled":false,"mailNickname":"asotest-security-group","securityEnabled":true}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Type:
+                - application/json
+            Test-Request-Hash:
+                - 7e51a3eea7dc8d8445aba017df39473d4c3dcf740f8e35176b36abde22d239fc
+        url: https://graph.microsoft.com/v1.0/groups
+        method: POST
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: -1
+        uncompressed: true
+        body: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#groups/$entity","id":"6071e091-80dc-49e9-aea7-21f67858ea40","deletedDateTime":null,"classification":null,"createdDateTime":"2001-02-03T04:05:06Z","creationOptions":[],"description":null,"displayName":"ASO Test Security Group","expirationDateTime":null,"groupTypes":["Unified"],"isAssignableToRole":null,"mail":"asotest-security-group@microsoft.onmicrosoft.com","mailEnabled":true,"mailNickname":"asotest-security-group","membershipRule":null,"membershipRuleProcessingState":null,"onPremisesDomainName":null,"onPremisesLastSyncDateTime":null,"onPremisesNetBiosName":null,"onPremisesSamAccountName":null,"onPremisesSecurityIdentifier":null,"onPremisesSyncEnabled":null,"preferredDataLocation":"APC","preferredLanguage":null,"proxyAddresses":["SMTP:asotest-security-group@microsoft.onmicrosoft.com"],"renewedDateTime":"2001-02-03T04:05:06Z","resourceBehaviorOptions":[],"resourceProvisioningOptions":[],"securityEnabled":true,"securityIdentifier":"S-1-12-1-1618075793-1240039644-4129400750-1089099896","theme":null,"uniqueName":null,"visibility":"Public","onPremisesProvisioningErrors":[],"serviceProvisioningErrors":[]}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Type:
+                - application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8
+            Location:
+                - https://graph.microsoft.com/v2/00000000-0000-0000-0000-000000000000/directoryObjects/6071e091-80dc-49e9-aea7-21f67858ea40/Microsoft.DirectoryServices.Group
+            Odata-Version:
+                - "4.0"
+            Request-Id:
+                - f3d88ca8-e49d-4994-8ffb-7c03c17727b5
+            Strict-Transport-Security:
+                - max-age=31536000
+            Vary:
+                - Accept-Encoding
+            X-Ms-Ags-Diagnostic:
+                - '{"ServerInfo":{"DataCenter":"Australia East","Slice":"E","Ring":"5","ScaleUnit":"002","RoleInstance":"SY2PEPF000097C5"}}'
+            X-Ms-Resource-Unit:
+                - "1"
+        status: 201 Created
+        code: 201
+        duration: 1.986752881s
+    - id: 2
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: graph.microsoft.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://graph.microsoft.com/v1.0/groups/6071e091-80dc-49e9-aea7-21f67858ea40
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: -1
+        uncompressed: true
+        body: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#groups/$entity","id":"6071e091-80dc-49e9-aea7-21f67858ea40","deletedDateTime":null,"classification":null,"createdDateTime":"2001-02-03T04:05:06Z","creationOptions":[],"description":null,"displayName":"ASO Test Security Group","expirationDateTime":null,"groupTypes":["Unified"],"isAssignableToRole":null,"mail":"asotest-security-group@microsoft.onmicrosoft.com","mailEnabled":true,"mailNickname":"asotest-security-group","membershipRule":null,"membershipRuleProcessingState":null,"onPremisesDomainName":null,"onPremisesLastSyncDateTime":null,"onPremisesNetBiosName":null,"onPremisesSamAccountName":null,"onPremisesSecurityIdentifier":null,"onPremisesSyncEnabled":null,"preferredDataLocation":"APC","preferredLanguage":null,"proxyAddresses":["SMTP:asotest-security-group@microsoft.onmicrosoft.com"],"renewedDateTime":"2001-02-03T04:05:06Z","resourceBehaviorOptions":[],"resourceProvisioningOptions":[],"securityEnabled":true,"securityIdentifier":"S-1-12-1-1618075793-1240039644-4129400750-1089099896","theme":null,"uniqueName":null,"visibility":"Public","onPremisesProvisioningErrors":[],"serviceProvisioningErrors":[]}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Type:
+                - application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8
+            Odata-Version:
+                - "4.0"
+            Request-Id:
+                - 35d1004d-f3e2-4c35-a9ae-7d8182b3161a
+            Strict-Transport-Security:
+                - max-age=31536000
+            Vary:
+                - Accept-Encoding
+            X-Ms-Ags-Diagnostic:
+                - '{"ServerInfo":{"DataCenter":"Australia East","Slice":"E","Ring":"5","ScaleUnit":"002","RoleInstance":"SY2PEPF000097C5"}}'
+            X-Ms-Resource-Unit:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 231.788562ms
+    - id: 3
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: graph.microsoft.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"@odata.type":"#microsoft.graph.group","@odata.context":"https://graph.microsoft.com/v1.0/$metadata#groups/$entity","resourceProvisioningOptions":[],"creationOptions":[],"resourceBehaviorOptions":[]}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Type:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://graph.microsoft.com/v1.0/groups/6071e091-80dc-49e9-aea7-21f67858ea40
+        method: PATCH
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: ""
+        headers:
+            Cache-Control:
+                - no-cache
+            Request-Id:
+                - 5eef976a-4b30-4740-b1b8-4419b1e5e360
+            Strict-Transport-Security:
+                - max-age=31536000
+            X-Ms-Ags-Diagnostic:
+                - '{"ServerInfo":{"DataCenter":"Australia East","Slice":"E","Ring":"5","ScaleUnit":"002","RoleInstance":"SY2PEPF000097C5"}}'
+            X-Ms-Resource-Unit:
+                - "1"
+        status: 204 No Content
+        code: 204
+        duration: 211.356318ms
+    - id: 4
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: graph.microsoft.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://graph.microsoft.com/v1.0/groups/6071e091-80dc-49e9-aea7-21f67858ea40
+        method: DELETE
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: ""
+        headers:
+            Cache-Control:
+                - no-cache
+            Request-Id:
+                - 013e1160-1fa1-4209-b1d7-9f18f3b88764
+            Strict-Transport-Security:
+                - max-age=31536000
+            X-Ms-Ags-Diagnostic:
+                - '{"ServerInfo":{"DataCenter":"Australia East","Slice":"E","Ring":"5","ScaleUnit":"002","RoleInstance":"SY2PEPF000097C5"}}'
+            X-Ms-Resource-Unit:
+                - "1"
+        status: 204 No Content
+        code: 204
+        duration: 2.395846555s
