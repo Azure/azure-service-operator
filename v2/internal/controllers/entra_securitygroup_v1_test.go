@@ -28,7 +28,14 @@ func Test_Entra_SecurityGroup_v1_CRUD(t *testing.T) {
 		},
 	}
 
+	// Create the resource and wait for it to be ready
 	tc.CreateResourceAndWait(securityGroup)
 
+	// Save an update
+	old := securityGroup.DeepCopy()
+	securityGroup.Spec.DisplayName = to.Ptr("ASO Test Security Group Updated")
+	tc.PatchResourceAndWait(old, securityGroup)
+
+	// Delete the resource and wait for it to be gone
 	tc.DeleteResourceAndWait(securityGroup)
 }
