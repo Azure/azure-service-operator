@@ -10,7 +10,7 @@ Please use simple and direct language, avoiding hyperbole. The goal is to provid
 
 ## Overview
 
-First, a brief - two or three sentences - description of the package, its purpose, and its main features.
+First, a brief - a short paragraph - description of the package, its purpose, and its main features.
 
 **Key concepts**: After the summary, a small number of paragraphs, each describing a key concept needed for understanding of the package. This should be a high-level overview of the concepts, not a detailed explanation. Each concept paragraph should follow the format of this paragraph, starting with a bolden phrase that summarizes the concept, followed by a more detailed explanation. Don't use a single paragraph called "Key Concepts", this is an example.
 
