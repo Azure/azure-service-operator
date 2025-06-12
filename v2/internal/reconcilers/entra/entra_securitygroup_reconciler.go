@@ -444,7 +444,6 @@ func (r *EntraSecurityGroupReconciler) saveAssociatedKubernetesResources(
 	group *asoentra.SecurityGroup,
 	log logr.Logger,
 ) error {
-
 	if group == nil ||
 		group.Spec.OperatorSpec == nil {
 		// No OperatorSpec, nothing to do
