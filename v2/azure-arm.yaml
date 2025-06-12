@@ -2604,6 +2604,13 @@ objectModelConfiguration:
       SqlUserDefinedFunctionResource:
         Id:
           $referenceType: simple
+    2024-07-01:
+      MongoCluster:
+        $exportAs: MongoCluster
+        $supportedFrom: v2.14.0
+      MongoClusters_FirewallRule:
+        $exportAs: FirewallRule
+        $supportedFrom: v2.14.0
     2024-08-15:
       DatabaseAccount:
         $export: true

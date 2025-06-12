@@ -11,7 +11,7 @@ type FlexibleServersDatabase_STATUS struct {
 	// Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
-	// Properties: Properties of a database.
+	// Properties: The properties of a database.
 	Properties *DatabaseProperties_STATUS `json:"properties,omitempty"`
 
 	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
@@ -21,11 +21,11 @@ type FlexibleServersDatabase_STATUS struct {
 	Type *string `json:"type,omitempty"`
 }
 
-// Properties of a database.
+// The properties of a database.
 type DatabaseProperties_STATUS struct {
-	// Charset: Character set of the database.
+	// Charset: The charset of the database.
 	Charset *string `json:"charset,omitempty"`
 
-	// Collation: Collation of the database.
+	// Collation: The collation of the database.
 	Collation *string `json:"collation,omitempty"`
 }

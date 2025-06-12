@@ -11,7 +11,7 @@ type FlexibleServersVirtualEndpoint_STATUS struct {
 	// Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
-	// Properties: Properties of the pair of virtual endpoints.
+	// Properties: Properties of the virtual endpoint resource.
 	Properties *VirtualEndpointResourceProperties_STATUS `json:"properties,omitempty"`
 
 	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
@@ -21,15 +21,15 @@ type FlexibleServersVirtualEndpoint_STATUS struct {
 	Type *string `json:"type,omitempty"`
 }
 
-// Properties of a pair of virtual endpoints.
+// The properties of a virtual endpoint.
 type VirtualEndpointResourceProperties_STATUS struct {
-	// EndpointType: Type of endpoint for the virtual endpoints.
+	// EndpointType: The endpoint type for the virtual endpoint.
 	EndpointType *VirtualEndpointResourceProperties_EndpointType_STATUS `json:"endpointType,omitempty"`
 
-	// Members: List of flexible servers that one of the virtual endpoints can refer to.
+	// Members: List of members for a virtual endpoint
 	Members []string `json:"members,omitempty"`
 
-	// VirtualEndpoints: List of virtual endpoints for a flexible server.
+	// VirtualEndpoints: List of virtual endpoints for a server
 	VirtualEndpoints []string `json:"virtualEndpoints,omitempty"`
 }
 

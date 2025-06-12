@@ -254,7 +254,7 @@ type FlexibleServersFirewallRule_Spec struct {
 
 	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:Pattern="^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"
-	// EndIpAddress: IP address defining the end of the range of addresses of a firewall rule. Must be expressed in IPv4 format.
+	// EndIpAddress: The end IP address of the server firewall rule. Must be IPv4 format.
 	EndIpAddress *string `json:"endIpAddress,omitempty"`
 
 	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
@@ -269,8 +269,7 @@ type FlexibleServersFirewallRule_Spec struct {
 
 	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:Pattern="^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"
-	// StartIpAddress: IP address defining the start of the range of addresses of a firewall rule. Must be expressed in IPv4
-	// format.
+	// StartIpAddress: The start IP address of the server firewall rule. Must be IPv4 format.
 	StartIpAddress *string `json:"startIpAddress,omitempty"`
 }
 
@@ -507,7 +506,7 @@ type FlexibleServersFirewallRule_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
-	// EndIpAddress: IP address defining the end of the range of addresses of a firewall rule. Must be expressed in IPv4 format.
+	// EndIpAddress: The end IP address of the server firewall rule. Must be IPv4 format.
 	EndIpAddress *string `json:"endIpAddress,omitempty"`
 
 	// Id: Fully qualified resource ID for the resource. E.g.
@@ -517,8 +516,7 @@ type FlexibleServersFirewallRule_STATUS struct {
 	// Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
-	// StartIpAddress: IP address defining the start of the range of addresses of a firewall rule. Must be expressed in IPv4
-	// format.
+	// StartIpAddress: The start IP address of the server firewall rule. Must be IPv4 format.
 	StartIpAddress *string `json:"startIpAddress,omitempty"`
 
 	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.

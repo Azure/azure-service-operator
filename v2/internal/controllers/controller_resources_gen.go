@@ -167,6 +167,9 @@ import (
 	documentdb_v20231115 "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115"
 	documentdb_v20231115s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
 	documentdb_v20231115w "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/webhook"
+	documentdb_v20240701 "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20240701"
+	documentdb_v20240701s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20240701/storage"
+	documentdb_v20240701w "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20240701/webhook"
 	documentdb_v20240815 "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20240815"
 	documentdb_v20240815s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20240815/storage"
 	documentdb_v20240815w "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20240815/webhook"
@@ -908,6 +911,22 @@ func getKnownStorageTypes() []*registration.StorageType {
 			{
 				Type:             &v1.Secret{},
 				MakeEventHandler: watchSecretsFactory([]string{".spec.properties.routing.endpoints.eventHubs.connectionString", ".spec.properties.routing.endpoints.serviceBusQueues.connectionString", ".spec.properties.routing.endpoints.serviceBusTopics.connectionString", ".spec.properties.routing.endpoints.storageContainers.connectionString", ".spec.properties.storageEndpoints.connectionString"}, &devices_v20210702s.IotHubList{}),
+			},
+		},
+	})
+	result = append(result, &registration.StorageType{Obj: new(documentdb_v20240701s.FirewallRule)})
+	result = append(result, &registration.StorageType{
+		Obj: new(documentdb_v20240701s.MongoCluster),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.properties.administrator.password",
+				Func: indexDocumentdbMongoClusterPassword,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type:             &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory([]string{".spec.properties.administrator.password"}, &documentdb_v20240701s.MongoClusterList{}),
 			},
 		},
 	})
@@ -3121,6 +3140,16 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(documentdb_v20231115s.SqlDatabaseContainerUserDefinedFunction)},
 		&registration.KnownType{Obj: new(documentdb_v20231115s.SqlDatabaseThroughputSetting)},
 		&registration.KnownType{Obj: new(documentdb_v20231115s.SqlRoleAssignment)})
+	result = append(result, &registration.KnownType{
+		Obj:       new(documentdb_v20240701.FirewallRule),
+		Defaulter: &documentdb_v20240701w.FirewallRule{},
+		Validator: &documentdb_v20240701w.FirewallRule{},
+	}, &registration.KnownType{
+		Obj:       new(documentdb_v20240701.MongoCluster),
+		Defaulter: &documentdb_v20240701w.MongoCluster{},
+		Validator: &documentdb_v20240701w.MongoCluster{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(documentdb_v20240701s.FirewallRule)}, &registration.KnownType{Obj: new(documentdb_v20240701s.MongoCluster)})
 	result = append(
 		result,
 		&registration.KnownType{
@@ -4692,6 +4721,8 @@ func createScheme() *runtime.Scheme {
 	_ = documentdb_v20210515s.AddToScheme(scheme)
 	_ = documentdb_v20231115.AddToScheme(scheme)
 	_ = documentdb_v20231115s.AddToScheme(scheme)
+	_ = documentdb_v20240701.AddToScheme(scheme)
+	_ = documentdb_v20240701s.AddToScheme(scheme)
 	_ = documentdb_v20240815.AddToScheme(scheme)
 	_ = documentdb_v20240815s.AddToScheme(scheme)
 	_ = eventgrid_v20200601.AddToScheme(scheme)
@@ -4883,6 +4914,8 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &dbforpostgresql_customizations.FlexibleServersVirtualEndpointExtension{})
 	result = append(result, &devices_customizations.IotHubExtension{})
 	result = append(result, &documentdb_customizations.DatabaseAccountExtension{})
+	result = append(result, &documentdb_customizations.FirewallRuleExtension{})
+	result = append(result, &documentdb_customizations.MongoClusterExtension{})
 	result = append(result, &documentdb_customizations.MongodbDatabaseCollectionExtension{})
 	result = append(result, &documentdb_customizations.MongodbDatabaseCollectionThroughputSettingExtension{})
 	result = append(result, &documentdb_customizations.MongodbDatabaseExtension{})
@@ -5911,6 +5944,24 @@ func indexDevicesIotHubStorageEndpointsConnectionString(rawObj client.Object) []
 		result = append(result, value.ConnectionString.Index()...)
 	}
 	return result
+}
+
+// indexDocumentdbMongoClusterPassword an index function for documentdb_v20240701s.MongoCluster .spec.properties.administrator.password
+func indexDocumentdbMongoClusterPassword(rawObj client.Object) []string {
+	obj, ok := rawObj.(*documentdb_v20240701s.MongoCluster)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.Administrator == nil {
+		return nil
+	}
+	if obj.Spec.Properties.Administrator.Password == nil {
+		return nil
+	}
+	return obj.Spec.Properties.Administrator.Password.Index()
 }
 
 // indexDocumentdbMongodbUserDefinitionPassword an index function for documentdb_v20240815s.MongodbUserDefinition .spec.password
