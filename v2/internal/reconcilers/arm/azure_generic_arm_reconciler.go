@@ -105,6 +105,7 @@ func (r *AzureDeploymentReconciler) makeInstance(
 	if err != nil {
 		return nil, err
 	}
+
 	// Augment Log with ARM specific stuff
 	log = log.WithValues("azureName", typedObj.AzureName())
 
