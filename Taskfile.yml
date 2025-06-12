@@ -795,7 +795,7 @@ tasks:
     deps:
       - controller:generate-kustomize
     cmds:
-      - "{{.SCRIPTS_ROOT}}/package-helm-manifest.sh -i {{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}} -r {{.PUBLIC_REGISTRY}} -v {{.LATEST_VERSION_TAG}} -d `pwd`/"
+      - "{{.SCRIPTS_ROOT}}/package-helm-manifest.sh -v {{.LATEST_VERSION_TAG}} -d `pwd`/"
       - task: controller:validate-helm
 
   controller:install-helm-wi:
@@ -820,7 +820,7 @@ tasks:
             echo "--set image.repository={{.IMAGE_REPOSITORY}}"
           else
             echo ""
-          fi 
+          fi
 
   controller:install-helm-single-tenant:
     desc: Generate and install helm chart on cluster using workload identity

@@ -12,18 +12,14 @@
 set -e
 
 print_usage() {
-  echo "Usage: package-helm-manifest.sh -d <DIRECTORY> -v <VERSION> -r <PUBLIC_REGISTRY> -i <LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE>"
+  echo "Usage: package-helm-manifest.sh -d <DIRECTORY> -v <VERSION>"
 }
 
-LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE=
-PUBLIC_REGISTRY=
 VERSION=
 DIR=
 
-while getopts 'i:r:v:d:' flag; do
+while getopts 'v:d:' flag; do
   case "${flag}" in
-    i) LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE="${OPTARG}" ;;
-    r) PUBLIC_REGISTRY="${OPTARG}" ;;
     v) VERSION="${OPTARG}" ;;
     d) DIR="${OPTARG}" ;;
     *) print_usage
@@ -31,7 +27,7 @@ while getopts 'i:r:v:d:' flag; do
   esac
 done
 
-if [[ -z "$DIR" ]] || [[ -z "$VERSION" ]] || [[ -z "$PUBLIC_REGISTRY" ]] || [[ -z "$LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE" ]]; then
+if [[ -z "$DIR" ]] || [[ -z "$VERSION" ]]; then
   print_usage
   exit 1
 fi
@@ -45,7 +41,7 @@ IF_CLUSTER="{{- if or (eq .Values.multitenant.enable false) (eq .Values.azureOpe
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 echo "Updating helm chart manifest"
-sed -i "s@\($PUBLIC_REGISTRY\)\(.*\)@\1azureserviceoperator:$VERSION@g" "$ASO_CHART"/values.yaml
+sed -i "s@tag: \(.*\)@tag: $VERSION@g" "$ASO_CHART"/values.yaml
 
 # Chart replacements
 sed -i "s/\(version: \)\(.*\)/\1${VERSION//v}/g" "$ASO_CHART"/Chart.yaml  # find version key and update the value with the current version
