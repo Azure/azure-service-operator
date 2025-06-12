@@ -61,7 +61,7 @@ type SecurityGroupSpec struct {
 
 	// MailNickname: The email address of the group.
 	// +kubebuilder:validation:Required
-	MailNickname *string `json:"groupEmailAddress,omitempty"`
+	MailNickname *string `json:"mailNickname,omitempty"`
 
 	// Description: The description of the group.
 	Description *string `json:"description,omitempty"`
