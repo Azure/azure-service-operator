@@ -78,7 +78,23 @@ Any resources introduced with older versions of ASO would continue to use the ex
 
 * Still allows the problem to occur (but prevents it from getting worse)
 
-## Version format
+## Option 4: Introduce a new version format for all resources with old version duplicates for existing resources
+
+Reuse the approach we took as we migrated from `v1alpha1` to `v1beta` and from `v1beta` to `v1api`, where we introduce a new version format for all resources, but also keep the old versions around for compatibility reasons.
+
+After several releases of ASO, we'd remove the old versions, as we did with `v1alpha1` and `v1beta`.
+
+### Pros
+
+* Migrates all resources to the new version format, so version priority will work as users expect for all resources.
+* Mitigates the breaking change of Option 2 by keeping the old versions around for a while.
+
+### Cons
+
+* Will eventually a breaking change for some users, but only for those who have not migrated to the new version format in the interim.
+* May not be possible for some resources, as the duplication may result in the aggregate CRD being too large. (This is definitely the case for `ManagedCluster` which is already near the maximum size for a CRD, and would not be able to accommodate the duplication of all the existing versions.)
+
+## Which new version format?
 
 A simple change to the format we use for resource versions would be to simplify the prefix used to just `v`, giving resource versions like this:
 
@@ -86,7 +102,7 @@ A simple change to the format we use for resource versions would be to simplify 
 * `v20240201`
 * `v20210201preview`
 
-Unfortunately, multi-part versions aren't supported for Kubernetes custom resources, so we _cannot_ lean into the date-based scheme used for Azure api-versions and use `.` separators as follows:
+Unfortunately, multi-part versions aren't supported for Kubernetes custom resources, so we _cannot_ lean into the date-based scheme used for Azure api-versions and use `.` separators:
 
 * `v2021.02.01`
 * `v2024.02.01`
@@ -102,10 +118,14 @@ or (using a suffix):
 
 * `v202102011`
 * `v202402011`
-* `v202102011preview`
+* `v20210201preview1`
 
 This would seem to be quite awkward, difficult for users to understand, and potentially for zero benefit. Maybe YAGNI applies.
 
 ## Status
 
-Recommendation: Option 3 with the proposed version change to use just `v` as the prefix.
+Recommendation: 
+_Either_
+Option 3 with the proposed version change to use just `v` as the prefix.
+_or_
+Option 4 with the proposed version change to use just `v` as the prefix, but with the understanding that some resources may not be able to accommodate the duplication of existing versions.
