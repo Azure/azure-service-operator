@@ -8,6 +8,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
 
@@ -229,6 +230,8 @@ type SecurityGroupOperatorSpec struct {
 	// +kubebuilder:default=AdoptOrCreate
 	// +kubebuilder:validation:Enum=AdoptOrCreate;AlwaysCreate
 	CreationMode *CreationMode `json:"creationMode,omitempty"`
+
+	Secrets *SecurityGroupOperatorSecrets `json:"secrets,omitempty"`
 }
 
 // CreationAllowed checks if the creation mode allows ASO to create a new security group.
@@ -249,6 +252,11 @@ func (spec *SecurityGroupOperatorSpec) AdoptionAllowed() bool {
 	}
 
 	return spec.CreationMode.AllowsAdoption()
+}
+
+type SecurityGroupOperatorSecrets struct {
+	// EntraID: The Entra ID of the group.
+	EntraID *genruntime.SecretDestination `json:"entraID,omitempty"`
 }
 
 func init() {

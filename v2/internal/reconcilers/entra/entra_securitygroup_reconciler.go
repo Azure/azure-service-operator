@@ -19,6 +19,7 @@ import (
 	"github.com/rotisserie/eris"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 
 	asoentra "github.com/Azure/azure-service-operator/v2/api/entra/v1"
@@ -29,8 +30,11 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 )
 
+// EntraSecurityGroupReconciler reconciles an Entra security group.
+// TODO: Factor out common code shared with other Entra resources into entraGenericReconciler
 type EntraSecurityGroupReconciler struct {
 	reconcilers.ReconcilerCommon
 	ResourceResolver   *resolver.Resolver
@@ -292,6 +296,8 @@ func (r *EntraSecurityGroupReconciler) create(
 	group.Status.AssignFromGroup(status)
 	setEntraID(group, *status.GetId())
 
+	r.saveAssociatedKubernetesResources(ctx, group, log)
+
 	return ctrl.Result{}, nil
 }
 
@@ -330,6 +336,8 @@ func (r *EntraSecurityGroupReconciler) UpdateStatus(
 	}
 
 	group.Status.AssignFromGroup(groupable)
+
+	r.saveAssociatedKubernetesResources(ctx, group, log)
 
 	return nil
 }
@@ -393,7 +401,9 @@ func (r *EntraSecurityGroupReconciler) isNotFound(err error) bool {
 	return false
 }
 
-func (r *EntraSecurityGroupReconciler) asSecurityGroup(obj genruntime.MetaObject) (*asoentra.SecurityGroup, error) {
+func (r *EntraSecurityGroupReconciler) asSecurityGroup(
+	obj genruntime.MetaObject,
+) (*asoentra.SecurityGroup, error) {
 	typedObj, ok := obj.(*asoentra.SecurityGroup)
 	if !ok {
 		return nil, eris.Errorf("cannot modify resource that is not of type *entra.SecurityGroup. Type is %T", obj)
@@ -418,4 +428,67 @@ func (r *EntraSecurityGroupReconciler) canCreate(group *asoentra.SecurityGroup) 
 	}
 
 	return group.Spec.OperatorSpec.CreationAllowed()
+}
+
+// saveAssociatedKubernetesResources retrieves Kubernetes resources to create and saves them to Kubernetes.
+// If there are no resources to save this method is a no-op.
+// TODO: Currently hard coded, but we should extract common features for reuse across other Entra resources
+func (r *EntraSecurityGroupReconciler) saveAssociatedKubernetesResources(
+	ctx context.Context,
+	group *asoentra.SecurityGroup,
+	log logr.Logger,
+) error {
+
+	if group == nil ||
+		group.Spec.OperatorSpec == nil {
+		// No OperatorSpec, nothing to do
+		return nil
+	}
+
+	// Accumulate all the resources we need to save
+	var resources []client.Object
+
+	operatorSpec := group.Spec.OperatorSpec
+	if operatorSpec.Secrets != nil {
+		// If we have secrets to export, we need to collect them
+		collector := secrets.NewCollector(group.Namespace)
+
+		if operatorSpec.Secrets.EntraID != nil && group.Status.EntraID != nil {
+			// If we have an Entra ID secret, we need to collect it
+			collector.AddValue(operatorSpec.Secrets.EntraID, *group.Status.EntraID)
+		}
+
+		values, err := collector.Values()
+		if err != nil {
+			return eris.Wrap(err, "failed to collect secrets for Entra security group")
+		}
+
+		if len(values) > 0 {
+			resources = append(resources, secrets.SliceToClientObjectSlice(values)...)
+		}
+	}
+
+	if len(resources) == 0 {
+		// No resources to save, nothing to do
+		return nil
+	}
+
+	// Save the resources to Kubernetes
+	results, err := genruntime.ApplyObjsAndEnsureOwner(ctx, r.KubeClient, group, resources)
+	if err != nil {
+		return err
+	}
+
+	for i := 0; i < len(resources); i++ {
+		resource := resources[i]
+		result := results[i]
+
+		log.V(Debug).Info("Successfully created resource",
+			"namespace", resource.GetNamespace(),
+			"name", resource.GetName(),
+			"type", fmt.Sprintf("%T", resource),
+			"action", result)
+	}
+
+	return nil
 }
