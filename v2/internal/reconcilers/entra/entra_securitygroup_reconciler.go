@@ -296,7 +296,10 @@ func (r *EntraSecurityGroupReconciler) create(
 	group.Status.AssignFromGroup(status)
 	setEntraID(group, *status.GetId())
 
-	r.saveAssociatedKubernetesResources(ctx, group, log)
+	err = r.saveAssociatedKubernetesResources(ctx, group, log)
+	if err != nil {
+		return ctrl.Result{}, eris.Wrapf(err, "failed to save associated Kubernetes resources for group %s", group.Name)
+	}
 
 	return ctrl.Result{}, nil
 }
@@ -337,7 +340,10 @@ func (r *EntraSecurityGroupReconciler) UpdateStatus(
 
 	group.Status.AssignFromGroup(groupable)
 
-	r.saveAssociatedKubernetesResources(ctx, group, log)
+	err = r.saveAssociatedKubernetesResources(ctx, group, log)
+	if err != nil {
+		return eris.Wrapf(err, "failed to save associated Kubernetes resources for group %s", group.Name)
+	}
 
 	return nil
 }

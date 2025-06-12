@@ -6,8 +6,9 @@
 package entra
 
 import (
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 // getEntraID retrieves the Entra ID from the annotations of the object.
@@ -24,6 +25,8 @@ func getEntraID(obj v1.Object) (string, bool) {
 
 // getEntraIDOrDefault retrieves the Entra ID from the annotations of the object,
 // returning an empty string if not found.
+//
+//nolint:unused // Keeping for later reuse
 func getEntraIDOrDefault(obj v1.Object) string {
 	annotations := obj.GetAnnotations()
 	if annotations == nil {

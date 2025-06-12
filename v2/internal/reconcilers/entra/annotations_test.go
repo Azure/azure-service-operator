@@ -8,10 +8,11 @@ package entra
 import (
 	"testing"
 
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	. "github.com/onsi/gomega"
+
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	. "github.com/onsi/gomega"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 func Test_getEntraID_givenAnnotation_returnsExpectedResults(t *testing.T) {
