@@ -56,13 +56,15 @@ func (webhook *SecurityGroup_Webhook) defaultImpl(
 ) error {
 	// Ensure we always have an OperatorSpec
 	if securityGroup.Spec.OperatorSpec == nil {
-		securityGroup.Spec.OperatorSpec = &v1.OperatorSpec{}
+		securityGroup.Spec.OperatorSpec = &v1.SecurityGroupOperatorSpec{}
 	}
 
 	// If CreationMode not specified, default to AdoptOrCreate
 	if securityGroup.Spec.OperatorSpec.CreationMode == nil {
 		securityGroup.Spec.OperatorSpec.CreationMode = to.Ptr(v1.AdoptOrCreate)
 	}
+
+	return nil
 }
 
 // +kubebuilder:webhook:path=/validate-entra-azure-com-v1-securitygroup,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=entra.azure.com,resources=securitygroups,verbs=create;update,versions=v1,name=validate.v1.securitygroups.entra.azure.com,admissionReviewVersions=v1
