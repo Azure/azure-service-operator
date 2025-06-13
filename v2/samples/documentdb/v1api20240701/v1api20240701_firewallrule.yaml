@@ -1,19 +1,12 @@
 apiVersion: documentdb.azure.com/v1api20240701
-kind: MongoCluster
+kind: FirewallRule
 metadata:
   name: aso-mongodb-cluster
   namespace: default
 spec:
-  location: eastus
+  azureName: my-firewall-rule
   owner:
-    name: aso-sample-rg
-  kind: MongoDB
-  apiProperties:
-    serverVersion: "7.0"
-  capabilities:
-    - name: EnableMongo
-    - name: EnableMongoRoleBasedAccessControl
-  databaseAccountOfferType: Standard
-  locations:
-    - locationName: australiaeast
-  minimalTlsVersion: Tls12
+    name: aso-mongodb-cluster
+  properties:
+    startIpAddress: "192.168.0.1"
+    endIpAddress: "192.168.0.255"
