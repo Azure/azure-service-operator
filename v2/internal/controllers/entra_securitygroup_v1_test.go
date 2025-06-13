@@ -21,8 +21,6 @@ import (
 func Test_Entra_SecurityGroup_v1_CRUD(t *testing.T) {
 	t.Parallel()
 
-	// g := NewGomegaWithT(t)
-	// ctx := context.Background()
 	tc := globalTestContext.ForTest(t)
 
 	securityGroup := &entra.SecurityGroup{
@@ -45,15 +43,19 @@ func Test_Entra_SecurityGroup_v1_CRUD(t *testing.T) {
 	// Create the resource and wait for it to be ready
 	tc.CreateResourceAndWait(securityGroup)
 
-	// Make sure the secret was created
+	// Make sure the configmap was correctly created
 	configMapList := &v1.ConfigMapList{}
 	tc.ListResources(configMapList, client.InNamespace(tc.Namespace))
 	tc.Expect(configMapList.Items).To(HaveLen(1))
+	tc.Expect(configMapList.Items[0].Data).To(HaveKeyWithValue("entra-id", securityGroup.Status.EntraID))
 
 	// Save an update
 	old := securityGroup.DeepCopy()
 	securityGroup.Spec.DisplayName = to.Ptr("ASO Test Security Group Updated")
 	tc.PatchResourceAndWait(old, securityGroup)
+
+	// Make sure the group was updated
+	tc.Expect(securityGroup.Status.DisplayName).To(Equal(to.Ptr("ASO Test Security Group Updated")))
 
 	// Delete the resource and wait for it to be gone
 	tc.DeleteResourceAndWait(securityGroup)
