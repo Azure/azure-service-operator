@@ -44,9 +44,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/identity"
 	asometrics "github.com/Azure/azure-service-operator/v2/internal/metrics"
-	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
 	armreconciler "github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
-	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/entra"
 	entrareconciler "github.com/Azure/azure-service-operator/v2/internal/reconcilers/entra"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/generic"
 	asocel "github.com/Azure/azure-service-operator/v2/internal/util/cel"
@@ -381,11 +379,11 @@ func (c *clients) KubeClient() kubeclient.Client {
 	return c.kubeClient
 }
 
-func (c *clients) ARMConnectionFactory() arm.ARMConnectionFactory {
+func (c *clients) ARMConnectionFactory() armreconciler.ARMConnectionFactory {
 	return c.armConnectionFactory
 }
 
-func (c *clients) EntraConnectionFactory() entra.EntraConnectionFactory {
+func (c *clients) EntraConnectionFactory() entrareconciler.EntraConnectionFactory {
 	return c.entraConnectionFactory
 }
 
