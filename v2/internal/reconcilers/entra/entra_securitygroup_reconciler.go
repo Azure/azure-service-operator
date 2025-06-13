@@ -8,6 +8,7 @@ package entra
 import (
 	"context"
 	"fmt"
+	"net/http"
 
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 
@@ -74,8 +75,6 @@ func (r *EntraSecurityGroupReconciler) CreateOrUpdate(
 		return ctrl.Result{}, eris.Wrapf(err, "creating or updating security group %s", group.Name)
 	}
 
-	// TODO: Respect annotation serviceoperator.azure.com/reconcile-policy
-
 	// If we already know the Entra ID of the group (captured in an annotation), we can update it directly
 	if id, ok := getEntraID(obj); ok {
 		return r.update(ctx, id, group, log)
@@ -90,8 +89,8 @@ func (r *EntraSecurityGroupReconciler) CreateOrUpdate(
 
 		if id != nil {
 			// We found an existing group to adopt
-			setEntraID(obj, *id)
-			return r.update(ctx, *id, group, log)
+			setEntraID(obj, id)
+			return r.update(ctx, id, group, log)
 		}
 	}
 
@@ -222,20 +221,20 @@ func (r *EntraSecurityGroupReconciler) tryAdopt(
 	ctx context.Context,
 	group *asoentra.SecurityGroup,
 	log logr.Logger,
-) (*string, error) {
+) (string, error) {
 	log.V(Status).Info("Searching for existing Entra security group to adopt", "group", group.Name)
 
 	// Create our Entra Client
 	client, err := r.EntraClientFactory(ctx, group)
 	if err != nil {
-		return nil, eris.Wrap(err, "creating entra client prior to adoption search")
+		return "", eris.Wrap(err, "creating entra client prior to adoption search")
 	}
 
 	// Try to find the group by DisplayName
 	displayName := group.Spec.DisplayName
 	if displayName == nil || *displayName == "" {
 		// Can't adopt without a display name
-		return nil, nil
+		return "", nil
 	}
 
 	log.V(Status).Info("Searching for existing Entra security group by display name", "displayName", *displayName)
@@ -243,7 +242,7 @@ func (r *EntraSecurityGroupReconciler) tryAdopt(
 	if err != nil {
 		if r.isNotFound(err) {
 			// No group to adopt
-			return nil, nil
+			return "", nil
 		}
 
 		return nil, eris.Wrapf(err, "getting group by display name %s", *displayName)
@@ -252,18 +251,23 @@ func (r *EntraSecurityGroupReconciler) tryAdopt(
 	if len(groups) == 0 {
 		// No group to adopt
 		log.V(Status).Info("No existing Entra security group found by display name", "displayName", *displayName)
-		return nil, nil
+		return "", nil
 	}
 
 	if len(groups) > 1 {
 		// Multiple groups found with the same display name
 		log.V(Status).Info("Multiple existing Entra security groups found by display name", "displayName", *displayName)
-		return nil, eris.Errorf("multiple existing Entra security groups found with display name %s", *displayName)
+		return "", eris.Errorf("multiple existing Entra security groups found with display name %s", *displayName)
 	}
 
 	// We found a single group to adopt
 	g := groups[0]
-	return g.GetId(), nil
+	id := g.GetId()
+	if id == nil {
+		return "", nil
+	}
+
+	return *id, nil
 }
 
 // create completes our reconciliation by creating a new Entra security group.
@@ -294,7 +298,10 @@ func (r *EntraSecurityGroupReconciler) create(
 	}
 
 	group.Status.AssignFromGroup(status)
-	setEntraID(group, *status.GetId())
+
+	if id := status.GetId(); id != nil {
+		setEntraID(group, *id)
+	}
 
 	err = r.saveAssociatedKubernetesResources(ctx, group, log)
 	if err != nil {
@@ -399,7 +406,7 @@ func (r *EntraSecurityGroupReconciler) loadGroupsByDisplayName(
 func (r *EntraSecurityGroupReconciler) isNotFound(err error) bool {
 	var odataError *odataerrors.ODataError
 	if eris.As(err, &odataError) {
-		if odataError.ResponseStatusCode == 404 {
+		if odataError.ResponseStatusCode == http.StatusNotFound {
 			return true
 		}
 	}

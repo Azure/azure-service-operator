@@ -26,14 +26,12 @@ type EntraClientCache struct {
 	cloudConfig        cloud.Configuration     //!! What's the entra equivalent?
 	credentialProvider identity.CredentialProvider
 	httpClient         *http.Client
-	//!! TODO entraMetrics         *metrics.EntraClientMetrics
 }
 
 func NewEntraClientCache(
 	credentialProvider identity.CredentialProvider,
 	configuration cloud.Configuration,
 	httpClient *http.Client,
-	//!! armMetrics *metrics.ARMClientMetrics,
 ) *EntraClientCache {
 	return &EntraClientCache{
 		lock:               sync.Mutex{},

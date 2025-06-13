@@ -37,28 +37,6 @@ func getEntraIDOrDefault(obj v1.Object) string {
 }
 
 // setEntraID stored the Entra ID in the annotations of the object.
-func setEntraID(obj v1.Object, id string) {
-	addAnnotation(obj, genruntime.ResourceIDAnnotation, id)
-}
-
-// addAnnotation adds the specified annotation to the object.
-// Empty string annotations are not allowed. Attempting to add an annotation with a value
-// of empty string will result in the removal of that annotation.
-func addAnnotation(obj v1.Object, key string, value string) {
-	annotations := obj.GetAnnotations()
-
-	// Create a map if annotations are nil
-	if annotations == nil {
-		annotations = map[string]string{}
-	}
-
-	if value == "" {
-		// Empty value means we want to remove the key
-		delete(annotations, key)
-	} else {
-		// Overwrite the value for the key
-		annotations[key] = value
-	}
-
-	obj.SetAnnotations(annotations)
+func setEntraID(obj genruntime.MetaObject, id string) {
+	genruntime.AddAnnotation(obj, genruntime.ResourceIDAnnotation, id)
 }
