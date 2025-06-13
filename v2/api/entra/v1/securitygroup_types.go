@@ -71,6 +71,9 @@ type SecurityGroupSpec struct {
 
 	// OperatorSpec: The operator specific configuration for the resource.
 	OperatorSpec *SecurityGroupOperatorSpec `json:"operatorSpec,omitempty"`
+
+	// IsAssignableToRole: Indicates whether the group can be assigned to a role.
+	IsAssignableToRole *bool `json:"isAssignableToRole,omitempty"`
 }
 
 // OriginalVersion returns the original API version used to create the resource.
@@ -97,6 +100,11 @@ func (spec *SecurityGroupSpec) AssignToGroup(model models.Groupable) {
 	}
 
 	model.SetGroupTypes(groupTypes)
+
+	// Set isAssignableToRole
+	if spec.IsAssignableToRole != nil {
+		model.SetIsAssignableToRole(spec.IsAssignableToRole)
+	}
 
 	// This is a security group, not a mail distribution group
 	model.SetMailEnabled(to.Ptr(false))
