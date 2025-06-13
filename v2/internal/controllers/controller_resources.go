@@ -40,7 +40,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
 	azuresqlreconciler "github.com/Azure/azure-service-operator/v2/internal/reconcilers/azuresql"
-	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/entra"
 	entrareconciler "github.com/Azure/azure-service-operator/v2/internal/reconcilers/entra"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/generic"
 	mysqlreconciler "github.com/Azure/azure-service-operator/v2/internal/reconcilers/mysql"
@@ -61,7 +60,7 @@ type Schemer interface {
 type ClientsProvider struct {
 	KubeClient             kubeclient.Client
 	ARMConnectionFactory   arm.ARMConnectionFactory
-	EntraConnectionFactory entra.EntraConnectionFactory
+	EntraConnectionFactory entrareconciler.EntraConnectionFactory
 }
 
 func GetKnownStorageTypes(
@@ -314,15 +313,6 @@ func GetKnownTypes() []*registration.KnownType {
 			Validator: &mysqlv1webhook.User_Webhook{},
 		})
 
-	// Entra
-	knownTypes = append(
-		knownTypes,
-		&registration.KnownType{
-			Obj:       &entrav1.SecurityGroup{},
-			Defaulter: &entrav1webhook.SecurityGroup_Webhook{},
-			Validator: &entrav1webhook.SecurityGroup_Webhook{},
-		})
-
 	// dbforpostgresql
 	knownTypes = append(
 		knownTypes,
@@ -332,13 +322,21 @@ func GetKnownTypes() []*registration.KnownType {
 			Validator: &postgresqlv1webhook.User_Webhook{},
 		})
 
-	// SQL
+	// Azure SQL
 	knownTypes = append(
 		knownTypes,
 		&registration.KnownType{
 			Obj:       &azuresqlv1.User{},
 			Defaulter: &azuresqlv1webhook.User_Webhook{},
 			Validator: &azuresqlv1webhook.User_Webhook{},
+		})
+	// Entra
+	knownTypes = append(
+		knownTypes,
+		&registration.KnownType{
+			Obj:       &entrav1.SecurityGroup{},
+			Defaulter: &entrav1webhook.SecurityGroup_Webhook{},
+			Validator: &entrav1webhook.SecurityGroup_Webhook{},
 		})
 
 	return knownTypes
