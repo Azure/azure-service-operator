@@ -11,6 +11,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 
 	v1 "github.com/Azure/azure-service-operator/v2/api/entra/v1"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -53,7 +54,15 @@ func (webhook *SecurityGroup_Webhook) defaultImpl(
 	_ context.Context,
 	securityGroup *v1.SecurityGroup,
 ) error {
-	return nil
+	// Ensure we always have an OperatorSpec
+	if securityGroup.Spec.OperatorSpec == nil {
+		securityGroup.Spec.OperatorSpec = &v1.OperatorSpec{}
+	}
+
+	// If CreationMode not specified, default to AdoptOrCreate
+	if securityGroup.Spec.OperatorSpec.CreationMode == nil {
+		securityGroup.Spec.OperatorSpec.CreationMode = to.Ptr(v1.AdoptOrCreate)
+	}
 }
 
 // +kubebuilder:webhook:path=/validate-entra-azure-com-v1-securitygroup,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=entra.azure.com,resources=securitygroups,verbs=create;update,versions=v1,name=validate.v1.securitygroups.entra.azure.com,admissionReviewVersions=v1
