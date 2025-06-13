@@ -42,6 +42,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/metrics"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
+	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/entra"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/generic"
 	asocel "github.com/Azure/azure-service-operator/v2/internal/util/cel"
 	"github.com/Azure/azure-service-operator/v2/internal/util/interval"
@@ -198,7 +199,7 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 
 	credentialProviderWrapper := &credentialProviderWrapper{namespaceResources: namespaceResources}
 
-	var clientFactory arm.ARMConnectionFactory = func(ctx context.Context, mo genruntime.ARMMetaObject) (arm.Connection, error) {
+	var armClientFactory arm.ARMConnectionFactory = func(ctx context.Context, mo genruntime.ARMMetaObject) (arm.Connection, error) {
 		result := namespaceResources.Lookup(mo.GetNamespace())
 		if result == nil {
 			panic(fmt.Sprintf("unable to locate ARM client for namespace %s; tests should only create resources in the namespace they are assigned or have declared via TargetNamespaces",
@@ -206,6 +207,16 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 		}
 
 		return result.armClientCache.GetConnection(ctx, mo)
+	}
+
+	var entraClientFactory entra.EntraConnectionFactory = func(ctx context.Context, mo genruntime.EntraMetaObject) (entra.Connection, error) {
+		result := namespaceResources.Lookup(mo.GetNamespace())
+		if result == nil {
+			panic(fmt.Sprintf("unable to locate Entra client for namespace %s; tests should only create resources in the namespace they are assigned or have declared via TargetNamespaces",
+				mo.GetNamespace()))
+		}
+
+		return result.entraClientCache.GetConnection(ctx, mo)
 	}
 
 	options := generic.Options{
@@ -250,12 +261,17 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 	positiveConditions := conditions.NewPositiveConditionBuilder(clock.New())
 
 	if cfg.OperatorMode.IncludesWatchers() {
+		clientsProvider := &controllers.ClientsProvider{
+			KubeClient:             kubeClient,
+			ARMConnectionFactory:   armClientFactory,
+			EntraConnectionFactory: entraClientFactory,
+		}
+
 		var objs []*registration.StorageType
 		objs, err = controllers.GetKnownStorageTypes(
 			mgr,
-			clientFactory,
+			clientsProvider,
 			credentialProviderWrapper,
-			kubeClient,
 			positiveConditions,
 			expressionEvaluator,
 			options)
@@ -449,6 +465,7 @@ type runningEnvTest struct {
 // right ARM client and logger we store them in here
 type perNamespace struct {
 	armClientCache     *arm.ARMClientCache
+	entraClientCache   *entra.EntraClientCache
 	credentialProvider identity.CredentialProvider
 	logger             logr.Logger
 }
@@ -526,8 +543,14 @@ func createEnvtestContext() (BaseTestContextFactory, context.CancelFunc) {
 				perTestContext.HTTPClient,
 				metrics.NewARMClientMetrics())
 
+			entraClientCache := entra.NewEntraClientCache(
+				credentialProvider,
+				cfg.Cloud(),
+				perTestContext.HTTPClient)
+
 			resources := &perNamespace{
 				armClientCache:     armClientCache,
+				entraClientCache:   entraClientCache,
 				credentialProvider: credentialProvider,
 				logger:             perTestContext.logger,
 			}

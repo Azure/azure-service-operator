@@ -86,6 +86,9 @@ var responseHeadersToRemove = []string{
 	"X-Ms-Routing-Request-Id",
 	"X-Ms-Client-Request-Id",
 	"Client-Request-Id",
+	"Request-Id",
+	"X-Ms-Ags-Diagnostic",
+	"X-Ms-Resource-Unit",
 
 	// Quota limits
 	"X-Ms-Ratelimit-Remaining-Subscription-Deletes",
