@@ -87,7 +87,7 @@ func (r *EntraSecurityGroupReconciler) CreateOrUpdate(
 			return ctrl.Result{}, eris.Wrapf(err, "trying to adopt security group %s", group.Name)
 		}
 
-		if id != nil {
+		if id != "" {
 			// We found an existing group to adopt
 			setEntraID(obj, id)
 			return r.update(ctx, id, group, log)
@@ -245,7 +245,7 @@ func (r *EntraSecurityGroupReconciler) tryAdopt(
 			return "", nil
 		}
 
-		return nil, eris.Wrapf(err, "getting group by display name %s", *displayName)
+		return "", eris.Wrapf(err, "getting group by display name %s", *displayName)
 	}
 
 	if len(groups) == 0 {
