@@ -32,8 +32,8 @@ func Test_Entra_SecurityGroup_v1_CRUD(t *testing.T) {
 			MailNickname:   to.Ptr("asotest-security-group"),
 			MembershipType: to.Ptr(entra.SecurityGroupMembershipTypeAssignedM365),
 			OperatorSpec: &entra.SecurityGroupOperatorSpec{
-				Secrets: &entra.SecurityGroupOperatorSecrets{
-					EntraID: &genruntime.SecretDestination{
+				ConfigMaps: &entra.SecurityGroupOperatorConfigMaps{
+					EntraID: &genruntime.ConfigMapDestination{
 						Name: "entra-secret",
 						Key:  "entra-id",
 					},
@@ -46,9 +46,9 @@ func Test_Entra_SecurityGroup_v1_CRUD(t *testing.T) {
 	tc.CreateResourceAndWait(securityGroup)
 
 	// Make sure the secret was created
-	secretList := &v1.SecretList{}
-	tc.ListResources(secretList, client.InNamespace(tc.Namespace))
-	tc.Expect(secretList.Items).To(HaveLen(1))
+	configMapList := &v1.ConfigMapList{}
+	tc.ListResources(configMapList, client.InNamespace(tc.Namespace))
+	tc.Expect(configMapList.Items).To(HaveLen(1))
 
 	// Save an update
 	old := securityGroup.DeepCopy()

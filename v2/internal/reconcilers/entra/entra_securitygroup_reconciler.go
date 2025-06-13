@@ -30,7 +30,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 )
 
 // EntraSecurityGroupReconciler reconciles an Entra security group.
@@ -454,22 +454,22 @@ func (r *EntraSecurityGroupReconciler) saveAssociatedKubernetesResources(
 	var resources []client.Object
 
 	operatorSpec := group.Spec.OperatorSpec
-	if operatorSpec.Secrets != nil {
+	if operatorSpec.ConfigMaps != nil {
 		// If we have secrets to export, we need to collect them
-		collector := secrets.NewCollector(group.Namespace)
+		collector := configmaps.NewCollector(group.Namespace)
 
-		if operatorSpec.Secrets.EntraID != nil && group.Status.EntraID != nil {
+		if operatorSpec.ConfigMaps.EntraID != nil && group.Status.EntraID != nil {
 			// If we have an Entra ID secret, we need to collect it
-			collector.AddValue(operatorSpec.Secrets.EntraID, *group.Status.EntraID)
+			collector.AddValue(operatorSpec.ConfigMaps.EntraID, *group.Status.EntraID)
 		}
 
 		values, err := collector.Values()
 		if err != nil {
-			return eris.Wrap(err, "failed to collect secrets for Entra security group")
+			return eris.Wrap(err, "failed to collect configmaps for Entra security group")
 		}
 
 		if len(values) > 0 {
-			resources = append(resources, secrets.SliceToClientObjectSlice(values)...)
+			resources = append(resources, configmaps.SliceToClientObjectSlice(values)...)
 		}
 	}
 
