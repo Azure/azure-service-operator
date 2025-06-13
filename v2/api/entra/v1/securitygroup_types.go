@@ -94,11 +94,23 @@ func (spec *SecurityGroupSpec) AssignToGroup(model models.Groupable) {
 		model.SetDescription(spec.Description)
 	}
 
-	groupTypes := []string{"Unified"}
-	if spec.MembershipType != nil && *spec.MembershipType == SecurityGroupMembershipTypeDynamic {
-		groupTypes = append(groupTypes, "DynamicMembership")
+	// Set the membership type
+	membershipType := SecurityGroupMembershipTypeAssigned
+	if spec.MembershipType != nil {
+		membershipType = *spec.MembershipType
 	}
 
+	var groupTypes []string
+	switch membershipType {
+	case SecurityGroupMembershipTypeAssigned:
+	// Empty list means assigned membership
+	case SecurityGroupMembershipTypeAssignedM365:
+		groupTypes = []string{"Unified"}
+	case SecurityGroupMembershipTypeDynamic:
+		groupTypes = []string{"DynamicMembership"}
+	case SecurityGroupMembershipTypeDynamicM365:
+		groupTypes = []string{"Unified", "DynamicMembership"}
+	}
 	model.SetGroupTypes(groupTypes)
 
 	// Set isAssignableToRole
@@ -146,12 +158,18 @@ func (status *SecurityGroupStatus) AssignFromGroup(model models.Groupable) {
 	}
 }
 
-// +kubebuilder:validation:Enum={"assigned","enabled"}
+// +kubebuilder:validation:Enum={"assigned","enabled","assignedm365","enabledm365"}
 type SecurityGroupMembershipType string
 
 const (
+	// SecurityGroupMembershipTypeAssigned indicates that the group is a security group with assigned members.
 	SecurityGroupMembershipTypeAssigned SecurityGroupMembershipType = "assigned"
-	SecurityGroupMembershipTypeDynamic  SecurityGroupMembershipType = "dynamic"
+	// SecurityGroupMembershipTypeDynamic indicates that the group is a security group with dynamic membership.
+	SecurityGroupMembershipTypeDynamic SecurityGroupMembershipType = "dynamic"
+	// SecurityGroupMembershipTypeAssigned indicates that the group is a Microsoft 365 security group with assigned members.
+	SecurityGroupMembershipTypeAssignedM365 SecurityGroupMembershipType = "assignedm365"
+	// SecurityGroupMembershipTypeDynamic indicates that the group is a Microsoft 365 security group with dynamic membership.
+	SecurityGroupMembershipTypeDynamicM365 SecurityGroupMembershipType = "dynamicm365"
 )
 
 type SecurityGroupOperatorSpec struct {

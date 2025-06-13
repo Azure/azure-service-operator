@@ -30,7 +30,7 @@ func Test_Entra_SecurityGroup_v1_CRUD(t *testing.T) {
 		Spec: entra.SecurityGroupSpec{
 			DisplayName:    to.Ptr("ASO Test Security Group"),
 			MailNickname:   to.Ptr("asotest-security-group"),
-			MembershipType: to.Ptr(entra.SecurityGroupMembershipTypeAssigned),
+			MembershipType: to.Ptr(entra.SecurityGroupMembershipTypeAssignedM365),
 			OperatorSpec: &entra.SecurityGroupOperatorSpec{
 				Secrets: &entra.SecurityGroupOperatorSecrets{
 					EntraID: &genruntime.SecretDestination{
