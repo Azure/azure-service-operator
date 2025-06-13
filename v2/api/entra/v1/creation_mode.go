@@ -8,7 +8,7 @@ type CreationMode string
 
 const (
 	// AlwaysCreate means that ASO will always attempt to create the resource,
-	// regardless of whether it already exists, never trying to adopt an existing resource.
+	// without first checking to see whether it already exists.
 	AlwaysCreate CreationMode = "AlwaysCreate"
 
 	// AdoptOrCreate means that ASO will try to adopt an existing resource if it exists,

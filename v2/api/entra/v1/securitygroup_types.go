@@ -148,6 +148,9 @@ const (
 
 type SecurityGroupOperatorSpec struct {
 	// CreationMode: Specifies how ASO will try to create the resource.
+	// Specify "AlwaysCreate" to always create a new security group when first reconciled.
+	// Or specify "AdoptOrCreate" to first try to adopt an existing security group with the same display name.
+	// If multiple security groups with the same display name are found, the resource condition will show an error.
 	// If not specified, defaults to "AdoptOrCreate".
 	// +kubebuilder:default=AdoptOrCreate
 	// +kubebuilder:validation:Enum=AdoptOrCreate;AlwaysCreate
