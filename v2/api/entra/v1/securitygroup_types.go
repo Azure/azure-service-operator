@@ -159,6 +159,8 @@ func (status *SecurityGroupStatus) AssignFromGroup(model models.Groupable) {
 }
 
 // +kubebuilder:validation:Enum={"assigned","enabled","assignedm365","enabledm365"}
+// +kubebuilder:default=AdoptOrCreate
+// +kubebuilder:validation:Enum=AdoptOrCreate;AlwaysCreate
 type SecurityGroupMembershipType string
 
 const (
@@ -178,8 +180,6 @@ type SecurityGroupOperatorSpec struct {
 	// Or specify "AdoptOrCreate" to first try to adopt an existing security group with the same display name.
 	// If multiple security groups with the same display name are found, the resource condition will show an error.
 	// If not specified, defaults to "AdoptOrCreate".
-	// +kubebuilder:default=AdoptOrCreate
-	// +kubebuilder:validation:Enum=AdoptOrCreate;AlwaysCreate
 	CreationMode *CreationMode `json:"creationMode,omitempty"`
 
 	Secrets *SecurityGroupOperatorSecrets `json:"secrets,omitempty"`
