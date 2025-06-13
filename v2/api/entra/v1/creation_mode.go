@@ -4,6 +4,7 @@
 package v1
 
 // CreationMode specifies how ASO will try to create the Entra resource.
+// +kubebuilder:validation:Enum=AdoptOrCreate;AlwaysCreate
 type CreationMode string
 
 const (
