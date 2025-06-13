@@ -1,0 +1,40 @@
+apiVersion: documentdb.azure.com/v1api20240701
+kind: MongoCluster
+metadata:
+  name: aso-mongodb-cluster
+  namespace: default
+spec:
+  azureName: aso-mongodb-cluster
+  location: eastus
+  owner:
+    name: aso-testing
+  operatorSpec:
+    secretExpressions:
+      - name: authsecret
+        key: connectionString
+        value: self.status.properties.connectionString
+      - name: authsecret
+        key: username
+        value: self.spec.properties.administrator.userName
+      - name: authsecret
+        key: servername
+        value: self.spec.azureName
+  properties:
+    administrator:
+      userName: adminuser
+      password:
+        name: mongo-admin-secret
+        key: password
+    compute:
+      tier: M10
+    storage:
+      sizeGb: 32
+    serverVersion: "7.0"
+    publicNetworkAccess: Enabled
+    highAvailability:
+      targetMode: Disabled
+    sharding:
+      shardCount: 1
+  tags:
+    environment: dev
+    project: sample

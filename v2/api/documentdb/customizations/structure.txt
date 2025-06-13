@@ -3,6 +3,10 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/customizations
 ------------------------------------------------------------------------
 DatabaseAccountExtension: Object (0 properties)
 
+FirewallRuleExtension: Object (0 properties)
+
+MongoClusterExtension: Object (0 properties)
+
 MongodbDatabaseCollectionExtension: Object (0 properties)
 
 MongodbDatabaseCollectionThroughputSettingExtension: Object (0 properties)
