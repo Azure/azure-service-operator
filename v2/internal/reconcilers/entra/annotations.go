@@ -23,19 +23,6 @@ func getEntraID(obj v1.Object) (string, bool) {
 	return result, ok
 }
 
-// getEntraIDOrDefault retrieves the Entra ID from the annotations of the object,
-// returning an empty string if not found.
-//
-//nolint:unused // Keeping for later reuse
-func getEntraIDOrDefault(obj v1.Object) string {
-	annotations := obj.GetAnnotations()
-	if annotations == nil {
-		return ""
-	}
-
-	return annotations[genruntime.ResourceIDAnnotation]
-}
-
 // setEntraID stored the Entra ID in the annotations of the object.
 func setEntraID(obj v1.Object, id string) {
 	genruntime.AddAnnotation(obj, genruntime.ResourceIDAnnotation, id)
