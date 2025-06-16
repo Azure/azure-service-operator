@@ -29,6 +29,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -232,7 +233,7 @@ func (r *EntraSecurityGroupReconciler) tryAdopt(
 
 	// Try to find the group by DisplayName
 	displayName := group.Spec.DisplayName
-	if displayName == nil || *displayName == "" {
+	if to.Value(displayName) == "" {
 		// Can't adopt without a display name
 		return "", nil
 	}
