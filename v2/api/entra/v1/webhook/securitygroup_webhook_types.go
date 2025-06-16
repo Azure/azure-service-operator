@@ -30,10 +30,7 @@ func (webhook *SecurityGroup_Webhook) Default(
 		return eris.Wrapf(err, "setting defaults for resource")
 	}
 
-	err = webhook.defaultImpl(ctx, resource)
-	if err != nil {
-		return eris.Wrapf(err, "setting defaults for resource")
-	}
+	webhook.defaultImpl(ctx, resource)
 
 	return nil
 }
@@ -53,7 +50,7 @@ func (*SecurityGroup_Webhook) asSecurityGroup(
 func (webhook *SecurityGroup_Webhook) defaultImpl(
 	_ context.Context,
 	securityGroup *v1.SecurityGroup,
-) error {
+) {
 	// Ensure we always have an OperatorSpec
 	if securityGroup.Spec.OperatorSpec == nil {
 		securityGroup.Spec.OperatorSpec = &v1.SecurityGroupOperatorSpec{}
@@ -63,8 +60,6 @@ func (webhook *SecurityGroup_Webhook) defaultImpl(
 	if securityGroup.Spec.OperatorSpec.CreationMode == nil {
 		securityGroup.Spec.OperatorSpec.CreationMode = to.Ptr(v1.AdoptOrCreate)
 	}
-
-	return nil
 }
 
 // +kubebuilder:webhook:path=/validate-entra-azure-com-v1-securitygroup,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=entra.azure.com,resources=securitygroups,verbs=create;update,versions=v1,name=validate.v1.securitygroups.entra.azure.com,admissionReviewVersions=v1
