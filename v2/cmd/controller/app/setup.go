@@ -418,9 +418,7 @@ func initializeClients(cfg config.Values, mgr ctrl.Manager) (*clients, error) {
 
 	entraClientCache := entrareconciler.NewEntraClientCache(
 		credentialProvider,
-		cfg.Cloud(),
-		nil,
-	)
+		nil)
 
 	positiveConditions := conditions.NewPositiveConditionBuilder(clock.New())
 

@@ -10,7 +10,6 @@ import (
 	"net/http"
 	"sync"
 
-	"github.com/Azure/azure-sdk-for-go/sdk/azcore/cloud"
 	msgraphsdk "github.com/microsoftgraph/msgraph-sdk-go"
 	msgraphauth "github.com/microsoftgraph/msgraph-sdk-go-core/authentication"
 
@@ -20,23 +19,19 @@ import (
 
 // EntraClientCache is a cache for entraClients to hold multiple credential clients and global credential client.
 type EntraClientCache struct {
-	lock sync.Mutex
-
+	lock               sync.Mutex
 	clients            map[string]*entraClient // clients allows quick lookup of an entraClient for each namespace
-	cloudConfig        cloud.Configuration     //!! What's the entra equivalent?
 	credentialProvider identity.CredentialProvider
 	httpClient         *http.Client
 }
 
 func NewEntraClientCache(
 	credentialProvider identity.CredentialProvider,
-	configuration cloud.Configuration,
 	httpClient *http.Client,
 ) *EntraClientCache {
 	return &EntraClientCache{
 		lock:               sync.Mutex{},
 		clients:            make(map[string]*entraClient),
-		cloudConfig:        configuration,
 		credentialProvider: credentialProvider,
 		httpClient:         httpClient,
 	}
@@ -90,6 +85,12 @@ func (c *EntraClientCache) getEntraClientFromCredential(
 	}
 
 	// Create an AzureIdentityAuthenticationProvider to reuse the Azure credential we already have
+	//
+	// As far as I (@theunrepentantgeek) can tell at the time of writing, this will automatically
+	// pick up the correct cloud to use, based on the configured cloud of the Azure credential.
+	// If this is incorrect, we'll need to switch to using the factory method
+	// NewAzureIdentityAuthenticationProviderWithScopes, passing in the appropriate URL for the
+	// current clound, probably sourced from an environment variable like `MICROSOFT_GRAPH_ENDPONT`
 	authProvider, err := msgraphauth.NewAzureIdentityAuthenticationProvider(cred.TokenCredential())
 	if err != nil {
 		return nil, err

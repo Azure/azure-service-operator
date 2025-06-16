@@ -545,7 +545,6 @@ func createEnvtestContext() (BaseTestContextFactory, context.CancelFunc) {
 
 			entraClientCache := entra.NewEntraClientCache(
 				credentialProvider,
-				cfg.Cloud(),
 				perTestContext.HTTPClient)
 
 			resources := &perNamespace{
