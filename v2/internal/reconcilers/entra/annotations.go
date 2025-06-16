@@ -37,6 +37,6 @@ func getEntraIDOrDefault(obj v1.Object) string {
 }
 
 // setEntraID stored the Entra ID in the annotations of the object.
-func setEntraID(obj genruntime.MetaObject, id string) {
+func setEntraID(obj v1.Object, id string) {
 	genruntime.AddAnnotation(obj, genruntime.ResourceIDAnnotation, id)
 }
