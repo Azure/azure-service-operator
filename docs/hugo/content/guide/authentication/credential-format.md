@@ -19,6 +19,7 @@ These fields are common across all [credential scopes]( {{< relref "credential-s
 - [AZURE_CLIENT_CERTIFICATE]( {{< relref "aso-controller-settings-options" >}}/#azure_client_certificate)
 - [AZURE_CLIENT_CERTIFICATE_PASSWORD]( {{< relref "aso-controller-settings-options" >}}/#azure_client_certificate_password)
 - [AZURE_ADDITIONAL_TENANTS]( {{< relref "aso-controller-settings-options" >}}/#azure_additional_tenants)
+- [ENTRA_APP_ID]( {{< relref "aso-controller-settings-options" >}}/#entra_app_id)
 
 Note that the global credential scope has fields that can be set in addition to the fields documented above.
 
