@@ -1530,6 +1530,50 @@ objectModelConfiguration:
       AFDOriginProperties:
         HostName:
           $importConfigMapMode: optional
+  cognitiveservices:
+    2024-10-01:
+      Account:
+        $exportAs: Account
+        $supportedFrom: v2.15.0
+        $azureGeneratedSecrets:
+          - Key1
+          - Key2
+          - Endpoint
+          - Endpoints
+      AccountProperties:
+        MigrationToken:
+          $isSecret: true
+      ApiProperties:
+        AadTenantId:
+          $importConfigMapMode: optional
+        AadClientId:
+          $importConfigMapMode: optional
+        EventHubConnectionString:
+          $isSecret: true
+        QnaAzureSearchEndpointId:
+          $importConfigMapMode: optional
+        QnaAzureSearchEndpointKey:
+          $isSecret: true
+        QnaRuntimeEndpoint:
+          $importConfigMapMode: optional
+        StorageAccountConnectionString:
+          $isSecret: true
+        SuperUser:
+          $importConfigMapMode: optional
+        WebsiteName:
+          $importConfigMapMode: optional
+      VirtualNetworkRule:
+        Id:
+          $referenceType: arm
+      UserOwnedStorage:
+        ResourceId:
+          $referenceType: arm
+      RaiMonitorConfig:
+        AdxStorageResourceId:
+          $referenceType: arm
+      UserOwnedAmlWorkspace:
+        ResourceId:
+          $referenceType: arm
   compute:
     2020-09-30:
       CreationData:

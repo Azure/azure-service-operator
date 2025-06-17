@@ -1,0 +1,28 @@
+apiVersion: cognitiveservices.azure.com/v1api20241001
+kind: Account
+metadata:
+  name: sample-name
+spec:
+  identity:
+    type: SystemAssigned
+  kind: AIServices
+  location: eastus
+  operatorSpec:
+    secrets:
+      key1:
+        name: sample-secrets
+        key: key1
+      key2:
+        name: sample-secrets
+        key: key2
+      endpoint:
+        name: sample-secrets
+        key: endpoint
+      endpoints:
+        name: sample-secrets
+        key: endpoints
+  owner:
+    name: sample-rg
+  properties: { publicNetworkAccess: "Enabled" }
+  sku:
+    name: S0

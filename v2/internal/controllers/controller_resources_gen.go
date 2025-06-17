@@ -60,6 +60,10 @@ import (
 	cdn_v20230501 "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501"
 	cdn_v20230501s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
 	cdn_v20230501w "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/webhook"
+	cognitiveservices_customizations "github.com/Azure/azure-service-operator/v2/api/cognitiveservices/customizations"
+	cognitiveservices_v20241001 "github.com/Azure/azure-service-operator/v2/api/cognitiveservices/v1api20241001"
+	cognitiveservices_v20241001s "github.com/Azure/azure-service-operator/v2/api/cognitiveservices/v1api20241001/storage"
+	cognitiveservices_v20241001w "github.com/Azure/azure-service-operator/v2/api/cognitiveservices/v1api20241001/webhook"
 	compute_customizations "github.com/Azure/azure-service-operator/v2/api/compute/customizations"
 	compute_v20200930 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20200930"
 	compute_v20200930s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20200930/storage"
@@ -630,6 +634,61 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(cdn_v20230501s.RuleSet)})
 	result = append(result, &registration.StorageType{Obj: new(cdn_v20230501s.Secret)})
 	result = append(result, &registration.StorageType{Obj: new(cdn_v20230501s.SecurityPolicy)})
+	result = append(result, &registration.StorageType{
+		Obj: new(cognitiveservices_v20241001s.Account),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.properties.apiProperties.aadClientIdFromConfig",
+				Func: indexCognitiveservicesAccountAadClientIdFromConfig,
+			},
+			{
+				Key:  ".spec.properties.apiProperties.aadTenantIdFromConfig",
+				Func: indexCognitiveservicesAccountAadTenantIdFromConfig,
+			},
+			{
+				Key:  ".spec.properties.apiProperties.eventHubConnectionString",
+				Func: indexCognitiveservicesAccountEventHubConnectionString,
+			},
+			{
+				Key:  ".spec.properties.migrationToken",
+				Func: indexCognitiveservicesAccountMigrationToken,
+			},
+			{
+				Key:  ".spec.properties.apiProperties.qnaAzureSearchEndpointIdFromConfig",
+				Func: indexCognitiveservicesAccountQnaAzureSearchEndpointIdFromConfig,
+			},
+			{
+				Key:  ".spec.properties.apiProperties.qnaAzureSearchEndpointKey",
+				Func: indexCognitiveservicesAccountQnaAzureSearchEndpointKey,
+			},
+			{
+				Key:  ".spec.properties.apiProperties.qnaRuntimeEndpointFromConfig",
+				Func: indexCognitiveservicesAccountQnaRuntimeEndpointFromConfig,
+			},
+			{
+				Key:  ".spec.properties.apiProperties.storageAccountConnectionString",
+				Func: indexCognitiveservicesAccountStorageAccountConnectionString,
+			},
+			{
+				Key:  ".spec.properties.apiProperties.superUserFromConfig",
+				Func: indexCognitiveservicesAccountSuperUserFromConfig,
+			},
+			{
+				Key:  ".spec.properties.apiProperties.websiteNameFromConfig",
+				Func: indexCognitiveservicesAccountWebsiteNameFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type:             &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory([]string{".spec.properties.apiProperties.eventHubConnectionString", ".spec.properties.apiProperties.qnaAzureSearchEndpointKey", ".spec.properties.apiProperties.storageAccountConnectionString", ".spec.properties.migrationToken"}, &cognitiveservices_v20241001s.AccountList{}),
+			},
+			{
+				Type:             &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory([]string{".spec.properties.apiProperties.aadClientIdFromConfig", ".spec.properties.apiProperties.aadTenantIdFromConfig", ".spec.properties.apiProperties.qnaAzureSearchEndpointIdFromConfig", ".spec.properties.apiProperties.qnaRuntimeEndpointFromConfig", ".spec.properties.apiProperties.superUserFromConfig", ".spec.properties.apiProperties.websiteNameFromConfig"}, &cognitiveservices_v20241001s.AccountList{}),
+			},
+		},
+	})
 	result = append(result, &registration.StorageType{Obj: new(compute_v20220301s.Image)})
 	result = append(result, &registration.StorageType{
 		Obj: new(compute_v20220301s.VirtualMachine),
@@ -2375,6 +2434,12 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(cdn_v20230501s.RuleSet)},
 		&registration.KnownType{Obj: new(cdn_v20230501s.Secret)},
 		&registration.KnownType{Obj: new(cdn_v20230501s.SecurityPolicy)})
+	result = append(result, &registration.KnownType{
+		Obj:       new(cognitiveservices_v20241001.Account),
+		Defaulter: &cognitiveservices_v20241001w.Account{},
+		Validator: &cognitiveservices_v20241001w.Account{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(cognitiveservices_v20241001s.Account)})
 	result = append(result, &registration.KnownType{
 		Obj:       new(compute_v20200930.Disk),
 		Defaulter: &compute_v20200930w.Disk{},
@@ -4628,6 +4693,8 @@ func createScheme() *runtime.Scheme {
 	_ = cdn_v20210601s.AddToScheme(scheme)
 	_ = cdn_v20230501.AddToScheme(scheme)
 	_ = cdn_v20230501s.AddToScheme(scheme)
+	_ = cognitiveservices_v20241001.AddToScheme(scheme)
+	_ = cognitiveservices_v20241001s.AddToScheme(scheme)
 	_ = compute_v20200930.AddToScheme(scheme)
 	_ = compute_v20200930s.AddToScheme(scheme)
 	_ = compute_v20201201.AddToScheme(scheme)
@@ -4843,6 +4910,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &cdn_customizations.RuleSetExtension{})
 	result = append(result, &cdn_customizations.SecretExtension{})
 	result = append(result, &cdn_customizations.SecurityPolicyExtension{})
+	result = append(result, &cognitiveservices_customizations.AccountExtension{})
 	result = append(result, &compute_customizations.DiskAccessExtension{})
 	result = append(result, &compute_customizations.DiskEncryptionSetExtension{})
 	result = append(result, &compute_customizations.DiskExtension{})
@@ -5457,6 +5525,183 @@ func indexCdnAfdOriginHostNameFromConfig(rawObj client.Object) []string {
 		return nil
 	}
 	return obj.Spec.HostNameFromConfig.Index()
+}
+
+// indexCognitiveservicesAccountAadClientIdFromConfig an index function for cognitiveservices_v20241001s.Account .spec.properties.apiProperties.aadClientIdFromConfig
+func indexCognitiveservicesAccountAadClientIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*cognitiveservices_v20241001s.Account)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ApiProperties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ApiProperties.AadClientIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Properties.ApiProperties.AadClientIdFromConfig.Index()
+}
+
+// indexCognitiveservicesAccountAadTenantIdFromConfig an index function for cognitiveservices_v20241001s.Account .spec.properties.apiProperties.aadTenantIdFromConfig
+func indexCognitiveservicesAccountAadTenantIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*cognitiveservices_v20241001s.Account)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ApiProperties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ApiProperties.AadTenantIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Properties.ApiProperties.AadTenantIdFromConfig.Index()
+}
+
+// indexCognitiveservicesAccountEventHubConnectionString an index function for cognitiveservices_v20241001s.Account .spec.properties.apiProperties.eventHubConnectionString
+func indexCognitiveservicesAccountEventHubConnectionString(rawObj client.Object) []string {
+	obj, ok := rawObj.(*cognitiveservices_v20241001s.Account)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ApiProperties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ApiProperties.EventHubConnectionString == nil {
+		return nil
+	}
+	return obj.Spec.Properties.ApiProperties.EventHubConnectionString.Index()
+}
+
+// indexCognitiveservicesAccountMigrationToken an index function for cognitiveservices_v20241001s.Account .spec.properties.migrationToken
+func indexCognitiveservicesAccountMigrationToken(rawObj client.Object) []string {
+	obj, ok := rawObj.(*cognitiveservices_v20241001s.Account)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.MigrationToken == nil {
+		return nil
+	}
+	return obj.Spec.Properties.MigrationToken.Index()
+}
+
+// indexCognitiveservicesAccountQnaAzureSearchEndpointIdFromConfig an index function for cognitiveservices_v20241001s.Account .spec.properties.apiProperties.qnaAzureSearchEndpointIdFromConfig
+func indexCognitiveservicesAccountQnaAzureSearchEndpointIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*cognitiveservices_v20241001s.Account)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ApiProperties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ApiProperties.QnaAzureSearchEndpointIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Properties.ApiProperties.QnaAzureSearchEndpointIdFromConfig.Index()
+}
+
+// indexCognitiveservicesAccountQnaAzureSearchEndpointKey an index function for cognitiveservices_v20241001s.Account .spec.properties.apiProperties.qnaAzureSearchEndpointKey
+func indexCognitiveservicesAccountQnaAzureSearchEndpointKey(rawObj client.Object) []string {
+	obj, ok := rawObj.(*cognitiveservices_v20241001s.Account)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ApiProperties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ApiProperties.QnaAzureSearchEndpointKey == nil {
+		return nil
+	}
+	return obj.Spec.Properties.ApiProperties.QnaAzureSearchEndpointKey.Index()
+}
+
+// indexCognitiveservicesAccountQnaRuntimeEndpointFromConfig an index function for cognitiveservices_v20241001s.Account .spec.properties.apiProperties.qnaRuntimeEndpointFromConfig
+func indexCognitiveservicesAccountQnaRuntimeEndpointFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*cognitiveservices_v20241001s.Account)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ApiProperties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ApiProperties.QnaRuntimeEndpointFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Properties.ApiProperties.QnaRuntimeEndpointFromConfig.Index()
+}
+
+// indexCognitiveservicesAccountStorageAccountConnectionString an index function for cognitiveservices_v20241001s.Account .spec.properties.apiProperties.storageAccountConnectionString
+func indexCognitiveservicesAccountStorageAccountConnectionString(rawObj client.Object) []string {
+	obj, ok := rawObj.(*cognitiveservices_v20241001s.Account)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ApiProperties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ApiProperties.StorageAccountConnectionString == nil {
+		return nil
+	}
+	return obj.Spec.Properties.ApiProperties.StorageAccountConnectionString.Index()
+}
+
+// indexCognitiveservicesAccountSuperUserFromConfig an index function for cognitiveservices_v20241001s.Account .spec.properties.apiProperties.superUserFromConfig
+func indexCognitiveservicesAccountSuperUserFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*cognitiveservices_v20241001s.Account)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ApiProperties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ApiProperties.SuperUserFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Properties.ApiProperties.SuperUserFromConfig.Index()
+}
+
+// indexCognitiveservicesAccountWebsiteNameFromConfig an index function for cognitiveservices_v20241001s.Account .spec.properties.apiProperties.websiteNameFromConfig
+func indexCognitiveservicesAccountWebsiteNameFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*cognitiveservices_v20241001s.Account)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ApiProperties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ApiProperties.WebsiteNameFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Properties.ApiProperties.WebsiteNameFromConfig.Index()
 }
 
 // indexComputeDiskEncryptionSetFederatedClientIdFromConfig an index function for compute_v20240302s.DiskEncryptionSet .spec.federatedClientIdFromConfig
