@@ -582,8 +582,22 @@ ApplicationGateway_Spec: Object (6 properties)
 │   │       │   └── Id: *string
 │   │       ├── DefaultRewriteRuleSet: *Object (1 property)
 │   │       │   └── Id: *string
-│   │       └── PathRules: Object (1 property)[]
-│   │           └── Id: *string
+│   │       └── PathRules: Object (2 properties)[]
+│   │           ├── Name: *string
+│   │           └── Properties: *Object (7 properties)
+│   │               ├── BackendAddressPool: *Object (1 property)
+│   │               │   └── Id: *string
+│   │               ├── BackendHttpSettings: *Object (1 property)
+│   │               │   └── Id: *string
+│   │               ├── FirewallPolicy: *Object (1 property)
+│   │               │   └── Id: *string
+│   │               ├── LoadDistributionPolicy: *Object (1 property)
+│   │               │   └── Id: *string
+│   │               ├── Paths: string[]
+│   │               ├── RedirectConfiguration: *Object (1 property)
+│   │               │   └── Id: *string
+│   │               └── RewriteRuleSet: *Object (1 property)
+│   │                   └── Id: *string
 │   └── WebApplicationFirewallConfiguration: *Object (10 properties)
 │       ├── DisabledRuleGroups: Object (2 properties)[]
 │       │   ├── RuleGroupName: *string
