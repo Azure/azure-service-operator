@@ -659,7 +659,7 @@ Used by: [NamespacesTopicsSubscriptionsRule_Spec](#NamespacesTopicsSubscriptions
 |-----------------------|-------------------------------------------------------------------------------------------------------------------------|------------------------------------|
 | compatibilityLevel    | This property is reserved for future use. An integer value showing the compatibility level, currently hard-coded to 20. | int<br/><small>Optional</small>    |
 | requiresPreprocessing | Value that indicates whether the rule action requires preprocessing.                                                    | bool<br/><small>Optional</small>   |
-| sqlExpression         | SQL expression. e.g. MyProperty='ABC'                                                                                   | string<br/><small>Optional</small> |
+| sqlExpression         | SQL expression. e.g. MyProperty=`ABC`                                                                                   | string<br/><small>Optional</small> |
 
 Action_STATUS{#Action_STATUS}
 -----------------------------
@@ -672,7 +672,7 @@ Used by: [NamespacesTopicsSubscriptionsRule_STATUS](#NamespacesTopicsSubscriptio
 |-----------------------|-------------------------------------------------------------------------------------------------------------------------|------------------------------------|
 | compatibilityLevel    | This property is reserved for future use. An integer value showing the compatibility level, currently hard-coded to 20. | int<br/><small>Optional</small>    |
 | requiresPreprocessing | Value that indicates whether the rule action requires preprocessing.                                                    | bool<br/><small>Optional</small>   |
-| sqlExpression         | SQL expression. e.g. MyProperty='ABC'                                                                                   | string<br/><small>Optional</small> |
+| sqlExpression         | SQL expression. e.g. MyProperty=`ABC`                                                                                   | string<br/><small>Optional</small> |
 
 CorrelationFilter{#CorrelationFilter}
 -------------------------------------
@@ -968,7 +968,7 @@ Used by: [NamespacesTopicsSubscriptionsRule_Spec](#NamespacesTopicsSubscriptions
 |-----------------------|-------------------------------------------------------------------------------------------------------------------------|------------------------------------|
 | compatibilityLevel    | This property is reserved for future use. An integer value showing the compatibility level, currently hard-coded to 20. | int<br/><small>Optional</small>    |
 | requiresPreprocessing | Value that indicates whether the rule action requires preprocessing.                                                    | bool<br/><small>Optional</small>   |
-| sqlExpression         | The SQL expression. e.g. MyProperty='ABC'                                                                               | string<br/><small>Optional</small> |
+| sqlExpression         | The SQL expression. e.g. MyProperty=`ABC`                                                                               | string<br/><small>Optional</small> |
 
 SqlFilter_STATUS{#SqlFilter_STATUS}
 -----------------------------------
@@ -981,7 +981,7 @@ Used by: [NamespacesTopicsSubscriptionsRule_STATUS](#NamespacesTopicsSubscriptio
 |-----------------------|-------------------------------------------------------------------------------------------------------------------------|------------------------------------|
 | compatibilityLevel    | This property is reserved for future use. An integer value showing the compatibility level, currently hard-coded to 20. | int<br/><small>Optional</small>    |
 | requiresPreprocessing | Value that indicates whether the rule action requires preprocessing.                                                    | bool<br/><small>Optional</small>   |
-| sqlExpression         | The SQL expression. e.g. MyProperty='ABC'                                                                               | string<br/><small>Optional</small> |
+| sqlExpression         | The SQL expression. e.g. MyProperty=`ABC`                                                                               | string<br/><small>Optional</small> |
 
 SystemData_STATUS{#SystemData_STATUS}
 -------------------------------------

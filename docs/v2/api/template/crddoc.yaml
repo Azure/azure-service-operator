@@ -9,6 +9,12 @@ editors:
   - context: "(?i)/subscriptions/[\\w{}_\\-/.]*"
     search: "/"
     replace: "/&ZeroWidthSpace;"
+  # Change single quoted identifiers and versions to use backticks
+  - search: "'(?<identifier>[\\w.\\[\\]]+)'"
+    replace: "`$1`"
+  # Ditto double quoted identifiers and versions to use backticks
+  - search: "\"(?<identifier>[\\w.\\[\\]]+)'\""
+    replace: "`$1`"
 externalLinks:
   - importPath: "k8s.io/apimachinery/pkg/apis/meta/v1"
     urlTemplate: "https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#{{.Name}}"
