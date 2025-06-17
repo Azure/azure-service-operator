@@ -15,7 +15,7 @@ APIVersion{#APIVersion}
 Vault{#Vault}
 -------------
 
-Generator information: - Generated from: /keyvault/resource-manager/Microsoft.KeyVault/preview/2021-04-01-preview/keyvault.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.KeyVault/vaults/{vaultName}
+Generator information: - Generated from: /keyvault/resource-manager/Microsoft.KeyVault/preview/2021-04-01-preview/keyvault.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.KeyVault/&ZeroWidthSpace;vaults/&ZeroWidthSpace;{vaultName}
 
 Used by: [VaultList](#VaultList).
 
@@ -53,7 +53,7 @@ Used by: [VaultList](#VaultList).
 VaultList{#VaultList}
 ---------------------
 
-Generator information: - Generated from: /keyvault/resource-manager/Microsoft.KeyVault/preview/2021-04-01-preview/keyvault.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.KeyVault/vaults/{vaultName}
+Generator information: - Generated from: /keyvault/resource-manager/Microsoft.KeyVault/preview/2021-04-01-preview/keyvault.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.KeyVault/&ZeroWidthSpace;vaults/&ZeroWidthSpace;{vaultName}
 
 | Property                                                                            | Description | Type                                          |
 |-------------------------------------------------------------------------------------|-------------|-----------------------------------------------|
@@ -226,7 +226,7 @@ Used by: [VaultProperties](#VaultProperties).
 
 | Property            | Description                                                                                                                                      | Type                                                                                      |
 |---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------|
-| bypass              | Tells what traffic can bypass network rules. This can be 'AzureServices' or 'None'. If not specified the default is 'AzureServices'.             | [NetworkRuleSet_Bypass](#NetworkRuleSet_Bypass)<br/><small>Optional</small>               |
+| bypass              | Tells what traffic can bypass network rules. This can be `AzureServices` or `None`. If not specified the default is `AzureServices`.             | [NetworkRuleSet_Bypass](#NetworkRuleSet_Bypass)<br/><small>Optional</small>               |
 | defaultAction       | The default action when no rule from ipRules and from virtualNetworkRules match. This is only used after the bypass property has been evaluated. | [NetworkRuleSet_DefaultAction](#NetworkRuleSet_DefaultAction)<br/><small>Optional</small> |
 | ipRules             | The list of IP address rules.                                                                                                                    | [IPRule[]](#IPRule)<br/><small>Optional</small>                                           |
 | virtualNetworkRules | The list of virtual network rules.                                                                                                               | [VirtualNetworkRule[]](#VirtualNetworkRule)<br/><small>Optional</small>                   |
@@ -240,7 +240,7 @@ Used by: [VaultProperties_STATUS](#VaultProperties_STATUS).
 
 | Property            | Description                                                                                                                                      | Type                                                                                                    |
 |---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------|
-| bypass              | Tells what traffic can bypass network rules. This can be 'AzureServices' or 'None'. If not specified the default is 'AzureServices'.             | [NetworkRuleSet_Bypass_STATUS](#NetworkRuleSet_Bypass_STATUS)<br/><small>Optional</small>               |
+| bypass              | Tells what traffic can bypass network rules. This can be `AzureServices` or `None`. If not specified the default is `AzureServices`.             | [NetworkRuleSet_Bypass_STATUS](#NetworkRuleSet_Bypass_STATUS)<br/><small>Optional</small>               |
 | defaultAction       | The default action when no rule from ipRules and from virtualNetworkRules match. This is only used after the bypass property has been evaluated. | [NetworkRuleSet_DefaultAction_STATUS](#NetworkRuleSet_DefaultAction_STATUS)<br/><small>Optional</small> |
 | ipRules             | The list of IP address rules.                                                                                                                    | [IPRule_STATUS[]](#IPRule_STATUS)<br/><small>Optional</small>                                           |
 | virtualNetworkRules | The list of virtual network rules.                                                                                                               | [VirtualNetworkRule_STATUS[]](#VirtualNetworkRule_STATUS)<br/><small>Optional</small>                   |
@@ -337,7 +337,7 @@ Used by: [NetworkRuleSet](#NetworkRuleSet).
 
 | Property | Description                                                                                                                                       | Type                               |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------|
-| value    | An IPv4 address range in CIDR notation, such as '124.56.78.91' (simple IP address) or '124.56.78.0/24' (all addresses that start with 124.56.78). | string<br/><small>Required</small> |
+| value    | An IPv4 address range in CIDR notation, such as `124.56.78.91` (simple IP address) or '124.56.78.0/24' (all addresses that start with 124.56.78). | string<br/><small>Required</small> |
 
 IPRule_STATUS{#IPRule_STATUS}
 -----------------------------
@@ -348,7 +348,7 @@ Used by: [NetworkRuleSet_STATUS](#NetworkRuleSet_STATUS).
 
 | Property | Description                                                                                                                                       | Type                               |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------|
-| value    | An IPv4 address range in CIDR notation, such as '124.56.78.91' (simple IP address) or '124.56.78.0/24' (all addresses that start with 124.56.78). | string<br/><small>Optional</small> |
+| value    | An IPv4 address range in CIDR notation, such as `124.56.78.91` (simple IP address) or '124.56.78.0/24' (all addresses that start with 124.56.78). | string<br/><small>Optional</small> |
 
 NetworkRuleSet_Bypass{#NetworkRuleSet_Bypass}
 ---------------------------------------------
@@ -503,10 +503,10 @@ A rule governing the accessibility of a vault from a specific virtual network.
 
 Used by: [NetworkRuleSet](#NetworkRuleSet).
 
-| Property                         | Description                                                                                                                                                                                                                                                 | Type                                                                                                                                                       |
-|----------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| ignoreMissingVnetServiceEndpoint | Property to specify whether NRP will ignore the check if parent subnet has serviceEndpoints configured.                                                                                                                                                     | bool<br/><small>Optional</small>                                                                                                                           |
-| reference                        | Full resource id of a vnet subnet, such as '/&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;subid/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;rg1/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1'. | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Required</small> |
+| Property                         | Description                                                                                                                                                                                                                                                                                                                 | Type                                                                                                                                                       |
+|----------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ignoreMissingVnetServiceEndpoint | Property to specify whether NRP will ignore the check if parent subnet has serviceEndpoints configured.                                                                                                                                                                                                                     | bool<br/><small>Optional</small>                                                                                                                           |
+| reference                        | Full resource id of a vnet subnet, such as '/&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;subid/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;rg1/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.Network/&ZeroWidthSpace;virtualNetworks/&ZeroWidthSpace;test-vnet/&ZeroWidthSpace;subnets/&ZeroWidthSpace;subnet1'. | [genruntime.ResourceReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference)<br/><small>Required</small> |
 
 VirtualNetworkRule_STATUS{#VirtualNetworkRule_STATUS}
 -----------------------------------------------------
@@ -515,10 +515,10 @@ A rule governing the accessibility of a vault from a specific virtual network.
 
 Used by: [NetworkRuleSet_STATUS](#NetworkRuleSet_STATUS).
 
-| Property                         | Description                                                                                                                                                                                                                                                 | Type                               |
-|----------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------|
-| id                               | Full resource id of a vnet subnet, such as '/&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;subid/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;rg1/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1'. | string<br/><small>Optional</small> |
-| ignoreMissingVnetServiceEndpoint | Property to specify whether NRP will ignore the check if parent subnet has serviceEndpoints configured.                                                                                                                                                     | bool<br/><small>Optional</small>   |
+| Property                         | Description                                                                                                                                                                                                                                                                                                                 | Type                               |
+|----------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------|
+| id                               | Full resource id of a vnet subnet, such as '/&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;subid/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;rg1/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.Network/&ZeroWidthSpace;virtualNetworks/&ZeroWidthSpace;test-vnet/&ZeroWidthSpace;subnets/&ZeroWidthSpace;subnet1'. | string<br/><small>Optional</small> |
+| ignoreMissingVnetServiceEndpoint | Property to specify whether NRP will ignore the check if parent subnet has serviceEndpoints configured.                                                                                                                                                                                                                     | bool<br/><small>Optional</small>   |
 
 Permissions_Certificates{#Permissions_Certificates}
 ---------------------------------------------------

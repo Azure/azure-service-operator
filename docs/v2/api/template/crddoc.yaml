@@ -2,10 +2,19 @@
 # crddoc configuration for Azure Service Operator
 #
 editors:
+  # Modify sample ARM URLs so they don't look like clickable links to the Markdown renderer
+  - search: "(?i)(?<verb>GET|PUT|POST|PATCH|DELETE) https://management.azure.com/subscriptions"
+    replace: "$1 https&ZeroWidthSpace;://management.azure.com/subscriptions"
   # Allow ARM URLs to line break at slashes
-  - context: "(?i)/subscriptions/[\\w{}_\\-/]*"
+  - context: "(?i)/subscriptions/[\\w{}_\\-/.]*"
     search: "/"
     replace: "/&ZeroWidthSpace;"
+  # Change single quoted identifiers and versions to use backticks
+  - search: "'(?<identifier>[\\w.\\[\\]]+)'"
+    replace: "`$1`"
+  # Ditto double quoted identifiers and versions to use backticks
+  - search: "\"(?<identifier>[\\w.\\[\\]]+)'\""
+    replace: "`$1`"
 externalLinks:
   - importPath: "k8s.io/apimachinery/pkg/apis/meta/v1"
     urlTemplate: "https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#{{.Name}}"
