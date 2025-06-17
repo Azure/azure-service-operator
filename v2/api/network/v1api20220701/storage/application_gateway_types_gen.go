@@ -1263,10 +1263,15 @@ type ApplicationGatewayLoadDistributionTarget struct {
 // Storage version of v1api20220701.ApplicationGatewayPathRule
 // Path rule of URL path map of an application gateway.
 type ApplicationGatewayPathRule struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	// Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+	BackendAddressPool     *SubResource           `json:"backendAddressPool,omitempty"`
+	BackendHttpSettings    *SubResource           `json:"backendHttpSettings,omitempty"`
+	FirewallPolicy         *SubResource           `json:"firewallPolicy,omitempty"`
+	LoadDistributionPolicy *SubResource           `json:"loadDistributionPolicy,omitempty"`
+	Name                   *string                `json:"name,omitempty"`
+	Paths                  []string               `json:"paths,omitempty"`
+	PropertyBag            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	RedirectConfiguration  *SubResource           `json:"redirectConfiguration,omitempty"`
+	RewriteRuleSet         *SubResource           `json:"rewriteRuleSet,omitempty"`
 }
 
 // Storage version of v1api20220701.ApplicationGatewayPrivateLinkIpConfiguration
