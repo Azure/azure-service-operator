@@ -18,29 +18,29 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>containerservice.azure.com/v1api20231001 | Azure Service Operator</title>
-<meta name="description" content="APIVersion Value Description “2023-10-01” ManagedCluster Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-10-01/managedClusters.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerService/managedClusters/{resourceName}
+<meta name="description" content="APIVersion Value Description “2023-10-01” ManagedCluster Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-10-01/managedClusters.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerService/​managedClusters/​{resourceName}
 Used by: ManagedClusterList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_SpecOptional status ManagedCluster_STATUSOptional ManagedCluster_Spec Property Description Type aadProfile The Azure Active Directory configuration. ManagedClusterAADProfileOptional addonProfiles The profile of managed cluster add-on. map[string]ManagedClusterAddonProfileOptional agentPoolProfiles The agent pool properties. ManagedClusterAgentPoolProfile[]Optional apiServerAccessProfile The access profile for managed cluster API server. ManagedClusterAPIServerAccessProfileOptional autoScalerProfile Parameters to be applied to the cluster-autoscaler when enabled ManagedClusterProperties_AutoScalerProfileOptional autoUpgradeProfile The auto upgrade configuration. ManagedClusterAutoUpgradeProfileOptional azureMonitorProfile Azure Monitor addon profiles for monitoring the managed cluster. ManagedClusterAzureMonitorProfileOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional disableLocalAccounts If set to true, getting static credentials will be disabled for this cluster. This must only be used on Managed Clusters that are AAD enabled. For more details see disable local accounts. boolOptional diskEncryptionSetReference This is of the form: ‘/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/diskEncryptionSets/{encryptionSetName}’ genruntime.ResourceReferenceOptional dnsPrefix This cannot be updated once the Managed Cluster has been created. stringOptional enablePodSecurityPolicy (DEPRECATED) Whether to enable Kubernetes pod security policy (preview). PodSecurityPolicy was deprecated in Kubernetes v1.21, and removed from Kubernetes in v1.25. Learn more at https://aka.ms/k8s/psp and https://aka.ms/aks/psp. boolOptional enableRBAC Whether to enable Kubernetes Role-Based Access Control. boolOptional extendedLocation The extended location of the Virtual Machine. ExtendedLocationOptional fqdnSubdomain This cannot be updated once the Managed Cluster has been created. stringOptional httpProxyConfig Configurations for provisioning the cluster with HTTP proxy servers. ManagedClusterHTTPProxyConfigOptional identity The identity of the managed cluster, if configured. ManagedClusterIdentityOptional identityProfile Identities associated with the cluster. map[string]UserAssignedIdentityOptional kubernetesVersion Both patch version &lt;major.minor.patch&gt; (e.g. 1.20.13) and &lt;major.minor&gt; (e.g. 1.20) are supported. When &lt;major.minor&gt; is specified, the latest supported GA patch version is chosen automatically. Updating the cluster with the same &lt;major.minor&gt; once it has been created (e.g. 1.14.x -&gt; 1.14) will not trigger an upgrade, even if a newer patch version is available. When you upgrade a supported AKS cluster, Kubernetes minor versions cannot be skipped. All upgrades must be performed sequentially by major version number. For example, upgrades between 1.14.x -&gt; 1.15.x or 1.15.x -&gt; 1.16.x are allowed, however 1.14.x -&gt; 1.16.x is not allowed. See upgrading an AKS cluster for more details. stringOptional linuxProfile The profile for Linux VMs in the Managed Cluster. ContainerServiceLinuxProfileOptional location The geo-location where the resource lives stringRequired networkProfile The network configuration profile. ContainerServiceNetworkProfileOptional nodeResourceGroup The name of the resource group containing agent pool nodes. stringOptional oidcIssuerProfile The OIDC issuer profile of the Managed Cluster. ManagedClusterOIDCIssuerProfileOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ManagedClusterOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired podIdentityProfile See use AAD pod identity for more details on AAD pod identity integration. ManagedClusterPodIdentityProfileOptional privateLinkResources Private link resources associated with the cluster. PrivateLinkResource[]Optional publicNetworkAccess Allow or deny public network access for AKS ManagedClusterProperties_PublicNetworkAccessOptional securityProfile Security profile for the managed cluster. ManagedClusterSecurityProfileOptional serviceMeshProfile Service mesh profile for a managed cluster. ServiceMeshProfileOptional servicePrincipalProfile Information about a service principal identity for the cluster to use for manipulating Azure APIs. ManagedClusterServicePrincipalProfileOptional sku The managed cluster SKU. ManagedClusterSKUOptional storageProfile Storage profile for the managed cluster. ManagedClusterStorageProfileOptional supportPlan The support plan for the Managed Cluster. If unspecified, the default is ‘KubernetesOfficial’. KubernetesSupportPlanOptional tags Resource tags. map[string]stringOptional upgradeSettings Settings for upgrading a cluster. ClusterUpgradeSettingsOptional windowsProfile The profile for Windows VMs in the Managed Cluster. ManagedClusterWindowsProfileOptional workloadAutoScalerProfile Workload Auto-scaler profile for the managed cluster. ManagedClusterWorkloadAutoScalerProfileOptional ManagedCluster_STATUS Property Description Type aadProfile The Azure Active Directory configuration. ManagedClusterAADProfile_STATUSOptional addonProfiles The profile of managed cluster add-on. map[string]ManagedClusterAddonProfile_STATUSOptional agentPoolProfiles The agent pool properties. ManagedClusterAgentPoolProfile_STATUS[]Optional apiServerAccessProfile The access profile for managed cluster API server. ManagedClusterAPIServerAccessProfile_STATUSOptional autoScalerProfile Parameters to be applied to the cluster-autoscaler when enabled ManagedClusterProperties_AutoScalerProfile_STATUSOptional autoUpgradeProfile The auto upgrade configuration. ManagedClusterAutoUpgradeProfile_STATUSOptional azureMonitorProfile Azure Monitor addon profiles for monitoring the managed cluster. ManagedClusterAzureMonitorProfile_STATUSOptional azurePortalFQDN The Azure Portal requires certain Cross-Origin Resource Sharing (CORS) headers to be sent in some responses, which Kubernetes APIServer doesn’t handle by default. This special FQDN supports CORS, allowing the Azure Portal to function properly. stringOptional conditions The observed state of the resource conditions.Condition[]Optional currentKubernetesVersion If kubernetesVersion was a fully specified version &lt;major.minor.patch&gt;, this field will be exactly equal to it. If kubernetesVersion was &lt;major.minor&gt;, this field will contain the full &lt;major.minor.patch&gt; version being used. stringOptional disableLocalAccounts If set to true, getting static credentials will be disabled for this cluster. This must only be used on Managed Clusters that are AAD enabled. For more details see disable local accounts. boolOptional diskEncryptionSetID This is of the form: ‘/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/diskEncryptionSets/{encryptionSetName}’ stringOptional dnsPrefix This cannot be updated once the Managed Cluster has been created. stringOptional enablePodSecurityPolicy (DEPRECATED) Whether to enable Kubernetes pod security policy (preview). PodSecurityPolicy was deprecated in Kubernetes v1.21, and removed from Kubernetes in v1.25. Learn more at https://aka.ms/k8s/psp and https://aka.ms/aks/psp. boolOptional enableRBAC Whether to enable Kubernetes Role-Based Access Control. boolOptional extendedLocation The extended location of the Virtual Machine. ExtendedLocation_STATUSOptional fqdn The FQDN of the master pool. stringOptional fqdnSubdomain This cannot be updated once the Managed Cluster has been created. stringOptional httpProxyConfig Configurations for provisioning the cluster with HTTP proxy servers. ManagedClusterHTTPProxyConfig_STATUSOptional id Fully qualified resource ID for the resource. E.g. “/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}” stringOptional identity The identity of the managed cluster, if configured. ManagedClusterIdentity_STATUSOptional identityProfile Identities associated with the cluster. map[string]UserAssignedIdentity_STATUSOptional kubernetesVersion Both patch version &lt;major.minor.patch&gt; (e.g. 1.20.13) and &lt;major.minor&gt; (e.g. 1.20) are supported. When &lt;major.minor&gt; is specified, the latest supported GA patch version is chosen automatically. Updating the cluster with the same &lt;major.minor&gt; once it has been created (e.g. 1.14.x -&gt; 1.14) will not trigger an upgrade, even if a newer patch version is available. When you upgrade a supported AKS cluster, Kubernetes minor versions cannot be skipped. All upgrades must be performed sequentially by major version number. For example, upgrades between 1.14.x -&gt; 1.15.x or 1.15.x -&gt; 1.16.x are allowed, however 1.14.x -&gt; 1.16.x is not allowed. See upgrading an AKS cluster for more details. stringOptional linuxProfile The profile for Linux VMs in the Managed Cluster. ContainerServiceLinuxProfile_STATUSOptional location The geo-location where the resource lives stringOptional maxAgentPools The max number of agent pools for the managed cluster. intOptional name The name of the resource stringOptional networkProfile The network configuration profile. ContainerServiceNetworkProfile_STATUSOptional nodeResourceGroup The name of the resource group containing agent pool nodes. stringOptional oidcIssuerProfile The OIDC issuer profile of the Managed Cluster. ManagedClusterOIDCIssuerProfile_STATUSOptional podIdentityProfile See use AAD pod identity for more details on AAD pod identity integration. ManagedClusterPodIdentityProfile_STATUSOptional powerState The Power State of the cluster. PowerState_STATUSOptional privateFQDN The FQDN of private cluster. stringOptional privateLinkResources Private link resources associated with the cluster. PrivateLinkResource_STATUS[]Optional provisioningState The current provisioning state. stringOptional publicNetworkAccess Allow or deny public network access for AKS ManagedClusterProperties_PublicNetworkAccess_STATUSOptional resourceUID The resourceUID uniquely identifies ManagedClusters that reuse ARM ResourceIds (i.e: create, delete, create sequence) stringOptional securityProfile Security profile for the managed cluster. ManagedClusterSecurityProfile_STATUSOptional serviceMeshProfile Service mesh profile for a managed cluster. ServiceMeshProfile_STATUSOptional servicePrincipalProfile Information about a service principal identity for the cluster to use for manipulating Azure APIs. ManagedClusterServicePrincipalProfile_STATUSOptional sku The managed cluster SKU. ManagedClusterSKU_STATUSOptional storageProfile Storage profile for the managed cluster. ManagedClusterStorageProfile_STATUSOptional supportPlan The support plan for the Managed Cluster. If unspecified, the default is ‘KubernetesOfficial’. KubernetesSupportPlan_STATUSOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional upgradeSettings Settings for upgrading a cluster. ClusterUpgradeSettings_STATUSOptional windowsProfile The profile for Windows VMs in the Managed Cluster. ManagedClusterWindowsProfile_STATUSOptional workloadAutoScalerProfile Workload Auto-scaler profile for the managed cluster. ManagedClusterWorkloadAutoScalerProfile_STATUSOptional ManagedClusterList Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-10-01/managedClusters.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerService/managedClusters/{resourceName}">
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_SpecOptional status ManagedCluster_STATUSOptional ManagedCluster_Spec Property Description Type aadProfile The Azure Active Directory configuration. ManagedClusterAADProfileOptional addonProfiles The profile of managed cluster add-on. map[string]ManagedClusterAddonProfileOptional agentPoolProfiles The agent pool properties. ManagedClusterAgentPoolProfile[]Optional apiServerAccessProfile The access profile for managed cluster API server. ManagedClusterAPIServerAccessProfileOptional autoScalerProfile Parameters to be applied to the cluster-autoscaler when enabled ManagedClusterProperties_AutoScalerProfileOptional autoUpgradeProfile The auto upgrade configuration. ManagedClusterAutoUpgradeProfileOptional azureMonitorProfile Azure Monitor addon profiles for monitoring the managed cluster. ManagedClusterAzureMonitorProfileOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional disableLocalAccounts If set to true, getting static credentials will be disabled for this cluster. This must only be used on Managed Clusters that are AAD enabled. For more details see disable local accounts. boolOptional diskEncryptionSetReference This is of the form: ‘/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​diskEncryptionSets/​{encryptionSetName}’ genruntime.ResourceReferenceOptional dnsPrefix This cannot be updated once the Managed Cluster has been created. stringOptional enablePodSecurityPolicy (DEPRECATED) Whether to enable Kubernetes pod security policy (preview). PodSecurityPolicy was deprecated in Kubernetes v1.21, and removed from Kubernetes in v1.25. Learn more at https://aka.ms/k8s/psp and https://aka.ms/aks/psp. boolOptional enableRBAC Whether to enable Kubernetes Role-Based Access Control. boolOptional extendedLocation The extended location of the Virtual Machine. ExtendedLocationOptional fqdnSubdomain This cannot be updated once the Managed Cluster has been created. stringOptional httpProxyConfig Configurations for provisioning the cluster with HTTP proxy servers. ManagedClusterHTTPProxyConfigOptional identity The identity of the managed cluster, if configured. ManagedClusterIdentityOptional identityProfile Identities associated with the cluster. map[string]UserAssignedIdentityOptional kubernetesVersion Both patch version &lt;major.minor.patch&gt; (e.g. 1.20.13) and &lt;major.minor&gt; (e.g. 1.20) are supported. When &lt;major.minor&gt; is specified, the latest supported GA patch version is chosen automatically. Updating the cluster with the same &lt;major.minor&gt; once it has been created (e.g. 1.14.x -&gt; 1.14) will not trigger an upgrade, even if a newer patch version is available. When you upgrade a supported AKS cluster, Kubernetes minor versions cannot be skipped. All upgrades must be performed sequentially by major version number. For example, upgrades between 1.14.x -&gt; 1.15.x or 1.15.x -&gt; 1.16.x are allowed, however 1.14.x -&gt; 1.16.x is not allowed. See upgrading an AKS cluster for more details. stringOptional linuxProfile The profile for Linux VMs in the Managed Cluster. ContainerServiceLinuxProfileOptional location The geo-location where the resource lives stringRequired networkProfile The network configuration profile. ContainerServiceNetworkProfileOptional nodeResourceGroup The name of the resource group containing agent pool nodes. stringOptional oidcIssuerProfile The OIDC issuer profile of the Managed Cluster. ManagedClusterOIDCIssuerProfileOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ManagedClusterOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired podIdentityProfile See use AAD pod identity for more details on AAD pod identity integration. ManagedClusterPodIdentityProfileOptional privateLinkResources Private link resources associated with the cluster. PrivateLinkResource[]Optional publicNetworkAccess Allow or deny public network access for AKS ManagedClusterProperties_PublicNetworkAccessOptional securityProfile Security profile for the managed cluster. ManagedClusterSecurityProfileOptional serviceMeshProfile Service mesh profile for a managed cluster. ServiceMeshProfileOptional servicePrincipalProfile Information about a service principal identity for the cluster to use for manipulating Azure APIs. ManagedClusterServicePrincipalProfileOptional sku The managed cluster SKU. ManagedClusterSKUOptional storageProfile Storage profile for the managed cluster. ManagedClusterStorageProfileOptional supportPlan The support plan for the Managed Cluster. If unspecified, the default is KubernetesOfficial. KubernetesSupportPlanOptional tags Resource tags. map[string]stringOptional upgradeSettings Settings for upgrading a cluster. ClusterUpgradeSettingsOptional windowsProfile The profile for Windows VMs in the Managed Cluster. ManagedClusterWindowsProfileOptional workloadAutoScalerProfile Workload Auto-scaler profile for the managed cluster. ManagedClusterWorkloadAutoScalerProfileOptional ManagedCluster_STATUS Property Description Type aadProfile The Azure Active Directory configuration. ManagedClusterAADProfile_STATUSOptional addonProfiles The profile of managed cluster add-on. map[string]ManagedClusterAddonProfile_STATUSOptional agentPoolProfiles The agent pool properties. ManagedClusterAgentPoolProfile_STATUS[]Optional apiServerAccessProfile The access profile for managed cluster API server. ManagedClusterAPIServerAccessProfile_STATUSOptional autoScalerProfile Parameters to be applied to the cluster-autoscaler when enabled ManagedClusterProperties_AutoScalerProfile_STATUSOptional autoUpgradeProfile The auto upgrade configuration. ManagedClusterAutoUpgradeProfile_STATUSOptional azureMonitorProfile Azure Monitor addon profiles for monitoring the managed cluster. ManagedClusterAzureMonitorProfile_STATUSOptional azurePortalFQDN The Azure Portal requires certain Cross-Origin Resource Sharing (CORS) headers to be sent in some responses, which Kubernetes APIServer doesn’t handle by default. This special FQDN supports CORS, allowing the Azure Portal to function properly. stringOptional conditions The observed state of the resource conditions.Condition[]Optional currentKubernetesVersion If kubernetesVersion was a fully specified version &lt;major.minor.patch&gt;, this field will be exactly equal to it. If kubernetesVersion was &lt;major.minor&gt;, this field will contain the full &lt;major.minor.patch&gt; version being used. stringOptional disableLocalAccounts If set to true, getting static credentials will be disabled for this cluster. This must only be used on Managed Clusters that are AAD enabled. For more details see disable local accounts. boolOptional diskEncryptionSetID This is of the form: ‘/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​diskEncryptionSets/​{encryptionSetName}’ stringOptional dnsPrefix This cannot be updated once the Managed Cluster has been created. stringOptional enablePodSecurityPolicy (DEPRECATED) Whether to enable Kubernetes pod security policy (preview). PodSecurityPolicy was deprecated in Kubernetes v1.21, and removed from Kubernetes in v1.25. Learn more at https://aka.ms/k8s/psp and https://aka.ms/aks/psp. boolOptional enableRBAC Whether to enable Kubernetes Role-Based Access Control. boolOptional extendedLocation The extended location of the Virtual Machine. ExtendedLocation_STATUSOptional fqdn The FQDN of the master pool. stringOptional fqdnSubdomain This cannot be updated once the Managed Cluster has been created. stringOptional httpProxyConfig Configurations for provisioning the cluster with HTTP proxy servers. ManagedClusterHTTPProxyConfig_STATUSOptional id Fully qualified resource ID for the resource. E.g. “/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}” stringOptional identity The identity of the managed cluster, if configured. ManagedClusterIdentity_STATUSOptional identityProfile Identities associated with the cluster. map[string]UserAssignedIdentity_STATUSOptional kubernetesVersion Both patch version &lt;major.minor.patch&gt; (e.g. 1.20.13) and &lt;major.minor&gt; (e.g. 1.20) are supported. When &lt;major.minor&gt; is specified, the latest supported GA patch version is chosen automatically. Updating the cluster with the same &lt;major.minor&gt; once it has been created (e.g. 1.14.x -&gt; 1.14) will not trigger an upgrade, even if a newer patch version is available. When you upgrade a supported AKS cluster, Kubernetes minor versions cannot be skipped. All upgrades must be performed sequentially by major version number. For example, upgrades between 1.14.x -&gt; 1.15.x or 1.15.x -&gt; 1.16.x are allowed, however 1.14.x -&gt; 1.16.x is not allowed. See upgrading an AKS cluster for more details. stringOptional linuxProfile The profile for Linux VMs in the Managed Cluster. ContainerServiceLinuxProfile_STATUSOptional location The geo-location where the resource lives stringOptional maxAgentPools The max number of agent pools for the managed cluster. intOptional name The name of the resource stringOptional networkProfile The network configuration profile. ContainerServiceNetworkProfile_STATUSOptional nodeResourceGroup The name of the resource group containing agent pool nodes. stringOptional oidcIssuerProfile The OIDC issuer profile of the Managed Cluster. ManagedClusterOIDCIssuerProfile_STATUSOptional podIdentityProfile See use AAD pod identity for more details on AAD pod identity integration. ManagedClusterPodIdentityProfile_STATUSOptional powerState The Power State of the cluster. PowerState_STATUSOptional privateFQDN The FQDN of private cluster. stringOptional privateLinkResources Private link resources associated with the cluster. PrivateLinkResource_STATUS[]Optional provisioningState The current provisioning state. stringOptional publicNetworkAccess Allow or deny public network access for AKS ManagedClusterProperties_PublicNetworkAccess_STATUSOptional resourceUID The resourceUID uniquely identifies ManagedClusters that reuse ARM ResourceIds (i.e: create, delete, create sequence) stringOptional securityProfile Security profile for the managed cluster. ManagedClusterSecurityProfile_STATUSOptional serviceMeshProfile Service mesh profile for a managed cluster. ServiceMeshProfile_STATUSOptional servicePrincipalProfile Information about a service principal identity for the cluster to use for manipulating Azure APIs. ManagedClusterServicePrincipalProfile_STATUSOptional sku The managed cluster SKU. ManagedClusterSKU_STATUSOptional storageProfile Storage profile for the managed cluster. ManagedClusterStorageProfile_STATUSOptional supportPlan The support plan for the Managed Cluster. If unspecified, the default is KubernetesOfficial. KubernetesSupportPlan_STATUSOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional upgradeSettings Settings for upgrading a cluster. ClusterUpgradeSettings_STATUSOptional windowsProfile The profile for Windows VMs in the Managed Cluster. ManagedClusterWindowsProfile_STATUSOptional workloadAutoScalerProfile Workload Auto-scaler profile for the managed cluster. ManagedClusterWorkloadAutoScalerProfile_STATUSOptional ManagedClusterList Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-10-01/managedClusters.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerService/​managedClusters/​{resourceName}">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/containerservice/v1api20231001/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="containerservice.azure.com/v1api20231001">
-  <meta property="og:description" content="APIVersion Value Description “2023-10-01” ManagedCluster Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-10-01/managedClusters.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerService/managedClusters/{resourceName}
+  <meta property="og:description" content="APIVersion Value Description “2023-10-01” ManagedCluster Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-10-01/managedClusters.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerService/​managedClusters/​{resourceName}
 Used by: ManagedClusterList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_SpecOptional status ManagedCluster_STATUSOptional ManagedCluster_Spec Property Description Type aadProfile The Azure Active Directory configuration. ManagedClusterAADProfileOptional addonProfiles The profile of managed cluster add-on. map[string]ManagedClusterAddonProfileOptional agentPoolProfiles The agent pool properties. ManagedClusterAgentPoolProfile[]Optional apiServerAccessProfile The access profile for managed cluster API server. ManagedClusterAPIServerAccessProfileOptional autoScalerProfile Parameters to be applied to the cluster-autoscaler when enabled ManagedClusterProperties_AutoScalerProfileOptional autoUpgradeProfile The auto upgrade configuration. ManagedClusterAutoUpgradeProfileOptional azureMonitorProfile Azure Monitor addon profiles for monitoring the managed cluster. ManagedClusterAzureMonitorProfileOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional disableLocalAccounts If set to true, getting static credentials will be disabled for this cluster. This must only be used on Managed Clusters that are AAD enabled. For more details see disable local accounts. boolOptional diskEncryptionSetReference This is of the form: ‘/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/diskEncryptionSets/{encryptionSetName}’ genruntime.ResourceReferenceOptional dnsPrefix This cannot be updated once the Managed Cluster has been created. stringOptional enablePodSecurityPolicy (DEPRECATED) Whether to enable Kubernetes pod security policy (preview). PodSecurityPolicy was deprecated in Kubernetes v1.21, and removed from Kubernetes in v1.25. Learn more at https://aka.ms/k8s/psp and https://aka.ms/aks/psp. boolOptional enableRBAC Whether to enable Kubernetes Role-Based Access Control. boolOptional extendedLocation The extended location of the Virtual Machine. ExtendedLocationOptional fqdnSubdomain This cannot be updated once the Managed Cluster has been created. stringOptional httpProxyConfig Configurations for provisioning the cluster with HTTP proxy servers. ManagedClusterHTTPProxyConfigOptional identity The identity of the managed cluster, if configured. ManagedClusterIdentityOptional identityProfile Identities associated with the cluster. map[string]UserAssignedIdentityOptional kubernetesVersion Both patch version &lt;major.minor.patch&gt; (e.g. 1.20.13) and &lt;major.minor&gt; (e.g. 1.20) are supported. When &lt;major.minor&gt; is specified, the latest supported GA patch version is chosen automatically. Updating the cluster with the same &lt;major.minor&gt; once it has been created (e.g. 1.14.x -&gt; 1.14) will not trigger an upgrade, even if a newer patch version is available. When you upgrade a supported AKS cluster, Kubernetes minor versions cannot be skipped. All upgrades must be performed sequentially by major version number. For example, upgrades between 1.14.x -&gt; 1.15.x or 1.15.x -&gt; 1.16.x are allowed, however 1.14.x -&gt; 1.16.x is not allowed. See upgrading an AKS cluster for more details. stringOptional linuxProfile The profile for Linux VMs in the Managed Cluster. ContainerServiceLinuxProfileOptional location The geo-location where the resource lives stringRequired networkProfile The network configuration profile. ContainerServiceNetworkProfileOptional nodeResourceGroup The name of the resource group containing agent pool nodes. stringOptional oidcIssuerProfile The OIDC issuer profile of the Managed Cluster. ManagedClusterOIDCIssuerProfileOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ManagedClusterOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired podIdentityProfile See use AAD pod identity for more details on AAD pod identity integration. ManagedClusterPodIdentityProfileOptional privateLinkResources Private link resources associated with the cluster. PrivateLinkResource[]Optional publicNetworkAccess Allow or deny public network access for AKS ManagedClusterProperties_PublicNetworkAccessOptional securityProfile Security profile for the managed cluster. ManagedClusterSecurityProfileOptional serviceMeshProfile Service mesh profile for a managed cluster. ServiceMeshProfileOptional servicePrincipalProfile Information about a service principal identity for the cluster to use for manipulating Azure APIs. ManagedClusterServicePrincipalProfileOptional sku The managed cluster SKU. ManagedClusterSKUOptional storageProfile Storage profile for the managed cluster. ManagedClusterStorageProfileOptional supportPlan The support plan for the Managed Cluster. If unspecified, the default is ‘KubernetesOfficial’. KubernetesSupportPlanOptional tags Resource tags. map[string]stringOptional upgradeSettings Settings for upgrading a cluster. ClusterUpgradeSettingsOptional windowsProfile The profile for Windows VMs in the Managed Cluster. ManagedClusterWindowsProfileOptional workloadAutoScalerProfile Workload Auto-scaler profile for the managed cluster. ManagedClusterWorkloadAutoScalerProfileOptional ManagedCluster_STATUS Property Description Type aadProfile The Azure Active Directory configuration. ManagedClusterAADProfile_STATUSOptional addonProfiles The profile of managed cluster add-on. map[string]ManagedClusterAddonProfile_STATUSOptional agentPoolProfiles The agent pool properties. ManagedClusterAgentPoolProfile_STATUS[]Optional apiServerAccessProfile The access profile for managed cluster API server. ManagedClusterAPIServerAccessProfile_STATUSOptional autoScalerProfile Parameters to be applied to the cluster-autoscaler when enabled ManagedClusterProperties_AutoScalerProfile_STATUSOptional autoUpgradeProfile The auto upgrade configuration. ManagedClusterAutoUpgradeProfile_STATUSOptional azureMonitorProfile Azure Monitor addon profiles for monitoring the managed cluster. ManagedClusterAzureMonitorProfile_STATUSOptional azurePortalFQDN The Azure Portal requires certain Cross-Origin Resource Sharing (CORS) headers to be sent in some responses, which Kubernetes APIServer doesn’t handle by default. This special FQDN supports CORS, allowing the Azure Portal to function properly. stringOptional conditions The observed state of the resource conditions.Condition[]Optional currentKubernetesVersion If kubernetesVersion was a fully specified version &lt;major.minor.patch&gt;, this field will be exactly equal to it. If kubernetesVersion was &lt;major.minor&gt;, this field will contain the full &lt;major.minor.patch&gt; version being used. stringOptional disableLocalAccounts If set to true, getting static credentials will be disabled for this cluster. This must only be used on Managed Clusters that are AAD enabled. For more details see disable local accounts. boolOptional diskEncryptionSetID This is of the form: ‘/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/diskEncryptionSets/{encryptionSetName}’ stringOptional dnsPrefix This cannot be updated once the Managed Cluster has been created. stringOptional enablePodSecurityPolicy (DEPRECATED) Whether to enable Kubernetes pod security policy (preview). PodSecurityPolicy was deprecated in Kubernetes v1.21, and removed from Kubernetes in v1.25. Learn more at https://aka.ms/k8s/psp and https://aka.ms/aks/psp. boolOptional enableRBAC Whether to enable Kubernetes Role-Based Access Control. boolOptional extendedLocation The extended location of the Virtual Machine. ExtendedLocation_STATUSOptional fqdn The FQDN of the master pool. stringOptional fqdnSubdomain This cannot be updated once the Managed Cluster has been created. stringOptional httpProxyConfig Configurations for provisioning the cluster with HTTP proxy servers. ManagedClusterHTTPProxyConfig_STATUSOptional id Fully qualified resource ID for the resource. E.g. “/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}” stringOptional identity The identity of the managed cluster, if configured. ManagedClusterIdentity_STATUSOptional identityProfile Identities associated with the cluster. map[string]UserAssignedIdentity_STATUSOptional kubernetesVersion Both patch version &lt;major.minor.patch&gt; (e.g. 1.20.13) and &lt;major.minor&gt; (e.g. 1.20) are supported. When &lt;major.minor&gt; is specified, the latest supported GA patch version is chosen automatically. Updating the cluster with the same &lt;major.minor&gt; once it has been created (e.g. 1.14.x -&gt; 1.14) will not trigger an upgrade, even if a newer patch version is available. When you upgrade a supported AKS cluster, Kubernetes minor versions cannot be skipped. All upgrades must be performed sequentially by major version number. For example, upgrades between 1.14.x -&gt; 1.15.x or 1.15.x -&gt; 1.16.x are allowed, however 1.14.x -&gt; 1.16.x is not allowed. See upgrading an AKS cluster for more details. stringOptional linuxProfile The profile for Linux VMs in the Managed Cluster. ContainerServiceLinuxProfile_STATUSOptional location The geo-location where the resource lives stringOptional maxAgentPools The max number of agent pools for the managed cluster. intOptional name The name of the resource stringOptional networkProfile The network configuration profile. ContainerServiceNetworkProfile_STATUSOptional nodeResourceGroup The name of the resource group containing agent pool nodes. stringOptional oidcIssuerProfile The OIDC issuer profile of the Managed Cluster. ManagedClusterOIDCIssuerProfile_STATUSOptional podIdentityProfile See use AAD pod identity for more details on AAD pod identity integration. ManagedClusterPodIdentityProfile_STATUSOptional powerState The Power State of the cluster. PowerState_STATUSOptional privateFQDN The FQDN of private cluster. stringOptional privateLinkResources Private link resources associated with the cluster. PrivateLinkResource_STATUS[]Optional provisioningState The current provisioning state. stringOptional publicNetworkAccess Allow or deny public network access for AKS ManagedClusterProperties_PublicNetworkAccess_STATUSOptional resourceUID The resourceUID uniquely identifies ManagedClusters that reuse ARM ResourceIds (i.e: create, delete, create sequence) stringOptional securityProfile Security profile for the managed cluster. ManagedClusterSecurityProfile_STATUSOptional serviceMeshProfile Service mesh profile for a managed cluster. ServiceMeshProfile_STATUSOptional servicePrincipalProfile Information about a service principal identity for the cluster to use for manipulating Azure APIs. ManagedClusterServicePrincipalProfile_STATUSOptional sku The managed cluster SKU. ManagedClusterSKU_STATUSOptional storageProfile Storage profile for the managed cluster. ManagedClusterStorageProfile_STATUSOptional supportPlan The support plan for the Managed Cluster. If unspecified, the default is ‘KubernetesOfficial’. KubernetesSupportPlan_STATUSOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional upgradeSettings Settings for upgrading a cluster. ClusterUpgradeSettings_STATUSOptional windowsProfile The profile for Windows VMs in the Managed Cluster. ManagedClusterWindowsProfile_STATUSOptional workloadAutoScalerProfile Workload Auto-scaler profile for the managed cluster. ManagedClusterWorkloadAutoScalerProfile_STATUSOptional ManagedClusterList Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-10-01/managedClusters.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerService/managedClusters/{resourceName}">
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_SpecOptional status ManagedCluster_STATUSOptional ManagedCluster_Spec Property Description Type aadProfile The Azure Active Directory configuration. ManagedClusterAADProfileOptional addonProfiles The profile of managed cluster add-on. map[string]ManagedClusterAddonProfileOptional agentPoolProfiles The agent pool properties. ManagedClusterAgentPoolProfile[]Optional apiServerAccessProfile The access profile for managed cluster API server. ManagedClusterAPIServerAccessProfileOptional autoScalerProfile Parameters to be applied to the cluster-autoscaler when enabled ManagedClusterProperties_AutoScalerProfileOptional autoUpgradeProfile The auto upgrade configuration. ManagedClusterAutoUpgradeProfileOptional azureMonitorProfile Azure Monitor addon profiles for monitoring the managed cluster. ManagedClusterAzureMonitorProfileOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional disableLocalAccounts If set to true, getting static credentials will be disabled for this cluster. This must only be used on Managed Clusters that are AAD enabled. For more details see disable local accounts. boolOptional diskEncryptionSetReference This is of the form: ‘/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​diskEncryptionSets/​{encryptionSetName}’ genruntime.ResourceReferenceOptional dnsPrefix This cannot be updated once the Managed Cluster has been created. stringOptional enablePodSecurityPolicy (DEPRECATED) Whether to enable Kubernetes pod security policy (preview). PodSecurityPolicy was deprecated in Kubernetes v1.21, and removed from Kubernetes in v1.25. Learn more at https://aka.ms/k8s/psp and https://aka.ms/aks/psp. boolOptional enableRBAC Whether to enable Kubernetes Role-Based Access Control. boolOptional extendedLocation The extended location of the Virtual Machine. ExtendedLocationOptional fqdnSubdomain This cannot be updated once the Managed Cluster has been created. stringOptional httpProxyConfig Configurations for provisioning the cluster with HTTP proxy servers. ManagedClusterHTTPProxyConfigOptional identity The identity of the managed cluster, if configured. ManagedClusterIdentityOptional identityProfile Identities associated with the cluster. map[string]UserAssignedIdentityOptional kubernetesVersion Both patch version &lt;major.minor.patch&gt; (e.g. 1.20.13) and &lt;major.minor&gt; (e.g. 1.20) are supported. When &lt;major.minor&gt; is specified, the latest supported GA patch version is chosen automatically. Updating the cluster with the same &lt;major.minor&gt; once it has been created (e.g. 1.14.x -&gt; 1.14) will not trigger an upgrade, even if a newer patch version is available. When you upgrade a supported AKS cluster, Kubernetes minor versions cannot be skipped. All upgrades must be performed sequentially by major version number. For example, upgrades between 1.14.x -&gt; 1.15.x or 1.15.x -&gt; 1.16.x are allowed, however 1.14.x -&gt; 1.16.x is not allowed. See upgrading an AKS cluster for more details. stringOptional linuxProfile The profile for Linux VMs in the Managed Cluster. ContainerServiceLinuxProfileOptional location The geo-location where the resource lives stringRequired networkProfile The network configuration profile. ContainerServiceNetworkProfileOptional nodeResourceGroup The name of the resource group containing agent pool nodes. stringOptional oidcIssuerProfile The OIDC issuer profile of the Managed Cluster. ManagedClusterOIDCIssuerProfileOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ManagedClusterOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired podIdentityProfile See use AAD pod identity for more details on AAD pod identity integration. ManagedClusterPodIdentityProfileOptional privateLinkResources Private link resources associated with the cluster. PrivateLinkResource[]Optional publicNetworkAccess Allow or deny public network access for AKS ManagedClusterProperties_PublicNetworkAccessOptional securityProfile Security profile for the managed cluster. ManagedClusterSecurityProfileOptional serviceMeshProfile Service mesh profile for a managed cluster. ServiceMeshProfileOptional servicePrincipalProfile Information about a service principal identity for the cluster to use for manipulating Azure APIs. ManagedClusterServicePrincipalProfileOptional sku The managed cluster SKU. ManagedClusterSKUOptional storageProfile Storage profile for the managed cluster. ManagedClusterStorageProfileOptional supportPlan The support plan for the Managed Cluster. If unspecified, the default is KubernetesOfficial. KubernetesSupportPlanOptional tags Resource tags. map[string]stringOptional upgradeSettings Settings for upgrading a cluster. ClusterUpgradeSettingsOptional windowsProfile The profile for Windows VMs in the Managed Cluster. ManagedClusterWindowsProfileOptional workloadAutoScalerProfile Workload Auto-scaler profile for the managed cluster. ManagedClusterWorkloadAutoScalerProfileOptional ManagedCluster_STATUS Property Description Type aadProfile The Azure Active Directory configuration. ManagedClusterAADProfile_STATUSOptional addonProfiles The profile of managed cluster add-on. map[string]ManagedClusterAddonProfile_STATUSOptional agentPoolProfiles The agent pool properties. ManagedClusterAgentPoolProfile_STATUS[]Optional apiServerAccessProfile The access profile for managed cluster API server. ManagedClusterAPIServerAccessProfile_STATUSOptional autoScalerProfile Parameters to be applied to the cluster-autoscaler when enabled ManagedClusterProperties_AutoScalerProfile_STATUSOptional autoUpgradeProfile The auto upgrade configuration. ManagedClusterAutoUpgradeProfile_STATUSOptional azureMonitorProfile Azure Monitor addon profiles for monitoring the managed cluster. ManagedClusterAzureMonitorProfile_STATUSOptional azurePortalFQDN The Azure Portal requires certain Cross-Origin Resource Sharing (CORS) headers to be sent in some responses, which Kubernetes APIServer doesn’t handle by default. This special FQDN supports CORS, allowing the Azure Portal to function properly. stringOptional conditions The observed state of the resource conditions.Condition[]Optional currentKubernetesVersion If kubernetesVersion was a fully specified version &lt;major.minor.patch&gt;, this field will be exactly equal to it. If kubernetesVersion was &lt;major.minor&gt;, this field will contain the full &lt;major.minor.patch&gt; version being used. stringOptional disableLocalAccounts If set to true, getting static credentials will be disabled for this cluster. This must only be used on Managed Clusters that are AAD enabled. For more details see disable local accounts. boolOptional diskEncryptionSetID This is of the form: ‘/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​diskEncryptionSets/​{encryptionSetName}’ stringOptional dnsPrefix This cannot be updated once the Managed Cluster has been created. stringOptional enablePodSecurityPolicy (DEPRECATED) Whether to enable Kubernetes pod security policy (preview). PodSecurityPolicy was deprecated in Kubernetes v1.21, and removed from Kubernetes in v1.25. Learn more at https://aka.ms/k8s/psp and https://aka.ms/aks/psp. boolOptional enableRBAC Whether to enable Kubernetes Role-Based Access Control. boolOptional extendedLocation The extended location of the Virtual Machine. ExtendedLocation_STATUSOptional fqdn The FQDN of the master pool. stringOptional fqdnSubdomain This cannot be updated once the Managed Cluster has been created. stringOptional httpProxyConfig Configurations for provisioning the cluster with HTTP proxy servers. ManagedClusterHTTPProxyConfig_STATUSOptional id Fully qualified resource ID for the resource. E.g. “/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}” stringOptional identity The identity of the managed cluster, if configured. ManagedClusterIdentity_STATUSOptional identityProfile Identities associated with the cluster. map[string]UserAssignedIdentity_STATUSOptional kubernetesVersion Both patch version &lt;major.minor.patch&gt; (e.g. 1.20.13) and &lt;major.minor&gt; (e.g. 1.20) are supported. When &lt;major.minor&gt; is specified, the latest supported GA patch version is chosen automatically. Updating the cluster with the same &lt;major.minor&gt; once it has been created (e.g. 1.14.x -&gt; 1.14) will not trigger an upgrade, even if a newer patch version is available. When you upgrade a supported AKS cluster, Kubernetes minor versions cannot be skipped. All upgrades must be performed sequentially by major version number. For example, upgrades between 1.14.x -&gt; 1.15.x or 1.15.x -&gt; 1.16.x are allowed, however 1.14.x -&gt; 1.16.x is not allowed. See upgrading an AKS cluster for more details. stringOptional linuxProfile The profile for Linux VMs in the Managed Cluster. ContainerServiceLinuxProfile_STATUSOptional location The geo-location where the resource lives stringOptional maxAgentPools The max number of agent pools for the managed cluster. intOptional name The name of the resource stringOptional networkProfile The network configuration profile. ContainerServiceNetworkProfile_STATUSOptional nodeResourceGroup The name of the resource group containing agent pool nodes. stringOptional oidcIssuerProfile The OIDC issuer profile of the Managed Cluster. ManagedClusterOIDCIssuerProfile_STATUSOptional podIdentityProfile See use AAD pod identity for more details on AAD pod identity integration. ManagedClusterPodIdentityProfile_STATUSOptional powerState The Power State of the cluster. PowerState_STATUSOptional privateFQDN The FQDN of private cluster. stringOptional privateLinkResources Private link resources associated with the cluster. PrivateLinkResource_STATUS[]Optional provisioningState The current provisioning state. stringOptional publicNetworkAccess Allow or deny public network access for AKS ManagedClusterProperties_PublicNetworkAccess_STATUSOptional resourceUID The resourceUID uniquely identifies ManagedClusters that reuse ARM ResourceIds (i.e: create, delete, create sequence) stringOptional securityProfile Security profile for the managed cluster. ManagedClusterSecurityProfile_STATUSOptional serviceMeshProfile Service mesh profile for a managed cluster. ServiceMeshProfile_STATUSOptional servicePrincipalProfile Information about a service principal identity for the cluster to use for manipulating Azure APIs. ManagedClusterServicePrincipalProfile_STATUSOptional sku The managed cluster SKU. ManagedClusterSKU_STATUSOptional storageProfile Storage profile for the managed cluster. ManagedClusterStorageProfile_STATUSOptional supportPlan The support plan for the Managed Cluster. If unspecified, the default is KubernetesOfficial. KubernetesSupportPlan_STATUSOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional upgradeSettings Settings for upgrading a cluster. ClusterUpgradeSettings_STATUSOptional windowsProfile The profile for Windows VMs in the Managed Cluster. ManagedClusterWindowsProfile_STATUSOptional workloadAutoScalerProfile Workload Auto-scaler profile for the managed cluster. ManagedClusterWorkloadAutoScalerProfile_STATUSOptional ManagedClusterList Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-10-01/managedClusters.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerService/​managedClusters/​{resourceName}">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="reference">
 
   <meta itemprop="name" content="containerservice.azure.com/v1api20231001">
-  <meta itemprop="description" content="APIVersion Value Description “2023-10-01” ManagedCluster Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-10-01/managedClusters.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerService/managedClusters/{resourceName}
+  <meta itemprop="description" content="APIVersion Value Description “2023-10-01” ManagedCluster Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-10-01/managedClusters.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerService/​managedClusters/​{resourceName}
 Used by: ManagedClusterList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_SpecOptional status ManagedCluster_STATUSOptional ManagedCluster_Spec Property Description Type aadProfile The Azure Active Directory configuration. ManagedClusterAADProfileOptional addonProfiles The profile of managed cluster add-on. map[string]ManagedClusterAddonProfileOptional agentPoolProfiles The agent pool properties. ManagedClusterAgentPoolProfile[]Optional apiServerAccessProfile The access profile for managed cluster API server. ManagedClusterAPIServerAccessProfileOptional autoScalerProfile Parameters to be applied to the cluster-autoscaler when enabled ManagedClusterProperties_AutoScalerProfileOptional autoUpgradeProfile The auto upgrade configuration. ManagedClusterAutoUpgradeProfileOptional azureMonitorProfile Azure Monitor addon profiles for monitoring the managed cluster. ManagedClusterAzureMonitorProfileOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional disableLocalAccounts If set to true, getting static credentials will be disabled for this cluster. This must only be used on Managed Clusters that are AAD enabled. For more details see disable local accounts. boolOptional diskEncryptionSetReference This is of the form: ‘/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/diskEncryptionSets/{encryptionSetName}’ genruntime.ResourceReferenceOptional dnsPrefix This cannot be updated once the Managed Cluster has been created. stringOptional enablePodSecurityPolicy (DEPRECATED) Whether to enable Kubernetes pod security policy (preview). PodSecurityPolicy was deprecated in Kubernetes v1.21, and removed from Kubernetes in v1.25. Learn more at https://aka.ms/k8s/psp and https://aka.ms/aks/psp. boolOptional enableRBAC Whether to enable Kubernetes Role-Based Access Control. boolOptional extendedLocation The extended location of the Virtual Machine. ExtendedLocationOptional fqdnSubdomain This cannot be updated once the Managed Cluster has been created. stringOptional httpProxyConfig Configurations for provisioning the cluster with HTTP proxy servers. ManagedClusterHTTPProxyConfigOptional identity The identity of the managed cluster, if configured. ManagedClusterIdentityOptional identityProfile Identities associated with the cluster. map[string]UserAssignedIdentityOptional kubernetesVersion Both patch version &lt;major.minor.patch&gt; (e.g. 1.20.13) and &lt;major.minor&gt; (e.g. 1.20) are supported. When &lt;major.minor&gt; is specified, the latest supported GA patch version is chosen automatically. Updating the cluster with the same &lt;major.minor&gt; once it has been created (e.g. 1.14.x -&gt; 1.14) will not trigger an upgrade, even if a newer patch version is available. When you upgrade a supported AKS cluster, Kubernetes minor versions cannot be skipped. All upgrades must be performed sequentially by major version number. For example, upgrades between 1.14.x -&gt; 1.15.x or 1.15.x -&gt; 1.16.x are allowed, however 1.14.x -&gt; 1.16.x is not allowed. See upgrading an AKS cluster for more details. stringOptional linuxProfile The profile for Linux VMs in the Managed Cluster. ContainerServiceLinuxProfileOptional location The geo-location where the resource lives stringRequired networkProfile The network configuration profile. ContainerServiceNetworkProfileOptional nodeResourceGroup The name of the resource group containing agent pool nodes. stringOptional oidcIssuerProfile The OIDC issuer profile of the Managed Cluster. ManagedClusterOIDCIssuerProfileOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ManagedClusterOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired podIdentityProfile See use AAD pod identity for more details on AAD pod identity integration. ManagedClusterPodIdentityProfileOptional privateLinkResources Private link resources associated with the cluster. PrivateLinkResource[]Optional publicNetworkAccess Allow or deny public network access for AKS ManagedClusterProperties_PublicNetworkAccessOptional securityProfile Security profile for the managed cluster. ManagedClusterSecurityProfileOptional serviceMeshProfile Service mesh profile for a managed cluster. ServiceMeshProfileOptional servicePrincipalProfile Information about a service principal identity for the cluster to use for manipulating Azure APIs. ManagedClusterServicePrincipalProfileOptional sku The managed cluster SKU. ManagedClusterSKUOptional storageProfile Storage profile for the managed cluster. ManagedClusterStorageProfileOptional supportPlan The support plan for the Managed Cluster. If unspecified, the default is ‘KubernetesOfficial’. KubernetesSupportPlanOptional tags Resource tags. map[string]stringOptional upgradeSettings Settings for upgrading a cluster. ClusterUpgradeSettingsOptional windowsProfile The profile for Windows VMs in the Managed Cluster. ManagedClusterWindowsProfileOptional workloadAutoScalerProfile Workload Auto-scaler profile for the managed cluster. ManagedClusterWorkloadAutoScalerProfileOptional ManagedCluster_STATUS Property Description Type aadProfile The Azure Active Directory configuration. ManagedClusterAADProfile_STATUSOptional addonProfiles The profile of managed cluster add-on. map[string]ManagedClusterAddonProfile_STATUSOptional agentPoolProfiles The agent pool properties. ManagedClusterAgentPoolProfile_STATUS[]Optional apiServerAccessProfile The access profile for managed cluster API server. ManagedClusterAPIServerAccessProfile_STATUSOptional autoScalerProfile Parameters to be applied to the cluster-autoscaler when enabled ManagedClusterProperties_AutoScalerProfile_STATUSOptional autoUpgradeProfile The auto upgrade configuration. ManagedClusterAutoUpgradeProfile_STATUSOptional azureMonitorProfile Azure Monitor addon profiles for monitoring the managed cluster. ManagedClusterAzureMonitorProfile_STATUSOptional azurePortalFQDN The Azure Portal requires certain Cross-Origin Resource Sharing (CORS) headers to be sent in some responses, which Kubernetes APIServer doesn’t handle by default. This special FQDN supports CORS, allowing the Azure Portal to function properly. stringOptional conditions The observed state of the resource conditions.Condition[]Optional currentKubernetesVersion If kubernetesVersion was a fully specified version &lt;major.minor.patch&gt;, this field will be exactly equal to it. If kubernetesVersion was &lt;major.minor&gt;, this field will contain the full &lt;major.minor.patch&gt; version being used. stringOptional disableLocalAccounts If set to true, getting static credentials will be disabled for this cluster. This must only be used on Managed Clusters that are AAD enabled. For more details see disable local accounts. boolOptional diskEncryptionSetID This is of the form: ‘/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/diskEncryptionSets/{encryptionSetName}’ stringOptional dnsPrefix This cannot be updated once the Managed Cluster has been created. stringOptional enablePodSecurityPolicy (DEPRECATED) Whether to enable Kubernetes pod security policy (preview). PodSecurityPolicy was deprecated in Kubernetes v1.21, and removed from Kubernetes in v1.25. Learn more at https://aka.ms/k8s/psp and https://aka.ms/aks/psp. boolOptional enableRBAC Whether to enable Kubernetes Role-Based Access Control. boolOptional extendedLocation The extended location of the Virtual Machine. ExtendedLocation_STATUSOptional fqdn The FQDN of the master pool. stringOptional fqdnSubdomain This cannot be updated once the Managed Cluster has been created. stringOptional httpProxyConfig Configurations for provisioning the cluster with HTTP proxy servers. ManagedClusterHTTPProxyConfig_STATUSOptional id Fully qualified resource ID for the resource. E.g. “/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}” stringOptional identity The identity of the managed cluster, if configured. ManagedClusterIdentity_STATUSOptional identityProfile Identities associated with the cluster. map[string]UserAssignedIdentity_STATUSOptional kubernetesVersion Both patch version &lt;major.minor.patch&gt; (e.g. 1.20.13) and &lt;major.minor&gt; (e.g. 1.20) are supported. When &lt;major.minor&gt; is specified, the latest supported GA patch version is chosen automatically. Updating the cluster with the same &lt;major.minor&gt; once it has been created (e.g. 1.14.x -&gt; 1.14) will not trigger an upgrade, even if a newer patch version is available. When you upgrade a supported AKS cluster, Kubernetes minor versions cannot be skipped. All upgrades must be performed sequentially by major version number. For example, upgrades between 1.14.x -&gt; 1.15.x or 1.15.x -&gt; 1.16.x are allowed, however 1.14.x -&gt; 1.16.x is not allowed. See upgrading an AKS cluster for more details. stringOptional linuxProfile The profile for Linux VMs in the Managed Cluster. ContainerServiceLinuxProfile_STATUSOptional location The geo-location where the resource lives stringOptional maxAgentPools The max number of agent pools for the managed cluster. intOptional name The name of the resource stringOptional networkProfile The network configuration profile. ContainerServiceNetworkProfile_STATUSOptional nodeResourceGroup The name of the resource group containing agent pool nodes. stringOptional oidcIssuerProfile The OIDC issuer profile of the Managed Cluster. ManagedClusterOIDCIssuerProfile_STATUSOptional podIdentityProfile See use AAD pod identity for more details on AAD pod identity integration. ManagedClusterPodIdentityProfile_STATUSOptional powerState The Power State of the cluster. PowerState_STATUSOptional privateFQDN The FQDN of private cluster. stringOptional privateLinkResources Private link resources associated with the cluster. PrivateLinkResource_STATUS[]Optional provisioningState The current provisioning state. stringOptional publicNetworkAccess Allow or deny public network access for AKS ManagedClusterProperties_PublicNetworkAccess_STATUSOptional resourceUID The resourceUID uniquely identifies ManagedClusters that reuse ARM ResourceIds (i.e: create, delete, create sequence) stringOptional securityProfile Security profile for the managed cluster. ManagedClusterSecurityProfile_STATUSOptional serviceMeshProfile Service mesh profile for a managed cluster. ServiceMeshProfile_STATUSOptional servicePrincipalProfile Information about a service principal identity for the cluster to use for manipulating Azure APIs. ManagedClusterServicePrincipalProfile_STATUSOptional sku The managed cluster SKU. ManagedClusterSKU_STATUSOptional storageProfile Storage profile for the managed cluster. ManagedClusterStorageProfile_STATUSOptional supportPlan The support plan for the Managed Cluster. If unspecified, the default is ‘KubernetesOfficial’. KubernetesSupportPlan_STATUSOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional upgradeSettings Settings for upgrading a cluster. ClusterUpgradeSettings_STATUSOptional windowsProfile The profile for Windows VMs in the Managed Cluster. ManagedClusterWindowsProfile_STATUSOptional workloadAutoScalerProfile Workload Auto-scaler profile for the managed cluster. ManagedClusterWorkloadAutoScalerProfile_STATUSOptional ManagedClusterList Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-10-01/managedClusters.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerService/managedClusters/{resourceName}">
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_SpecOptional status ManagedCluster_STATUSOptional ManagedCluster_Spec Property Description Type aadProfile The Azure Active Directory configuration. ManagedClusterAADProfileOptional addonProfiles The profile of managed cluster add-on. map[string]ManagedClusterAddonProfileOptional agentPoolProfiles The agent pool properties. ManagedClusterAgentPoolProfile[]Optional apiServerAccessProfile The access profile for managed cluster API server. ManagedClusterAPIServerAccessProfileOptional autoScalerProfile Parameters to be applied to the cluster-autoscaler when enabled ManagedClusterProperties_AutoScalerProfileOptional autoUpgradeProfile The auto upgrade configuration. ManagedClusterAutoUpgradeProfileOptional azureMonitorProfile Azure Monitor addon profiles for monitoring the managed cluster. ManagedClusterAzureMonitorProfileOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional disableLocalAccounts If set to true, getting static credentials will be disabled for this cluster. This must only be used on Managed Clusters that are AAD enabled. For more details see disable local accounts. boolOptional diskEncryptionSetReference This is of the form: ‘/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​diskEncryptionSets/​{encryptionSetName}’ genruntime.ResourceReferenceOptional dnsPrefix This cannot be updated once the Managed Cluster has been created. stringOptional enablePodSecurityPolicy (DEPRECATED) Whether to enable Kubernetes pod security policy (preview). PodSecurityPolicy was deprecated in Kubernetes v1.21, and removed from Kubernetes in v1.25. Learn more at https://aka.ms/k8s/psp and https://aka.ms/aks/psp. boolOptional enableRBAC Whether to enable Kubernetes Role-Based Access Control. boolOptional extendedLocation The extended location of the Virtual Machine. ExtendedLocationOptional fqdnSubdomain This cannot be updated once the Managed Cluster has been created. stringOptional httpProxyConfig Configurations for provisioning the cluster with HTTP proxy servers. ManagedClusterHTTPProxyConfigOptional identity The identity of the managed cluster, if configured. ManagedClusterIdentityOptional identityProfile Identities associated with the cluster. map[string]UserAssignedIdentityOptional kubernetesVersion Both patch version &lt;major.minor.patch&gt; (e.g. 1.20.13) and &lt;major.minor&gt; (e.g. 1.20) are supported. When &lt;major.minor&gt; is specified, the latest supported GA patch version is chosen automatically. Updating the cluster with the same &lt;major.minor&gt; once it has been created (e.g. 1.14.x -&gt; 1.14) will not trigger an upgrade, even if a newer patch version is available. When you upgrade a supported AKS cluster, Kubernetes minor versions cannot be skipped. All upgrades must be performed sequentially by major version number. For example, upgrades between 1.14.x -&gt; 1.15.x or 1.15.x -&gt; 1.16.x are allowed, however 1.14.x -&gt; 1.16.x is not allowed. See upgrading an AKS cluster for more details. stringOptional linuxProfile The profile for Linux VMs in the Managed Cluster. ContainerServiceLinuxProfileOptional location The geo-location where the resource lives stringRequired networkProfile The network configuration profile. ContainerServiceNetworkProfileOptional nodeResourceGroup The name of the resource group containing agent pool nodes. stringOptional oidcIssuerProfile The OIDC issuer profile of the Managed Cluster. ManagedClusterOIDCIssuerProfileOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ManagedClusterOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired podIdentityProfile See use AAD pod identity for more details on AAD pod identity integration. ManagedClusterPodIdentityProfileOptional privateLinkResources Private link resources associated with the cluster. PrivateLinkResource[]Optional publicNetworkAccess Allow or deny public network access for AKS ManagedClusterProperties_PublicNetworkAccessOptional securityProfile Security profile for the managed cluster. ManagedClusterSecurityProfileOptional serviceMeshProfile Service mesh profile for a managed cluster. ServiceMeshProfileOptional servicePrincipalProfile Information about a service principal identity for the cluster to use for manipulating Azure APIs. ManagedClusterServicePrincipalProfileOptional sku The managed cluster SKU. ManagedClusterSKUOptional storageProfile Storage profile for the managed cluster. ManagedClusterStorageProfileOptional supportPlan The support plan for the Managed Cluster. If unspecified, the default is KubernetesOfficial. KubernetesSupportPlanOptional tags Resource tags. map[string]stringOptional upgradeSettings Settings for upgrading a cluster. ClusterUpgradeSettingsOptional windowsProfile The profile for Windows VMs in the Managed Cluster. ManagedClusterWindowsProfileOptional workloadAutoScalerProfile Workload Auto-scaler profile for the managed cluster. ManagedClusterWorkloadAutoScalerProfileOptional ManagedCluster_STATUS Property Description Type aadProfile The Azure Active Directory configuration. ManagedClusterAADProfile_STATUSOptional addonProfiles The profile of managed cluster add-on. map[string]ManagedClusterAddonProfile_STATUSOptional agentPoolProfiles The agent pool properties. ManagedClusterAgentPoolProfile_STATUS[]Optional apiServerAccessProfile The access profile for managed cluster API server. ManagedClusterAPIServerAccessProfile_STATUSOptional autoScalerProfile Parameters to be applied to the cluster-autoscaler when enabled ManagedClusterProperties_AutoScalerProfile_STATUSOptional autoUpgradeProfile The auto upgrade configuration. ManagedClusterAutoUpgradeProfile_STATUSOptional azureMonitorProfile Azure Monitor addon profiles for monitoring the managed cluster. ManagedClusterAzureMonitorProfile_STATUSOptional azurePortalFQDN The Azure Portal requires certain Cross-Origin Resource Sharing (CORS) headers to be sent in some responses, which Kubernetes APIServer doesn’t handle by default. This special FQDN supports CORS, allowing the Azure Portal to function properly. stringOptional conditions The observed state of the resource conditions.Condition[]Optional currentKubernetesVersion If kubernetesVersion was a fully specified version &lt;major.minor.patch&gt;, this field will be exactly equal to it. If kubernetesVersion was &lt;major.minor&gt;, this field will contain the full &lt;major.minor.patch&gt; version being used. stringOptional disableLocalAccounts If set to true, getting static credentials will be disabled for this cluster. This must only be used on Managed Clusters that are AAD enabled. For more details see disable local accounts. boolOptional diskEncryptionSetID This is of the form: ‘/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​diskEncryptionSets/​{encryptionSetName}’ stringOptional dnsPrefix This cannot be updated once the Managed Cluster has been created. stringOptional enablePodSecurityPolicy (DEPRECATED) Whether to enable Kubernetes pod security policy (preview). PodSecurityPolicy was deprecated in Kubernetes v1.21, and removed from Kubernetes in v1.25. Learn more at https://aka.ms/k8s/psp and https://aka.ms/aks/psp. boolOptional enableRBAC Whether to enable Kubernetes Role-Based Access Control. boolOptional extendedLocation The extended location of the Virtual Machine. ExtendedLocation_STATUSOptional fqdn The FQDN of the master pool. stringOptional fqdnSubdomain This cannot be updated once the Managed Cluster has been created. stringOptional httpProxyConfig Configurations for provisioning the cluster with HTTP proxy servers. ManagedClusterHTTPProxyConfig_STATUSOptional id Fully qualified resource ID for the resource. E.g. “/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}” stringOptional identity The identity of the managed cluster, if configured. ManagedClusterIdentity_STATUSOptional identityProfile Identities associated with the cluster. map[string]UserAssignedIdentity_STATUSOptional kubernetesVersion Both patch version &lt;major.minor.patch&gt; (e.g. 1.20.13) and &lt;major.minor&gt; (e.g. 1.20) are supported. When &lt;major.minor&gt; is specified, the latest supported GA patch version is chosen automatically. Updating the cluster with the same &lt;major.minor&gt; once it has been created (e.g. 1.14.x -&gt; 1.14) will not trigger an upgrade, even if a newer patch version is available. When you upgrade a supported AKS cluster, Kubernetes minor versions cannot be skipped. All upgrades must be performed sequentially by major version number. For example, upgrades between 1.14.x -&gt; 1.15.x or 1.15.x -&gt; 1.16.x are allowed, however 1.14.x -&gt; 1.16.x is not allowed. See upgrading an AKS cluster for more details. stringOptional linuxProfile The profile for Linux VMs in the Managed Cluster. ContainerServiceLinuxProfile_STATUSOptional location The geo-location where the resource lives stringOptional maxAgentPools The max number of agent pools for the managed cluster. intOptional name The name of the resource stringOptional networkProfile The network configuration profile. ContainerServiceNetworkProfile_STATUSOptional nodeResourceGroup The name of the resource group containing agent pool nodes. stringOptional oidcIssuerProfile The OIDC issuer profile of the Managed Cluster. ManagedClusterOIDCIssuerProfile_STATUSOptional podIdentityProfile See use AAD pod identity for more details on AAD pod identity integration. ManagedClusterPodIdentityProfile_STATUSOptional powerState The Power State of the cluster. PowerState_STATUSOptional privateFQDN The FQDN of private cluster. stringOptional privateLinkResources Private link resources associated with the cluster. PrivateLinkResource_STATUS[]Optional provisioningState The current provisioning state. stringOptional publicNetworkAccess Allow or deny public network access for AKS ManagedClusterProperties_PublicNetworkAccess_STATUSOptional resourceUID The resourceUID uniquely identifies ManagedClusters that reuse ARM ResourceIds (i.e: create, delete, create sequence) stringOptional securityProfile Security profile for the managed cluster. ManagedClusterSecurityProfile_STATUSOptional serviceMeshProfile Service mesh profile for a managed cluster. ServiceMeshProfile_STATUSOptional servicePrincipalProfile Information about a service principal identity for the cluster to use for manipulating Azure APIs. ManagedClusterServicePrincipalProfile_STATUSOptional sku The managed cluster SKU. ManagedClusterSKU_STATUSOptional storageProfile Storage profile for the managed cluster. ManagedClusterStorageProfile_STATUSOptional supportPlan The support plan for the Managed Cluster. If unspecified, the default is KubernetesOfficial. KubernetesSupportPlan_STATUSOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional upgradeSettings Settings for upgrading a cluster. ClusterUpgradeSettings_STATUSOptional windowsProfile The profile for Windows VMs in the Managed Cluster. ManagedClusterWindowsProfile_STATUSOptional workloadAutoScalerProfile Workload Auto-scaler profile for the managed cluster. ManagedClusterWorkloadAutoScalerProfile_STATUSOptional ManagedClusterList Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-10-01/managedClusters.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerService/​managedClusters/​{resourceName}">
   <meta itemprop="wordCount" content="19043">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="containerservice.azure.com/v1api20231001">
-  <meta name="twitter:description" content="APIVersion Value Description “2023-10-01” ManagedCluster Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-10-01/managedClusters.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerService/managedClusters/{resourceName}
+  <meta name="twitter:description" content="APIVersion Value Description “2023-10-01” ManagedCluster Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-10-01/managedClusters.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerService/​managedClusters/​{resourceName}
 Used by: ManagedClusterList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_SpecOptional status ManagedCluster_STATUSOptional ManagedCluster_Spec Property Description Type aadProfile The Azure Active Directory configuration. ManagedClusterAADProfileOptional addonProfiles The profile of managed cluster add-on. map[string]ManagedClusterAddonProfileOptional agentPoolProfiles The agent pool properties. ManagedClusterAgentPoolProfile[]Optional apiServerAccessProfile The access profile for managed cluster API server. ManagedClusterAPIServerAccessProfileOptional autoScalerProfile Parameters to be applied to the cluster-autoscaler when enabled ManagedClusterProperties_AutoScalerProfileOptional autoUpgradeProfile The auto upgrade configuration. ManagedClusterAutoUpgradeProfileOptional azureMonitorProfile Azure Monitor addon profiles for monitoring the managed cluster. ManagedClusterAzureMonitorProfileOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional disableLocalAccounts If set to true, getting static credentials will be disabled for this cluster. This must only be used on Managed Clusters that are AAD enabled. For more details see disable local accounts. boolOptional diskEncryptionSetReference This is of the form: ‘/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/diskEncryptionSets/{encryptionSetName}’ genruntime.ResourceReferenceOptional dnsPrefix This cannot be updated once the Managed Cluster has been created. stringOptional enablePodSecurityPolicy (DEPRECATED) Whether to enable Kubernetes pod security policy (preview). PodSecurityPolicy was deprecated in Kubernetes v1.21, and removed from Kubernetes in v1.25. Learn more at https://aka.ms/k8s/psp and https://aka.ms/aks/psp. boolOptional enableRBAC Whether to enable Kubernetes Role-Based Access Control. boolOptional extendedLocation The extended location of the Virtual Machine. ExtendedLocationOptional fqdnSubdomain This cannot be updated once the Managed Cluster has been created. stringOptional httpProxyConfig Configurations for provisioning the cluster with HTTP proxy servers. ManagedClusterHTTPProxyConfigOptional identity The identity of the managed cluster, if configured. ManagedClusterIdentityOptional identityProfile Identities associated with the cluster. map[string]UserAssignedIdentityOptional kubernetesVersion Both patch version &lt;major.minor.patch&gt; (e.g. 1.20.13) and &lt;major.minor&gt; (e.g. 1.20) are supported. When &lt;major.minor&gt; is specified, the latest supported GA patch version is chosen automatically. Updating the cluster with the same &lt;major.minor&gt; once it has been created (e.g. 1.14.x -&gt; 1.14) will not trigger an upgrade, even if a newer patch version is available. When you upgrade a supported AKS cluster, Kubernetes minor versions cannot be skipped. All upgrades must be performed sequentially by major version number. For example, upgrades between 1.14.x -&gt; 1.15.x or 1.15.x -&gt; 1.16.x are allowed, however 1.14.x -&gt; 1.16.x is not allowed. See upgrading an AKS cluster for more details. stringOptional linuxProfile The profile for Linux VMs in the Managed Cluster. ContainerServiceLinuxProfileOptional location The geo-location where the resource lives stringRequired networkProfile The network configuration profile. ContainerServiceNetworkProfileOptional nodeResourceGroup The name of the resource group containing agent pool nodes. stringOptional oidcIssuerProfile The OIDC issuer profile of the Managed Cluster. ManagedClusterOIDCIssuerProfileOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ManagedClusterOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired podIdentityProfile See use AAD pod identity for more details on AAD pod identity integration. ManagedClusterPodIdentityProfileOptional privateLinkResources Private link resources associated with the cluster. PrivateLinkResource[]Optional publicNetworkAccess Allow or deny public network access for AKS ManagedClusterProperties_PublicNetworkAccessOptional securityProfile Security profile for the managed cluster. ManagedClusterSecurityProfileOptional serviceMeshProfile Service mesh profile for a managed cluster. ServiceMeshProfileOptional servicePrincipalProfile Information about a service principal identity for the cluster to use for manipulating Azure APIs. ManagedClusterServicePrincipalProfileOptional sku The managed cluster SKU. ManagedClusterSKUOptional storageProfile Storage profile for the managed cluster. ManagedClusterStorageProfileOptional supportPlan The support plan for the Managed Cluster. If unspecified, the default is ‘KubernetesOfficial’. KubernetesSupportPlanOptional tags Resource tags. map[string]stringOptional upgradeSettings Settings for upgrading a cluster. ClusterUpgradeSettingsOptional windowsProfile The profile for Windows VMs in the Managed Cluster. ManagedClusterWindowsProfileOptional workloadAutoScalerProfile Workload Auto-scaler profile for the managed cluster. ManagedClusterWorkloadAutoScalerProfileOptional ManagedCluster_STATUS Property Description Type aadProfile The Azure Active Directory configuration. ManagedClusterAADProfile_STATUSOptional addonProfiles The profile of managed cluster add-on. map[string]ManagedClusterAddonProfile_STATUSOptional agentPoolProfiles The agent pool properties. ManagedClusterAgentPoolProfile_STATUS[]Optional apiServerAccessProfile The access profile for managed cluster API server. ManagedClusterAPIServerAccessProfile_STATUSOptional autoScalerProfile Parameters to be applied to the cluster-autoscaler when enabled ManagedClusterProperties_AutoScalerProfile_STATUSOptional autoUpgradeProfile The auto upgrade configuration. ManagedClusterAutoUpgradeProfile_STATUSOptional azureMonitorProfile Azure Monitor addon profiles for monitoring the managed cluster. ManagedClusterAzureMonitorProfile_STATUSOptional azurePortalFQDN The Azure Portal requires certain Cross-Origin Resource Sharing (CORS) headers to be sent in some responses, which Kubernetes APIServer doesn’t handle by default. This special FQDN supports CORS, allowing the Azure Portal to function properly. stringOptional conditions The observed state of the resource conditions.Condition[]Optional currentKubernetesVersion If kubernetesVersion was a fully specified version &lt;major.minor.patch&gt;, this field will be exactly equal to it. If kubernetesVersion was &lt;major.minor&gt;, this field will contain the full &lt;major.minor.patch&gt; version being used. stringOptional disableLocalAccounts If set to true, getting static credentials will be disabled for this cluster. This must only be used on Managed Clusters that are AAD enabled. For more details see disable local accounts. boolOptional diskEncryptionSetID This is of the form: ‘/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/diskEncryptionSets/{encryptionSetName}’ stringOptional dnsPrefix This cannot be updated once the Managed Cluster has been created. stringOptional enablePodSecurityPolicy (DEPRECATED) Whether to enable Kubernetes pod security policy (preview). PodSecurityPolicy was deprecated in Kubernetes v1.21, and removed from Kubernetes in v1.25. Learn more at https://aka.ms/k8s/psp and https://aka.ms/aks/psp. boolOptional enableRBAC Whether to enable Kubernetes Role-Based Access Control. boolOptional extendedLocation The extended location of the Virtual Machine. ExtendedLocation_STATUSOptional fqdn The FQDN of the master pool. stringOptional fqdnSubdomain This cannot be updated once the Managed Cluster has been created. stringOptional httpProxyConfig Configurations for provisioning the cluster with HTTP proxy servers. ManagedClusterHTTPProxyConfig_STATUSOptional id Fully qualified resource ID for the resource. E.g. “/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}” stringOptional identity The identity of the managed cluster, if configured. ManagedClusterIdentity_STATUSOptional identityProfile Identities associated with the cluster. map[string]UserAssignedIdentity_STATUSOptional kubernetesVersion Both patch version &lt;major.minor.patch&gt; (e.g. 1.20.13) and &lt;major.minor&gt; (e.g. 1.20) are supported. When &lt;major.minor&gt; is specified, the latest supported GA patch version is chosen automatically. Updating the cluster with the same &lt;major.minor&gt; once it has been created (e.g. 1.14.x -&gt; 1.14) will not trigger an upgrade, even if a newer patch version is available. When you upgrade a supported AKS cluster, Kubernetes minor versions cannot be skipped. All upgrades must be performed sequentially by major version number. For example, upgrades between 1.14.x -&gt; 1.15.x or 1.15.x -&gt; 1.16.x are allowed, however 1.14.x -&gt; 1.16.x is not allowed. See upgrading an AKS cluster for more details. stringOptional linuxProfile The profile for Linux VMs in the Managed Cluster. ContainerServiceLinuxProfile_STATUSOptional location The geo-location where the resource lives stringOptional maxAgentPools The max number of agent pools for the managed cluster. intOptional name The name of the resource stringOptional networkProfile The network configuration profile. ContainerServiceNetworkProfile_STATUSOptional nodeResourceGroup The name of the resource group containing agent pool nodes. stringOptional oidcIssuerProfile The OIDC issuer profile of the Managed Cluster. ManagedClusterOIDCIssuerProfile_STATUSOptional podIdentityProfile See use AAD pod identity for more details on AAD pod identity integration. ManagedClusterPodIdentityProfile_STATUSOptional powerState The Power State of the cluster. PowerState_STATUSOptional privateFQDN The FQDN of private cluster. stringOptional privateLinkResources Private link resources associated with the cluster. PrivateLinkResource_STATUS[]Optional provisioningState The current provisioning state. stringOptional publicNetworkAccess Allow or deny public network access for AKS ManagedClusterProperties_PublicNetworkAccess_STATUSOptional resourceUID The resourceUID uniquely identifies ManagedClusters that reuse ARM ResourceIds (i.e: create, delete, create sequence) stringOptional securityProfile Security profile for the managed cluster. ManagedClusterSecurityProfile_STATUSOptional serviceMeshProfile Service mesh profile for a managed cluster. ServiceMeshProfile_STATUSOptional servicePrincipalProfile Information about a service principal identity for the cluster to use for manipulating Azure APIs. ManagedClusterServicePrincipalProfile_STATUSOptional sku The managed cluster SKU. ManagedClusterSKU_STATUSOptional storageProfile Storage profile for the managed cluster. ManagedClusterStorageProfile_STATUSOptional supportPlan The support plan for the Managed Cluster. If unspecified, the default is ‘KubernetesOfficial’. KubernetesSupportPlan_STATUSOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional upgradeSettings Settings for upgrading a cluster. ClusterUpgradeSettings_STATUSOptional windowsProfile The profile for Windows VMs in the Managed Cluster. ManagedClusterWindowsProfile_STATUSOptional workloadAutoScalerProfile Workload Auto-scaler profile for the managed cluster. ManagedClusterWorkloadAutoScalerProfile_STATUSOptional ManagedClusterList Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-10-01/managedClusters.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerService/managedClusters/{resourceName}">
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_SpecOptional status ManagedCluster_STATUSOptional ManagedCluster_Spec Property Description Type aadProfile The Azure Active Directory configuration. ManagedClusterAADProfileOptional addonProfiles The profile of managed cluster add-on. map[string]ManagedClusterAddonProfileOptional agentPoolProfiles The agent pool properties. ManagedClusterAgentPoolProfile[]Optional apiServerAccessProfile The access profile for managed cluster API server. ManagedClusterAPIServerAccessProfileOptional autoScalerProfile Parameters to be applied to the cluster-autoscaler when enabled ManagedClusterProperties_AutoScalerProfileOptional autoUpgradeProfile The auto upgrade configuration. ManagedClusterAutoUpgradeProfileOptional azureMonitorProfile Azure Monitor addon profiles for monitoring the managed cluster. ManagedClusterAzureMonitorProfileOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional disableLocalAccounts If set to true, getting static credentials will be disabled for this cluster. This must only be used on Managed Clusters that are AAD enabled. For more details see disable local accounts. boolOptional diskEncryptionSetReference This is of the form: ‘/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​diskEncryptionSets/​{encryptionSetName}’ genruntime.ResourceReferenceOptional dnsPrefix This cannot be updated once the Managed Cluster has been created. stringOptional enablePodSecurityPolicy (DEPRECATED) Whether to enable Kubernetes pod security policy (preview). PodSecurityPolicy was deprecated in Kubernetes v1.21, and removed from Kubernetes in v1.25. Learn more at https://aka.ms/k8s/psp and https://aka.ms/aks/psp. boolOptional enableRBAC Whether to enable Kubernetes Role-Based Access Control. boolOptional extendedLocation The extended location of the Virtual Machine. ExtendedLocationOptional fqdnSubdomain This cannot be updated once the Managed Cluster has been created. stringOptional httpProxyConfig Configurations for provisioning the cluster with HTTP proxy servers. ManagedClusterHTTPProxyConfigOptional identity The identity of the managed cluster, if configured. ManagedClusterIdentityOptional identityProfile Identities associated with the cluster. map[string]UserAssignedIdentityOptional kubernetesVersion Both patch version &lt;major.minor.patch&gt; (e.g. 1.20.13) and &lt;major.minor&gt; (e.g. 1.20) are supported. When &lt;major.minor&gt; is specified, the latest supported GA patch version is chosen automatically. Updating the cluster with the same &lt;major.minor&gt; once it has been created (e.g. 1.14.x -&gt; 1.14) will not trigger an upgrade, even if a newer patch version is available. When you upgrade a supported AKS cluster, Kubernetes minor versions cannot be skipped. All upgrades must be performed sequentially by major version number. For example, upgrades between 1.14.x -&gt; 1.15.x or 1.15.x -&gt; 1.16.x are allowed, however 1.14.x -&gt; 1.16.x is not allowed. See upgrading an AKS cluster for more details. stringOptional linuxProfile The profile for Linux VMs in the Managed Cluster. ContainerServiceLinuxProfileOptional location The geo-location where the resource lives stringRequired networkProfile The network configuration profile. ContainerServiceNetworkProfileOptional nodeResourceGroup The name of the resource group containing agent pool nodes. stringOptional oidcIssuerProfile The OIDC issuer profile of the Managed Cluster. ManagedClusterOIDCIssuerProfileOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ManagedClusterOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired podIdentityProfile See use AAD pod identity for more details on AAD pod identity integration. ManagedClusterPodIdentityProfileOptional privateLinkResources Private link resources associated with the cluster. PrivateLinkResource[]Optional publicNetworkAccess Allow or deny public network access for AKS ManagedClusterProperties_PublicNetworkAccessOptional securityProfile Security profile for the managed cluster. ManagedClusterSecurityProfileOptional serviceMeshProfile Service mesh profile for a managed cluster. ServiceMeshProfileOptional servicePrincipalProfile Information about a service principal identity for the cluster to use for manipulating Azure APIs. ManagedClusterServicePrincipalProfileOptional sku The managed cluster SKU. ManagedClusterSKUOptional storageProfile Storage profile for the managed cluster. ManagedClusterStorageProfileOptional supportPlan The support plan for the Managed Cluster. If unspecified, the default is KubernetesOfficial. KubernetesSupportPlanOptional tags Resource tags. map[string]stringOptional upgradeSettings Settings for upgrading a cluster. ClusterUpgradeSettingsOptional windowsProfile The profile for Windows VMs in the Managed Cluster. ManagedClusterWindowsProfileOptional workloadAutoScalerProfile Workload Auto-scaler profile for the managed cluster. ManagedClusterWorkloadAutoScalerProfileOptional ManagedCluster_STATUS Property Description Type aadProfile The Azure Active Directory configuration. ManagedClusterAADProfile_STATUSOptional addonProfiles The profile of managed cluster add-on. map[string]ManagedClusterAddonProfile_STATUSOptional agentPoolProfiles The agent pool properties. ManagedClusterAgentPoolProfile_STATUS[]Optional apiServerAccessProfile The access profile for managed cluster API server. ManagedClusterAPIServerAccessProfile_STATUSOptional autoScalerProfile Parameters to be applied to the cluster-autoscaler when enabled ManagedClusterProperties_AutoScalerProfile_STATUSOptional autoUpgradeProfile The auto upgrade configuration. ManagedClusterAutoUpgradeProfile_STATUSOptional azureMonitorProfile Azure Monitor addon profiles for monitoring the managed cluster. ManagedClusterAzureMonitorProfile_STATUSOptional azurePortalFQDN The Azure Portal requires certain Cross-Origin Resource Sharing (CORS) headers to be sent in some responses, which Kubernetes APIServer doesn’t handle by default. This special FQDN supports CORS, allowing the Azure Portal to function properly. stringOptional conditions The observed state of the resource conditions.Condition[]Optional currentKubernetesVersion If kubernetesVersion was a fully specified version &lt;major.minor.patch&gt;, this field will be exactly equal to it. If kubernetesVersion was &lt;major.minor&gt;, this field will contain the full &lt;major.minor.patch&gt; version being used. stringOptional disableLocalAccounts If set to true, getting static credentials will be disabled for this cluster. This must only be used on Managed Clusters that are AAD enabled. For more details see disable local accounts. boolOptional diskEncryptionSetID This is of the form: ‘/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​diskEncryptionSets/​{encryptionSetName}’ stringOptional dnsPrefix This cannot be updated once the Managed Cluster has been created. stringOptional enablePodSecurityPolicy (DEPRECATED) Whether to enable Kubernetes pod security policy (preview). PodSecurityPolicy was deprecated in Kubernetes v1.21, and removed from Kubernetes in v1.25. Learn more at https://aka.ms/k8s/psp and https://aka.ms/aks/psp. boolOptional enableRBAC Whether to enable Kubernetes Role-Based Access Control. boolOptional extendedLocation The extended location of the Virtual Machine. ExtendedLocation_STATUSOptional fqdn The FQDN of the master pool. stringOptional fqdnSubdomain This cannot be updated once the Managed Cluster has been created. stringOptional httpProxyConfig Configurations for provisioning the cluster with HTTP proxy servers. ManagedClusterHTTPProxyConfig_STATUSOptional id Fully qualified resource ID for the resource. E.g. “/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}” stringOptional identity The identity of the managed cluster, if configured. ManagedClusterIdentity_STATUSOptional identityProfile Identities associated with the cluster. map[string]UserAssignedIdentity_STATUSOptional kubernetesVersion Both patch version &lt;major.minor.patch&gt; (e.g. 1.20.13) and &lt;major.minor&gt; (e.g. 1.20) are supported. When &lt;major.minor&gt; is specified, the latest supported GA patch version is chosen automatically. Updating the cluster with the same &lt;major.minor&gt; once it has been created (e.g. 1.14.x -&gt; 1.14) will not trigger an upgrade, even if a newer patch version is available. When you upgrade a supported AKS cluster, Kubernetes minor versions cannot be skipped. All upgrades must be performed sequentially by major version number. For example, upgrades between 1.14.x -&gt; 1.15.x or 1.15.x -&gt; 1.16.x are allowed, however 1.14.x -&gt; 1.16.x is not allowed. See upgrading an AKS cluster for more details. stringOptional linuxProfile The profile for Linux VMs in the Managed Cluster. ContainerServiceLinuxProfile_STATUSOptional location The geo-location where the resource lives stringOptional maxAgentPools The max number of agent pools for the managed cluster. intOptional name The name of the resource stringOptional networkProfile The network configuration profile. ContainerServiceNetworkProfile_STATUSOptional nodeResourceGroup The name of the resource group containing agent pool nodes. stringOptional oidcIssuerProfile The OIDC issuer profile of the Managed Cluster. ManagedClusterOIDCIssuerProfile_STATUSOptional podIdentityProfile See use AAD pod identity for more details on AAD pod identity integration. ManagedClusterPodIdentityProfile_STATUSOptional powerState The Power State of the cluster. PowerState_STATUSOptional privateFQDN The FQDN of private cluster. stringOptional privateLinkResources Private link resources associated with the cluster. PrivateLinkResource_STATUS[]Optional provisioningState The current provisioning state. stringOptional publicNetworkAccess Allow or deny public network access for AKS ManagedClusterProperties_PublicNetworkAccess_STATUSOptional resourceUID The resourceUID uniquely identifies ManagedClusters that reuse ARM ResourceIds (i.e: create, delete, create sequence) stringOptional securityProfile Security profile for the managed cluster. ManagedClusterSecurityProfile_STATUSOptional serviceMeshProfile Service mesh profile for a managed cluster. ServiceMeshProfile_STATUSOptional servicePrincipalProfile Information about a service principal identity for the cluster to use for manipulating Azure APIs. ManagedClusterServicePrincipalProfile_STATUSOptional sku The managed cluster SKU. ManagedClusterSKU_STATUSOptional storageProfile Storage profile for the managed cluster. ManagedClusterStorageProfile_STATUSOptional supportPlan The support plan for the Managed Cluster. If unspecified, the default is KubernetesOfficial. KubernetesSupportPlan_STATUSOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional upgradeSettings Settings for upgrading a cluster. ClusterUpgradeSettings_STATUSOptional windowsProfile The profile for Windows VMs in the Managed Cluster. ManagedClusterWindowsProfile_STATUSOptional workloadAutoScalerProfile Workload Auto-scaler profile for the managed cluster. ManagedClusterWorkloadAutoScalerProfile_STATUSOptional ManagedClusterList Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-10-01/managedClusters.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerService/​managedClusters/​{resourceName}">
 <link rel="preload" href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" as="style" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" rel="stylesheet" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <script
@@ -1099,7 +1099,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
   </tbody>
 </table>
 <h2 id="ManagedCluster">ManagedCluster</h2>
-<p>Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-10-01/managedClusters.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerService/managedClusters/{resourceName}</p>
+<p>Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-10-01/managedClusters.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerService/​managedClusters/​{resourceName}</p>
 <p>Used by: <a href="#ManagedClusterList">ManagedClusterList</a>.</p>
 <table>
   <thead>
@@ -1189,7 +1189,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>diskEncryptionSetReference</td>
-          <td>This is of the form: &lsquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/diskEncryptionSets/{encryptionSetName}&rsquo;</td>
+          <td>This is of the form: &lsquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​diskEncryptionSets/​{encryptionSetName}&rsquo;</td>
           <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1314,7 +1314,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>supportPlan</td>
-          <td>The support plan for the Managed Cluster. If unspecified, the default is &lsquo;KubernetesOfficial&rsquo;.</td>
+          <td>The support plan for the Managed Cluster. If unspecified, the default is <code>KubernetesOfficial</code>.</td>
           <td><a href="#KubernetesSupportPlan">KubernetesSupportPlan</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1406,7 +1406,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>diskEncryptionSetID</td>
-          <td>This is of the form: &lsquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/diskEncryptionSets/{encryptionSetName}&rsquo;</td>
+          <td>This is of the form: &lsquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​diskEncryptionSets/​{encryptionSetName}&rsquo;</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1561,7 +1561,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>supportPlan</td>
-          <td>The support plan for the Managed Cluster. If unspecified, the default is &lsquo;KubernetesOfficial&rsquo;.</td>
+          <td>The support plan for the Managed Cluster. If unspecified, the default is <code>KubernetesOfficial</code>.</td>
           <td><a href="#KubernetesSupportPlan_STATUS">KubernetesSupportPlan_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1597,7 +1597,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
   </tbody>
 </table>
 <h2 id="ManagedClusterList">ManagedClusterList</h2>
-<p>Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-10-01/managedClusters.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerService/managedClusters/{resourceName}</p>
+<p>Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-10-01/managedClusters.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerService/​managedClusters/​{resourceName}</p>
 <table>
   <thead>
       <tr>
@@ -1625,7 +1625,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
   </tbody>
 </table>
 <h2 id="ManagedClustersAgentPool">ManagedClustersAgentPool</h2>
-<p>Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-10-01/managedClusters.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}</p>
+<p>Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-10-01/managedClusters.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerService/​managedClusters/​{resourceName}/​agentPools/​{agentPoolName}</p>
 <p>Used by: <a href="#ManagedClustersAgentPoolList">ManagedClustersAgentPoolList</a>.</p>
 <table>
   <thead>
@@ -1670,7 +1670,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
   <tbody>
       <tr>
           <td>availabilityZones</td>
-          <td>The list of Availability zones to use for nodes. This can only be specified if the AgentPoolType property is &lsquo;VirtualMachineScaleSets&rsquo;.</td>
+          <td>The list of Availability zones to use for nodes. This can only be specified if the AgentPoolType property is <code>VirtualMachineScaleSets</code>.</td>
           <td>string[]<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1725,7 +1725,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>hostGroupReference</td>
-          <td>This is of the form: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/hostGroups/{hostGroupName}. For more information see <a href="https://docs.microsoft.com/azure/virtual-machines/dedicated-hosts">Azure dedicated hosts</a>.</td>
+          <td>This is of the form: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​hostGroups/​{hostGroupName}. For more information see <a href="https://docs.microsoft.com/azure/virtual-machines/dedicated-hosts">Azure dedicated hosts</a>.</td>
           <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1760,7 +1760,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>mode</td>
-          <td>A cluster must have at least one &lsquo;System&rsquo; Agent Pool at all times. For additional information on agent pool restrictions and best practices, see: <a href="https://docs.microsoft.com/azure/aks/use-system-pools">https://docs.microsoft.com/azure/aks/use-system-pools</a></td>
+          <td>A cluster must have at least one <code>System</code> Agent Pool at all times. For additional information on agent pool restrictions and best practices, see: <a href="https://docs.microsoft.com/azure/aks/use-system-pools">https://docs.microsoft.com/azure/aks/use-system-pools</a></td>
           <td><a href="#AgentPoolMode">AgentPoolMode</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1775,7 +1775,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>nodePublicIPPrefixReference</td>
-          <td>This is of the form: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/publicIPPrefixes/{publicIPPrefixName}</td>
+          <td>This is of the form: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​publicIPPrefixes/​{publicIPPrefixName}</td>
           <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1800,7 +1800,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>osDiskType</td>
-          <td>The default is &lsquo;Ephemeral&rsquo; if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to &lsquo;Managed&rsquo;. May not be changed after creation. For more information see <a href="https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os">Ephemeral OS</a>.</td>
+          <td>The default is <code>Ephemeral</code> if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to <code>Managed</code>. May not be changed after creation. For more information see <a href="https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os">Ephemeral OS</a>.</td>
           <td><a href="#OSDiskType">OSDiskType</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1820,7 +1820,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>podSubnetReference</td>
-          <td>If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of the form: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}</td>
+          <td>If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of the form: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​virtualNetworks/​{virtualNetworkName}/​subnets/​{subnetName}</td>
           <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1840,12 +1840,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>scaleSetEvictionPolicy</td>
-          <td>This cannot be specified unless the scaleSetPriority is &lsquo;Spot&rsquo;. If not specified, the default is &lsquo;Delete&rsquo;.</td>
+          <td>This cannot be specified unless the scaleSetPriority is <code>Spot</code>. If not specified, the default is <code>Delete</code>.</td>
           <td><a href="#ScaleSetEvictionPolicy">ScaleSetEvictionPolicy</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>scaleSetPriority</td>
-          <td>The Virtual Machine Scale Set priority. If not specified, the default is &lsquo;Regular&rsquo;.</td>
+          <td>The Virtual Machine Scale Set priority. If not specified, the default is <code>Regular</code>.</td>
           <td><a href="#ScaleSetPriority">ScaleSetPriority</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1875,7 +1875,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>vnetSubnetReference</td>
-          <td>If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}</td>
+          <td>If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​virtualNetworks/​{virtualNetworkName}/​subnets/​{subnetName}</td>
           <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1897,7 +1897,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
   <tbody>
       <tr>
           <td>availabilityZones</td>
-          <td>The list of Availability zones to use for nodes. This can only be specified if the AgentPoolType property is &lsquo;VirtualMachineScaleSets&rsquo;.</td>
+          <td>The list of Availability zones to use for nodes. This can only be specified if the AgentPoolType property is <code>VirtualMachineScaleSets</code>.</td>
           <td>string[]<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1957,7 +1957,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>hostGroupID</td>
-          <td>This is of the form: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/hostGroups/{hostGroupName}. For more information see <a href="https://docs.microsoft.com/azure/virtual-machines/dedicated-hosts">Azure dedicated hosts</a>.</td>
+          <td>This is of the form: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​hostGroups/​{hostGroupName}. For more information see <a href="https://docs.microsoft.com/azure/virtual-machines/dedicated-hosts">Azure dedicated hosts</a>.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1997,7 +1997,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>mode</td>
-          <td>A cluster must have at least one &lsquo;System&rsquo; Agent Pool at all times. For additional information on agent pool restrictions and best practices, see: <a href="https://docs.microsoft.com/azure/aks/use-system-pools">https://docs.microsoft.com/azure/aks/use-system-pools</a></td>
+          <td>A cluster must have at least one <code>System</code> Agent Pool at all times. For additional information on agent pool restrictions and best practices, see: <a href="https://docs.microsoft.com/azure/aks/use-system-pools">https://docs.microsoft.com/azure/aks/use-system-pools</a></td>
           <td><a href="#AgentPoolMode_STATUS">AgentPoolMode_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -2022,7 +2022,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>nodePublicIPPrefixID</td>
-          <td>This is of the form: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/publicIPPrefixes/{publicIPPrefixName}</td>
+          <td>This is of the form: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​publicIPPrefixes/​{publicIPPrefixName}</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -2042,7 +2042,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>osDiskType</td>
-          <td>The default is &lsquo;Ephemeral&rsquo; if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to &lsquo;Managed&rsquo;. May not be changed after creation. For more information see <a href="https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os">Ephemeral OS</a>.</td>
+          <td>The default is <code>Ephemeral</code> if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to <code>Managed</code>. May not be changed after creation. For more information see <a href="https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os">Ephemeral OS</a>.</td>
           <td><a href="#OSDiskType_STATUS">OSDiskType_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -2057,7 +2057,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>podSubnetID</td>
-          <td>If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of the form: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}</td>
+          <td>If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of the form: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​virtualNetworks/​{virtualNetworkName}/​subnets/​{subnetName}</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -2087,12 +2087,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>scaleSetEvictionPolicy</td>
-          <td>This cannot be specified unless the scaleSetPriority is &lsquo;Spot&rsquo;. If not specified, the default is &lsquo;Delete&rsquo;.</td>
+          <td>This cannot be specified unless the scaleSetPriority is <code>Spot</code>. If not specified, the default is <code>Delete</code>.</td>
           <td><a href="#ScaleSetEvictionPolicy_STATUS">ScaleSetEvictionPolicy_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>scaleSetPriority</td>
-          <td>The Virtual Machine Scale Set priority. If not specified, the default is &lsquo;Regular&rsquo;.</td>
+          <td>The Virtual Machine Scale Set priority. If not specified, the default is <code>Regular</code>.</td>
           <td><a href="#ScaleSetPriority_STATUS">ScaleSetPriority_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -2122,7 +2122,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>vnetSubnetID</td>
-          <td>If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}</td>
+          <td>If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​virtualNetworks/​{virtualNetworkName}/​subnets/​{subnetName}</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -2133,7 +2133,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
   </tbody>
 </table>
 <h2 id="ManagedClustersAgentPoolList">ManagedClustersAgentPoolList</h2>
-<p>Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-10-01/managedClusters.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}</p>
+<p>Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-10-01/managedClusters.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerService/​managedClusters/​{resourceName}/​agentPools/​{agentPoolName}</p>
 <table>
   <thead>
       <tr>
@@ -2161,7 +2161,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
   </tbody>
 </table>
 <h2 id="TrustedAccessRoleBinding">TrustedAccessRoleBinding</h2>
-<p>Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-10-01/managedClusters.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerService/managedClusters/{resourceName}/trustedAccessRoleBindings/{trustedAccessRoleBindingName}</p>
+<p>Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-10-01/managedClusters.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerService/​managedClusters/​{resourceName}/​trustedAccessRoleBindings/​{trustedAccessRoleBindingName}</p>
 <p>Used by: <a href="#TrustedAccessRoleBindingList">TrustedAccessRoleBindingList</a>.</p>
 <table>
   <thead>
@@ -2284,7 +2284,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
   </tbody>
 </table>
 <h2 id="TrustedAccessRoleBindingList">TrustedAccessRoleBindingList</h2>
-<p>Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-10-01/managedClusters.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerService/managedClusters/{resourceName}/trustedAccessRoleBindings/{trustedAccessRoleBindingName}</p>
+<p>Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-10-01/managedClusters.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerService/​managedClusters/​{resourceName}/​trustedAccessRoleBindings/​{trustedAccessRoleBindingName}</p>
 <table>
   <thead>
       <tr>
@@ -2369,7 +2369,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>diskEncryptionSetReference</td>
-          <td>This is of the form: &lsquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/diskEncryptionSets/{encryptionSetName}&rsquo;</td>
+          <td>This is of the form: &lsquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​diskEncryptionSets/​{encryptionSetName}&rsquo;</td>
           <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -2494,7 +2494,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>supportPlan</td>
-          <td>The support plan for the Managed Cluster. If unspecified, the default is &lsquo;KubernetesOfficial&rsquo;.</td>
+          <td>The support plan for the Managed Cluster. If unspecified, the default is <code>KubernetesOfficial</code>.</td>
           <td><a href="#KubernetesSupportPlan">KubernetesSupportPlan</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -2588,7 +2588,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>diskEncryptionSetID</td>
-          <td>This is of the form: &lsquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/diskEncryptionSets/{encryptionSetName}&rsquo;</td>
+          <td>This is of the form: &lsquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​diskEncryptionSets/​{encryptionSetName}&rsquo;</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -2743,7 +2743,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>supportPlan</td>
-          <td>The support plan for the Managed Cluster. If unspecified, the default is &lsquo;KubernetesOfficial&rsquo;.</td>
+          <td>The support plan for the Managed Cluster. If unspecified, the default is <code>KubernetesOfficial</code>.</td>
           <td><a href="#KubernetesSupportPlan_STATUS">KubernetesSupportPlan_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -2791,7 +2791,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
   <tbody>
       <tr>
           <td>availabilityZones</td>
-          <td>The list of Availability zones to use for nodes. This can only be specified if the AgentPoolType property is &lsquo;VirtualMachineScaleSets&rsquo;.</td>
+          <td>The list of Availability zones to use for nodes. This can only be specified if the AgentPoolType property is <code>VirtualMachineScaleSets</code>.</td>
           <td>string[]<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -2846,7 +2846,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>hostGroupReference</td>
-          <td>This is of the form: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/hostGroups/{hostGroupName}. For more information see <a href="https://docs.microsoft.com/azure/virtual-machines/dedicated-hosts">Azure dedicated hosts</a>.</td>
+          <td>This is of the form: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​hostGroups/​{hostGroupName}. For more information see <a href="https://docs.microsoft.com/azure/virtual-machines/dedicated-hosts">Azure dedicated hosts</a>.</td>
           <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -2881,7 +2881,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>mode</td>
-          <td>A cluster must have at least one &lsquo;System&rsquo; Agent Pool at all times. For additional information on agent pool restrictions and best practices, see: <a href="https://docs.microsoft.com/azure/aks/use-system-pools">https://docs.microsoft.com/azure/aks/use-system-pools</a></td>
+          <td>A cluster must have at least one <code>System</code> Agent Pool at all times. For additional information on agent pool restrictions and best practices, see: <a href="https://docs.microsoft.com/azure/aks/use-system-pools">https://docs.microsoft.com/azure/aks/use-system-pools</a></td>
           <td><a href="#AgentPoolMode">AgentPoolMode</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -2896,7 +2896,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>nodePublicIPPrefixReference</td>
-          <td>This is of the form: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/publicIPPrefixes/{publicIPPrefixName}</td>
+          <td>This is of the form: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​publicIPPrefixes/​{publicIPPrefixName}</td>
           <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -2921,7 +2921,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>osDiskType</td>
-          <td>The default is &lsquo;Ephemeral&rsquo; if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to &lsquo;Managed&rsquo;. May not be changed after creation. For more information see <a href="https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os">Ephemeral OS</a>.</td>
+          <td>The default is <code>Ephemeral</code> if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to <code>Managed</code>. May not be changed after creation. For more information see <a href="https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os">Ephemeral OS</a>.</td>
           <td><a href="#OSDiskType">OSDiskType</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -2941,7 +2941,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>podSubnetReference</td>
-          <td>If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of the form: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}</td>
+          <td>If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of the form: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​virtualNetworks/​{virtualNetworkName}/​subnets/​{subnetName}</td>
           <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -2961,12 +2961,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>scaleSetEvictionPolicy</td>
-          <td>This cannot be specified unless the scaleSetPriority is &lsquo;Spot&rsquo;. If not specified, the default is &lsquo;Delete&rsquo;.</td>
+          <td>This cannot be specified unless the scaleSetPriority is <code>Spot</code>. If not specified, the default is <code>Delete</code>.</td>
           <td><a href="#ScaleSetEvictionPolicy">ScaleSetEvictionPolicy</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>scaleSetPriority</td>
-          <td>The Virtual Machine Scale Set priority. If not specified, the default is &lsquo;Regular&rsquo;.</td>
+          <td>The Virtual Machine Scale Set priority. If not specified, the default is <code>Regular</code>.</td>
           <td><a href="#ScaleSetPriority">ScaleSetPriority</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -2996,7 +2996,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>vnetSubnetReference</td>
-          <td>If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}</td>
+          <td>If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​virtualNetworks/​{virtualNetworkName}/​subnets/​{subnetName}</td>
           <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -3019,7 +3019,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
   <tbody>
       <tr>
           <td>availabilityZones</td>
-          <td>The list of Availability zones to use for nodes. This can only be specified if the AgentPoolType property is &lsquo;VirtualMachineScaleSets&rsquo;.</td>
+          <td>The list of Availability zones to use for nodes. This can only be specified if the AgentPoolType property is <code>VirtualMachineScaleSets</code>.</td>
           <td>string[]<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -3079,7 +3079,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>hostGroupID</td>
-          <td>This is of the form: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/hostGroups/{hostGroupName}. For more information see <a href="https://docs.microsoft.com/azure/virtual-machines/dedicated-hosts">Azure dedicated hosts</a>.</td>
+          <td>This is of the form: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​hostGroups/​{hostGroupName}. For more information see <a href="https://docs.microsoft.com/azure/virtual-machines/dedicated-hosts">Azure dedicated hosts</a>.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -3119,7 +3119,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>mode</td>
-          <td>A cluster must have at least one &lsquo;System&rsquo; Agent Pool at all times. For additional information on agent pool restrictions and best practices, see: <a href="https://docs.microsoft.com/azure/aks/use-system-pools">https://docs.microsoft.com/azure/aks/use-system-pools</a></td>
+          <td>A cluster must have at least one <code>System</code> Agent Pool at all times. For additional information on agent pool restrictions and best practices, see: <a href="https://docs.microsoft.com/azure/aks/use-system-pools">https://docs.microsoft.com/azure/aks/use-system-pools</a></td>
           <td><a href="#AgentPoolMode_STATUS">AgentPoolMode_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -3144,7 +3144,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>nodePublicIPPrefixID</td>
-          <td>This is of the form: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/publicIPPrefixes/{publicIPPrefixName}</td>
+          <td>This is of the form: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​publicIPPrefixes/​{publicIPPrefixName}</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -3164,7 +3164,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>osDiskType</td>
-          <td>The default is &lsquo;Ephemeral&rsquo; if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to &lsquo;Managed&rsquo;. May not be changed after creation. For more information see <a href="https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os">Ephemeral OS</a>.</td>
+          <td>The default is <code>Ephemeral</code> if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to <code>Managed</code>. May not be changed after creation. For more information see <a href="https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os">Ephemeral OS</a>.</td>
           <td><a href="#OSDiskType_STATUS">OSDiskType_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -3179,7 +3179,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>podSubnetID</td>
-          <td>If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of the form: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}</td>
+          <td>If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of the form: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​virtualNetworks/​{virtualNetworkName}/​subnets/​{subnetName}</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -3209,12 +3209,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>scaleSetEvictionPolicy</td>
-          <td>This cannot be specified unless the scaleSetPriority is &lsquo;Spot&rsquo;. If not specified, the default is &lsquo;Delete&rsquo;.</td>
+          <td>This cannot be specified unless the scaleSetPriority is <code>Spot</code>. If not specified, the default is <code>Delete</code>.</td>
           <td><a href="#ScaleSetEvictionPolicy_STATUS">ScaleSetEvictionPolicy_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>scaleSetPriority</td>
-          <td>The Virtual Machine Scale Set priority. If not specified, the default is &lsquo;Regular&rsquo;.</td>
+          <td>The Virtual Machine Scale Set priority. If not specified, the default is <code>Regular</code>.</td>
           <td><a href="#ScaleSetPriority_STATUS">ScaleSetPriority_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -3244,7 +3244,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>vnetSubnetID</td>
-          <td>If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}</td>
+          <td>If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​virtualNetworks/​{virtualNetworkName}/​subnets/​{subnetName}</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -3346,7 +3346,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
   </tbody>
 </table>
 <h2 id="AgentPoolMode">AgentPoolMode</h2>
-<p>A cluster must have at least one &lsquo;System&rsquo; Agent Pool at all times. For additional information on agent pool restrictions and best practices, see: <a href="https://docs.microsoft.com/azure/aks/use-system-pools">https://docs.microsoft.com/azure/aks/use-system-pools</a></p>
+<p>A cluster must have at least one <code>System</code> Agent Pool at all times. For additional information on agent pool restrictions and best practices, see: <a href="https://docs.microsoft.com/azure/aks/use-system-pools">https://docs.microsoft.com/azure/aks/use-system-pools</a></p>
 <p>Used by: <a href="#ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, and <a href="#ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>.</p>
 <table>
   <thead>
@@ -3367,7 +3367,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
   </tbody>
 </table>
 <h2 id="AgentPoolMode_STATUS">AgentPoolMode_STATUS</h2>
-<p>A cluster must have at least one &lsquo;System&rsquo; Agent Pool at all times. For additional information on agent pool restrictions and best practices, see: <a href="https://docs.microsoft.com/azure/aks/use-system-pools">https://docs.microsoft.com/azure/aks/use-system-pools</a></p>
+<p>A cluster must have at least one <code>System</code> Agent Pool at all times. For additional information on agent pool restrictions and best practices, see: <a href="https://docs.microsoft.com/azure/aks/use-system-pools">https://docs.microsoft.com/azure/aks/use-system-pools</a></p>
 <p>Used by: <a href="#ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, and <a href="#ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>.</p>
 <table>
   <thead>
@@ -3506,7 +3506,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>maxSurge</td>
-          <td>This can either be set to an integer (e.g. &lsquo;5&rsquo;) or a percentage (e.g. &lsquo;50%&rsquo;). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is 1. For more information, including best practices, see: <a href="https://docs.microsoft.com/azure/aks/upgrade-cluster#customize-node-surge-upgrade">https://docs.microsoft.com/azure/aks/upgrade-cluster#customize-node-surge-upgrade</a></td>
+          <td>This can either be set to an integer (e.g. <code>5</code>) or a percentage (e.g. &lsquo;50%&rsquo;). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is 1. For more information, including best practices, see: <a href="https://docs.microsoft.com/azure/aks/upgrade-cluster#customize-node-surge-upgrade">https://docs.microsoft.com/azure/aks/upgrade-cluster#customize-node-surge-upgrade</a></td>
           <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
@@ -3530,7 +3530,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>maxSurge</td>
-          <td>This can either be set to an integer (e.g. &lsquo;5&rsquo;) or a percentage (e.g. &lsquo;50%&rsquo;). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is 1. For more information, including best practices, see: <a href="https://docs.microsoft.com/azure/aks/upgrade-cluster#customize-node-surge-upgrade">https://docs.microsoft.com/azure/aks/upgrade-cluster#customize-node-surge-upgrade</a></td>
+          <td>This can either be set to an integer (e.g. <code>5</code>) or a percentage (e.g. &lsquo;50%&rsquo;). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is 1. For more information, including best practices, see: <a href="https://docs.microsoft.com/azure/aks/upgrade-cluster#customize-node-surge-upgrade">https://docs.microsoft.com/azure/aks/upgrade-cluster#customize-node-surge-upgrade</a></td>
           <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
@@ -3650,7 +3650,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>loadBalancerSku</td>
-          <td>The default is &lsquo;standard&rsquo;. See <a href="https://docs.microsoft.com/azure/load-balancer/skus">Azure Load Balancer SKUs</a> for more information about the differences between load balancer SKUs.</td>
+          <td>The default is <code>standard</code>. See <a href="https://docs.microsoft.com/azure/load-balancer/skus">Azure Load Balancer SKUs</a> for more information about the differences between load balancer SKUs.</td>
           <td><a href="#ContainerServiceNetworkProfile_LoadBalancerSku">ContainerServiceNetworkProfile_LoadBalancerSku</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -3665,7 +3665,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>networkMode</td>
-          <td>This cannot be specified if networkPlugin is anything other than &lsquo;azure&rsquo;.</td>
+          <td>This cannot be specified if networkPlugin is anything other than <code>azure</code>.</td>
           <td><a href="#ContainerServiceNetworkProfile_NetworkMode">ContainerServiceNetworkProfile_NetworkMode</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -3739,7 +3739,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>loadBalancerSku</td>
-          <td>The default is &lsquo;standard&rsquo;. See <a href="https://docs.microsoft.com/azure/load-balancer/skus">Azure Load Balancer SKUs</a> for more information about the differences between load balancer SKUs.</td>
+          <td>The default is <code>standard</code>. See <a href="https://docs.microsoft.com/azure/load-balancer/skus">Azure Load Balancer SKUs</a> for more information about the differences between load balancer SKUs.</td>
           <td><a href="#ContainerServiceNetworkProfile_LoadBalancerSku_STATUS">ContainerServiceNetworkProfile_LoadBalancerSku_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -3754,7 +3754,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>networkMode</td>
-          <td>This cannot be specified if networkPlugin is anything other than &lsquo;azure&rsquo;.</td>
+          <td>This cannot be specified if networkPlugin is anything other than <code>azure</code>.</td>
           <td><a href="#ContainerServiceNetworkProfile_NetworkMode_STATUS">ContainerServiceNetworkProfile_NetworkMode_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -3987,12 +3987,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>cpuCfsQuotaPeriod</td>
-          <td>The default is &lsquo;100ms.&rsquo; Valid values are a sequence of decimal numbers with an optional fraction and a unit suffix. For example: &lsquo;300ms&rsquo;, &lsquo;2h45m&rsquo;. Supported units are &rsquo;ns&rsquo;, &lsquo;us&rsquo;, &lsquo;ms&rsquo;, &rsquo;s&rsquo;, &rsquo;m&rsquo;, and &lsquo;h&rsquo;.</td>
+          <td>The default is <code>100ms.</code> Valid values are a sequence of decimal numbers with an optional fraction and a unit suffix. For example: <code>300ms</code>, <code>2h45m</code>. Supported units are <code>ns</code>, <code>us</code>, <code>ms</code>, <code>s</code>, <code>m</code>, and <code>h</code>.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>cpuManagerPolicy</td>
-          <td>The default is &rsquo;none&rsquo;. See <a href="https://kubernetes.io/docs/tasks/administer-cluster/cpu-management-policies/#cpu-management-policies">Kubernetes CPU management policies</a> for more information. Allowed values are &rsquo;none&rsquo; and &lsquo;static&rsquo;.</td>
+          <td>The default is <code>none</code>. See <a href="https://kubernetes.io/docs/tasks/administer-cluster/cpu-management-policies/#cpu-management-policies">Kubernetes CPU management policies</a> for more information. Allowed values are <code>none</code> and <code>static</code>.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -4017,7 +4017,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>topologyManagerPolicy</td>
-          <td>For more information see <a href="https://kubernetes.io/docs/tasks/administer-cluster/topology-manager">Kubernetes Topology Manager</a>. The default is &rsquo;none&rsquo;. Allowed values are &rsquo;none&rsquo;, &lsquo;best-effort&rsquo;, &lsquo;restricted&rsquo;, and &lsquo;single-numa-node&rsquo;.</td>
+          <td>For more information see <a href="https://kubernetes.io/docs/tasks/administer-cluster/topology-manager">Kubernetes Topology Manager</a>. The default is <code>none</code>. Allowed values are <code>none</code>, &lsquo;best-effort&rsquo;, <code>restricted</code>, and &lsquo;single-numa-node&rsquo;.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
@@ -4056,12 +4056,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>cpuCfsQuotaPeriod</td>
-          <td>The default is &lsquo;100ms.&rsquo; Valid values are a sequence of decimal numbers with an optional fraction and a unit suffix. For example: &lsquo;300ms&rsquo;, &lsquo;2h45m&rsquo;. Supported units are &rsquo;ns&rsquo;, &lsquo;us&rsquo;, &lsquo;ms&rsquo;, &rsquo;s&rsquo;, &rsquo;m&rsquo;, and &lsquo;h&rsquo;.</td>
+          <td>The default is <code>100ms.</code> Valid values are a sequence of decimal numbers with an optional fraction and a unit suffix. For example: <code>300ms</code>, <code>2h45m</code>. Supported units are <code>ns</code>, <code>us</code>, <code>ms</code>, <code>s</code>, <code>m</code>, and <code>h</code>.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>cpuManagerPolicy</td>
-          <td>The default is &rsquo;none&rsquo;. See <a href="https://kubernetes.io/docs/tasks/administer-cluster/cpu-management-policies/#cpu-management-policies">Kubernetes CPU management policies</a> for more information. Allowed values are &rsquo;none&rsquo; and &lsquo;static&rsquo;.</td>
+          <td>The default is <code>none</code>. See <a href="https://kubernetes.io/docs/tasks/administer-cluster/cpu-management-policies/#cpu-management-policies">Kubernetes CPU management policies</a> for more information. Allowed values are <code>none</code> and <code>static</code>.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -4086,7 +4086,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>topologyManagerPolicy</td>
-          <td>For more information see <a href="https://kubernetes.io/docs/tasks/administer-cluster/topology-manager">Kubernetes Topology Manager</a>. The default is &rsquo;none&rsquo;. Allowed values are &rsquo;none&rsquo;, &lsquo;best-effort&rsquo;, &lsquo;restricted&rsquo;, and &lsquo;single-numa-node&rsquo;.</td>
+          <td>For more information see <a href="https://kubernetes.io/docs/tasks/administer-cluster/topology-manager">Kubernetes Topology Manager</a>. The default is <code>none</code>. Allowed values are <code>none</code>, &lsquo;best-effort&rsquo;, <code>restricted</code>, and &lsquo;single-numa-node&rsquo;.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
@@ -4199,12 +4199,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>transparentHugePageDefrag</td>
-          <td>Valid values are &lsquo;always&rsquo;, &lsquo;defer&rsquo;, &lsquo;defer+madvise&rsquo;, &lsquo;madvise&rsquo; and &rsquo;never&rsquo;. The default is &lsquo;madvise&rsquo;. For more information see <a href="https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge">Transparent Hugepages</a>.</td>
+          <td>Valid values are <code>always</code>, <code>defer</code>, &lsquo;defer+madvise&rsquo;, <code>madvise</code> and <code>never</code>. The default is <code>madvise</code>. For more information see <a href="https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge">Transparent Hugepages</a>.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>transparentHugePageEnabled</td>
-          <td>Valid values are &lsquo;always&rsquo;, &lsquo;madvise&rsquo;, and &rsquo;never&rsquo;. The default is &lsquo;always&rsquo;. For more information see <a href="https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge">Transparent Hugepages</a>.</td>
+          <td>Valid values are <code>always</code>, <code>madvise</code>, and <code>never</code>. The default is <code>always</code>. For more information see <a href="https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge">Transparent Hugepages</a>.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
@@ -4233,12 +4233,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>transparentHugePageDefrag</td>
-          <td>Valid values are &lsquo;always&rsquo;, &lsquo;defer&rsquo;, &lsquo;defer+madvise&rsquo;, &lsquo;madvise&rsquo; and &rsquo;never&rsquo;. The default is &lsquo;madvise&rsquo;. For more information see <a href="https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge">Transparent Hugepages</a>.</td>
+          <td>Valid values are <code>always</code>, <code>defer</code>, &lsquo;defer+madvise&rsquo;, <code>madvise</code> and <code>never</code>. The default is <code>madvise</code>. For more information see <a href="https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge">Transparent Hugepages</a>.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>transparentHugePageEnabled</td>
-          <td>Valid values are &lsquo;always&rsquo;, &lsquo;madvise&rsquo;, and &rsquo;never&rsquo;. The default is &lsquo;always&rsquo;. For more information see <a href="https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge">Transparent Hugepages</a>.</td>
+          <td>Valid values are <code>always</code>, <code>madvise</code>, and <code>never</code>. The default is <code>always</code>. For more information see <a href="https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge">Transparent Hugepages</a>.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
@@ -4408,7 +4408,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
   <tbody>
       <tr>
           <td>availabilityZones</td>
-          <td>The list of Availability zones to use for nodes. This can only be specified if the AgentPoolType property is &lsquo;VirtualMachineScaleSets&rsquo;.</td>
+          <td>The list of Availability zones to use for nodes. This can only be specified if the AgentPoolType property is <code>VirtualMachineScaleSets</code>.</td>
           <td>string[]<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -4458,7 +4458,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>hostGroupReference</td>
-          <td>This is of the form: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/hostGroups/{hostGroupName}. For more information see <a href="https://docs.microsoft.com/azure/virtual-machines/dedicated-hosts">Azure dedicated hosts</a>.</td>
+          <td>This is of the form: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​hostGroups/​{hostGroupName}. For more information see <a href="https://docs.microsoft.com/azure/virtual-machines/dedicated-hosts">Azure dedicated hosts</a>.</td>
           <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -4493,7 +4493,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>mode</td>
-          <td>A cluster must have at least one &lsquo;System&rsquo; Agent Pool at all times. For additional information on agent pool restrictions and best practices, see: <a href="https://docs.microsoft.com/azure/aks/use-system-pools">https://docs.microsoft.com/azure/aks/use-system-pools</a></td>
+          <td>A cluster must have at least one <code>System</code> Agent Pool at all times. For additional information on agent pool restrictions and best practices, see: <a href="https://docs.microsoft.com/azure/aks/use-system-pools">https://docs.microsoft.com/azure/aks/use-system-pools</a></td>
           <td><a href="#AgentPoolMode">AgentPoolMode</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -4513,7 +4513,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>nodePublicIPPrefixReference</td>
-          <td>This is of the form: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/publicIPPrefixes/{publicIPPrefixName}</td>
+          <td>This is of the form: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​publicIPPrefixes/​{publicIPPrefixName}</td>
           <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -4533,7 +4533,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>osDiskType</td>
-          <td>The default is &lsquo;Ephemeral&rsquo; if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to &lsquo;Managed&rsquo;. May not be changed after creation. For more information see <a href="https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os">Ephemeral OS</a>.</td>
+          <td>The default is <code>Ephemeral</code> if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to <code>Managed</code>. May not be changed after creation. For more information see <a href="https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os">Ephemeral OS</a>.</td>
           <td><a href="#OSDiskType">OSDiskType</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -4548,7 +4548,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>podSubnetReference</td>
-          <td>If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of the form: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}</td>
+          <td>If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of the form: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​virtualNetworks/​{virtualNetworkName}/​subnets/​{subnetName}</td>
           <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -4568,12 +4568,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>scaleSetEvictionPolicy</td>
-          <td>This cannot be specified unless the scaleSetPriority is &lsquo;Spot&rsquo;. If not specified, the default is &lsquo;Delete&rsquo;.</td>
+          <td>This cannot be specified unless the scaleSetPriority is <code>Spot</code>. If not specified, the default is <code>Delete</code>.</td>
           <td><a href="#ScaleSetEvictionPolicy">ScaleSetEvictionPolicy</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>scaleSetPriority</td>
-          <td>The Virtual Machine Scale Set priority. If not specified, the default is &lsquo;Regular&rsquo;.</td>
+          <td>The Virtual Machine Scale Set priority. If not specified, the default is <code>Regular</code>.</td>
           <td><a href="#ScaleSetPriority">ScaleSetPriority</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -4603,7 +4603,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>vnetSubnetReference</td>
-          <td>If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}</td>
+          <td>If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​virtualNetworks/​{virtualNetworkName}/​subnets/​{subnetName}</td>
           <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -4627,7 +4627,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
   <tbody>
       <tr>
           <td>availabilityZones</td>
-          <td>The list of Availability zones to use for nodes. This can only be specified if the AgentPoolType property is &lsquo;VirtualMachineScaleSets&rsquo;.</td>
+          <td>The list of Availability zones to use for nodes. This can only be specified if the AgentPoolType property is <code>VirtualMachineScaleSets</code>.</td>
           <td>string[]<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -4682,7 +4682,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>hostGroupID</td>
-          <td>This is of the form: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/hostGroups/{hostGroupName}. For more information see <a href="https://docs.microsoft.com/azure/virtual-machines/dedicated-hosts">Azure dedicated hosts</a>.</td>
+          <td>This is of the form: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​hostGroups/​{hostGroupName}. For more information see <a href="https://docs.microsoft.com/azure/virtual-machines/dedicated-hosts">Azure dedicated hosts</a>.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -4717,7 +4717,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>mode</td>
-          <td>A cluster must have at least one &lsquo;System&rsquo; Agent Pool at all times. For additional information on agent pool restrictions and best practices, see: <a href="https://docs.microsoft.com/azure/aks/use-system-pools">https://docs.microsoft.com/azure/aks/use-system-pools</a></td>
+          <td>A cluster must have at least one <code>System</code> Agent Pool at all times. For additional information on agent pool restrictions and best practices, see: <a href="https://docs.microsoft.com/azure/aks/use-system-pools">https://docs.microsoft.com/azure/aks/use-system-pools</a></td>
           <td><a href="#AgentPoolMode_STATUS">AgentPoolMode_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -4742,7 +4742,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>nodePublicIPPrefixID</td>
-          <td>This is of the form: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/publicIPPrefixes/{publicIPPrefixName}</td>
+          <td>This is of the form: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​publicIPPrefixes/​{publicIPPrefixName}</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -4762,7 +4762,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>osDiskType</td>
-          <td>The default is &lsquo;Ephemeral&rsquo; if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to &lsquo;Managed&rsquo;. May not be changed after creation. For more information see <a href="https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os">Ephemeral OS</a>.</td>
+          <td>The default is <code>Ephemeral</code> if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to <code>Managed</code>. May not be changed after creation. For more information see <a href="https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os">Ephemeral OS</a>.</td>
           <td><a href="#OSDiskType_STATUS">OSDiskType_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -4777,7 +4777,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>podSubnetID</td>
-          <td>If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of the form: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}</td>
+          <td>If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of the form: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​virtualNetworks/​{virtualNetworkName}/​subnets/​{subnetName}</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -4802,12 +4802,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>scaleSetEvictionPolicy</td>
-          <td>This cannot be specified unless the scaleSetPriority is &lsquo;Spot&rsquo;. If not specified, the default is &lsquo;Delete&rsquo;.</td>
+          <td>This cannot be specified unless the scaleSetPriority is <code>Spot</code>. If not specified, the default is <code>Delete</code>.</td>
           <td><a href="#ScaleSetEvictionPolicy_STATUS">ScaleSetEvictionPolicy_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>scaleSetPriority</td>
-          <td>The Virtual Machine Scale Set priority. If not specified, the default is &lsquo;Regular&rsquo;.</td>
+          <td>The Virtual Machine Scale Set priority. If not specified, the default is <code>Regular</code>.</td>
           <td><a href="#ScaleSetPriority_STATUS">ScaleSetPriority_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -4837,7 +4837,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>vnetSubnetID</td>
-          <td>If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}</td>
+          <td>If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​virtualNetworks/​{virtualNetworkName}/​subnets/​{subnetName}</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -4881,7 +4881,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>privateDNSZone</td>
-          <td>The default is System. For more details see <a href="https://docs.microsoft.com/azure/aks/private-clusters#configure-private-dns-zone">configure private DNS zone</a>. Allowed values are &lsquo;system&rsquo; and &rsquo;none&rsquo;.</td>
+          <td>The default is System. For more details see <a href="https://docs.microsoft.com/azure/aks/private-clusters#configure-private-dns-zone">configure private DNS zone</a>. Allowed values are <code>system</code> and <code>none</code>.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
@@ -4920,7 +4920,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>privateDNSZone</td>
-          <td>The default is System. For more details see <a href="https://docs.microsoft.com/azure/aks/private-clusters#configure-private-dns-zone">configure private DNS zone</a>. Allowed values are &lsquo;system&rsquo; and &rsquo;none&rsquo;.</td>
+          <td>The default is System. For more details see <a href="https://docs.microsoft.com/azure/aks/private-clusters#configure-private-dns-zone">configure private DNS zone</a>. Allowed values are <code>system</code> and <code>none</code>.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
@@ -5103,7 +5103,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>userAssignedIdentities</td>
-          <td>The keys must be ARM resource IDs in the form: &lsquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;.</td>
+          <td>The keys must be ARM resource IDs in the form: &lsquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ManagedIdentity/​userAssignedIdentities/​{identityName}&rsquo;.</td>
           <td><a href="#UserAssignedIdentityDetails">UserAssignedIdentityDetails[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
@@ -5142,7 +5142,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>userAssignedIdentities</td>
-          <td>The keys must be ARM resource IDs in the form: &lsquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;.</td>
+          <td>The keys must be ARM resource IDs in the form: &lsquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ManagedIdentity/​userAssignedIdentities/​{identityName}&rsquo;.</td>
           <td><a href="#ManagedClusterIdentity_UserAssignedIdentities_STATUS">map[string]ManagedClusterIdentity_UserAssignedIdentities_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
@@ -5305,12 +5305,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
   <tbody>
       <tr>
           <td>balance-similar-node-groups</td>
-          <td>Valid values are &rsquo;true&rsquo; and &lsquo;false&rsquo;</td>
+          <td>Valid values are <code>true</code> and <code>false</code></td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>expander</td>
-          <td>If not specified, the default is &lsquo;random&rsquo;. See <a href="https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-expanders">expanders</a> for more information.</td>
+          <td>If not specified, the default is <code>random</code>. See <a href="https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-expanders">expanders</a> for more information.</td>
           <td><a href="#ManagedClusterProperties_AutoScalerProfile_Expander">ManagedClusterProperties_AutoScalerProfile_Expander</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -5325,7 +5325,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>max-node-provision-time</td>
-          <td>The default is &lsquo;15m&rsquo;. Values must be an integer followed by an &rsquo;m&rsquo;. No unit of time other than minutes (m) is supported.</td>
+          <td>The default is <code>15m</code>. Values must be an integer followed by an <code>m</code>. No unit of time other than minutes (m) is supported.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -5335,7 +5335,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>new-pod-scale-up-delay</td>
-          <td>For scenarios like burst/batch scale where you don&rsquo;t want CA to act before the kubernetes scheduler could schedule all the pods, you can tell CA to ignore unscheduled pods before they&rsquo;re a certain age. The default is &lsquo;0s&rsquo;. Values must be an integer followed by a unit (&rsquo;s&rsquo; for seconds, &rsquo;m&rsquo; for minutes, &lsquo;h&rsquo; for hours, etc).</td>
+          <td>For scenarios like burst/batch scale where you don&rsquo;t want CA to act before the kubernetes scheduler could schedule all the pods, you can tell CA to ignore unscheduled pods before they&rsquo;re a certain age. The default is <code>0s</code>. Values must be an integer followed by a unit (<code>s</code> for seconds, <code>m</code> for minutes, <code>h</code> for hours, etc).</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -5345,37 +5345,37 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>scale-down-delay-after-add</td>
-          <td>The default is &lsquo;10m&rsquo;. Values must be an integer followed by an &rsquo;m&rsquo;. No unit of time other than minutes (m) is supported.</td>
+          <td>The default is <code>10m</code>. Values must be an integer followed by an <code>m</code>. No unit of time other than minutes (m) is supported.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>scale-down-delay-after-delete</td>
-          <td>The default is the scan-interval. Values must be an integer followed by an &rsquo;m&rsquo;. No unit of time other than minutes (m) is supported.</td>
+          <td>The default is the scan-interval. Values must be an integer followed by an <code>m</code>. No unit of time other than minutes (m) is supported.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>scale-down-delay-after-failure</td>
-          <td>The default is &lsquo;3m&rsquo;. Values must be an integer followed by an &rsquo;m&rsquo;. No unit of time other than minutes (m) is supported.</td>
+          <td>The default is <code>3m</code>. Values must be an integer followed by an <code>m</code>. No unit of time other than minutes (m) is supported.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>scale-down-unneeded-time</td>
-          <td>The default is &lsquo;10m&rsquo;. Values must be an integer followed by an &rsquo;m&rsquo;. No unit of time other than minutes (m) is supported.</td>
+          <td>The default is <code>10m</code>. Values must be an integer followed by an <code>m</code>. No unit of time other than minutes (m) is supported.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>scale-down-unready-time</td>
-          <td>The default is &lsquo;20m&rsquo;. Values must be an integer followed by an &rsquo;m&rsquo;. No unit of time other than minutes (m) is supported.</td>
+          <td>The default is <code>20m</code>. Values must be an integer followed by an <code>m</code>. No unit of time other than minutes (m) is supported.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>scale-down-utilization-threshold</td>
-          <td>The default is &lsquo;0.5&rsquo;.</td>
+          <td>The default is <code>0.5</code>.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>scan-interval</td>
-          <td>The default is &lsquo;10&rsquo;. Values must be an integer number of seconds.</td>
+          <td>The default is <code>10</code>. Values must be an integer number of seconds.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -5403,12 +5403,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
   <tbody>
       <tr>
           <td>balance-similar-node-groups</td>
-          <td>Valid values are &rsquo;true&rsquo; and &lsquo;false&rsquo;</td>
+          <td>Valid values are <code>true</code> and <code>false</code></td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>expander</td>
-          <td>If not specified, the default is &lsquo;random&rsquo;. See <a href="https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-expanders">expanders</a> for more information.</td>
+          <td>If not specified, the default is <code>random</code>. See <a href="https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-expanders">expanders</a> for more information.</td>
           <td><a href="#ManagedClusterProperties_AutoScalerProfile_Expander_STATUS">ManagedClusterProperties_AutoScalerProfile_Expander_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -5423,7 +5423,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>max-node-provision-time</td>
-          <td>The default is &lsquo;15m&rsquo;. Values must be an integer followed by an &rsquo;m&rsquo;. No unit of time other than minutes (m) is supported.</td>
+          <td>The default is <code>15m</code>. Values must be an integer followed by an <code>m</code>. No unit of time other than minutes (m) is supported.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -5433,7 +5433,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>new-pod-scale-up-delay</td>
-          <td>For scenarios like burst/batch scale where you don&rsquo;t want CA to act before the kubernetes scheduler could schedule all the pods, you can tell CA to ignore unscheduled pods before they&rsquo;re a certain age. The default is &lsquo;0s&rsquo;. Values must be an integer followed by a unit (&rsquo;s&rsquo; for seconds, &rsquo;m&rsquo; for minutes, &lsquo;h&rsquo; for hours, etc).</td>
+          <td>For scenarios like burst/batch scale where you don&rsquo;t want CA to act before the kubernetes scheduler could schedule all the pods, you can tell CA to ignore unscheduled pods before they&rsquo;re a certain age. The default is <code>0s</code>. Values must be an integer followed by a unit (<code>s</code> for seconds, <code>m</code> for minutes, <code>h</code> for hours, etc).</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -5443,37 +5443,37 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>scale-down-delay-after-add</td>
-          <td>The default is &lsquo;10m&rsquo;. Values must be an integer followed by an &rsquo;m&rsquo;. No unit of time other than minutes (m) is supported.</td>
+          <td>The default is <code>10m</code>. Values must be an integer followed by an <code>m</code>. No unit of time other than minutes (m) is supported.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>scale-down-delay-after-delete</td>
-          <td>The default is the scan-interval. Values must be an integer followed by an &rsquo;m&rsquo;. No unit of time other than minutes (m) is supported.</td>
+          <td>The default is the scan-interval. Values must be an integer followed by an <code>m</code>. No unit of time other than minutes (m) is supported.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>scale-down-delay-after-failure</td>
-          <td>The default is &lsquo;3m&rsquo;. Values must be an integer followed by an &rsquo;m&rsquo;. No unit of time other than minutes (m) is supported.</td>
+          <td>The default is <code>3m</code>. Values must be an integer followed by an <code>m</code>. No unit of time other than minutes (m) is supported.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>scale-down-unneeded-time</td>
-          <td>The default is &lsquo;10m&rsquo;. Values must be an integer followed by an &rsquo;m&rsquo;. No unit of time other than minutes (m) is supported.</td>
+          <td>The default is <code>10m</code>. Values must be an integer followed by an <code>m</code>. No unit of time other than minutes (m) is supported.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>scale-down-unready-time</td>
-          <td>The default is &lsquo;20m&rsquo;. Values must be an integer followed by an &rsquo;m&rsquo;. No unit of time other than minutes (m) is supported.</td>
+          <td>The default is <code>20m</code>. Values must be an integer followed by an <code>m</code>. No unit of time other than minutes (m) is supported.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>scale-down-utilization-threshold</td>
-          <td>The default is &lsquo;0.5&rsquo;.</td>
+          <td>The default is <code>0.5</code>.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>scan-interval</td>
-          <td>The default is &lsquo;10&rsquo;. Values must be an integer number of seconds.</td>
+          <td>The default is <code>10</code>. Values must be an integer number of seconds.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -5682,7 +5682,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>tier</td>
-          <td>If not specified, the default is &lsquo;Free&rsquo;. See <a href="https://learn.microsoft.com/azure/aks/free-standard-pricing-tiers">AKS Pricing Tier</a> for more details.</td>
+          <td>If not specified, the default is <code>Free</code>. See <a href="https://learn.microsoft.com/azure/aks/free-standard-pricing-tiers">AKS Pricing Tier</a> for more details.</td>
           <td><a href="#ManagedClusterSKU_Tier">ManagedClusterSKU_Tier</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
@@ -5706,7 +5706,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
       </tr>
       <tr>
           <td>tier</td>
-          <td>If not specified, the default is &lsquo;Free&rsquo;. See <a href="https://learn.microsoft.com/azure/aks/free-standard-pricing-tiers">AKS Pricing Tier</a> for more details.</td>
+          <td>If not specified, the default is <code>Free</code>. See <a href="https://learn.microsoft.com/azure/aks/free-standard-pricing-tiers">AKS Pricing Tier</a> for more details.</td>
           <td><a href="#ManagedClusterSKU_Tier_STATUS">ManagedClusterSKU_Tier_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
@@ -5901,7 +5901,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
   </tbody>
 </table>
 <h2 id="OSDiskType">OSDiskType</h2>
-<p>The default is &lsquo;Ephemeral&rsquo; if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to &lsquo;Managed&rsquo;. May not be changed after creation. For more information see <a href="https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os">Ephemeral OS</a>.</p>
+<p>The default is <code>Ephemeral</code> if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to <code>Managed</code>. May not be changed after creation. For more information see <a href="https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os">Ephemeral OS</a>.</p>
 <p>Used by: <a href="#ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, and <a href="#ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>.</p>
 <table>
   <thead>
@@ -5922,7 +5922,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ManagedCluster_
   </tbody>
 </table>
 <h2 id="OSDiskType_STATUS">OSDiskType_STATUS</h2>
-<p>The default is &lsquo;Ephemeral&rsquo; if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to &lsquo;Managed&rsquo;. May not be changed after creation. For more information see <a href="https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os">Ephemeral OS</a>.</p>
+<p>The default is <code>Ephemeral</code> if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to <code>Managed</code>. May not be changed after creation. For more information see <a href="https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os">Ephemeral OS</a>.</p>
 <p>Used by: <a href="#ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, and <a href="#ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>.</p>
 <table>
   <thead>

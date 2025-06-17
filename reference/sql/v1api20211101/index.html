@@ -18,29 +18,29 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>sql.azure.com/v1api20211101 | Azure Service Operator</title>
-<meta name="description" content="APIVersion Value Description “2021-11-01” Server Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/Servers.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/servers/{serverName}
+<meta name="description" content="APIVersion Value Description “2021-11-01” Server Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/Servers.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}
 Used by: ServerList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOptional status Server_STATUSOptional Server_Spec Property Description Type administratorLogin Administrator username for the server. Once created it cannot be changed. stringOptional administratorLoginPassword The administrator login password (required for server creation). genruntime.SecretReferenceOptional administrators The Azure Active Directory administrator of the server. ServerExternalAdministratorOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional federatedClientId The Client id used for cross tenant CMK scenario stringOptional identity The Azure Active Directory identity of the server. ResourceIdentityOptional keyId A CMK URI of the key to use for encryption. stringOptional location Resource location. stringRequired minimalTlsVersion Minimal TLS version. Allowed values: ‘1.0’, ‘1.1’, ‘1.2’ stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ServerOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired primaryUserAssignedIdentityReference The resource id of a user assigned identity to be used by default. genruntime.ResourceReferenceOptional publicNetworkAccess Whether or not public endpoint access is allowed for this server. Value is optional but if passed in, must be ‘Enabled’ or ‘Disabled’ ServerProperties_PublicNetworkAccessOptional restrictOutboundNetworkAccess Whether or not to restrict outbound network access for this server. Value is optional but if passed in, must be ‘Enabled’ or ‘Disabled’ ServerProperties_RestrictOutboundNetworkAccessOptional tags Resource tags. map[string]stringOptional version The version of the server. stringOptional Server_STATUS Property Description Type administratorLogin Administrator username for the server. Once created it cannot be changed. stringOptional administrators The Azure Active Directory administrator of the server. ServerExternalAdministrator_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional federatedClientId The Client id used for cross tenant CMK scenario stringOptional fullyQualifiedDomainName The fully qualified domain name of the server. stringOptional id Resource ID. stringOptional identity The Azure Active Directory identity of the server. ResourceIdentity_STATUSOptional keyId A CMK URI of the key to use for encryption. stringOptional kind Kind of sql server. This is metadata used for the Azure portal experience. stringOptional location Resource location. stringOptional minimalTlsVersion Minimal TLS version. Allowed values: ‘1.0’, ‘1.1’, ‘1.2’ stringOptional name Resource name. stringOptional primaryUserAssignedIdentityId The resource id of a user assigned identity to be used by default. stringOptional privateEndpointConnections List of private endpoint connections on a server ServerPrivateEndpointConnection_STATUS[]Optional publicNetworkAccess Whether or not public endpoint access is allowed for this server. Value is optional but if passed in, must be ‘Enabled’ or ‘Disabled’ ServerProperties_PublicNetworkAccess_STATUSOptional restrictOutboundNetworkAccess Whether or not to restrict outbound network access for this server. Value is optional but if passed in, must be ‘Enabled’ or ‘Disabled’ ServerProperties_RestrictOutboundNetworkAccess_STATUSOptional state The state of the server. stringOptional tags Resource tags. map[string]stringOptional type Resource type. stringOptional version The version of the server. stringOptional workspaceFeature Whether or not existing server has a workspace created and if it allows connection from workspace ServerProperties_WorkspaceFeature_STATUSOptional ServerList Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/Servers.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/servers/{serverName}">
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOptional status Server_STATUSOptional Server_Spec Property Description Type administratorLogin Administrator username for the server. Once created it cannot be changed. stringOptional administratorLoginPassword The administrator login password (required for server creation). genruntime.SecretReferenceOptional administrators The Azure Active Directory administrator of the server. ServerExternalAdministratorOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional federatedClientId The Client id used for cross tenant CMK scenario stringOptional identity The Azure Active Directory identity of the server. ResourceIdentityOptional keyId A CMK URI of the key to use for encryption. stringOptional location Resource location. stringRequired minimalTlsVersion Minimal TLS version. Allowed values: 1.0, 1.1, 1.2 stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ServerOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired primaryUserAssignedIdentityReference The resource id of a user assigned identity to be used by default. genruntime.ResourceReferenceOptional publicNetworkAccess Whether or not public endpoint access is allowed for this server. Value is optional but if passed in, must be Enabled or Disabled ServerProperties_PublicNetworkAccessOptional restrictOutboundNetworkAccess Whether or not to restrict outbound network access for this server. Value is optional but if passed in, must be Enabled or Disabled ServerProperties_RestrictOutboundNetworkAccessOptional tags Resource tags. map[string]stringOptional version The version of the server. stringOptional Server_STATUS Property Description Type administratorLogin Administrator username for the server. Once created it cannot be changed. stringOptional administrators The Azure Active Directory administrator of the server. ServerExternalAdministrator_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional federatedClientId The Client id used for cross tenant CMK scenario stringOptional fullyQualifiedDomainName The fully qualified domain name of the server. stringOptional id Resource ID. stringOptional identity The Azure Active Directory identity of the server. ResourceIdentity_STATUSOptional keyId A CMK URI of the key to use for encryption. stringOptional kind Kind of sql server. This is metadata used for the Azure portal experience. stringOptional location Resource location. stringOptional minimalTlsVersion Minimal TLS version. Allowed values: 1.0, 1.1, 1.2 stringOptional name Resource name. stringOptional primaryUserAssignedIdentityId The resource id of a user assigned identity to be used by default. stringOptional privateEndpointConnections List of private endpoint connections on a server ServerPrivateEndpointConnection_STATUS[]Optional publicNetworkAccess Whether or not public endpoint access is allowed for this server. Value is optional but if passed in, must be Enabled or Disabled ServerProperties_PublicNetworkAccess_STATUSOptional restrictOutboundNetworkAccess Whether or not to restrict outbound network access for this server. Value is optional but if passed in, must be Enabled or Disabled ServerProperties_RestrictOutboundNetworkAccess_STATUSOptional state The state of the server. stringOptional tags Resource tags. map[string]stringOptional type Resource type. stringOptional version The version of the server. stringOptional workspaceFeature Whether or not existing server has a workspace created and if it allows connection from workspace ServerProperties_WorkspaceFeature_STATUSOptional ServerList Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/Servers.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/sql/v1api20211101/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="sql.azure.com/v1api20211101">
-  <meta property="og:description" content="APIVersion Value Description “2021-11-01” Server Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/Servers.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/servers/{serverName}
+  <meta property="og:description" content="APIVersion Value Description “2021-11-01” Server Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/Servers.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}
 Used by: ServerList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOptional status Server_STATUSOptional Server_Spec Property Description Type administratorLogin Administrator username for the server. Once created it cannot be changed. stringOptional administratorLoginPassword The administrator login password (required for server creation). genruntime.SecretReferenceOptional administrators The Azure Active Directory administrator of the server. ServerExternalAdministratorOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional federatedClientId The Client id used for cross tenant CMK scenario stringOptional identity The Azure Active Directory identity of the server. ResourceIdentityOptional keyId A CMK URI of the key to use for encryption. stringOptional location Resource location. stringRequired minimalTlsVersion Minimal TLS version. Allowed values: ‘1.0’, ‘1.1’, ‘1.2’ stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ServerOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired primaryUserAssignedIdentityReference The resource id of a user assigned identity to be used by default. genruntime.ResourceReferenceOptional publicNetworkAccess Whether or not public endpoint access is allowed for this server. Value is optional but if passed in, must be ‘Enabled’ or ‘Disabled’ ServerProperties_PublicNetworkAccessOptional restrictOutboundNetworkAccess Whether or not to restrict outbound network access for this server. Value is optional but if passed in, must be ‘Enabled’ or ‘Disabled’ ServerProperties_RestrictOutboundNetworkAccessOptional tags Resource tags. map[string]stringOptional version The version of the server. stringOptional Server_STATUS Property Description Type administratorLogin Administrator username for the server. Once created it cannot be changed. stringOptional administrators The Azure Active Directory administrator of the server. ServerExternalAdministrator_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional federatedClientId The Client id used for cross tenant CMK scenario stringOptional fullyQualifiedDomainName The fully qualified domain name of the server. stringOptional id Resource ID. stringOptional identity The Azure Active Directory identity of the server. ResourceIdentity_STATUSOptional keyId A CMK URI of the key to use for encryption. stringOptional kind Kind of sql server. This is metadata used for the Azure portal experience. stringOptional location Resource location. stringOptional minimalTlsVersion Minimal TLS version. Allowed values: ‘1.0’, ‘1.1’, ‘1.2’ stringOptional name Resource name. stringOptional primaryUserAssignedIdentityId The resource id of a user assigned identity to be used by default. stringOptional privateEndpointConnections List of private endpoint connections on a server ServerPrivateEndpointConnection_STATUS[]Optional publicNetworkAccess Whether or not public endpoint access is allowed for this server. Value is optional but if passed in, must be ‘Enabled’ or ‘Disabled’ ServerProperties_PublicNetworkAccess_STATUSOptional restrictOutboundNetworkAccess Whether or not to restrict outbound network access for this server. Value is optional but if passed in, must be ‘Enabled’ or ‘Disabled’ ServerProperties_RestrictOutboundNetworkAccess_STATUSOptional state The state of the server. stringOptional tags Resource tags. map[string]stringOptional type Resource type. stringOptional version The version of the server. stringOptional workspaceFeature Whether or not existing server has a workspace created and if it allows connection from workspace ServerProperties_WorkspaceFeature_STATUSOptional ServerList Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/Servers.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/servers/{serverName}">
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOptional status Server_STATUSOptional Server_Spec Property Description Type administratorLogin Administrator username for the server. Once created it cannot be changed. stringOptional administratorLoginPassword The administrator login password (required for server creation). genruntime.SecretReferenceOptional administrators The Azure Active Directory administrator of the server. ServerExternalAdministratorOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional federatedClientId The Client id used for cross tenant CMK scenario stringOptional identity The Azure Active Directory identity of the server. ResourceIdentityOptional keyId A CMK URI of the key to use for encryption. stringOptional location Resource location. stringRequired minimalTlsVersion Minimal TLS version. Allowed values: 1.0, 1.1, 1.2 stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ServerOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired primaryUserAssignedIdentityReference The resource id of a user assigned identity to be used by default. genruntime.ResourceReferenceOptional publicNetworkAccess Whether or not public endpoint access is allowed for this server. Value is optional but if passed in, must be Enabled or Disabled ServerProperties_PublicNetworkAccessOptional restrictOutboundNetworkAccess Whether or not to restrict outbound network access for this server. Value is optional but if passed in, must be Enabled or Disabled ServerProperties_RestrictOutboundNetworkAccessOptional tags Resource tags. map[string]stringOptional version The version of the server. stringOptional Server_STATUS Property Description Type administratorLogin Administrator username for the server. Once created it cannot be changed. stringOptional administrators The Azure Active Directory administrator of the server. ServerExternalAdministrator_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional federatedClientId The Client id used for cross tenant CMK scenario stringOptional fullyQualifiedDomainName The fully qualified domain name of the server. stringOptional id Resource ID. stringOptional identity The Azure Active Directory identity of the server. ResourceIdentity_STATUSOptional keyId A CMK URI of the key to use for encryption. stringOptional kind Kind of sql server. This is metadata used for the Azure portal experience. stringOptional location Resource location. stringOptional minimalTlsVersion Minimal TLS version. Allowed values: 1.0, 1.1, 1.2 stringOptional name Resource name. stringOptional primaryUserAssignedIdentityId The resource id of a user assigned identity to be used by default. stringOptional privateEndpointConnections List of private endpoint connections on a server ServerPrivateEndpointConnection_STATUS[]Optional publicNetworkAccess Whether or not public endpoint access is allowed for this server. Value is optional but if passed in, must be Enabled or Disabled ServerProperties_PublicNetworkAccess_STATUSOptional restrictOutboundNetworkAccess Whether or not to restrict outbound network access for this server. Value is optional but if passed in, must be Enabled or Disabled ServerProperties_RestrictOutboundNetworkAccess_STATUSOptional state The state of the server. stringOptional tags Resource tags. map[string]stringOptional type Resource type. stringOptional version The version of the server. stringOptional workspaceFeature Whether or not existing server has a workspace created and if it allows connection from workspace ServerProperties_WorkspaceFeature_STATUSOptional ServerList Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/Servers.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="reference">
 
   <meta itemprop="name" content="sql.azure.com/v1api20211101">
-  <meta itemprop="description" content="APIVersion Value Description “2021-11-01” Server Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/Servers.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/servers/{serverName}
+  <meta itemprop="description" content="APIVersion Value Description “2021-11-01” Server Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/Servers.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}
 Used by: ServerList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOptional status Server_STATUSOptional Server_Spec Property Description Type administratorLogin Administrator username for the server. Once created it cannot be changed. stringOptional administratorLoginPassword The administrator login password (required for server creation). genruntime.SecretReferenceOptional administrators The Azure Active Directory administrator of the server. ServerExternalAdministratorOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional federatedClientId The Client id used for cross tenant CMK scenario stringOptional identity The Azure Active Directory identity of the server. ResourceIdentityOptional keyId A CMK URI of the key to use for encryption. stringOptional location Resource location. stringRequired minimalTlsVersion Minimal TLS version. Allowed values: ‘1.0’, ‘1.1’, ‘1.2’ stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ServerOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired primaryUserAssignedIdentityReference The resource id of a user assigned identity to be used by default. genruntime.ResourceReferenceOptional publicNetworkAccess Whether or not public endpoint access is allowed for this server. Value is optional but if passed in, must be ‘Enabled’ or ‘Disabled’ ServerProperties_PublicNetworkAccessOptional restrictOutboundNetworkAccess Whether or not to restrict outbound network access for this server. Value is optional but if passed in, must be ‘Enabled’ or ‘Disabled’ ServerProperties_RestrictOutboundNetworkAccessOptional tags Resource tags. map[string]stringOptional version The version of the server. stringOptional Server_STATUS Property Description Type administratorLogin Administrator username for the server. Once created it cannot be changed. stringOptional administrators The Azure Active Directory administrator of the server. ServerExternalAdministrator_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional federatedClientId The Client id used for cross tenant CMK scenario stringOptional fullyQualifiedDomainName The fully qualified domain name of the server. stringOptional id Resource ID. stringOptional identity The Azure Active Directory identity of the server. ResourceIdentity_STATUSOptional keyId A CMK URI of the key to use for encryption. stringOptional kind Kind of sql server. This is metadata used for the Azure portal experience. stringOptional location Resource location. stringOptional minimalTlsVersion Minimal TLS version. Allowed values: ‘1.0’, ‘1.1’, ‘1.2’ stringOptional name Resource name. stringOptional primaryUserAssignedIdentityId The resource id of a user assigned identity to be used by default. stringOptional privateEndpointConnections List of private endpoint connections on a server ServerPrivateEndpointConnection_STATUS[]Optional publicNetworkAccess Whether or not public endpoint access is allowed for this server. Value is optional but if passed in, must be ‘Enabled’ or ‘Disabled’ ServerProperties_PublicNetworkAccess_STATUSOptional restrictOutboundNetworkAccess Whether or not to restrict outbound network access for this server. Value is optional but if passed in, must be ‘Enabled’ or ‘Disabled’ ServerProperties_RestrictOutboundNetworkAccess_STATUSOptional state The state of the server. stringOptional tags Resource tags. map[string]stringOptional type Resource type. stringOptional version The version of the server. stringOptional workspaceFeature Whether or not existing server has a workspace created and if it allows connection from workspace ServerProperties_WorkspaceFeature_STATUSOptional ServerList Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/Servers.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/servers/{serverName}">
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOptional status Server_STATUSOptional Server_Spec Property Description Type administratorLogin Administrator username for the server. Once created it cannot be changed. stringOptional administratorLoginPassword The administrator login password (required for server creation). genruntime.SecretReferenceOptional administrators The Azure Active Directory administrator of the server. ServerExternalAdministratorOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional federatedClientId The Client id used for cross tenant CMK scenario stringOptional identity The Azure Active Directory identity of the server. ResourceIdentityOptional keyId A CMK URI of the key to use for encryption. stringOptional location Resource location. stringRequired minimalTlsVersion Minimal TLS version. Allowed values: 1.0, 1.1, 1.2 stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ServerOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired primaryUserAssignedIdentityReference The resource id of a user assigned identity to be used by default. genruntime.ResourceReferenceOptional publicNetworkAccess Whether or not public endpoint access is allowed for this server. Value is optional but if passed in, must be Enabled or Disabled ServerProperties_PublicNetworkAccessOptional restrictOutboundNetworkAccess Whether or not to restrict outbound network access for this server. Value is optional but if passed in, must be Enabled or Disabled ServerProperties_RestrictOutboundNetworkAccessOptional tags Resource tags. map[string]stringOptional version The version of the server. stringOptional Server_STATUS Property Description Type administratorLogin Administrator username for the server. Once created it cannot be changed. stringOptional administrators The Azure Active Directory administrator of the server. ServerExternalAdministrator_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional federatedClientId The Client id used for cross tenant CMK scenario stringOptional fullyQualifiedDomainName The fully qualified domain name of the server. stringOptional id Resource ID. stringOptional identity The Azure Active Directory identity of the server. ResourceIdentity_STATUSOptional keyId A CMK URI of the key to use for encryption. stringOptional kind Kind of sql server. This is metadata used for the Azure portal experience. stringOptional location Resource location. stringOptional minimalTlsVersion Minimal TLS version. Allowed values: 1.0, 1.1, 1.2 stringOptional name Resource name. stringOptional primaryUserAssignedIdentityId The resource id of a user assigned identity to be used by default. stringOptional privateEndpointConnections List of private endpoint connections on a server ServerPrivateEndpointConnection_STATUS[]Optional publicNetworkAccess Whether or not public endpoint access is allowed for this server. Value is optional but if passed in, must be Enabled or Disabled ServerProperties_PublicNetworkAccess_STATUSOptional restrictOutboundNetworkAccess Whether or not to restrict outbound network access for this server. Value is optional but if passed in, must be Enabled or Disabled ServerProperties_RestrictOutboundNetworkAccess_STATUSOptional state The state of the server. stringOptional tags Resource tags. map[string]stringOptional type Resource type. stringOptional version The version of the server. stringOptional workspaceFeature Whether or not existing server has a workspace created and if it allows connection from workspace ServerProperties_WorkspaceFeature_STATUSOptional ServerList Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/Servers.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}">
   <meta itemprop="wordCount" content="21627">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="sql.azure.com/v1api20211101">
-  <meta name="twitter:description" content="APIVersion Value Description “2021-11-01” Server Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/Servers.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/servers/{serverName}
+  <meta name="twitter:description" content="APIVersion Value Description “2021-11-01” Server Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/Servers.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}
 Used by: ServerList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOptional status Server_STATUSOptional Server_Spec Property Description Type administratorLogin Administrator username for the server. Once created it cannot be changed. stringOptional administratorLoginPassword The administrator login password (required for server creation). genruntime.SecretReferenceOptional administrators The Azure Active Directory administrator of the server. ServerExternalAdministratorOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional federatedClientId The Client id used for cross tenant CMK scenario stringOptional identity The Azure Active Directory identity of the server. ResourceIdentityOptional keyId A CMK URI of the key to use for encryption. stringOptional location Resource location. stringRequired minimalTlsVersion Minimal TLS version. Allowed values: ‘1.0’, ‘1.1’, ‘1.2’ stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ServerOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired primaryUserAssignedIdentityReference The resource id of a user assigned identity to be used by default. genruntime.ResourceReferenceOptional publicNetworkAccess Whether or not public endpoint access is allowed for this server. Value is optional but if passed in, must be ‘Enabled’ or ‘Disabled’ ServerProperties_PublicNetworkAccessOptional restrictOutboundNetworkAccess Whether or not to restrict outbound network access for this server. Value is optional but if passed in, must be ‘Enabled’ or ‘Disabled’ ServerProperties_RestrictOutboundNetworkAccessOptional tags Resource tags. map[string]stringOptional version The version of the server. stringOptional Server_STATUS Property Description Type administratorLogin Administrator username for the server. Once created it cannot be changed. stringOptional administrators The Azure Active Directory administrator of the server. ServerExternalAdministrator_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional federatedClientId The Client id used for cross tenant CMK scenario stringOptional fullyQualifiedDomainName The fully qualified domain name of the server. stringOptional id Resource ID. stringOptional identity The Azure Active Directory identity of the server. ResourceIdentity_STATUSOptional keyId A CMK URI of the key to use for encryption. stringOptional kind Kind of sql server. This is metadata used for the Azure portal experience. stringOptional location Resource location. stringOptional minimalTlsVersion Minimal TLS version. Allowed values: ‘1.0’, ‘1.1’, ‘1.2’ stringOptional name Resource name. stringOptional primaryUserAssignedIdentityId The resource id of a user assigned identity to be used by default. stringOptional privateEndpointConnections List of private endpoint connections on a server ServerPrivateEndpointConnection_STATUS[]Optional publicNetworkAccess Whether or not public endpoint access is allowed for this server. Value is optional but if passed in, must be ‘Enabled’ or ‘Disabled’ ServerProperties_PublicNetworkAccess_STATUSOptional restrictOutboundNetworkAccess Whether or not to restrict outbound network access for this server. Value is optional but if passed in, must be ‘Enabled’ or ‘Disabled’ ServerProperties_RestrictOutboundNetworkAccess_STATUSOptional state The state of the server. stringOptional tags Resource tags. map[string]stringOptional type Resource type. stringOptional version The version of the server. stringOptional workspaceFeature Whether or not existing server has a workspace created and if it allows connection from workspace ServerProperties_WorkspaceFeature_STATUSOptional ServerList Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/Servers.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/servers/{serverName}">
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOptional status Server_STATUSOptional Server_Spec Property Description Type administratorLogin Administrator username for the server. Once created it cannot be changed. stringOptional administratorLoginPassword The administrator login password (required for server creation). genruntime.SecretReferenceOptional administrators The Azure Active Directory administrator of the server. ServerExternalAdministratorOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional federatedClientId The Client id used for cross tenant CMK scenario stringOptional identity The Azure Active Directory identity of the server. ResourceIdentityOptional keyId A CMK URI of the key to use for encryption. stringOptional location Resource location. stringRequired minimalTlsVersion Minimal TLS version. Allowed values: 1.0, 1.1, 1.2 stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ServerOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired primaryUserAssignedIdentityReference The resource id of a user assigned identity to be used by default. genruntime.ResourceReferenceOptional publicNetworkAccess Whether or not public endpoint access is allowed for this server. Value is optional but if passed in, must be Enabled or Disabled ServerProperties_PublicNetworkAccessOptional restrictOutboundNetworkAccess Whether or not to restrict outbound network access for this server. Value is optional but if passed in, must be Enabled or Disabled ServerProperties_RestrictOutboundNetworkAccessOptional tags Resource tags. map[string]stringOptional version The version of the server. stringOptional Server_STATUS Property Description Type administratorLogin Administrator username for the server. Once created it cannot be changed. stringOptional administrators The Azure Active Directory administrator of the server. ServerExternalAdministrator_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional federatedClientId The Client id used for cross tenant CMK scenario stringOptional fullyQualifiedDomainName The fully qualified domain name of the server. stringOptional id Resource ID. stringOptional identity The Azure Active Directory identity of the server. ResourceIdentity_STATUSOptional keyId A CMK URI of the key to use for encryption. stringOptional kind Kind of sql server. This is metadata used for the Azure portal experience. stringOptional location Resource location. stringOptional minimalTlsVersion Minimal TLS version. Allowed values: 1.0, 1.1, 1.2 stringOptional name Resource name. stringOptional primaryUserAssignedIdentityId The resource id of a user assigned identity to be used by default. stringOptional privateEndpointConnections List of private endpoint connections on a server ServerPrivateEndpointConnection_STATUS[]Optional publicNetworkAccess Whether or not public endpoint access is allowed for this server. Value is optional but if passed in, must be Enabled or Disabled ServerProperties_PublicNetworkAccess_STATUSOptional restrictOutboundNetworkAccess Whether or not to restrict outbound network access for this server. Value is optional but if passed in, must be Enabled or Disabled ServerProperties_RestrictOutboundNetworkAccess_STATUSOptional state The state of the server. stringOptional tags Resource tags. map[string]stringOptional type Resource type. stringOptional version The version of the server. stringOptional workspaceFeature Whether or not existing server has a workspace created and if it allows connection from workspace ServerProperties_WorkspaceFeature_STATUSOptional ServerList Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/Servers.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}">
 <link rel="preload" href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" as="style" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" rel="stylesheet" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <script
@@ -1162,7 +1162,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
   </tbody>
 </table>
 <h2 id="Server">Server</h2>
-<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/Servers.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/servers/{serverName}</p>
+<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/Servers.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}</p>
 <p>Used by: <a href="#ServerList">ServerList</a>.</p>
 <table>
   <thead>
@@ -1247,7 +1247,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
       </tr>
       <tr>
           <td>minimalTlsVersion</td>
-          <td>Minimal TLS version. Allowed values: &lsquo;1.0&rsquo;, &lsquo;1.1&rsquo;, &lsquo;1.2&rsquo;</td>
+          <td>Minimal TLS version. Allowed values: <code>1.0</code>, <code>1.1</code>, <code>1.2</code></td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1267,12 +1267,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
       </tr>
       <tr>
           <td>publicNetworkAccess</td>
-          <td>Whether or not public endpoint access is allowed for this server. Value is optional but if passed in, must be &lsquo;Enabled&rsquo; or &lsquo;Disabled&rsquo;</td>
+          <td>Whether or not public endpoint access is allowed for this server. Value is optional but if passed in, must be <code>Enabled</code> or <code>Disabled</code></td>
           <td><a href="#ServerProperties_PublicNetworkAccess">ServerProperties_PublicNetworkAccess</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>restrictOutboundNetworkAccess</td>
-          <td>Whether or not to restrict outbound network access for this server. Value is optional but if passed in, must be &lsquo;Enabled&rsquo; or &lsquo;Disabled&rsquo;</td>
+          <td>Whether or not to restrict outbound network access for this server. Value is optional but if passed in, must be <code>Enabled</code> or <code>Disabled</code></td>
           <td><a href="#ServerProperties_RestrictOutboundNetworkAccess">ServerProperties_RestrictOutboundNetworkAccess</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1349,7 +1349,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
       </tr>
       <tr>
           <td>minimalTlsVersion</td>
-          <td>Minimal TLS version. Allowed values: &lsquo;1.0&rsquo;, &lsquo;1.1&rsquo;, &lsquo;1.2&rsquo;</td>
+          <td>Minimal TLS version. Allowed values: <code>1.0</code>, <code>1.1</code>, <code>1.2</code></td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1369,12 +1369,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
       </tr>
       <tr>
           <td>publicNetworkAccess</td>
-          <td>Whether or not public endpoint access is allowed for this server. Value is optional but if passed in, must be &lsquo;Enabled&rsquo; or &lsquo;Disabled&rsquo;</td>
+          <td>Whether or not public endpoint access is allowed for this server. Value is optional but if passed in, must be <code>Enabled</code> or <code>Disabled</code></td>
           <td><a href="#ServerProperties_PublicNetworkAccess_STATUS">ServerProperties_PublicNetworkAccess_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>restrictOutboundNetworkAccess</td>
-          <td>Whether or not to restrict outbound network access for this server. Value is optional but if passed in, must be &lsquo;Enabled&rsquo; or &lsquo;Disabled&rsquo;</td>
+          <td>Whether or not to restrict outbound network access for this server. Value is optional but if passed in, must be <code>Enabled</code> or <code>Disabled</code></td>
           <td><a href="#ServerProperties_RestrictOutboundNetworkAccess_STATUS">ServerProperties_RestrictOutboundNetworkAccess_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1405,7 +1405,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
   </tbody>
 </table>
 <h2 id="ServerList">ServerList</h2>
-<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/Servers.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/servers/{serverName}</p>
+<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/Servers.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}</p>
 <table>
   <thead>
       <tr>
@@ -1433,7 +1433,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
   </tbody>
 </table>
 <h2 id="ServersAdministrator">ServersAdministrator</h2>
-<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/ServerAzureADAdministrators.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/servers/{serverName}/administrators/{administratorName}</p>
+<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/ServerAzureADAdministrators.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}/​administrators/​{administratorName}</p>
 <p>Used by: <a href="#ServersAdministratorList">ServersAdministratorList</a>.</p>
 <table>
   <thead>
@@ -1576,7 +1576,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
   </tbody>
 </table>
 <h2 id="ServersAdministratorList">ServersAdministratorList</h2>
-<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/ServerAzureADAdministrators.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/servers/{serverName}/administrators/{administratorName}</p>
+<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/ServerAzureADAdministrators.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}/​administrators/​{administratorName}</p>
 <table>
   <thead>
       <tr>
@@ -1604,7 +1604,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
   </tbody>
 </table>
 <h2 id="ServersAdvancedThreatProtectionSetting">ServersAdvancedThreatProtectionSetting</h2>
-<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/ServerAdvancedThreatProtectionSettings.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/servers/{serverName}/advancedThreatProtectionSettings/Default</p>
+<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/ServerAdvancedThreatProtectionSettings.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}/​advancedThreatProtectionSettings/​Default</p>
 <p>Used by: <a href="#ServersAdvancedThreatProtectionSettingList">ServersAdvancedThreatProtectionSettingList</a>.</p>
 <table>
   <thead>
@@ -1712,7 +1712,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
   </tbody>
 </table>
 <h2 id="ServersAdvancedThreatProtectionSettingList">ServersAdvancedThreatProtectionSettingList</h2>
-<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/ServerAdvancedThreatProtectionSettings.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/servers/{serverName}/advancedThreatProtectionSettings/Default</p>
+<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/ServerAdvancedThreatProtectionSettings.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}/​advancedThreatProtectionSettings/​Default</p>
 <table>
   <thead>
       <tr>
@@ -1740,7 +1740,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
   </tbody>
 </table>
 <h2 id="ServersAuditingSetting">ServersAuditingSetting</h2>
-<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/BlobAuditing.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/servers/{serverName}/auditingSettings/default</p>
+<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/BlobAuditing.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}/​auditingSettings/​default</p>
 <p>Used by: <a href="#ServersAuditingSettingList">ServersAuditingSettingList</a>.</p>
 <table>
   <thead>
@@ -1790,12 +1790,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
       </tr>
       <tr>
           <td>isAzureMonitorTargetEnabled</td>
-          <td>Specifies whether audit events are sent to Azure Monitor. In order to send the events to Azure Monitor, specify &lsquo;State&rsquo; as &lsquo;Enabled&rsquo; and &lsquo;IsAzureMonitorTargetEnabled&rsquo; as true. When using REST API to configure auditing, Diagnostic Settings with &lsquo;SQLSecurityAuditEvents&rsquo; diagnostic logs category on the database should be also created. Note that for server level audit you should use the &lsquo;master&rsquo; database as {databaseName}. Diagnostic Settings URI format: PUT <a href="https://management.azure.com/&amp;ZeroWidthSpace;subscriptions/&amp;ZeroWidthSpace;%7BsubscriptionId%7D/&amp;ZeroWidthSpace;resourceGroups/&amp;ZeroWidthSpace;%7BresourceGroup%7D/&amp;ZeroWidthSpace;providers/&amp;ZeroWidthSpace;Microsoft.Sql/servers/%7BserverName%7D/databases/%7BdatabaseName%7D/providers/microsoft.insights/diagnosticSettings/%7BsettingsName%7D?api-version=2017-05-01-preview">https://management.azure.com/&amp;ZeroWidthSpace;subscriptions/&amp;ZeroWidthSpace;{subscriptionId}/&amp;ZeroWidthSpace;resourceGroups/&amp;ZeroWidthSpace;{resourceGroup}/&amp;ZeroWidthSpace;providers/&amp;ZeroWidthSpace;Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview</a> For more information, see <a href="https://go.microsoft.com/fwlink/?linkid=2033207">Diagnostic Settings REST API</a> or <a href="https://go.microsoft.com/fwlink/?linkid=2033043">Diagnostic Settings PowerShell</a></td>
+          <td>Specifies whether audit events are sent to Azure Monitor. In order to send the events to Azure Monitor, specify <code>State</code> as <code>Enabled</code> and <code>IsAzureMonitorTargetEnabled</code> as true. When using REST API to configure auditing, Diagnostic Settings with <code>SQLSecurityAuditEvents</code> diagnostic logs category on the database should be also created. Note that for server level audit you should use the <code>master</code> database as {databaseName}. Diagnostic Settings URI format: PUT https​://management.azure.com/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroup}/​providers/​Microsoft.Sql/​servers/​{serverName}/​databases/​{databaseName}/​providers/​microsoft.insights/​diagnosticSettings/​{settingsName}?api-version=2017-05-01-preview For more information, see <a href="https://go.microsoft.com/fwlink/?linkid=2033207">Diagnostic Settings REST API</a> or <a href="https://go.microsoft.com/fwlink/?linkid=2033043">Diagnostic Settings PowerShell</a></td>
           <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>isDevopsAuditEnabled</td>
-          <td>Specifies the state of devops audit. If state is Enabled, devops logs will be sent to Azure Monitor. In order to send the events to Azure Monitor, specify &lsquo;State&rsquo; as &lsquo;Enabled&rsquo;, &lsquo;IsAzureMonitorTargetEnabled&rsquo; as true and &lsquo;IsDevopsAuditEnabled&rsquo; as true When using REST API to configure auditing, Diagnostic Settings with &lsquo;DevOpsOperationsAudit&rsquo; diagnostic logs category on the master database should also be created. Diagnostic Settings URI format: PUT <a href="https://management.azure.com/&amp;ZeroWidthSpace;subscriptions/&amp;ZeroWidthSpace;%7BsubscriptionId%7D/&amp;ZeroWidthSpace;resourceGroups/&amp;ZeroWidthSpace;%7BresourceGroup%7D/&amp;ZeroWidthSpace;providers/&amp;ZeroWidthSpace;Microsoft.Sql/servers/%7BserverName%7D/databases/master/providers/microsoft.insights/diagnosticSettings/%7BsettingsName%7D?api-version=2017-05-01-preview">https://management.azure.com/&amp;ZeroWidthSpace;subscriptions/&amp;ZeroWidthSpace;{subscriptionId}/&amp;ZeroWidthSpace;resourceGroups/&amp;ZeroWidthSpace;{resourceGroup}/&amp;ZeroWidthSpace;providers/&amp;ZeroWidthSpace;Microsoft.Sql/servers/{serverName}/databases/master/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview</a> For more information, see <a href="https://go.microsoft.com/fwlink/?linkid=2033207">Diagnostic Settings REST API</a> or <a href="https://go.microsoft.com/fwlink/?linkid=2033043">Diagnostic Settings PowerShell</a></td>
+          <td>Specifies the state of devops audit. If state is Enabled, devops logs will be sent to Azure Monitor. In order to send the events to Azure Monitor, specify <code>State</code> as <code>Enabled</code>, <code>IsAzureMonitorTargetEnabled</code> as true and <code>IsDevopsAuditEnabled</code> as true When using REST API to configure auditing, Diagnostic Settings with <code>DevOpsOperationsAudit</code> diagnostic logs category on the master database should also be created. Diagnostic Settings URI format: PUT https​://management.azure.com/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroup}/​providers/​Microsoft.Sql/​servers/​{serverName}/​databases/​master/​providers/​microsoft.insights/​diagnosticSettings/​{settingsName}?api-version=2017-05-01-preview For more information, see <a href="https://go.microsoft.com/fwlink/?linkid=2033207">Diagnostic Settings REST API</a> or <a href="https://go.microsoft.com/fwlink/?linkid=2033043">Diagnostic Settings PowerShell</a></td>
           <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1877,12 +1877,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
       </tr>
       <tr>
           <td>isAzureMonitorTargetEnabled</td>
-          <td>Specifies whether audit events are sent to Azure Monitor. In order to send the events to Azure Monitor, specify &lsquo;State&rsquo; as &lsquo;Enabled&rsquo; and &lsquo;IsAzureMonitorTargetEnabled&rsquo; as true. When using REST API to configure auditing, Diagnostic Settings with &lsquo;SQLSecurityAuditEvents&rsquo; diagnostic logs category on the database should be also created. Note that for server level audit you should use the &lsquo;master&rsquo; database as {databaseName}. Diagnostic Settings URI format: PUT <a href="https://management.azure.com/&amp;ZeroWidthSpace;subscriptions/&amp;ZeroWidthSpace;%7BsubscriptionId%7D/&amp;ZeroWidthSpace;resourceGroups/&amp;ZeroWidthSpace;%7BresourceGroup%7D/&amp;ZeroWidthSpace;providers/&amp;ZeroWidthSpace;Microsoft.Sql/servers/%7BserverName%7D/databases/%7BdatabaseName%7D/providers/microsoft.insights/diagnosticSettings/%7BsettingsName%7D?api-version=2017-05-01-preview">https://management.azure.com/&amp;ZeroWidthSpace;subscriptions/&amp;ZeroWidthSpace;{subscriptionId}/&amp;ZeroWidthSpace;resourceGroups/&amp;ZeroWidthSpace;{resourceGroup}/&amp;ZeroWidthSpace;providers/&amp;ZeroWidthSpace;Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview</a> For more information, see <a href="https://go.microsoft.com/fwlink/?linkid=2033207">Diagnostic Settings REST API</a> or <a href="https://go.microsoft.com/fwlink/?linkid=2033043">Diagnostic Settings PowerShell</a></td>
+          <td>Specifies whether audit events are sent to Azure Monitor. In order to send the events to Azure Monitor, specify <code>State</code> as <code>Enabled</code> and <code>IsAzureMonitorTargetEnabled</code> as true. When using REST API to configure auditing, Diagnostic Settings with <code>SQLSecurityAuditEvents</code> diagnostic logs category on the database should be also created. Note that for server level audit you should use the <code>master</code> database as {databaseName}. Diagnostic Settings URI format: PUT https​://management.azure.com/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroup}/​providers/​Microsoft.Sql/​servers/​{serverName}/​databases/​{databaseName}/​providers/​microsoft.insights/​diagnosticSettings/​{settingsName}?api-version=2017-05-01-preview For more information, see <a href="https://go.microsoft.com/fwlink/?linkid=2033207">Diagnostic Settings REST API</a> or <a href="https://go.microsoft.com/fwlink/?linkid=2033043">Diagnostic Settings PowerShell</a></td>
           <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>isDevopsAuditEnabled</td>
-          <td>Specifies the state of devops audit. If state is Enabled, devops logs will be sent to Azure Monitor. In order to send the events to Azure Monitor, specify &lsquo;State&rsquo; as &lsquo;Enabled&rsquo;, &lsquo;IsAzureMonitorTargetEnabled&rsquo; as true and &lsquo;IsDevopsAuditEnabled&rsquo; as true When using REST API to configure auditing, Diagnostic Settings with &lsquo;DevOpsOperationsAudit&rsquo; diagnostic logs category on the master database should also be created. Diagnostic Settings URI format: PUT <a href="https://management.azure.com/&amp;ZeroWidthSpace;subscriptions/&amp;ZeroWidthSpace;%7BsubscriptionId%7D/&amp;ZeroWidthSpace;resourceGroups/&amp;ZeroWidthSpace;%7BresourceGroup%7D/&amp;ZeroWidthSpace;providers/&amp;ZeroWidthSpace;Microsoft.Sql/servers/%7BserverName%7D/databases/master/providers/microsoft.insights/diagnosticSettings/%7BsettingsName%7D?api-version=2017-05-01-preview">https://management.azure.com/&amp;ZeroWidthSpace;subscriptions/&amp;ZeroWidthSpace;{subscriptionId}/&amp;ZeroWidthSpace;resourceGroups/&amp;ZeroWidthSpace;{resourceGroup}/&amp;ZeroWidthSpace;providers/&amp;ZeroWidthSpace;Microsoft.Sql/servers/{serverName}/databases/master/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview</a> For more information, see <a href="https://go.microsoft.com/fwlink/?linkid=2033207">Diagnostic Settings REST API</a> or <a href="https://go.microsoft.com/fwlink/?linkid=2033043">Diagnostic Settings PowerShell</a></td>
+          <td>Specifies the state of devops audit. If state is Enabled, devops logs will be sent to Azure Monitor. In order to send the events to Azure Monitor, specify <code>State</code> as <code>Enabled</code>, <code>IsAzureMonitorTargetEnabled</code> as true and <code>IsDevopsAuditEnabled</code> as true When using REST API to configure auditing, Diagnostic Settings with <code>DevOpsOperationsAudit</code> diagnostic logs category on the master database should also be created. Diagnostic Settings URI format: PUT https​://management.azure.com/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroup}/​providers/​Microsoft.Sql/​servers/​{serverName}/​databases/​master/​providers/​microsoft.insights/​diagnosticSettings/​{settingsName}?api-version=2017-05-01-preview For more information, see <a href="https://go.microsoft.com/fwlink/?linkid=2033207">Diagnostic Settings REST API</a> or <a href="https://go.microsoft.com/fwlink/?linkid=2033043">Diagnostic Settings PowerShell</a></td>
           <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1933,7 +1933,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
   </tbody>
 </table>
 <h2 id="ServersAuditingSettingList">ServersAuditingSettingList</h2>
-<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/BlobAuditing.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/servers/{serverName}/auditingSettings/default</p>
+<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/BlobAuditing.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}/​auditingSettings/​default</p>
 <table>
   <thead>
       <tr>
@@ -1961,7 +1961,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
   </tbody>
 </table>
 <h2 id="ServersAzureADOnlyAuthentication">ServersAzureADOnlyAuthentication</h2>
-<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/ServerAzureADOnlyAuthentications.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/servers/{serverName}/azureADOnlyAuthentications/Default</p>
+<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/ServerAzureADOnlyAuthentications.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}/​azureADOnlyAuthentications/​Default</p>
 <p>Used by: <a href="#ServersAzureADOnlyAuthenticationList">ServersAzureADOnlyAuthenticationList</a>.</p>
 <table>
   <thead>
@@ -2059,7 +2059,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
   </tbody>
 </table>
 <h2 id="ServersAzureADOnlyAuthenticationList">ServersAzureADOnlyAuthenticationList</h2>
-<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/ServerAzureADOnlyAuthentications.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/servers/{serverName}/azureADOnlyAuthentications/Default</p>
+<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/ServerAzureADOnlyAuthentications.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}/​azureADOnlyAuthentications/​Default</p>
 <table>
   <thead>
       <tr>
@@ -2087,7 +2087,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
   </tbody>
 </table>
 <h2 id="ServersConnectionPolicy">ServersConnectionPolicy</h2>
-<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/ServerConnectionPolicies.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/servers/{serverName}/connectionPolicies/default</p>
+<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/ServerConnectionPolicies.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}/​connectionPolicies/​default</p>
 <p>Used by: <a href="#ServersConnectionPolicyList">ServersConnectionPolicyList</a>.</p>
 <table>
   <thead>
@@ -2195,7 +2195,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
   </tbody>
 </table>
 <h2 id="ServersConnectionPolicyList">ServersConnectionPolicyList</h2>
-<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/ServerConnectionPolicies.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/servers/{serverName}/connectionPolicies/default</p>
+<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/ServerConnectionPolicies.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}/​connectionPolicies/​default</p>
 <table>
   <thead>
       <tr>
@@ -2223,7 +2223,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
   </tbody>
 </table>
 <h2 id="ServersDatabase">ServersDatabase</h2>
-<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/Databases.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/servers/{serverName}/databases/{databaseName}</p>
+<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/Databases.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}/​databases/​{databaseName}</p>
 <p>Used by: <a href="#ServersDatabaseList">ServersDatabaseList</a>.</p>
 <table>
   <thead>
@@ -2686,7 +2686,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
   </tbody>
 </table>
 <h2 id="ServersDatabaseList">ServersDatabaseList</h2>
-<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/Databases.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/servers/{serverName}/databases/{databaseName}</p>
+<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/Databases.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}/​databases/​{databaseName}</p>
 <table>
   <thead>
       <tr>
@@ -2714,7 +2714,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
   </tbody>
 </table>
 <h2 id="ServersDatabasesAdvancedThreatProtectionSetting">ServersDatabasesAdvancedThreatProtectionSetting</h2>
-<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/DatabaseAdvancedThreatProtectionSettings.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/servers/{serverName}/databases/{databaseName}/advancedThreatProtectionSettings/Default</p>
+<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/DatabaseAdvancedThreatProtectionSettings.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}/​databases/​{databaseName}/​advancedThreatProtectionSettings/​Default</p>
 <p>Used by: <a href="#ServersDatabasesAdvancedThreatProtectionSettingList">ServersDatabasesAdvancedThreatProtectionSettingList</a>.</p>
 <table>
   <thead>
@@ -2822,7 +2822,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
   </tbody>
 </table>
 <h2 id="ServersDatabasesAdvancedThreatProtectionSettingList">ServersDatabasesAdvancedThreatProtectionSettingList</h2>
-<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/DatabaseAdvancedThreatProtectionSettings.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/servers/{serverName}/databases/{databaseName}/advancedThreatProtectionSettings/Default</p>
+<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/DatabaseAdvancedThreatProtectionSettings.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}/​databases/​{databaseName}/​advancedThreatProtectionSettings/​Default</p>
 <table>
   <thead>
       <tr>
@@ -2850,7 +2850,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
   </tbody>
 </table>
 <h2 id="ServersDatabasesAuditingSetting">ServersDatabasesAuditingSetting</h2>
-<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/BlobAuditing.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/servers/{serverName}/databases/{databaseName}/auditingSettings/default</p>
+<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/BlobAuditing.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}/​databases/​{databaseName}/​auditingSettings/​default</p>
 <p>Used by: <a href="#ServersDatabasesAuditingSettingList">ServersDatabasesAuditingSettingList</a>.</p>
 <table>
   <thead>
@@ -2900,7 +2900,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
       </tr>
       <tr>
           <td>isAzureMonitorTargetEnabled</td>
-          <td>Specifies whether audit events are sent to Azure Monitor. In order to send the events to Azure Monitor, specify &lsquo;State&rsquo; as &lsquo;Enabled&rsquo; and &lsquo;IsAzureMonitorTargetEnabled&rsquo; as true. When using REST API to configure auditing, Diagnostic Settings with &lsquo;SQLSecurityAuditEvents&rsquo; diagnostic logs category on the database should be also created. Note that for server level audit you should use the &lsquo;master&rsquo; database as {databaseName}. Diagnostic Settings URI format: PUT <a href="https://management.azure.com/&amp;ZeroWidthSpace;subscriptions/&amp;ZeroWidthSpace;%7BsubscriptionId%7D/&amp;ZeroWidthSpace;resourceGroups/&amp;ZeroWidthSpace;%7BresourceGroup%7D/&amp;ZeroWidthSpace;providers/&amp;ZeroWidthSpace;Microsoft.Sql/servers/%7BserverName%7D/databases/%7BdatabaseName%7D/providers/microsoft.insights/diagnosticSettings/%7BsettingsName%7D?api-version=2017-05-01-preview">https://management.azure.com/&amp;ZeroWidthSpace;subscriptions/&amp;ZeroWidthSpace;{subscriptionId}/&amp;ZeroWidthSpace;resourceGroups/&amp;ZeroWidthSpace;{resourceGroup}/&amp;ZeroWidthSpace;providers/&amp;ZeroWidthSpace;Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview</a> For more information, see <a href="https://go.microsoft.com/fwlink/?linkid=2033207">Diagnostic Settings REST API</a> or <a href="https://go.microsoft.com/fwlink/?linkid=2033043">Diagnostic Settings PowerShell</a></td>
+          <td>Specifies whether audit events are sent to Azure Monitor. In order to send the events to Azure Monitor, specify <code>State</code> as <code>Enabled</code> and <code>IsAzureMonitorTargetEnabled</code> as true. When using REST API to configure auditing, Diagnostic Settings with <code>SQLSecurityAuditEvents</code> diagnostic logs category on the database should be also created. Note that for server level audit you should use the <code>master</code> database as {databaseName}. Diagnostic Settings URI format: PUT https​://management.azure.com/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroup}/​providers/​Microsoft.Sql/​servers/​{serverName}/​databases/​{databaseName}/​providers/​microsoft.insights/​diagnosticSettings/​{settingsName}?api-version=2017-05-01-preview For more information, see <a href="https://go.microsoft.com/fwlink/?linkid=2033207">Diagnostic Settings REST API</a> or <a href="https://go.microsoft.com/fwlink/?linkid=2033043">Diagnostic Settings PowerShell</a></td>
           <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -2982,7 +2982,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
       </tr>
       <tr>
           <td>isAzureMonitorTargetEnabled</td>
-          <td>Specifies whether audit events are sent to Azure Monitor. In order to send the events to Azure Monitor, specify &lsquo;State&rsquo; as &lsquo;Enabled&rsquo; and &lsquo;IsAzureMonitorTargetEnabled&rsquo; as true. When using REST API to configure auditing, Diagnostic Settings with &lsquo;SQLSecurityAuditEvents&rsquo; diagnostic logs category on the database should be also created. Note that for server level audit you should use the &lsquo;master&rsquo; database as {databaseName}. Diagnostic Settings URI format: PUT <a href="https://management.azure.com/&amp;ZeroWidthSpace;subscriptions/&amp;ZeroWidthSpace;%7BsubscriptionId%7D/&amp;ZeroWidthSpace;resourceGroups/&amp;ZeroWidthSpace;%7BresourceGroup%7D/&amp;ZeroWidthSpace;providers/&amp;ZeroWidthSpace;Microsoft.Sql/servers/%7BserverName%7D/databases/%7BdatabaseName%7D/providers/microsoft.insights/diagnosticSettings/%7BsettingsName%7D?api-version=2017-05-01-preview">https://management.azure.com/&amp;ZeroWidthSpace;subscriptions/&amp;ZeroWidthSpace;{subscriptionId}/&amp;ZeroWidthSpace;resourceGroups/&amp;ZeroWidthSpace;{resourceGroup}/&amp;ZeroWidthSpace;providers/&amp;ZeroWidthSpace;Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview</a> For more information, see <a href="https://go.microsoft.com/fwlink/?linkid=2033207">Diagnostic Settings REST API</a> or <a href="https://go.microsoft.com/fwlink/?linkid=2033043">Diagnostic Settings PowerShell</a></td>
+          <td>Specifies whether audit events are sent to Azure Monitor. In order to send the events to Azure Monitor, specify <code>State</code> as <code>Enabled</code> and <code>IsAzureMonitorTargetEnabled</code> as true. When using REST API to configure auditing, Diagnostic Settings with <code>SQLSecurityAuditEvents</code> diagnostic logs category on the database should be also created. Note that for server level audit you should use the <code>master</code> database as {databaseName}. Diagnostic Settings URI format: PUT https​://management.azure.com/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroup}/​providers/​Microsoft.Sql/​servers/​{serverName}/​databases/​{databaseName}/​providers/​microsoft.insights/​diagnosticSettings/​{settingsName}?api-version=2017-05-01-preview For more information, see <a href="https://go.microsoft.com/fwlink/?linkid=2033207">Diagnostic Settings REST API</a> or <a href="https://go.microsoft.com/fwlink/?linkid=2033043">Diagnostic Settings PowerShell</a></td>
           <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -3038,7 +3038,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
   </tbody>
 </table>
 <h2 id="ServersDatabasesAuditingSettingList">ServersDatabasesAuditingSettingList</h2>
-<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/BlobAuditing.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/servers/{serverName}/databases/{databaseName}/auditingSettings/default</p>
+<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/BlobAuditing.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}/​databases/​{databaseName}/​auditingSettings/​default</p>
 <table>
   <thead>
       <tr>
@@ -3066,7 +3066,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
   </tbody>
 </table>
 <h2 id="ServersDatabasesBackupLongTermRetentionPolicy">ServersDatabasesBackupLongTermRetentionPolicy</h2>
-<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/LongTermRetentionPolicies.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/servers/{serverName}/databases/{databaseName}/backupLongTermRetentionPolicies/default</p>
+<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/LongTermRetentionPolicies.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}/​databases/​{databaseName}/​backupLongTermRetentionPolicies/​default</p>
 <p>Used by: <a href="#ServersDatabasesBackupLongTermRetentionPolicyList">ServersDatabasesBackupLongTermRetentionPolicyList</a>.</p>
 <table>
   <thead>
@@ -3194,7 +3194,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
   </tbody>
 </table>
 <h2 id="ServersDatabasesBackupLongTermRetentionPolicyList">ServersDatabasesBackupLongTermRetentionPolicyList</h2>
-<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/LongTermRetentionPolicies.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/servers/{serverName}/databases/{databaseName}/backupLongTermRetentionPolicies/default</p>
+<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/LongTermRetentionPolicies.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}/​databases/​{databaseName}/​backupLongTermRetentionPolicies/​default</p>
 <table>
   <thead>
       <tr>
@@ -3222,7 +3222,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
   </tbody>
 </table>
 <h2 id="ServersDatabasesBackupShortTermRetentionPolicy">ServersDatabasesBackupShortTermRetentionPolicy</h2>
-<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/BackupShortTermRetentionPolicies.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/servers/{serverName}/databases/{databaseName}/backupShortTermRetentionPolicies/default</p>
+<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/BackupShortTermRetentionPolicies.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}/​databases/​{databaseName}/​backupShortTermRetentionPolicies/​default</p>
 <p>Used by: <a href="#ServersDatabasesBackupShortTermRetentionPolicyList">ServersDatabasesBackupShortTermRetentionPolicyList</a>.</p>
 <table>
   <thead>
@@ -3330,7 +3330,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
   </tbody>
 </table>
 <h2 id="ServersDatabasesBackupShortTermRetentionPolicyList">ServersDatabasesBackupShortTermRetentionPolicyList</h2>
-<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/BackupShortTermRetentionPolicies.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/servers/{serverName}/databases/{databaseName}/backupShortTermRetentionPolicies/default</p>
+<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/BackupShortTermRetentionPolicies.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}/​databases/​{databaseName}/​backupShortTermRetentionPolicies/​default</p>
 <table>
   <thead>
       <tr>
@@ -3358,7 +3358,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
   </tbody>
 </table>
 <h2 id="ServersDatabasesSecurityAlertPolicy">ServersDatabasesSecurityAlertPolicy</h2>
-<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/DatabaseSecurityAlertPolicies.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/servers/{serverName}/databases/{databaseName}/securityAlertPolicies/default</p>
+<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/DatabaseSecurityAlertPolicies.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}/​databases/​{databaseName}/​securityAlertPolicies/​default</p>
 <p>Used by: <a href="#ServersDatabasesSecurityAlertPolicyList">ServersDatabasesSecurityAlertPolicyList</a>.</p>
 <table>
   <thead>
@@ -3521,7 +3521,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
   </tbody>
 </table>
 <h2 id="ServersDatabasesSecurityAlertPolicyList">ServersDatabasesSecurityAlertPolicyList</h2>
-<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/DatabaseSecurityAlertPolicies.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/servers/{serverName}/databases/{databaseName}/securityAlertPolicies/default</p>
+<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/DatabaseSecurityAlertPolicies.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}/​databases/​{databaseName}/​securityAlertPolicies/​default</p>
 <table>
   <thead>
       <tr>
@@ -3549,7 +3549,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
   </tbody>
 </table>
 <h2 id="ServersDatabasesTransparentDataEncryption">ServersDatabasesTransparentDataEncryption</h2>
-<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/TransparentDataEncryptions.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/servers/{serverName}/databases/{databaseName}/transparentDataEncryption/{tdeName}</p>
+<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/TransparentDataEncryptions.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}/​databases/​{databaseName}/​transparentDataEncryption/​{tdeName}</p>
 <p>Used by: <a href="#ServersDatabasesTransparentDataEncryptionList">ServersDatabasesTransparentDataEncryptionList</a>.</p>
 <table>
   <thead>
@@ -3647,7 +3647,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
   </tbody>
 </table>
 <h2 id="ServersDatabasesTransparentDataEncryptionList">ServersDatabasesTransparentDataEncryptionList</h2>
-<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/TransparentDataEncryptions.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/servers/{serverName}/databases/{databaseName}/transparentDataEncryption/{tdeName}</p>
+<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/TransparentDataEncryptions.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}/​databases/​{databaseName}/​transparentDataEncryption/​{tdeName}</p>
 <table>
   <thead>
       <tr>
@@ -3675,7 +3675,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
   </tbody>
 </table>
 <h2 id="ServersDatabasesVulnerabilityAssessment">ServersDatabasesVulnerabilityAssessment</h2>
-<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/DatabaseVulnerabilityAssessments.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/servers/{serverName}/databases/{databaseName}/vulnerabilityAssessments/default</p>
+<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/DatabaseVulnerabilityAssessments.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}/​databases/​{databaseName}/​vulnerabilityAssessments/​default</p>
 <p>Used by: <a href="#ServersDatabasesVulnerabilityAssessmentList">ServersDatabasesVulnerabilityAssessmentList</a>.</p>
 <table>
   <thead>
@@ -3735,7 +3735,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
       </tr>
       <tr>
           <td>storageAccountAccessKey</td>
-          <td>Specifies the identifier key of the storage account for vulnerability assessment scan results. If &lsquo;StorageContainerSasKey&rsquo; isn&rsquo;t specified, storageAccountAccessKey is required. Applies only if the storage account is not behind a Vnet or a firewall</td>
+          <td>Specifies the identifier key of the storage account for vulnerability assessment scan results. If <code>StorageContainerSasKey</code> isn&rsquo;t specified, storageAccountAccessKey is required. Applies only if the storage account is not behind a Vnet or a firewall</td>
           <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference">genruntime.SecretReference</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -3750,7 +3750,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
       </tr>
       <tr>
           <td>storageContainerSasKey</td>
-          <td>A shared access signature (SAS Key) that has write access to the blob container specified in &lsquo;storageContainerPath&rsquo; parameter. If &lsquo;storageAccountAccessKey&rsquo; isn&rsquo;t specified, StorageContainerSasKey is required. Applies only if the storage account is not behind a Vnet or a firewall</td>
+          <td>A shared access signature (SAS Key) that has write access to the blob container specified in <code>storageContainerPath</code> parameter. If <code>storageAccountAccessKey</code> isn&rsquo;t specified, StorageContainerSasKey is required. Applies only if the storage account is not behind a Vnet or a firewall</td>
           <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference">genruntime.SecretReference</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
@@ -3798,7 +3798,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
   </tbody>
 </table>
 <h2 id="ServersDatabasesVulnerabilityAssessmentList">ServersDatabasesVulnerabilityAssessmentList</h2>
-<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/DatabaseVulnerabilityAssessments.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/servers/{serverName}/databases/{databaseName}/vulnerabilityAssessments/default</p>
+<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/DatabaseVulnerabilityAssessments.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}/​databases/​{databaseName}/​vulnerabilityAssessments/​default</p>
 <table>
   <thead>
       <tr>
@@ -3826,7 +3826,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
   </tbody>
 </table>
 <h2 id="ServersElasticPool">ServersElasticPool</h2>
-<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/ElasticPools.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}</p>
+<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/ElasticPools.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}/​elasticPools/​{elasticPoolName}</p>
 <p>Used by: <a href="#ServersElasticPoolList">ServersElasticPoolList</a>.</p>
 <table>
   <thead>
@@ -4034,7 +4034,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
   </tbody>
 </table>
 <h2 id="ServersElasticPoolList">ServersElasticPoolList</h2>
-<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/ElasticPools.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}</p>
+<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/ElasticPools.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}/​elasticPools/​{elasticPoolName}</p>
 <table>
   <thead>
       <tr>
@@ -4062,7 +4062,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
   </tbody>
 </table>
 <h2 id="ServersFailoverGroup">ServersFailoverGroup</h2>
-<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/FailoverGroups.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/servers/{serverName}/failoverGroups/{failoverGroupName}</p>
+<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/FailoverGroups.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}/​failoverGroups/​{failoverGroupName}</p>
 <p>Used by: <a href="#ServersFailoverGroupList">ServersFailoverGroupList</a>.</p>
 <table>
   <thead>
@@ -4220,7 +4220,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
   </tbody>
 </table>
 <h2 id="ServersFailoverGroupList">ServersFailoverGroupList</h2>
-<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/FailoverGroups.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/servers/{serverName}/failoverGroups/{failoverGroupName}</p>
+<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/FailoverGroups.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}/​failoverGroups/​{failoverGroupName}</p>
 <table>
   <thead>
       <tr>
@@ -4248,7 +4248,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
   </tbody>
 </table>
 <h2 id="ServersFirewallRule">ServersFirewallRule</h2>
-<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/FirewallRules.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/servers/{serverName}/firewallRules/{firewallRuleName}</p>
+<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/FirewallRules.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}/​firewallRules/​{firewallRuleName}</p>
 <p>Used by: <a href="#ServersFirewallRuleList">ServersFirewallRuleList</a>.</p>
 <table>
   <thead>
@@ -4298,7 +4298,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
       </tr>
       <tr>
           <td>endIpAddress</td>
-          <td>The end IP address of the firewall rule. Must be IPv4 format. Must be greater than or equal to startIpAddress. Use value &lsquo;0.0.0.0&rsquo; for all Azure-internal IP addresses.</td>
+          <td>The end IP address of the firewall rule. Must be IPv4 format. Must be greater than or equal to startIpAddress. Use value <code>0.0.0.0</code> for all Azure-internal IP addresses.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -4313,7 +4313,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
       </tr>
       <tr>
           <td>startIpAddress</td>
-          <td>The start IP address of the firewall rule. Must be IPv4 format. Use value &lsquo;0.0.0.0&rsquo; for all Azure-internal IP addresses.</td>
+          <td>The start IP address of the firewall rule. Must be IPv4 format. Use value <code>0.0.0.0</code> for all Azure-internal IP addresses.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
@@ -4335,7 +4335,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
       </tr>
       <tr>
           <td>endIpAddress</td>
-          <td>The end IP address of the firewall rule. Must be IPv4 format. Must be greater than or equal to startIpAddress. Use value &lsquo;0.0.0.0&rsquo; for all Azure-internal IP addresses.</td>
+          <td>The end IP address of the firewall rule. Must be IPv4 format. Must be greater than or equal to startIpAddress. Use value <code>0.0.0.0</code> for all Azure-internal IP addresses.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -4350,7 +4350,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
       </tr>
       <tr>
           <td>startIpAddress</td>
-          <td>The start IP address of the firewall rule. Must be IPv4 format. Use value &lsquo;0.0.0.0&rsquo; for all Azure-internal IP addresses.</td>
+          <td>The start IP address of the firewall rule. Must be IPv4 format. Use value <code>0.0.0.0</code> for all Azure-internal IP addresses.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -4361,7 +4361,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
   </tbody>
 </table>
 <h2 id="ServersFirewallRuleList">ServersFirewallRuleList</h2>
-<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/FirewallRules.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/servers/{serverName}/firewallRules/{firewallRuleName}</p>
+<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/FirewallRules.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}/​firewallRules/​{firewallRuleName}</p>
 <table>
   <thead>
       <tr>
@@ -4389,7 +4389,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
   </tbody>
 </table>
 <h2 id="ServersIPV6FirewallRule">ServersIPV6FirewallRule</h2>
-<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/IPv6FirewallRules.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/servers/{serverName}/ipv6FirewallRules/{firewallRuleName}</p>
+<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/IPv6FirewallRules.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}/​ipv6FirewallRules/​{firewallRuleName}</p>
 <p>Used by: <a href="#ServersIPV6FirewallRuleList">ServersIPV6FirewallRuleList</a>.</p>
 <table>
   <thead>
@@ -4502,7 +4502,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
   </tbody>
 </table>
 <h2 id="ServersIPV6FirewallRuleList">ServersIPV6FirewallRuleList</h2>
-<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/IPv6FirewallRules.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/servers/{serverName}/ipv6FirewallRules/{firewallRuleName}</p>
+<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/IPv6FirewallRules.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}/​ipv6FirewallRules/​{firewallRuleName}</p>
 <table>
   <thead>
       <tr>
@@ -4530,7 +4530,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
   </tbody>
 </table>
 <h2 id="ServersOutboundFirewallRule">ServersOutboundFirewallRule</h2>
-<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/OutboundFirewallRules.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/servers/{serverName}/outboundFirewallRules/{outboundRuleFqdn}</p>
+<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/OutboundFirewallRules.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}/​outboundFirewallRules/​{outboundRuleFqdn}</p>
 <p>Used by: <a href="#ServersOutboundFirewallRuleList">ServersOutboundFirewallRuleList</a>.</p>
 <table>
   <thead>
@@ -4628,7 +4628,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
   </tbody>
 </table>
 <h2 id="ServersOutboundFirewallRuleList">ServersOutboundFirewallRuleList</h2>
-<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/OutboundFirewallRules.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/servers/{serverName}/outboundFirewallRules/{outboundRuleFqdn}</p>
+<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/OutboundFirewallRules.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}/​outboundFirewallRules/​{outboundRuleFqdn}</p>
 <table>
   <thead>
       <tr>
@@ -4656,7 +4656,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
   </tbody>
 </table>
 <h2 id="ServersSecurityAlertPolicy">ServersSecurityAlertPolicy</h2>
-<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/ServerSecurityAlertPolicies.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/servers/{serverName}/securityAlertPolicies/Default</p>
+<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/ServerSecurityAlertPolicies.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}/​securityAlertPolicies/​Default</p>
 <p>Used by: <a href="#ServersSecurityAlertPolicyList">ServersSecurityAlertPolicyList</a>.</p>
 <table>
   <thead>
@@ -4819,7 +4819,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
   </tbody>
 </table>
 <h2 id="ServersSecurityAlertPolicyList">ServersSecurityAlertPolicyList</h2>
-<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/ServerSecurityAlertPolicies.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/servers/{serverName}/securityAlertPolicies/Default</p>
+<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/ServerSecurityAlertPolicies.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}/​securityAlertPolicies/​Default</p>
 <table>
   <thead>
       <tr>
@@ -4847,7 +4847,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
   </tbody>
 </table>
 <h2 id="ServersVirtualNetworkRule">ServersVirtualNetworkRule</h2>
-<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/VirtualNetworkRules.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/servers/{serverName}/virtualNetworkRules/{virtualNetworkRuleName}</p>
+<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/VirtualNetworkRules.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}/​virtualNetworkRules/​{virtualNetworkRuleName}</p>
 <p>Used by: <a href="#ServersVirtualNetworkRuleList">ServersVirtualNetworkRuleList</a>.</p>
 <table>
   <thead>
@@ -4965,7 +4965,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
   </tbody>
 </table>
 <h2 id="ServersVirtualNetworkRuleList">ServersVirtualNetworkRuleList</h2>
-<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/VirtualNetworkRules.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/servers/{serverName}/virtualNetworkRules/{virtualNetworkRuleName}</p>
+<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/VirtualNetworkRules.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}/​virtualNetworkRules/​{virtualNetworkRuleName}</p>
 <table>
   <thead>
       <tr>
@@ -4993,7 +4993,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
   </tbody>
 </table>
 <h2 id="ServersVulnerabilityAssessment">ServersVulnerabilityAssessment</h2>
-<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/ServerVulnerabilityAssessments.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/servers/{serverName}/vulnerabilityAssessments/default</p>
+<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/ServerVulnerabilityAssessments.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}/​vulnerabilityAssessments/​default</p>
 <p>Used by: <a href="#ServersVulnerabilityAssessmentList">ServersVulnerabilityAssessmentList</a>.</p>
 <table>
   <thead>
@@ -5053,7 +5053,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
       </tr>
       <tr>
           <td>storageAccountAccessKey</td>
-          <td>Specifies the identifier key of the storage account for vulnerability assessment scan results. If &lsquo;StorageContainerSasKey&rsquo; isn&rsquo;t specified, storageAccountAccessKey is required. Applies only if the storage account is not behind a Vnet or a firewall</td>
+          <td>Specifies the identifier key of the storage account for vulnerability assessment scan results. If <code>StorageContainerSasKey</code> isn&rsquo;t specified, storageAccountAccessKey is required. Applies only if the storage account is not behind a Vnet or a firewall</td>
           <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference">genruntime.SecretReference</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -5068,7 +5068,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
       </tr>
       <tr>
           <td>storageContainerSasKey</td>
-          <td>A shared access signature (SAS Key) that has write access to the blob container specified in &lsquo;storageContainerPath&rsquo; parameter. If &lsquo;storageAccountAccessKey&rsquo; isn&rsquo;t specified, StorageContainerSasKey is required. Applies only if the storage account is not behind a Vnet or a firewall</td>
+          <td>A shared access signature (SAS Key) that has write access to the blob container specified in <code>storageContainerPath</code> parameter. If <code>storageAccountAccessKey</code> isn&rsquo;t specified, StorageContainerSasKey is required. Applies only if the storage account is not behind a Vnet or a firewall</td>
           <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference">genruntime.SecretReference</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
@@ -5116,7 +5116,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
   </tbody>
 </table>
 <h2 id="ServersVulnerabilityAssessmentList">ServersVulnerabilityAssessmentList</h2>
-<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/ServerVulnerabilityAssessments.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/servers/{serverName}/vulnerabilityAssessments/default</p>
+<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/ServerVulnerabilityAssessments.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}/​vulnerabilityAssessments/​default</p>
 <table>
   <thead>
       <tr>
@@ -5196,7 +5196,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
       </tr>
       <tr>
           <td>minimalTlsVersion</td>
-          <td>Minimal TLS version. Allowed values: &lsquo;1.0&rsquo;, &lsquo;1.1&rsquo;, &lsquo;1.2&rsquo;</td>
+          <td>Minimal TLS version. Allowed values: <code>1.0</code>, <code>1.1</code>, <code>1.2</code></td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -5216,12 +5216,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
       </tr>
       <tr>
           <td>publicNetworkAccess</td>
-          <td>Whether or not public endpoint access is allowed for this server. Value is optional but if passed in, must be &lsquo;Enabled&rsquo; or &lsquo;Disabled&rsquo;</td>
+          <td>Whether or not public endpoint access is allowed for this server. Value is optional but if passed in, must be <code>Enabled</code> or <code>Disabled</code></td>
           <td><a href="#ServerProperties_PublicNetworkAccess">ServerProperties_PublicNetworkAccess</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>restrictOutboundNetworkAccess</td>
-          <td>Whether or not to restrict outbound network access for this server. Value is optional but if passed in, must be &lsquo;Enabled&rsquo; or &lsquo;Disabled&rsquo;</td>
+          <td>Whether or not to restrict outbound network access for this server. Value is optional but if passed in, must be <code>Enabled</code> or <code>Disabled</code></td>
           <td><a href="#ServerProperties_RestrictOutboundNetworkAccess">ServerProperties_RestrictOutboundNetworkAccess</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -5300,7 +5300,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
       </tr>
       <tr>
           <td>minimalTlsVersion</td>
-          <td>Minimal TLS version. Allowed values: &lsquo;1.0&rsquo;, &lsquo;1.1&rsquo;, &lsquo;1.2&rsquo;</td>
+          <td>Minimal TLS version. Allowed values: <code>1.0</code>, <code>1.1</code>, <code>1.2</code></td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -5320,12 +5320,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
       </tr>
       <tr>
           <td>publicNetworkAccess</td>
-          <td>Whether or not public endpoint access is allowed for this server. Value is optional but if passed in, must be &lsquo;Enabled&rsquo; or &lsquo;Disabled&rsquo;</td>
+          <td>Whether or not public endpoint access is allowed for this server. Value is optional but if passed in, must be <code>Enabled</code> or <code>Disabled</code></td>
           <td><a href="#ServerProperties_PublicNetworkAccess_STATUS">ServerProperties_PublicNetworkAccess_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>restrictOutboundNetworkAccess</td>
-          <td>Whether or not to restrict outbound network access for this server. Value is optional but if passed in, must be &lsquo;Enabled&rsquo; or &lsquo;Disabled&rsquo;</td>
+          <td>Whether or not to restrict outbound network access for this server. Value is optional but if passed in, must be <code>Enabled</code> or <code>Disabled</code></td>
           <td><a href="#ServerProperties_RestrictOutboundNetworkAccess_STATUS">ServerProperties_RestrictOutboundNetworkAccess_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -5560,12 +5560,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
       </tr>
       <tr>
           <td>isAzureMonitorTargetEnabled</td>
-          <td>Specifies whether audit events are sent to Azure Monitor. In order to send the events to Azure Monitor, specify &lsquo;State&rsquo; as &lsquo;Enabled&rsquo; and &lsquo;IsAzureMonitorTargetEnabled&rsquo; as true. When using REST API to configure auditing, Diagnostic Settings with &lsquo;SQLSecurityAuditEvents&rsquo; diagnostic logs category on the database should be also created. Note that for server level audit you should use the &lsquo;master&rsquo; database as {databaseName}. Diagnostic Settings URI format: PUT <a href="https://management.azure.com/&amp;ZeroWidthSpace;subscriptions/&amp;ZeroWidthSpace;%7BsubscriptionId%7D/&amp;ZeroWidthSpace;resourceGroups/&amp;ZeroWidthSpace;%7BresourceGroup%7D/&amp;ZeroWidthSpace;providers/&amp;ZeroWidthSpace;Microsoft.Sql/servers/%7BserverName%7D/databases/%7BdatabaseName%7D/providers/microsoft.insights/diagnosticSettings/%7BsettingsName%7D?api-version=2017-05-01-preview">https://management.azure.com/&amp;ZeroWidthSpace;subscriptions/&amp;ZeroWidthSpace;{subscriptionId}/&amp;ZeroWidthSpace;resourceGroups/&amp;ZeroWidthSpace;{resourceGroup}/&amp;ZeroWidthSpace;providers/&amp;ZeroWidthSpace;Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview</a> For more information, see <a href="https://go.microsoft.com/fwlink/?linkid=2033207">Diagnostic Settings REST API</a> or <a href="https://go.microsoft.com/fwlink/?linkid=2033043">Diagnostic Settings PowerShell</a></td>
+          <td>Specifies whether audit events are sent to Azure Monitor. In order to send the events to Azure Monitor, specify <code>State</code> as <code>Enabled</code> and <code>IsAzureMonitorTargetEnabled</code> as true. When using REST API to configure auditing, Diagnostic Settings with <code>SQLSecurityAuditEvents</code> diagnostic logs category on the database should be also created. Note that for server level audit you should use the <code>master</code> database as {databaseName}. Diagnostic Settings URI format: PUT https​://management.azure.com/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroup}/​providers/​Microsoft.Sql/​servers/​{serverName}/​databases/​{databaseName}/​providers/​microsoft.insights/​diagnosticSettings/​{settingsName}?api-version=2017-05-01-preview For more information, see <a href="https://go.microsoft.com/fwlink/?linkid=2033207">Diagnostic Settings REST API</a> or <a href="https://go.microsoft.com/fwlink/?linkid=2033043">Diagnostic Settings PowerShell</a></td>
           <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>isDevopsAuditEnabled</td>
-          <td>Specifies the state of devops audit. If state is Enabled, devops logs will be sent to Azure Monitor. In order to send the events to Azure Monitor, specify &lsquo;State&rsquo; as &lsquo;Enabled&rsquo;, &lsquo;IsAzureMonitorTargetEnabled&rsquo; as true and &lsquo;IsDevopsAuditEnabled&rsquo; as true When using REST API to configure auditing, Diagnostic Settings with &lsquo;DevOpsOperationsAudit&rsquo; diagnostic logs category on the master database should also be created. Diagnostic Settings URI format: PUT <a href="https://management.azure.com/&amp;ZeroWidthSpace;subscriptions/&amp;ZeroWidthSpace;%7BsubscriptionId%7D/&amp;ZeroWidthSpace;resourceGroups/&amp;ZeroWidthSpace;%7BresourceGroup%7D/&amp;ZeroWidthSpace;providers/&amp;ZeroWidthSpace;Microsoft.Sql/servers/%7BserverName%7D/databases/master/providers/microsoft.insights/diagnosticSettings/%7BsettingsName%7D?api-version=2017-05-01-preview">https://management.azure.com/&amp;ZeroWidthSpace;subscriptions/&amp;ZeroWidthSpace;{subscriptionId}/&amp;ZeroWidthSpace;resourceGroups/&amp;ZeroWidthSpace;{resourceGroup}/&amp;ZeroWidthSpace;providers/&amp;ZeroWidthSpace;Microsoft.Sql/servers/{serverName}/databases/master/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview</a> For more information, see <a href="https://go.microsoft.com/fwlink/?linkid=2033207">Diagnostic Settings REST API</a> or <a href="https://go.microsoft.com/fwlink/?linkid=2033043">Diagnostic Settings PowerShell</a></td>
+          <td>Specifies the state of devops audit. If state is Enabled, devops logs will be sent to Azure Monitor. In order to send the events to Azure Monitor, specify <code>State</code> as <code>Enabled</code>, <code>IsAzureMonitorTargetEnabled</code> as true and <code>IsDevopsAuditEnabled</code> as true When using REST API to configure auditing, Diagnostic Settings with <code>DevOpsOperationsAudit</code> diagnostic logs category on the master database should also be created. Diagnostic Settings URI format: PUT https​://management.azure.com/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroup}/​providers/​Microsoft.Sql/​servers/​{serverName}/​databases/​master/​providers/​microsoft.insights/​diagnosticSettings/​{settingsName}?api-version=2017-05-01-preview For more information, see <a href="https://go.microsoft.com/fwlink/?linkid=2033207">Diagnostic Settings REST API</a> or <a href="https://go.microsoft.com/fwlink/?linkid=2033043">Diagnostic Settings PowerShell</a></td>
           <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -5648,12 +5648,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
       </tr>
       <tr>
           <td>isAzureMonitorTargetEnabled</td>
-          <td>Specifies whether audit events are sent to Azure Monitor. In order to send the events to Azure Monitor, specify &lsquo;State&rsquo; as &lsquo;Enabled&rsquo; and &lsquo;IsAzureMonitorTargetEnabled&rsquo; as true. When using REST API to configure auditing, Diagnostic Settings with &lsquo;SQLSecurityAuditEvents&rsquo; diagnostic logs category on the database should be also created. Note that for server level audit you should use the &lsquo;master&rsquo; database as {databaseName}. Diagnostic Settings URI format: PUT <a href="https://management.azure.com/&amp;ZeroWidthSpace;subscriptions/&amp;ZeroWidthSpace;%7BsubscriptionId%7D/&amp;ZeroWidthSpace;resourceGroups/&amp;ZeroWidthSpace;%7BresourceGroup%7D/&amp;ZeroWidthSpace;providers/&amp;ZeroWidthSpace;Microsoft.Sql/servers/%7BserverName%7D/databases/%7BdatabaseName%7D/providers/microsoft.insights/diagnosticSettings/%7BsettingsName%7D?api-version=2017-05-01-preview">https://management.azure.com/&amp;ZeroWidthSpace;subscriptions/&amp;ZeroWidthSpace;{subscriptionId}/&amp;ZeroWidthSpace;resourceGroups/&amp;ZeroWidthSpace;{resourceGroup}/&amp;ZeroWidthSpace;providers/&amp;ZeroWidthSpace;Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview</a> For more information, see <a href="https://go.microsoft.com/fwlink/?linkid=2033207">Diagnostic Settings REST API</a> or <a href="https://go.microsoft.com/fwlink/?linkid=2033043">Diagnostic Settings PowerShell</a></td>
+          <td>Specifies whether audit events are sent to Azure Monitor. In order to send the events to Azure Monitor, specify <code>State</code> as <code>Enabled</code> and <code>IsAzureMonitorTargetEnabled</code> as true. When using REST API to configure auditing, Diagnostic Settings with <code>SQLSecurityAuditEvents</code> diagnostic logs category on the database should be also created. Note that for server level audit you should use the <code>master</code> database as {databaseName}. Diagnostic Settings URI format: PUT https​://management.azure.com/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroup}/​providers/​Microsoft.Sql/​servers/​{serverName}/​databases/​{databaseName}/​providers/​microsoft.insights/​diagnosticSettings/​{settingsName}?api-version=2017-05-01-preview For more information, see <a href="https://go.microsoft.com/fwlink/?linkid=2033207">Diagnostic Settings REST API</a> or <a href="https://go.microsoft.com/fwlink/?linkid=2033043">Diagnostic Settings PowerShell</a></td>
           <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>isDevopsAuditEnabled</td>
-          <td>Specifies the state of devops audit. If state is Enabled, devops logs will be sent to Azure Monitor. In order to send the events to Azure Monitor, specify &lsquo;State&rsquo; as &lsquo;Enabled&rsquo;, &lsquo;IsAzureMonitorTargetEnabled&rsquo; as true and &lsquo;IsDevopsAuditEnabled&rsquo; as true When using REST API to configure auditing, Diagnostic Settings with &lsquo;DevOpsOperationsAudit&rsquo; diagnostic logs category on the master database should also be created. Diagnostic Settings URI format: PUT <a href="https://management.azure.com/&amp;ZeroWidthSpace;subscriptions/&amp;ZeroWidthSpace;%7BsubscriptionId%7D/&amp;ZeroWidthSpace;resourceGroups/&amp;ZeroWidthSpace;%7BresourceGroup%7D/&amp;ZeroWidthSpace;providers/&amp;ZeroWidthSpace;Microsoft.Sql/servers/%7BserverName%7D/databases/master/providers/microsoft.insights/diagnosticSettings/%7BsettingsName%7D?api-version=2017-05-01-preview">https://management.azure.com/&amp;ZeroWidthSpace;subscriptions/&amp;ZeroWidthSpace;{subscriptionId}/&amp;ZeroWidthSpace;resourceGroups/&amp;ZeroWidthSpace;{resourceGroup}/&amp;ZeroWidthSpace;providers/&amp;ZeroWidthSpace;Microsoft.Sql/servers/{serverName}/databases/master/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview</a> For more information, see <a href="https://go.microsoft.com/fwlink/?linkid=2033207">Diagnostic Settings REST API</a> or <a href="https://go.microsoft.com/fwlink/?linkid=2033043">Diagnostic Settings PowerShell</a></td>
+          <td>Specifies the state of devops audit. If state is Enabled, devops logs will be sent to Azure Monitor. In order to send the events to Azure Monitor, specify <code>State</code> as <code>Enabled</code>, <code>IsAzureMonitorTargetEnabled</code> as true and <code>IsDevopsAuditEnabled</code> as true When using REST API to configure auditing, Diagnostic Settings with <code>DevOpsOperationsAudit</code> diagnostic logs category on the master database should also be created. Diagnostic Settings URI format: PUT https​://management.azure.com/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroup}/​providers/​Microsoft.Sql/​servers/​{serverName}/​databases/​master/​providers/​microsoft.insights/​diagnosticSettings/​{settingsName}?api-version=2017-05-01-preview For more information, see <a href="https://go.microsoft.com/fwlink/?linkid=2033207">Diagnostic Settings REST API</a> or <a href="https://go.microsoft.com/fwlink/?linkid=2033043">Diagnostic Settings PowerShell</a></td>
           <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -6370,7 +6370,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
       </tr>
       <tr>
           <td>isAzureMonitorTargetEnabled</td>
-          <td>Specifies whether audit events are sent to Azure Monitor. In order to send the events to Azure Monitor, specify &lsquo;State&rsquo; as &lsquo;Enabled&rsquo; and &lsquo;IsAzureMonitorTargetEnabled&rsquo; as true. When using REST API to configure auditing, Diagnostic Settings with &lsquo;SQLSecurityAuditEvents&rsquo; diagnostic logs category on the database should be also created. Note that for server level audit you should use the &lsquo;master&rsquo; database as {databaseName}. Diagnostic Settings URI format: PUT <a href="https://management.azure.com/&amp;ZeroWidthSpace;subscriptions/&amp;ZeroWidthSpace;%7BsubscriptionId%7D/&amp;ZeroWidthSpace;resourceGroups/&amp;ZeroWidthSpace;%7BresourceGroup%7D/&amp;ZeroWidthSpace;providers/&amp;ZeroWidthSpace;Microsoft.Sql/servers/%7BserverName%7D/databases/%7BdatabaseName%7D/providers/microsoft.insights/diagnosticSettings/%7BsettingsName%7D?api-version=2017-05-01-preview">https://management.azure.com/&amp;ZeroWidthSpace;subscriptions/&amp;ZeroWidthSpace;{subscriptionId}/&amp;ZeroWidthSpace;resourceGroups/&amp;ZeroWidthSpace;{resourceGroup}/&amp;ZeroWidthSpace;providers/&amp;ZeroWidthSpace;Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview</a> For more information, see <a href="https://go.microsoft.com/fwlink/?linkid=2033207">Diagnostic Settings REST API</a> or <a href="https://go.microsoft.com/fwlink/?linkid=2033043">Diagnostic Settings PowerShell</a></td>
+          <td>Specifies whether audit events are sent to Azure Monitor. In order to send the events to Azure Monitor, specify <code>State</code> as <code>Enabled</code> and <code>IsAzureMonitorTargetEnabled</code> as true. When using REST API to configure auditing, Diagnostic Settings with <code>SQLSecurityAuditEvents</code> diagnostic logs category on the database should be also created. Note that for server level audit you should use the <code>master</code> database as {databaseName}. Diagnostic Settings URI format: PUT https​://management.azure.com/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroup}/​providers/​Microsoft.Sql/​servers/​{serverName}/​databases/​{databaseName}/​providers/​microsoft.insights/​diagnosticSettings/​{settingsName}?api-version=2017-05-01-preview For more information, see <a href="https://go.microsoft.com/fwlink/?linkid=2033207">Diagnostic Settings REST API</a> or <a href="https://go.microsoft.com/fwlink/?linkid=2033043">Diagnostic Settings PowerShell</a></td>
           <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -6453,7 +6453,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
       </tr>
       <tr>
           <td>isAzureMonitorTargetEnabled</td>
-          <td>Specifies whether audit events are sent to Azure Monitor. In order to send the events to Azure Monitor, specify &lsquo;State&rsquo; as &lsquo;Enabled&rsquo; and &lsquo;IsAzureMonitorTargetEnabled&rsquo; as true. When using REST API to configure auditing, Diagnostic Settings with &lsquo;SQLSecurityAuditEvents&rsquo; diagnostic logs category on the database should be also created. Note that for server level audit you should use the &lsquo;master&rsquo; database as {databaseName}. Diagnostic Settings URI format: PUT <a href="https://management.azure.com/&amp;ZeroWidthSpace;subscriptions/&amp;ZeroWidthSpace;%7BsubscriptionId%7D/&amp;ZeroWidthSpace;resourceGroups/&amp;ZeroWidthSpace;%7BresourceGroup%7D/&amp;ZeroWidthSpace;providers/&amp;ZeroWidthSpace;Microsoft.Sql/servers/%7BserverName%7D/databases/%7BdatabaseName%7D/providers/microsoft.insights/diagnosticSettings/%7BsettingsName%7D?api-version=2017-05-01-preview">https://management.azure.com/&amp;ZeroWidthSpace;subscriptions/&amp;ZeroWidthSpace;{subscriptionId}/&amp;ZeroWidthSpace;resourceGroups/&amp;ZeroWidthSpace;{resourceGroup}/&amp;ZeroWidthSpace;providers/&amp;ZeroWidthSpace;Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview</a> For more information, see <a href="https://go.microsoft.com/fwlink/?linkid=2033207">Diagnostic Settings REST API</a> or <a href="https://go.microsoft.com/fwlink/?linkid=2033043">Diagnostic Settings PowerShell</a></td>
+          <td>Specifies whether audit events are sent to Azure Monitor. In order to send the events to Azure Monitor, specify <code>State</code> as <code>Enabled</code> and <code>IsAzureMonitorTargetEnabled</code> as true. When using REST API to configure auditing, Diagnostic Settings with <code>SQLSecurityAuditEvents</code> diagnostic logs category on the database should be also created. Note that for server level audit you should use the <code>master</code> database as {databaseName}. Diagnostic Settings URI format: PUT https​://management.azure.com/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroup}/​providers/​Microsoft.Sql/​servers/​{serverName}/​databases/​{databaseName}/​providers/​microsoft.insights/​diagnosticSettings/​{settingsName}?api-version=2017-05-01-preview For more information, see <a href="https://go.microsoft.com/fwlink/?linkid=2033207">Diagnostic Settings REST API</a> or <a href="https://go.microsoft.com/fwlink/?linkid=2033043">Diagnostic Settings PowerShell</a></td>
           <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -6905,7 +6905,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
       </tr>
       <tr>
           <td>storageAccountAccessKey</td>
-          <td>Specifies the identifier key of the storage account for vulnerability assessment scan results. If &lsquo;StorageContainerSasKey&rsquo; isn&rsquo;t specified, storageAccountAccessKey is required. Applies only if the storage account is not behind a Vnet or a firewall</td>
+          <td>Specifies the identifier key of the storage account for vulnerability assessment scan results. If <code>StorageContainerSasKey</code> isn&rsquo;t specified, storageAccountAccessKey is required. Applies only if the storage account is not behind a Vnet or a firewall</td>
           <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference">genruntime.SecretReference</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -6920,7 +6920,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
       </tr>
       <tr>
           <td>storageContainerSasKey</td>
-          <td>A shared access signature (SAS Key) that has write access to the blob container specified in &lsquo;storageContainerPath&rsquo; parameter. If &lsquo;storageAccountAccessKey&rsquo; isn&rsquo;t specified, StorageContainerSasKey is required. Applies only if the storage account is not behind a Vnet or a firewall</td>
+          <td>A shared access signature (SAS Key) that has write access to the blob container specified in <code>storageContainerPath</code> parameter. If <code>storageAccountAccessKey</code> isn&rsquo;t specified, StorageContainerSasKey is required. Applies only if the storage account is not behind a Vnet or a firewall</td>
           <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference">genruntime.SecretReference</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
@@ -7288,7 +7288,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
       </tr>
       <tr>
           <td>endIpAddress</td>
-          <td>The end IP address of the firewall rule. Must be IPv4 format. Must be greater than or equal to startIpAddress. Use value &lsquo;0.0.0.0&rsquo; for all Azure-internal IP addresses.</td>
+          <td>The end IP address of the firewall rule. Must be IPv4 format. Must be greater than or equal to startIpAddress. Use value <code>0.0.0.0</code> for all Azure-internal IP addresses.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -7303,7 +7303,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
       </tr>
       <tr>
           <td>startIpAddress</td>
-          <td>The start IP address of the firewall rule. Must be IPv4 format. Use value &lsquo;0.0.0.0&rsquo; for all Azure-internal IP addresses.</td>
+          <td>The start IP address of the firewall rule. Must be IPv4 format. Use value <code>0.0.0.0</code> for all Azure-internal IP addresses.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
@@ -7326,7 +7326,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
       </tr>
       <tr>
           <td>endIpAddress</td>
-          <td>The end IP address of the firewall rule. Must be IPv4 format. Must be greater than or equal to startIpAddress. Use value &lsquo;0.0.0.0&rsquo; for all Azure-internal IP addresses.</td>
+          <td>The end IP address of the firewall rule. Must be IPv4 format. Must be greater than or equal to startIpAddress. Use value <code>0.0.0.0</code> for all Azure-internal IP addresses.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -7341,7 +7341,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
       </tr>
       <tr>
           <td>startIpAddress</td>
-          <td>The start IP address of the firewall rule. Must be IPv4 format. Use value &lsquo;0.0.0.0&rsquo; for all Azure-internal IP addresses.</td>
+          <td>The start IP address of the firewall rule. Must be IPv4 format. Use value <code>0.0.0.0</code> for all Azure-internal IP addresses.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -7743,7 +7743,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
       </tr>
       <tr>
           <td>storageAccountAccessKey</td>
-          <td>Specifies the identifier key of the storage account for vulnerability assessment scan results. If &lsquo;StorageContainerSasKey&rsquo; isn&rsquo;t specified, storageAccountAccessKey is required. Applies only if the storage account is not behind a Vnet or a firewall</td>
+          <td>Specifies the identifier key of the storage account for vulnerability assessment scan results. If <code>StorageContainerSasKey</code> isn&rsquo;t specified, storageAccountAccessKey is required. Applies only if the storage account is not behind a Vnet or a firewall</td>
           <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference">genruntime.SecretReference</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -7758,7 +7758,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
       </tr>
       <tr>
           <td>storageContainerSasKey</td>
-          <td>A shared access signature (SAS Key) that has write access to the blob container specified in &lsquo;storageContainerPath&rsquo; parameter. If &lsquo;storageAccountAccessKey&rsquo; isn&rsquo;t specified, StorageContainerSasKey is required. Applies only if the storage account is not behind a Vnet or a firewall</td>
+          <td>A shared access signature (SAS Key) that has write access to the blob container specified in <code>storageContainerPath</code> parameter. If <code>storageAccountAccessKey</code> isn&rsquo;t specified, StorageContainerSasKey is required. Applies only if the storage account is not behind a Vnet or a firewall</td>
           <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference">genruntime.SecretReference</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
@@ -8843,7 +8843,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
   <tbody>
       <tr>
           <td>type</td>
-          <td>The identity type. Set this to &lsquo;SystemAssigned&rsquo; in order to automatically create and assign an Azure Active Directory principal for the resource.</td>
+          <td>The identity type. Set this to <code>SystemAssigned</code> in order to automatically create and assign an Azure Active Directory principal for the resource.</td>
           <td><a href="#ResourceIdentity_Type">ResourceIdentity_Type</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -8877,7 +8877,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
       </tr>
       <tr>
           <td>type</td>
-          <td>The identity type. Set this to &lsquo;SystemAssigned&rsquo; in order to automatically create and assign an Azure Active Directory principal for the resource.</td>
+          <td>The identity type. Set this to <code>SystemAssigned</code> in order to automatically create and assign an Azure Active Directory principal for the resource.</td>
           <td><a href="#ResourceIdentity_Type_STATUS">ResourceIdentity_Type_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>

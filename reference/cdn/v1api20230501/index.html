@@ -18,29 +18,29 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>cdn.azure.com/v1api20230501 | Azure Service Operator</title>
-<meta name="description" content="AfdCustomDomain Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/profiles/{profileName}/customDomains/{customDomainName}
+<meta name="description" content="AfdCustomDomain Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/​profiles/​{profileName}/​customDomains/​{customDomainName}
 Used by: AfdCustomDomainList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AfdCustomDomain_SpecOptional status AfdCustomDomain_STATUSOptional AfdCustomDomain_Spec Property Description Type azureDnsZone Resource reference to the Azure DNS zone ResourceReferenceOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional extendedProperties Key-Value pair representing migration properties for domains. map[string]stringOptional hostName The host name of the domain. Must be a domain name. stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure AfdCustomDomainOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a cdn.azure.com/Profile resource genruntime.KnownResourceReferenceRequired preValidatedCustomDomainResourceId Resource reference to the Azure resource where custom domain ownership was prevalidated ResourceReferenceOptional tlsSettings The configuration specifying how to enable HTTPS for the domain - using AzureFrontDoor managed certificate or user’s own certificate. If not specified, enabling ssl uses AzureFrontDoor managed certificate by default. AFDDomainHttpsParametersOptional AfdCustomDomain_STATUS Property Description Type azureDnsZone Resource reference to the Azure DNS zone ResourceReference_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional deploymentStatus AFDDomainProperties_DeploymentStatus_STATUSOptional domainValidationState Provisioning substate shows the progress of custom HTTPS enabling/disabling process step by step. DCV stands for DomainControlValidation. AFDDomainProperties_DomainValidationState_STATUSOptional extendedProperties Key-Value pair representing migration properties for domains. map[string]stringOptional hostName The host name of the domain. Must be a domain name. stringOptional id Resource ID. stringOptional name Resource name. stringOptional preValidatedCustomDomainResourceId Resource reference to the Azure resource where custom domain ownership was prevalidated ResourceReference_STATUSOptional profileName The name of the profile which holds the domain. stringOptional provisioningState Provisioning status AFDDomainProperties_ProvisioningState_STATUSOptional systemData Read only system data SystemData_STATUSOptional tlsSettings The configuration specifying how to enable HTTPS for the domain - using AzureFrontDoor managed certificate or user’s own certificate. If not specified, enabling ssl uses AzureFrontDoor managed certificate by default. AFDDomainHttpsParameters_STATUSOptional type Resource type. stringOptional validationProperties Values the customer needs to validate domain ownership DomainValidationProperties_STATUSOptional AfdCustomDomainList Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/profiles/{profileName}/customDomains/{customDomainName}">
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AfdCustomDomain_SpecOptional status AfdCustomDomain_STATUSOptional AfdCustomDomain_Spec Property Description Type azureDnsZone Resource reference to the Azure DNS zone ResourceReferenceOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional extendedProperties Key-Value pair representing migration properties for domains. map[string]stringOptional hostName The host name of the domain. Must be a domain name. stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure AfdCustomDomainOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a cdn.azure.com/Profile resource genruntime.KnownResourceReferenceRequired preValidatedCustomDomainResourceId Resource reference to the Azure resource where custom domain ownership was prevalidated ResourceReferenceOptional tlsSettings The configuration specifying how to enable HTTPS for the domain - using AzureFrontDoor managed certificate or user’s own certificate. If not specified, enabling ssl uses AzureFrontDoor managed certificate by default. AFDDomainHttpsParametersOptional AfdCustomDomain_STATUS Property Description Type azureDnsZone Resource reference to the Azure DNS zone ResourceReference_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional deploymentStatus AFDDomainProperties_DeploymentStatus_STATUSOptional domainValidationState Provisioning substate shows the progress of custom HTTPS enabling/disabling process step by step. DCV stands for DomainControlValidation. AFDDomainProperties_DomainValidationState_STATUSOptional extendedProperties Key-Value pair representing migration properties for domains. map[string]stringOptional hostName The host name of the domain. Must be a domain name. stringOptional id Resource ID. stringOptional name Resource name. stringOptional preValidatedCustomDomainResourceId Resource reference to the Azure resource where custom domain ownership was prevalidated ResourceReference_STATUSOptional profileName The name of the profile which holds the domain. stringOptional provisioningState Provisioning status AFDDomainProperties_ProvisioningState_STATUSOptional systemData Read only system data SystemData_STATUSOptional tlsSettings The configuration specifying how to enable HTTPS for the domain - using AzureFrontDoor managed certificate or user’s own certificate. If not specified, enabling ssl uses AzureFrontDoor managed certificate by default. AFDDomainHttpsParameters_STATUSOptional type Resource type. stringOptional validationProperties Values the customer needs to validate domain ownership DomainValidationProperties_STATUSOptional AfdCustomDomainList Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/​profiles/​{profileName}/​customDomains/​{customDomainName}">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/cdn/v1api20230501/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="cdn.azure.com/v1api20230501">
-  <meta property="og:description" content="AfdCustomDomain Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/profiles/{profileName}/customDomains/{customDomainName}
+  <meta property="og:description" content="AfdCustomDomain Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/​profiles/​{profileName}/​customDomains/​{customDomainName}
 Used by: AfdCustomDomainList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AfdCustomDomain_SpecOptional status AfdCustomDomain_STATUSOptional AfdCustomDomain_Spec Property Description Type azureDnsZone Resource reference to the Azure DNS zone ResourceReferenceOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional extendedProperties Key-Value pair representing migration properties for domains. map[string]stringOptional hostName The host name of the domain. Must be a domain name. stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure AfdCustomDomainOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a cdn.azure.com/Profile resource genruntime.KnownResourceReferenceRequired preValidatedCustomDomainResourceId Resource reference to the Azure resource where custom domain ownership was prevalidated ResourceReferenceOptional tlsSettings The configuration specifying how to enable HTTPS for the domain - using AzureFrontDoor managed certificate or user’s own certificate. If not specified, enabling ssl uses AzureFrontDoor managed certificate by default. AFDDomainHttpsParametersOptional AfdCustomDomain_STATUS Property Description Type azureDnsZone Resource reference to the Azure DNS zone ResourceReference_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional deploymentStatus AFDDomainProperties_DeploymentStatus_STATUSOptional domainValidationState Provisioning substate shows the progress of custom HTTPS enabling/disabling process step by step. DCV stands for DomainControlValidation. AFDDomainProperties_DomainValidationState_STATUSOptional extendedProperties Key-Value pair representing migration properties for domains. map[string]stringOptional hostName The host name of the domain. Must be a domain name. stringOptional id Resource ID. stringOptional name Resource name. stringOptional preValidatedCustomDomainResourceId Resource reference to the Azure resource where custom domain ownership was prevalidated ResourceReference_STATUSOptional profileName The name of the profile which holds the domain. stringOptional provisioningState Provisioning status AFDDomainProperties_ProvisioningState_STATUSOptional systemData Read only system data SystemData_STATUSOptional tlsSettings The configuration specifying how to enable HTTPS for the domain - using AzureFrontDoor managed certificate or user’s own certificate. If not specified, enabling ssl uses AzureFrontDoor managed certificate by default. AFDDomainHttpsParameters_STATUSOptional type Resource type. stringOptional validationProperties Values the customer needs to validate domain ownership DomainValidationProperties_STATUSOptional AfdCustomDomainList Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/profiles/{profileName}/customDomains/{customDomainName}">
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AfdCustomDomain_SpecOptional status AfdCustomDomain_STATUSOptional AfdCustomDomain_Spec Property Description Type azureDnsZone Resource reference to the Azure DNS zone ResourceReferenceOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional extendedProperties Key-Value pair representing migration properties for domains. map[string]stringOptional hostName The host name of the domain. Must be a domain name. stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure AfdCustomDomainOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a cdn.azure.com/Profile resource genruntime.KnownResourceReferenceRequired preValidatedCustomDomainResourceId Resource reference to the Azure resource where custom domain ownership was prevalidated ResourceReferenceOptional tlsSettings The configuration specifying how to enable HTTPS for the domain - using AzureFrontDoor managed certificate or user’s own certificate. If not specified, enabling ssl uses AzureFrontDoor managed certificate by default. AFDDomainHttpsParametersOptional AfdCustomDomain_STATUS Property Description Type azureDnsZone Resource reference to the Azure DNS zone ResourceReference_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional deploymentStatus AFDDomainProperties_DeploymentStatus_STATUSOptional domainValidationState Provisioning substate shows the progress of custom HTTPS enabling/disabling process step by step. DCV stands for DomainControlValidation. AFDDomainProperties_DomainValidationState_STATUSOptional extendedProperties Key-Value pair representing migration properties for domains. map[string]stringOptional hostName The host name of the domain. Must be a domain name. stringOptional id Resource ID. stringOptional name Resource name. stringOptional preValidatedCustomDomainResourceId Resource reference to the Azure resource where custom domain ownership was prevalidated ResourceReference_STATUSOptional profileName The name of the profile which holds the domain. stringOptional provisioningState Provisioning status AFDDomainProperties_ProvisioningState_STATUSOptional systemData Read only system data SystemData_STATUSOptional tlsSettings The configuration specifying how to enable HTTPS for the domain - using AzureFrontDoor managed certificate or user’s own certificate. If not specified, enabling ssl uses AzureFrontDoor managed certificate by default. AFDDomainHttpsParameters_STATUSOptional type Resource type. stringOptional validationProperties Values the customer needs to validate domain ownership DomainValidationProperties_STATUSOptional AfdCustomDomainList Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/​profiles/​{profileName}/​customDomains/​{customDomainName}">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="reference">
 
   <meta itemprop="name" content="cdn.azure.com/v1api20230501">
-  <meta itemprop="description" content="AfdCustomDomain Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/profiles/{profileName}/customDomains/{customDomainName}
+  <meta itemprop="description" content="AfdCustomDomain Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/​profiles/​{profileName}/​customDomains/​{customDomainName}
 Used by: AfdCustomDomainList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AfdCustomDomain_SpecOptional status AfdCustomDomain_STATUSOptional AfdCustomDomain_Spec Property Description Type azureDnsZone Resource reference to the Azure DNS zone ResourceReferenceOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional extendedProperties Key-Value pair representing migration properties for domains. map[string]stringOptional hostName The host name of the domain. Must be a domain name. stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure AfdCustomDomainOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a cdn.azure.com/Profile resource genruntime.KnownResourceReferenceRequired preValidatedCustomDomainResourceId Resource reference to the Azure resource where custom domain ownership was prevalidated ResourceReferenceOptional tlsSettings The configuration specifying how to enable HTTPS for the domain - using AzureFrontDoor managed certificate or user’s own certificate. If not specified, enabling ssl uses AzureFrontDoor managed certificate by default. AFDDomainHttpsParametersOptional AfdCustomDomain_STATUS Property Description Type azureDnsZone Resource reference to the Azure DNS zone ResourceReference_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional deploymentStatus AFDDomainProperties_DeploymentStatus_STATUSOptional domainValidationState Provisioning substate shows the progress of custom HTTPS enabling/disabling process step by step. DCV stands for DomainControlValidation. AFDDomainProperties_DomainValidationState_STATUSOptional extendedProperties Key-Value pair representing migration properties for domains. map[string]stringOptional hostName The host name of the domain. Must be a domain name. stringOptional id Resource ID. stringOptional name Resource name. stringOptional preValidatedCustomDomainResourceId Resource reference to the Azure resource where custom domain ownership was prevalidated ResourceReference_STATUSOptional profileName The name of the profile which holds the domain. stringOptional provisioningState Provisioning status AFDDomainProperties_ProvisioningState_STATUSOptional systemData Read only system data SystemData_STATUSOptional tlsSettings The configuration specifying how to enable HTTPS for the domain - using AzureFrontDoor managed certificate or user’s own certificate. If not specified, enabling ssl uses AzureFrontDoor managed certificate by default. AFDDomainHttpsParameters_STATUSOptional type Resource type. stringOptional validationProperties Values the customer needs to validate domain ownership DomainValidationProperties_STATUSOptional AfdCustomDomainList Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/profiles/{profileName}/customDomains/{customDomainName}">
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AfdCustomDomain_SpecOptional status AfdCustomDomain_STATUSOptional AfdCustomDomain_Spec Property Description Type azureDnsZone Resource reference to the Azure DNS zone ResourceReferenceOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional extendedProperties Key-Value pair representing migration properties for domains. map[string]stringOptional hostName The host name of the domain. Must be a domain name. stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure AfdCustomDomainOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a cdn.azure.com/Profile resource genruntime.KnownResourceReferenceRequired preValidatedCustomDomainResourceId Resource reference to the Azure resource where custom domain ownership was prevalidated ResourceReferenceOptional tlsSettings The configuration specifying how to enable HTTPS for the domain - using AzureFrontDoor managed certificate or user’s own certificate. If not specified, enabling ssl uses AzureFrontDoor managed certificate by default. AFDDomainHttpsParametersOptional AfdCustomDomain_STATUS Property Description Type azureDnsZone Resource reference to the Azure DNS zone ResourceReference_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional deploymentStatus AFDDomainProperties_DeploymentStatus_STATUSOptional domainValidationState Provisioning substate shows the progress of custom HTTPS enabling/disabling process step by step. DCV stands for DomainControlValidation. AFDDomainProperties_DomainValidationState_STATUSOptional extendedProperties Key-Value pair representing migration properties for domains. map[string]stringOptional hostName The host name of the domain. Must be a domain name. stringOptional id Resource ID. stringOptional name Resource name. stringOptional preValidatedCustomDomainResourceId Resource reference to the Azure resource where custom domain ownership was prevalidated ResourceReference_STATUSOptional profileName The name of the profile which holds the domain. stringOptional provisioningState Provisioning status AFDDomainProperties_ProvisioningState_STATUSOptional systemData Read only system data SystemData_STATUSOptional tlsSettings The configuration specifying how to enable HTTPS for the domain - using AzureFrontDoor managed certificate or user’s own certificate. If not specified, enabling ssl uses AzureFrontDoor managed certificate by default. AFDDomainHttpsParameters_STATUSOptional type Resource type. stringOptional validationProperties Values the customer needs to validate domain ownership DomainValidationProperties_STATUSOptional AfdCustomDomainList Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/​profiles/​{profileName}/​customDomains/​{customDomainName}">
   <meta itemprop="wordCount" content="17098">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="cdn.azure.com/v1api20230501">
-  <meta name="twitter:description" content="AfdCustomDomain Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/profiles/{profileName}/customDomains/{customDomainName}
+  <meta name="twitter:description" content="AfdCustomDomain Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/​profiles/​{profileName}/​customDomains/​{customDomainName}
 Used by: AfdCustomDomainList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AfdCustomDomain_SpecOptional status AfdCustomDomain_STATUSOptional AfdCustomDomain_Spec Property Description Type azureDnsZone Resource reference to the Azure DNS zone ResourceReferenceOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional extendedProperties Key-Value pair representing migration properties for domains. map[string]stringOptional hostName The host name of the domain. Must be a domain name. stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure AfdCustomDomainOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a cdn.azure.com/Profile resource genruntime.KnownResourceReferenceRequired preValidatedCustomDomainResourceId Resource reference to the Azure resource where custom domain ownership was prevalidated ResourceReferenceOptional tlsSettings The configuration specifying how to enable HTTPS for the domain - using AzureFrontDoor managed certificate or user’s own certificate. If not specified, enabling ssl uses AzureFrontDoor managed certificate by default. AFDDomainHttpsParametersOptional AfdCustomDomain_STATUS Property Description Type azureDnsZone Resource reference to the Azure DNS zone ResourceReference_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional deploymentStatus AFDDomainProperties_DeploymentStatus_STATUSOptional domainValidationState Provisioning substate shows the progress of custom HTTPS enabling/disabling process step by step. DCV stands for DomainControlValidation. AFDDomainProperties_DomainValidationState_STATUSOptional extendedProperties Key-Value pair representing migration properties for domains. map[string]stringOptional hostName The host name of the domain. Must be a domain name. stringOptional id Resource ID. stringOptional name Resource name. stringOptional preValidatedCustomDomainResourceId Resource reference to the Azure resource where custom domain ownership was prevalidated ResourceReference_STATUSOptional profileName The name of the profile which holds the domain. stringOptional provisioningState Provisioning status AFDDomainProperties_ProvisioningState_STATUSOptional systemData Read only system data SystemData_STATUSOptional tlsSettings The configuration specifying how to enable HTTPS for the domain - using AzureFrontDoor managed certificate or user’s own certificate. If not specified, enabling ssl uses AzureFrontDoor managed certificate by default. AFDDomainHttpsParameters_STATUSOptional type Resource type. stringOptional validationProperties Values the customer needs to validate domain ownership DomainValidationProperties_STATUSOptional AfdCustomDomainList Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/profiles/{profileName}/customDomains/{customDomainName}">
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AfdCustomDomain_SpecOptional status AfdCustomDomain_STATUSOptional AfdCustomDomain_Spec Property Description Type azureDnsZone Resource reference to the Azure DNS zone ResourceReferenceOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional extendedProperties Key-Value pair representing migration properties for domains. map[string]stringOptional hostName The host name of the domain. Must be a domain name. stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure AfdCustomDomainOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a cdn.azure.com/Profile resource genruntime.KnownResourceReferenceRequired preValidatedCustomDomainResourceId Resource reference to the Azure resource where custom domain ownership was prevalidated ResourceReferenceOptional tlsSettings The configuration specifying how to enable HTTPS for the domain - using AzureFrontDoor managed certificate or user’s own certificate. If not specified, enabling ssl uses AzureFrontDoor managed certificate by default. AFDDomainHttpsParametersOptional AfdCustomDomain_STATUS Property Description Type azureDnsZone Resource reference to the Azure DNS zone ResourceReference_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional deploymentStatus AFDDomainProperties_DeploymentStatus_STATUSOptional domainValidationState Provisioning substate shows the progress of custom HTTPS enabling/disabling process step by step. DCV stands for DomainControlValidation. AFDDomainProperties_DomainValidationState_STATUSOptional extendedProperties Key-Value pair representing migration properties for domains. map[string]stringOptional hostName The host name of the domain. Must be a domain name. stringOptional id Resource ID. stringOptional name Resource name. stringOptional preValidatedCustomDomainResourceId Resource reference to the Azure resource where custom domain ownership was prevalidated ResourceReference_STATUSOptional profileName The name of the profile which holds the domain. stringOptional provisioningState Provisioning status AFDDomainProperties_ProvisioningState_STATUSOptional systemData Read only system data SystemData_STATUSOptional tlsSettings The configuration specifying how to enable HTTPS for the domain - using AzureFrontDoor managed certificate or user’s own certificate. If not specified, enabling ssl uses AzureFrontDoor managed certificate by default. AFDDomainHttpsParameters_STATUSOptional type Resource type. stringOptional validationProperties Values the customer needs to validate domain ownership DomainValidationProperties_STATUSOptional AfdCustomDomainList Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/​profiles/​{profileName}/​customDomains/​{customDomainName}">
 <link rel="preload" href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" as="style" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" rel="stylesheet" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <script
@@ -1349,7 +1349,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AfdCustomDomain
 </header>
 	<hr>
 <h2 id="AfdCustomDomain">AfdCustomDomain</h2>
-<p>Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/profiles/{profileName}/customDomains/{customDomainName}</p>
+<p>Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/​profiles/​{profileName}/​customDomains/​{customDomainName}</p>
 <p>Used by: <a href="#AfdCustomDomainList">AfdCustomDomainList</a>.</p>
 <table>
   <thead>
@@ -1522,7 +1522,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AfdCustomDomain
   </tbody>
 </table>
 <h2 id="AfdCustomDomainList">AfdCustomDomainList</h2>
-<p>Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/profiles/{profileName}/customDomains/{customDomainName}</p>
+<p>Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/​profiles/​{profileName}/​customDomains/​{customDomainName}</p>
 <table>
   <thead>
       <tr>
@@ -1550,7 +1550,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AfdCustomDomain
   </tbody>
 </table>
 <h2 id="AfdEndpoint">AfdEndpoint</h2>
-<p>Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/profiles/{profileName}/afdEndpoints/{endpointName}</p>
+<p>Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/​profiles/​{profileName}/​afdEndpoints/​{endpointName}</p>
 <p>Used by: <a href="#AfdEndpointList">AfdEndpointList</a>.</p>
 <table>
   <thead>
@@ -1605,7 +1605,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AfdCustomDomain
       </tr>
       <tr>
           <td>enabledState</td>
-          <td>Whether to enable use of this rule. Permitted values are &lsquo;Enabled&rsquo; or &lsquo;Disabled&rsquo;</td>
+          <td>Whether to enable use of this rule. Permitted values are <code>Enabled</code> or <code>Disabled</code></td>
           <td><a href="#AFDEndpointProperties_EnabledState">AFDEndpointProperties_EnabledState</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1657,7 +1657,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AfdCustomDomain
       </tr>
       <tr>
           <td>enabledState</td>
-          <td>Whether to enable use of this rule. Permitted values are &lsquo;Enabled&rsquo; or &lsquo;Disabled&rsquo;</td>
+          <td>Whether to enable use of this rule. Permitted values are <code>Enabled</code> or <code>Disabled</code></td>
           <td><a href="#AFDEndpointProperties_EnabledState_STATUS">AFDEndpointProperties_EnabledState_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1708,7 +1708,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AfdCustomDomain
   </tbody>
 </table>
 <h2 id="AfdEndpointList">AfdEndpointList</h2>
-<p>Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/profiles/{profileName}/afdEndpoints/{endpointName}</p>
+<p>Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/​profiles/​{profileName}/​afdEndpoints/​{endpointName}</p>
 <table>
   <thead>
       <tr>
@@ -1736,7 +1736,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AfdCustomDomain
   </tbody>
 </table>
 <h2 id="AfdOrigin">AfdOrigin</h2>
-<p>Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/profiles/{profileName}/originGroups/{originGroupName}/origins/{originName}</p>
+<p>Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/​profiles/​{profileName}/​originGroups/​{originGroupName}/​origins/​{originName}</p>
 <p>Used by: <a href="#AfdOriginList">AfdOriginList</a>.</p>
 <table>
   <thead>
@@ -1954,7 +1954,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AfdCustomDomain
   </tbody>
 </table>
 <h2 id="AfdOriginGroup">AfdOriginGroup</h2>
-<p>Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/profiles/{profileName}/originGroups/{originGroupName}</p>
+<p>Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/​profiles/​{profileName}/​originGroups/​{originGroupName}</p>
 <p>Used by: <a href="#AfdOriginGroupList">AfdOriginGroupList</a>.</p>
 <table>
   <thead>
@@ -2024,7 +2024,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AfdCustomDomain
       </tr>
       <tr>
           <td>sessionAffinityState</td>
-          <td>Whether to allow session affinity on this host. Valid options are &lsquo;Enabled&rsquo; or &lsquo;Disabled&rsquo;</td>
+          <td>Whether to allow session affinity on this host. Valid options are <code>Enabled</code> or <code>Disabled</code></td>
           <td><a href="#AFDOriginGroupProperties_SessionAffinityState">AFDOriginGroupProperties_SessionAffinityState</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -2086,7 +2086,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AfdCustomDomain
       </tr>
       <tr>
           <td>sessionAffinityState</td>
-          <td>Whether to allow session affinity on this host. Valid options are &lsquo;Enabled&rsquo; or &lsquo;Disabled&rsquo;</td>
+          <td>Whether to allow session affinity on this host. Valid options are <code>Enabled</code> or <code>Disabled</code></td>
           <td><a href="#AFDOriginGroupProperties_SessionAffinityState_STATUS">AFDOriginGroupProperties_SessionAffinityState_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -2107,7 +2107,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AfdCustomDomain
   </tbody>
 </table>
 <h2 id="AfdOriginGroupList">AfdOriginGroupList</h2>
-<p>Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/profiles/{profileName}/originGroups/{originGroupName}</p>
+<p>Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/​profiles/​{profileName}/​originGroups/​{originGroupName}</p>
 <table>
   <thead>
       <tr>
@@ -2135,7 +2135,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AfdCustomDomain
   </tbody>
 </table>
 <h2 id="AfdOriginList">AfdOriginList</h2>
-<p>Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/profiles/{profileName}/originGroups/{originGroupName}/origins/{originName}</p>
+<p>Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/​profiles/​{profileName}/​originGroups/​{originGroupName}/​origins/​{originName}</p>
 <table>
   <thead>
       <tr>
@@ -2178,7 +2178,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AfdCustomDomain
   </tbody>
 </table>
 <h2 id="Profile">Profile</h2>
-<p>Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/cdn.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/profiles/{profileName}</p>
+<p>Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/cdn.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/​profiles/​{profileName}</p>
 <p>Used by: <a href="#ProfileList">ProfileList</a>.</p>
 <table>
   <thead>
@@ -2351,7 +2351,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AfdCustomDomain
   </tbody>
 </table>
 <h2 id="ProfileList">ProfileList</h2>
-<p>Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/cdn.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/profiles/{profileName}</p>
+<p>Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/cdn.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/​profiles/​{profileName}</p>
 <table>
   <thead>
       <tr>
@@ -2379,7 +2379,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AfdCustomDomain
   </tbody>
 </table>
 <h2 id="Route">Route</h2>
-<p>Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/profiles/{profileName}/afdEndpoints/{endpointName}/routes/{routeName}</p>
+<p>Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/​profiles/​{profileName}/​afdEndpoints/​{endpointName}/​routes/​{routeName}</p>
 <p>Used by: <a href="#RouteList">RouteList</a>.</p>
 <table>
   <thead>
@@ -2439,7 +2439,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AfdCustomDomain
       </tr>
       <tr>
           <td>enabledState</td>
-          <td>Whether to enable use of this rule. Permitted values are &lsquo;Enabled&rsquo; or &lsquo;Disabled&rsquo;</td>
+          <td>Whether to enable use of this rule. Permitted values are <code>Enabled</code> or <code>Disabled</code></td>
           <td><a href="#RouteProperties_EnabledState">RouteProperties_EnabledState</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -2526,7 +2526,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AfdCustomDomain
       </tr>
       <tr>
           <td>enabledState</td>
-          <td>Whether to enable use of this rule. Permitted values are &lsquo;Enabled&rsquo; or &lsquo;Disabled&rsquo;</td>
+          <td>Whether to enable use of this rule. Permitted values are <code>Enabled</code> or <code>Disabled</code></td>
           <td><a href="#RouteProperties_EnabledState_STATUS">RouteProperties_EnabledState_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -2602,7 +2602,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AfdCustomDomain
   </tbody>
 </table>
 <h2 id="RouteList">RouteList</h2>
-<p>Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/profiles/{profileName}/afdEndpoints/{endpointName}/routes/{routeName}</p>
+<p>Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/​profiles/​{profileName}/​afdEndpoints/​{endpointName}/​routes/​{routeName}</p>
 <table>
   <thead>
       <tr>
@@ -2630,7 +2630,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AfdCustomDomain
   </tbody>
 </table>
 <h2 id="Rule">Rule</h2>
-<p>Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/profiles/{profileName}/ruleSets/{ruleSetName}/rules/{ruleName}</p>
+<p>Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/​profiles/​{profileName}/​ruleSets/​{ruleSetName}/​rules/​{ruleName}</p>
 <p>Used by: <a href="#RuleList">RuleList</a>.</p>
 <table>
   <thead>
@@ -2783,7 +2783,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AfdCustomDomain
   </tbody>
 </table>
 <h2 id="RuleList">RuleList</h2>
-<p>Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/profiles/{profileName}/ruleSets/{ruleSetName}/rules/{ruleName}</p>
+<p>Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/​profiles/​{profileName}/​ruleSets/​{ruleSetName}/​rules/​{ruleName}</p>
 <table>
   <thead>
       <tr>
@@ -2811,7 +2811,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AfdCustomDomain
   </tbody>
 </table>
 <h2 id="RuleSet">RuleSet</h2>
-<p>Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/profiles/{profileName}/ruleSets/{ruleSetName}</p>
+<p>Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/​profiles/​{profileName}/​ruleSets/​{ruleSetName}</p>
 <p>Used by: <a href="#RuleSetList">RuleSetList</a>.</p>
 <table>
   <thead>
@@ -2924,7 +2924,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AfdCustomDomain
   </tbody>
 </table>
 <h2 id="RuleSetList">RuleSetList</h2>
-<p>Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/profiles/{profileName}/ruleSets/{ruleSetName}</p>
+<p>Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/​profiles/​{profileName}/​ruleSets/​{ruleSetName}</p>
 <table>
   <thead>
       <tr>
@@ -2952,7 +2952,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AfdCustomDomain
   </tbody>
 </table>
 <h2 id="Secret">Secret</h2>
-<p>Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/profiles/{profileName}/secrets/{secretName}</p>
+<p>Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/​profiles/​{profileName}/​secrets/​{secretName}</p>
 <p>Used by: <a href="#SecretList">SecretList</a>.</p>
 <table>
   <thead>
@@ -3075,7 +3075,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AfdCustomDomain
   </tbody>
 </table>
 <h2 id="SecretList">SecretList</h2>
-<p>Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/profiles/{profileName}/secrets/{secretName}</p>
+<p>Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/​profiles/​{profileName}/​secrets/​{secretName}</p>
 <table>
   <thead>
       <tr>
@@ -3103,7 +3103,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AfdCustomDomain
   </tbody>
 </table>
 <h2 id="SecurityPolicy">SecurityPolicy</h2>
-<p>Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/profiles/{profileName}/securityPolicies/{securityPolicyName}</p>
+<p>Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/​profiles/​{profileName}/​securityPolicies/​{securityPolicyName}</p>
 <p>Used by: <a href="#SecurityPolicyList">SecurityPolicyList</a>.</p>
 <table>
   <thead>
@@ -3226,7 +3226,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AfdCustomDomain
   </tbody>
 </table>
 <h2 id="SecurityPolicyList">SecurityPolicyList</h2>
-<p>Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/profiles/{profileName}/securityPolicies/{securityPolicyName}</p>
+<p>Generator information: - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/afdx.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cdn/​profiles/​{profileName}/​securityPolicies/​{securityPolicyName}</p>
 <table>
   <thead>
       <tr>
@@ -3417,7 +3417,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AfdCustomDomain
       </tr>
       <tr>
           <td>enabledState</td>
-          <td>Whether to enable use of this rule. Permitted values are &lsquo;Enabled&rsquo; or &lsquo;Disabled&rsquo;</td>
+          <td>Whether to enable use of this rule. Permitted values are <code>Enabled</code> or <code>Disabled</code></td>
           <td><a href="#AFDEndpointProperties_EnabledState">AFDEndpointProperties_EnabledState</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -3470,7 +3470,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AfdCustomDomain
       </tr>
       <tr>
           <td>enabledState</td>
-          <td>Whether to enable use of this rule. Permitted values are &lsquo;Enabled&rsquo; or &lsquo;Disabled&rsquo;</td>
+          <td>Whether to enable use of this rule. Permitted values are <code>Enabled</code> or <code>Disabled</code></td>
           <td><a href="#AFDEndpointProperties_EnabledState_STATUS">AFDEndpointProperties_EnabledState_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -3744,7 +3744,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AfdCustomDomain
       </tr>
       <tr>
           <td>sessionAffinityState</td>
-          <td>Whether to allow session affinity on this host. Valid options are &lsquo;Enabled&rsquo; or &lsquo;Disabled&rsquo;</td>
+          <td>Whether to allow session affinity on this host. Valid options are <code>Enabled</code> or <code>Disabled</code></td>
           <td><a href="#AFDOriginGroupProperties_SessionAffinityState">AFDOriginGroupProperties_SessionAffinityState</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -3807,7 +3807,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AfdCustomDomain
       </tr>
       <tr>
           <td>sessionAffinityState</td>
-          <td>Whether to allow session affinity on this host. Valid options are &lsquo;Enabled&rsquo; or &lsquo;Disabled&rsquo;</td>
+          <td>Whether to allow session affinity on this host. Valid options are <code>Enabled</code> or <code>Disabled</code></td>
           <td><a href="#AFDOriginGroupProperties_SessionAffinityState_STATUS">AFDOriginGroupProperties_SessionAffinityState_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -3997,7 +3997,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AfdCustomDomain
       </tr>
       <tr>
           <td>enabledState</td>
-          <td>Whether to enable use of this rule. Permitted values are &lsquo;Enabled&rsquo; or &lsquo;Disabled&rsquo;</td>
+          <td>Whether to enable use of this rule. Permitted values are <code>Enabled</code> or <code>Disabled</code></td>
           <td><a href="#RouteProperties_EnabledState">RouteProperties_EnabledState</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -4085,7 +4085,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AfdCustomDomain
       </tr>
       <tr>
           <td>enabledState</td>
-          <td>Whether to enable use of this rule. Permitted values are &lsquo;Enabled&rsquo; or &lsquo;Disabled&rsquo;</td>
+          <td>Whether to enable use of this rule. Permitted values are <code>Enabled</code> or <code>Disabled</code></td>
           <td><a href="#RouteProperties_EnabledState_STATUS">RouteProperties_EnabledState_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
