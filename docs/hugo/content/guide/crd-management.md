@@ -163,7 +163,3 @@ that removed those CRDs. **Note:** This is not yet implemented, it is being trac
   `dbformysql.azure.com/FlexibleServer` may be specified as well, but there are often other resources in the 
   group which pair together to enable other scenarios, such as `dbformysql.azure.com/FlexibleServersFirewallRules`.
   It's generally easier to just include the whole group.
-
-## Entra Resources
-
-If you want to use any Entra resources, such as `entra.azure.com/SecurityGroup` you must also obtain an ENTRA_APP_ID and include that in your [configuration]( {{< relref "aso-controller-settings-options" >}} ). 
