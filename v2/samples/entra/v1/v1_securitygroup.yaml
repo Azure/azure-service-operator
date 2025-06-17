@@ -7,8 +7,9 @@ spec:
   displayName: ASO Sample Security Group
   mailNickname: aso-sample-securitygroup
   description: ASO Sample Security Group for demonstration purposes
+  membershipType: assignedm365
   operatorSpec:
-    secrets:
+    configmaps:
       entraID:
         key: entraID
         name: securitygroupsecret
