@@ -15,7 +15,7 @@ APIVersion{#APIVersion}
 FlexibleServer{#FlexibleServer}
 -------------------------------
 
-Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2022-01-20-preview/postgresql.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.DBforPostgreSQL/flexibleServers/{serverName}
+Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2022-01-20-preview/postgresql.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.DBforPostgreSQL/&ZeroWidthSpace;flexibleServers/&ZeroWidthSpace;{serverName}
 
 Used by: [FlexibleServerList](#FlexibleServerList).
 
@@ -79,7 +79,7 @@ Used by: [FlexibleServerList](#FlexibleServerList).
 FlexibleServerList{#FlexibleServerList}
 ---------------------------------------
 
-Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2022-01-20-preview/postgresql.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.DBforPostgreSQL/flexibleServers/{serverName}
+Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2022-01-20-preview/postgresql.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.DBforPostgreSQL/&ZeroWidthSpace;flexibleServers/&ZeroWidthSpace;{serverName}
 
 | Property                                                                            | Description | Type                                                            |
 |-------------------------------------------------------------------------------------|-------------|-----------------------------------------------------------------|
@@ -90,7 +90,7 @@ Generator information: - Generated from: /postgresql/resource-manager/Microsoft.
 FlexibleServersConfiguration{#FlexibleServersConfiguration}
 -----------------------------------------------------------
 
-Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2022-01-20-preview/postgresql.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/configurations/{configurationName}
+Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2022-01-20-preview/postgresql.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.DBforPostgreSQL/&ZeroWidthSpace;flexibleServers/&ZeroWidthSpace;{serverName}/&ZeroWidthSpace;configurations/&ZeroWidthSpace;{configurationName}
 
 Used by: [FlexibleServersConfigurationList](#FlexibleServersConfigurationList).
 
@@ -135,7 +135,7 @@ Used by: [FlexibleServersConfigurationList](#FlexibleServersConfigurationList).
 FlexibleServersConfigurationList{#FlexibleServersConfigurationList}
 -------------------------------------------------------------------
 
-Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2022-01-20-preview/postgresql.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/configurations/{configurationName}
+Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2022-01-20-preview/postgresql.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.DBforPostgreSQL/&ZeroWidthSpace;flexibleServers/&ZeroWidthSpace;{serverName}/&ZeroWidthSpace;configurations/&ZeroWidthSpace;{configurationName}
 
 | Property                                                                            | Description | Type                                                                                        |
 |-------------------------------------------------------------------------------------|-------------|---------------------------------------------------------------------------------------------|
@@ -146,7 +146,7 @@ Generator information: - Generated from: /postgresql/resource-manager/Microsoft.
 FlexibleServersDatabase{#FlexibleServersDatabase}
 -------------------------------------------------
 
-Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2022-01-20-preview/Databases.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/databases/{databaseName}
+Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2022-01-20-preview/Databases.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.DBforPostgreSQL/&ZeroWidthSpace;flexibleServers/&ZeroWidthSpace;{serverName}/&ZeroWidthSpace;databases/&ZeroWidthSpace;{databaseName}
 
 Used by: [FlexibleServersDatabaseList](#FlexibleServersDatabaseList).
 
@@ -182,7 +182,7 @@ Used by: [FlexibleServersDatabaseList](#FlexibleServersDatabaseList).
 FlexibleServersDatabaseList{#FlexibleServersDatabaseList}
 ---------------------------------------------------------
 
-Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2022-01-20-preview/Databases.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/databases/{databaseName}
+Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2022-01-20-preview/Databases.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.DBforPostgreSQL/&ZeroWidthSpace;flexibleServers/&ZeroWidthSpace;{serverName}/&ZeroWidthSpace;databases/&ZeroWidthSpace;{databaseName}
 
 | Property                                                                            | Description | Type                                                                              |
 |-------------------------------------------------------------------------------------|-------------|-----------------------------------------------------------------------------------|
@@ -193,7 +193,7 @@ Generator information: - Generated from: /postgresql/resource-manager/Microsoft.
 FlexibleServersFirewallRule{#FlexibleServersFirewallRule}
 ---------------------------------------------------------
 
-Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2022-01-20-preview/postgresql.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/firewallRules/{firewallRuleName}
+Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2022-01-20-preview/postgresql.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.DBforPostgreSQL/&ZeroWidthSpace;flexibleServers/&ZeroWidthSpace;{serverName}/&ZeroWidthSpace;firewallRules/&ZeroWidthSpace;{firewallRuleName}
 
 Used by: [FlexibleServersFirewallRuleList](#FlexibleServersFirewallRuleList).
 
@@ -229,7 +229,7 @@ Used by: [FlexibleServersFirewallRuleList](#FlexibleServersFirewallRuleList).
 FlexibleServersFirewallRuleList{#FlexibleServersFirewallRuleList}
 -----------------------------------------------------------------
 
-Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2022-01-20-preview/postgresql.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/firewallRules/{firewallRuleName}
+Generator information: - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2022-01-20-preview/postgresql.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.DBforPostgreSQL/&ZeroWidthSpace;flexibleServers/&ZeroWidthSpace;{serverName}/&ZeroWidthSpace;firewallRules/&ZeroWidthSpace;{firewallRuleName}
 
 | Property                                                                            | Description | Type                                                                                      |
 |-------------------------------------------------------------------------------------|-------------|-------------------------------------------------------------------------------------------|

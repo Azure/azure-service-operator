@@ -6,7 +6,7 @@ editors:
   - search: "(?i)(?<verb>GET|PUT|POST|PATCH|DELETE) https://management.azure.com/subscriptions"
     replace: "$1 https&ZeroWidthSpace;://management.azure.com/subscriptions"
   # Allow ARM URLs to line break at slashes
-  - context: "(?i)/subscriptions/[\\w{}_\\-/]*"
+  - context: "(?i)/subscriptions/[\\w{}_\\-/.]*"
     search: "/"
     replace: "/&ZeroWidthSpace;"
 externalLinks:

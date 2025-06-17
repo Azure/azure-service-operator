@@ -15,7 +15,7 @@ APIVersion{#APIVersion}
 Webtest{#Webtest}
 -----------------
 
-Generator information: - Generated from: /applicationinsights/resource-manager/Microsoft.Insights/preview/2018-05-01-preview/webTests_API.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.Insights/webtests/{webTestName}
+Generator information: - Generated from: /applicationinsights/resource-manager/Microsoft.Insights/preview/2018-05-01-preview/webTests_API.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.Insights/&ZeroWidthSpace;webtests/&ZeroWidthSpace;{webTestName}
 
 Used by: [WebtestList](#WebtestList).
 
@@ -75,7 +75,7 @@ Used by: [WebtestList](#WebtestList).
 WebtestList{#WebtestList}
 -------------------------
 
-Generator information: - Generated from: /applicationinsights/resource-manager/Microsoft.Insights/preview/2018-05-01-preview/webTests_API.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.Insights/webtests/{webTestName}
+Generator information: - Generated from: /applicationinsights/resource-manager/Microsoft.Insights/preview/2018-05-01-preview/webTests_API.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.Insights/&ZeroWidthSpace;webtests/&ZeroWidthSpace;{webTestName}
 
 | Property                                                                            | Description | Type                                              |
 |-------------------------------------------------------------------------------------|-------------|---------------------------------------------------|
