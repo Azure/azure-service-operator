@@ -91,7 +91,7 @@ After several releases of ASO, we'd remove the old versions, as we did with `v1a
 
 ### Cons
 
-* Will eventually a breaking change for some users, but only for those who have not migrated to the new version format in the interim.
+* Will eventually be a breaking change for some users, but only for those who have not migrated to the new version format in the interim.
 * May not be possible for some resources, as the duplication may result in the aggregate CRD being too large. (This is definitely the case for `ManagedCluster` which is already near the maximum size for a CRD, and would not be able to accommodate the duplication of all the existing versions.)
 
 ## Which new version format?
@@ -125,7 +125,5 @@ This would seem to be quite awkward, difficult for users to understand, and pote
 ## Status
 
 Recommendation: 
-_Either_
-Option 3 with the proposed version change to use just `v` as the prefix.
-_or_
+
 Option 4 with the proposed version change to use just `v` as the prefix, but with the understanding that some resources may not be able to accommodate the duplication of existing versions.
