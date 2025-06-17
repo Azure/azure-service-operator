@@ -383,3 +383,7 @@ volumes:
           expirationSeconds: 3600
           path: azure-identity
 ```
+
+### How do I use Entra resources?
+
+For Entra resources, you need to add `ENTRA_APP_ID` to your configuration as an environment variable. This identifies ASO as a client with permitted access to your tenant. See [Configuring ASO]({{< relref "aso-controller-settings-options" >}}) and Register an application in Microsoft Entra ID](https://learn.microsoft.com/en-us/entra/identity-platform/quickstart-register-app) for more information.

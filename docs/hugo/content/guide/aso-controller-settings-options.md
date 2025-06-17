@@ -217,6 +217,19 @@ AZURE_USER_AGENT_SUFFIX is appended to the default User-Agent for Azure HTTP cli
 
 **[Allowed scopes]( {{< relref "authentication#credential-scope" >}} )**: Global
 
+### ENTRA_APP_ID
+
+Required if you want to use Entra resources, ENTRA_APP_ID identifies ASO to Microsoft Entra.
+
+To create an ENTRA_APP_ID of your own, see [Register an application in Microsoft Entra ID](https://learn.microsoft.com/en-us/entra/identity-platform/quickstart-register-app).
+
+Format: `string` (GUID)
+
+Example: `00000000-0000-0000-0000-000000000000`
+
+Required: True if using Entra resources, otherwise False
+
+
 ### MAX_CONCURRENT_RECONCILES
 
 MAX_CONCURRENT_RECONCILES is the number of threads/goroutines dedicated to reconciling each resource type.
