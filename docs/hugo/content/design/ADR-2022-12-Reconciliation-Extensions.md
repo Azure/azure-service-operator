@@ -10,9 +10,9 @@ For some resources this doesn't work particularly well because the resources can
 
 Examples of this include:
 
-* An [AKS Managed Cluster](https://learn.microsoft.com/en-us/rest/api/aks/managed-clusters/get?tabs=HTTP) with `provisioningState` of `Updating`.
-* An [AKS Agent Pool](https://learn.microsoft.com/en-us/rest/api/aks/agent-pools/get?tabs=HTTP) with `provisioningState` of `Updating`.
-* A [PostgreSQL Flexible Server](https://learn.microsoft.com/en-us/rest/api/postgresql/flexibleserver/servers/get?tabs=HTTP) with a `state` of `Starting`, `Stopping` or `Updating`.
+* An [AKS Managed Cluster](https://learn.microsoft.com/en-us/rest/api/aks/managed-clusters/get) with `provisioningState` of `Updating`.
+* An [AKS Agent Pool](https://learn.microsoft.com/en-us/rest/api/aks/agent-pools/get) with `provisioningState` of `Updating`.
+* A [PostgreSQL Flexible Server](https://learn.microsoft.com/en-us/rest/api/postgresql/servers/get) with a `state` of `Starting`, `Stopping` or `Updating`.
 
 This list not exhaustive.
 
