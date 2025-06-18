@@ -28,8 +28,7 @@ func ParseReconcilePolicy(policy string, defaultReconcilePolicy annotations.Reco
 	case string(annotations.ReconcilePolicyDetachOnDelete):
 		return annotations.ReconcilePolicyDetachOnDelete, nil
 	default:
-		// Defaulting to manage.
-		return annotations.ReconcilePolicyManage, eris.Errorf("%q is not a known reconcile policy", policy)
+		return defaultReconcilePolicy, eris.Errorf("%q is not a known reconcile policy", policy)
 	}
 }
 

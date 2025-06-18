@@ -38,5 +38,5 @@ func TestParseReconcilePolicy(t *testing.T) {
 	// test error in case of any other value
 	returnedPolicy, err = ParseReconcilePolicy("whatever", annotations.ReconcilePolicySkip)
 	g.Expect(err).Should(HaveOccurred())
-	g.Expect(returnedPolicy).Should(Equal(annotations.ReconcilePolicyManage))
+	g.Expect(returnedPolicy).Should(Equal(annotations.ReconcilePolicySkip))
 }
