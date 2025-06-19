@@ -45,6 +45,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/identity"
 	asometrics "github.com/Azure/azure-service-operator/v2/internal/metrics"
 	armreconciler "github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
+	entrareconciler "github.com/Azure/azure-service-operator/v2/internal/reconcilers/entra"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/generic"
 	asocel "github.com/Azure/azure-service-operator/v2/internal/util/cel"
 	"github.com/Azure/azure-service-operator/v2/internal/util/interval"
@@ -52,7 +53,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/util/lockedrand"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	common "github.com/Azure/azure-service-operator/v2/pkg/common/config"
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
 
@@ -365,13 +365,26 @@ func getDefaultAzureTokenCredential(cfg config.Values, setupLog logr.Logger) (az
 }
 
 type clients struct {
-	positiveConditions   *conditions.PositiveConditionBuilder
-	armConnectionFactory armreconciler.ARMConnectionFactory
-	credentialProvider   identity.CredentialProvider
-	kubeClient           kubeclient.Client
-	expressionEvaluator  asocel.ExpressionEvaluator
-	log                  logr.Logger
-	options              generic.Options
+	positiveConditions     *conditions.PositiveConditionBuilder
+	armConnectionFactory   armreconciler.ARMConnectionFactory
+	entraConnectionFactory entrareconciler.EntraConnectionFactory
+	credentialProvider     identity.CredentialProvider
+	kubeClient             kubeclient.Client
+	expressionEvaluator    asocel.ExpressionEvaluator
+	log                    logr.Logger
+	options                generic.Options
+}
+
+func (c *clients) KubeClient() kubeclient.Client {
+	return c.kubeClient
+}
+
+func (c *clients) ARMConnectionFactory() armreconciler.ARMConnectionFactory {
+	return c.armConnectionFactory
+}
+
+func (c *clients) EntraConnectionFactory() entrareconciler.EntraConnectionFactory {
+	return c.entraConnectionFactory
 }
 
 func initializeClients(cfg config.Values, mgr ctrl.Manager) (*clients, error) {
@@ -403,9 +416,9 @@ func initializeClients(cfg config.Values, mgr ctrl.Manager) (*clients, error) {
 
 	genericarmclient.AddToUserAgent(cfg.UserAgentSuffix)
 
-	var connectionFactory armreconciler.ARMConnectionFactory = func(ctx context.Context, obj genruntime.ARMMetaObject) (armreconciler.Connection, error) {
-		return armClientCache.GetConnection(ctx, obj)
-	}
+	entraClientCache := entrareconciler.NewEntraClientCache(
+		credentialProvider,
+		nil)
 
 	positiveConditions := conditions.NewPositiveConditionBuilder(clock.New())
 
@@ -422,24 +435,30 @@ func initializeClients(cfg config.Values, mgr ctrl.Manager) (*clients, error) {
 	options := makeControllerOptions(log, cfg)
 
 	return &clients{
-		positiveConditions:   positiveConditions,
-		armConnectionFactory: connectionFactory,
-		credentialProvider:   credentialProvider,
-		kubeClient:           kubeClient,
-		expressionEvaluator:  expressionEvaluator,
-		log:                  log,
-		options:              options,
+		positiveConditions:     positiveConditions,
+		armConnectionFactory:   armClientCache.GetConnection,
+		entraConnectionFactory: entraClientCache.GetConnection,
+		credentialProvider:     credentialProvider,
+		kubeClient:             kubeClient,
+		expressionEvaluator:    expressionEvaluator,
+		log:                    log,
+		options:                options,
 	}, nil
 }
 
 func initializeWatchers(readyResources map[string]apiextensions.CustomResourceDefinition, cfg config.Values, mgr ctrl.Manager, clients *clients) error {
 	clients.log.V(Status).Info("Configuration details", "config", cfg.String())
 
+	clientsProvider := &controllers.ClientsProvider{
+		KubeClient:             clients.kubeClient,
+		ARMConnectionFactory:   clients.armConnectionFactory,
+		EntraConnectionFactory: clients.entraConnectionFactory,
+	}
+
 	objs, err := controllers.GetKnownStorageTypes(
 		mgr,
-		clients.armConnectionFactory,
+		clientsProvider,
 		clients.credentialProvider,
-		clients.kubeClient,
 		clients.positiveConditions,
 		clients.expressionEvaluator,
 		clients.options)

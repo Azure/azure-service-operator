@@ -2171,6 +2171,9 @@ func RunJSONSerializationTestForApplicationGatewayPathRule(subject ApplicationGa
 var applicationGatewayPathRuleGenerator gopter.Gen
 
 // ApplicationGatewayPathRuleGenerator returns a generator of ApplicationGatewayPathRule instances for property testing.
+// We first initialize applicationGatewayPathRuleGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
 func ApplicationGatewayPathRuleGenerator() gopter.Gen {
 	if applicationGatewayPathRuleGenerator != nil {
 		return applicationGatewayPathRuleGenerator
@@ -2180,12 +2183,103 @@ func ApplicationGatewayPathRuleGenerator() gopter.Gen {
 	AddIndependentPropertyGeneratorsForApplicationGatewayPathRule(generators)
 	applicationGatewayPathRuleGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayPathRule{}), generators)
 
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForApplicationGatewayPathRule(generators)
+	AddRelatedPropertyGeneratorsForApplicationGatewayPathRule(generators)
+	applicationGatewayPathRuleGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayPathRule{}), generators)
+
 	return applicationGatewayPathRuleGenerator
 }
 
 // AddIndependentPropertyGeneratorsForApplicationGatewayPathRule is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForApplicationGatewayPathRule(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForApplicationGatewayPathRule is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForApplicationGatewayPathRule(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(ApplicationGatewayPathRulePropertiesFormatGenerator())
+}
+
+func Test_ApplicationGatewayPathRulePropertiesFormat_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ApplicationGatewayPathRulePropertiesFormat via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForApplicationGatewayPathRulePropertiesFormat, ApplicationGatewayPathRulePropertiesFormatGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForApplicationGatewayPathRulePropertiesFormat runs a test to see if a specific instance of ApplicationGatewayPathRulePropertiesFormat round trips to JSON and back losslessly
+func RunJSONSerializationTestForApplicationGatewayPathRulePropertiesFormat(subject ApplicationGatewayPathRulePropertiesFormat) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ApplicationGatewayPathRulePropertiesFormat
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ApplicationGatewayPathRulePropertiesFormat instances for property testing - lazily instantiated by
+// ApplicationGatewayPathRulePropertiesFormatGenerator()
+var applicationGatewayPathRulePropertiesFormatGenerator gopter.Gen
+
+// ApplicationGatewayPathRulePropertiesFormatGenerator returns a generator of ApplicationGatewayPathRulePropertiesFormat instances for property testing.
+// We first initialize applicationGatewayPathRulePropertiesFormatGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ApplicationGatewayPathRulePropertiesFormatGenerator() gopter.Gen {
+	if applicationGatewayPathRulePropertiesFormatGenerator != nil {
+		return applicationGatewayPathRulePropertiesFormatGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForApplicationGatewayPathRulePropertiesFormat(generators)
+	applicationGatewayPathRulePropertiesFormatGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayPathRulePropertiesFormat{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForApplicationGatewayPathRulePropertiesFormat(generators)
+	AddRelatedPropertyGeneratorsForApplicationGatewayPathRulePropertiesFormat(generators)
+	applicationGatewayPathRulePropertiesFormatGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayPathRulePropertiesFormat{}), generators)
+
+	return applicationGatewayPathRulePropertiesFormatGenerator
+}
+
+// AddIndependentPropertyGeneratorsForApplicationGatewayPathRulePropertiesFormat is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForApplicationGatewayPathRulePropertiesFormat(gens map[string]gopter.Gen) {
+	gens["Paths"] = gen.SliceOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForApplicationGatewayPathRulePropertiesFormat is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForApplicationGatewayPathRulePropertiesFormat(gens map[string]gopter.Gen) {
+	gens["BackendAddressPool"] = gen.PtrOf(SubResourceGenerator())
+	gens["BackendHttpSettings"] = gen.PtrOf(SubResourceGenerator())
+	gens["FirewallPolicy"] = gen.PtrOf(SubResourceGenerator())
+	gens["LoadDistributionPolicy"] = gen.PtrOf(SubResourceGenerator())
+	gens["RedirectConfiguration"] = gen.PtrOf(SubResourceGenerator())
+	gens["RewriteRuleSet"] = gen.PtrOf(SubResourceGenerator())
 }
 
 func Test_ApplicationGatewayPrivateLinkConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

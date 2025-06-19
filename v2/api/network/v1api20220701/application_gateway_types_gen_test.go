@@ -4128,15 +4128,41 @@ func RunJSONSerializationTestForApplicationGatewayPathRule(subject ApplicationGa
 var applicationGatewayPathRuleGenerator gopter.Gen
 
 // ApplicationGatewayPathRuleGenerator returns a generator of ApplicationGatewayPathRule instances for property testing.
+// We first initialize applicationGatewayPathRuleGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
 func ApplicationGatewayPathRuleGenerator() gopter.Gen {
 	if applicationGatewayPathRuleGenerator != nil {
 		return applicationGatewayPathRuleGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForApplicationGatewayPathRule(generators)
+	applicationGatewayPathRuleGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayPathRule{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForApplicationGatewayPathRule(generators)
+	AddRelatedPropertyGeneratorsForApplicationGatewayPathRule(generators)
 	applicationGatewayPathRuleGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayPathRule{}), generators)
 
 	return applicationGatewayPathRuleGenerator
+}
+
+// AddIndependentPropertyGeneratorsForApplicationGatewayPathRule is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForApplicationGatewayPathRule(gens map[string]gopter.Gen) {
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Paths"] = gen.SliceOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForApplicationGatewayPathRule is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForApplicationGatewayPathRule(gens map[string]gopter.Gen) {
+	gens["BackendAddressPool"] = gen.PtrOf(SubResourceGenerator())
+	gens["BackendHttpSettings"] = gen.PtrOf(SubResourceGenerator())
+	gens["FirewallPolicy"] = gen.PtrOf(SubResourceGenerator())
+	gens["LoadDistributionPolicy"] = gen.PtrOf(SubResourceGenerator())
+	gens["RedirectConfiguration"] = gen.PtrOf(SubResourceGenerator())
+	gens["RewriteRuleSet"] = gen.PtrOf(SubResourceGenerator())
 }
 
 func Test_ApplicationGatewayPrivateEndpointConnection_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

@@ -3606,6 +3606,8 @@ objectModelConfiguration:
         $resourceEmbeddedInParent: ApplicationGateway
       ApplicationGatewayLoadDistributionPolicy:
          $resourceEmbeddedInParent: ApplicationGateway
+      ApplicationGatewayPathRule:
+        $resourceEmbeddedInParent: ApplicationGateway
       ApplicationGatewayPrivateLinkConfiguration:
         $resourceEmbeddedInParent: ApplicationGateway
       ApplicationGatewayProbe:

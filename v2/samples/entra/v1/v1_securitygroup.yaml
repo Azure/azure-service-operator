@@ -1,0 +1,15 @@
+apiVersion: entra.azure.com/v1
+kind: SecurityGroup
+metadata:
+  name: aso-sample-securitygroup
+  namespace: default
+spec:
+  displayName: ASO Sample Security Group
+  mailNickname: aso-sample-securitygroup
+  description: ASO Sample Security Group for demonstration purposes
+  membershipType: assignedm365
+  operatorSpec:
+    configmaps:
+      entraID:
+        key: entraID
+        name: securitygroupsecret

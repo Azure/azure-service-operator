@@ -15443,8 +15443,29 @@ func (target *ApplicationGatewayLoadDistributionTarget) AssignProperties_To_Appl
 
 // Path rule of URL path map of an application gateway.
 type ApplicationGatewayPathRule struct {
-	// Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+	// BackendAddressPool: Backend address pool resource of URL path map path rule.
+	BackendAddressPool *SubResource `json:"backendAddressPool,omitempty"`
+
+	// BackendHttpSettings: Backend http settings resource of URL path map path rule.
+	BackendHttpSettings *SubResource `json:"backendHttpSettings,omitempty"`
+
+	// FirewallPolicy: Reference to the FirewallPolicy resource.
+	FirewallPolicy *SubResource `json:"firewallPolicy,omitempty"`
+
+	// LoadDistributionPolicy: Load Distribution Policy resource of URL path map path rule.
+	LoadDistributionPolicy *SubResource `json:"loadDistributionPolicy,omitempty"`
+
+	// Name: Name of the path rule that is unique within an Application Gateway.
+	Name *string `json:"name,omitempty"`
+
+	// Paths: Path rules of URL path map.
+	Paths []string `json:"paths,omitempty"`
+
+	// RedirectConfiguration: Redirect configuration resource of URL path map path rule.
+	RedirectConfiguration *SubResource `json:"redirectConfiguration,omitempty"`
+
+	// RewriteRuleSet: Rewrite rule set resource of URL path map path rule.
+	RewriteRuleSet *SubResource `json:"rewriteRuleSet,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ApplicationGatewayPathRule{}
@@ -15456,14 +15477,72 @@ func (rule *ApplicationGatewayPathRule) ConvertToARM(resolved genruntime.Convert
 	}
 	result := &arm.ApplicationGatewayPathRule{}
 
-	// Set property "Id":
-	if rule.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.Lookup(*rule.Reference)
+	// Set property "Name":
+	if rule.Name != nil {
+		name := *rule.Name
+		result.Name = &name
+	}
+
+	// Set property "Properties":
+	if rule.BackendAddressPool != nil ||
+		rule.BackendHttpSettings != nil ||
+		rule.FirewallPolicy != nil ||
+		rule.LoadDistributionPolicy != nil ||
+		rule.Paths != nil ||
+		rule.RedirectConfiguration != nil ||
+		rule.RewriteRuleSet != nil {
+		result.Properties = &arm.ApplicationGatewayPathRulePropertiesFormat{}
+	}
+	if rule.BackendAddressPool != nil {
+		backendAddressPool_ARM, err := (*rule.BackendAddressPool).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		reference := referenceARMID
-		result.Id = &reference
+		backendAddressPool := *backendAddressPool_ARM.(*arm.SubResource)
+		result.Properties.BackendAddressPool = &backendAddressPool
+	}
+	if rule.BackendHttpSettings != nil {
+		backendHttpSettings_ARM, err := (*rule.BackendHttpSettings).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		backendHttpSettings := *backendHttpSettings_ARM.(*arm.SubResource)
+		result.Properties.BackendHttpSettings = &backendHttpSettings
+	}
+	if rule.FirewallPolicy != nil {
+		firewallPolicy_ARM, err := (*rule.FirewallPolicy).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		firewallPolicy := *firewallPolicy_ARM.(*arm.SubResource)
+		result.Properties.FirewallPolicy = &firewallPolicy
+	}
+	if rule.LoadDistributionPolicy != nil {
+		loadDistributionPolicy_ARM, err := (*rule.LoadDistributionPolicy).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		loadDistributionPolicy := *loadDistributionPolicy_ARM.(*arm.SubResource)
+		result.Properties.LoadDistributionPolicy = &loadDistributionPolicy
+	}
+	for _, item := range rule.Paths {
+		result.Properties.Paths = append(result.Properties.Paths, item)
+	}
+	if rule.RedirectConfiguration != nil {
+		redirectConfiguration_ARM, err := (*rule.RedirectConfiguration).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		redirectConfiguration := *redirectConfiguration_ARM.(*arm.SubResource)
+		result.Properties.RedirectConfiguration = &redirectConfiguration
+	}
+	if rule.RewriteRuleSet != nil {
+		rewriteRuleSet_ARM, err := (*rule.RewriteRuleSet).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		rewriteRuleSet := *rewriteRuleSet_ARM.(*arm.SubResource)
+		result.Properties.RewriteRuleSet = &rewriteRuleSet
 	}
 	return result, nil
 }
@@ -15475,12 +15554,108 @@ func (rule *ApplicationGatewayPathRule) NewEmptyARMValue() genruntime.ARMResourc
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *ApplicationGatewayPathRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(arm.ApplicationGatewayPathRule)
+	typedInput, ok := armInput.(arm.ApplicationGatewayPathRule)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayPathRule, got %T", armInput)
 	}
 
-	// no assignment for property "Reference"
+	// Set property "BackendAddressPool":
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.BackendAddressPool != nil {
+			var backendAddressPool1 SubResource
+			err := backendAddressPool1.PopulateFromARM(owner, *typedInput.Properties.BackendAddressPool)
+			if err != nil {
+				return err
+			}
+			backendAddressPool := backendAddressPool1
+			rule.BackendAddressPool = &backendAddressPool
+		}
+	}
+
+	// Set property "BackendHttpSettings":
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.BackendHttpSettings != nil {
+			var backendHttpSettings1 SubResource
+			err := backendHttpSettings1.PopulateFromARM(owner, *typedInput.Properties.BackendHttpSettings)
+			if err != nil {
+				return err
+			}
+			backendHttpSettings := backendHttpSettings1
+			rule.BackendHttpSettings = &backendHttpSettings
+		}
+	}
+
+	// Set property "FirewallPolicy":
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.FirewallPolicy != nil {
+			var firewallPolicy1 SubResource
+			err := firewallPolicy1.PopulateFromARM(owner, *typedInput.Properties.FirewallPolicy)
+			if err != nil {
+				return err
+			}
+			firewallPolicy := firewallPolicy1
+			rule.FirewallPolicy = &firewallPolicy
+		}
+	}
+
+	// Set property "LoadDistributionPolicy":
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.LoadDistributionPolicy != nil {
+			var loadDistributionPolicy1 SubResource
+			err := loadDistributionPolicy1.PopulateFromARM(owner, *typedInput.Properties.LoadDistributionPolicy)
+			if err != nil {
+				return err
+			}
+			loadDistributionPolicy := loadDistributionPolicy1
+			rule.LoadDistributionPolicy = &loadDistributionPolicy
+		}
+	}
+
+	// Set property "Name":
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		rule.Name = &name
+	}
+
+	// Set property "Paths":
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.Paths {
+			rule.Paths = append(rule.Paths, item)
+		}
+	}
+
+	// Set property "RedirectConfiguration":
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.RedirectConfiguration != nil {
+			var redirectConfiguration1 SubResource
+			err := redirectConfiguration1.PopulateFromARM(owner, *typedInput.Properties.RedirectConfiguration)
+			if err != nil {
+				return err
+			}
+			redirectConfiguration := redirectConfiguration1
+			rule.RedirectConfiguration = &redirectConfiguration
+		}
+	}
+
+	// Set property "RewriteRuleSet":
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.RewriteRuleSet != nil {
+			var rewriteRuleSet1 SubResource
+			err := rewriteRuleSet1.PopulateFromARM(owner, *typedInput.Properties.RewriteRuleSet)
+			if err != nil {
+				return err
+			}
+			rewriteRuleSet := rewriteRuleSet1
+			rule.RewriteRuleSet = &rewriteRuleSet
+		}
+	}
 
 	// No error
 	return nil
@@ -15489,12 +15664,82 @@ func (rule *ApplicationGatewayPathRule) PopulateFromARM(owner genruntime.Arbitra
 // AssignProperties_From_ApplicationGatewayPathRule populates our ApplicationGatewayPathRule from the provided source ApplicationGatewayPathRule
 func (rule *ApplicationGatewayPathRule) AssignProperties_From_ApplicationGatewayPathRule(source *storage.ApplicationGatewayPathRule) error {
 
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		rule.Reference = &reference
+	// BackendAddressPool
+	if source.BackendAddressPool != nil {
+		var backendAddressPool SubResource
+		err := backendAddressPool.AssignProperties_From_SubResource(source.BackendAddressPool)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SubResource() to populate field BackendAddressPool")
+		}
+		rule.BackendAddressPool = &backendAddressPool
 	} else {
-		rule.Reference = nil
+		rule.BackendAddressPool = nil
+	}
+
+	// BackendHttpSettings
+	if source.BackendHttpSettings != nil {
+		var backendHttpSetting SubResource
+		err := backendHttpSetting.AssignProperties_From_SubResource(source.BackendHttpSettings)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SubResource() to populate field BackendHttpSettings")
+		}
+		rule.BackendHttpSettings = &backendHttpSetting
+	} else {
+		rule.BackendHttpSettings = nil
+	}
+
+	// FirewallPolicy
+	if source.FirewallPolicy != nil {
+		var firewallPolicy SubResource
+		err := firewallPolicy.AssignProperties_From_SubResource(source.FirewallPolicy)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SubResource() to populate field FirewallPolicy")
+		}
+		rule.FirewallPolicy = &firewallPolicy
+	} else {
+		rule.FirewallPolicy = nil
+	}
+
+	// LoadDistributionPolicy
+	if source.LoadDistributionPolicy != nil {
+		var loadDistributionPolicy SubResource
+		err := loadDistributionPolicy.AssignProperties_From_SubResource(source.LoadDistributionPolicy)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SubResource() to populate field LoadDistributionPolicy")
+		}
+		rule.LoadDistributionPolicy = &loadDistributionPolicy
+	} else {
+		rule.LoadDistributionPolicy = nil
+	}
+
+	// Name
+	rule.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Paths
+	rule.Paths = genruntime.CloneSliceOfString(source.Paths)
+
+	// RedirectConfiguration
+	if source.RedirectConfiguration != nil {
+		var redirectConfiguration SubResource
+		err := redirectConfiguration.AssignProperties_From_SubResource(source.RedirectConfiguration)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SubResource() to populate field RedirectConfiguration")
+		}
+		rule.RedirectConfiguration = &redirectConfiguration
+	} else {
+		rule.RedirectConfiguration = nil
+	}
+
+	// RewriteRuleSet
+	if source.RewriteRuleSet != nil {
+		var rewriteRuleSet SubResource
+		err := rewriteRuleSet.AssignProperties_From_SubResource(source.RewriteRuleSet)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SubResource() to populate field RewriteRuleSet")
+		}
+		rule.RewriteRuleSet = &rewriteRuleSet
+	} else {
+		rule.RewriteRuleSet = nil
 	}
 
 	// No error
@@ -15506,12 +15751,82 @@ func (rule *ApplicationGatewayPathRule) AssignProperties_To_ApplicationGatewayPa
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// Reference
-	if rule.Reference != nil {
-		reference := rule.Reference.Copy()
-		destination.Reference = &reference
+	// BackendAddressPool
+	if rule.BackendAddressPool != nil {
+		var backendAddressPool storage.SubResource
+		err := rule.BackendAddressPool.AssignProperties_To_SubResource(&backendAddressPool)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SubResource() to populate field BackendAddressPool")
+		}
+		destination.BackendAddressPool = &backendAddressPool
 	} else {
-		destination.Reference = nil
+		destination.BackendAddressPool = nil
+	}
+
+	// BackendHttpSettings
+	if rule.BackendHttpSettings != nil {
+		var backendHttpSetting storage.SubResource
+		err := rule.BackendHttpSettings.AssignProperties_To_SubResource(&backendHttpSetting)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SubResource() to populate field BackendHttpSettings")
+		}
+		destination.BackendHttpSettings = &backendHttpSetting
+	} else {
+		destination.BackendHttpSettings = nil
+	}
+
+	// FirewallPolicy
+	if rule.FirewallPolicy != nil {
+		var firewallPolicy storage.SubResource
+		err := rule.FirewallPolicy.AssignProperties_To_SubResource(&firewallPolicy)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SubResource() to populate field FirewallPolicy")
+		}
+		destination.FirewallPolicy = &firewallPolicy
+	} else {
+		destination.FirewallPolicy = nil
+	}
+
+	// LoadDistributionPolicy
+	if rule.LoadDistributionPolicy != nil {
+		var loadDistributionPolicy storage.SubResource
+		err := rule.LoadDistributionPolicy.AssignProperties_To_SubResource(&loadDistributionPolicy)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SubResource() to populate field LoadDistributionPolicy")
+		}
+		destination.LoadDistributionPolicy = &loadDistributionPolicy
+	} else {
+		destination.LoadDistributionPolicy = nil
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(rule.Name)
+
+	// Paths
+	destination.Paths = genruntime.CloneSliceOfString(rule.Paths)
+
+	// RedirectConfiguration
+	if rule.RedirectConfiguration != nil {
+		var redirectConfiguration storage.SubResource
+		err := rule.RedirectConfiguration.AssignProperties_To_SubResource(&redirectConfiguration)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SubResource() to populate field RedirectConfiguration")
+		}
+		destination.RedirectConfiguration = &redirectConfiguration
+	} else {
+		destination.RedirectConfiguration = nil
+	}
+
+	// RewriteRuleSet
+	if rule.RewriteRuleSet != nil {
+		var rewriteRuleSet storage.SubResource
+		err := rule.RewriteRuleSet.AssignProperties_To_SubResource(&rewriteRuleSet)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SubResource() to populate field RewriteRuleSet")
+		}
+		destination.RewriteRuleSet = &rewriteRuleSet
+	} else {
+		destination.RewriteRuleSet = nil
 	}
 
 	// Update the property bag
