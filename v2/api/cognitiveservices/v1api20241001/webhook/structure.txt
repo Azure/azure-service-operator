@@ -3,3 +3,5 @@ github.com/Azure/azure-service-operator/v2/api/cognitiveservices/v1api20241001/w
 --------------------------------------------------------------------------------------
 Account: Object (0 properties)
 
+Deployment: Object (0 properties)
+

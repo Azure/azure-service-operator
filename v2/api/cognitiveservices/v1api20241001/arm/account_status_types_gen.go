@@ -544,15 +544,6 @@ type RegionSetting_STATUS struct {
 	Value *float64 `json:"value,omitempty"`
 }
 
-type ThrottlingRule_STATUS struct {
-	Count                    *float64                     `json:"count,omitempty"`
-	DynamicThrottlingEnabled *bool                        `json:"dynamicThrottlingEnabled,omitempty"`
-	Key                      *string                      `json:"key,omitempty"`
-	MatchPatterns            []RequestMatchPattern_STATUS `json:"matchPatterns,omitempty"`
-	MinCount                 *float64                     `json:"minCount,omitempty"`
-	RenewalPeriod            *float64                     `json:"renewalPeriod,omitempty"`
-}
-
 // A rule governing the accessibility from a specific virtual network.
 type VirtualNetworkRule_STATUS struct {
 	// Id: Full resource id of a vnet subnet, such as
@@ -564,9 +555,4 @@ type VirtualNetworkRule_STATUS struct {
 
 	// State: Gets the state of virtual network rule.
 	State *string `json:"state,omitempty"`
-}
-
-type RequestMatchPattern_STATUS struct {
-	Method *string `json:"method,omitempty"`
-	Path   *string `json:"path,omitempty"`
 }

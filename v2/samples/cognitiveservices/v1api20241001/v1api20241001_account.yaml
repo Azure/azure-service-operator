@@ -23,6 +23,7 @@ spec:
         key: endpoints
   owner:
     name: sample-rg
-  properties: { publicNetworkAccess: "Enabled" }
+  properties:
+    publicNetworkAccess: Enabled
   sku:
     name: S0

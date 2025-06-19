@@ -1543,6 +1543,9 @@ objectModelConfiguration:
       AccountProperties:
         MigrationToken:
           $isSecret: true
+      Accounts_Deployment:
+        $exportAs: Deployment
+        $supportedFrom: v2.15.0
       ApiProperties:
         AadTenantId:
           $importConfigMapMode: optional
@@ -1562,17 +1565,28 @@ objectModelConfiguration:
           $importConfigMapMode: optional
         WebsiteName:
           $importConfigMapMode: optional
-      VirtualNetworkRule:
-        Id:
+      DeploymentModel:
+        Format:
+          $importConfigMapMode: optional
+        Name:
+          $importConfigMapMode: optional
+        Publisher:
+          $importConfigMapMode: optional
+        Source:
           $referenceType: arm
-      UserOwnedStorage:
-        ResourceId:
-          $referenceType: arm
+        Version:
+          $importConfigMapMode: optional
       RaiMonitorConfig:
         AdxStorageResourceId:
           $referenceType: arm
       UserOwnedAmlWorkspace:
         ResourceId:
+          $referenceType: arm
+      UserOwnedStorage:
+        ResourceId:
+          $referenceType: arm
+      VirtualNetworkRule:
+        Id:
           $referenceType: arm
   compute:
     2020-09-30:

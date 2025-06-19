@@ -261,3 +261,139 @@ Account: Resource
     ├── Tags: map[string]string
     └── Type: *string
 
+Deployment: Resource
+├── Owner: cognitiveservices/v1api20241001.Account
+├── Spec: Object (8 properties)
+│   ├── AzureName: string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
+│   ├── OriginalVersion: string
+│   ├── Owner: *genruntime.KnownResourceReference
+│   ├── Properties: *Object (8 properties)
+│   │   ├── CapacitySettings: *Object (3 properties)
+│   │   │   ├── DesignatedCapacity: *int
+│   │   │   ├── Priority: *int
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── CurrentCapacity: *int
+│   │   ├── Model: *Object (11 properties)
+│   │   │   ├── Format: *string
+│   │   │   ├── FormatFromConfig: *genruntime.ConfigMapReference
+│   │   │   ├── Name: *string
+│   │   │   ├── NameFromConfig: *genruntime.ConfigMapReference
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── Publisher: *string
+│   │   │   ├── PublisherFromConfig: *genruntime.ConfigMapReference
+│   │   │   ├── SourceAccountReference: *genruntime.ResourceReference
+│   │   │   ├── SourceReference: *genruntime.ResourceReference
+│   │   │   ├── Version: *string
+│   │   │   └── VersionFromConfig: *genruntime.ConfigMapReference
+│   │   ├── ParentDeploymentName: *string
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── RaiPolicyName: *string
+│   │   ├── ScaleSettings: *Object (3 properties)
+│   │   │   ├── Capacity: *int
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── ScaleType: *string
+│   │   └── VersionUpgradeOption: *string
+│   ├── PropertyBag: genruntime.PropertyBag
+│   ├── Sku: *Object (6 properties)
+│   │   ├── Capacity: *int
+│   │   ├── Family: *string
+│   │   ├── Name: *string
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── Size: *string
+│   │   └── Tier: *string
+│   └── Tags: map[string]string
+└── Status: Object (10 properties)
+    ├── Conditions: conditions.Condition[]
+    ├── Etag: *string
+    ├── Id: *string
+    ├── Name: *string
+    ├── Properties: *Object (13 properties)
+    │   ├── CallRateLimit: *Object (4 properties)
+    │   │   ├── Count: *float64
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   ├── RenewalPeriod: *float64
+    │   │   └── Rules: Object (7 properties)[]
+    │   │       ├── Count: *float64
+    │   │       ├── DynamicThrottlingEnabled: *bool
+    │   │       ├── Key: *string
+    │   │       ├── MatchPatterns: Object (3 properties)[]
+    │   │       │   ├── Method: *string
+    │   │       │   ├── Path: *string
+    │   │       │   └── PropertyBag: genruntime.PropertyBag
+    │   │       ├── MinCount: *float64
+    │   │       ├── PropertyBag: genruntime.PropertyBag
+    │   │       └── RenewalPeriod: *float64
+    │   ├── Capabilities: map[string]string
+    │   ├── CapacitySettings: *Object (3 properties)
+    │   │   ├── DesignatedCapacity: *int
+    │   │   ├── Priority: *int
+    │   │   └── PropertyBag: genruntime.PropertyBag
+    │   ├── CurrentCapacity: *int
+    │   ├── DynamicThrottlingEnabled: *bool
+    │   ├── Model: *Object (8 properties)
+    │   │   ├── CallRateLimit: *Object (4 properties)
+    │   │   │   ├── Count: *float64
+    │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   ├── RenewalPeriod: *float64
+    │   │   │   └── Rules: Object (7 properties)[]
+    │   │   │       ├── Count: *float64
+    │   │   │       ├── DynamicThrottlingEnabled: *bool
+    │   │   │       ├── Key: *string
+    │   │   │       ├── MatchPatterns: Object (3 properties)[]
+    │   │   │       │   ├── Method: *string
+    │   │   │       │   ├── Path: *string
+    │   │   │       │   └── PropertyBag: genruntime.PropertyBag
+    │   │   │       ├── MinCount: *float64
+    │   │   │       ├── PropertyBag: genruntime.PropertyBag
+    │   │   │       └── RenewalPeriod: *float64
+    │   │   ├── Format: *string
+    │   │   ├── Name: *string
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   ├── Publisher: *string
+    │   │   ├── Source: *string
+    │   │   ├── SourceAccount: *string
+    │   │   └── Version: *string
+    │   ├── ParentDeploymentName: *string
+    │   ├── PropertyBag: genruntime.PropertyBag
+    │   ├── ProvisioningState: *string
+    │   ├── RaiPolicyName: *string
+    │   ├── RateLimits: Object (7 properties)[]
+    │   │   ├── Count: *float64
+    │   │   ├── DynamicThrottlingEnabled: *bool
+    │   │   ├── Key: *string
+    │   │   ├── MatchPatterns: Object (3 properties)[]
+    │   │   │   ├── Method: *string
+    │   │   │   ├── Path: *string
+    │   │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │   ├── MinCount: *float64
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   └── RenewalPeriod: *float64
+    │   ├── ScaleSettings: *Object (4 properties)
+    │   │   ├── ActiveCapacity: *int
+    │   │   ├── Capacity: *int
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   └── ScaleType: *string
+    │   └── VersionUpgradeOption: *string
+    ├── PropertyBag: genruntime.PropertyBag
+    ├── Sku: *Object (6 properties)
+    │   ├── Capacity: *int
+    │   ├── Family: *string
+    │   ├── Name: *string
+    │   ├── PropertyBag: genruntime.PropertyBag
+    │   ├── Size: *string
+    │   └── Tier: *string
+    ├── SystemData: *Object (7 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *string
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   ├── LastModifiedByType: *string
+    │   └── PropertyBag: genruntime.PropertyBag
+    ├── Tags: map[string]string
+    └── Type: *string
+

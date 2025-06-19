@@ -50,9 +50,7 @@ func Test_CognitiveServices_Account_CRUD(t *testing.T) {
 	}
 
 	tc.CreateResourcesAndWait(account)
-
 	tc.Expect(account.Status.Id).ToNot(BeNil())
-	armId := *account.Status.Id
 
 	old := account.DeepCopy()
 	if old.Spec.Tags == nil {
@@ -63,8 +61,7 @@ func Test_CognitiveServices_Account_CRUD(t *testing.T) {
 	tc.Expect(account.Status.Tags).To(Equal(map[string]string{"env": "test"}))
 
 	tc.DeleteResourceAndWait(account)
-
-	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(tc.Ctx, armId, string(cognitiveservices.APIVersion_Value))
+	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(tc.Ctx, *account.Status.Id, string(cognitiveservices.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }

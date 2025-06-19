@@ -3,3 +3,5 @@ github.com/Azure/azure-service-operator/v2/api/cognitiveservices/customizations
 -------------------------------------------------------------------------------
 AccountExtension: Object (0 properties)
 
+DeploymentExtension: Object (0 properties)
+

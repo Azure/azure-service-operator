@@ -689,6 +689,33 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
+	result = append(result, &registration.StorageType{
+		Obj: new(cognitiveservices_v20241001s.Deployment),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.properties.model.formatFromConfig",
+				Func: indexCognitiveservicesDeploymentFormatFromConfig,
+			},
+			{
+				Key:  ".spec.properties.model.nameFromConfig",
+				Func: indexCognitiveservicesDeploymentNameFromConfig,
+			},
+			{
+				Key:  ".spec.properties.model.publisherFromConfig",
+				Func: indexCognitiveservicesDeploymentPublisherFromConfig,
+			},
+			{
+				Key:  ".spec.properties.model.versionFromConfig",
+				Func: indexCognitiveservicesDeploymentVersionFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type:             &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory([]string{".spec.properties.model.formatFromConfig", ".spec.properties.model.nameFromConfig", ".spec.properties.model.publisherFromConfig", ".spec.properties.model.versionFromConfig"}, &cognitiveservices_v20241001s.DeploymentList{}),
+			},
+		},
+	})
 	result = append(result, &registration.StorageType{Obj: new(compute_v20220301s.Image)})
 	result = append(result, &registration.StorageType{
 		Obj: new(compute_v20220301s.VirtualMachine),
@@ -2438,8 +2465,12 @@ func getKnownTypes() []*registration.KnownType {
 		Obj:       new(cognitiveservices_v20241001.Account),
 		Defaulter: &cognitiveservices_v20241001w.Account{},
 		Validator: &cognitiveservices_v20241001w.Account{},
+	}, &registration.KnownType{
+		Obj:       new(cognitiveservices_v20241001.Deployment),
+		Defaulter: &cognitiveservices_v20241001w.Deployment{},
+		Validator: &cognitiveservices_v20241001w.Deployment{},
 	})
-	result = append(result, &registration.KnownType{Obj: new(cognitiveservices_v20241001s.Account)})
+	result = append(result, &registration.KnownType{Obj: new(cognitiveservices_v20241001s.Account)}, &registration.KnownType{Obj: new(cognitiveservices_v20241001s.Deployment)})
 	result = append(result, &registration.KnownType{
 		Obj:       new(compute_v20200930.Disk),
 		Defaulter: &compute_v20200930w.Disk{},
@@ -4911,6 +4942,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &cdn_customizations.SecretExtension{})
 	result = append(result, &cdn_customizations.SecurityPolicyExtension{})
 	result = append(result, &cognitiveservices_customizations.AccountExtension{})
+	result = append(result, &cognitiveservices_customizations.DeploymentExtension{})
 	result = append(result, &compute_customizations.DiskAccessExtension{})
 	result = append(result, &compute_customizations.DiskEncryptionSetExtension{})
 	result = append(result, &compute_customizations.DiskExtension{})
@@ -5702,6 +5734,78 @@ func indexCognitiveservicesAccountWebsiteNameFromConfig(rawObj client.Object) []
 		return nil
 	}
 	return obj.Spec.Properties.ApiProperties.WebsiteNameFromConfig.Index()
+}
+
+// indexCognitiveservicesDeploymentFormatFromConfig an index function for cognitiveservices_v20241001s.Deployment .spec.properties.model.formatFromConfig
+func indexCognitiveservicesDeploymentFormatFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*cognitiveservices_v20241001s.Deployment)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.Model == nil {
+		return nil
+	}
+	if obj.Spec.Properties.Model.FormatFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Properties.Model.FormatFromConfig.Index()
+}
+
+// indexCognitiveservicesDeploymentNameFromConfig an index function for cognitiveservices_v20241001s.Deployment .spec.properties.model.nameFromConfig
+func indexCognitiveservicesDeploymentNameFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*cognitiveservices_v20241001s.Deployment)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.Model == nil {
+		return nil
+	}
+	if obj.Spec.Properties.Model.NameFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Properties.Model.NameFromConfig.Index()
+}
+
+// indexCognitiveservicesDeploymentPublisherFromConfig an index function for cognitiveservices_v20241001s.Deployment .spec.properties.model.publisherFromConfig
+func indexCognitiveservicesDeploymentPublisherFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*cognitiveservices_v20241001s.Deployment)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.Model == nil {
+		return nil
+	}
+	if obj.Spec.Properties.Model.PublisherFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Properties.Model.PublisherFromConfig.Index()
+}
+
+// indexCognitiveservicesDeploymentVersionFromConfig an index function for cognitiveservices_v20241001s.Deployment .spec.properties.model.versionFromConfig
+func indexCognitiveservicesDeploymentVersionFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*cognitiveservices_v20241001s.Deployment)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.Model == nil {
+		return nil
+	}
+	if obj.Spec.Properties.Model.VersionFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Properties.Model.VersionFromConfig.Index()
 }
 
 // indexComputeDiskEncryptionSetFederatedClientIdFromConfig an index function for compute_v20240302s.DiskEncryptionSet .spec.federatedClientIdFromConfig

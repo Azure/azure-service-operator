@@ -645,17 +645,6 @@ type RegionSetting_STATUS struct {
 	Value           *float64               `json:"value,omitempty"`
 }
 
-// Storage version of v1api20241001.ThrottlingRule_STATUS
-type ThrottlingRule_STATUS struct {
-	Count                    *float64                     `json:"count,omitempty"`
-	DynamicThrottlingEnabled *bool                        `json:"dynamicThrottlingEnabled,omitempty"`
-	Key                      *string                      `json:"key,omitempty"`
-	MatchPatterns            []RequestMatchPattern_STATUS `json:"matchPatterns,omitempty"`
-	MinCount                 *float64                     `json:"minCount,omitempty"`
-	PropertyBag              genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
-	RenewalPeriod            *float64                     `json:"renewalPeriod,omitempty"`
-}
-
 // Storage version of v1api20241001.VirtualNetworkRule
 // A rule governing the accessibility from a specific virtual network.
 type VirtualNetworkRule struct {
@@ -676,13 +665,6 @@ type VirtualNetworkRule_STATUS struct {
 	IgnoreMissingVnetServiceEndpoint *bool                  `json:"ignoreMissingVnetServiceEndpoint,omitempty"`
 	PropertyBag                      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	State                            *string                `json:"state,omitempty"`
-}
-
-// Storage version of v1api20241001.RequestMatchPattern_STATUS
-type RequestMatchPattern_STATUS struct {
-	Method      *string                `json:"method,omitempty"`
-	Path        *string                `json:"path,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 func init() {

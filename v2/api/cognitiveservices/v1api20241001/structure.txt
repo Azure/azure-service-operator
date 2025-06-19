@@ -278,3 +278,154 @@ Account: Resource
     ├── Tags: map[string]string
     └── Type: *string
 
+Deployment: Resource
+├── Owner: Account
+├── Spec: Object (6 properties)
+│   ├── AzureName: string
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
+│   ├── Owner: *genruntime.KnownResourceReference
+│   ├── Properties: *Object (7 properties)
+│   │   ├── CapacitySettings: *Object (2 properties)
+│   │   │   ├── DesignatedCapacity: Validated<*int> (1 rule)
+│   │   │   │   └── Rule 0: Minimum: 0
+│   │   │   └── Priority: Validated<*int> (1 rule)
+│   │   │       └── Rule 0: Minimum: 0
+│   │   ├── CurrentCapacity: *int
+│   │   ├── Model: *Object (10 properties)
+│   │   │   ├── Format: *string
+│   │   │   ├── FormatFromConfig: *genruntime.ConfigMapReference
+│   │   │   ├── Name: *string
+│   │   │   ├── NameFromConfig: *genruntime.ConfigMapReference
+│   │   │   ├── Publisher: *string
+│   │   │   ├── PublisherFromConfig: *genruntime.ConfigMapReference
+│   │   │   ├── SourceAccountReference: *genruntime.ResourceReference
+│   │   │   ├── SourceReference: *genruntime.ResourceReference
+│   │   │   ├── Version: *string
+│   │   │   └── VersionFromConfig: *genruntime.ConfigMapReference
+│   │   ├── ParentDeploymentName: *string
+│   │   ├── RaiPolicyName: *string
+│   │   ├── ScaleSettings: *Object (2 properties)
+│   │   │   ├── Capacity: *int
+│   │   │   └── ScaleType: *Enum (2 values)
+│   │   │       ├── "Manual"
+│   │   │       └── "Standard"
+│   │   └── VersionUpgradeOption: *Enum (3 values)
+│   │       ├── "NoAutoUpgrade"
+│   │       ├── "OnceCurrentVersionExpired"
+│   │       └── "OnceNewDefaultVersionAvailable"
+│   ├── Sku: *Object (5 properties)
+│   │   ├── Capacity: *int
+│   │   ├── Family: *string
+│   │   ├── Name: *string
+│   │   ├── Size: *string
+│   │   └── Tier: *Enum (5 values)
+│   │       ├── "Basic"
+│   │       ├── "Enterprise"
+│   │       ├── "Free"
+│   │       ├── "Premium"
+│   │       └── "Standard"
+│   └── Tags: map[string]string
+└── Status: Object (9 properties)
+    ├── Conditions: conditions.Condition[]
+    ├── Etag: *string
+    ├── Id: *string
+    ├── Name: *string
+    ├── Properties: *Object (12 properties)
+    │   ├── CallRateLimit: *Object (3 properties)
+    │   │   ├── Count: *float64
+    │   │   ├── RenewalPeriod: *float64
+    │   │   └── Rules: Object (6 properties)[]
+    │   │       ├── Count: *float64
+    │   │       ├── DynamicThrottlingEnabled: *bool
+    │   │       ├── Key: *string
+    │   │       ├── MatchPatterns: Object (2 properties)[]
+    │   │       │   ├── Method: *string
+    │   │       │   └── Path: *string
+    │   │       ├── MinCount: *float64
+    │   │       └── RenewalPeriod: *float64
+    │   ├── Capabilities: map[string]string
+    │   ├── CapacitySettings: *Object (2 properties)
+    │   │   ├── DesignatedCapacity: *int
+    │   │   └── Priority: *int
+    │   ├── CurrentCapacity: *int
+    │   ├── DynamicThrottlingEnabled: *bool
+    │   ├── Model: *Object (7 properties)
+    │   │   ├── CallRateLimit: *Object (3 properties)
+    │   │   │   ├── Count: *float64
+    │   │   │   ├── RenewalPeriod: *float64
+    │   │   │   └── Rules: Object (6 properties)[]
+    │   │   │       ├── Count: *float64
+    │   │   │       ├── DynamicThrottlingEnabled: *bool
+    │   │   │       ├── Key: *string
+    │   │   │       ├── MatchPatterns: Object (2 properties)[]
+    │   │   │       │   ├── Method: *string
+    │   │   │       │   └── Path: *string
+    │   │   │       ├── MinCount: *float64
+    │   │   │       └── RenewalPeriod: *float64
+    │   │   ├── Format: *string
+    │   │   ├── Name: *string
+    │   │   ├── Publisher: *string
+    │   │   ├── Source: *string
+    │   │   ├── SourceAccount: *string
+    │   │   └── Version: *string
+    │   ├── ParentDeploymentName: *string
+    │   ├── ProvisioningState: *Enum (8 values)
+    │   │   ├── "Accepted"
+    │   │   ├── "Canceled"
+    │   │   ├── "Creating"
+    │   │   ├── "Deleting"
+    │   │   ├── "Disabled"
+    │   │   ├── "Failed"
+    │   │   ├── "Moving"
+    │   │   └── "Succeeded"
+    │   ├── RaiPolicyName: *string
+    │   ├── RateLimits: Object (6 properties)[]
+    │   │   ├── Count: *float64
+    │   │   ├── DynamicThrottlingEnabled: *bool
+    │   │   ├── Key: *string
+    │   │   ├── MatchPatterns: Object (2 properties)[]
+    │   │   │   ├── Method: *string
+    │   │   │   └── Path: *string
+    │   │   ├── MinCount: *float64
+    │   │   └── RenewalPeriod: *float64
+    │   ├── ScaleSettings: *Object (3 properties)
+    │   │   ├── ActiveCapacity: *int
+    │   │   ├── Capacity: *int
+    │   │   └── ScaleType: *Enum (2 values)
+    │   │       ├── "Manual"
+    │   │       └── "Standard"
+    │   └── VersionUpgradeOption: *Enum (3 values)
+    │       ├── "NoAutoUpgrade"
+    │       ├── "OnceCurrentVersionExpired"
+    │       └── "OnceNewDefaultVersionAvailable"
+    ├── Sku: *Object (5 properties)
+    │   ├── Capacity: *int
+    │   ├── Family: *string
+    │   ├── Name: *string
+    │   ├── Size: *string
+    │   └── Tier: *Enum (5 values)
+    │       ├── "Basic"
+    │       ├── "Enterprise"
+    │       ├── "Free"
+    │       ├── "Premium"
+    │       └── "Standard"
+    ├── SystemData: *Object (6 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *Enum (4 values)
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: *Enum (4 values)
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
+    ├── Tags: map[string]string
+    └── Type: *string
+
