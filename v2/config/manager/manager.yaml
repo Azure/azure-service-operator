@@ -54,16 +54,20 @@ spec:
           - containerPort: 8443
             name: metrics-port
             protocol: TCP
+        startupProbe:
+          httpGet:
+            path: /healthz
+            port: 8081
+          periodSeconds: 10
+          failureThreshold: 12
         livenessProbe:
           httpGet:
             path: /healthz
             port: 8081
-          initialDelaySeconds: 60
         readinessProbe:
           httpGet:
             path: /readyz
             port: 8081
-          initialDelaySeconds: 60
         image: controller:latest
         name: manager
         resources:
