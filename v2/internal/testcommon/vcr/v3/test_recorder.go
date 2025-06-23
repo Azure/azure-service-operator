@@ -7,6 +7,7 @@ package v3
 
 import (
 	"net/http"
+	"strconv"
 	"testing"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
@@ -46,9 +47,14 @@ func NewTestRecorder(
 		return nil, eris.Wrapf(err, "checking existence of cassette %s", cassetteName)
 	}
 
+	var cas *cassette.Cassette
 	// Work out whether we are recording or replaying
 	if cassetteExists {
 		opts.Mode = recorder.ModeReplayOnly
+		cas, err = cassette.Load(opts.CassetteName)
+		if err != nil {
+			return nil, eris.Wrapf(err, "loading cassette %s", opts.CassetteName)
+		}
 	} else {
 		opts.Mode = recorder.ModeRecordOnly
 	}
@@ -78,6 +84,7 @@ func NewTestRecorder(
 		cfg.AzureAuthorityHost = asocloud.DefaultAADAuthorityHost
 	}
 
+	interactionCache := make(map[string]string)
 	// check body as well as URL/Method (copied from go-vcr documentation)
 	r.SetMatcher(func(r *http.Request, i cassette.Request) bool {
 		if !cassette.DefaultMatcher(r, i) {
@@ -86,6 +93,31 @@ func NewTestRecorder(
 
 		// verify custom request count header matches, if present
 		if header := r.Header.Get(CountHeader); header != "" {
+			reqCount, err := strconv.Atoi(header)
+			if err != nil {
+				log.Info("Request count header parse error", CountHeader, header)
+			}
+
+			// If we've already seen 20 of this request, skip ahead to the end of the interaction to save replay time
+			if reqCount > 20 {
+				cachedFinalInteraction, ok := interactionCache[r.Method+" "+r.URL.String()]
+				if ok {
+					header = cachedFinalInteraction
+				} else {
+					// Find the last interaction for this request
+					for _, interaction := range cas.Interactions {
+						if !cassette.DefaultMatcher(r, interaction.Request) {
+							continue
+						}
+						// We could parse the header and perform an integer comparison here to find the max,
+						// but we don't need to because the interactions are stored in-order in the cassette so the
+						// last interaction we find for this method+url will be the one with the highest count.
+						header = interaction.Request.Headers.Get(CountHeader)
+						interactionCache[r.Method+" "+r.URL.String()] = header
+					}
+				}
+			}
+
 			interactionHeader := i.Headers.Get(CountHeader)
 			if header != interactionHeader {
 				log.Info("Request count header mismatch", CountHeader, header, "interaction", interactionHeader)
