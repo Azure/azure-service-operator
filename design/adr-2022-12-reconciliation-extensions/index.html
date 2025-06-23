@@ -840,9 +840,9 @@ For some resources this doesn’t work particularly well because the resources c
 <p>For some resources this doesn&rsquo;t work particularly well because the resources can be in a transient state that precludes the PUT from succeeding. The resulting error message pushes ASO into retrying the operation over and over again when it can&rsquo;t possibly succeed. Not only does this cause needless load on both the cluster and Azure, it can trigger rate limiting and other throttling mechanisms.</p>
 <p>Examples of this include:</p>
 <ul>
-<li>An <a href="https://learn.microsoft.com/en-us/rest/api/aks/managed-clusters/get?tabs=HTTP">AKS Managed Cluster</a> with <code>provisioningState</code> of <code>Updating</code>.</li>
-<li>An <a href="https://learn.microsoft.com/en-us/rest/api/aks/agent-pools/get?tabs=HTTP">AKS Agent Pool</a> with <code>provisioningState</code> of <code>Updating</code>.</li>
-<li>A <a href="https://learn.microsoft.com/en-us/rest/api/postgresql/flexibleserver/servers/get?tabs=HTTP">PostgreSQL Flexible Server</a> with a <code>state</code> of <code>Starting</code>, <code>Stopping</code> or <code>Updating</code>.</li>
+<li>An <a href="https://learn.microsoft.com/en-us/rest/api/aks/managed-clusters/get">AKS Managed Cluster</a> with <code>provisioningState</code> of <code>Updating</code>.</li>
+<li>An <a href="https://learn.microsoft.com/en-us/rest/api/aks/agent-pools/get">AKS Agent Pool</a> with <code>provisioningState</code> of <code>Updating</code>.</li>
+<li>A <a href="https://learn.microsoft.com/en-us/rest/api/postgresql/servers/get">PostgreSQL Flexible Server</a> with a <code>state</code> of <code>Starting</code>, <code>Stopping</code> or <code>Updating</code>.</li>
 </ul>
 <p>This list not exhaustive.</p>
 <p>We need a way to allow the operator to handle these cases gracefully, by introducing an extension point where we can tweak the reconciliation flow and skip the PUT if the resource is in a state that we know will cause the PUT to fail.</p>

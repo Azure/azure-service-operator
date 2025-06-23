@@ -47,7 +47,7 @@ Format: GUID
 Example: 00000000-0000-0000-0000-000000000000
 Required: True
 Allowed scopes: Global, namespace, or per-resource">
-  <meta itemprop="wordCount" content="1153">
+  <meta itemprop="wordCount" content="1196">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Configuring ASO">
   <meta name="twitter:description" content="Configuration of ASO is done primarily through a secret in the azureserviceoperator-system namespace called aso-controller-settings. This secret contains both details about the (optional) global credential as well as other operator pod options.
@@ -841,6 +841,7 @@ Allowed scopes: Global, namespace, or per-resource">
         <li><a href="#azure_resource_manager_audience">AZURE_RESOURCE_MANAGER_AUDIENCE</a></li>
         <li><a href="#azure_additional_tenants">AZURE_ADDITIONAL_TENANTS</a></li>
         <li><a href="#azure_user_agent_suffix">AZURE_USER_AGENT_SUFFIX</a></li>
+        <li><a href="#entra_app_id">ENTRA_APP_ID</a></li>
         <li><a href="#max_concurrent_reconciles">MAX_CONCURRENT_RECONCILES</a></li>
         <li><a href="#rate_limit_mode">RATE_LIMIT_MODE</a></li>
         <li><a href="#rate_limit_qps">RATE_LIMIT_QPS</a></li>
@@ -991,6 +992,12 @@ This is required when performing cross-tenant authentication. See the
 <p><strong>Example:</strong> <code>&quot;my-user-agent&quot;</code></p>
 <p><strong>Required</strong>: False</p>
 <p><strong><a href="/azure-service-operator/guide/authentication/#credential-scope">Allowed scopes</a></strong>: Global</p>
+<h3 id="entra_app_id">ENTRA_APP_ID</h3>
+<p>Required if you want to use Entra resources, ENTRA_APP_ID identifies ASO to Microsoft Entra.</p>
+<p>To create an ENTRA_APP_ID of your own, see <a href="https://learn.microsoft.com/en-us/entra/identity-platform/quickstart-register-app">Register an application in Microsoft Entra ID</a>.</p>
+<p>Format: <code>string</code> (GUID)</p>
+<p>Example: <code>00000000-0000-0000-0000-000000000000</code></p>
+<p>Required: True if using Entra resources, otherwise False</p>
 <h3 id="max_concurrent_reconciles">MAX_CONCURRENT_RECONCILES</h3>
 <p>MAX_CONCURRENT_RECONCILES is the number of threads/goroutines dedicated to reconciling each resource type.
 If not specified, the default is 1.</p>

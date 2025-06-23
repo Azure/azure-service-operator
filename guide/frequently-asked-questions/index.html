@@ -32,7 +32,7 @@ What is the release cadence? We ship updates to ASO as needed, with an eye towar
   <meta itemprop="name" content="Frequently Asked Questions">
   <meta itemprop="description" content="Project and scope Questions about the Azure Service Operator project, its vision and scope.
 What is the release cadence? We ship updates to ASO as needed, with an eye towards releasing every 1-2 months. If there are urgent fixes, a release may happen more quickly than that. If there haven’t been any major changes (or there are ongoing major changes that are taking a long time) a release may happen more slowly. For an up-to-date plan check the milestone tracker.">
-  <meta itemprop="wordCount" content="2605">
+  <meta itemprop="wordCount" content="2652">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Frequently Asked Questions">
   <meta name="twitter:description" content="Project and scope Questions about the Azure Service Operator project, its vision and scope.
@@ -840,6 +840,7 @@ What is the release cadence? We ship updates to ASO as needed, with an eye towar
         <li><a href="#how-do-i-get-argocd-to-show-accurate-health-colours-for-aso-resources">How do I get ArgoCD to show accurate health colours for ASO resources?</a></li>
         <li><a href="#how-can-i-programmatically-use-aso">How can I programmatically use ASO?</a></li>
         <li><a href="#when-using-workload-identity-how-can-i-easily-inject-the-aso-created-user-managed-identity-details-onto-the-service-account">When using Workload Identity, how can I easily inject the ASO created User Managed Identity details onto the service account?</a></li>
+        <li><a href="#how-do-i-use-entra-resources">How do I use Entra resources?</a></li>
       </ul>
     </li>
   </ul>
@@ -1173,7 +1174,9 @@ alongside <code>AZURE_CLIENT_ID</code> in every pod that needs workload identity
 </span></span><span style="display:flex;"><span>          <span style="color:#f92672">audience</span>: <span style="color:#ae81ff">api://AzureADTokenExchange</span>
 </span></span><span style="display:flex;"><span>          <span style="color:#f92672">expirationSeconds</span>: <span style="color:#ae81ff">3600</span>
 </span></span><span style="display:flex;"><span>          <span style="color:#f92672">path</span>: <span style="color:#ae81ff">azure-identity</span>
-</span></span></code></pre></div>
+</span></span></code></pre></div><h3 id="how-do-i-use-entra-resources">How do I use Entra resources?</h3>
+<p>For Entra resources, you need to add <code>ENTRA_APP_ID</code> to your configuration as an environment variable. This identifies ASO as a client with permitted access to your tenant. See <a href="/azure-service-operator/guide/aso-controller-settings-options/">Configuring ASO</a> and <a href="https://learn.microsoft.com/en-us/entra/identity-platform/quickstart-register-app">Register an application in Microsoft Entra ID</a> for more information.</p>
+
 	
 </div>
 
