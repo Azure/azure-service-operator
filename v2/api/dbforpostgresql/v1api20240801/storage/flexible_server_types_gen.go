@@ -224,8 +224,9 @@ type FlexibleServer_Spec struct {
 	ReplicationRole *string                            `json:"replicationRole,omitempty"`
 	Sku             *Sku                               `json:"sku,omitempty"`
 
-	// SourceServerResourceReference: The source server resource ID to restore from. It's required when 'createMode' is
-	// 'PointInTimeRestore' or 'GeoRestore' or 'Replica' or 'ReviveDropped'. This property is returned only for Replica server
+	// SourceServerResourceReference: Identifier of the flexible server to be used as the source of the new flexible server.
+	// Required when 'createMode' is 'PointInTimeRestore', 'GeoRestore', 'Replica', or 'ReviveDropped'. This property is
+	// returned only when the target flexible server is a read replica.
 	SourceServerResourceReference *genruntime.ResourceReference `armReference:"SourceServerResourceId" json:"sourceServerResourceReference,omitempty"`
 	Storage                       *Storage                      `json:"storage,omitempty"`
 	Tags                          map[string]string             `json:"tags,omitempty"`
@@ -307,7 +308,7 @@ func (server *FlexibleServer_STATUS) ConvertStatusTo(destination genruntime.Conv
 }
 
 // Storage version of v1api20240801.AuthConfig
-// Authentication configuration properties of a server
+// Authentication configuration properties of a flexible server.
 type AuthConfig struct {
 	ActiveDirectoryAuth *string                `json:"activeDirectoryAuth,omitempty"`
 	PasswordAuth        *string                `json:"passwordAuth,omitempty"`
@@ -316,7 +317,7 @@ type AuthConfig struct {
 }
 
 // Storage version of v1api20240801.AuthConfig_STATUS
-// Authentication configuration properties of a server
+// Authentication configuration properties of a flexible server.
 type AuthConfig_STATUS struct {
 	ActiveDirectoryAuth *string                `json:"activeDirectoryAuth,omitempty"`
 	PasswordAuth        *string                `json:"passwordAuth,omitempty"`
@@ -325,7 +326,7 @@ type AuthConfig_STATUS struct {
 }
 
 // Storage version of v1api20240801.Backup
-// Backup properties of a server
+// Backup properties of a flexible server.
 type Backup struct {
 	BackupRetentionDays *int                   `json:"backupRetentionDays,omitempty"`
 	GeoRedundantBackup  *string                `json:"geoRedundantBackup,omitempty"`
@@ -333,7 +334,7 @@ type Backup struct {
 }
 
 // Storage version of v1api20240801.Backup_STATUS
-// Backup properties of a server
+// Backup properties of a flexible server.
 type Backup_STATUS struct {
 	BackupRetentionDays *int                   `json:"backupRetentionDays,omitempty"`
 	EarliestRestoreDate *string                `json:"earliestRestoreDate,omitempty"`
@@ -342,28 +343,29 @@ type Backup_STATUS struct {
 }
 
 // Storage version of v1api20240801.DataEncryption
-// Data encryption properties of a server
+// Data encryption properties of a flexible server.
 type DataEncryption struct {
 	GeoBackupEncryptionKeyStatus *string                        `json:"geoBackupEncryptionKeyStatus,omitempty"`
 	GeoBackupKeyURI              *string                        `json:"geoBackupKeyURI,omitempty" optionalConfigMapPair:"GeoBackupKeyURI"`
 	GeoBackupKeyURIFromConfig    *genruntime.ConfigMapReference `json:"geoBackupKeyURIFromConfig,omitempty" optionalConfigMapPair:"GeoBackupKeyURI"`
 
-	// GeoBackupUserAssignedIdentityReference: Resource Id for the User assigned identity to be used for data encryption for
-	// geo-backup of server.
+	// GeoBackupUserAssignedIdentityReference: Identifier of the user assigned managed identity used to access the key in Azure
+	// Key Vault for data encryption of the geographically redundant storage associated to a flexible server that is configured
+	// to support geographically redundant backups.
 	GeoBackupUserAssignedIdentityReference *genruntime.ResourceReference  `armReference:"GeoBackupUserAssignedIdentityId" json:"geoBackupUserAssignedIdentityReference,omitempty"`
 	PrimaryEncryptionKeyStatus             *string                        `json:"primaryEncryptionKeyStatus,omitempty"`
 	PrimaryKeyURI                          *string                        `json:"primaryKeyURI,omitempty" optionalConfigMapPair:"PrimaryKeyURI"`
 	PrimaryKeyURIFromConfig                *genruntime.ConfigMapReference `json:"primaryKeyURIFromConfig,omitempty" optionalConfigMapPair:"PrimaryKeyURI"`
 
-	// PrimaryUserAssignedIdentityReference: Resource Id for the User assigned identity to be used for data encryption of the
-	// primary server.
+	// PrimaryUserAssignedIdentityReference: Identifier of the user assigned managed identity used to access the key in Azure
+	// Key Vault for data encryption of the primary storage associated to a flexible server.
 	PrimaryUserAssignedIdentityReference *genruntime.ResourceReference `armReference:"PrimaryUserAssignedIdentityId" json:"primaryUserAssignedIdentityReference,omitempty"`
 	PropertyBag                          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	Type                                 *string                       `json:"type,omitempty"`
 }
 
 // Storage version of v1api20240801.DataEncryption_STATUS
-// Data encryption properties of a server
+// Data encryption properties of a flexible server.
 type DataEncryption_STATUS struct {
 	GeoBackupEncryptionKeyStatus    *string                `json:"geoBackupEncryptionKeyStatus,omitempty"`
 	GeoBackupKeyURI                 *string                `json:"geoBackupKeyURI,omitempty"`
@@ -386,7 +388,7 @@ type FlexibleServerOperatorSpec struct {
 }
 
 // Storage version of v1api20240801.HighAvailability
-// High availability properties of a server
+// High availability properties of a flexible server.
 type HighAvailability struct {
 	Mode                    *string                `json:"mode,omitempty"`
 	PropertyBag             genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -394,7 +396,7 @@ type HighAvailability struct {
 }
 
 // Storage version of v1api20240801.HighAvailability_STATUS
-// High availability properties of a server
+// High availability properties of a flexible server.
 type HighAvailability_STATUS struct {
 	Mode                    *string                `json:"mode,omitempty"`
 	PropertyBag             genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -403,7 +405,7 @@ type HighAvailability_STATUS struct {
 }
 
 // Storage version of v1api20240801.MaintenanceWindow
-// Maintenance window properties of a server.
+// Maintenance window properties of a flexible server.
 type MaintenanceWindow struct {
 	CustomWindow *string                `json:"customWindow,omitempty"`
 	DayOfWeek    *int                   `json:"dayOfWeek,omitempty"`
@@ -413,7 +415,7 @@ type MaintenanceWindow struct {
 }
 
 // Storage version of v1api20240801.MaintenanceWindow_STATUS
-// Maintenance window properties of a server.
+// Maintenance window properties of a flexible server.
 type MaintenanceWindow_STATUS struct {
 	CustomWindow *string                `json:"customWindow,omitempty"`
 	DayOfWeek    *int                   `json:"dayOfWeek,omitempty"`
@@ -423,23 +425,23 @@ type MaintenanceWindow_STATUS struct {
 }
 
 // Storage version of v1api20240801.Network
-// Network properties of a server.
+// Network properties of a flexible server.
 type Network struct {
-	// DelegatedSubnetResourceReference: Delegated subnet arm resource id. This is required to be passed during create, in case
-	// we want the server to be VNET injected, i.e. Private access server. During update, pass this only if we want to update
-	// the value for Private DNS zone.
+	// DelegatedSubnetResourceReference: Resource identifier of the delegated subnet. Required during creation of a new server,
+	// in case you want the server to be integrated into your own virtual network. For an update operation, you only have to
+	// provide this property if you want to change the value assigned for the private DNS zone.
 	DelegatedSubnetResourceReference *genruntime.ResourceReference `armReference:"DelegatedSubnetResourceId" json:"delegatedSubnetResourceReference,omitempty"`
 
-	// PrivateDnsZoneArmResourceReference: Private dns zone arm resource id. This is required to be passed during create, in
-	// case we want the server to be VNET injected, i.e. Private access server. During update, pass this only if we want to
-	// update the value for Private DNS zone.
+	// PrivateDnsZoneArmResourceReference: Identifier of the private DNS zone. Required during creation of a new server, in
+	// case you want the server to be integrated into your own virtual network. For an update operation, you only have to
+	// provide this property if you want to change the value assigned for the private DNS zone.
 	PrivateDnsZoneArmResourceReference *genruntime.ResourceReference `armReference:"PrivateDnsZoneArmResourceId" json:"privateDnsZoneArmResourceReference,omitempty"`
 	PropertyBag                        genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	PublicNetworkAccess                *string                       `json:"publicNetworkAccess,omitempty"`
 }
 
 // Storage version of v1api20240801.Network_STATUS
-// Network properties of a server.
+// Network properties of a flexible server.
 type Network_STATUS struct {
 	DelegatedSubnetResourceId   *string                `json:"delegatedSubnetResourceId,omitempty"`
 	PrivateDnsZoneArmResourceId *string                `json:"privateDnsZoneArmResourceId,omitempty"`
@@ -455,7 +457,7 @@ type PrivateEndpointConnection_STATUS struct {
 }
 
 // Storage version of v1api20240801.Replica
-// Replica properties of a server
+// Replica properties of a flexible server.
 type Replica struct {
 	PromoteMode   *string                `json:"promoteMode,omitempty"`
 	PromoteOption *string                `json:"promoteOption,omitempty"`
@@ -464,7 +466,7 @@ type Replica struct {
 }
 
 // Storage version of v1api20240801.Replica_STATUS
-// Replica properties of a server
+// Replica properties of a flexible server.
 type Replica_STATUS struct {
 	Capacity         *int                   `json:"capacity,omitempty"`
 	PromoteMode      *string                `json:"promoteMode,omitempty"`
@@ -475,7 +477,7 @@ type Replica_STATUS struct {
 }
 
 // Storage version of v1api20240801.Sku
-// Sku information related properties of a server.
+// Compute information of a flexible server.
 type Sku struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -483,7 +485,7 @@ type Sku struct {
 }
 
 // Storage version of v1api20240801.Sku_STATUS
-// Sku information related properties of a server.
+// Compute information of a flexible server.
 type Sku_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -491,7 +493,7 @@ type Sku_STATUS struct {
 }
 
 // Storage version of v1api20240801.Storage
-// Storage properties of a server
+// Storage properties of a flexible server.
 type Storage struct {
 	AutoGrow      *string                `json:"autoGrow,omitempty"`
 	Iops          *int                   `json:"iops,omitempty"`
@@ -503,7 +505,7 @@ type Storage struct {
 }
 
 // Storage version of v1api20240801.Storage_STATUS
-// Storage properties of a server
+// Storage properties of a flexible server.
 type Storage_STATUS struct {
 	AutoGrow      *string                `json:"autoGrow,omitempty"`
 	Iops          *int                   `json:"iops,omitempty"`
@@ -527,7 +529,7 @@ type SystemData_STATUS struct {
 }
 
 // Storage version of v1api20240801.UserAssignedIdentity
-// Information describing the identities associated with this application.
+// Identities associated with a flexible server.
 type UserAssignedIdentity struct {
 	PrincipalId            *string                       `json:"principalId,omitempty"`
 	PropertyBag            genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
@@ -536,7 +538,7 @@ type UserAssignedIdentity struct {
 }
 
 // Storage version of v1api20240801.UserAssignedIdentity_STATUS
-// Information describing the identities associated with this application.
+// Identities associated with a flexible server.
 type UserAssignedIdentity_STATUS struct {
 	PrincipalId            *string                        `json:"principalId,omitempty"`
 	PropertyBag            genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
@@ -565,7 +567,7 @@ type UserAssignedIdentityDetails struct {
 }
 
 // Storage version of v1api20240801.UserIdentity_STATUS
-// Describes a single user-assigned identity associated with the application.
+// User assigned managed identity associated with a flexible server.
 type UserIdentity_STATUS struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	PrincipalId *string                `json:"principalId,omitempty"`

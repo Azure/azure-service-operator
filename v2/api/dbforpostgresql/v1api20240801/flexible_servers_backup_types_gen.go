@@ -444,10 +444,10 @@ func (backup *FlexibleServersBackup_Spec) SetAzureName(azureName string) {
 }
 
 type FlexibleServersBackup_STATUS struct {
-	// BackupType: Backup type.
+	// BackupType: Type of backup.
 	BackupType *ServerBackupProperties_BackupType_STATUS `json:"backupType,omitempty"`
 
-	// CompletedTime: Backup completed time (ISO8601 format).
+	// CompletedTime: Time(ISO8601 format) at which the backup was completed.
 	CompletedTime *string `json:"completedTime,omitempty"`
 
 	// Conditions: The observed state of the resource
@@ -460,7 +460,7 @@ type FlexibleServersBackup_STATUS struct {
 	// Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
-	// Source: Backup source
+	// Source: Source of the backup.
 	Source *string `json:"source,omitempty"`
 
 	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
