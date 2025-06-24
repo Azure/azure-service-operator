@@ -425,6 +425,8 @@ Development of these new resources is complete and they will be available in the
 
 | Resource                                                                                            | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                 |
 |-----------------------------------------------------------------------------------------------------|-------------|---------------|----------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
+| FirewallRule                                                                                        | 2024-07-01  | v1api20240701 | v2.14.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/v1api20240701/v1api20240701_firewallrule.yaml)                  |
+| MongoCluster                                                                                        | 2024-07-01  | v1api20240701 | v2.14.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/v1api20240701/v1api20240701_mongocluster.yaml)                  |
 | [MongodbRoleDefinition]({{< relref "/reference/documentdb/v1api20240815#MongodbRoleDefinition" >}}) | 2024-08-15  | v1api20240815 | v2.14.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20240815/v1api20240815_mongodbroledefinition.yaml) |
 
 ### Latest Released Versions
