@@ -238,6 +238,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/documentdb/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/entra/v1/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/eventgrid/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/asov1-asov2-migration/eventhub/</loc>
