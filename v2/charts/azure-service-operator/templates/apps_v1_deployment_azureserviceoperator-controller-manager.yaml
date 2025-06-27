@@ -7,7 +7,7 @@ metadata:
   {{- end }}
   labels:
     app.kubernetes.io/name: azure-service-operator
-    app.kubernetes.io/version: v2.13.0
+    app.kubernetes.io/version: v2.14.0
     control-plane: controller-manager
   name: azureserviceoperator-controller-manager
   namespace: {{ .Release.Namespace }}
@@ -31,7 +31,7 @@ spec:
         aadpodidbinding: aso-manager-binding
         {{- end }}
         app.kubernetes.io/name: azure-service-operator
-        app.kubernetes.io/version: v2.13.0
+        app.kubernetes.io/version: v2.14.0
         control-plane: controller-manager
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
@@ -208,7 +208,6 @@ spec:
           httpGet:
             path: /healthz
             port: 8081
-          initialDelaySeconds: 60
         name: manager
         ports:
         - containerPort: {{ .Values.webhook.port }}
@@ -224,7 +223,6 @@ spec:
           httpGet:
             path: /readyz
             port: 8081
-          initialDelaySeconds: 60
         {{- with .Values.resources }}
         resources:
           {{- toYaml . | nindent 10 }}
@@ -233,6 +231,12 @@ spec:
         securityContext:
           {{- toYaml . | nindent 10 }}
         {{- end }}
+        startupProbe:
+          httpGet:
+            path: /healthz
+            port: 8081
+          periodSeconds: 10
+          failureThreshold: 12
         volumeMounts:
         - mountPath: /var/run/secrets/tokens
           name: azure-identity

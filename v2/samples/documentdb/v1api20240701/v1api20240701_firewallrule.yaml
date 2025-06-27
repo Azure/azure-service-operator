@@ -1,0 +1,12 @@
+apiVersion: documentdb.azure.com/v1api20240701
+kind: FirewallRule
+metadata:
+  name: aso-mongodb-cluster
+  namespace: default
+spec:
+  azureName: my-firewall-rule
+  owner:
+    name: aso-mongodb-cluster
+  properties:
+    startIpAddress: "192.168.0.1"
+    endIpAddress: "192.168.0.255"

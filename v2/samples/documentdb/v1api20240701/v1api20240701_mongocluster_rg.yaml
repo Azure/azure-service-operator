@@ -1,0 +1,7 @@
+apiVersion: resources.azure.com/v1api20200601
+kind: ResourceGroup
+metadata:
+  name: aso-testing
+  namespace: default
+spec:
+  location: eastus
