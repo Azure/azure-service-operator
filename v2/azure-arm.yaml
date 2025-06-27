@@ -1531,7 +1531,7 @@ objectModelConfiguration:
         HostName:
           $importConfigMapMode: optional
   cognitiveservices:
-    2024-10-01:
+    2025-06-01:
       Account:
         $exportAs: Account
         $supportedFrom: v2.15.0
