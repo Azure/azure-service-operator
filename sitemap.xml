@@ -526,6 +526,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/network/v1api20240601/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/documentdb/v1api20240701/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v1api20240801/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/documentdb/v1api20240815/</loc>
