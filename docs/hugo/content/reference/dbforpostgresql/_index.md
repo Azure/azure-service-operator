@@ -21,7 +21,7 @@ These resource(s) are the latest versions available for use in the current relea
 
 ### Other Supported Versions
 
-These are older versions of resourced still available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
+These are older versions of resources still available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
 | Resource                                                                                                                      | ARM Version        | CRD Version          | Supported From | Sample                                                                                                                                                                   |
 |-------------------------------------------------------------------------------------------------------------------------------|--------------------|----------------------|----------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [FlexibleServer]({{< relref "/reference/dbforpostgresql/v1api20230601preview#FlexibleServer" >}})                             | 2023-06-01-preview | v1api20230601preview | v2.6.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20230601preview/v1api20230601preview_flexibleserver.yaml)               |
