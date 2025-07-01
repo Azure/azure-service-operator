@@ -18,7 +18,7 @@ These resource(s) are the latest versions available for use in the current relea
 
 ### Other Supported Versions
 
-These are older versions of resourced still available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
+These are older versions of resources still available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
 | Resource                                                                                                                        | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                      |
 |---------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [Namespace]({{< relref "/reference/eventhub/v1api20211101#Namespace" >}})                                                       | 2021-11-01  | v1api20211101 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v1api20211101/v1api20211101_namespace.yaml)                            |
