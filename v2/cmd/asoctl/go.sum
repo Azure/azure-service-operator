@@ -217,6 +217,8 @@ github.com/mattn/go-runewidth v0.0.16 h1:E5ScNMtiwvlvB5paMFdw9p4kSQzbXFikJ5SQO6T
 github.com/mattn/go-runewidth v0.0.16/go.mod h1:Jdepj2loyihRzMpdS35Xk/zdY8IAYHsh153qUoGf23w=
 github.com/microsoft/go-mssqldb v1.8.2 h1:236sewazvC8FvG6Dr3bszrVhMkAl4KYImryLkRMCd0I=
 github.com/microsoft/go-mssqldb v1.8.2/go.mod h1:vp38dT33FGfVotRiTmDo3bFyaHq+p3LektQrjTULowo=
+github.com/microsoft/go-mssqldb v1.9.2 h1:nY8TmFMQOHpm2qVWo6y4I2mAmVdZqlGiMGAYt64Ibbs=
+github.com/microsoft/go-mssqldb v1.9.2/go.mod h1:GBbW9ASTiDC+mpgWDGKdm3FnFLTUsLYN3iFL90lQ+PA=
 github.com/microsoft/kiota-abstractions-go v1.9.1 h1:vkeluAj3ZLvOvG1NY5HcuBclhA9UXkXPeLxcBhQ28cU=
 github.com/microsoft/kiota-abstractions-go v1.9.1/go.mod h1:rlWmh9TR1j4EvkEp1Bz0rYTWunlvHDG9s6IMlkpDNrc=
 github.com/microsoft/kiota-abstractions-go v1.9.2 h1:3U5VgN2YGe3lsu1pyuS0t5jxv1llxX2ophwX8ewE6wQ=
@@ -249,6 +251,8 @@ github.com/microsoftgraph/msgraph-sdk-go v1.67.0 h1:DzDuf72hjuxRvtEW0RyqUNpi/EKQ
 github.com/microsoftgraph/msgraph-sdk-go v1.67.0/go.mod h1:l1pUApVQBjluW2iBx89g9V9BTG4g8eE0+M0r/IETy4Y=
 github.com/microsoftgraph/msgraph-sdk-go v1.75.0 h1:CFlM+aMhoErKBy99X91tf417EImikVWpphfi5agmRwk=
 github.com/microsoftgraph/msgraph-sdk-go v1.75.0/go.mod h1:5ncg4aauxM5XKHo/xvAq7Cjl6+Dqu6lOtoihSGKtDt4=
+github.com/microsoftgraph/msgraph-sdk-go v1.76.0 h1:rv3zQMUxX0xJ1R/Ot0NC9qN/9BwPEypzWvqlmkICty8=
+github.com/microsoftgraph/msgraph-sdk-go v1.76.0/go.mod h1:5ncg4aauxM5XKHo/xvAq7Cjl6+Dqu6lOtoihSGKtDt4=
 github.com/microsoftgraph/msgraph-sdk-go-core v1.3.1 h1:vJA+j+1z8c8adjd4YtxzF0L668nmFM9jeXvx2YvK7CA=
 github.com/microsoftgraph/msgraph-sdk-go-core v1.3.1/go.mod h1:bjqNFhM9MasKdZ/UQfqtLNVB/uOZPUoPhOwUjmSGOgE=
 github.com/microsoftgraph/msgraph-sdk-go-core v1.3.2 h1:5jCUSosTKaINzPPQXsz7wsHWwknyBmJSu8+ZWxx3kdQ=

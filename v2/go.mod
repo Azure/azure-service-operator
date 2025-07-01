@@ -41,8 +41,8 @@ require (
 	github.com/kr/pretty v0.3.1
 	github.com/kylelemons/godebug v1.1.0
 	github.com/leanovate/gopter v0.2.11
-	github.com/microsoft/go-mssqldb v1.8.2
-	github.com/microsoftgraph/msgraph-sdk-go v1.75.0
+	github.com/microsoft/go-mssqldb v1.9.2
+	github.com/microsoftgraph/msgraph-sdk-go v1.76.0
 	github.com/microsoftgraph/msgraph-sdk-go-core v1.3.2
 	github.com/onsi/gomega v1.37.0
 	github.com/pkg/errors v0.9.1 // indirect
