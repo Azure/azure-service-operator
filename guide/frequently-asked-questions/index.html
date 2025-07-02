@@ -32,7 +32,7 @@ What is the release cadence? We ship updates to ASO as needed, with an eye towar
   <meta itemprop="name" content="Frequently Asked Questions">
   <meta itemprop="description" content="Project and scope Questions about the Azure Service Operator project, its vision and scope.
 What is the release cadence? We ship updates to ASO as needed, with an eye towards releasing every 1-2 months. If there are urgent fixes, a release may happen more quickly than that. If there haven’t been any major changes (or there are ongoing major changes that are taking a long time) a release may happen more slowly. For an up-to-date plan check the milestone tracker.">
-  <meta itemprop="wordCount" content="2652">
+  <meta itemprop="wordCount" content="2606">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Frequently Asked Questions">
   <meta name="twitter:description" content="Project and scope Questions about the Azure Service Operator project, its vision and scope.
@@ -906,11 +906,9 @@ If the underlying Azure Resource doesn&rsquo;t support DR (or the story is more 
 <ul>
 <li>ASO is officially maintained by Microsoft, while Crossplane Azure is community maintained.</li>
 <li>ASO focuses on simplicity. It doesn&rsquo;t offer any of the higher level abstractions that Crossplane does. ASO is not and will not ever be multi-cloud.</li>
-<li>The code generator we use to generate ASO resources is higher fidelity than the one that Crossplane uses. As a result, there are places where ASO resources are easier to use.
+<li>The code generator we use to generate ASO resources is usually higher fidelity than the one that Crossplane uses. As a result, there are places where ASO resources are easier to use.
 One example of this is references between resources such as linking a VMSS to a VNET. In Crossplane you do this by specifying the raw ARM ID. In ASO, you can specify the raw ARM ID but you can also specify a reference to the corresponding resource in Kubernetes (with its Kubernetes name) and ASO translates that into an ARM ID under the hood so that you don’t have to. This makes managing graphs of interlinked resources easier.</li>
 </ul>
-<p>We would like to share our code-generator with Crossplane, as it’s higher fidelity than Terrajet (the codegenerator Crossplane uses to generate resources) for Azure resources.
-Right now our focus is on getting ASO to GA, after which we will hopefully have more time to invest in that.</p>
 <h3 id="why-doesnt-aso-support-exportingimporting-all-data-from-configmapsecret">Why doesn&rsquo;t ASO support exporting/importing all data from configmap/secret?</h3>
 <p>For configuration management details, where the values are statically known prior to deployment,
 we strongly recommend people using existing tools such as Helm or Kustomize (or whatever other templating engine you love).
