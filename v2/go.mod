@@ -41,8 +41,8 @@ require (
 	github.com/kr/pretty v0.3.1
 	github.com/kylelemons/godebug v1.1.0
 	github.com/leanovate/gopter v0.2.11
-	github.com/microsoft/go-mssqldb v1.8.2
-	github.com/microsoftgraph/msgraph-sdk-go v1.75.0
+	github.com/microsoft/go-mssqldb v1.9.2
+	github.com/microsoftgraph/msgraph-sdk-go v1.76.0
 	github.com/microsoftgraph/msgraph-sdk-go-core v1.3.2
 	github.com/onsi/gomega v1.37.0
 	github.com/pkg/errors v0.9.1 // indirect
@@ -65,7 +65,7 @@ require (
 	k8s.io/client-go v0.33.2
 	k8s.io/klog/v2 v2.130.1
 	sigs.k8s.io/controller-runtime v0.21.0
-	sigs.k8s.io/yaml v1.4.0
+	sigs.k8s.io/yaml v1.5.0
 )
 
 require (
@@ -138,6 +138,7 @@ require (
 	go.opentelemetry.io/otel/trace v1.35.0 // indirect
 	go.opentelemetry.io/proto/otlp v1.5.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
+	go.yaml.in/yaml/v2 v2.4.2 // indirect
 	golang.org/x/net v0.41.0 // indirect
 	golang.org/x/oauth2 v0.28.0 // indirect
 	golang.org/x/sys v0.33.0 // indirect
