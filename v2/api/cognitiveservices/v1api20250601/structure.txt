@@ -304,13 +304,12 @@ Deployment: Resource
 │   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
 │   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
-│   ├── Properties: *Object (8 properties)
+│   ├── Properties: *Object (7 properties)
 │   │   ├── CapacitySettings: *Object (2 properties)
 │   │   │   ├── DesignatedCapacity: Validated<*int> (1 rule)
 │   │   │   │   └── Rule 0: Minimum: 0
 │   │   │   └── Priority: Validated<*int> (1 rule)
 │   │   │       └── Rule 0: Minimum: 0
-│   │   ├── CurrentCapacity: *int
 │   │   ├── Model: *Object (10 properties)
 │   │   │   ├── Format: *string
 │   │   │   ├── FormatFromConfig: *genruntime.ConfigMapReference

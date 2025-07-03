@@ -40,9 +40,6 @@ type DeploymentProperties struct {
 	// CapacitySettings: Internal use only.
 	CapacitySettings *DeploymentCapacitySettings `json:"capacitySettings,omitempty"`
 
-	// CurrentCapacity: The current capacity.
-	CurrentCapacity *int `json:"currentCapacity,omitempty"`
-
 	// Model: Properties of Cognitive Services account deployment model.
 	Model *DeploymentModel `json:"model,omitempty"`
 

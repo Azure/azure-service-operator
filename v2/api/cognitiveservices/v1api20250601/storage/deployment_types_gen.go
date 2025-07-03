@@ -250,7 +250,6 @@ type DeploymentOperatorSpec struct {
 // Properties of Cognitive Services account deployment.
 type DeploymentProperties struct {
 	CapacitySettings        *DeploymentCapacitySettings `json:"capacitySettings,omitempty"`
-	CurrentCapacity         *int                        `json:"currentCapacity,omitempty"`
 	Model                   *DeploymentModel            `json:"model,omitempty"`
 	ParentDeploymentName    *string                     `json:"parentDeploymentName,omitempty"`
 	PropertyBag             genruntime.PropertyBag      `json:"$propertyBag,omitempty"`

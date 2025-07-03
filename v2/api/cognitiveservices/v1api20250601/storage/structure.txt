@@ -287,12 +287,11 @@ Deployment: Resource
 │   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
-│   ├── Properties: *Object (9 properties)
+│   ├── Properties: *Object (8 properties)
 │   │   ├── CapacitySettings: *Object (3 properties)
 │   │   │   ├── DesignatedCapacity: *int
 │   │   │   ├── Priority: *int
 │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   ├── CurrentCapacity: *int
 │   │   ├── Model: *Object (11 properties)
 │   │   │   ├── Format: *string
 │   │   │   ├── FormatFromConfig: *genruntime.ConfigMapReference

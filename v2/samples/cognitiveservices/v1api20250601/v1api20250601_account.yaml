@@ -5,8 +5,8 @@ metadata:
 spec:
   identity:
     type: SystemAssigned
-  kind: AIServices
-  location: eastus
+  kind: OpenAI
+  location: westus3
   operatorSpec:
     secrets:
       key1:

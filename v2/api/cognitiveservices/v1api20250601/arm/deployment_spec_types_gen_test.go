@@ -211,7 +211,6 @@ func DeploymentPropertiesGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeploymentProperties is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeploymentProperties(gens map[string]gopter.Gen) {
-	gens["CurrentCapacity"] = gen.PtrOf(gen.Int())
 	gens["ParentDeploymentName"] = gen.PtrOf(gen.AlphaString())
 	gens["RaiPolicyName"] = gen.PtrOf(gen.AlphaString())
 	gens["SpilloverDeploymentName"] = gen.PtrOf(gen.AlphaString())

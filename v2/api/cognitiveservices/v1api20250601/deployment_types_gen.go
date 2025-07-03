@@ -992,9 +992,6 @@ type DeploymentProperties struct {
 	// CapacitySettings: Internal use only.
 	CapacitySettings *DeploymentCapacitySettings `json:"capacitySettings,omitempty"`
 
-	// CurrentCapacity: The current capacity.
-	CurrentCapacity *int `json:"currentCapacity,omitempty"`
-
 	// Model: Properties of Cognitive Services account deployment model.
 	Model *DeploymentModel `json:"model,omitempty"`
 
@@ -1033,12 +1030,6 @@ func (properties *DeploymentProperties) ConvertToARM(resolved genruntime.Convert
 		}
 		capacitySettings := *capacitySettings_ARM.(*arm.DeploymentCapacitySettings)
 		result.CapacitySettings = &capacitySettings
-	}
-
-	// Set property "CurrentCapacity":
-	if properties.CurrentCapacity != nil {
-		currentCapacity := *properties.CurrentCapacity
-		result.CurrentCapacity = &currentCapacity
 	}
 
 	// Set property "Model":
@@ -1112,12 +1103,6 @@ func (properties *DeploymentProperties) PopulateFromARM(owner genruntime.Arbitra
 		properties.CapacitySettings = &capacitySettings
 	}
 
-	// Set property "CurrentCapacity":
-	if typedInput.CurrentCapacity != nil {
-		currentCapacity := *typedInput.CurrentCapacity
-		properties.CurrentCapacity = &currentCapacity
-	}
-
 	// Set property "Model":
 	if typedInput.Model != nil {
 		var model1 DeploymentModel
@@ -1185,9 +1170,6 @@ func (properties *DeploymentProperties) AssignProperties_From_DeploymentProperti
 		properties.CapacitySettings = nil
 	}
 
-	// CurrentCapacity
-	properties.CurrentCapacity = genruntime.ClonePointerToInt(source.CurrentCapacity)
-
 	// Model
 	if source.Model != nil {
 		var model DeploymentModel
@@ -1250,9 +1232,6 @@ func (properties *DeploymentProperties) AssignProperties_To_DeploymentProperties
 	} else {
 		destination.CapacitySettings = nil
 	}
-
-	// CurrentCapacity
-	destination.CurrentCapacity = genruntime.ClonePointerToInt(properties.CurrentCapacity)
 
 	// Model
 	if properties.Model != nil {
@@ -1320,9 +1299,6 @@ func (properties *DeploymentProperties) Initialize_From_DeploymentProperties_STA
 	} else {
 		properties.CapacitySettings = nil
 	}
-
-	// CurrentCapacity
-	properties.CurrentCapacity = genruntime.ClonePointerToInt(source.CurrentCapacity)
 
 	// Model
 	if source.Model != nil {

@@ -588,6 +588,12 @@ typeTransformers:
     remove: true
     because: This property should have been marked readonly but wasn't.
 
+  - group: cognitiveservices
+    name: DeploymentProperties
+    property: CurrentCapacity
+    remove: true
+    because: This property should have been marked readonly but wasn't.
+
   # Remove embedded resource properties
   - group: network
     name: VirtualNetworkPropertiesFormat_Status  # This type is subsequently flattened into VirtualNetwork_Status

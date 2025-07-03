@@ -372,11 +372,10 @@ Deployment_STATUS: Object (8 properties)
 
 Deployment_Spec: Object (4 properties)
 ├── Name: string
-├── Properties: *Object (8 properties)
+├── Properties: *Object (7 properties)
 │   ├── CapacitySettings: *Object (2 properties)
 │   │   ├── DesignatedCapacity: *int
 │   │   └── Priority: *int
-│   ├── CurrentCapacity: *int
 │   ├── Model: *Object (6 properties)
 │   │   ├── Format: *string
 │   │   ├── Name: *string

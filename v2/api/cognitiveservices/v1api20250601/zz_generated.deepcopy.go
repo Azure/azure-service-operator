@@ -1106,11 +1106,6 @@ func (in *DeploymentProperties) DeepCopyInto(out *DeploymentProperties) {
 		*out = new(DeploymentCapacitySettings)
 		(*in).DeepCopyInto(*out)
 	}
-	if in.CurrentCapacity != nil {
-		in, out := &in.CurrentCapacity, &out.CurrentCapacity
-		*out = new(int)
-		**out = **in
-	}
 	if in.Model != nil {
 		in, out := &in.Model, &out.Model
 		*out = new(DeploymentModel)
