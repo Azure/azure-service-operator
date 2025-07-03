@@ -53,11 +53,8 @@ There are a lot of similarities between ASO and Crossplane. They do similar thin
 
 * ASO is officially maintained by Microsoft, while Crossplane Azure is community maintained.
 * ASO focuses on simplicity. It doesn't offer any of the higher level abstractions that Crossplane does. ASO is not and will not ever be multi-cloud.
-* The code generator we use to generate ASO resources is higher fidelity than the one that Crossplane uses. As a result, there are places where ASO resources are easier to use.
+* The code generator we use to generate ASO resources is usually higher fidelity than the one that Crossplane uses. As a result, there are places where ASO resources are easier to use.
   One example of this is references between resources such as linking a VMSS to a VNET. In Crossplane you do this by specifying the raw ARM ID. In ASO, you can specify the raw ARM ID but you can also specify a reference to the corresponding resource in Kubernetes (with its Kubernetes name) and ASO translates that into an ARM ID under the hood so that you don’t have to. This makes managing graphs of interlinked resources easier.
-  
-We would like to share our code-generator with Crossplane, as it’s higher fidelity than Terrajet (the codegenerator Crossplane uses to generate resources) for Azure resources.
-Right now our focus is on getting ASO to GA, after which we will hopefully have more time to invest in that.
 
 ### Why doesn't ASO support exporting/importing all data from configmap/secret?
 
