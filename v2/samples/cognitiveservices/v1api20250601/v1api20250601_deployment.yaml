@@ -1,0 +1,16 @@
+apiVersion: cognitiveservices.azure.com/v1api20250601
+kind: Deployment
+metadata:
+  name: sample-name
+spec:
+  owner:
+    name: sample-account
+  properties:
+    model:
+      name: gpt-4o
+      format: OpenAI
+      publisher: OpenAI
+      version: 2024-11-20
+  sku:
+    capacity: 1
+    name: Standard
