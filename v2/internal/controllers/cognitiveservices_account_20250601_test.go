@@ -19,6 +19,11 @@ import (
 func Test_CognitiveServices_Account_20250601_CRUD(t *testing.T) {
 	t.Parallel()
 	tc := globalTestContext.ForTest(t)
+
+	// Moving test to a different region:
+	// AI Foundry not available in westus2: https://learn.microsoft.com/en-us/azure/ai-foundry/reference/region-support
+	tc.AzureRegion = to.Ptr("westus3")
+
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	account := &cognitiveservices.Account{
@@ -27,17 +32,14 @@ func Test_CognitiveServices_Account_20250601_CRUD(t *testing.T) {
 			Identity: &cognitiveservices.Identity{
 				Type: to.Ptr(cognitiveservices.Identity_Type_SystemAssigned),
 			},
-			Kind: to.Ptr("OpenAI"),
-			// Location: to.Ptr("eastus"),
+			Kind:     to.Ptr("OpenAI"),
 			Location: tc.AzureRegion,
 			OperatorSpec: &cognitiveservices.AccountOperatorSpec{
 				Secrets: &cognitiveservices.AccountOperatorSecrets{
-					Key1:     &genruntime.SecretDestination{Name: "cogsecrets", Key: "key1"},
-					Key2:     &genruntime.SecretDestination{Name: "cogsecrets", Key: "key2"},
-					Endpoint: &genruntime.SecretDestination{Name: "cogsecrets", Key: "endpoint"},
-					Endpoints: &genruntime.SecretDestination{
-						Name: "cogsecrets", Key: "endpoints",
-					},
+					Key1:      &genruntime.SecretDestination{Name: "cogsecrets", Key: "key1"},
+					Key2:      &genruntime.SecretDestination{Name: "cogsecrets", Key: "key2"},
+					Endpoint:  &genruntime.SecretDestination{Name: "cogsecrets", Key: "endpoint"},
+					Endpoints: &genruntime.SecretDestination{Name: "cogsecrets", Key: "endpoints"},
 				},
 			},
 			Owner: testcommon.AsOwner(rg),
@@ -52,7 +54,7 @@ func Test_CognitiveServices_Account_20250601_CRUD(t *testing.T) {
 
 	tc.CreateResourcesAndWait(account)
 	tc.Expect(account.Status.Id).ToNot(BeNil())
-	tc.ExpectSecretHasKeys("cogsecrets", account.Namespace, "key1", "key2", "endpoint", "endpoints")
+	tc.ExpectSecretHasKeys("cogsecrets", "key1", "key2", "endpoint", "endpoints")
 
 	oldAcc := account.DeepCopy()
 	if oldAcc.Spec.Tags == nil {

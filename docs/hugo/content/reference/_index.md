@@ -193,10 +193,10 @@ To install the CRDs for these resources, your ASO configuration must include `co
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource   | ARM Version | CRD Version   | Supported From | Sample |
-|------------|-------------|---------------|----------------|--------|
-| Account    | 2024-10-01  | v1api20241001 | v2.15.0        | -      |
-| Deployment | 2024-10-01  | v1api20241001 | v2.15.0        | -      |
+| Resource   | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                     |
+|------------|-------------|---------------|----------------|--------------------------------------------------------------------------------------------------------------------------------------------|
+| Account    | 2025-06-01  | v1api20250601 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cognitiveservices/v1api20250601/v1api20250601_account.yaml)    |
+| Deployment | 2025-06-01  | v1api20250601 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cognitiveservices/v1api20250601/v1api20250601_deployment.yaml) |
 
 ## Compute
 
