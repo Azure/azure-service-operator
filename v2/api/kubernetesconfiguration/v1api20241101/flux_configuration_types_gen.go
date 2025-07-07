@@ -4251,6 +4251,7 @@ type OCIRepositoryDefinition struct {
 	// TlsConfig: Parameters to authenticate using TLS config for OCI repository.
 	TlsConfig *TlsConfigDefinition `json:"tlsConfig,omitempty"`
 
+	// +kubebuilder:validation:Pattern="^[a-zA-Z][a-zA-Z0-9+-.]*:[^\\s]*$"
 	// Url: The URL to sync for the flux configuration OCI repository.
 	Url *string `json:"url,omitempty"`
 
