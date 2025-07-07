@@ -91,8 +91,8 @@ github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/servicebus/armservicebus v
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/servicebus/armservicebus v1.2.0/go.mod h1:1YXAxWw6baox+KafeQU2scy21/4IHvqXoIJuCpcvpMQ=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/signalr/armsignalr v1.2.0 h1:Y8CF7FyuVVDyX5W6Azwjj3PpwUZVbXBOCyQytv/0QEA=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/signalr/armsignalr v1.2.0/go.mod h1:tzUx/enAY8RSmQhRq02uVZFeRJxdGYT6BqXwHiHoOcU=
-github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storage/armstorage v1.8.0 h1:LR0kAX9ykz8G4YgLCaRDVJ3+n43R8MneB5dTy2konZo=
-github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storage/armstorage v1.8.0/go.mod h1:DWAciXemNf++PQJLeXUB4HHH5OpsAh12HZnu2wXE1jA=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storage/armstorage v1.8.1 h1:/Zt+cDPnpC3OVDm/JKLOs7M2DKmLRIIp3XIx9pHHiig=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storage/armstorage v1.8.1/go.mod h1:Ng3urmn6dYe8gnbCMoHHVl5APYz2txho3koEkV2o2HA=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/subscription/armsubscription v1.2.0 h1:UrGzkHueDwAWDdjQxC+QaXHd4tVCkISYE9j7fSSXF8k=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/subscription/armsubscription v1.2.0/go.mod h1:qskvSQeW+cxEE2bcKYyKimB1/KiQ9xpJ99bcHY0BX6c=
 github.com/Azure/azure-sdk-for-go/sdk/security/keyvault/azkeys v1.3.1 h1:Wgf5rZba3YZqeTNJPtvqZoBu1sBN/L4sry+u2U3Y75w=
@@ -367,8 +367,8 @@ github.com/microsoft/kiota-serialization-multipart-go v1.1.2 h1:1pUyA1QgIeKslQwb
 github.com/microsoft/kiota-serialization-multipart-go v1.1.2/go.mod h1:j2K7ZyYErloDu7Kuuk993DsvfoP7LPWvAo7rfDpdPio=
 github.com/microsoft/kiota-serialization-text-go v1.1.2 h1:7OfKFlzdjpPygca/+OtqafkEqCWR7+94efUFGC28cLw=
 github.com/microsoft/kiota-serialization-text-go v1.1.2/go.mod h1:QNTcswkBPFY3QVBFmzfk00UMNViKQtV0AQKCrRw5ibM=
-github.com/microsoftgraph/msgraph-sdk-go v1.76.0 h1:rv3zQMUxX0xJ1R/Ot0NC9qN/9BwPEypzWvqlmkICty8=
-github.com/microsoftgraph/msgraph-sdk-go v1.76.0/go.mod h1:5ncg4aauxM5XKHo/xvAq7Cjl6+Dqu6lOtoihSGKtDt4=
+github.com/microsoftgraph/msgraph-sdk-go v1.77.0 h1:Dy6RQCsEgWlARfynx0Rai+PJyK8THgdNOwkpYaPCvJc=
+github.com/microsoftgraph/msgraph-sdk-go v1.77.0/go.mod h1:5ncg4aauxM5XKHo/xvAq7Cjl6+Dqu6lOtoihSGKtDt4=
 github.com/microsoftgraph/msgraph-sdk-go-core v1.3.2 h1:5jCUSosTKaINzPPQXsz7wsHWwknyBmJSu8+ZWxx3kdQ=
 github.com/microsoftgraph/msgraph-sdk-go-core v1.3.2/go.mod h1:iD75MK3LX8EuwjDYCmh0hkojKXK6VKME33u4daCo3cE=
 github.com/miekg/dns v1.0.14/go.mod h1:W1PPwlIAgtquWBMBEV9nkV9Cazfe8ScdGz/Lj7v3Nrg=

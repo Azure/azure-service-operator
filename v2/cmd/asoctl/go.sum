@@ -56,6 +56,8 @@ github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/signalr/armsignalr v1.2.0 
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/signalr/armsignalr v1.2.0/go.mod h1:tzUx/enAY8RSmQhRq02uVZFeRJxdGYT6BqXwHiHoOcU=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storage/armstorage v1.8.0 h1:LR0kAX9ykz8G4YgLCaRDVJ3+n43R8MneB5dTy2konZo=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storage/armstorage v1.8.0/go.mod h1:DWAciXemNf++PQJLeXUB4HHH5OpsAh12HZnu2wXE1jA=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storage/armstorage v1.8.1 h1:/Zt+cDPnpC3OVDm/JKLOs7M2DKmLRIIp3XIx9pHHiig=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storage/armstorage v1.8.1/go.mod h1:Ng3urmn6dYe8gnbCMoHHVl5APYz2txho3koEkV2o2HA=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/subscription/armsubscription v1.2.0 h1:UrGzkHueDwAWDdjQxC+QaXHd4tVCkISYE9j7fSSXF8k=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/subscription/armsubscription v1.2.0/go.mod h1:qskvSQeW+cxEE2bcKYyKimB1/KiQ9xpJ99bcHY0BX6c=
 github.com/Azure/azure-sdk-for-go/sdk/security/keyvault/azkeys v1.0.1 h1:MyVTgWR8qd/Jw1Le0NZebGBUCLbtak3bJ3z1OlqZBpw=
@@ -253,6 +255,8 @@ github.com/microsoftgraph/msgraph-sdk-go v1.75.0 h1:CFlM+aMhoErKBy99X91tf417EImi
 github.com/microsoftgraph/msgraph-sdk-go v1.75.0/go.mod h1:5ncg4aauxM5XKHo/xvAq7Cjl6+Dqu6lOtoihSGKtDt4=
 github.com/microsoftgraph/msgraph-sdk-go v1.76.0 h1:rv3zQMUxX0xJ1R/Ot0NC9qN/9BwPEypzWvqlmkICty8=
 github.com/microsoftgraph/msgraph-sdk-go v1.76.0/go.mod h1:5ncg4aauxM5XKHo/xvAq7Cjl6+Dqu6lOtoihSGKtDt4=
+github.com/microsoftgraph/msgraph-sdk-go v1.77.0 h1:Dy6RQCsEgWlARfynx0Rai+PJyK8THgdNOwkpYaPCvJc=
+github.com/microsoftgraph/msgraph-sdk-go v1.77.0/go.mod h1:5ncg4aauxM5XKHo/xvAq7Cjl6+Dqu6lOtoihSGKtDt4=
 github.com/microsoftgraph/msgraph-sdk-go-core v1.3.1 h1:vJA+j+1z8c8adjd4YtxzF0L668nmFM9jeXvx2YvK7CA=
 github.com/microsoftgraph/msgraph-sdk-go-core v1.3.1/go.mod h1:bjqNFhM9MasKdZ/UQfqtLNVB/uOZPUoPhOwUjmSGOgE=
 github.com/microsoftgraph/msgraph-sdk-go-core v1.3.2 h1:5jCUSosTKaINzPPQXsz7wsHWwknyBmJSu8+ZWxx3kdQ=
