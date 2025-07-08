@@ -35,7 +35,7 @@ func ARMPerResourceSecretAnnotationChangedPredicate() predicate.Predicate {
 }
 
 // GetReconcilePolicy gets the reconcile-policy from the ReconcilePolicy
-func GetReconcilePolicy(obj genruntime.MetaObject, log logr.Logger, defaultReconcilePolicy annotations.ReconcilePolicyValue) annotations.ReconcilePolicyValue {
+func GetReconcilePolicy(obj genruntime.MetaObject, log logr.Logger, defaultReconcilePolicy annotations.ReconcilePolicyValue) (annotations.ReconcilePolicyValue, error) {
 	policyStr := obj.GetAnnotations()[annotations.ReconcilePolicy]
 	policy, err := ParseReconcilePolicy(policyStr, defaultReconcilePolicy)
 	if err != nil {
@@ -46,7 +46,7 @@ func GetReconcilePolicy(obj genruntime.MetaObject, log logr.Logger, defaultRecon
 			"policyAnnotation", policyStr)
 	}
 
-	return policy
+	return policy, err
 }
 
 // HasAnnotationChanged returns true if the annotation has changed
