@@ -2868,6 +2868,10 @@ objectModelConfiguration:
         UserAssignedIdentity:
           $referenceType: arm
   insights:
+    2017-10-01:
+      Components_PricingPlan:
+        $exportAs: PricingPlan
+        $supportedFrom: v2.15.0
     2018-03-01:
       MetricAlert:
         $export: true
