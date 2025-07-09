@@ -11,6 +11,8 @@ DiagnosticSettingExtension: Object (0 properties)
 
 MetricAlertExtension: Object (0 properties)
 
+PricingPlanExtension: Object (0 properties)
+
 ScheduledQueryRuleExtension: Object (0 properties)
 
 WebtestExtension: Object (0 properties)
