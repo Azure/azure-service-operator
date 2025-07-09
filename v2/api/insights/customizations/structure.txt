@@ -3,6 +3,8 @@ github.com/Azure/azure-service-operator/v2/api/insights/customizations
 ----------------------------------------------------------------------
 ActionGroupExtension: Object (0 properties)
 
+ActivityLogAlertExtension: Object (0 properties)
+
 AutoscaleSettingExtension: Object (0 properties)
 
 ComponentExtension: Object (0 properties)
