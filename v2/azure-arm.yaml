@@ -2868,6 +2868,16 @@ objectModelConfiguration:
         UserAssignedIdentity:
           $referenceType: arm
   insights:
+    2018-03-01:
+      MetricAlert:
+        $export: true
+        $supportedFrom: v2.4.0
+      WebtestLocationAvailabilityCriteria:
+        ComponentId:
+          $referenceType: arm
+      MetricAlertProperties:
+        Scopes:
+          $referenceType: arm
     2018-05-01-preview:
       Webtest:
         $export: true
@@ -2887,18 +2897,18 @@ objectModelConfiguration:
         $generatedConfigs:
           ConnectionString: $.Status.ConnectionString
           InstrumentationKey: $.Status.InstrumentationKey
-    2023-01-01:
-      ActionGroup:
+    2021-05-01-preview:
+      DiagnosticSetting:
         $export: true
-        $supportedFrom: v2.4.0
-      AutomationRunbookReceiver:
-        WebhookResourceId:
+        $supportedFrom: v2.11.0
+      DiagnosticSettings:
+        MarketplacePartnerId:
           $referenceType: arm
-      AzureFunctionReceiver:
-        FunctionAppResourceId:
+        WorkspaceId:
           $referenceType: arm
-      LogicAppReceiver:
-        ResourceId:
+        EventHubAuthorizationRuleId:
+          $referenceType: arm
+        StorageAccountId:
           $referenceType: arm
     2022-10-01:
       Autoscalesetting:
@@ -2909,16 +2919,6 @@ objectModelConfiguration:
           $referenceType: arm
       MetricTrigger:
         MetricResourceUri:
-          $referenceType: arm
-    2018-03-01:
-      MetricAlert:
-        $export: true
-        $supportedFrom: v2.4.0
-      WebtestLocationAvailabilityCriteria:
-        ComponentId:
-          $referenceType: arm
-      MetricAlertProperties:
-        Scopes:
           $referenceType: arm
     2022-06-15:
       ScheduledQueryRule:
@@ -2939,18 +2939,18 @@ objectModelConfiguration:
       WebTestGeolocation:
         Id:
           $referenceType: simple
-    2021-05-01-preview:
-      DiagnosticSetting:
+    2023-01-01:
+      ActionGroup:
         $export: true
-        $supportedFrom: v2.11.0
-      DiagnosticSettings:
-        MarketplacePartnerId:
+        $supportedFrom: v2.4.0
+      AutomationRunbookReceiver:
+        WebhookResourceId:
           $referenceType: arm
-        WorkspaceId:
+      AzureFunctionReceiver:
+        FunctionAppResourceId:
           $referenceType: arm
-        EventHubAuthorizationRuleId:
-          $referenceType: arm
-        StorageAccountId:
+      LogicAppReceiver:
+        ResourceId:
           $referenceType: arm
     2024-01-01-preview:
       ScheduledQueryRule:
