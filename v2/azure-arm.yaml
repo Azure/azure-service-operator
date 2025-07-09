@@ -2972,6 +2972,10 @@ objectModelConfiguration:
       LogicAppReceiver:
         ResourceId:
           $referenceType: arm
+    2023-03-11:
+      DataCollectionEndpoint:
+        $exportAs: DataCollectionEndpoint
+        $supportedFrom: v2.15.0
     2024-01-01-preview:
       ScheduledQueryRule:
         $export: true
