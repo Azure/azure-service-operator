@@ -2976,6 +2976,14 @@ objectModelConfiguration:
       DataCollectionEndpoint:
         $exportAs: DataCollectionEndpoint
         $supportedFrom: v2.15.0
+      DataCollectionRuleAssociation:
+        $exportAs: DataCollectionRuleAssociation
+        $supportedFrom: v2.15.0
+      DataCollectionRuleAssociationSpec:
+        DataCollectionEndpointId: 
+          $referenceType: arm
+        DataCollectionRuleId: 
+          $referenceType: arm
     2024-01-01-preview:
       ScheduledQueryRule:
         $export: true
