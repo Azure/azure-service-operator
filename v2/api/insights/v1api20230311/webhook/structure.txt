@@ -3,3 +3,5 @@ github.com/Azure/azure-service-operator/v2/api/insights/v1api20230311/webhook
 -----------------------------------------------------------------------------
 DataCollectionEndpoint: Object (0 properties)
 
+DataCollectionRuleAssociation: Object (0 properties)
+
