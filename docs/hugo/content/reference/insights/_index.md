@@ -9,10 +9,11 @@ To install the CRDs for these resources, your ASO configuration must include `in
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource         | ARM Version | CRD Version   | Supported From | Sample |
-|------------------|-------------|---------------|----------------|--------|
-| ActivityLogAlert | 2020-10-01  | v1api20201001 | v2.15.0        | -      |
-| PricingPlan      | 2017-10-01  | v1api20171001 | v2.15.0        | -      |
+| Resource               | ARM Version | CRD Version   | Supported From | Sample |
+|------------------------|-------------|---------------|----------------|--------|
+| ActivityLogAlert       | 2020-10-01  | v1api20201001 | v2.15.0        | -      |
+| DataCollectionEndpoint | 2023-03-11  | v1api20230311 | v2.15.0        | -      |
+| PricingPlan            | 2017-10-01  | v1api20171001 | v2.15.0        | -      |
 
 ### Latest Released Versions
 
