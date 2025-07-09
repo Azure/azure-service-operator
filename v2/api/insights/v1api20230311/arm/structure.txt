@@ -100,3 +100,46 @@ DataCollectionEndpoint_Spec: Object (6 properties)
 │           └── "SecuredByPerimeter"
 └── Tags: map[string]string
 
+DataCollectionRuleAssociationProxyOnlyResource_STATUS: Object (6 properties)
+├── Etag: *string
+├── Id: *string
+├── Name: *string
+├── Properties: *Object (5 properties)
+│   ├── DataCollectionEndpointId: *string
+│   ├── DataCollectionRuleId: *string
+│   ├── Description: *string
+│   ├── Metadata: *Object (3 properties)
+│   │   ├── ProvisionedBy: *string
+│   │   ├── ProvisionedByImmutableId: *string
+│   │   └── ProvisionedByResourceId: *string
+│   └── ProvisioningState: *Enum (6 values)
+│       ├── "Canceled"
+│       ├── "Creating"
+│       ├── "Deleting"
+│       ├── "Failed"
+│       ├── "Succeeded"
+│       └── "Updating"
+├── SystemData: *Object (6 properties)
+│   ├── CreatedAt: *string
+│   ├── CreatedBy: *string
+│   ├── CreatedByType: *Enum (4 values)
+│   │   ├── "Application"
+│   │   ├── "Key"
+│   │   ├── "ManagedIdentity"
+│   │   └── "User"
+│   ├── LastModifiedAt: *string
+│   ├── LastModifiedBy: *string
+│   └── LastModifiedByType: *Enum (4 values)
+│       ├── "Application"
+│       ├── "Key"
+│       ├── "ManagedIdentity"
+│       └── "User"
+└── Type: *string
+
+DataCollectionRuleAssociation_Spec: Object (2 properties)
+├── Name: string
+└── Properties: *Object (3 properties)
+    ├── DataCollectionEndpointId: *string
+    ├── DataCollectionRuleId: *string
+    └── Description: *string
+

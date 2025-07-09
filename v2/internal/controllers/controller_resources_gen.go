@@ -1275,6 +1275,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(insights_v20221001s.AutoscaleSetting)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20230101s.ActionGroup)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20230311s.DataCollectionEndpoint)})
+	result = append(result, &registration.StorageType{Obj: new(insights_v20230311s.DataCollectionRuleAssociation)})
 	result = append(result, &registration.StorageType{
 		Obj: new(keyvault_v20230701s.Vault),
 		Indexes: []registration.Index{
@@ -3924,8 +3925,12 @@ func getKnownTypes() []*registration.KnownType {
 		Obj:       new(insights_v20230311.DataCollectionEndpoint),
 		Defaulter: &insights_v20230311w.DataCollectionEndpoint{},
 		Validator: &insights_v20230311w.DataCollectionEndpoint{},
+	}, &registration.KnownType{
+		Obj:       new(insights_v20230311.DataCollectionRuleAssociation),
+		Defaulter: &insights_v20230311w.DataCollectionRuleAssociation{},
+		Validator: &insights_v20230311w.DataCollectionRuleAssociation{},
 	})
-	result = append(result, &registration.KnownType{Obj: new(insights_v20230311s.DataCollectionEndpoint)})
+	result = append(result, &registration.KnownType{Obj: new(insights_v20230311s.DataCollectionEndpoint)}, &registration.KnownType{Obj: new(insights_v20230311s.DataCollectionRuleAssociation)})
 	result = append(result, &registration.KnownType{
 		Obj:       new(insights_v20240101p.ScheduledQueryRule),
 		Defaulter: &insights_v20240101pw.ScheduledQueryRule{},
@@ -5512,6 +5517,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &insights_customizations.AutoscaleSettingExtension{})
 	result = append(result, &insights_customizations.ComponentExtension{})
 	result = append(result, &insights_customizations.DataCollectionEndpointExtension{})
+	result = append(result, &insights_customizations.DataCollectionRuleAssociationExtension{})
 	result = append(result, &insights_customizations.DiagnosticSettingExtension{})
 	result = append(result, &insights_customizations.MetricAlertExtension{})
 	result = append(result, &insights_customizations.PricingPlanExtension{})

@@ -108,3 +108,49 @@ DataCollectionEndpoint: Resource
     ├── Tags: map[string]string
     └── Type: *string
 
+DataCollectionRuleAssociation: Resource
+├── Spec: Object (6 properties)
+│   ├── AzureName: string
+│   ├── DataCollectionEndpointReference: *genruntime.ResourceReference
+│   ├── DataCollectionRuleReference: *genruntime.ResourceReference
+│   ├── Description: *string
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
+│   └── Owner: *genruntime.ArbitraryOwnerReference
+└── Status: Object (11 properties)
+    ├── Conditions: conditions.Condition[]
+    ├── DataCollectionEndpointId: *string
+    ├── DataCollectionRuleId: *string
+    ├── Description: *string
+    ├── Etag: *string
+    ├── Id: *string
+    ├── Metadata: *Object (3 properties)
+    │   ├── ProvisionedBy: *string
+    │   ├── ProvisionedByImmutableId: *string
+    │   └── ProvisionedByResourceId: *string
+    ├── Name: *string
+    ├── ProvisioningState: *Enum (6 values)
+    │   ├── "Canceled"
+    │   ├── "Creating"
+    │   ├── "Deleting"
+    │   ├── "Failed"
+    │   ├── "Succeeded"
+    │   └── "Updating"
+    ├── SystemData: *Object (6 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *Enum (4 values)
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: *Enum (4 values)
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
+    └── Type: *string
+

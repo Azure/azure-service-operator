@@ -88,3 +88,41 @@ DataCollectionEndpoint: Resource
     ├── Tags: map[string]string
     └── Type: *string
 
+DataCollectionRuleAssociation: Resource
+├── Spec: Object (8 properties)
+│   ├── AzureName: string
+│   ├── DataCollectionEndpointReference: *genruntime.ResourceReference
+│   ├── DataCollectionRuleReference: *genruntime.ResourceReference
+│   ├── Description: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
+│   ├── OriginalVersion: string
+│   ├── Owner: *genruntime.ArbitraryOwnerReference
+│   └── PropertyBag: genruntime.PropertyBag
+└── Status: Object (12 properties)
+    ├── Conditions: conditions.Condition[]
+    ├── DataCollectionEndpointId: *string
+    ├── DataCollectionRuleId: *string
+    ├── Description: *string
+    ├── Etag: *string
+    ├── Id: *string
+    ├── Metadata: *Object (4 properties)
+    │   ├── PropertyBag: genruntime.PropertyBag
+    │   ├── ProvisionedBy: *string
+    │   ├── ProvisionedByImmutableId: *string
+    │   └── ProvisionedByResourceId: *string
+    ├── Name: *string
+    ├── PropertyBag: genruntime.PropertyBag
+    ├── ProvisioningState: *string
+    ├── SystemData: *Object (7 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *string
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   ├── LastModifiedByType: *string
+    │   └── PropertyBag: genruntime.PropertyBag
+    └── Type: *string
+
