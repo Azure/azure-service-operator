@@ -2901,6 +2901,22 @@ objectModelConfiguration:
         $generatedConfigs:
           ConnectionString: $.Status.ConnectionString
           InstrumentationKey: $.Status.InstrumentationKey
+    2020-10-01:
+      ActionGroup:
+        ActionGroupId: 
+          $referenceType: arm
+      ActivityLogAlert:
+        $exportAs: ActivityLogAlert
+        $supportedFrom: v2.15.0
+      AlertRuleAnyOfOrLeafCondition:
+        Field:
+          $referenceType: simple
+      AlertRuleLeafCondition:
+        Field:
+          $referenceType: simple
+      AlertRuleProperties:
+        Scopes:
+          $referenceType: arm
     2021-05-01-preview:
       DiagnosticSetting:
         $export: true
