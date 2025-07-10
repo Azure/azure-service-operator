@@ -25,7 +25,7 @@ require (
 	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/search/armsearch v1.3.0
 	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/servicebus/armservicebus v1.2.0
 	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/signalr/armsignalr v1.2.0
-	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storage/armstorage v1.8.0
+	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storage/armstorage v1.8.1
 	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/subscription/armsubscription v1.2.0
 	github.com/Azure/msi-dataplane v0.4.3
 	github.com/benbjohnson/clock v1.3.5
@@ -43,7 +43,7 @@ require (
 	github.com/kylelemons/godebug v1.1.0
 	github.com/leanovate/gopter v0.2.11
 	github.com/microsoft/go-mssqldb v1.9.2
-	github.com/microsoftgraph/msgraph-sdk-go v1.76.0
+	github.com/microsoftgraph/msgraph-sdk-go v1.77.0
 	github.com/microsoftgraph/msgraph-sdk-go-core v1.3.2
 	github.com/onsi/gomega v1.37.0
 	github.com/pkg/errors v0.9.1 // indirect
