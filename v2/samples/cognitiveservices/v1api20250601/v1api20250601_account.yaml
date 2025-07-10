@@ -15,12 +15,10 @@ spec:
       key2:
         name: sample-secrets
         key: key2
-      endpoint:
-        name: sample-secrets
+    secretExpressions:
+      - name: sample-secrets
         key: endpoint
-      endpoints:
-        name: sample-secrets
-        key: endpoints
+        value: self.status.properties.endpoint
   owner:
     name: sample-rg
   properties:

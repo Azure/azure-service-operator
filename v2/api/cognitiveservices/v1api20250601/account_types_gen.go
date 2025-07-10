@@ -4059,13 +4059,6 @@ func (penalty *AbusePenalty_STATUS) AssignProperties_To_AbusePenalty_STATUS(dest
 }
 
 type AccountOperatorSecrets struct {
-	// Endpoint: indicates where the Endpoint secret should be placed. If omitted, the secret will not be retrieved from Azure.
-	Endpoint *genruntime.SecretDestination `json:"endpoint,omitempty"`
-
-	// Endpoints: indicates where the Endpoints secret should be placed. If omitted, the secret will not be retrieved from
-	// Azure.
-	Endpoints *genruntime.SecretDestination `json:"endpoints,omitempty"`
-
 	// Key1: indicates where the Key1 secret should be placed. If omitted, the secret will not be retrieved from Azure.
 	Key1 *genruntime.SecretDestination `json:"key1,omitempty"`
 
@@ -4075,22 +4068,6 @@ type AccountOperatorSecrets struct {
 
 // AssignProperties_From_AccountOperatorSecrets populates our AccountOperatorSecrets from the provided source AccountOperatorSecrets
 func (secrets *AccountOperatorSecrets) AssignProperties_From_AccountOperatorSecrets(source *storage.AccountOperatorSecrets) error {
-
-	// Endpoint
-	if source.Endpoint != nil {
-		endpoint := source.Endpoint.Copy()
-		secrets.Endpoint = &endpoint
-	} else {
-		secrets.Endpoint = nil
-	}
-
-	// Endpoints
-	if source.Endpoints != nil {
-		endpoint := source.Endpoints.Copy()
-		secrets.Endpoints = &endpoint
-	} else {
-		secrets.Endpoints = nil
-	}
 
 	// Key1
 	if source.Key1 != nil {
@@ -4116,22 +4093,6 @@ func (secrets *AccountOperatorSecrets) AssignProperties_From_AccountOperatorSecr
 func (secrets *AccountOperatorSecrets) AssignProperties_To_AccountOperatorSecrets(destination *storage.AccountOperatorSecrets) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
-
-	// Endpoint
-	if secrets.Endpoint != nil {
-		endpoint := secrets.Endpoint.Copy()
-		destination.Endpoint = &endpoint
-	} else {
-		destination.Endpoint = nil
-	}
-
-	// Endpoints
-	if secrets.Endpoints != nil {
-		endpoint := secrets.Endpoints.Copy()
-		destination.Endpoints = &endpoint
-	} else {
-		destination.Endpoints = nil
-	}
 
 	// Key1
 	if secrets.Key1 != nil {

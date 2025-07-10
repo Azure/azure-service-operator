@@ -185,8 +185,6 @@ func (account *Account) validateSecretDestinations(ctx context.Context, obj *v20
 	var toValidate []*genruntime.SecretDestination
 	if obj.Spec.OperatorSpec.Secrets != nil {
 		toValidate = []*genruntime.SecretDestination{
-			obj.Spec.OperatorSpec.Secrets.Endpoint,
-			obj.Spec.OperatorSpec.Secrets.Endpoints,
 			obj.Spec.OperatorSpec.Secrets.Key1,
 			obj.Spec.OperatorSpec.Secrets.Key2,
 		}

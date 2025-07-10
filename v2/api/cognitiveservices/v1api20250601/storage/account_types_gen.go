@@ -388,8 +388,6 @@ type AbusePenalty_STATUS struct {
 
 // Storage version of v1api20250601.AccountOperatorSecrets
 type AccountOperatorSecrets struct {
-	Endpoint    *genruntime.SecretDestination `json:"endpoint,omitempty"`
-	Endpoints   *genruntime.SecretDestination `json:"endpoints,omitempty"`
 	Key1        *genruntime.SecretDestination `json:"key1,omitempty"`
 	Key2        *genruntime.SecretDestination `json:"key2,omitempty"`
 	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`

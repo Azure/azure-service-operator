@@ -54,10 +54,10 @@ interactions:
               X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
                   - "11999"
               X-Msedge-Ref:
-                  - "Ref A: B71DD5FC04B341ECB4E9A487042C6702 Ref B: AMS231022012025 Ref C: 2025-07-03T22:00:13Z"
-          status: 201 Created
-          code: 201
-          duration: 2.117401676s
+                  - "Ref A: 03A36E2CCB94441591E47F5CCDA2ABAF Ref B: AMS231032607053 Ref C: 2025-07-10T16:49:09Z"
+          status: 200 OK
+          code: 200
+          duration: 2.161740423s
     - id: 1
       request:
           proto: HTTP/1.1
@@ -107,10 +107,10 @@ interactions:
               X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
                   - "16499"
               X-Msedge-Ref:
-                  - "Ref A: F0E717A49C204ED292347698FA1FDEF9 Ref B: AMS231022012025 Ref C: 2025-07-03T22:00:17Z"
+                  - "Ref A: 19AE5D30B9EC4F448795BC04DC6F1FFF Ref B: AMS231032607053 Ref C: 2025-07-10T16:49:13Z"
           status: 200 OK
           code: 200
-          duration: 231.374547ms
+          duration: 215.993982ms
     - id: 2
       request:
           proto: HTTP/1.1
@@ -143,10 +143,10 @@ interactions:
           trailer: {}
           content_length: 4287
           uncompressed: false
-          body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hdctow/providers/Microsoft.CognitiveServices/accounts/asotestcogsvcacczytcvb","name":"asotestcogsvcacczytcvb","type":"Microsoft.CognitiveServices/accounts","etag":"\"1300d27c-0000-4d00-0000-6866fd7a0000\"","location":"westus3","sku":{"name":"S0"},"kind":"OpenAI","properties":{"endpoint":"https://westus3.api.cognitive.microsoft.com/","internalId":"873eab75add046e7819ae06c3bcd9d83","dateCreated":"2001-02-03T04:05:06Z","apiProperties":{},"callRateLimit":{"rules":[{"key":"openai.dalle.post","renewalPeriod":1,"count":30,"matchPatterns":[{"path":"dalle/*","method":"POST"},{"path":"openai/images/*","method":"POST"}]},{"key":"openai.dalle.other","renewalPeriod":1,"count":30,"matchPatterns":[{"path":"dalle/*","method":"*"},{"path":"openai/operations/images/*","method":"*"}]},{"key":"openai.assistants.list","renewalPeriod":60,"count":120,"matchPatterns":[{"path":"openai/assistants","method":"GET"}]},{"key":"openai.threads.list","renewalPeriod":60,"count":120,"matchPatterns":[{"path":"openai/threads","method":"GET"}]},{"key":"openai.vectorstores.list","renewalPeriod":60,"count":120,"matchPatterns":[{"path":"openai/vector_stores","method":"GET"}]},{"key":"openai.assistants.default","renewalPeriod":1,"count":100000,"matchPatterns":[{"path":"openai/assistants","method":"*"},{"path":"openai/assistants/*","method":"*"},{"path":"openai/threads","method":"*"},{"path":"openai/threads/*","method":"*"},{"path":"openai/vector_stores","method":"*"},{"path":"openai/vector_stores/*","method":"*"}]},{"key":"openai.responses.default","renewalPeriod":1,"count":100000,"matchPatterns":[{"path":"openai/responses","method":"*"},{"path":"openai/responses/*","method":"*"}]},{"key":"openai.batches.post","renewalPeriod":60,"count":30,"matchPatterns":[{"path":"openai/v1/batches","method":"POST"},{"path":"openai/batches","method":"POST"}]},{"key":"openai.batches.get","renewalPeriod":60,"count":500,"matchPatterns":[{"path":"openai/v1/batches/*","method":"GET"},{"path":"openai/batches/*","method":"GET"}]},{"key":"openai.batches.list","renewalPeriod":60,"count":100,"matchPatterns":[{"path":"openai/v1/batches","method":"GET"},{"path":"openai/batches","method":"GET"}]},{"key":"openai","renewalPeriod":1,"count":30,"matchPatterns":[{"path":"openai/*","method":"*"}]},{"key":"default","renewalPeriod":1,"count":30,"matchPatterns":[{"path":"*","method":"*"}]}]},"isMigrated":false,"allowProjectManagement":false,"privateEndpointConnections":[],"publicNetworkAccess":"Enabled","capabilities":[{"name":"VirtualNetworks"},{"name":"CustomerManagedKey"},{"name":"MaxFineTuneCount","value":"500"},{"name":"MaxRunningFineTuneCount","value":"3"},{"name":"MaxUserFileCount","value":"100"},{"name":"MaxTrainingFileSize","value":"512000000"},{"name":"MaxUserFileImportDurationInHours","value":"1"},{"name":"MaxFineTuneJobDurationInHours","value":"720"},{"name":"MaxEvaluationRunDurationInHours","value":"5"},{"name":"MaxRunningEvaluationCount","value":"5"},{"name":"MaxRunningGlobalStandardFineTuneCount","value":"3"},{"name":"TrustedServices","value":"Microsoft.CognitiveServices,Microsoft.MachineLearningServices,Microsoft.Search,Microsoft.VideoIndexer"},{"name":"RaiMonitor"},{"name":"quotaRefundsEnabled","value":"false"}],"endpoints":{"OpenAI Language Model Instance API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Dall-E API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Sora API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Moderations API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Whisper API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Model Scaleset API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Realtime API":"https://westus3.api.cognitive.microsoft.com/","Token Service API":"https://westus3.api.cognitive.microsoft.com/"},"provisioningState":"Creating"},"identity":{"principalId":"265c9665-27b1-4b8b-a6c3-0ca5e96c8d29","tenantId":"00000000-0000-0000-0000-000000000000","type":"SystemAssigned"},"systemData":{"createdBy":"james.judd@aveva.com","createdByType":"User","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"james.judd@aveva.com","lastModifiedByType":"User","lastModifiedAt":"2001-02-03T04:05:06Z"}}'
+          body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hdctow/providers/Microsoft.CognitiveServices/accounts/asotestcogsvcacczytcvb","name":"asotestcogsvcacczytcvb","type":"Microsoft.CognitiveServices/accounts","etag":"\"010066e8-0000-4d00-0000-686fef120000\"","location":"westus3","sku":{"name":"S0"},"kind":"OpenAI","properties":{"endpoint":"https://westus3.api.cognitive.microsoft.com/","internalId":"d58cc3a1c1f24f3f87bd3b1be5294615","dateCreated":"2001-02-03T04:05:06Z","apiProperties":{},"callRateLimit":{"rules":[{"key":"openai.dalle.post","renewalPeriod":1,"count":30,"matchPatterns":[{"path":"dalle/*","method":"POST"},{"path":"openai/images/*","method":"POST"}]},{"key":"openai.dalle.other","renewalPeriod":1,"count":30,"matchPatterns":[{"path":"dalle/*","method":"*"},{"path":"openai/operations/images/*","method":"*"}]},{"key":"openai.assistants.list","renewalPeriod":60,"count":120,"matchPatterns":[{"path":"openai/assistants","method":"GET"}]},{"key":"openai.threads.list","renewalPeriod":60,"count":120,"matchPatterns":[{"path":"openai/threads","method":"GET"}]},{"key":"openai.vectorstores.list","renewalPeriod":60,"count":120,"matchPatterns":[{"path":"openai/vector_stores","method":"GET"}]},{"key":"openai.assistants.default","renewalPeriod":1,"count":100000,"matchPatterns":[{"path":"openai/assistants","method":"*"},{"path":"openai/assistants/*","method":"*"},{"path":"openai/threads","method":"*"},{"path":"openai/threads/*","method":"*"},{"path":"openai/vector_stores","method":"*"},{"path":"openai/vector_stores/*","method":"*"}]},{"key":"openai.responses.default","renewalPeriod":1,"count":100000,"matchPatterns":[{"path":"openai/responses","method":"*"},{"path":"openai/responses/*","method":"*"}]},{"key":"openai.batches.post","renewalPeriod":60,"count":30,"matchPatterns":[{"path":"openai/v1/batches","method":"POST"},{"path":"openai/batches","method":"POST"}]},{"key":"openai.batches.get","renewalPeriod":60,"count":500,"matchPatterns":[{"path":"openai/v1/batches/*","method":"GET"},{"path":"openai/batches/*","method":"GET"}]},{"key":"openai.batches.list","renewalPeriod":60,"count":100,"matchPatterns":[{"path":"openai/v1/batches","method":"GET"},{"path":"openai/batches","method":"GET"}]},{"key":"openai","renewalPeriod":1,"count":30,"matchPatterns":[{"path":"openai/*","method":"*"}]},{"key":"default","renewalPeriod":1,"count":30,"matchPatterns":[{"path":"*","method":"*"}]}]},"isMigrated":false,"allowProjectManagement":false,"privateEndpointConnections":[],"publicNetworkAccess":"Enabled","capabilities":[{"name":"VirtualNetworks"},{"name":"CustomerManagedKey"},{"name":"MaxFineTuneCount","value":"500"},{"name":"MaxRunningFineTuneCount","value":"3"},{"name":"MaxUserFileCount","value":"100"},{"name":"MaxTrainingFileSize","value":"512000000"},{"name":"MaxUserFileImportDurationInHours","value":"1"},{"name":"MaxFineTuneJobDurationInHours","value":"720"},{"name":"MaxEvaluationRunDurationInHours","value":"5"},{"name":"MaxRunningEvaluationCount","value":"5"},{"name":"MaxRunningGlobalStandardFineTuneCount","value":"3"},{"name":"TrustedServices","value":"Microsoft.CognitiveServices,Microsoft.MachineLearningServices,Microsoft.Search,Microsoft.VideoIndexer"},{"name":"RaiMonitor"},{"name":"quotaRefundsEnabled","value":"false"}],"endpoints":{"OpenAI Language Model Instance API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Dall-E API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Sora API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Moderations API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Whisper API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Model Scaleset API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Realtime API":"https://westus3.api.cognitive.microsoft.com/","Token Service API":"https://westus3.api.cognitive.microsoft.com/"},"provisioningState":"Creating"},"identity":{"principalId":"dda81a51-2c31-44fc-bd2c-13d8dd02cb73","tenantId":"00000000-0000-0000-0000-000000000000","type":"SystemAssigned"},"systemData":{"createdBy":"james.judd@aveva.com","createdByType":"User","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"james.judd@aveva.com","lastModifiedByType":"User","lastModifiedAt":"2001-02-03T04:05:06Z"}}'
           headers:
               Azure-Asyncoperation:
-                  - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.CognitiveServices/locations/westus3/operationResults/ca5ec033-8e74-4f51-a0e4-9ee5b8c6e0a3?api-version=2017-04-18&t=638871768264867451&c=MIIHhzCCBm-gAwIBAgITHgbGQ8iUUHaIEuL0_AAABsZDyDANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDYwHhcNMjUwNDE2MDYzMDI5WhcNMjUxMDEzMDYzMDI5WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALopjeABPIHVlbmyblq81grbzeudZmsoIRLfRTuwzpTkJxJawSpyHm_mPoZYvcbSUrkDKmrugxJjL_csgjpVCQyBuvwW1_IPiOq7BO-sz7JA3guM6GF_QasdShJtZS72qSq5X6yOyEF_Pd7OWpeExPPIQ0IJyerd0Z85589w1w9yS8mbsjcs_PDjtqSKr8uTrHX_FmwV5eKNckBpE_SPng9vxBzIqaFE5GyrLJPbMNrXtxo7sdZUNsWFYKWfbLNwUeeiZ_kYc22U-ELyPKA3NyS5ix8yS1l4gf3lJcVpZlv45oeONu2k-K9B9zXK1xUb595R9qKeWxyy6LFC_f2li_ECAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAyLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA2LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MB0GA1UdDgQWBBSNrIXhp-22YSh2t6R5ZI2lOzW7gjAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBTxRmjG8cPwKy19i2rhsvm-NfzRQTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBACG4sIuYS__ZcEIxL7lGI4gWbCUox1lZgK7Irz_ISerpyasLIKA0keyfO12BHBGBgspW8EkNy_eUMIC3LL_gj2e35FcS3xSZQarNX4O0MfXYT9ewpbBiBN7N2O5UCVetzSkf_ufmZIwg0xFmAJWE2CRP7-nT4Cu_gvFaWN_jOU1ZNI6J6Ij4ex_QduewzlZK1KgGIuQEvvt8EAoR8dBHjwD9e8wWmXlllBAMDF9Fn-7CCcO9LFViByq7e3TiD-xGSeMvTO5glydvGtkUdMezHbLnK75xthbEARHNV0li-D6YSyKHcGumxOBvCy2gUPdWscyU2Ct5FDqy2rgSeB4luwo&s=hAs396Q7ZK8JUryujwRsXySkYbTHRG2U5CFTi9UtbmDA2mcIJu-sh0LQdNkLXjC_lH5M-jo0fnWZz6_FQbh7V6CXeG4szp7uAYA89wLIEG3ryJyCRgfEvob6kioqX9lkUZjLJpa9ekmvldPhJa0vioA-VTy-eCMIiCgvt8KJXF7vTw13pT4VL3Yhg_GXH8j4MGwH2Xp6WLSasMmzVIdMDyV91xJpljtg_ZAro6BJ4GD4YskOAi-JEOA5RW4eBle0QiZRrH32aI6dA1WMPxDfkeLk0PZddC8lXAULGCc6JKGkSk0sWejDZBCGF3KmmvH4CIXmeiuherMxWwcTSLjryA&h=L88Y3-KGkUzN0WF1B5Rb7WKhkMEPzUK7rWzbw9-gJv4
+                  - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.CognitiveServices/locations/westus3/operationResults/5ad1220d-18e6-49d4-8e84-5237b8dcd394?api-version=2017-04-18&t=638877629628385462&c=MIIHhzCCBm-gAwIBAgITHgbGQ8iUUHaIEuL0_AAABsZDyDANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDYwHhcNMjUwNDE2MDYzMDI5WhcNMjUxMDEzMDYzMDI5WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALopjeABPIHVlbmyblq81grbzeudZmsoIRLfRTuwzpTkJxJawSpyHm_mPoZYvcbSUrkDKmrugxJjL_csgjpVCQyBuvwW1_IPiOq7BO-sz7JA3guM6GF_QasdShJtZS72qSq5X6yOyEF_Pd7OWpeExPPIQ0IJyerd0Z85589w1w9yS8mbsjcs_PDjtqSKr8uTrHX_FmwV5eKNckBpE_SPng9vxBzIqaFE5GyrLJPbMNrXtxo7sdZUNsWFYKWfbLNwUeeiZ_kYc22U-ELyPKA3NyS5ix8yS1l4gf3lJcVpZlv45oeONu2k-K9B9zXK1xUb595R9qKeWxyy6LFC_f2li_ECAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAyLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA2LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MB0GA1UdDgQWBBSNrIXhp-22YSh2t6R5ZI2lOzW7gjAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBTxRmjG8cPwKy19i2rhsvm-NfzRQTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBACG4sIuYS__ZcEIxL7lGI4gWbCUox1lZgK7Irz_ISerpyasLIKA0keyfO12BHBGBgspW8EkNy_eUMIC3LL_gj2e35FcS3xSZQarNX4O0MfXYT9ewpbBiBN7N2O5UCVetzSkf_ufmZIwg0xFmAJWE2CRP7-nT4Cu_gvFaWN_jOU1ZNI6J6Ij4ex_QduewzlZK1KgGIuQEvvt8EAoR8dBHjwD9e8wWmXlllBAMDF9Fn-7CCcO9LFViByq7e3TiD-xGSeMvTO5glydvGtkUdMezHbLnK75xthbEARHNV0li-D6YSyKHcGumxOBvCy2gUPdWscyU2Ct5FDqy2rgSeB4luwo&s=md5A4bg0moCpyU28XtGz_pSz_xD8Jcsnd9CqlVogW9XwDn5JGrpsnz3hL5CY-8kTJx3NyLIkPPCIEEyMphvLILkxFIecXZHv99zAy516ISQ3k0BaPhNjVM5_cYNaVunfdDD62Zo8G8p7fdy0pVsj0sDpIlr_ZaVsF3-NB7fUkEaH2P4xTIlFdQBTgTd7Zt52W3v1Rb40r_biwkUjxZR1uYXK7by4fZc2PWHCSM7OZH1ZMiYqIBjPpabUrvGvxkJsgNFQqFb99-LoH6Eorq_lL5ZjfUZLRuEf38uHO39c-BijmX3fqPJGsf4MVrTGc5dHZcQkCGKyHXx2Fqm8vh1DLA&h=_WYV4t5zRZDOfKJh_QIy96wW8cse8R6jiDUcFF8vnHw
               Cache-Control:
                   - no-cache
               Content-Length:
@@ -154,7 +154,7 @@ interactions:
               Content-Type:
                   - application/json; charset=utf-8
               Etag:
-                  - '"1300d27c-0000-4d00-0000-6866fd7a0000"'
+                  - '"010066e8-0000-4d00-0000-686fef120000"'
               Expires:
                   - "-1"
               Pragma:
@@ -166,16 +166,16 @@ interactions:
               X-Content-Type-Options:
                   - nosniff
               X-Envoy-Upstream-Service-Time:
-                  - "693"
+                  - "754"
               X-Ms-Operation-Identifier:
-                  - tenantId=00000000-0000-0000-0000-000000000000,objectId=dbdfdbb3-c18f-47d1-b76d-251fc6083b9a/uksouth/0166ef62-7e95-4ba0-8c6a-4589d18c6539
+                  - tenantId=00000000-0000-0000-0000-000000000000,objectId=dbdfdbb3-c18f-47d1-b76d-251fc6083b9a/uksouth/0c1644ef-ba18-47d2-a80e-cb4897d4e56b
               X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
                   - "11999"
               X-Msedge-Ref:
-                  - "Ref A: 2483DF1B1E594578A277FA1D7CF54BA8 Ref B: AMS231022012025 Ref C: 2025-07-03T22:00:22Z"
+                  - "Ref A: 83DC6DCB06AC42B48F31C0B41539E41A Ref B: AMS231032607053 Ref C: 2025-07-10T16:49:18Z"
           status: 201 Created
           code: 201
-          duration: 4.199011868s
+          duration: 4.627705039s
     - id: 3
       request:
           proto: HTTP/1.1
@@ -192,7 +192,7 @@ interactions:
           headers:
               Test-Request-Attempt:
                   - "0"
-          url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.CognitiveServices/locations/westus3/operationResults/ca5ec033-8e74-4f51-a0e4-9ee5b8c6e0a3?api-version=2017-04-18&t=638871768264867451&c=MIIHhzCCBm-gAwIBAgITHgbGQ8iUUHaIEuL0_AAABsZDyDANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDYwHhcNMjUwNDE2MDYzMDI5WhcNMjUxMDEzMDYzMDI5WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALopjeABPIHVlbmyblq81grbzeudZmsoIRLfRTuwzpTkJxJawSpyHm_mPoZYvcbSUrkDKmrugxJjL_csgjpVCQyBuvwW1_IPiOq7BO-sz7JA3guM6GF_QasdShJtZS72qSq5X6yOyEF_Pd7OWpeExPPIQ0IJyerd0Z85589w1w9yS8mbsjcs_PDjtqSKr8uTrHX_FmwV5eKNckBpE_SPng9vxBzIqaFE5GyrLJPbMNrXtxo7sdZUNsWFYKWfbLNwUeeiZ_kYc22U-ELyPKA3NyS5ix8yS1l4gf3lJcVpZlv45oeONu2k-K9B9zXK1xUb595R9qKeWxyy6LFC_f2li_ECAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAyLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA2LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MB0GA1UdDgQWBBSNrIXhp-22YSh2t6R5ZI2lOzW7gjAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBTxRmjG8cPwKy19i2rhsvm-NfzRQTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBACG4sIuYS__ZcEIxL7lGI4gWbCUox1lZgK7Irz_ISerpyasLIKA0keyfO12BHBGBgspW8EkNy_eUMIC3LL_gj2e35FcS3xSZQarNX4O0MfXYT9ewpbBiBN7N2O5UCVetzSkf_ufmZIwg0xFmAJWE2CRP7-nT4Cu_gvFaWN_jOU1ZNI6J6Ij4ex_QduewzlZK1KgGIuQEvvt8EAoR8dBHjwD9e8wWmXlllBAMDF9Fn-7CCcO9LFViByq7e3TiD-xGSeMvTO5glydvGtkUdMezHbLnK75xthbEARHNV0li-D6YSyKHcGumxOBvCy2gUPdWscyU2Ct5FDqy2rgSeB4luwo&s=hAs396Q7ZK8JUryujwRsXySkYbTHRG2U5CFTi9UtbmDA2mcIJu-sh0LQdNkLXjC_lH5M-jo0fnWZz6_FQbh7V6CXeG4szp7uAYA89wLIEG3ryJyCRgfEvob6kioqX9lkUZjLJpa9ekmvldPhJa0vioA-VTy-eCMIiCgvt8KJXF7vTw13pT4VL3Yhg_GXH8j4MGwH2Xp6WLSasMmzVIdMDyV91xJpljtg_ZAro6BJ4GD4YskOAi-JEOA5RW4eBle0QiZRrH32aI6dA1WMPxDfkeLk0PZddC8lXAULGCc6JKGkSk0sWejDZBCGF3KmmvH4CIXmeiuherMxWwcTSLjryA&h=L88Y3-KGkUzN0WF1B5Rb7WKhkMEPzUK7rWzbw9-gJv4
+          url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.CognitiveServices/locations/westus3/operationResults/5ad1220d-18e6-49d4-8e84-5237b8dcd394?api-version=2017-04-18&t=638877629628385462&c=MIIHhzCCBm-gAwIBAgITHgbGQ8iUUHaIEuL0_AAABsZDyDANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDYwHhcNMjUwNDE2MDYzMDI5WhcNMjUxMDEzMDYzMDI5WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALopjeABPIHVlbmyblq81grbzeudZmsoIRLfRTuwzpTkJxJawSpyHm_mPoZYvcbSUrkDKmrugxJjL_csgjpVCQyBuvwW1_IPiOq7BO-sz7JA3guM6GF_QasdShJtZS72qSq5X6yOyEF_Pd7OWpeExPPIQ0IJyerd0Z85589w1w9yS8mbsjcs_PDjtqSKr8uTrHX_FmwV5eKNckBpE_SPng9vxBzIqaFE5GyrLJPbMNrXtxo7sdZUNsWFYKWfbLNwUeeiZ_kYc22U-ELyPKA3NyS5ix8yS1l4gf3lJcVpZlv45oeONu2k-K9B9zXK1xUb595R9qKeWxyy6LFC_f2li_ECAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAyLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA2LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MB0GA1UdDgQWBBSNrIXhp-22YSh2t6R5ZI2lOzW7gjAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBTxRmjG8cPwKy19i2rhsvm-NfzRQTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBACG4sIuYS__ZcEIxL7lGI4gWbCUox1lZgK7Irz_ISerpyasLIKA0keyfO12BHBGBgspW8EkNy_eUMIC3LL_gj2e35FcS3xSZQarNX4O0MfXYT9ewpbBiBN7N2O5UCVetzSkf_ufmZIwg0xFmAJWE2CRP7-nT4Cu_gvFaWN_jOU1ZNI6J6Ij4ex_QduewzlZK1KgGIuQEvvt8EAoR8dBHjwD9e8wWmXlllBAMDF9Fn-7CCcO9LFViByq7e3TiD-xGSeMvTO5glydvGtkUdMezHbLnK75xthbEARHNV0li-D6YSyKHcGumxOBvCy2gUPdWscyU2Ct5FDqy2rgSeB4luwo&s=md5A4bg0moCpyU28XtGz_pSz_xD8Jcsnd9CqlVogW9XwDn5JGrpsnz3hL5CY-8kTJx3NyLIkPPCIEEyMphvLILkxFIecXZHv99zAy516ISQ3k0BaPhNjVM5_cYNaVunfdDD62Zo8G8p7fdy0pVsj0sDpIlr_ZaVsF3-NB7fUkEaH2P4xTIlFdQBTgTd7Zt52W3v1Rb40r_biwkUjxZR1uYXK7by4fZc2PWHCSM7OZH1ZMiYqIBjPpabUrvGvxkJsgNFQqFb99-LoH6Eorq_lL5ZjfUZLRuEf38uHO39c-BijmX3fqPJGsf4MVrTGc5dHZcQkCGKyHXx2Fqm8vh1DLA&h=_WYV4t5zRZDOfKJh_QIy96wW8cse8R6jiDUcFF8vnHw
           method: GET
       response:
           proto: HTTP/2.0
@@ -202,7 +202,7 @@ interactions:
           trailer: {}
           content_length: 305
           uncompressed: false
-          body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.CognitiveServices/locations/westus3/operationResults/ca5ec033-8e74-4f51-a0e4-9ee5b8c6e0a3","name":"ca5ec033-8e74-4f51-a0e4-9ee5b8c6e0a3","status":"Succeeded","startTime":"2001-02-03T04:05:06Z","endTime":"2001-02-03T04:05:06Z"}'
+          body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.CognitiveServices/locations/westus3/operationResults/5ad1220d-18e6-49d4-8e84-5237b8dcd394","name":"5ad1220d-18e6-49d4-8e84-5237b8dcd394","status":"Succeeded","startTime":"2001-02-03T04:05:06Z","endTime":"2001-02-03T04:05:06Z"}'
           headers:
               Cache-Control:
                   - no-cache
@@ -221,16 +221,16 @@ interactions:
               X-Content-Type-Options:
                   - nosniff
               X-Envoy-Upstream-Service-Time:
-                  - "9"
+                  - "8"
               X-Ms-Operation-Identifier:
-                  - tenantId=00000000-0000-0000-0000-000000000000,objectId=dbdfdbb3-c18f-47d1-b76d-251fc6083b9a/uksouth/dbe2079e-2f8c-43fc-b7c2-3441c8527c7d
+                  - tenantId=00000000-0000-0000-0000-000000000000,objectId=dbdfdbb3-c18f-47d1-b76d-251fc6083b9a/uksouth/b4b8bb67-f3e4-41c2-8fb4-8eeef4e2461a
               X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
                   - "16499"
               X-Msedge-Ref:
-                  - "Ref A: 9F366673CFF544CFB59EE60EB3D1DAE8 Ref B: AMS231022012025 Ref C: 2025-07-03T22:00:32Z"
+                  - "Ref A: 5B078E3371FF4799ACC7BA26C51E4F63 Ref B: AMS231032607053 Ref C: 2025-07-10T16:49:29Z"
           status: 200 OK
           code: 200
-          duration: 603.832204ms
+          duration: 636.139706ms
     - id: 4
       request:
           proto: HTTP/1.1
@@ -257,7 +257,7 @@ interactions:
           trailer: {}
           content_length: 4288
           uncompressed: false
-          body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hdctow/providers/Microsoft.CognitiveServices/accounts/asotestcogsvcacczytcvb","name":"asotestcogsvcacczytcvb","type":"Microsoft.CognitiveServices/accounts","etag":"\"1300da7c-0000-4d00-0000-6866fd7c0000\"","location":"westus3","sku":{"name":"S0"},"kind":"OpenAI","properties":{"endpoint":"https://westus3.api.cognitive.microsoft.com/","internalId":"873eab75add046e7819ae06c3bcd9d83","dateCreated":"2001-02-03T04:05:06Z","apiProperties":{},"callRateLimit":{"rules":[{"key":"openai.dalle.post","renewalPeriod":1,"count":30,"matchPatterns":[{"path":"dalle/*","method":"POST"},{"path":"openai/images/*","method":"POST"}]},{"key":"openai.dalle.other","renewalPeriod":1,"count":30,"matchPatterns":[{"path":"dalle/*","method":"*"},{"path":"openai/operations/images/*","method":"*"}]},{"key":"openai.assistants.list","renewalPeriod":60,"count":120,"matchPatterns":[{"path":"openai/assistants","method":"GET"}]},{"key":"openai.threads.list","renewalPeriod":60,"count":120,"matchPatterns":[{"path":"openai/threads","method":"GET"}]},{"key":"openai.vectorstores.list","renewalPeriod":60,"count":120,"matchPatterns":[{"path":"openai/vector_stores","method":"GET"}]},{"key":"openai.assistants.default","renewalPeriod":1,"count":100000,"matchPatterns":[{"path":"openai/assistants","method":"*"},{"path":"openai/assistants/*","method":"*"},{"path":"openai/threads","method":"*"},{"path":"openai/threads/*","method":"*"},{"path":"openai/vector_stores","method":"*"},{"path":"openai/vector_stores/*","method":"*"}]},{"key":"openai.responses.default","renewalPeriod":1,"count":100000,"matchPatterns":[{"path":"openai/responses","method":"*"},{"path":"openai/responses/*","method":"*"}]},{"key":"openai.batches.post","renewalPeriod":60,"count":30,"matchPatterns":[{"path":"openai/v1/batches","method":"POST"},{"path":"openai/batches","method":"POST"}]},{"key":"openai.batches.get","renewalPeriod":60,"count":500,"matchPatterns":[{"path":"openai/v1/batches/*","method":"GET"},{"path":"openai/batches/*","method":"GET"}]},{"key":"openai.batches.list","renewalPeriod":60,"count":100,"matchPatterns":[{"path":"openai/v1/batches","method":"GET"},{"path":"openai/batches","method":"GET"}]},{"key":"openai","renewalPeriod":1,"count":30,"matchPatterns":[{"path":"openai/*","method":"*"}]},{"key":"default","renewalPeriod":1,"count":30,"matchPatterns":[{"path":"*","method":"*"}]}]},"isMigrated":false,"allowProjectManagement":false,"privateEndpointConnections":[],"publicNetworkAccess":"Enabled","capabilities":[{"name":"VirtualNetworks"},{"name":"CustomerManagedKey"},{"name":"MaxFineTuneCount","value":"500"},{"name":"MaxRunningFineTuneCount","value":"3"},{"name":"MaxUserFileCount","value":"100"},{"name":"MaxTrainingFileSize","value":"512000000"},{"name":"MaxUserFileImportDurationInHours","value":"1"},{"name":"MaxFineTuneJobDurationInHours","value":"720"},{"name":"MaxEvaluationRunDurationInHours","value":"5"},{"name":"MaxRunningEvaluationCount","value":"5"},{"name":"MaxRunningGlobalStandardFineTuneCount","value":"3"},{"name":"TrustedServices","value":"Microsoft.CognitiveServices,Microsoft.MachineLearningServices,Microsoft.Search,Microsoft.VideoIndexer"},{"name":"RaiMonitor"},{"name":"quotaRefundsEnabled","value":"false"}],"endpoints":{"OpenAI Language Model Instance API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Dall-E API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Sora API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Moderations API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Whisper API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Model Scaleset API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Realtime API":"https://westus3.api.cognitive.microsoft.com/","Token Service API":"https://westus3.api.cognitive.microsoft.com/"},"provisioningState":"Succeeded"},"identity":{"principalId":"265c9665-27b1-4b8b-a6c3-0ca5e96c8d29","tenantId":"00000000-0000-0000-0000-000000000000","type":"SystemAssigned"},"systemData":{"createdBy":"james.judd@aveva.com","createdByType":"User","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"james.judd@aveva.com","lastModifiedByType":"User","lastModifiedAt":"2001-02-03T04:05:06Z"}}'
+          body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hdctow/providers/Microsoft.CognitiveServices/accounts/asotestcogsvcacczytcvb","name":"asotestcogsvcacczytcvb","type":"Microsoft.CognitiveServices/accounts","etag":"\"010067e8-0000-4d00-0000-686fef140000\"","location":"westus3","sku":{"name":"S0"},"kind":"OpenAI","properties":{"endpoint":"https://westus3.api.cognitive.microsoft.com/","internalId":"d58cc3a1c1f24f3f87bd3b1be5294615","dateCreated":"2001-02-03T04:05:06Z","apiProperties":{},"callRateLimit":{"rules":[{"key":"openai.dalle.post","renewalPeriod":1,"count":30,"matchPatterns":[{"path":"dalle/*","method":"POST"},{"path":"openai/images/*","method":"POST"}]},{"key":"openai.dalle.other","renewalPeriod":1,"count":30,"matchPatterns":[{"path":"dalle/*","method":"*"},{"path":"openai/operations/images/*","method":"*"}]},{"key":"openai.assistants.list","renewalPeriod":60,"count":120,"matchPatterns":[{"path":"openai/assistants","method":"GET"}]},{"key":"openai.threads.list","renewalPeriod":60,"count":120,"matchPatterns":[{"path":"openai/threads","method":"GET"}]},{"key":"openai.vectorstores.list","renewalPeriod":60,"count":120,"matchPatterns":[{"path":"openai/vector_stores","method":"GET"}]},{"key":"openai.assistants.default","renewalPeriod":1,"count":100000,"matchPatterns":[{"path":"openai/assistants","method":"*"},{"path":"openai/assistants/*","method":"*"},{"path":"openai/threads","method":"*"},{"path":"openai/threads/*","method":"*"},{"path":"openai/vector_stores","method":"*"},{"path":"openai/vector_stores/*","method":"*"}]},{"key":"openai.responses.default","renewalPeriod":1,"count":100000,"matchPatterns":[{"path":"openai/responses","method":"*"},{"path":"openai/responses/*","method":"*"}]},{"key":"openai.batches.post","renewalPeriod":60,"count":30,"matchPatterns":[{"path":"openai/v1/batches","method":"POST"},{"path":"openai/batches","method":"POST"}]},{"key":"openai.batches.get","renewalPeriod":60,"count":500,"matchPatterns":[{"path":"openai/v1/batches/*","method":"GET"},{"path":"openai/batches/*","method":"GET"}]},{"key":"openai.batches.list","renewalPeriod":60,"count":100,"matchPatterns":[{"path":"openai/v1/batches","method":"GET"},{"path":"openai/batches","method":"GET"}]},{"key":"openai","renewalPeriod":1,"count":30,"matchPatterns":[{"path":"openai/*","method":"*"}]},{"key":"default","renewalPeriod":1,"count":30,"matchPatterns":[{"path":"*","method":"*"}]}]},"isMigrated":false,"allowProjectManagement":false,"privateEndpointConnections":[],"publicNetworkAccess":"Enabled","capabilities":[{"name":"VirtualNetworks"},{"name":"CustomerManagedKey"},{"name":"MaxFineTuneCount","value":"500"},{"name":"MaxRunningFineTuneCount","value":"3"},{"name":"MaxUserFileCount","value":"100"},{"name":"MaxTrainingFileSize","value":"512000000"},{"name":"MaxUserFileImportDurationInHours","value":"1"},{"name":"MaxFineTuneJobDurationInHours","value":"720"},{"name":"MaxEvaluationRunDurationInHours","value":"5"},{"name":"MaxRunningEvaluationCount","value":"5"},{"name":"MaxRunningGlobalStandardFineTuneCount","value":"3"},{"name":"TrustedServices","value":"Microsoft.CognitiveServices,Microsoft.MachineLearningServices,Microsoft.Search,Microsoft.VideoIndexer"},{"name":"RaiMonitor"},{"name":"quotaRefundsEnabled","value":"false"}],"endpoints":{"OpenAI Language Model Instance API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Dall-E API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Sora API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Moderations API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Whisper API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Model Scaleset API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Realtime API":"https://westus3.api.cognitive.microsoft.com/","Token Service API":"https://westus3.api.cognitive.microsoft.com/"},"provisioningState":"Succeeded"},"identity":{"principalId":"dda81a51-2c31-44fc-bd2c-13d8dd02cb73","tenantId":"00000000-0000-0000-0000-000000000000","type":"SystemAssigned"},"systemData":{"createdBy":"james.judd@aveva.com","createdByType":"User","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"james.judd@aveva.com","lastModifiedByType":"User","lastModifiedAt":"2001-02-03T04:05:06Z"}}'
           headers:
               Cache-Control:
                   - no-cache
@@ -266,7 +266,7 @@ interactions:
               Content-Type:
                   - application/json; charset=utf-8
               Etag:
-                  - '"1300da7c-0000-4d00-0000-6866fd7c0000"'
+                  - '"010067e8-0000-4d00-0000-686fef140000"'
               Expires:
                   - "-1"
               Pragma:
@@ -278,14 +278,14 @@ interactions:
               X-Content-Type-Options:
                   - nosniff
               X-Envoy-Upstream-Service-Time:
-                  - "11"
+                  - "16"
               X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
                   - "16499"
               X-Msedge-Ref:
-                  - "Ref A: 09EF4AF0B6D44F0681B9637F5CE44124 Ref B: AMS231022012025 Ref C: 2025-07-03T22:00:34Z"
+                  - "Ref A: D48B92762D6C47B9B1C425ABA3CE04A6 Ref B: AMS231032607053 Ref C: 2025-07-10T16:49:30Z"
           status: 200 OK
           code: 200
-          duration: 759.914384ms
+          duration: 785.827618ms
     - id: 5
       request:
           proto: HTTP/1.1
@@ -314,7 +314,7 @@ interactions:
           trailer: {}
           content_length: 4288
           uncompressed: false
-          body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hdctow/providers/Microsoft.CognitiveServices/accounts/asotestcogsvcacczytcvb","name":"asotestcogsvcacczytcvb","type":"Microsoft.CognitiveServices/accounts","etag":"\"1300da7c-0000-4d00-0000-6866fd7c0000\"","location":"westus3","sku":{"name":"S0"},"kind":"OpenAI","properties":{"endpoint":"https://westus3.api.cognitive.microsoft.com/","internalId":"873eab75add046e7819ae06c3bcd9d83","dateCreated":"2001-02-03T04:05:06Z","apiProperties":{},"callRateLimit":{"rules":[{"key":"openai.dalle.post","renewalPeriod":1,"count":30,"matchPatterns":[{"path":"dalle/*","method":"POST"},{"path":"openai/images/*","method":"POST"}]},{"key":"openai.dalle.other","renewalPeriod":1,"count":30,"matchPatterns":[{"path":"dalle/*","method":"*"},{"path":"openai/operations/images/*","method":"*"}]},{"key":"openai.assistants.list","renewalPeriod":60,"count":120,"matchPatterns":[{"path":"openai/assistants","method":"GET"}]},{"key":"openai.threads.list","renewalPeriod":60,"count":120,"matchPatterns":[{"path":"openai/threads","method":"GET"}]},{"key":"openai.vectorstores.list","renewalPeriod":60,"count":120,"matchPatterns":[{"path":"openai/vector_stores","method":"GET"}]},{"key":"openai.assistants.default","renewalPeriod":1,"count":100000,"matchPatterns":[{"path":"openai/assistants","method":"*"},{"path":"openai/assistants/*","method":"*"},{"path":"openai/threads","method":"*"},{"path":"openai/threads/*","method":"*"},{"path":"openai/vector_stores","method":"*"},{"path":"openai/vector_stores/*","method":"*"}]},{"key":"openai.responses.default","renewalPeriod":1,"count":100000,"matchPatterns":[{"path":"openai/responses","method":"*"},{"path":"openai/responses/*","method":"*"}]},{"key":"openai.batches.post","renewalPeriod":60,"count":30,"matchPatterns":[{"path":"openai/v1/batches","method":"POST"},{"path":"openai/batches","method":"POST"}]},{"key":"openai.batches.get","renewalPeriod":60,"count":500,"matchPatterns":[{"path":"openai/v1/batches/*","method":"GET"},{"path":"openai/batches/*","method":"GET"}]},{"key":"openai.batches.list","renewalPeriod":60,"count":100,"matchPatterns":[{"path":"openai/v1/batches","method":"GET"},{"path":"openai/batches","method":"GET"}]},{"key":"openai","renewalPeriod":1,"count":30,"matchPatterns":[{"path":"openai/*","method":"*"}]},{"key":"default","renewalPeriod":1,"count":30,"matchPatterns":[{"path":"*","method":"*"}]}]},"isMigrated":false,"allowProjectManagement":false,"privateEndpointConnections":[],"publicNetworkAccess":"Enabled","capabilities":[{"name":"VirtualNetworks"},{"name":"CustomerManagedKey"},{"name":"MaxFineTuneCount","value":"500"},{"name":"MaxRunningFineTuneCount","value":"3"},{"name":"MaxUserFileCount","value":"100"},{"name":"MaxTrainingFileSize","value":"512000000"},{"name":"MaxUserFileImportDurationInHours","value":"1"},{"name":"MaxFineTuneJobDurationInHours","value":"720"},{"name":"MaxEvaluationRunDurationInHours","value":"5"},{"name":"MaxRunningEvaluationCount","value":"5"},{"name":"MaxRunningGlobalStandardFineTuneCount","value":"3"},{"name":"TrustedServices","value":"Microsoft.CognitiveServices,Microsoft.MachineLearningServices,Microsoft.Search,Microsoft.VideoIndexer"},{"name":"RaiMonitor"},{"name":"quotaRefundsEnabled","value":"false"}],"endpoints":{"OpenAI Language Model Instance API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Dall-E API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Sora API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Moderations API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Whisper API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Model Scaleset API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Realtime API":"https://westus3.api.cognitive.microsoft.com/","Token Service API":"https://westus3.api.cognitive.microsoft.com/"},"provisioningState":"Succeeded"},"identity":{"principalId":"265c9665-27b1-4b8b-a6c3-0ca5e96c8d29","tenantId":"00000000-0000-0000-0000-000000000000","type":"SystemAssigned"},"systemData":{"createdBy":"james.judd@aveva.com","createdByType":"User","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"james.judd@aveva.com","lastModifiedByType":"User","lastModifiedAt":"2001-02-03T04:05:06Z"}}'
+          body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hdctow/providers/Microsoft.CognitiveServices/accounts/asotestcogsvcacczytcvb","name":"asotestcogsvcacczytcvb","type":"Microsoft.CognitiveServices/accounts","etag":"\"010067e8-0000-4d00-0000-686fef140000\"","location":"westus3","sku":{"name":"S0"},"kind":"OpenAI","properties":{"endpoint":"https://westus3.api.cognitive.microsoft.com/","internalId":"d58cc3a1c1f24f3f87bd3b1be5294615","dateCreated":"2001-02-03T04:05:06Z","apiProperties":{},"callRateLimit":{"rules":[{"key":"openai.dalle.post","renewalPeriod":1,"count":30,"matchPatterns":[{"path":"dalle/*","method":"POST"},{"path":"openai/images/*","method":"POST"}]},{"key":"openai.dalle.other","renewalPeriod":1,"count":30,"matchPatterns":[{"path":"dalle/*","method":"*"},{"path":"openai/operations/images/*","method":"*"}]},{"key":"openai.assistants.list","renewalPeriod":60,"count":120,"matchPatterns":[{"path":"openai/assistants","method":"GET"}]},{"key":"openai.threads.list","renewalPeriod":60,"count":120,"matchPatterns":[{"path":"openai/threads","method":"GET"}]},{"key":"openai.vectorstores.list","renewalPeriod":60,"count":120,"matchPatterns":[{"path":"openai/vector_stores","method":"GET"}]},{"key":"openai.assistants.default","renewalPeriod":1,"count":100000,"matchPatterns":[{"path":"openai/assistants","method":"*"},{"path":"openai/assistants/*","method":"*"},{"path":"openai/threads","method":"*"},{"path":"openai/threads/*","method":"*"},{"path":"openai/vector_stores","method":"*"},{"path":"openai/vector_stores/*","method":"*"}]},{"key":"openai.responses.default","renewalPeriod":1,"count":100000,"matchPatterns":[{"path":"openai/responses","method":"*"},{"path":"openai/responses/*","method":"*"}]},{"key":"openai.batches.post","renewalPeriod":60,"count":30,"matchPatterns":[{"path":"openai/v1/batches","method":"POST"},{"path":"openai/batches","method":"POST"}]},{"key":"openai.batches.get","renewalPeriod":60,"count":500,"matchPatterns":[{"path":"openai/v1/batches/*","method":"GET"},{"path":"openai/batches/*","method":"GET"}]},{"key":"openai.batches.list","renewalPeriod":60,"count":100,"matchPatterns":[{"path":"openai/v1/batches","method":"GET"},{"path":"openai/batches","method":"GET"}]},{"key":"openai","renewalPeriod":1,"count":30,"matchPatterns":[{"path":"openai/*","method":"*"}]},{"key":"default","renewalPeriod":1,"count":30,"matchPatterns":[{"path":"*","method":"*"}]}]},"isMigrated":false,"allowProjectManagement":false,"privateEndpointConnections":[],"publicNetworkAccess":"Enabled","capabilities":[{"name":"VirtualNetworks"},{"name":"CustomerManagedKey"},{"name":"MaxFineTuneCount","value":"500"},{"name":"MaxRunningFineTuneCount","value":"3"},{"name":"MaxUserFileCount","value":"100"},{"name":"MaxTrainingFileSize","value":"512000000"},{"name":"MaxUserFileImportDurationInHours","value":"1"},{"name":"MaxFineTuneJobDurationInHours","value":"720"},{"name":"MaxEvaluationRunDurationInHours","value":"5"},{"name":"MaxRunningEvaluationCount","value":"5"},{"name":"MaxRunningGlobalStandardFineTuneCount","value":"3"},{"name":"TrustedServices","value":"Microsoft.CognitiveServices,Microsoft.MachineLearningServices,Microsoft.Search,Microsoft.VideoIndexer"},{"name":"RaiMonitor"},{"name":"quotaRefundsEnabled","value":"false"}],"endpoints":{"OpenAI Language Model Instance API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Dall-E API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Sora API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Moderations API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Whisper API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Model Scaleset API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Realtime API":"https://westus3.api.cognitive.microsoft.com/","Token Service API":"https://westus3.api.cognitive.microsoft.com/"},"provisioningState":"Succeeded"},"identity":{"principalId":"dda81a51-2c31-44fc-bd2c-13d8dd02cb73","tenantId":"00000000-0000-0000-0000-000000000000","type":"SystemAssigned"},"systemData":{"createdBy":"james.judd@aveva.com","createdByType":"User","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"james.judd@aveva.com","lastModifiedByType":"User","lastModifiedAt":"2001-02-03T04:05:06Z"}}'
           headers:
               Cache-Control:
                   - no-cache
@@ -323,7 +323,7 @@ interactions:
               Content-Type:
                   - application/json; charset=utf-8
               Etag:
-                  - '"1300da7c-0000-4d00-0000-6866fd7c0000"'
+                  - '"010067e8-0000-4d00-0000-686fef140000"'
               Expires:
                   - "-1"
               Pragma:
@@ -335,14 +335,14 @@ interactions:
               X-Content-Type-Options:
                   - nosniff
               X-Envoy-Upstream-Service-Time:
-                  - "15"
+                  - "19"
               X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
                   - "16499"
               X-Msedge-Ref:
-                  - "Ref A: 440C8B65846340B6B66A6C2897FA495D Ref B: AMS231022012025 Ref C: 2025-07-03T22:00:35Z"
+                  - "Ref A: A09326CDBB7E4C5AB97662F04CB5287C Ref B: AMS231032607053 Ref C: 2025-07-10T16:49:32Z"
           status: 200 OK
           code: 200
-          duration: 723.450306ms
+          duration: 821.916474ms
     - id: 6
       request:
           proto: HTTP/1.1
@@ -390,16 +390,16 @@ interactions:
               X-Content-Type-Options:
                   - nosniff
               X-Envoy-Upstream-Service-Time:
-                  - "24"
+                  - "30"
               X-Ms-Operation-Identifier:
-                  - tenantId=00000000-0000-0000-0000-000000000000,objectId=dbdfdbb3-c18f-47d1-b76d-251fc6083b9a/uksouth/30dae8d6-5a61-4358-81cb-4776c9c16252
+                  - tenantId=00000000-0000-0000-0000-000000000000,objectId=dbdfdbb3-c18f-47d1-b76d-251fc6083b9a/uksouth/593a90b9-eb41-432a-abbc-518170d7374a
               X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
                   - "11999"
               X-Msedge-Ref:
-                  - "Ref A: 15FF74A41D6B4F4E986E03F2A469E73F Ref B: AMS231022012025 Ref C: 2025-07-03T22:00:37Z"
+                  - "Ref A: DF05C5142DBF49A08FDECC537D60D675 Ref B: AMS231032607053 Ref C: 2025-07-10T16:49:34Z"
           status: 200 OK
           code: 200
-          duration: 1.028054032s
+          duration: 857.774003ms
     - id: 7
       request:
           proto: HTTP/1.1
@@ -432,7 +432,7 @@ interactions:
           trailer: {}
           content_length: 4310
           uncompressed: false
-          body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hdctow/providers/Microsoft.CognitiveServices/accounts/asotestcogsvcacczytcvb","name":"asotestcogsvcacczytcvb","type":"Microsoft.CognitiveServices/accounts","etag":"\"1300037d-0000-4d00-0000-6866fd8b0000\"","location":"westus3","sku":{"name":"S0"},"kind":"OpenAI","tags":{"env":"test"},"properties":{"endpoint":"https://westus3.api.cognitive.microsoft.com/","provisioningState":"Succeeded","internalId":"873eab75add046e7819ae06c3bcd9d83","dateCreated":"2001-02-03T04:05:06Z","apiProperties":{},"callRateLimit":{"rules":[{"key":"openai.dalle.post","renewalPeriod":1,"count":30,"matchPatterns":[{"path":"dalle/*","method":"POST"},{"path":"openai/images/*","method":"POST"}]},{"key":"openai.dalle.other","renewalPeriod":1,"count":30,"matchPatterns":[{"path":"dalle/*","method":"*"},{"path":"openai/operations/images/*","method":"*"}]},{"key":"openai.assistants.list","renewalPeriod":60,"count":120,"matchPatterns":[{"path":"openai/assistants","method":"GET"}]},{"key":"openai.threads.list","renewalPeriod":60,"count":120,"matchPatterns":[{"path":"openai/threads","method":"GET"}]},{"key":"openai.vectorstores.list","renewalPeriod":60,"count":120,"matchPatterns":[{"path":"openai/vector_stores","method":"GET"}]},{"key":"openai.assistants.default","renewalPeriod":1,"count":100000,"matchPatterns":[{"path":"openai/assistants","method":"*"},{"path":"openai/assistants/*","method":"*"},{"path":"openai/threads","method":"*"},{"path":"openai/threads/*","method":"*"},{"path":"openai/vector_stores","method":"*"},{"path":"openai/vector_stores/*","method":"*"}]},{"key":"openai.responses.default","renewalPeriod":1,"count":100000,"matchPatterns":[{"path":"openai/responses","method":"*"},{"path":"openai/responses/*","method":"*"}]},{"key":"openai.batches.post","renewalPeriod":60,"count":30,"matchPatterns":[{"path":"openai/v1/batches","method":"POST"},{"path":"openai/batches","method":"POST"}]},{"key":"openai.batches.get","renewalPeriod":60,"count":500,"matchPatterns":[{"path":"openai/v1/batches/*","method":"GET"},{"path":"openai/batches/*","method":"GET"}]},{"key":"openai.batches.list","renewalPeriod":60,"count":100,"matchPatterns":[{"path":"openai/v1/batches","method":"GET"},{"path":"openai/batches","method":"GET"}]},{"key":"openai","renewalPeriod":1,"count":30,"matchPatterns":[{"path":"openai/*","method":"*"}]},{"key":"default","renewalPeriod":1,"count":30,"matchPatterns":[{"path":"*","method":"*"}]}]},"isMigrated":false,"allowProjectManagement":false,"privateEndpointConnections":[],"publicNetworkAccess":"Enabled","capabilities":[{"name":"VirtualNetworks"},{"name":"CustomerManagedKey"},{"name":"MaxFineTuneCount","value":"500"},{"name":"MaxRunningFineTuneCount","value":"3"},{"name":"MaxUserFileCount","value":"100"},{"name":"MaxTrainingFileSize","value":"512000000"},{"name":"MaxUserFileImportDurationInHours","value":"1"},{"name":"MaxFineTuneJobDurationInHours","value":"720"},{"name":"MaxEvaluationRunDurationInHours","value":"5"},{"name":"MaxRunningEvaluationCount","value":"5"},{"name":"MaxRunningGlobalStandardFineTuneCount","value":"3"},{"name":"TrustedServices","value":"Microsoft.CognitiveServices,Microsoft.MachineLearningServices,Microsoft.Search,Microsoft.VideoIndexer"},{"name":"RaiMonitor"},{"name":"quotaRefundsEnabled","value":"false"}],"endpoints":{"OpenAI Language Model Instance API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Dall-E API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Sora API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Moderations API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Whisper API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Model Scaleset API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Realtime API":"https://westus3.api.cognitive.microsoft.com/","Token Service API":"https://westus3.api.cognitive.microsoft.com/"}},"identity":{"principalId":"265c9665-27b1-4b8b-a6c3-0ca5e96c8d29","tenantId":"00000000-0000-0000-0000-000000000000","type":"SystemAssigned"},"systemData":{"createdBy":"james.judd@aveva.com","createdByType":"User","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"james.judd@aveva.com","lastModifiedByType":"User","lastModifiedAt":"2001-02-03T04:05:06Z"}}'
+          body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hdctow/providers/Microsoft.CognitiveServices/accounts/asotestcogsvcacczytcvb","name":"asotestcogsvcacczytcvb","type":"Microsoft.CognitiveServices/accounts","etag":"\"010073e8-0000-4d00-0000-686fef230000\"","location":"westus3","sku":{"name":"S0"},"kind":"OpenAI","tags":{"env":"test"},"properties":{"endpoint":"https://westus3.api.cognitive.microsoft.com/","provisioningState":"Succeeded","internalId":"d58cc3a1c1f24f3f87bd3b1be5294615","dateCreated":"2001-02-03T04:05:06Z","apiProperties":{},"callRateLimit":{"rules":[{"key":"openai.dalle.post","renewalPeriod":1,"count":30,"matchPatterns":[{"path":"dalle/*","method":"POST"},{"path":"openai/images/*","method":"POST"}]},{"key":"openai.dalle.other","renewalPeriod":1,"count":30,"matchPatterns":[{"path":"dalle/*","method":"*"},{"path":"openai/operations/images/*","method":"*"}]},{"key":"openai.assistants.list","renewalPeriod":60,"count":120,"matchPatterns":[{"path":"openai/assistants","method":"GET"}]},{"key":"openai.threads.list","renewalPeriod":60,"count":120,"matchPatterns":[{"path":"openai/threads","method":"GET"}]},{"key":"openai.vectorstores.list","renewalPeriod":60,"count":120,"matchPatterns":[{"path":"openai/vector_stores","method":"GET"}]},{"key":"openai.assistants.default","renewalPeriod":1,"count":100000,"matchPatterns":[{"path":"openai/assistants","method":"*"},{"path":"openai/assistants/*","method":"*"},{"path":"openai/threads","method":"*"},{"path":"openai/threads/*","method":"*"},{"path":"openai/vector_stores","method":"*"},{"path":"openai/vector_stores/*","method":"*"}]},{"key":"openai.responses.default","renewalPeriod":1,"count":100000,"matchPatterns":[{"path":"openai/responses","method":"*"},{"path":"openai/responses/*","method":"*"}]},{"key":"openai.batches.post","renewalPeriod":60,"count":30,"matchPatterns":[{"path":"openai/v1/batches","method":"POST"},{"path":"openai/batches","method":"POST"}]},{"key":"openai.batches.get","renewalPeriod":60,"count":500,"matchPatterns":[{"path":"openai/v1/batches/*","method":"GET"},{"path":"openai/batches/*","method":"GET"}]},{"key":"openai.batches.list","renewalPeriod":60,"count":100,"matchPatterns":[{"path":"openai/v1/batches","method":"GET"},{"path":"openai/batches","method":"GET"}]},{"key":"openai","renewalPeriod":1,"count":30,"matchPatterns":[{"path":"openai/*","method":"*"}]},{"key":"default","renewalPeriod":1,"count":30,"matchPatterns":[{"path":"*","method":"*"}]}]},"isMigrated":false,"allowProjectManagement":false,"privateEndpointConnections":[],"publicNetworkAccess":"Enabled","capabilities":[{"name":"VirtualNetworks"},{"name":"CustomerManagedKey"},{"name":"MaxFineTuneCount","value":"500"},{"name":"MaxRunningFineTuneCount","value":"3"},{"name":"MaxUserFileCount","value":"100"},{"name":"MaxTrainingFileSize","value":"512000000"},{"name":"MaxUserFileImportDurationInHours","value":"1"},{"name":"MaxFineTuneJobDurationInHours","value":"720"},{"name":"MaxEvaluationRunDurationInHours","value":"5"},{"name":"MaxRunningEvaluationCount","value":"5"},{"name":"MaxRunningGlobalStandardFineTuneCount","value":"3"},{"name":"TrustedServices","value":"Microsoft.CognitiveServices,Microsoft.MachineLearningServices,Microsoft.Search,Microsoft.VideoIndexer"},{"name":"RaiMonitor"},{"name":"quotaRefundsEnabled","value":"false"}],"endpoints":{"OpenAI Language Model Instance API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Dall-E API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Sora API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Moderations API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Whisper API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Model Scaleset API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Realtime API":"https://westus3.api.cognitive.microsoft.com/","Token Service API":"https://westus3.api.cognitive.microsoft.com/"}},"identity":{"principalId":"dda81a51-2c31-44fc-bd2c-13d8dd02cb73","tenantId":"00000000-0000-0000-0000-000000000000","type":"SystemAssigned"},"systemData":{"createdBy":"james.judd@aveva.com","createdByType":"User","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"james.judd@aveva.com","lastModifiedByType":"User","lastModifiedAt":"2001-02-03T04:05:06Z"}}'
           headers:
               Cache-Control:
                   - no-cache
@@ -441,7 +441,7 @@ interactions:
               Content-Type:
                   - application/json; charset=utf-8
               Etag:
-                  - '"1300037d-0000-4d00-0000-6866fd8b0000"'
+                  - '"010073e8-0000-4d00-0000-686fef230000"'
               Expires:
                   - "-1"
               Pragma:
@@ -453,16 +453,16 @@ interactions:
               X-Content-Type-Options:
                   - nosniff
               X-Envoy-Upstream-Service-Time:
-                  - "104"
+                  - "87"
               X-Ms-Operation-Identifier:
-                  - tenantId=00000000-0000-0000-0000-000000000000,objectId=dbdfdbb3-c18f-47d1-b76d-251fc6083b9a/uksouth/ff029022-cd96-4cd2-9d4d-c894ae551424
+                  - tenantId=00000000-0000-0000-0000-000000000000,objectId=dbdfdbb3-c18f-47d1-b76d-251fc6083b9a/uksouth/a859f939-f42e-4bec-b776-cce187b285e9
               X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
                   - "11999"
               X-Msedge-Ref:
-                  - "Ref A: 3E6F58D5FC7C4711A3F32FB82A2207F2 Ref B: AMS231022012025 Ref C: 2025-07-03T22:00:41Z"
+                  - "Ref A: 6ED13B5AE73B490AAF5DF0B100265E69 Ref B: AMS231032607053 Ref C: 2025-07-10T16:49:37Z"
           status: 200 OK
           code: 200
-          duration: 3.335234826s
+          duration: 3.459285038s
     - id: 8
       request:
           proto: HTTP/1.1
@@ -491,7 +491,7 @@ interactions:
           trailer: {}
           content_length: 4310
           uncompressed: false
-          body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hdctow/providers/Microsoft.CognitiveServices/accounts/asotestcogsvcacczytcvb","name":"asotestcogsvcacczytcvb","type":"Microsoft.CognitiveServices/accounts","etag":"\"1300037d-0000-4d00-0000-6866fd8b0000\"","location":"westus3","sku":{"name":"S0"},"kind":"OpenAI","tags":{"env":"test"},"properties":{"endpoint":"https://westus3.api.cognitive.microsoft.com/","provisioningState":"Succeeded","internalId":"873eab75add046e7819ae06c3bcd9d83","dateCreated":"2001-02-03T04:05:06Z","apiProperties":{},"callRateLimit":{"rules":[{"key":"openai.dalle.post","renewalPeriod":1,"count":30,"matchPatterns":[{"path":"dalle/*","method":"POST"},{"path":"openai/images/*","method":"POST"}]},{"key":"openai.dalle.other","renewalPeriod":1,"count":30,"matchPatterns":[{"path":"dalle/*","method":"*"},{"path":"openai/operations/images/*","method":"*"}]},{"key":"openai.assistants.list","renewalPeriod":60,"count":120,"matchPatterns":[{"path":"openai/assistants","method":"GET"}]},{"key":"openai.threads.list","renewalPeriod":60,"count":120,"matchPatterns":[{"path":"openai/threads","method":"GET"}]},{"key":"openai.vectorstores.list","renewalPeriod":60,"count":120,"matchPatterns":[{"path":"openai/vector_stores","method":"GET"}]},{"key":"openai.assistants.default","renewalPeriod":1,"count":100000,"matchPatterns":[{"path":"openai/assistants","method":"*"},{"path":"openai/assistants/*","method":"*"},{"path":"openai/threads","method":"*"},{"path":"openai/threads/*","method":"*"},{"path":"openai/vector_stores","method":"*"},{"path":"openai/vector_stores/*","method":"*"}]},{"key":"openai.responses.default","renewalPeriod":1,"count":100000,"matchPatterns":[{"path":"openai/responses","method":"*"},{"path":"openai/responses/*","method":"*"}]},{"key":"openai.batches.post","renewalPeriod":60,"count":30,"matchPatterns":[{"path":"openai/v1/batches","method":"POST"},{"path":"openai/batches","method":"POST"}]},{"key":"openai.batches.get","renewalPeriod":60,"count":500,"matchPatterns":[{"path":"openai/v1/batches/*","method":"GET"},{"path":"openai/batches/*","method":"GET"}]},{"key":"openai.batches.list","renewalPeriod":60,"count":100,"matchPatterns":[{"path":"openai/v1/batches","method":"GET"},{"path":"openai/batches","method":"GET"}]},{"key":"openai","renewalPeriod":1,"count":30,"matchPatterns":[{"path":"openai/*","method":"*"}]},{"key":"default","renewalPeriod":1,"count":30,"matchPatterns":[{"path":"*","method":"*"}]}]},"isMigrated":false,"allowProjectManagement":false,"privateEndpointConnections":[],"publicNetworkAccess":"Enabled","capabilities":[{"name":"VirtualNetworks"},{"name":"CustomerManagedKey"},{"name":"MaxFineTuneCount","value":"500"},{"name":"MaxRunningFineTuneCount","value":"3"},{"name":"MaxUserFileCount","value":"100"},{"name":"MaxTrainingFileSize","value":"512000000"},{"name":"MaxUserFileImportDurationInHours","value":"1"},{"name":"MaxFineTuneJobDurationInHours","value":"720"},{"name":"MaxEvaluationRunDurationInHours","value":"5"},{"name":"MaxRunningEvaluationCount","value":"5"},{"name":"MaxRunningGlobalStandardFineTuneCount","value":"3"},{"name":"TrustedServices","value":"Microsoft.CognitiveServices,Microsoft.MachineLearningServices,Microsoft.Search,Microsoft.VideoIndexer"},{"name":"RaiMonitor"},{"name":"quotaRefundsEnabled","value":"false"}],"endpoints":{"OpenAI Language Model Instance API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Dall-E API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Sora API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Moderations API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Whisper API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Model Scaleset API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Realtime API":"https://westus3.api.cognitive.microsoft.com/","Token Service API":"https://westus3.api.cognitive.microsoft.com/"}},"identity":{"principalId":"265c9665-27b1-4b8b-a6c3-0ca5e96c8d29","tenantId":"00000000-0000-0000-0000-000000000000","type":"SystemAssigned"},"systemData":{"createdBy":"james.judd@aveva.com","createdByType":"User","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"james.judd@aveva.com","lastModifiedByType":"User","lastModifiedAt":"2001-02-03T04:05:06Z"}}'
+          body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hdctow/providers/Microsoft.CognitiveServices/accounts/asotestcogsvcacczytcvb","name":"asotestcogsvcacczytcvb","type":"Microsoft.CognitiveServices/accounts","etag":"\"010073e8-0000-4d00-0000-686fef230000\"","location":"westus3","sku":{"name":"S0"},"kind":"OpenAI","tags":{"env":"test"},"properties":{"endpoint":"https://westus3.api.cognitive.microsoft.com/","provisioningState":"Succeeded","internalId":"d58cc3a1c1f24f3f87bd3b1be5294615","dateCreated":"2001-02-03T04:05:06Z","apiProperties":{},"callRateLimit":{"rules":[{"key":"openai.dalle.post","renewalPeriod":1,"count":30,"matchPatterns":[{"path":"dalle/*","method":"POST"},{"path":"openai/images/*","method":"POST"}]},{"key":"openai.dalle.other","renewalPeriod":1,"count":30,"matchPatterns":[{"path":"dalle/*","method":"*"},{"path":"openai/operations/images/*","method":"*"}]},{"key":"openai.assistants.list","renewalPeriod":60,"count":120,"matchPatterns":[{"path":"openai/assistants","method":"GET"}]},{"key":"openai.threads.list","renewalPeriod":60,"count":120,"matchPatterns":[{"path":"openai/threads","method":"GET"}]},{"key":"openai.vectorstores.list","renewalPeriod":60,"count":120,"matchPatterns":[{"path":"openai/vector_stores","method":"GET"}]},{"key":"openai.assistants.default","renewalPeriod":1,"count":100000,"matchPatterns":[{"path":"openai/assistants","method":"*"},{"path":"openai/assistants/*","method":"*"},{"path":"openai/threads","method":"*"},{"path":"openai/threads/*","method":"*"},{"path":"openai/vector_stores","method":"*"},{"path":"openai/vector_stores/*","method":"*"}]},{"key":"openai.responses.default","renewalPeriod":1,"count":100000,"matchPatterns":[{"path":"openai/responses","method":"*"},{"path":"openai/responses/*","method":"*"}]},{"key":"openai.batches.post","renewalPeriod":60,"count":30,"matchPatterns":[{"path":"openai/v1/batches","method":"POST"},{"path":"openai/batches","method":"POST"}]},{"key":"openai.batches.get","renewalPeriod":60,"count":500,"matchPatterns":[{"path":"openai/v1/batches/*","method":"GET"},{"path":"openai/batches/*","method":"GET"}]},{"key":"openai.batches.list","renewalPeriod":60,"count":100,"matchPatterns":[{"path":"openai/v1/batches","method":"GET"},{"path":"openai/batches","method":"GET"}]},{"key":"openai","renewalPeriod":1,"count":30,"matchPatterns":[{"path":"openai/*","method":"*"}]},{"key":"default","renewalPeriod":1,"count":30,"matchPatterns":[{"path":"*","method":"*"}]}]},"isMigrated":false,"allowProjectManagement":false,"privateEndpointConnections":[],"publicNetworkAccess":"Enabled","capabilities":[{"name":"VirtualNetworks"},{"name":"CustomerManagedKey"},{"name":"MaxFineTuneCount","value":"500"},{"name":"MaxRunningFineTuneCount","value":"3"},{"name":"MaxUserFileCount","value":"100"},{"name":"MaxTrainingFileSize","value":"512000000"},{"name":"MaxUserFileImportDurationInHours","value":"1"},{"name":"MaxFineTuneJobDurationInHours","value":"720"},{"name":"MaxEvaluationRunDurationInHours","value":"5"},{"name":"MaxRunningEvaluationCount","value":"5"},{"name":"MaxRunningGlobalStandardFineTuneCount","value":"3"},{"name":"TrustedServices","value":"Microsoft.CognitiveServices,Microsoft.MachineLearningServices,Microsoft.Search,Microsoft.VideoIndexer"},{"name":"RaiMonitor"},{"name":"quotaRefundsEnabled","value":"false"}],"endpoints":{"OpenAI Language Model Instance API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Dall-E API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Sora API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Moderations API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Whisper API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Model Scaleset API":"https://westus3.api.cognitive.microsoft.com/","OpenAI Realtime API":"https://westus3.api.cognitive.microsoft.com/","Token Service API":"https://westus3.api.cognitive.microsoft.com/"}},"identity":{"principalId":"dda81a51-2c31-44fc-bd2c-13d8dd02cb73","tenantId":"00000000-0000-0000-0000-000000000000","type":"SystemAssigned"},"systemData":{"createdBy":"james.judd@aveva.com","createdByType":"User","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"james.judd@aveva.com","lastModifiedByType":"User","lastModifiedAt":"2001-02-03T04:05:06Z"}}'
           headers:
               Cache-Control:
                   - no-cache
@@ -500,7 +500,7 @@ interactions:
               Content-Type:
                   - application/json; charset=utf-8
               Etag:
-                  - '"1300037d-0000-4d00-0000-6866fd8b0000"'
+                  - '"010073e8-0000-4d00-0000-686fef230000"'
               Expires:
                   - "-1"
               Pragma:
@@ -512,14 +512,14 @@ interactions:
               X-Content-Type-Options:
                   - nosniff
               X-Envoy-Upstream-Service-Time:
-                  - "10"
+                  - "15"
               X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
                   - "16499"
               X-Msedge-Ref:
-                  - "Ref A: 9F5A47123B854E74B07B48D9E6056A7E Ref B: AMS231022012025 Ref C: 2025-07-03T22:00:48Z"
+                  - "Ref A: 44F68850FCC9442EA92BA300C03478A0 Ref B: AMS231032607053 Ref C: 2025-07-10T16:49:44Z"
           status: 200 OK
           code: 200
-          duration: 763.133909ms
+          duration: 781.488958ms
     - id: 9
       request:
           proto: HTTP/1.1
@@ -567,16 +567,16 @@ interactions:
               X-Content-Type-Options:
                   - nosniff
               X-Envoy-Upstream-Service-Time:
-                  - "22"
+                  - "31"
               X-Ms-Operation-Identifier:
-                  - tenantId=00000000-0000-0000-0000-000000000000,objectId=dbdfdbb3-c18f-47d1-b76d-251fc6083b9a/uksouth/0c806bc1-a061-45e7-a632-a3770e68889e
+                  - tenantId=00000000-0000-0000-0000-000000000000,objectId=dbdfdbb3-c18f-47d1-b76d-251fc6083b9a/uksouth/ebb2e976-2bd1-4918-b21c-7ce0c1d48212
               X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
                   - "11999"
               X-Msedge-Ref:
-                  - "Ref A: 80CACA9698C343E7BC695CC8E03567E4 Ref B: AMS231022012025 Ref C: 2025-07-03T22:00:49Z"
+                  - "Ref A: DE9E5DB2AE954859B08D70B584A9B01C Ref B: AMS231032607053 Ref C: 2025-07-10T16:49:46Z"
           status: 200 OK
           code: 200
-          duration: 780.332043ms
+          duration: 781.773126ms
     - id: 10
       request:
           proto: HTTP/1.1
@@ -609,7 +609,7 @@ interactions:
           trailer: {}
           content_length: 1102
           uncompressed: false
-          body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hdctow/providers/Microsoft.CognitiveServices/accounts/asotestcogsvcacczytcvb/deployments/asotestcogsvcdephvibss","type":"Microsoft.CognitiveServices/accounts/deployments","name":"asotestcogsvcdephvibss","sku":{"name":"Standard","capacity":1},"properties":{"model":{"publisher":"OpenAI","format":"OpenAI","name":"gpt-4o","version":"2024-08-06"},"versionUpgradeOption":"OnceNewDefaultVersionAvailable","currentCapacity":1,"capabilities":{"area":"US","chatCompletion":"true","assistants":"true","jsonSchemaResponse":"true","maxContextToken":"128000","maxOutputToken":"16384","responses":"true"},"provisioningState":"Succeeded","rateLimits":[{"key":"request","renewalPeriod":10,"count":1},{"key":"token","renewalPeriod":60,"count":1000}]},"systemData":{"createdBy":"james.judd@aveva.com","createdByType":"User","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"james.judd@aveva.com","lastModifiedByType":"User","lastModifiedAt":"2001-02-03T04:05:06Z"},"etag":"\"8ab446fb-9725-4565-9218-5660a4ea39f7\""}'
+          body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hdctow/providers/Microsoft.CognitiveServices/accounts/asotestcogsvcacczytcvb/deployments/asotestcogsvcdephvibss","type":"Microsoft.CognitiveServices/accounts/deployments","name":"asotestcogsvcdephvibss","sku":{"name":"Standard","capacity":1},"properties":{"model":{"publisher":"OpenAI","format":"OpenAI","name":"gpt-4o","version":"2024-08-06"},"versionUpgradeOption":"OnceNewDefaultVersionAvailable","currentCapacity":1,"capabilities":{"area":"US","chatCompletion":"true","assistants":"true","jsonSchemaResponse":"true","maxContextToken":"128000","maxOutputToken":"16384","responses":"true"},"provisioningState":"Succeeded","rateLimits":[{"key":"request","renewalPeriod":10,"count":1},{"key":"token","renewalPeriod":60,"count":1000}]},"systemData":{"createdBy":"james.judd@aveva.com","createdByType":"User","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"james.judd@aveva.com","lastModifiedByType":"User","lastModifiedAt":"2001-02-03T04:05:06Z"},"etag":"\"8539ab69-5535-4d16-ab12-5a5961970f8c\""}'
           headers:
               Cache-Control:
                   - no-cache
@@ -618,7 +618,7 @@ interactions:
               Content-Type:
                   - application/json; charset=utf-8
               Etag:
-                  - '"8ab446fb-9725-4565-9218-5660a4ea39f7"'
+                  - '"8539ab69-5535-4d16-ab12-5a5961970f8c"'
               Expires:
                   - "-1"
               Pragma:
@@ -630,16 +630,16 @@ interactions:
               X-Content-Type-Options:
                   - nosniff
               X-Envoy-Upstream-Service-Time:
-                  - "3389"
+                  - "318"
               X-Ms-Operation-Identifier:
-                  - tenantId=00000000-0000-0000-0000-000000000000,objectId=dbdfdbb3-c18f-47d1-b76d-251fc6083b9a/uksouth/9cfb56b4-956a-494f-9ad1-843bb8363c1c
+                  - tenantId=00000000-0000-0000-0000-000000000000,objectId=dbdfdbb3-c18f-47d1-b76d-251fc6083b9a/uksouth/fe080e26-ee65-424d-8af8-c4cc09dcc13c
               X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
                   - "11999"
               X-Msedge-Ref:
-                  - "Ref A: 14BDC4F19EC44965BA89C20C8C15722C Ref B: AMS231022012025 Ref C: 2025-07-03T22:00:57Z"
+                  - "Ref A: 057A6AD286C54BEA9CE71CDC6876C41E Ref B: AMS231032607053 Ref C: 2025-07-10T16:49:53Z"
           status: 201 Created
           code: 201
-          duration: 4.384266784s
+          duration: 1.294723139s
     - id: 11
       request:
           proto: HTTP/1.1
@@ -668,7 +668,7 @@ interactions:
           trailer: {}
           content_length: 1102
           uncompressed: false
-          body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hdctow/providers/Microsoft.CognitiveServices/accounts/asotestcogsvcacczytcvb/deployments/asotestcogsvcdephvibss","type":"Microsoft.CognitiveServices/accounts/deployments","name":"asotestcogsvcdephvibss","sku":{"name":"Standard","capacity":1},"properties":{"model":{"publisher":"OpenAI","format":"OpenAI","name":"gpt-4o","version":"2024-08-06"},"versionUpgradeOption":"OnceNewDefaultVersionAvailable","currentCapacity":1,"capabilities":{"area":"US","chatCompletion":"true","assistants":"true","jsonSchemaResponse":"true","maxContextToken":"128000","maxOutputToken":"16384","responses":"true"},"provisioningState":"Succeeded","rateLimits":[{"key":"request","renewalPeriod":10,"count":1},{"key":"token","renewalPeriod":60,"count":1000}]},"systemData":{"createdBy":"james.judd@aveva.com","createdByType":"User","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"james.judd@aveva.com","lastModifiedByType":"User","lastModifiedAt":"2001-02-03T04:05:06Z"},"etag":"\"8ab446fb-9725-4565-9218-5660a4ea39f7\""}'
+          body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hdctow/providers/Microsoft.CognitiveServices/accounts/asotestcogsvcacczytcvb/deployments/asotestcogsvcdephvibss","type":"Microsoft.CognitiveServices/accounts/deployments","name":"asotestcogsvcdephvibss","sku":{"name":"Standard","capacity":1},"properties":{"model":{"publisher":"OpenAI","format":"OpenAI","name":"gpt-4o","version":"2024-08-06"},"versionUpgradeOption":"OnceNewDefaultVersionAvailable","currentCapacity":1,"capabilities":{"area":"US","chatCompletion":"true","assistants":"true","jsonSchemaResponse":"true","maxContextToken":"128000","maxOutputToken":"16384","responses":"true"},"provisioningState":"Succeeded","rateLimits":[{"key":"request","renewalPeriod":10,"count":1},{"key":"token","renewalPeriod":60,"count":1000}]},"systemData":{"createdBy":"james.judd@aveva.com","createdByType":"User","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"james.judd@aveva.com","lastModifiedByType":"User","lastModifiedAt":"2001-02-03T04:05:06Z"},"etag":"\"8539ab69-5535-4d16-ab12-5a5961970f8c\""}'
           headers:
               Cache-Control:
                   - no-cache
@@ -677,7 +677,7 @@ interactions:
               Content-Type:
                   - application/json; charset=utf-8
               Etag:
-                  - '"8ab446fb-9725-4565-9218-5660a4ea39f7"'
+                  - '"8539ab69-5535-4d16-ab12-5a5961970f8c"'
               Expires:
                   - "-1"
               Pragma:
@@ -689,16 +689,16 @@ interactions:
               X-Content-Type-Options:
                   - nosniff
               X-Envoy-Upstream-Service-Time:
-                  - "11"
+                  - "83"
               X-Ms-Operation-Identifier:
-                  - tenantId=00000000-0000-0000-0000-000000000000,objectId=dbdfdbb3-c18f-47d1-b76d-251fc6083b9a/uksouth/8b2f9ba9-84e4-475f-b8e2-4f499f4a97aa
+                  - tenantId=00000000-0000-0000-0000-000000000000,objectId=dbdfdbb3-c18f-47d1-b76d-251fc6083b9a/uksouth/491e0fbf-f069-4f2b-a77d-d0c54e04fdde
               X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
                   - "16499"
               X-Msedge-Ref:
-                  - "Ref A: AF2E9AF657E04906B8A232F2A7E2F339 Ref B: AMS231022012025 Ref C: 2025-07-03T22:01:06Z"
+                  - "Ref A: 8F321CE774F24FE2A7B74EA3227B9F0C Ref B: AMS231032607053 Ref C: 2025-07-10T16:49:55Z"
           status: 200 OK
           code: 200
-          duration: 723.367099ms
+          duration: 926.349767ms
     - id: 12
       request:
           proto: HTTP/1.1
@@ -729,18 +729,18 @@ interactions:
           proto_minor: 0
           transfer_encoding: []
           trailer: {}
-          content_length: 1050
+          content_length: 1049
           uncompressed: false
-          body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hdctow/providers/Microsoft.CognitiveServices/accounts/asotestcogsvcacczytcvb/deployments/asotestcogsvcdephvibss","type":"Microsoft.CognitiveServices/accounts/deployments","name":"asotestcogsvcdephvibss","sku":{"name":"Standard","capacity":1},"properties":{"model":{"publisher":"OpenAI","format":"OpenAI","name":"gpt-4o","version":"2024-11-20"},"versionUpgradeOption":"OnceNewDefaultVersionAvailable","currentCapacity":1,"capabilities":{"area":"US","chatCompletion":"true","assistants":"true","jsonSchemaResponse":"true","responses":"true"},"provisioningState":"Succeeded","rateLimits":[{"key":"request","renewalPeriod":10,"count":1},{"key":"token","renewalPeriod":60,"count":1000}]},"systemData":{"createdBy":"james.judd@aveva.com","createdByType":"User","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"james.judd@aveva.com","lastModifiedByType":"User","lastModifiedAt":"2001-02-03T04:05:06Z"},"etag":"\"f15b5f57-6c9e-4fc1-a407-48946d285be3\""}'
+          body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hdctow/providers/Microsoft.CognitiveServices/accounts/asotestcogsvcacczytcvb/deployments/asotestcogsvcdephvibss","type":"Microsoft.CognitiveServices/accounts/deployments","name":"asotestcogsvcdephvibss","sku":{"name":"Standard","capacity":1},"properties":{"model":{"publisher":"OpenAI","format":"OpenAI","name":"gpt-4o","version":"2024-11-20"},"versionUpgradeOption":"OnceNewDefaultVersionAvailable","currentCapacity":1,"capabilities":{"area":"US","chatCompletion":"true","assistants":"true","jsonSchemaResponse":"true","responses":"true"},"provisioningState":"Succeeded","rateLimits":[{"key":"request","renewalPeriod":10,"count":1},{"key":"token","renewalPeriod":60,"count":1000}]},"systemData":{"createdBy":"james.judd@aveva.com","createdByType":"User","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"james.judd@aveva.com","lastModifiedByType":"User","lastModifiedAt":"2001-02-03T04:05:06Z"},"etag":"\"a21c3b14-4194-491b-8d3e-fe190f51b11e\""}'
           headers:
               Cache-Control:
                   - no-cache
               Content-Length:
-                  - "1050"
+                  - "1049"
               Content-Type:
                   - application/json; charset=utf-8
               Etag:
-                  - '"f15b5f57-6c9e-4fc1-a407-48946d285be3"'
+                  - '"a21c3b14-4194-491b-8d3e-fe190f51b11e"'
               Expires:
                   - "-1"
               Pragma:
@@ -752,16 +752,16 @@ interactions:
               X-Content-Type-Options:
                   - nosniff
               X-Envoy-Upstream-Service-Time:
-                  - "90"
+                  - "94"
               X-Ms-Operation-Identifier:
-                  - tenantId=00000000-0000-0000-0000-000000000000,objectId=dbdfdbb3-c18f-47d1-b76d-251fc6083b9a/uksouth/d43b5c93-e6b8-494e-838c-d2453bd942e2
+                  - tenantId=00000000-0000-0000-0000-000000000000,objectId=dbdfdbb3-c18f-47d1-b76d-251fc6083b9a/uksouth/3144846b-8ad4-405f-98e9-6924eb80c3c9
               X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
                   - "11999"
               X-Msedge-Ref:
-                  - "Ref A: 9EEEB6E5F84444BF9663CE786FEC806C Ref B: AMS231022012025 Ref C: 2025-07-03T22:01:11Z"
+                  - "Ref A: 72D2599250CB427C9D1BDC042DB22E75 Ref B: AMS231032607053 Ref C: 2025-07-10T16:50:02Z"
           status: 200 OK
           code: 200
-          duration: 1.075947165s
+          duration: 1.489373009s
     - id: 13
       request:
           proto: HTTP/1.1
@@ -788,18 +788,18 @@ interactions:
           proto_minor: 0
           transfer_encoding: []
           trailer: {}
-          content_length: 1050
+          content_length: 1049
           uncompressed: false
-          body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hdctow/providers/Microsoft.CognitiveServices/accounts/asotestcogsvcacczytcvb/deployments/asotestcogsvcdephvibss","type":"Microsoft.CognitiveServices/accounts/deployments","name":"asotestcogsvcdephvibss","sku":{"name":"Standard","capacity":1},"properties":{"model":{"publisher":"OpenAI","format":"OpenAI","name":"gpt-4o","version":"2024-11-20"},"versionUpgradeOption":"OnceNewDefaultVersionAvailable","currentCapacity":1,"capabilities":{"area":"US","chatCompletion":"true","assistants":"true","jsonSchemaResponse":"true","responses":"true"},"provisioningState":"Succeeded","rateLimits":[{"key":"request","renewalPeriod":10,"count":1},{"key":"token","renewalPeriod":60,"count":1000}]},"systemData":{"createdBy":"james.judd@aveva.com","createdByType":"User","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"james.judd@aveva.com","lastModifiedByType":"User","lastModifiedAt":"2001-02-03T04:05:06Z"},"etag":"\"f15b5f57-6c9e-4fc1-a407-48946d285be3\""}'
+          body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hdctow/providers/Microsoft.CognitiveServices/accounts/asotestcogsvcacczytcvb/deployments/asotestcogsvcdephvibss","type":"Microsoft.CognitiveServices/accounts/deployments","name":"asotestcogsvcdephvibss","sku":{"name":"Standard","capacity":1},"properties":{"model":{"publisher":"OpenAI","format":"OpenAI","name":"gpt-4o","version":"2024-11-20"},"versionUpgradeOption":"OnceNewDefaultVersionAvailable","currentCapacity":1,"capabilities":{"area":"US","chatCompletion":"true","assistants":"true","jsonSchemaResponse":"true","responses":"true"},"provisioningState":"Succeeded","rateLimits":[{"key":"request","renewalPeriod":10,"count":1},{"key":"token","renewalPeriod":60,"count":1000}]},"systemData":{"createdBy":"james.judd@aveva.com","createdByType":"User","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"james.judd@aveva.com","lastModifiedByType":"User","lastModifiedAt":"2001-02-03T04:05:06Z"},"etag":"\"a21c3b14-4194-491b-8d3e-fe190f51b11e\""}'
           headers:
               Cache-Control:
                   - no-cache
               Content-Length:
-                  - "1050"
+                  - "1049"
               Content-Type:
                   - application/json; charset=utf-8
               Etag:
-                  - '"f15b5f57-6c9e-4fc1-a407-48946d285be3"'
+                  - '"a21c3b14-4194-491b-8d3e-fe190f51b11e"'
               Expires:
                   - "-1"
               Pragma:
@@ -811,16 +811,16 @@ interactions:
               X-Content-Type-Options:
                   - nosniff
               X-Envoy-Upstream-Service-Time:
-                  - "11"
+                  - "14"
               X-Ms-Operation-Identifier:
-                  - tenantId=00000000-0000-0000-0000-000000000000,objectId=dbdfdbb3-c18f-47d1-b76d-251fc6083b9a/uksouth/bb81be46-1558-4485-8c4e-8e9af61b1392
+                  - tenantId=00000000-0000-0000-0000-000000000000,objectId=dbdfdbb3-c18f-47d1-b76d-251fc6083b9a/uksouth/c4c40018-550a-4ea5-8d91-8087338f99ee
               X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
                   - "16499"
               X-Msedge-Ref:
-                  - "Ref A: DB2BC77DFF0D47888769BF473776F795 Ref B: AMS231022012025 Ref C: 2025-07-03T22:01:13Z"
+                  - "Ref A: 345055E6CE3D4BDF905B7CEFC2238B73 Ref B: AMS231032607053 Ref C: 2025-07-10T16:50:05Z"
           status: 200 OK
           code: 200
-          duration: 736.085597ms
+          duration: 723.079491ms
     - id: 14
       request:
           proto: HTTP/1.1
@@ -866,16 +866,16 @@ interactions:
               X-Content-Type-Options:
                   - nosniff
               X-Envoy-Upstream-Service-Time:
-                  - "68"
+                  - "168"
               X-Ms-Operation-Identifier:
-                  - tenantId=00000000-0000-0000-0000-000000000000,objectId=dbdfdbb3-c18f-47d1-b76d-251fc6083b9a/uksouth/555a0007-f817-4da9-be2c-a3e090e494dd
+                  - tenantId=00000000-0000-0000-0000-000000000000,objectId=dbdfdbb3-c18f-47d1-b76d-251fc6083b9a/uksouth/7023128b-7dd5-458e-977b-d6192097239d
               X-Ms-Ratelimit-Remaining-Subscription-Global-Deletes:
                   - "11999"
               X-Msedge-Ref:
-                  - "Ref A: 4C620C4221AD49E0848DBD06FEF9B59F Ref B: AMS231022012025 Ref C: 2025-07-03T22:01:16Z"
+                  - "Ref A: C5075745C8014DE08A5954B582FFB0C7 Ref B: AMS231032607053 Ref C: 2025-07-10T16:50:07Z"
           status: 200 OK
           code: 200
-          duration: 894.616423ms
+          duration: 1.047816354s
     - id: 15
       request:
           proto: HTTP/1.1
@@ -923,16 +923,16 @@ interactions:
               X-Content-Type-Options:
                   - nosniff
               X-Envoy-Upstream-Service-Time:
-                  - "11"
+                  - "14"
               X-Ms-Operation-Identifier:
-                  - tenantId=00000000-0000-0000-0000-000000000000,objectId=dbdfdbb3-c18f-47d1-b76d-251fc6083b9a/uksouth/18e60ebb-f0b0-4d3e-a2fd-ab436b3f7639
+                  - tenantId=00000000-0000-0000-0000-000000000000,objectId=dbdfdbb3-c18f-47d1-b76d-251fc6083b9a/uksouth/2c70f4e4-0cf5-4e2e-b560-32c5ad68f659
               X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
                   - "16499"
               X-Msedge-Ref:
-                  - "Ref A: C39141B19C614E6EAF99B8B9A8CF5621 Ref B: AMS231022012025 Ref C: 2025-07-03T22:01:21Z"
+                  - "Ref A: BEBC9CFBC4014F0C881A803658EFDBFE Ref B: AMS231032607053 Ref C: 2025-07-10T16:50:12Z"
           status: 404 Not Found
           code: 404
-          duration: 771.260788ms
+          duration: 761.895518ms
     - id: 16
       request:
           proto: HTTP/1.1
@@ -978,16 +978,16 @@ interactions:
               X-Content-Type-Options:
                   - nosniff
               X-Envoy-Upstream-Service-Time:
-                  - "96"
+                  - "103"
               X-Ms-Operation-Identifier:
-                  - tenantId=00000000-0000-0000-0000-000000000000,objectId=dbdfdbb3-c18f-47d1-b76d-251fc6083b9a/uksouth/702673b6-7713-4910-b00e-9e6a391baa00
+                  - tenantId=00000000-0000-0000-0000-000000000000,objectId=dbdfdbb3-c18f-47d1-b76d-251fc6083b9a/uksouth/8a671389-6caf-495b-8df1-783232497ca6
               X-Ms-Ratelimit-Remaining-Subscription-Global-Deletes:
                   - "11999"
               X-Msedge-Ref:
-                  - "Ref A: 27E3E6E6251444F2A64654AD63EE4FCF Ref B: AMS231022012025 Ref C: 2025-07-03T22:01:23Z"
+                  - "Ref A: E96D749D40284A878125AB1598660A49 Ref B: AMS231032607053 Ref C: 2025-07-10T16:50:14Z"
           status: 200 OK
           code: 200
-          duration: 5.665964859s
+          duration: 5.389870908s
     - id: 17
       request:
           proto: HTTP/1.1
@@ -1037,10 +1037,10 @@ interactions:
               X-Ms-Failure-Cause:
                   - gateway
               X-Msedge-Ref:
-                  - "Ref A: B27D2A75341D480CAC1DEFD1C24AB116 Ref B: AMS231022012025 Ref C: 2025-07-03T22:01:38Z"
+                  - "Ref A: 863DF2043C84441C9D48BEE3356E059B Ref B: AMS231032607053 Ref C: 2025-07-10T16:50:29Z"
           status: 404 Not Found
           code: 404
-          duration: 265.049932ms
+          duration: 286.945268ms
     - id: 18
       request:
           proto: HTTP/1.1
@@ -1078,7 +1078,7 @@ interactions:
               Expires:
                   - "-1"
               Location:
-                  - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRIRENUT1ctV0VTVFVTMyIsImpvYkxvY2F0aW9uIjoid2VzdHVzMyJ9?api-version=2020-06-01&t=638871769013484124&c=MIIHhzCCBm-gAwIBAgITHgbGQ8iUUHaIEuL0_AAABsZDyDANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDYwHhcNMjUwNDE2MDYzMDI5WhcNMjUxMDEzMDYzMDI5WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALopjeABPIHVlbmyblq81grbzeudZmsoIRLfRTuwzpTkJxJawSpyHm_mPoZYvcbSUrkDKmrugxJjL_csgjpVCQyBuvwW1_IPiOq7BO-sz7JA3guM6GF_QasdShJtZS72qSq5X6yOyEF_Pd7OWpeExPPIQ0IJyerd0Z85589w1w9yS8mbsjcs_PDjtqSKr8uTrHX_FmwV5eKNckBpE_SPng9vxBzIqaFE5GyrLJPbMNrXtxo7sdZUNsWFYKWfbLNwUeeiZ_kYc22U-ELyPKA3NyS5ix8yS1l4gf3lJcVpZlv45oeONu2k-K9B9zXK1xUb595R9qKeWxyy6LFC_f2li_ECAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAyLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA2LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MB0GA1UdDgQWBBSNrIXhp-22YSh2t6R5ZI2lOzW7gjAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBTxRmjG8cPwKy19i2rhsvm-NfzRQTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBACG4sIuYS__ZcEIxL7lGI4gWbCUox1lZgK7Irz_ISerpyasLIKA0keyfO12BHBGBgspW8EkNy_eUMIC3LL_gj2e35FcS3xSZQarNX4O0MfXYT9ewpbBiBN7N2O5UCVetzSkf_ufmZIwg0xFmAJWE2CRP7-nT4Cu_gvFaWN_jOU1ZNI6J6Ij4ex_QduewzlZK1KgGIuQEvvt8EAoR8dBHjwD9e8wWmXlllBAMDF9Fn-7CCcO9LFViByq7e3TiD-xGSeMvTO5glydvGtkUdMezHbLnK75xthbEARHNV0li-D6YSyKHcGumxOBvCy2gUPdWscyU2Ct5FDqy2rgSeB4luwo&s=JZiDhEWbWHFXtBX3LRUNn0_Q4ph-ygwiI0gsoYdZT29poLFlR0_6yAJrY1pbtHsU1UZPb5Xq8O0_J5cWil6MFnFC5Sd9JsKFZqz9qN4nKlW12kIOKvFNgJpIUeq6Bg2-t15LDnbWrwWXWx10n1LhurN2cHT_WnEEVHtVtJE_eD4s6u-ZW6H7rA8oFANnLv9RIzc64hKkNQ8I0pHqtW5o99WF0H98c23mQJcEf9XQZsbzJhKHM6IJ9lhoMd5X85OGgB3aMfX1GC0he4cT7Jnrtbfoj1kT2d0WmGsLq3m9aPjhqtdy4Gq-A3j9CdyuTB-N6l2bXxaLy_x9JDqpQAEGoA&h=ORWhRYz5gVpP7YgiWBDXhixlu82V9p4h_TEAK4cI6aA
+                  - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRIRENUT1ctV0VTVFVTMyIsImpvYkxvY2F0aW9uIjoid2VzdHVzMyJ9?api-version=2020-06-01&t=638877630323291391&c=MIIHhzCCBm-gAwIBAgITHgbGQ8iUUHaIEuL0_AAABsZDyDANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDYwHhcNMjUwNDE2MDYzMDI5WhcNMjUxMDEzMDYzMDI5WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALopjeABPIHVlbmyblq81grbzeudZmsoIRLfRTuwzpTkJxJawSpyHm_mPoZYvcbSUrkDKmrugxJjL_csgjpVCQyBuvwW1_IPiOq7BO-sz7JA3guM6GF_QasdShJtZS72qSq5X6yOyEF_Pd7OWpeExPPIQ0IJyerd0Z85589w1w9yS8mbsjcs_PDjtqSKr8uTrHX_FmwV5eKNckBpE_SPng9vxBzIqaFE5GyrLJPbMNrXtxo7sdZUNsWFYKWfbLNwUeeiZ_kYc22U-ELyPKA3NyS5ix8yS1l4gf3lJcVpZlv45oeONu2k-K9B9zXK1xUb595R9qKeWxyy6LFC_f2li_ECAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAyLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA2LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MB0GA1UdDgQWBBSNrIXhp-22YSh2t6R5ZI2lOzW7gjAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBTxRmjG8cPwKy19i2rhsvm-NfzRQTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBACG4sIuYS__ZcEIxL7lGI4gWbCUox1lZgK7Irz_ISerpyasLIKA0keyfO12BHBGBgspW8EkNy_eUMIC3LL_gj2e35FcS3xSZQarNX4O0MfXYT9ewpbBiBN7N2O5UCVetzSkf_ufmZIwg0xFmAJWE2CRP7-nT4Cu_gvFaWN_jOU1ZNI6J6Ij4ex_QduewzlZK1KgGIuQEvvt8EAoR8dBHjwD9e8wWmXlllBAMDF9Fn-7CCcO9LFViByq7e3TiD-xGSeMvTO5glydvGtkUdMezHbLnK75xthbEARHNV0li-D6YSyKHcGumxOBvCy2gUPdWscyU2Ct5FDqy2rgSeB4luwo&s=O5ng_Q5P_nB3XhNY84xU2-slVAiZ8eHYe6XXEvUL_SrTys_i12rsQeG7k4kHUI7uDu6c5KPS4rvDEtbxQWvGT-6MYDIni7owVDHzbXvpvfBVbrzk63cdm-l4vgv-iK_XFYOpuhuVdKDyoHkG_HZWlH9E4GGi13oQZs4Qii8TKsa1w9QYLKlUZPM_iImv1_k-kOtFj8VfbqSdp8S2cS8GkOeNMNyJ6gXuauzlb9Z86B_UMDTgWAkydo4zpYyM0Fhpu7pDdsuyGzzslSRO-nCsUlObohUC9zpBu2UkUROIIvA3XeP3oEQUlg390TOUx2Ho2Weudzo39omMMCV4t2Wtig&h=I2agVQXjbLppYca89SwFAA1o2XiOd1dkwQlFxIa72Vg
               Pragma:
                   - no-cache
               Retry-After:
@@ -1092,10 +1092,10 @@ interactions:
               X-Ms-Ratelimit-Remaining-Subscription-Global-Deletes:
                   - "11999"
               X-Msedge-Ref:
-                  - "Ref A: 501C1A14E0174307826F262D69721286 Ref B: AMS231022012025 Ref C: 2025-07-03T22:01:38Z"
+                  - "Ref A: F36249D354454113B05162C9DA6A1318 Ref B: AMS231032607053 Ref C: 2025-07-10T16:50:29Z"
           status: 202 Accepted
           code: 202
-          duration: 2.559642123s
+          duration: 2.611973138s
     - id: 19
       request:
           proto: HTTP/1.1
@@ -1112,7 +1112,7 @@ interactions:
           headers:
               Test-Request-Attempt:
                   - "0"
-          url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRIRENUT1ctV0VTVFVTMyIsImpvYkxvY2F0aW9uIjoid2VzdHVzMyJ9?api-version=2020-06-01&t=638871769013484124&c=MIIHhzCCBm-gAwIBAgITHgbGQ8iUUHaIEuL0_AAABsZDyDANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDYwHhcNMjUwNDE2MDYzMDI5WhcNMjUxMDEzMDYzMDI5WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALopjeABPIHVlbmyblq81grbzeudZmsoIRLfRTuwzpTkJxJawSpyHm_mPoZYvcbSUrkDKmrugxJjL_csgjpVCQyBuvwW1_IPiOq7BO-sz7JA3guM6GF_QasdShJtZS72qSq5X6yOyEF_Pd7OWpeExPPIQ0IJyerd0Z85589w1w9yS8mbsjcs_PDjtqSKr8uTrHX_FmwV5eKNckBpE_SPng9vxBzIqaFE5GyrLJPbMNrXtxo7sdZUNsWFYKWfbLNwUeeiZ_kYc22U-ELyPKA3NyS5ix8yS1l4gf3lJcVpZlv45oeONu2k-K9B9zXK1xUb595R9qKeWxyy6LFC_f2li_ECAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAyLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA2LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MB0GA1UdDgQWBBSNrIXhp-22YSh2t6R5ZI2lOzW7gjAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBTxRmjG8cPwKy19i2rhsvm-NfzRQTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBACG4sIuYS__ZcEIxL7lGI4gWbCUox1lZgK7Irz_ISerpyasLIKA0keyfO12BHBGBgspW8EkNy_eUMIC3LL_gj2e35FcS3xSZQarNX4O0MfXYT9ewpbBiBN7N2O5UCVetzSkf_ufmZIwg0xFmAJWE2CRP7-nT4Cu_gvFaWN_jOU1ZNI6J6Ij4ex_QduewzlZK1KgGIuQEvvt8EAoR8dBHjwD9e8wWmXlllBAMDF9Fn-7CCcO9LFViByq7e3TiD-xGSeMvTO5glydvGtkUdMezHbLnK75xthbEARHNV0li-D6YSyKHcGumxOBvCy2gUPdWscyU2Ct5FDqy2rgSeB4luwo&s=JZiDhEWbWHFXtBX3LRUNn0_Q4ph-ygwiI0gsoYdZT29poLFlR0_6yAJrY1pbtHsU1UZPb5Xq8O0_J5cWil6MFnFC5Sd9JsKFZqz9qN4nKlW12kIOKvFNgJpIUeq6Bg2-t15LDnbWrwWXWx10n1LhurN2cHT_WnEEVHtVtJE_eD4s6u-ZW6H7rA8oFANnLv9RIzc64hKkNQ8I0pHqtW5o99WF0H98c23mQJcEf9XQZsbzJhKHM6IJ9lhoMd5X85OGgB3aMfX1GC0he4cT7Jnrtbfoj1kT2d0WmGsLq3m9aPjhqtdy4Gq-A3j9CdyuTB-N6l2bXxaLy_x9JDqpQAEGoA&h=ORWhRYz5gVpP7YgiWBDXhixlu82V9p4h_TEAK4cI6aA
+          url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRIRENUT1ctV0VTVFVTMyIsImpvYkxvY2F0aW9uIjoid2VzdHVzMyJ9?api-version=2020-06-01&t=638877630323291391&c=MIIHhzCCBm-gAwIBAgITHgbGQ8iUUHaIEuL0_AAABsZDyDANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDYwHhcNMjUwNDE2MDYzMDI5WhcNMjUxMDEzMDYzMDI5WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALopjeABPIHVlbmyblq81grbzeudZmsoIRLfRTuwzpTkJxJawSpyHm_mPoZYvcbSUrkDKmrugxJjL_csgjpVCQyBuvwW1_IPiOq7BO-sz7JA3guM6GF_QasdShJtZS72qSq5X6yOyEF_Pd7OWpeExPPIQ0IJyerd0Z85589w1w9yS8mbsjcs_PDjtqSKr8uTrHX_FmwV5eKNckBpE_SPng9vxBzIqaFE5GyrLJPbMNrXtxo7sdZUNsWFYKWfbLNwUeeiZ_kYc22U-ELyPKA3NyS5ix8yS1l4gf3lJcVpZlv45oeONu2k-K9B9zXK1xUb595R9qKeWxyy6LFC_f2li_ECAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAyLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA2LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MB0GA1UdDgQWBBSNrIXhp-22YSh2t6R5ZI2lOzW7gjAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBTxRmjG8cPwKy19i2rhsvm-NfzRQTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBACG4sIuYS__ZcEIxL7lGI4gWbCUox1lZgK7Irz_ISerpyasLIKA0keyfO12BHBGBgspW8EkNy_eUMIC3LL_gj2e35FcS3xSZQarNX4O0MfXYT9ewpbBiBN7N2O5UCVetzSkf_ufmZIwg0xFmAJWE2CRP7-nT4Cu_gvFaWN_jOU1ZNI6J6Ij4ex_QduewzlZK1KgGIuQEvvt8EAoR8dBHjwD9e8wWmXlllBAMDF9Fn-7CCcO9LFViByq7e3TiD-xGSeMvTO5glydvGtkUdMezHbLnK75xthbEARHNV0li-D6YSyKHcGumxOBvCy2gUPdWscyU2Ct5FDqy2rgSeB4luwo&s=O5ng_Q5P_nB3XhNY84xU2-slVAiZ8eHYe6XXEvUL_SrTys_i12rsQeG7k4kHUI7uDu6c5KPS4rvDEtbxQWvGT-6MYDIni7owVDHzbXvpvfBVbrzk63cdm-l4vgv-iK_XFYOpuhuVdKDyoHkG_HZWlH9E4GGi13oQZs4Qii8TKsa1w9QYLKlUZPM_iImv1_k-kOtFj8VfbqSdp8S2cS8GkOeNMNyJ6gXuauzlb9Z86B_UMDTgWAkydo4zpYyM0Fhpu7pDdsuyGzzslSRO-nCsUlObohUC9zpBu2UkUROIIvA3XeP3oEQUlg390TOUx2Ho2Weudzo39omMMCV4t2Wtig&h=I2agVQXjbLppYca89SwFAA1o2XiOd1dkwQlFxIa72Vg
           method: GET
       response:
           proto: HTTP/2.0
@@ -1141,7 +1141,7 @@ interactions:
               X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
                   - "16499"
               X-Msedge-Ref:
-                  - "Ref A: 4687A78D51384D579D2B651850646DA7 Ref B: AMS231022012025 Ref C: 2025-07-03T22:01:58Z"
+                  - "Ref A: 512AC06496BE4594A5E6E4B0F6D0CA08 Ref B: AMS231032607053 Ref C: 2025-07-10T16:50:50Z"
           status: 200 OK
           code: 200
-          duration: 627.16975ms
+          duration: 687.575226ms

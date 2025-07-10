@@ -1544,8 +1544,6 @@ objectModelConfiguration:
         $azureGeneratedSecrets:
           - Key1
           - Key2
-          - Endpoint
-          - Endpoints
       AccountProperties:
         MigrationToken:
           $isSecret: true

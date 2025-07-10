@@ -20,9 +20,7 @@ Account: Resource
 │   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   ├── SecretExpressions: *core.DestinationExpression[]
-│   │   └── Secrets: *Object (5 properties)
-│   │       ├── Endpoint: *genruntime.SecretDestination
-│   │       ├── Endpoints: *genruntime.SecretDestination
+│   │   └── Secrets: *Object (3 properties)
 │   │       ├── Key1: *genruntime.SecretDestination
 │   │       ├── Key2: *genruntime.SecretDestination
 │   │       └── PropertyBag: genruntime.PropertyBag

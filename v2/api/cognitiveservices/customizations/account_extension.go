@@ -7,7 +7,8 @@ package customizations
 
 import (
 	"context"
-	"encoding/json"
+	"regexp"
+	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cognitiveservices/armcognitiveservices"
 	"github.com/go-logr/logr"
@@ -24,10 +25,8 @@ import (
 )
 
 const (
-	accountKey1 = "Key1"
-	accountKey2 = "Key2"
-	accountEp   = "Endpoint"
-	accountEps  = "Endpoints"
+	accountKey1 = "key1"
+	accountKey2 = "key2"
 )
 
 var _ genruntime.KubernetesSecretExporter = &AccountExtension{}
@@ -78,15 +77,9 @@ func (ext *AccountExtension) ExportKubernetesSecrets(
 		keys[accountKey2] = to.Value(resp.Key2)
 	}
 
-	keys[accountEp] = getSafeString(typedObj.Status.Properties.Endpoint)
-
 	if typedObj.Status.Properties.Endpoints != nil {
-		epsJSON, err := json.Marshal(typedObj.Status.Properties.Endpoints)
-
-		if err == nil {
-			keys[accountEps] = string(epsJSON)
-		} else {
-			log.Error(err, "Failed to serialize endpoints")
+		for k, v := range typedObj.Status.Properties.Endpoints {
+			keys[sanitiseKey(k)] = v
 		}
 	}
 
@@ -114,14 +107,6 @@ func secretsSpecified(obj *storage.Account) set.Set[string] {
 		if s.Key2 != nil {
 			result.Add(accountKey2)
 		}
-
-		if s.Endpoint != nil {
-			result.Add(accountEp)
-		}
-
-		if s.Endpoints != nil {
-			result.Add(accountEps)
-		}
 	}
 	return result
 }
@@ -135,15 +120,25 @@ func secretsToWrite(obj *storage.Account, keys map[string]string) ([]*v1.Secret,
 	collector := secrets.NewCollector(obj.Namespace)
 	collector.AddValue(operatorSpecSecrets.Key1, keys[accountKey1])
 	collector.AddValue(operatorSpecSecrets.Key2, keys[accountKey2])
-	collector.AddValue(operatorSpecSecrets.Endpoint, keys[accountEp])
-	collector.AddValue(operatorSpecSecrets.Endpoints, keys[accountEps])
+
+	for k, v := range keys {
+		if k == accountKey1 || k == accountKey2 {
+			continue
+		}
+		collector.AddValue(&genruntime.SecretDestination{
+			Name: operatorSpecSecrets.Key1.Name,
+			Key:  k,
+		}, v)
+	}
 
 	return collector.Values()
 }
 
-func getSafeString(s *string) string {
-	if s == nil {
-		return ""
-	}
-	return *s
+func sanitiseKey(input string) string {
+	safe := strings.ToLower(strings.ReplaceAll(input, " ", "-"))
+
+	regex := regexp.MustCompile(`[^-._a-zA-Z0-9]`)
+	safe = regex.ReplaceAllString(safe, "")
+
+	return safe
 }
