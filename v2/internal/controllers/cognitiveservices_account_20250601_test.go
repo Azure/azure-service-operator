@@ -48,7 +48,7 @@ func Test_CognitiveServices_Account_20250601_CRUD(t *testing.T) {
 					},
 					// Keys in 'Endpoints' contain spaces so default CEL mapping fails kubernetes regex.
 					// As far as I can tell ASO doesn't support transformation in CELs.
-					// Therefore implented mapping in extension.
+					// Therefore implemented mapping in extension.
 				},
 			},
 			Owner: testcommon.AsOwner(rg),
