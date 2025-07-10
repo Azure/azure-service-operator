@@ -588,6 +588,12 @@ typeTransformers:
     remove: true
     because: This property should have been marked readonly but wasn't.
 
+  - group: cognitiveservices
+    name: DeploymentProperties
+    property: CurrentCapacity
+    remove: true
+    because: This property should have been marked readonly but wasn't.
+
   # Remove embedded resource properties
   - group: network
     name: VirtualNetworkPropertiesFormat_Status  # This type is subsequently flattened into VirtualNetwork_Status
@@ -1530,6 +1536,62 @@ objectModelConfiguration:
       AFDOriginProperties:
         HostName:
           $importConfigMapMode: optional
+  cognitiveservices:
+    2025-06-01:
+      Account:
+        $exportAs: Account
+        $supportedFrom: v2.15.0
+        $azureGeneratedSecrets:
+          - Key1
+          - Key2
+      AccountProperties:
+        MigrationToken:
+          $isSecret: true
+      Accounts_Deployment:
+        $exportAs: Deployment
+        $supportedFrom: v2.15.0
+      ApiProperties:
+        AadTenantId:
+          $importConfigMapMode: optional
+        AadClientId:
+          $importConfigMapMode: optional
+        EventHubConnectionString:
+          $isSecret: true
+        QnaAzureSearchEndpointId:
+          $importConfigMapMode: optional
+        QnaAzureSearchEndpointKey:
+          $isSecret: true
+        QnaRuntimeEndpoint:
+          $importConfigMapMode: optional
+        StorageAccountConnectionString:
+          $isSecret: true
+        SuperUser:
+          $importConfigMapMode: optional
+        WebsiteName:
+          $importConfigMapMode: optional
+      DeploymentModel:
+        Format:
+          $importConfigMapMode: optional
+        Name:
+          $importConfigMapMode: optional
+        Publisher:
+          $importConfigMapMode: optional
+        Source:
+          $referenceType: arm
+        Version:
+          $importConfigMapMode: optional
+      RaiMonitorConfig:
+        AdxStorageResourceId:
+          $referenceType: arm
+      UserOwnedAmlWorkspace:
+        ResourceId:
+          $referenceType: arm
+      UserOwnedStorage:
+        ResourceId:
+          $referenceType: arm
+      VirtualNetworkRule:
+        Id:
+          $referenceType: arm
   compute:
     2020-09-30:
       CreationData:
