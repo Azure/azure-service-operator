@@ -55,6 +55,8 @@ type SimpleSpec2 struct {
 	DashField                   string                             `json:"dash-field,omitempty"`
 	DashUnderscoreField         string                             `json:"dash-__field,omitempty"`
 
+	TransformMapField string `json:"transformMap,omitempty"` // This is a field sharing a name with a comprehension field we added in ASO 2.15.
+
 	Slice []string `json:"slice,omitempty"`
 
 	// odata.type is the only field I'm seeing in ASO that has this format, and there aren't many of those
@@ -348,6 +350,32 @@ func Test_CompileAndRunAndCheck(t *testing.T) {
 				}),
 			expression:  `self.spec.const + self.spec.break + self.spec.__false__ + self.spec.__true__ + self.spec.__in__ + self.spec.__null__ + self.spec.endsWith + self.spec.string + self.spec.int + self.spec.namespace`,
 			expectedStr: "hello! hello! This is a test. I hope it works.",
+		},
+		{
+			name: "two variable comprehension can be used to fix map keys",
+			self: newSimpleResource2Customized(
+				func(r *SimpleResource2) {
+					r.Annotations = map[string]string{
+						"pizza":                   "no",
+						"fruit is good for you":   "yes",
+						"cookies are bad for you": "yes",
+					}
+				}),
+			expression: `self.metadata.annotations.transformMapEntry(k, v, {k.replace(" ", "-"): v})`,
+			expectedMap: map[string]string{
+				"pizza":                   "no",
+				"fruit-is-good-for-you":   "yes",
+				"cookies-are-bad-for-you": "yes",
+			},
+		},
+		{
+			name: "two variable comprehension function addition does not break variable usage",
+			self: newSimpleResource2Customized(
+				func(r *SimpleResource2) {
+					r.Spec.TransformMapField = "test"
+				}),
+			expression:  `self.spec.transformMap`,
+			expectedStr: "test",
 		},
 	}
 
