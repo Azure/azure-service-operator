@@ -16,7 +16,7 @@ grouped by the originating ARM service.
 
 ## AlertsManagement
 
-To install the CRDs for these resources, your ASO configuration must include `alertsmanagement.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+To install the CRDs for these resources, your ASO configuration must include `alertsmanagement.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
 ### Released
 
@@ -28,7 +28,7 @@ These resource(s) are available for use in the current release of ASO. Different
 
 ## ApiManagement
 
-To install the CRDs for these resources, your ASO configuration must include `apimanagement.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+To install the CRDs for these resources, your ASO configuration must include `apimanagement.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
 ### Latest Released Versions
 
@@ -72,7 +72,7 @@ These are older versions of resources still available for use in the current rel
 
 ## App
 
-To install the CRDs for these resources, your ASO configuration must include `app.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+To install the CRDs for these resources, your ASO configuration must include `app.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
 ### Released
 
@@ -86,7 +86,7 @@ These resource(s) are available for use in the current release of ASO. Different
 
 ## AppConfiguration
 
-To install the CRDs for these resources, your ASO configuration must include `appconfiguration.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+To install the CRDs for these resources, your ASO configuration must include `appconfiguration.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
 ### Released
 
@@ -97,7 +97,7 @@ These resource(s) are available for use in the current release of ASO. Different
 
 ## Authorization
 
-To install the CRDs for these resources, your ASO configuration must include `authorization.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+To install the CRDs for these resources, your ASO configuration must include `authorization.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
 ### Latest Released Versions
 
@@ -116,7 +116,7 @@ These are older versions of resources still available for use in the current rel
 
 ## Batch
 
-To install the CRDs for these resources, your ASO configuration must include `batch.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+To install the CRDs for these resources, your ASO configuration must include `batch.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
 ### Released
 
@@ -127,7 +127,7 @@ These resource(s) are available for use in the current release of ASO. Different
 
 ## Cache
 
-To install the CRDs for these resources, your ASO configuration must include `cache.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+To install the CRDs for these resources, your ASO configuration must include `cache.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
 ### Latest Released Versions
 
@@ -159,7 +159,7 @@ These are older versions of resources still available for use in the current rel
 
 ## Cdn
 
-To install the CRDs for these resources, your ASO configuration must include `cdn.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+To install the CRDs for these resources, your ASO configuration must include `cdn.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
 ### Latest Released Versions
 
@@ -187,7 +187,7 @@ These are older versions of resources still available for use in the current rel
 
 ## Compute
 
-To install the CRDs for these resources, your ASO configuration must include `compute.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+To install the CRDs for these resources, your ASO configuration must include `compute.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
 ### Latest Released Versions
 
@@ -220,7 +220,7 @@ These are older versions of resources still available for use in the current rel
 
 ## ContainerInstance
 
-To install the CRDs for these resources, your ASO configuration must include `containerinstance.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+To install the CRDs for these resources, your ASO configuration must include `containerinstance.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
 ### Released
 
@@ -231,7 +231,7 @@ These resource(s) are available for use in the current release of ASO. Different
 
 ## ContainerRegistry
 
-To install the CRDs for these resources, your ASO configuration must include `containerregistry.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+To install the CRDs for these resources, your ASO configuration must include `containerregistry.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
 ### Latest Released Versions
 
@@ -250,7 +250,7 @@ These are older versions of resources still available for use in the current rel
 
 ## ContainerService
 
-To install the CRDs for these resources, your ASO configuration must include `containerservice.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+To install the CRDs for these resources, your ASO configuration must include `containerservice.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
 ### Latest Released Versions
 
@@ -285,7 +285,7 @@ These are older versions of resources still available for use in the current rel
 
 ## DataFactory
 
-To install the CRDs for these resources, your ASO configuration must include `datafactory.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+To install the CRDs for these resources, your ASO configuration must include `datafactory.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
 ### Released
 
@@ -296,7 +296,7 @@ These resource(s) are available for use in the current release of ASO. Different
 
 ## DataProtection
 
-To install the CRDs for these resources, your ASO configuration must include `dataprotection.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+To install the CRDs for these resources, your ASO configuration must include `dataprotection.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
 ### Latest Released Versions
 
@@ -317,7 +317,7 @@ These are older versions of resources still available for use in the current rel
 
 ## DBforMariaDB
 
-To install the CRDs for these resources, your ASO configuration must include `dbformariadb.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+To install the CRDs for these resources, your ASO configuration must include `dbformariadb.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
 ### Released
 
@@ -330,7 +330,7 @@ These resource(s) are available for use in the current release of ASO. Different
 
 ## DBforMySQL
 
-To install the CRDs for these resources, your ASO configuration must include `dbformysql.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+To install the CRDs for these resources, your ASO configuration must include `dbformysql.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
 Azure Database for MySQL - Single Server is on the retirement path and is [scheduled for retirement by September 16, 2024](https://learn.microsoft.com/en-us/azure/mysql/single-server/whats-happening-to-mysql-single-server). We will not be supporting it in ASO v2.
 
@@ -366,7 +366,7 @@ These are older versions of resources still available for use in the current rel
 
 ## DBforPostgreSQL
 
-To install the CRDs for these resources, your ASO configuration must include `dbforpostgresql.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+To install the CRDs for these resources, your ASO configuration must include `dbforpostgresql.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
 ### Latest Released Versions
 
@@ -406,7 +406,7 @@ These are older versions of resources still available for use in the current rel
 
 ## Devices
 
-To install the CRDs for these resources, your ASO configuration must include `devices.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+To install the CRDs for these resources, your ASO configuration must include `devices.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
 ### Released
 
@@ -417,7 +417,7 @@ These resource(s) are available for use in the current release of ASO. Different
 
 ## DocumentDB
 
-To install the CRDs for these resources, your ASO configuration must include `documentdb.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+To install the CRDs for these resources, your ASO configuration must include `documentdb.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
 ### Latest Released Versions
 
@@ -474,9 +474,20 @@ These are older versions of resources still available for use in the current rel
 | [SqlRoleAssignment]({{< relref "/reference/documentdb/v1api20231115#SqlRoleAssignment" >}})                                                   | 2023-11-15  | v1api20231115 | v2.8.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20231115/v1api20231115_sqlroleassignment.yaml)                       |
 | [SqlRoleAssignment]({{< relref "/reference/documentdb/v1api20210515#SqlRoleAssignment" >}})                                                   | 2021-05-15  | v1api20210515 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20210515/v1api20210515_sqlroleassignment.yaml)                       |
 
+## Entra
+
+To install the CRDs for these resources, your ASO configuration must include `entra.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+
+### Released
+
+These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
+| Resource                                                            | ARM Version | CRD Version | Supported From | Sample                                                                                                      |
+|---------------------------------------------------------------------|-------------|-------------|----------------|-------------------------------------------------------------------------------------------------------------|
+| [SecurityGroup]({{< relref "/reference/entra/v1#SecurityGroup" >}}) | v1          | v1          | v2.14.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/entra/v1/v1_securitygroup.yaml) |
+
 ## EventGrid
 
-To install the CRDs for these resources, your ASO configuration must include `eventgrid.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+To install the CRDs for these resources, your ASO configuration must include `eventgrid.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
 ### Released
 
@@ -490,7 +501,7 @@ These resource(s) are available for use in the current release of ASO. Different
 
 ## EventHub
 
-To install the CRDs for these resources, your ASO configuration must include `eventhub.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+To install the CRDs for these resources, your ASO configuration must include `eventhub.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
 ### Latest Released Versions
 
@@ -516,7 +527,7 @@ These are older versions of resources still available for use in the current rel
 
 ## Insights
 
-To install the CRDs for these resources, your ASO configuration must include `insights.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+To install the CRDs for these resources, your ASO configuration must include `insights.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
 ### Latest Released Versions
 
@@ -541,7 +552,7 @@ These are older versions of resources still available for use in the current rel
 
 ## KeyVault
 
-To install the CRDs for these resources, your ASO configuration must include `keyvault.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+To install the CRDs for these resources, your ASO configuration must include `keyvault.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
 ### Latest Released Versions
 
@@ -559,7 +570,7 @@ These are older versions of resources still available for use in the current rel
 
 ## KubernetesConfiguration
 
-To install the CRDs for these resources, your ASO configuration must include `kubernetesconfiguration.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+To install the CRDs for these resources, your ASO configuration must include `kubernetesconfiguration.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
 ### Latest Released Versions
 
@@ -579,7 +590,7 @@ These are older versions of resources still available for use in the current rel
 
 ## Kusto
 
-To install the CRDs for these resources, your ASO configuration must include `kusto.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+To install the CRDs for these resources, your ASO configuration must include `kusto.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
 ### Released
 
@@ -592,7 +603,7 @@ These resource(s) are available for use in the current release of ASO. Different
 
 ## MachineLearningServices
 
-To install the CRDs for these resources, your ASO configuration must include `machinelearningservices.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+To install the CRDs for these resources, your ASO configuration must include `machinelearningservices.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
 ### Latest Released Versions
 
@@ -615,7 +626,7 @@ These are older versions of resources still available for use in the current rel
 
 ## ManagedIdentity
 
-To install the CRDs for these resources, your ASO configuration must include `managedidentity.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+To install the CRDs for these resources, your ASO configuration must include `managedidentity.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
 ### Latest Released Versions
 
@@ -635,7 +646,7 @@ These are older versions of resources still available for use in the current rel
 
 ## Monitor
 
-To install the CRDs for these resources, your ASO configuration must include `monitor.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+To install the CRDs for these resources, your ASO configuration must include `monitor.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
 ### Released
 
@@ -646,7 +657,7 @@ These resource(s) are available for use in the current release of ASO. Different
 
 ## Network
 
-To install the CRDs for these resources, your ASO configuration must include `network.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+To install the CRDs for these resources, your ASO configuration must include `network.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
 ### Latest Released Versions
 
@@ -739,7 +750,7 @@ These are older versions of resources still available for use in the current rel
 
 ## Network
 
-To install the CRDs for these resources, your ASO configuration must include `network.frontdoor.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+To install the CRDs for these resources, your ASO configuration must include `network.frontdoor.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
 ### Released
 
@@ -750,7 +761,7 @@ These resource(s) are available for use in the current release of ASO. Different
 
 ## NotificationHubs
 
-To install the CRDs for these resources, your ASO configuration must include `notificationhubs.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+To install the CRDs for these resources, your ASO configuration must include `notificationhubs.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
 ### Released
 
@@ -764,7 +775,7 @@ These resource(s) are available for use in the current release of ASO. Different
 
 ## OperationalInsights
 
-To install the CRDs for these resources, your ASO configuration must include `operationalinsights.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+To install the CRDs for these resources, your ASO configuration must include `operationalinsights.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
 ### Released
 
@@ -775,7 +786,7 @@ These resource(s) are available for use in the current release of ASO. Different
 
 ## RedHatOpenShift
 
-To install the CRDs for these resources, your ASO configuration must include `redhatopenshift.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+To install the CRDs for these resources, your ASO configuration must include `redhatopenshift.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
 ### Released
 
@@ -786,7 +797,7 @@ These resource(s) are available for use in the current release of ASO. Different
 
 ## Resources
 
-To install the CRDs for these resources, your ASO configuration must include `resources.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+To install the CRDs for these resources, your ASO configuration must include `resources.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
 ### Released
 
@@ -797,7 +808,7 @@ These resource(s) are available for use in the current release of ASO. Different
 
 ## Search
 
-To install the CRDs for these resources, your ASO configuration must include `search.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+To install the CRDs for these resources, your ASO configuration must include `search.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
 The `authOptions` and `operatorSpec` properties on [`SearchService`](https://azure.github.io/azure-service-operator/reference/search/v1api20220901/#search.azure.com/v1api20220901.SearchService) are not supported in ASO v2.1.0; they'll be included in the next release.
 
@@ -817,7 +828,7 @@ These are older versions of resources still available for use in the current rel
 
 ## ServiceBus
 
-To install the CRDs for these resources, your ASO configuration must include `servicebus.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+To install the CRDs for these resources, your ASO configuration must include `servicebus.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
 ### Latest Released Versions
 
@@ -858,7 +869,7 @@ These are older versions of resources still available for use in the current rel
 
 ## SignalRService
 
-To install the CRDs for these resources, your ASO configuration must include `signalrservice.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+To install the CRDs for these resources, your ASO configuration must include `signalrservice.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
 ### Latest Released Versions
 
@@ -879,7 +890,7 @@ These are older versions of resources still available for use in the current rel
 
 ## Sql
 
-To install the CRDs for these resources, your ASO configuration must include `sql.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+To install the CRDs for these resources, your ASO configuration must include `sql.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
 ### Released
 
@@ -912,7 +923,7 @@ These resource(s) are available for use in the current release of ASO. Different
 
 ## Storage
 
-To install the CRDs for these resources, your ASO configuration must include `storage.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+To install the CRDs for these resources, your ASO configuration must include `storage.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
 ### Latest Released Versions
 
@@ -954,7 +965,7 @@ These are older versions of resources still available for use in the current rel
 
 ## Subscription
 
-To install the CRDs for these resources, your ASO configuration must include `subscription.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+To install the CRDs for these resources, your ASO configuration must include `subscription.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
 ### Released
 
@@ -965,7 +976,7 @@ These resource(s) are available for use in the current release of ASO. Different
 
 ## Synapse
 
-To install the CRDs for these resources, your ASO configuration must include `synapse.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+To install the CRDs for these resources, your ASO configuration must include `synapse.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
 ### Released
 
@@ -977,7 +988,7 @@ These resource(s) are available for use in the current release of ASO. Different
 
 ## Web
 
-To install the CRDs for these resources, your ASO configuration must include `web.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+To install the CRDs for these resources, your ASO configuration must include `web.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
 ### Released
 
