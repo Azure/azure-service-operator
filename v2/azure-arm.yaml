@@ -2694,6 +2694,10 @@ objectModelConfiguration:
       MongoUserDefinitionResource:
         password:
           $isSecret: true
+  entra:
+    v1: # Handcrafted
+      SecurityGroup:
+        $supportedFrom: v2.14.0
   eventgrid:
     2020-06-01:
       Domain:
