@@ -134,6 +134,13 @@
       <description>&lt;p&gt;It was once fairly easy for Azure Service Operator (ASO) users to trigger Azure Resource Manager (ARM) throttling, but this is now much less common because ARM have lifted their service limits considerably.&lt;/p&gt;&#xA;&lt;p&gt;Under the old limits, a single subscription was limited to 600 PUT requests per hour in a given region. With ASO configured to reconcile every 15m, it was possible to hit the rate limit as soon as the number of resources being reconciled closed in on 150.&lt;/p&gt;</description>
     </item>
     <item>
+      <title>CEL Expressions</title>
+      <link>https://azure.github.io/azure-service-operator/guide/expressions/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://azure.github.io/azure-service-operator/guide/expressions/</guid>
+      <description>&lt;h2 id=&#34;cel-expressions-in-aso&#34;&gt;CEL Expressions in ASO&lt;/h2&gt;&#xA;&lt;p&gt;ASO offers some support for &lt;a href=&#34;https://github.com/google/cel-spec&#34;&gt;Common Expression Language (CEL)&lt;/a&gt; expressions.&lt;/p&gt;&#xA;&lt;p&gt;Expressions in ASO can be used to build your own Secret or ConfigMap output. This helps to solve problems like:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Applications that need connection strings with specific (possibly non-standard) formats.&lt;/li&gt;&#xA;&lt;li&gt;Exporting arbitrary fields from a resource for use by other applications.&lt;/li&gt;&#xA;&lt;li&gt;Exporting static text alongside dynamic data.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;CEL expressions are currently supported on most resources via the &lt;code&gt;spec.operatorSpec.configMapExpressions&lt;/code&gt; and&#xA;&lt;code&gt;spec.operatorSpec.secretExpressions&lt;/code&gt; fields, which allow configuring expressions output&#xA;to ConfigMaps and Secrets, respectively.&lt;/p&gt;</description>
+    </item>
+    <item>
       <title>Conditions</title>
       <link>https://azure.github.io/azure-service-operator/guide/conditions/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -146,13 +153,6 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://azure.github.io/azure-service-operator/guide/aso-controller-settings-options/</guid>
       <description>&lt;p&gt;Configuration of ASO is done primarily through a secret in the &lt;code&gt;azureserviceoperator-system&lt;/code&gt;&#xA;namespace called &lt;code&gt;aso-controller-settings&lt;/code&gt;. This secret contains both details about the (optional) global credential&#xA;as well as other operator pod options.&lt;/p&gt;&#xA;&lt;p&gt;The supported options are:&lt;/p&gt;&#xA;&lt;h3 id=&#34;azure_subscription_id&#34;&gt;AZURE_SUBSCRIPTION_ID&lt;/h3&gt;&#xA;&lt;p&gt;Azure subscription the operator will use for ARM communication if&#xA;no &lt;a href=&#34;https://azure.github.io/azure-service-operator/guide/authentication/credential-scope/&#34;&gt;more specific&lt;/a&gt;&#xA;credential is specified at the per-resource or per-namespace scope.&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;Format:&lt;/strong&gt; &lt;code&gt;GUID&lt;/code&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;Example:&lt;/strong&gt; &lt;code&gt;00000000-0000-0000-0000-000000000000&lt;/code&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;Required&lt;/strong&gt;: True&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;&lt;a href=&#34;https://azure.github.io/azure-service-operator/guide/authentication/#credential-scope&#34;&gt;Allowed scopes&lt;/a&gt;&lt;/strong&gt;: Global, namespace, or per-resource&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>CEL Expressions</title>
-      <link>https://azure.github.io/azure-service-operator/guide/expressions/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://azure.github.io/azure-service-operator/guide/expressions/</guid>
-      <description>&lt;h2 id=&#34;expressions-in-aso&#34;&gt;Expressions in ASO&lt;/h2&gt;&#xA;&lt;p&gt;ASO offers some support for &lt;a href=&#34;https://github.com/google/cel-spec&#34;&gt;Common Expression Language (CEL)&lt;/a&gt; expressions.&lt;/p&gt;&#xA;&lt;p&gt;Expressions in ASO can be used to build your own Secret or ConfigMap output. This helps to solve problems like:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Applications that need connection strings with specific (possibly non-standard) formats.&lt;/li&gt;&#xA;&lt;li&gt;Exporting arbitrary fields from a resource for use by other applications.&lt;/li&gt;&#xA;&lt;li&gt;Exporting static text alongside dynamic data.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;CEL expressions are currently supported on most resources via the &lt;code&gt;spec.operatorSpec.configMapExpressions&lt;/code&gt; and&#xA;&lt;code&gt;spec.operatorSpec.secretExpressions&lt;/code&gt; fields, which allow configuring expressions output&#xA;to ConfigMaps and Secrets, respectively.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Handling secrets</title>

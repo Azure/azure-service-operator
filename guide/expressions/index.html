@@ -18,13 +18,13 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>CEL Expressions | Azure Service Operator</title>
-<meta name="description" content="Expressions in ASO ASO offers some support for Common Expression Language (CEL) expressions.
+<meta name="description" content="CEL Expressions in ASO ASO offers some support for Common Expression Language (CEL) expressions.
 Expressions in ASO can be used to build your own Secret or ConfigMap output. This helps to solve problems like:
 Applications that need connection strings with specific (possibly non-standard) formats. Exporting arbitrary fields from a resource for use by other applications. Exporting static text alongside dynamic data. CEL expressions are currently supported on most resources via the spec.operatorSpec.configMapExpressions and spec.operatorSpec.secretExpressions fields, which allow configuring expressions output to ConfigMaps and Secrets, respectively.">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/expressions/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="CEL Expressions">
-  <meta property="og:description" content="Expressions in ASO ASO offers some support for Common Expression Language (CEL) expressions.
+  <meta property="og:description" content="CEL Expressions in ASO ASO offers some support for Common Expression Language (CEL) expressions.
 Expressions in ASO can be used to build your own Secret or ConfigMap output. This helps to solve problems like:
 Applications that need connection strings with specific (possibly non-standard) formats. Exporting arbitrary fields from a resource for use by other applications. Exporting static text alongside dynamic data. CEL expressions are currently supported on most resources via the spec.operatorSpec.configMapExpressions and spec.operatorSpec.secretExpressions fields, which allow configuring expressions output to ConfigMaps and Secrets, respectively.">
   <meta property="og:locale" content="en_us">
@@ -32,13 +32,13 @@ Applications that need connection strings with specific (possibly non-standard) 
     <meta property="article:section" content="guide">
 
   <meta itemprop="name" content="CEL Expressions">
-  <meta itemprop="description" content="Expressions in ASO ASO offers some support for Common Expression Language (CEL) expressions.
+  <meta itemprop="description" content="CEL Expressions in ASO ASO offers some support for Common Expression Language (CEL) expressions.
 Expressions in ASO can be used to build your own Secret or ConfigMap output. This helps to solve problems like:
 Applications that need connection strings with specific (possibly non-standard) formats. Exporting arbitrary fields from a resource for use by other applications. Exporting static text alongside dynamic data. CEL expressions are currently supported on most resources via the spec.operatorSpec.configMapExpressions and spec.operatorSpec.secretExpressions fields, which allow configuring expressions output to ConfigMaps and Secrets, respectively.">
-  <meta itemprop="wordCount" content="624">
+  <meta itemprop="wordCount" content="658">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="CEL Expressions">
-  <meta name="twitter:description" content="Expressions in ASO ASO offers some support for Common Expression Language (CEL) expressions.
+  <meta name="twitter:description" content="CEL Expressions in ASO ASO offers some support for Common Expression Language (CEL) expressions.
 Expressions in ASO can be used to build your own Secret or ConfigMap output. This helps to solve problems like:
 Applications that need connection strings with specific (possibly non-standard) formats. Exporting arbitrary fields from a resource for use by other applications. Exporting static text alongside dynamic data. CEL expressions are currently supported on most resources via the spec.operatorSpec.configMapExpressions and spec.operatorSpec.secretExpressions fields, which allow configuring expressions output to ConfigMaps and Secrets, respectively.">
 <link rel="preload" href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" as="style" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
@@ -173,12 +173,12 @@ Applications that need connection strings with specific (possibly non-standard) 
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.0.0-beta.4/" title="v2.0.0-beta.4 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200-beta4"><span class="">v2.0.0-beta.4</span></a>
 </li>
   </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorguideexpressions-li">
+  <a href="/azure-service-operator/guide/expressions/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideexpressions"><span class="td-sidebar-nav-active-item">CEL Expressions</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideconditions-li">
   <a href="/azure-service-operator/guide/conditions/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideconditions"><span class="">Conditions</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideaso-controller-settings-options-li">
   <a href="/azure-service-operator/guide/aso-controller-settings-options/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideaso-controller-settings-options"><span class="">Configuring ASO</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorguideexpressions-li">
-  <a href="/azure-service-operator/guide/expressions/" title="CEL Expressions" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideexpressions"><span class="td-sidebar-nav-active-item">Expressions</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidesecrets-li">
   <a href="/azure-service-operator/guide/secrets/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidesecrets"><span class="">Handling secrets</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidekeyvaults-li">
@@ -438,8 +438,13 @@ Applications that need connection strings with specific (possibly non-standard) 
   <a href="/azure-service-operator/reference/documentdb/v1api20240815/" title="documentdb.azure.com/v1api20240815" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedocumentdbv1api20240815"><span class="">v1api20240815</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceentrav1-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceentra-li">
+  <a href="/azure-service-operator/reference/entra/" title="Entra Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceentra"><span class="">Entra</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceentrav1-li">
   <a href="/azure-service-operator/reference/entra/v1/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceentrav1"><span class="">entra.azure.com/</span></a>
+</li>
+  </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceeventgrid-li">
   <a href="/azure-service-operator/reference/eventgrid/" title="EventGrid Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceeventgrid"><span class="">EventGrid</span></a>
   <ul class="ul-3 foldable">
@@ -812,7 +817,7 @@ Applications that need connection strings with specific (possibly non-standard) 
             <div class="td-toc">
         <nav id="TableOfContents">
   <ul>
-    <li><a href="#expressions-in-aso">Expressions in ASO</a>
+    <li><a href="#cel-expressions-in-aso">CEL Expressions in ASO</a>
       <ul>
         <li><a href="#inputs">Inputs</a></li>
         <li><a href="#outputs">Outputs</a></li>
@@ -837,7 +842,7 @@ Applications that need connection strings with specific (possibly non-standard) 
   <li class="breadcrumb-item">
     <a href="/azure-service-operator/guide/">Guide</a></li>
   <li class="breadcrumb-item active" aria-current="page">
-    Expressions</li>
+    CEL Expressions</li>
   </ol>
 </nav>
 <div class="td-content">
@@ -846,7 +851,7 @@ Applications that need connection strings with specific (possibly non-standard) 
 	<header class="article-meta">
 		
 </header>
-	<h2 id="expressions-in-aso">Expressions in ASO</h2>
+	<h2 id="cel-expressions-in-aso">CEL Expressions in ASO</h2>
 <p>ASO offers some support for <a href="https://github.com/google/cel-spec">Common Expression Language (CEL)</a> expressions.</p>
 <p>Expressions in ASO can be used to build your own Secret or ConfigMap output. This helps to solve problems like:</p>
 <ul>
@@ -929,6 +934,9 @@ must output <code>string</code> or <code>map[string]string</code> data. Any othe
           <td><a href="https://pkg.go.dev/github.com/google/cel-go/ext#Strings">Extended String Library, version 3</a></td>
       </tr>
       <tr>
+          <td><a href="https://pkg.go.dev/github.com/google/cel-go/ext#TwoVarComprehensions">Extended Two Var Comprehensions, version 0</a></td>
+      </tr>
+      <tr>
           <td><a href="https://pkg.go.dev/github.com/google/cel-go/cel#OptionalTypes">Optional Types</a></td>
       </tr>
       <tr>
@@ -1006,6 +1014,10 @@ documentation to understand what the <code>name</code>/<code>key</code>/<code>va
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">location</span>: <span style="color:#ae81ff">westus2</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">owner</span>:
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">aso-sample-rg</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">tags</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;tag one&#34;: </span><span style="color:#ae81ff">hello</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;tag two&#34;: </span><span style="color:#ae81ff">goodbye</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">three</span>: <span style="color:#ae81ff">four</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">sku</span>:
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">family</span>: <span style="color:#ae81ff">P</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Premium</span>
@@ -1072,7 +1084,7 @@ and the resulting output, still based on the example <code>Redis</code> above.</
       <tr>
           <td>Int output (error)</td>
           <td><code>self.spec.sku.capacity</code></td>
-          <td>Error, expression &ldquo;self.spec.sku.capacity&rdquo; must return one of [string,map(string, string)], but was int</td>
+          <td>Error, expression must return one of [string,map(string, string)], but was int</td>
       </tr>
       <tr>
           <td>Coerce to string</td>
@@ -1088,6 +1100,11 @@ and the resulting output, still based on the example <code>Redis</code> above.</
           <td>Array macro</td>
           <td><code>self.spec.zones.filter(a, int(a) % 2 == 0).join(&quot;-&quot;)</code></td>
           <td><code>2-4</code></td>
+      </tr>
+      <tr>
+          <td>Map macro (TwoVarComprehension) replace spaces with dashes</td>
+          <td><code>self.spec.tags.transformMapEntry(k, v, {k.replace(&quot; &quot;, &quot;-&quot;): v})</code></td>
+          <td><code>{&quot;tag-one&quot;: &quot;hello&quot;, &quot;tag-two&quot;: &quot;goodbye&quot;, &quot;three&quot;: &quot;four&quot;}</code></td>
       </tr>
       <tr>
           <td>Select array item</td>

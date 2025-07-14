@@ -46,11 +46,11 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/breaking-changes/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/expressions/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/conditions/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/aso-controller-settings-options/</loc>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/guide/expressions/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/secrets/</loc>
   </url><url>
@@ -237,6 +237,8 @@
     <loc>https://azure.github.io/azure-service-operator/reference/devices/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/documentdb/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/entra/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/entra/v1/</loc>
   </url><url>
