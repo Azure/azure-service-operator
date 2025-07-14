@@ -102,7 +102,7 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 	if err != nil {
 		err = gr.writeReadyConditionErrorOrDefault(ctx, log, metaObj, err)
 		result, err = gr.RequeueIntervalCalculator.NextInterval(req, result, err)
-		log.V(Verbose).Info("Encountered error, re-queuing...", "result", result)
+		log.V(Verbose).Info("Encountered error, re-queuing...", "result", result, "error", err)
 		return result, err
 	}
 
