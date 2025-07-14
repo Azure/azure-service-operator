@@ -178,8 +178,8 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 	maxBackoff := 1 * time.Minute
 	if cfg.Replaying {
 		requeueDelay = 10 * time.Millisecond
-		minBackoff = 5 * time.Millisecond
-		maxBackoff = 5 * time.Millisecond
+		minBackoff = 10 * time.Millisecond
+		maxBackoff = 10 * time.Millisecond
 	}
 
 	// We use a custom indexer here so that we can simulate the caching client behavior for indexing even though
