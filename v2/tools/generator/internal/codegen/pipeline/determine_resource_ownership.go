@@ -166,13 +166,13 @@ func (o *ownershipStage) updateChildResourceDefinitionsWithOwner(
 			return eris.Errorf("couldn't find child resource type %s", typeName)
 		}
 
-		// TODO: If it ever arises that we have a resource whose owner doesn't exist in the same API
-		// TODO: version this might be an issue.
 		// Ownership transcends APIVersion, but in order for things like $exportAs to work, it's best if
 		// ownership for each resource points to the owner in the same package. This ensures that standard tools
 		// like renamingVisitor work.
-		if !typeName.InternalPackageReference().Equals(owningResourceName.InternalPackageReference()) {
-			continue // Don't own if in a different package
+		// So we prefer to set owners within the same package as the child if we can
+		effectiveOwner := owningResourceName
+		if o, ok := o.definitions[effectiveOwner.WithPackageReference(typeName.InternalPackageReference())]; ok {
+			effectiveOwner = o.Name()
 		}
 
 		// Update the definition of the child resource type to point to its owner
@@ -181,12 +181,12 @@ func (o *ownershipStage) updateChildResourceDefinitionsWithOwner(
 			return eris.Errorf("child resource %s not of type *astmodel.ResourceType, instead %T", typeName, childResourceDef.Type())
 		}
 
-		childResourceDef = childResourceDef.WithType(childResource.WithOwner(owningResourceName))
+		childResourceDef = childResourceDef.WithType(childResource.WithOwner(effectiveOwner))
 		err := updatedDefs.AddAllowDuplicates(childResourceDef)
 		if err != nil {
 			// workaround: StorSimple has the same URIs on multiple "different" types
 			// resolve in favour of the one that has a matching package
-			if childResourceDef.Name().PackageReference().Equals(owningResourceName.PackageReference()) {
+			if childResourceDef.Name().PackageReference().Equals(effectiveOwner.PackageReference()) {
 				// override
 				updatedDefs[childResourceDef.Name()] = childResourceDef
 				continue // okay!
