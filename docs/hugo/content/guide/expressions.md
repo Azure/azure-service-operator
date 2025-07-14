@@ -1,10 +1,10 @@
 ---
 title: CEL Expressions
-linktitle: Expressions
+linktitle: CEL Expressions
 weight: 1 # This is the default weight if you just want to be ordered alphabetically
 ---
 
-## Expressions in ASO
+## CEL Expressions in ASO
 
 ASO offers some support for [Common Expression Language (CEL)](https://github.com/google/cel-spec) expressions.
 
@@ -55,15 +55,16 @@ must output `string` or `map[string]string` data. Any other expression output ty
 
 Compare with [Kubernetes supported options](https://kubernetes.io/docs/reference/using-api/cel/#cel-options-language-features-and-libraries)
 
-| Feature                                                                                                          |
-|------------------------------------------------------------------------------------------------------------------|
-| [Standard macros](https://github.com/google/cel-spec/blob/master/doc/langdef.md#macros)                          |
-| [Standard functions](https://github.com/google/cel-spec/blob/master/doc/langdef.md#list-of-standard-definitions) |
-| [Default UTC Time Zone](https://pkg.go.dev/github.com/google/cel-go/cel#DefaultUTCTimeZone)                      |
-| [Eagerly Validate Declarations](https://pkg.go.dev/github.com/google/cel-go/cel#EagerlyValidateDeclarations)     |
-| [Extended String Library, version 3](https://pkg.go.dev/github.com/google/cel-go/ext#Strings)                    |
-| [Optional Types](https://pkg.go.dev/github.com/google/cel-go/cel#OptionalTypes)                                  |
-| [Cross Type Numeric comparisons](https://pkg.go.dev/github.com/google/cel-go/cel#CrossTypeNumericComparisons)    |
+| Feature                                                                                                             |
+|---------------------------------------------------------------------------------------------------------------------|
+| [Standard macros](https://github.com/google/cel-spec/blob/master/doc/langdef.md#macros)                             |
+| [Standard functions](https://github.com/google/cel-spec/blob/master/doc/langdef.md#list-of-standard-definitions)    |
+| [Default UTC Time Zone](https://pkg.go.dev/github.com/google/cel-go/cel#DefaultUTCTimeZone)                         |
+| [Eagerly Validate Declarations](https://pkg.go.dev/github.com/google/cel-go/cel#EagerlyValidateDeclarations)        |
+| [Extended String Library, version 3](https://pkg.go.dev/github.com/google/cel-go/ext#Strings)                       |
+| [Extended Two Var Comprehensions, version 0](https://pkg.go.dev/github.com/google/cel-go/ext#TwoVarComprehensions)  |
+| [Optional Types](https://pkg.go.dev/github.com/google/cel-go/cel#OptionalTypes)                                     |
+| [Cross Type Numeric comparisons](https://pkg.go.dev/github.com/google/cel-go/cel#CrossTypeNumericComparisons)       |
 
 
 ### Escaping
@@ -111,6 +112,10 @@ spec:
   location: westus2
   owner:
     name: aso-sample-rg
+  tags:
+    "tag one": hello
+    "tag two": goodbye
+    three: four
   sku:
     family: P
     name: Premium
@@ -155,14 +160,16 @@ data:
 From here on, we'll elide the supporting YAML of the above example and just focus on the CEL expression input (`value`)
 and the resulting output, still based on the example `Redis` above.
 
-| Description        | Expression                                             | Result                                                                                                  |
-|--------------------|--------------------------------------------------------|---------------------------------------------------------------------------------------------------------|
-| Hardcoded string   | `"helloworld"`                                         | `helloworld`                                                                                            |
-| Formatted string   | `"%s:%d".format([self.spec.location, 7])`              | `westus2:7`                                                                                             |
-| String math        | `self.metadata.namespace + ":" + self.metadata.name`   | `default:sampleredis1`                                                                                  |
-| Int output (error) | `self.spec.sku.capacity`                               | Error, expression "self.spec.sku.capacity" must return one of [string,map(string, string)], but was int |
-| Coerce to string   | `string(self.spec.sku.capacity)`                       | `1`                                                                                                     |
-| Map output         | `self.metadata.annotations`                            | `{"foo": "bar", "baz": "qux"}`                                                                          |
-| Array macro        | `self.spec.zones.filter(a, int(a) % 2 == 0).join("-")` | `2-4`                                                                                                   |
-| Select array item  | `self.spec.zones[0]`                                   | `1`                                                                                                     |
-| Select map item    | `self.metadata.annotations["foo"]`                     | `bar`                                                                                                   |
+| Description                                                | Expression                                                                    | Result                                                                         |
+| ---------------------------------------------------------- | ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| Hardcoded string                                           | `"helloworld"`                                                                | `helloworld`                                                                   |
+| Formatted string                                           | `"%s:%d".format([self.spec.location, 7])`                                     | `westus2:7`                                                                    |
+| String math                                                | `self.metadata.namespace + ":" + self.metadata.name`                          | `default:sampleredis1`                                                         |
+| Int output (error)                                         | `self.spec.sku.capacity`                                                      | Error, expression must return one of [string,map(string, string)], but was int |
+| Coerce to string                                           | `string(self.spec.sku.capacity)`                                              | `1`                                                                            |
+| Map output                                                 | `self.metadata.annotations`                                                   | `{"foo": "bar", "baz": "qux"}`                                                 |
+| Array macro                                                | `self.spec.zones.filter(a, int(a) % 2 == 0).join("-")`                        | `2-4`                                                                          |
+| Map macro (TwoVarComprehension) replace spaces with dashes | `self.spec.tags.transformMapEntry(k, v, {k.replace(" ", "-"): v})`            | `{"tag-one": "hello", "tag-two": "goodbye", "three": "four"}`                  |
+| Select array item                                          | `self.spec.zones[0]`                                                          | `1`                                                                            |
+| Select map item                                            | `self.metadata.annotations["foo"]`                                            | `bar`                                                                          |
+
