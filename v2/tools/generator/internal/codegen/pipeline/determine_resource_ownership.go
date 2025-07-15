@@ -193,9 +193,16 @@ func (o *ownershipStage) updateChildResourceDefinitionsWithOwner(
 		// Ownership transcends APIVersion, but in order for things like $exportAs to work, it's best if
 		// ownership for each resource points to the owner in the same package. This ensures that standard tools
 		// like renamingVisitor work.
+		//
 		// Thus, we prefer to set owners within the same package as the child if we can.
 		// If we must have an owner in a different package, we need to disambiguate by choosing the one in the
 		// newest package so that our order of processing produces a consistent result.
+		//
+		// Two examples for why we need to do this:
+		//  (i) StorSimple has the ame URIs on "different" types (different potential parents for
+		//     the same child), so we disambiguate in favour of the one with the same package.
+		// (ii) Insights don't publish all resources in all versions, so we have parents from
+		//      different versions than their children (e.g. Component vs PricingPlan)
 
 		// If the child doesn't have an owner, set it to the candidate we have
 		existingOwner := childResource.Owner()
