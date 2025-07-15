@@ -113,15 +113,5 @@ func secretsToWrite(obj *storage.Account, keys map[string]string) ([]*v1.Secret,
 	collector.AddValue(operatorSpecSecrets.Key1, keys[accountKey1])
 	collector.AddValue(operatorSpecSecrets.Key2, keys[accountKey2])
 
-	for k, v := range keys {
-		if k == accountKey1 || k == accountKey2 {
-			continue
-		}
-		collector.AddValue(&genruntime.SecretDestination{
-			Name: operatorSpecSecrets.Key1.Name,
-			Key:  k,
-		}, v)
-	}
-
 	return collector.Values()
 }
