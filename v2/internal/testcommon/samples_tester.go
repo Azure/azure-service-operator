@@ -74,6 +74,8 @@ var exclusions = []string{
 
 	// [Issue #3091] Exclude backupvaultsbackupinstance as it requires role assignments to be created after backup instance is created to make it land into protection configured state.
 	"backupvaultsbackupinstance",
+
+	"virtualnetworkgateway", // blocks RG deletion and causes networking tests to fail
 }
 
 type SamplesTester struct {

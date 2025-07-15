@@ -33,27 +33,6 @@ type VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded stru
 	Type *string `json:"type,omitempty"`
 }
 
-// Identity for the resource.
-type ManagedServiceIdentity_STATUS struct {
-	// PrincipalId: The principal id of the system assigned identity. This property will only be provided for a system assigned
-	// identity.
-	PrincipalId *string `json:"principalId,omitempty"`
-
-	// TenantId: The tenant id of the system assigned identity. This property will only be provided for a system assigned
-	// identity.
-	TenantId *string `json:"tenantId,omitempty"`
-
-	// Type: The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly
-	// created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual
-	// machine.
-	Type *ManagedServiceIdentity_Type_STATUS `json:"type,omitempty"`
-
-	// UserAssignedIdentities: The list of user identities associated with resource. The user identity dictionary key
-	// references will be ARM resource ids in the form:
-	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-	UserAssignedIdentities map[string]ManagedServiceIdentity_UserAssignedIdentities_STATUS `json:"userAssignedIdentities,omitempty"`
-}
-
 // VirtualNetworkGateway properties.
 type VirtualNetworkGatewayPropertiesFormat_STATUS struct {
 	// ActiveActive: ActiveActive flag.
@@ -162,31 +141,6 @@ type BgpSettings_STATUS struct {
 
 	// PeerWeight: The weight added to routes learned from this BGP speaker.
 	PeerWeight *int `json:"peerWeight,omitempty"`
-}
-
-type ManagedServiceIdentity_Type_STATUS string
-
-const (
-	ManagedServiceIdentity_Type_STATUS_None                       = ManagedServiceIdentity_Type_STATUS("None")
-	ManagedServiceIdentity_Type_STATUS_SystemAssigned             = ManagedServiceIdentity_Type_STATUS("SystemAssigned")
-	ManagedServiceIdentity_Type_STATUS_SystemAssignedUserAssigned = ManagedServiceIdentity_Type_STATUS("SystemAssigned, UserAssigned")
-	ManagedServiceIdentity_Type_STATUS_UserAssigned               = ManagedServiceIdentity_Type_STATUS("UserAssigned")
-)
-
-// Mapping from string to ManagedServiceIdentity_Type_STATUS
-var managedServiceIdentity_Type_STATUS_Values = map[string]ManagedServiceIdentity_Type_STATUS{
-	"none":                         ManagedServiceIdentity_Type_STATUS_None,
-	"systemassigned":               ManagedServiceIdentity_Type_STATUS_SystemAssigned,
-	"systemassigned, userassigned": ManagedServiceIdentity_Type_STATUS_SystemAssignedUserAssigned,
-	"userassigned":                 ManagedServiceIdentity_Type_STATUS_UserAssigned,
-}
-
-type ManagedServiceIdentity_UserAssignedIdentities_STATUS struct {
-	// ClientId: The client id of user assigned identity.
-	ClientId *string `json:"clientId,omitempty"`
-
-	// PrincipalId: The principal id of user assigned identity.
-	PrincipalId *string `json:"principalId,omitempty"`
 }
 
 // Virtual Network Gateway Autoscale Configuration details

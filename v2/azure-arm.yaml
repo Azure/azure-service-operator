@@ -3683,6 +3683,30 @@ objectModelConfiguration:
         $export: true
         $supportedFrom: v2.10.0
     2024-03-01:
+      AzureFirewall:
+        $exportAs: AzureFirewall
+        $supportedFrom: v2.15.0
+      FirewallPolicy:
+        $exportAs: FirewallPolicy
+        $supportedFrom: v2.15.0
+      AzureFirewallIPConfiguration:
+        $resourceEmbeddedInParent: AzureFirewall
+      AzureFirewallApplicationRuleCollection:
+        $resourceEmbeddedInParent: AzureFirewall
+      AzureFirewallNatRuleCollection:
+        $resourceEmbeddedInParent: AzureFirewall
+      AzureFirewallNetworkRuleCollection:
+        $resourceEmbeddedInParent: AzureFirewall
+      FirewallPolicies_RuleCollectionGroup:
+        $exportAs: FirewallPoliciesRuleCollectionGroup
+        $supportedFrom: v2.15.0
+      # Tested this but it didn't seem to work in tests, always got an ERROR CODE UNAVAILABLE
+      # FirewallPolicies_SignatureOverride:
+      #   $exportAs: FirewallPoliciesSignatureOverride
+      #   $supportedFrom: v2.15.0
+      FirewallPolicyIntrusionDetectionSignatureSpecification:
+        Id:
+          $referenceType: simple
       BastionHost:
         $export: true
         $supportedFrom: v2.11.0
