@@ -7,8 +7,6 @@ package customizations
 
 import (
 	"context"
-	"regexp"
-	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cognitiveservices/armcognitiveservices"
 	"github.com/go-logr/logr"
@@ -77,12 +75,6 @@ func (ext *AccountExtension) ExportKubernetesSecrets(
 		keys[accountKey2] = to.Value(resp.Key2)
 	}
 
-	if typedObj.Status.Properties.Endpoints != nil {
-		for k, v := range typedObj.Status.Properties.Endpoints {
-			keys[sanitiseKey(k)] = v
-		}
-	}
-
 	secretSlice, err := secretsToWrite(typedObj, keys)
 	if err != nil {
 		return nil, err
@@ -132,13 +124,4 @@ func secretsToWrite(obj *storage.Account, keys map[string]string) ([]*v1.Secret,
 	}
 
 	return collector.Values()
-}
-
-func sanitiseKey(input string) string {
-	safe := strings.ToLower(strings.ReplaceAll(input, " ", "-"))
-
-	regex := regexp.MustCompile(`[^-._a-zA-Z0-9]`)
-	safe = regex.ReplaceAllString(safe, "")
-
-	return safe
 }

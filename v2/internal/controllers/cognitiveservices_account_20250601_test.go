@@ -46,9 +46,10 @@ func Test_CognitiveServices_Account_20250601_CRUD(t *testing.T) {
 						Key:   "endpoint",
 						Value: "self.status.properties.endpoint",
 					},
-					// Keys in 'Endpoints' contain spaces so default CEL mapping fails kubernetes regex.
-					// As far as I can tell ASO doesn't support transformation in CELs.
-					// Therefore implemented mapping in extension.
+					{
+						Name:  "cogsecrets",
+						Value: `self.status.properties.endpoints.transformMapEntry(k, v, {k.replace(" ", "-").lowerAscii(): v})`,
+					},
 				},
 			},
 			Owner: testcommon.AsOwner(rg),

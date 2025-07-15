@@ -19,6 +19,8 @@ spec:
       - name: sample-secrets
         key: endpoint
         value: self.status.properties.endpoint
+      - name: sample-secrets
+        value: 'self.status.properties.endpoints.transformMapEntry(k, v, {k.replace(" ", "-").lowerAscii(): v})'
   owner:
     name: sample-rg
   properties:
