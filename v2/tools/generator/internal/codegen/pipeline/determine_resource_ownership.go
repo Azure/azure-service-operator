@@ -156,50 +156,74 @@ func (o *ownershipStage) updateChildResourceDefinitionsWithOwner(
 	owningResourceName astmodel.InternalTypeName,
 	updatedDefs astmodel.TypeDefinitionSet,
 ) error {
+	applyOwnerToChild := func(
+		owner astmodel.InternalTypeName,
+		def astmodel.TypeDefinition,
+		rsrc *astmodel.ResourceType,
+	) {
+		// Update the child resource to have the requested owner
+		rsrc = rsrc.WithOwner(owner)
+		def = def.WithType(rsrc)
+
+		// We update the definition set with overwrite semantics, as we may have already added this child
+		// with a worse choice for owner
+		updatedDefs[def.Name()] = def
+	}
+
 	for _, typeName := range childResourceTypeNames {
 		// Use the singular form of the name
 		typeName = typeName.Singular()
 
-		// Confirm the type really exists
-		childResourceDef, ok := o.definitions[typeName]
+		// Confirm the child type really exists by finding its definition.
+		// Look in updatedDefs first, as we may have already modified it
+		childResourceDef, ok := updatedDefs[typeName]
 		if !ok {
-			return eris.Errorf("couldn't find child resource type %s", typeName)
+			// If not found, look in the original definitions
+			childResourceDef, ok = o.definitions[typeName]
+			if !ok {
+				return eris.Errorf("couldn't find child resource type %s", typeName)
+			}
 		}
 
-		// Ownership transcends APIVersion, but in order for things like $exportAs to work, it's best if
-		// ownership for each resource points to the owner in the same package. This ensures that standard tools
-		// like renamingVisitor work.
-		// So we prefer to set owners within the same package as the child if we can
-		effectiveOwner := owningResourceName
-		if o, ok := o.definitions[effectiveOwner.WithPackageReference(typeName.InternalPackageReference())]; ok {
-			effectiveOwner = o.Name()
-		}
-
-		// Update the definition of the child resource type to point to its owner
 		childResource, ok := childResourceDef.Type().(*astmodel.ResourceType)
 		if !ok {
 			return eris.Errorf("child resource %s not of type *astmodel.ResourceType, instead %T", typeName, childResourceDef.Type())
 		}
 
-		childResourceDef = childResourceDef.WithType(childResource.WithOwner(effectiveOwner))
-		err := updatedDefs.AddAllowDuplicates(childResourceDef)
-		if err != nil {
-			// workaround: StorSimple has the same URIs on multiple "different" types
-			// resolve in favour of the one that has a matching package
-			if childResourceDef.Name().PackageReference().Equals(effectiveOwner.PackageReference()) {
-				// override
-				updatedDefs[childResourceDef.Name()] = childResourceDef
-				continue // okay!
-			} else {
-				// double-check that existing one matches
-				existingDef := updatedDefs[childResourceDef.Name()]
-				rt := existingDef.Type().(*astmodel.ResourceType)
-				if existingDef.Name().PackageReference().Equals(rt.Owner().PackageReference()) {
-					continue // okay!
-				}
-			}
+		// Ownership transcends APIVersion, but in order for things like $exportAs to work, it's best if
+		// ownership for each resource points to the owner in the same package. This ensures that standard tools
+		// like renamingVisitor work.
+		// Thus, we prefer to set owners within the same package as the child if we can.
+		// If we must have an owner in a different package, we need to disambiuate by choosing the one in the
+		// newest package so that our order of processing produces a consistent result.
 
-			return eris.Wrapf(err, "conflicting child resource already defined for %s [%s]", typeName, childResource.ARMURI())
+		// If the child doesn't have an owner, set it to the candidate we have
+		existingOwner := childResource.Owner()
+		if existingOwner.IsEmpty() {
+			applyOwnerToChild(owningResourceName, childResourceDef, childResource)
+			continue
+		}
+
+		// if the child already has an owner in the same package as the child,
+		// keep that owner unchanged
+		if existingOwner.PackageReference().Equals(typeName.PackageReference()) {
+			continue
+		}
+
+		// If the candidate new owner is in the same package as the child, use that
+		if owningResourceName.InternalPackageReference().Equals(typeName.InternalPackageReference()) {
+			applyOwnerToChild(owningResourceName, childResourceDef, childResource)
+			continue
+		}
+
+		// Given two candidate owners, neither of which is in the same package as the child,
+		// we need to choose the one with the most recent package reference.
+		if astmodel.ComparePathAndVersion(
+			existingOwner.InternalPackageReference().ImportPath(),
+			owningResourceName.InternalPackageReference().ImportPath()) < 0 {
+			// New owner is more recent, so use it
+			applyOwnerToChild(owningResourceName, childResourceDef, childResource)
+			continue
 		}
 	}
 
