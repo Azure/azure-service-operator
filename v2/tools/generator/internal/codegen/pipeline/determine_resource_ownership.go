@@ -194,7 +194,7 @@ func (o *ownershipStage) updateChildResourceDefinitionsWithOwner(
 		// ownership for each resource points to the owner in the same package. This ensures that standard tools
 		// like renamingVisitor work.
 		// Thus, we prefer to set owners within the same package as the child if we can.
-		// If we must have an owner in a different package, we need to disambiuate by choosing the one in the
+		// If we must have an owner in a different package, we need to disambiguate by choosing the one in the
 		// newest package so that our order of processing produces a consistent result.
 
 		// If the child doesn't have an owner, set it to the candidate we have
