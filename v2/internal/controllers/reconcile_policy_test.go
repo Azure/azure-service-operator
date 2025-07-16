@@ -218,9 +218,7 @@ func testDeleteSkipped(t *testing.T, policy string) {
 
 	rg.Annotations["serviceoperator.azure.com/reconcile-policy"] = policy
 	tc.Patch(old, rg)
-	rv := rg.GetResourceVersion()
-	print(rv)
-	tc.Eventually(rg).Should(tc.Match.BeProvisioned(0))
+	tc.Eventually(rg).Should(tc.Match.BeProvisioned(-1))
 
 	tc.DeleteResourceAndWait(rg)
 
