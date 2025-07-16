@@ -18,7 +18,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/common/config"
 )
 
-var DefaultMaxConcurrentReconciles = 1
+var DefaultMaxConcurrentReconciles = 4
 
 // NOTE: Changes to documentation or available values here should be documented in Helm values.yaml as well
 
@@ -89,14 +89,14 @@ type Values struct {
 	UserAgentSuffix string
 
 	// MaxConcurrentReconciles is the number of threads/goroutines dedicated to reconciling each resource type.
-	// If not specified, the default is 1.
+	// If not specified, the default is 4.
 	// IMPORTANT: Having MaxConcurrentReconciles set to N does not mean that ASO is limited to N interactions with
 	// Azure at any given time, because the control loop yields to another resource while it is not actively issuing HTTP
 	// calls to Azure. Any single resource only blocks the control-loop for its resource-type for as long as it takes to issue
 	// an HTTP call to Azure, view the result, and make a decision. In most cases the time taken to perform these actions
 	// (and thus how long the loop is blocked and preventing other resources from being acted upon) is a few hundred
 	// milliseconds to at most a second or two. In a typical 60s period, many hundreds or even thousands of resources
-	// can be managed with this set to 1.
+	// for a given resource type can be managed with this set to 1.
 	// MaxConcurrentReconciles applies to every registered resource type being watched/managed by ASO.
 	MaxConcurrentReconciles int
 
