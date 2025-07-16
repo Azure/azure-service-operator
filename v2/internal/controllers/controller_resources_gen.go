@@ -1399,7 +1399,10 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(network_v20220701s.DnsResolversOutboundEndpoint)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20240101s.ApplicationSecurityGroup)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20240101s.WebApplicationFirewallPolicy)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.AzureFirewall)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.BastionHost)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.FirewallPoliciesRuleCollectionGroup)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.FirewallPolicy)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.LoadBalancer)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.LoadBalancersInboundNatRule)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.NatGateway)})
@@ -3845,9 +3848,24 @@ func getKnownTypes() []*registration.KnownType {
 	result = append(
 		result,
 		&registration.KnownType{
+			Obj:       new(network_v20240301.AzureFirewall),
+			Defaulter: &network_v20240301w.AzureFirewall{},
+			Validator: &network_v20240301w.AzureFirewall{},
+		},
+		&registration.KnownType{
 			Obj:       new(network_v20240301.BastionHost),
 			Defaulter: &network_v20240301w.BastionHost{},
 			Validator: &network_v20240301w.BastionHost{},
+		},
+		&registration.KnownType{
+			Obj:       new(network_v20240301.FirewallPoliciesRuleCollectionGroup),
+			Defaulter: &network_v20240301w.FirewallPoliciesRuleCollectionGroup{},
+			Validator: &network_v20240301w.FirewallPoliciesRuleCollectionGroup{},
+		},
+		&registration.KnownType{
+			Obj:       new(network_v20240301.FirewallPolicy),
+			Defaulter: &network_v20240301w.FirewallPolicy{},
+			Validator: &network_v20240301w.FirewallPolicy{},
 		},
 		&registration.KnownType{
 			Obj:       new(network_v20240301.LoadBalancer),
@@ -3936,7 +3954,10 @@ func getKnownTypes() []*registration.KnownType {
 		})
 	result = append(
 		result,
+		&registration.KnownType{Obj: new(network_v20240301s.AzureFirewall)},
 		&registration.KnownType{Obj: new(network_v20240301s.BastionHost)},
+		&registration.KnownType{Obj: new(network_v20240301s.FirewallPoliciesRuleCollectionGroup)},
+		&registration.KnownType{Obj: new(network_v20240301s.FirewallPolicy)},
 		&registration.KnownType{Obj: new(network_v20240301s.LoadBalancer)},
 		&registration.KnownType{Obj: new(network_v20240301s.LoadBalancersInboundNatRule)},
 		&registration.KnownType{Obj: new(network_v20240301s.NatGateway)},
@@ -4961,6 +4982,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &monitor_customizations.AccountExtension{})
 	result = append(result, &network_customizations.ApplicationGatewayExtension{})
 	result = append(result, &network_customizations.ApplicationSecurityGroupExtension{})
+	result = append(result, &network_customizations.AzureFirewallExtension{})
 	result = append(result, &network_customizations.BastionHostExtension{})
 	result = append(result, &network_customizations.DnsForwardingRuleSetsForwardingRuleExtension{})
 	result = append(result, &network_customizations.DnsForwardingRuleSetsVirtualNetworkLinkExtension{})
@@ -4978,6 +5000,8 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &network_customizations.DnsZonesPTRRecordExtension{})
 	result = append(result, &network_customizations.DnsZonesSRVRecordExtension{})
 	result = append(result, &network_customizations.DnsZonesTXTRecordExtension{})
+	result = append(result, &network_customizations.FirewallPoliciesRuleCollectionGroupExtension{})
+	result = append(result, &network_customizations.FirewallPolicyExtension{})
 	result = append(result, &network_customizations.LoadBalancerExtension{})
 	result = append(result, &network_customizations.LoadBalancersInboundNatRuleExtension{})
 	result = append(result, &network_customizations.NatGatewayExtension{})

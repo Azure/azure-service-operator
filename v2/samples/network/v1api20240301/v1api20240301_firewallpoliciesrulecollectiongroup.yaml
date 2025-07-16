@@ -1,0 +1,16 @@
+apiVersion: network.azure.com/v1api20240301
+kind: FirewallPoliciesRuleCollectionGroup
+metadata:
+  name: aso-sample-rulecollectiongroup
+  namespace: default
+spec:
+  owner:
+    name: aso-sample-firewallpolicy
+  priority: 200
+  ruleCollections:
+  - firewallPolicyFilterRuleCollection:
+      action:
+        type: Allow
+      name: TestRuleCollection
+      priority: 1000
+      ruleCollectionType: FirewallPolicyFilterRuleCollection

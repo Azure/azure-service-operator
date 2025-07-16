@@ -313,24 +313,6 @@ type BgpSettings_STATUS struct {
 	PropertyBag         genruntime.PropertyBag                    `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20240301.ManagedServiceIdentity
-// Identity for the resource.
-type ManagedServiceIdentity struct {
-	PropertyBag            genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	Type                   *string                       `json:"type,omitempty"`
-	UserAssignedIdentities []UserAssignedIdentityDetails `json:"userAssignedIdentities,omitempty"`
-}
-
-// Storage version of v1api20240301.ManagedServiceIdentity_STATUS
-// Identity for the resource.
-type ManagedServiceIdentity_STATUS struct {
-	PrincipalId            *string                                                         `json:"principalId,omitempty"`
-	PropertyBag            genruntime.PropertyBag                                          `json:"$propertyBag,omitempty"`
-	TenantId               *string                                                         `json:"tenantId,omitempty"`
-	Type                   *string                                                         `json:"type,omitempty"`
-	UserAssignedIdentities map[string]ManagedServiceIdentity_UserAssignedIdentities_STATUS `json:"userAssignedIdentities,omitempty"`
-}
-
 // Storage version of v1api20240301.VirtualNetworkGatewayAutoScaleConfiguration
 // Virtual Network Gateway Autoscale Configuration details
 type VirtualNetworkGatewayAutoScaleConfiguration struct {
@@ -530,13 +512,6 @@ type IpsecPolicy_STATUS struct {
 	SaLifeTimeSeconds   *int                   `json:"saLifeTimeSeconds,omitempty"`
 }
 
-// Storage version of v1api20240301.ManagedServiceIdentity_UserAssignedIdentities_STATUS
-type ManagedServiceIdentity_UserAssignedIdentities_STATUS struct {
-	ClientId    *string                `json:"clientId,omitempty"`
-	PrincipalId *string                `json:"principalId,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
 // Storage version of v1api20240301.RadiusServer
 // Radius Server Settings.
 type RadiusServer struct {
@@ -553,13 +528,6 @@ type RadiusServer_STATUS struct {
 	RadiusServerAddress *string                `json:"radiusServerAddress,omitempty"`
 	RadiusServerScore   *int                   `json:"radiusServerScore,omitempty"`
 	RadiusServerSecret  *string                `json:"radiusServerSecret,omitempty"`
-}
-
-// Storage version of v1api20240301.UserAssignedIdentityDetails
-// Information about the user assigned identity for the resource
-type UserAssignedIdentityDetails struct {
-	PropertyBag genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
-	Reference   genruntime.ResourceReference `armReference:"Reference" json:"reference,omitempty"`
 }
 
 // Storage version of v1api20240301.VirtualNetworkGatewayAutoScaleBounds

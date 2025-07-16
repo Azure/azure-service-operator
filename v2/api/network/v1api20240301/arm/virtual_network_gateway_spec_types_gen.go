@@ -40,15 +40,6 @@ func (gateway *VirtualNetworkGateway_Spec) GetType() string {
 	return "Microsoft.Network/virtualNetworkGateways"
 }
 
-// Identity for the resource.
-type ManagedServiceIdentity struct {
-	// Type: The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly
-	// created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual
-	// machine.
-	Type                   *ManagedServiceIdentity_Type           `json:"type,omitempty"`
-	UserAssignedIdentities map[string]UserAssignedIdentityDetails `json:"userAssignedIdentities,omitempty"`
-}
-
 // VirtualNetworkGateway properties.
 type VirtualNetworkGatewayPropertiesFormat struct {
 	// ActiveActive: ActiveActive flag.
@@ -145,28 +136,6 @@ type BgpSettings struct {
 
 	// PeerWeight: The weight added to routes learned from this BGP speaker.
 	PeerWeight *int `json:"peerWeight,omitempty"`
-}
-
-// +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
-type ManagedServiceIdentity_Type string
-
-const (
-	ManagedServiceIdentity_Type_None                       = ManagedServiceIdentity_Type("None")
-	ManagedServiceIdentity_Type_SystemAssigned             = ManagedServiceIdentity_Type("SystemAssigned")
-	ManagedServiceIdentity_Type_SystemAssignedUserAssigned = ManagedServiceIdentity_Type("SystemAssigned, UserAssigned")
-	ManagedServiceIdentity_Type_UserAssigned               = ManagedServiceIdentity_Type("UserAssigned")
-)
-
-// Mapping from string to ManagedServiceIdentity_Type
-var managedServiceIdentity_Type_Values = map[string]ManagedServiceIdentity_Type{
-	"none":                         ManagedServiceIdentity_Type_None,
-	"systemassigned":               ManagedServiceIdentity_Type_SystemAssigned,
-	"systemassigned, userassigned": ManagedServiceIdentity_Type_SystemAssignedUserAssigned,
-	"userassigned":                 ManagedServiceIdentity_Type_UserAssigned,
-}
-
-// Information about the user assigned identity for the resource
-type UserAssignedIdentityDetails struct {
 }
 
 // Virtual Network Gateway Autoscale Configuration details

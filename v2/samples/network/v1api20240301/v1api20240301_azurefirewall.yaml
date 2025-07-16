@@ -1,0 +1,26 @@
+apiVersion: network.azure.com/v1api20240301
+kind: AzureFirewall
+metadata:
+  name: aso-sample-firewall
+  namespace: default
+spec:
+  location: westcentralus
+  owner:
+    name: aso-sample-rg
+  firewallPolicy:
+    reference:
+      group: network.azure.com
+      kind: FirewallPolicy
+      name: aso-sample-firewallpolicy
+  ipConfigurations:
+  - name: firewall-ipconfig
+    publicIPAddress:
+      reference:
+        group: network.azure.com
+        kind: PublicIPAddress
+        name: firewallpublicip
+    subnet:
+      reference:
+        group: network.azure.com
+        kind: VirtualNetworksSubnet
+        name: azurefirewallsubnet
