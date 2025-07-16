@@ -187,7 +187,6 @@ func NotificationHub_WriteSecrets(tc *testcommon.KubePerTestContext, hub *notifi
 		},
 	}
 	tc.PatchResourceAndWait(old, hub)
-	tc.ExportAsSample(hub)
 
 	tc.ExpectSecretHasKeys(
 		namespaceKeysSecret,

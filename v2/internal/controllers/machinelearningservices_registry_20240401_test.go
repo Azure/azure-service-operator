@@ -56,7 +56,6 @@ func Test_MachineLearning_Registry_20240401_CRUD(t *testing.T) {
 			},
 		},
 	}
-	tc.ExportAsSample(registry)
 
 	tc.CreateResourceAndWait(registry)
 	// Ensure that the status is what we expect

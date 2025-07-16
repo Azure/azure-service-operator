@@ -109,7 +109,6 @@ func Test_Networking_ApplicationGateway_20220701_CRUD(t *testing.T) {
 			},
 		},
 	}
-	tc.ExportAsSample(appGtwWaf)
 	tc.CreateResourcesAndWait(applicationGateway, appGtwWaf)
 	tc.Expect(applicationGateway.Status.Id).ToNot(BeNil())
 	tc.Expect(applicationGateway.Status.Sku).ToNot(BeNil())
