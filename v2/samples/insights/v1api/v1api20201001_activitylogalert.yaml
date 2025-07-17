@@ -1,0 +1,27 @@
+apiVersion: insights.azure.com/v1api20201001
+kind: ActivityLogAlert
+metadata:
+  name: aso-sample-activitylogalert
+  namespace: default
+spec:
+  actions:
+    actionGroups:
+    - actionGroupReference:
+        name: aso-sample-actiongroup
+        group: insights.azure.com
+        kind: ActionGroup
+  condition:
+    allOf:
+    - field: "category"
+      equals: "Administrative"
+    - field: "operationName"
+      equals: "Microsoft.Storage/storageAccounts/write"
+  description: "Sample activity log alert for administrative operations"
+  enabled: false
+  location: global
+  owner:
+    name: aso-sample-rg
+  scopesReferences:
+  - group: storage.azure.com
+    kind: StorageAccount
+    name: samplestoragema
