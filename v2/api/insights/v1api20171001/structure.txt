@@ -5,7 +5,7 @@ APIVersion: Enum (1 value)
 └── "2017-10-01"
 
 PricingPlan: Resource
-├── Owner: insights/v1api20150501.Component
+├── Owner: insights/v1api20200202.Component
 ├── Spec: Object (7 properties)
 │   ├── Cap: *float64
 │   ├── OperatorSpec: *Object (2 properties)
