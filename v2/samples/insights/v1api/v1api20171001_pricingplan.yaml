@@ -1,0 +1,11 @@
+apiVersion: insights.azure.com/v1api20171001
+kind: PricingPlan
+metadata:
+  name: aso-sample-pricingplan
+  namespace: default
+spec:
+  cap: 1.0
+  owner:
+    name: sampleappinsights
+  planType: "Basic"
+  stopSendNotificationWhenHitCap: false
