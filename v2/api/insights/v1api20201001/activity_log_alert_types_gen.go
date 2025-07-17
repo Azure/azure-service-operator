@@ -1068,7 +1068,7 @@ const APIVersion_Value = APIVersion("2020-10-01")
 // A list of Activity Log Alert rule actions.
 type ActionList struct {
 	// ActionGroups: The list of the Action Groups.
-	ActionGroups []ActionGroup `json:"actionGroups,omitempty"`
+	ActionGroups []ActionGroupReference `json:"actionGroups,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ActionList{}
@@ -1086,7 +1086,7 @@ func (list *ActionList) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 		if err != nil {
 			return nil, err
 		}
-		result.ActionGroups = append(result.ActionGroups, *item_ARM.(*arm.ActionGroup))
+		result.ActionGroups = append(result.ActionGroups, *item_ARM.(*arm.ActionGroupReference))
 	}
 	return result, nil
 }
@@ -1105,7 +1105,7 @@ func (list *ActionList) PopulateFromARM(owner genruntime.ArbitraryOwnerReference
 
 	// Set property "ActionGroups":
 	for _, item := range typedInput.ActionGroups {
-		var item1 ActionGroup
+		var item1 ActionGroupReference
 		err := item1.PopulateFromARM(owner, item)
 		if err != nil {
 			return err
@@ -1122,14 +1122,14 @@ func (list *ActionList) AssignProperties_From_ActionList(source *storage.ActionL
 
 	// ActionGroups
 	if source.ActionGroups != nil {
-		actionGroupList := make([]ActionGroup, len(source.ActionGroups))
+		actionGroupList := make([]ActionGroupReference, len(source.ActionGroups))
 		for actionGroupIndex, actionGroupItem := range source.ActionGroups {
 			// Shadow the loop variable to avoid aliasing
 			actionGroupItem := actionGroupItem
-			var actionGroup ActionGroup
-			err := actionGroup.AssignProperties_From_ActionGroup(&actionGroupItem)
+			var actionGroup ActionGroupReference
+			err := actionGroup.AssignProperties_From_ActionGroupReference(&actionGroupItem)
 			if err != nil {
-				return eris.Wrap(err, "calling AssignProperties_From_ActionGroup() to populate field ActionGroups")
+				return eris.Wrap(err, "calling AssignProperties_From_ActionGroupReference() to populate field ActionGroups")
 			}
 			actionGroupList[actionGroupIndex] = actionGroup
 		}
@@ -1149,14 +1149,14 @@ func (list *ActionList) AssignProperties_To_ActionList(destination *storage.Acti
 
 	// ActionGroups
 	if list.ActionGroups != nil {
-		actionGroupList := make([]storage.ActionGroup, len(list.ActionGroups))
+		actionGroupList := make([]storage.ActionGroupReference, len(list.ActionGroups))
 		for actionGroupIndex, actionGroupItem := range list.ActionGroups {
 			// Shadow the loop variable to avoid aliasing
 			actionGroupItem := actionGroupItem
-			var actionGroup storage.ActionGroup
-			err := actionGroupItem.AssignProperties_To_ActionGroup(&actionGroup)
+			var actionGroup storage.ActionGroupReference
+			err := actionGroupItem.AssignProperties_To_ActionGroupReference(&actionGroup)
 			if err != nil {
-				return eris.Wrap(err, "calling AssignProperties_To_ActionGroup() to populate field ActionGroups")
+				return eris.Wrap(err, "calling AssignProperties_To_ActionGroupReference() to populate field ActionGroups")
 			}
 			actionGroupList[actionGroupIndex] = actionGroup
 		}
@@ -1181,11 +1181,11 @@ func (list *ActionList) Initialize_From_ActionList_STATUS(source *ActionList_STA
 
 	// ActionGroups
 	if source.ActionGroups != nil {
-		actionGroupList := make([]ActionGroup, len(source.ActionGroups))
+		actionGroupList := make([]ActionGroupReference, len(source.ActionGroups))
 		for actionGroupIndex, actionGroupItem := range source.ActionGroups {
 			// Shadow the loop variable to avoid aliasing
 			actionGroupItem := actionGroupItem
-			var actionGroup ActionGroup
+			var actionGroup ActionGroupReference
 			err := actionGroup.Initialize_From_ActionGroup_STATUS(&actionGroupItem)
 			if err != nil {
 				return eris.Wrap(err, "calling Initialize_From_ActionGroup_STATUS() to populate field ActionGroups")
@@ -1629,135 +1629,6 @@ func (condition *AlertRuleAllOfCondition_STATUS) AssignProperties_To_AlertRuleAl
 }
 
 // A pointer to an Azure Action Group.
-type ActionGroup struct {
-	// +kubebuilder:validation:Required
-	// ActionGroupReference: The resource ID of the Action Group. This cannot be null or empty.
-	ActionGroupReference *genruntime.ResourceReference `armReference:"ActionGroupId" json:"actionGroupReference,omitempty"`
-
-	// WebhookProperties: the dictionary of custom properties to include with the post operation. These data are appended to
-	// the webhook payload.
-	WebhookProperties map[string]string `json:"webhookProperties,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &ActionGroup{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (group *ActionGroup) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if group == nil {
-		return nil, nil
-	}
-	result := &arm.ActionGroup{}
-
-	// Set property "ActionGroupId":
-	if group.ActionGroupReference != nil {
-		actionGroupReferenceARMID, err := resolved.ResolvedReferences.Lookup(*group.ActionGroupReference)
-		if err != nil {
-			return nil, err
-		}
-		actionGroupReference := actionGroupReferenceARMID
-		result.ActionGroupId = &actionGroupReference
-	}
-
-	// Set property "WebhookProperties":
-	if group.WebhookProperties != nil {
-		result.WebhookProperties = make(map[string]string, len(group.WebhookProperties))
-		for key, value := range group.WebhookProperties {
-			result.WebhookProperties[key] = value
-		}
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (group *ActionGroup) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.ActionGroup{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (group *ActionGroup) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.ActionGroup)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ActionGroup, got %T", armInput)
-	}
-
-	// no assignment for property "ActionGroupReference"
-
-	// Set property "WebhookProperties":
-	if typedInput.WebhookProperties != nil {
-		group.WebhookProperties = make(map[string]string, len(typedInput.WebhookProperties))
-		for key, value := range typedInput.WebhookProperties {
-			group.WebhookProperties[key] = value
-		}
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_ActionGroup populates our ActionGroup from the provided source ActionGroup
-func (group *ActionGroup) AssignProperties_From_ActionGroup(source *storage.ActionGroup) error {
-
-	// ActionGroupReference
-	if source.ActionGroupReference != nil {
-		actionGroupReference := source.ActionGroupReference.Copy()
-		group.ActionGroupReference = &actionGroupReference
-	} else {
-		group.ActionGroupReference = nil
-	}
-
-	// WebhookProperties
-	group.WebhookProperties = genruntime.CloneMapOfStringToString(source.WebhookProperties)
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_ActionGroup populates the provided destination ActionGroup from our ActionGroup
-func (group *ActionGroup) AssignProperties_To_ActionGroup(destination *storage.ActionGroup) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// ActionGroupReference
-	if group.ActionGroupReference != nil {
-		actionGroupReference := group.ActionGroupReference.Copy()
-		destination.ActionGroupReference = &actionGroupReference
-	} else {
-		destination.ActionGroupReference = nil
-	}
-
-	// WebhookProperties
-	destination.WebhookProperties = genruntime.CloneMapOfStringToString(group.WebhookProperties)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ActionGroup_STATUS populates our ActionGroup from the provided source ActionGroup_STATUS
-func (group *ActionGroup) Initialize_From_ActionGroup_STATUS(source *ActionGroup_STATUS) error {
-
-	// ActionGroupReference
-	if source.ActionGroupId != nil {
-		actionGroupReference := genruntime.CreateResourceReferenceFromARMID(*source.ActionGroupId)
-		group.ActionGroupReference = &actionGroupReference
-	} else {
-		group.ActionGroupReference = nil
-	}
-
-	// WebhookProperties
-	group.WebhookProperties = genruntime.CloneMapOfStringToString(source.WebhookProperties)
-
-	// No error
-	return nil
-}
-
-// A pointer to an Azure Action Group.
 type ActionGroup_STATUS struct {
 	// ActionGroupId: The resource ID of the Action Group. This cannot be null or empty.
 	ActionGroupId *string `json:"actionGroupId,omitempty"`
@@ -1829,6 +1700,135 @@ func (group *ActionGroup_STATUS) AssignProperties_To_ActionGroup_STATUS(destinat
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// A pointer to an Azure Action Group.
+type ActionGroupReference struct {
+	// +kubebuilder:validation:Required
+	// ActionGroupReference: The resource ID of the Action Group. This cannot be null or empty.
+	ActionGroupReference *genruntime.ResourceReference `armReference:"ActionGroupId" json:"actionGroupReference,omitempty"`
+
+	// WebhookProperties: the dictionary of custom properties to include with the post operation. These data are appended to
+	// the webhook payload.
+	WebhookProperties map[string]string `json:"webhookProperties,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &ActionGroupReference{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (reference *ActionGroupReference) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if reference == nil {
+		return nil, nil
+	}
+	result := &arm.ActionGroupReference{}
+
+	// Set property "ActionGroupId":
+	if reference.ActionGroupReference != nil {
+		actionGroupReferenceARMID, err := resolved.ResolvedReferences.Lookup(*reference.ActionGroupReference)
+		if err != nil {
+			return nil, err
+		}
+		actionGroupReference := actionGroupReferenceARMID
+		result.ActionGroupId = &actionGroupReference
+	}
+
+	// Set property "WebhookProperties":
+	if reference.WebhookProperties != nil {
+		result.WebhookProperties = make(map[string]string, len(reference.WebhookProperties))
+		for key, value := range reference.WebhookProperties {
+			result.WebhookProperties[key] = value
+		}
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (reference *ActionGroupReference) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.ActionGroupReference{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (reference *ActionGroupReference) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.ActionGroupReference)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ActionGroupReference, got %T", armInput)
+	}
+
+	// no assignment for property "ActionGroupReference"
+
+	// Set property "WebhookProperties":
+	if typedInput.WebhookProperties != nil {
+		reference.WebhookProperties = make(map[string]string, len(typedInput.WebhookProperties))
+		for key, value := range typedInput.WebhookProperties {
+			reference.WebhookProperties[key] = value
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_ActionGroupReference populates our ActionGroupReference from the provided source ActionGroupReference
+func (reference *ActionGroupReference) AssignProperties_From_ActionGroupReference(source *storage.ActionGroupReference) error {
+
+	// ActionGroupReference
+	if source.ActionGroupReference != nil {
+		actionGroupReference := source.ActionGroupReference.Copy()
+		reference.ActionGroupReference = &actionGroupReference
+	} else {
+		reference.ActionGroupReference = nil
+	}
+
+	// WebhookProperties
+	reference.WebhookProperties = genruntime.CloneMapOfStringToString(source.WebhookProperties)
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ActionGroupReference populates the provided destination ActionGroupReference from our ActionGroupReference
+func (reference *ActionGroupReference) AssignProperties_To_ActionGroupReference(destination *storage.ActionGroupReference) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ActionGroupReference
+	if reference.ActionGroupReference != nil {
+		actionGroupReference := reference.ActionGroupReference.Copy()
+		destination.ActionGroupReference = &actionGroupReference
+	} else {
+		destination.ActionGroupReference = nil
+	}
+
+	// WebhookProperties
+	destination.WebhookProperties = genruntime.CloneMapOfStringToString(reference.WebhookProperties)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_ActionGroup_STATUS populates our ActionGroupReference from the provided source ActionGroup_STATUS
+func (reference *ActionGroupReference) Initialize_From_ActionGroup_STATUS(source *ActionGroup_STATUS) error {
+
+	// ActionGroupReference
+	if source.ActionGroupId != nil {
+		actionGroupReference := genruntime.CreateResourceReferenceFromARMID(*source.ActionGroupId)
+		reference.ActionGroupReference = &actionGroupReference
+	} else {
+		reference.ActionGroupReference = nil
+	}
+
+	// WebhookProperties
+	reference.WebhookProperties = genruntime.CloneMapOfStringToString(source.WebhookProperties)
 
 	// No error
 	return nil

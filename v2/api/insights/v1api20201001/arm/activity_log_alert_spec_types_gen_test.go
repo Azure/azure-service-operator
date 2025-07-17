@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_ActionGroup_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ActionGroupReference_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ActionGroup via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForActionGroup, ActionGroupGenerator()))
+		"Round trip of ActionGroupReference via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForActionGroupReference, ActionGroupReferenceGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForActionGroup runs a test to see if a specific instance of ActionGroup round trips to JSON and back losslessly
-func RunJSONSerializationTestForActionGroup(subject ActionGroup) string {
+// RunJSONSerializationTestForActionGroupReference runs a test to see if a specific instance of ActionGroupReference round trips to JSON and back losslessly
+func RunJSONSerializationTestForActionGroupReference(subject ActionGroupReference) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForActionGroup(subject ActionGroup) string {
 	}
 
 	// Deserialize back into memory
-	var actual ActionGroup
+	var actual ActionGroupReference
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,24 +56,25 @@ func RunJSONSerializationTestForActionGroup(subject ActionGroup) string {
 	return ""
 }
 
-// Generator of ActionGroup instances for property testing - lazily instantiated by ActionGroupGenerator()
-var actionGroupGenerator gopter.Gen
+// Generator of ActionGroupReference instances for property testing - lazily instantiated by
+// ActionGroupReferenceGenerator()
+var actionGroupReferenceGenerator gopter.Gen
 
-// ActionGroupGenerator returns a generator of ActionGroup instances for property testing.
-func ActionGroupGenerator() gopter.Gen {
-	if actionGroupGenerator != nil {
-		return actionGroupGenerator
+// ActionGroupReferenceGenerator returns a generator of ActionGroupReference instances for property testing.
+func ActionGroupReferenceGenerator() gopter.Gen {
+	if actionGroupReferenceGenerator != nil {
+		return actionGroupReferenceGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForActionGroup(generators)
-	actionGroupGenerator = gen.Struct(reflect.TypeOf(ActionGroup{}), generators)
+	AddIndependentPropertyGeneratorsForActionGroupReference(generators)
+	actionGroupReferenceGenerator = gen.Struct(reflect.TypeOf(ActionGroupReference{}), generators)
 
-	return actionGroupGenerator
+	return actionGroupReferenceGenerator
 }
 
-// AddIndependentPropertyGeneratorsForActionGroup is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForActionGroup(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForActionGroupReference is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForActionGroupReference(gens map[string]gopter.Gen) {
 	gens["ActionGroupId"] = gen.PtrOf(gen.AlphaString())
 	gens["WebhookProperties"] = gen.MapOf(
 		gen.AlphaString(),
@@ -137,7 +138,7 @@ func ActionListGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForActionList is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForActionList(gens map[string]gopter.Gen) {
-	gens["ActionGroups"] = gen.SliceOf(ActionGroupGenerator())
+	gens["ActionGroups"] = gen.SliceOf(ActionGroupReferenceGenerator())
 }
 
 func Test_ActivityLogAlert_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

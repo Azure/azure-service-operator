@@ -4,7 +4,6 @@
 package storage
 
 import (
-	storage "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -255,7 +254,7 @@ const APIVersion_Value = APIVersion("2020-10-01")
 // Storage version of v1api20201001.ActionList
 // A list of Activity Log Alert rule actions.
 type ActionList struct {
-	ActionGroups []ActionGroup          `json:"actionGroups,omitempty"`
+	ActionGroups []ActionGroupReference `json:"actionGroups,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
@@ -288,113 +287,22 @@ type AlertRuleAllOfCondition_STATUS struct {
 	PropertyBag genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20201001.ActionGroup
-// A pointer to an Azure Action Group.
-type ActionGroup struct {
-	// +kubebuilder:validation:Required
-	// ActionGroupReference: The resource ID of the Action Group. This cannot be null or empty.
-	ActionGroupReference *genruntime.ResourceReference `armReference:"ActionGroupId" json:"actionGroupReference,omitempty"`
-	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	WebhookProperties    map[string]string             `json:"webhookProperties,omitempty"`
-}
-
-// AssignProperties_From_ActionGroup populates our ActionGroup from the provided source ActionGroup
-func (group *ActionGroup) AssignProperties_From_ActionGroup(source *storage.ActionGroup) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// ObjectMeta
-	propertyBag.Add("ObjectMeta", source.ObjectMeta)
-
-	// Spec
-	propertyBag.Add("Spec", source.Spec)
-
-	// Status
-	propertyBag.Add("Status", source.Status)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		group.PropertyBag = propertyBag
-	} else {
-		group.PropertyBag = nil
-	}
-
-	// Invoke the augmentConversionForActionGroup interface (if implemented) to customize the conversion
-	var groupAsAny any = group
-	if augmentedGroup, ok := groupAsAny.(augmentConversionForActionGroup); ok {
-		err := augmentedGroup.AssignPropertiesFrom(source)
-		if err != nil {
-			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
-		}
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_ActionGroup populates the provided destination ActionGroup from our ActionGroup
-func (group *ActionGroup) AssignProperties_To_ActionGroup(destination *storage.ActionGroup) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(group.PropertyBag)
-
-	// ObjectMeta
-	if propertyBag.Contains("ObjectMeta") {
-		var objectMetum metav1.ObjectMeta
-		err := propertyBag.Pull("ObjectMeta", &objectMetum)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'ObjectMeta' from propertyBag")
-		}
-
-		destination.ObjectMeta = objectMetum
-	} else {
-		destination.ObjectMeta = metav1.ObjectMeta{}
-	}
-
-	// Spec
-	if propertyBag.Contains("Spec") {
-		var spec storage.ActionGroup_Spec
-		err := propertyBag.Pull("Spec", &spec)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'Spec' from propertyBag")
-		}
-
-		destination.Spec = spec
-	} else {
-		destination.Spec = storage.ActionGroup_Spec{}
-	}
-
-	// Status
-	if propertyBag.Contains("Status") {
-		var status storage.ActionGroupResource_STATUS
-		err := propertyBag.Pull("Status", &status)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'Status' from propertyBag")
-		}
-
-		destination.Status = status
-	} else {
-		destination.Status = storage.ActionGroupResource_STATUS{}
-	}
-
-	// Invoke the augmentConversionForActionGroup interface (if implemented) to customize the conversion
-	var groupAsAny any = group
-	if augmentedGroup, ok := groupAsAny.(augmentConversionForActionGroup); ok {
-		err := augmentedGroup.AssignPropertiesTo(destination)
-		if err != nil {
-			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
-		}
-	}
-
-	// No error
-	return nil
-}
-
 // Storage version of v1api20201001.ActionGroup_STATUS
 // A pointer to an Azure Action Group.
 type ActionGroup_STATUS struct {
 	ActionGroupId     *string                `json:"actionGroupId,omitempty"`
 	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	WebhookProperties map[string]string      `json:"webhookProperties,omitempty"`
+}
+
+// Storage version of v1api20201001.ActionGroupReference
+// A pointer to an Azure Action Group.
+type ActionGroupReference struct {
+	// +kubebuilder:validation:Required
+	// ActionGroupReference: The resource ID of the Action Group. This cannot be null or empty.
+	ActionGroupReference *genruntime.ResourceReference `armReference:"ActionGroupId" json:"actionGroupReference,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	WebhookProperties    map[string]string             `json:"webhookProperties,omitempty"`
 }
 
 // Storage version of v1api20201001.AlertRuleAnyOfOrLeafCondition
@@ -457,11 +365,6 @@ type AlertRuleLeafCondition_STATUS struct {
 	Equals      *string                `json:"equals,omitempty"`
 	Field       *string                `json:"field,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-type augmentConversionForActionGroup interface {
-	AssignPropertiesFrom(src *storage.ActionGroup) error
-	AssignPropertiesTo(dst *storage.ActionGroup) error
 }
 
 func init() {

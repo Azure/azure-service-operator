@@ -2903,6 +2903,7 @@ objectModelConfiguration:
           InstrumentationKey: $.Status.InstrumentationKey
     2020-10-01:
       ActionGroup:
+        $renameTo: ActionGroupReference
         ActionGroupId: 
           $referenceType: arm
       ActivityLogAlert:
