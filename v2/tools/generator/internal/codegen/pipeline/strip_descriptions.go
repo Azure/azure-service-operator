@@ -26,7 +26,7 @@ func StripDocumentation(configuration *config.Configuration, log logr.Logger) *S
 		func(ctx context.Context, state *State) (*State, error) {
 			visitor := createPropertyDescriptionRemovalVisitor()
 
-			walker := astmodel.NewTypeWalker[any](
+			walker := astmodel.NewTypeWalker(
 				state.Definitions(),
 				visitor)
 			walker.AfterVisit = stripTypeDefinitionDescription
