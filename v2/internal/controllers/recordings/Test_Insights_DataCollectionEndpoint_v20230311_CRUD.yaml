@@ -1,0 +1,575 @@
+---
+version: 2
+interactions:
+    - id: 0
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 93
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"location":"westus2","name":"asotest-rg-gtqmcn","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "93"
+            Content-Type:
+                - application/json
+            Test-Request-Hash:
+                - 5562d473b327b6bd40093a9509b9f0944636edae0ff5549f6837ff25a821cd4d
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gtqmcn?api-version=2020-06-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 276
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gtqmcn","name":"asotest-rg-gtqmcn","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "276"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: 7A0A6603D810496BB992DD3FD0137B5F Ref B: SYD03EDGE1315 Ref C: 2025-07-17T03:07:39Z'
+        status: 201 Created
+        code: 201
+        duration: 1.95950925s
+    - id: 1
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gtqmcn?api-version=2020-06-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 276
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gtqmcn","name":"asotest-rg-gtqmcn","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "276"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 4A395A6DAE9C4D578E70B2A5AF800DEB Ref B: SYD03EDGE1315 Ref C: 2025-07-17T03:07:43Z'
+        status: 200 OK
+        code: 200
+        duration: 220.551161ms
+    - id: 2
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 133
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"kind":"Linux","location":"westus2","name":"asotest-dce-owjjmt","properties":{"description":"Data collection endpoint for testing"}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "133"
+            Content-Type:
+                - application/json
+            Test-Request-Hash:
+                - c267369312794e35f34669d4023d2f178dee9d1f177ce7e9b087582dde34f46c
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gtqmcn/providers/Microsoft.Insights/dataCollectionEndpoints/asotest-dce-owjjmt?api-version=2023-03-11
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1084
+        uncompressed: false
+        body: '{"properties":{"description":"Data collection endpoint for testing","immutableId":"dce-286babf8057b44c4a06f9efcaa75331c","configurationAccess":{"endpoint":"https://asotest-dce-owjjmt-ccb7.westus2-1.handler.control.monitor.azure.com"},"logsIngestion":{"endpoint":"https://asotest-dce-owjjmt-ccb7.westus2-1.ingest.monitor.azure.com"},"metricsIngestion":{"endpoint":"https://asotest-dce-owjjmt-ccb7.westus2-1.metrics.ingest.monitor.azure.com"},"networkAcls":{"publicNetworkAccess":"Enabled"},"provisioningState":"Succeeded"},"location":"westus2","kind":"Linux","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gtqmcn/providers/Microsoft.Insights/dataCollectionEndpoints/asotest-dce-owjjmt","name":"asotest-dce-owjjmt","type":"Microsoft.Insights/dataCollectionEndpoints","etag":"\"0002445b-0000-0800-0000-687869080000\"","systemData":{"createdBy":"bearps@microsoft.com","createdByType":"User","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"bearps@microsoft.com","lastModifiedByType":"User","lastModifiedAt":"2001-02-03T04:05:06Z"}}'
+        headers:
+            Api-Supported-Versions:
+                - 2021-04-01, 2021-09-01-preview, 2022-06-01, 2023-03-11, 2024-03-11, 2025-05-11
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "1084"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Request-Context:
+                - appId=cid-v1:2bbfbac8-e1b0-44af-b9c6-3a40669d37e3
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            Vary:
+                - Accept-Encoding
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/australiaeast/96173b30-c1e7-4174-8b29-b0c786a9c954
+            X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+                - "199"
+            X-Msedge-Ref:
+                - 'Ref A: 81B3BB1EB7034E80B1E460C29D0B7321 Ref B: SYD03EDGE1315 Ref C: 2025-07-17T03:07:47Z'
+        status: 200 OK
+        code: 200
+        duration: 5.253091855s
+    - id: 3
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gtqmcn/providers/Microsoft.Insights/dataCollectionEndpoints/asotest-dce-owjjmt?api-version=2023-03-11
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1084
+        uncompressed: false
+        body: '{"properties":{"description":"Data collection endpoint for testing","immutableId":"dce-286babf8057b44c4a06f9efcaa75331c","configurationAccess":{"endpoint":"https://asotest-dce-owjjmt-ccb7.westus2-1.handler.control.monitor.azure.com"},"logsIngestion":{"endpoint":"https://asotest-dce-owjjmt-ccb7.westus2-1.ingest.monitor.azure.com"},"metricsIngestion":{"endpoint":"https://asotest-dce-owjjmt-ccb7.westus2-1.metrics.ingest.monitor.azure.com"},"networkAcls":{"publicNetworkAccess":"Enabled"},"provisioningState":"Succeeded"},"location":"westus2","kind":"Linux","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gtqmcn/providers/Microsoft.Insights/dataCollectionEndpoints/asotest-dce-owjjmt","name":"asotest-dce-owjjmt","type":"Microsoft.Insights/dataCollectionEndpoints","etag":"\"0002445b-0000-0800-0000-687869080000\"","systemData":{"createdBy":"bearps@microsoft.com","createdByType":"User","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"bearps@microsoft.com","lastModifiedByType":"User","lastModifiedAt":"2001-02-03T04:05:06Z"}}'
+        headers:
+            Api-Supported-Versions:
+                - 2021-04-01, 2021-09-01-preview, 2022-06-01, 2023-03-11, 2024-03-11, 2025-05-11
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "1084"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Request-Context:
+                - appId=cid-v1:2bbfbac8-e1b0-44af-b9c6-3a40669d37e3
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            Vary:
+                - Accept-Encoding
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 3821FC2F95E546D6B10CD8B7B6F93B9B Ref B: SYD03EDGE1315 Ref C: 2025-07-17T03:07:59Z'
+        status: 200 OK
+        code: 200
+        duration: 383.736527ms
+    - id: 4
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 163
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"kind":"Linux","location":"westus2","name":"asotest-dce-owjjmt","properties":{"description":"Data collection endpoint for testing"},"tags":{"environment":"test"}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "163"
+            Content-Type:
+                - application/json
+            Test-Request-Hash:
+                - fab62127e7f217a25b77d2c85e8adc91af439ea79231a515b00877605b41f92e
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gtqmcn/providers/Microsoft.Insights/dataCollectionEndpoints/asotest-dce-owjjmt?api-version=2023-03-11
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1114
+        uncompressed: false
+        body: '{"properties":{"description":"Data collection endpoint for testing","immutableId":"dce-286babf8057b44c4a06f9efcaa75331c","configurationAccess":{"endpoint":"https://asotest-dce-owjjmt-ccb7.westus2-1.handler.control.monitor.azure.com"},"logsIngestion":{"endpoint":"https://asotest-dce-owjjmt-ccb7.westus2-1.ingest.monitor.azure.com"},"metricsIngestion":{"endpoint":"https://asotest-dce-owjjmt-ccb7.westus2-1.metrics.ingest.monitor.azure.com"},"networkAcls":{"publicNetworkAccess":"Enabled"},"provisioningState":"Succeeded"},"location":"westus2","tags":{"environment":"test"},"kind":"Linux","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gtqmcn/providers/Microsoft.Insights/dataCollectionEndpoints/asotest-dce-owjjmt","name":"asotest-dce-owjjmt","type":"Microsoft.Insights/dataCollectionEndpoints","etag":"\"0002475d-0000-0800-0000-687869150000\"","systemData":{"createdBy":"bearps@microsoft.com","createdByType":"User","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"bearps@microsoft.com","lastModifiedByType":"User","lastModifiedAt":"2001-02-03T04:05:06Z"}}'
+        headers:
+            Api-Supported-Versions:
+                - 2021-04-01, 2021-09-01-preview, 2022-06-01, 2023-03-11, 2024-03-11, 2025-05-11
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "1114"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Request-Context:
+                - appId=cid-v1:2bbfbac8-e1b0-44af-b9c6-3a40669d37e3
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            Vary:
+                - Accept-Encoding
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/australiaeast/120f00e1-db10-4f12-9974-2cb55b8dd1dd
+            X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+                - "199"
+            X-Msedge-Ref:
+                - 'Ref A: 8A6D17C4CC294C3A87C5A6126A773D3D Ref B: SYD03EDGE1315 Ref C: 2025-07-17T03:08:02Z'
+        status: 200 OK
+        code: 200
+        duration: 4.772456729s
+    - id: 5
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "1"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gtqmcn/providers/Microsoft.Insights/dataCollectionEndpoints/asotest-dce-owjjmt?api-version=2023-03-11
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1114
+        uncompressed: false
+        body: '{"properties":{"description":"Data collection endpoint for testing","immutableId":"dce-286babf8057b44c4a06f9efcaa75331c","configurationAccess":{"endpoint":"https://asotest-dce-owjjmt-ccb7.westus2-1.handler.control.monitor.azure.com"},"logsIngestion":{"endpoint":"https://asotest-dce-owjjmt-ccb7.westus2-1.ingest.monitor.azure.com"},"metricsIngestion":{"endpoint":"https://asotest-dce-owjjmt-ccb7.westus2-1.metrics.ingest.monitor.azure.com"},"networkAcls":{"publicNetworkAccess":"Enabled"},"provisioningState":"Succeeded"},"location":"westus2","tags":{"environment":"test"},"kind":"Linux","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gtqmcn/providers/Microsoft.Insights/dataCollectionEndpoints/asotest-dce-owjjmt","name":"asotest-dce-owjjmt","type":"Microsoft.Insights/dataCollectionEndpoints","etag":"\"0002475d-0000-0800-0000-687869150000\"","systemData":{"createdBy":"bearps@microsoft.com","createdByType":"User","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"bearps@microsoft.com","lastModifiedByType":"User","lastModifiedAt":"2001-02-03T04:05:06Z"}}'
+        headers:
+            Api-Supported-Versions:
+                - 2021-04-01, 2021-09-01-preview, 2022-06-01, 2023-03-11, 2024-03-11, 2025-05-11
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "1114"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Request-Context:
+                - appId=cid-v1:2bbfbac8-e1b0-44af-b9c6-3a40669d37e3
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            Vary:
+                - Accept-Encoding
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 03A23954E4754556AB312517069F8E8D Ref B: SYD03EDGE1315 Ref C: 2025-07-17T03:08:13Z'
+        status: 200 OK
+        code: 200
+        duration: 724.760197ms
+    - id: 6
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gtqmcn/providers/Microsoft.Insights/dataCollectionEndpoints/asotest-dce-owjjmt?api-version=2023-03-11
+        method: DELETE
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Api-Supported-Versions:
+                - 2021-04-01, 2021-09-01-preview, 2022-06-01, 2023-03-11, 2024-03-11, 2025-05-11
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Request-Context:
+                - appId=cid-v1:2bbfbac8-e1b0-44af-b9c6-3a40669d37e3
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/australiaeast/21316019-89e7-48bb-8924-32d32a456be9
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Deletes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: 445C0A1EE89C429BB1A6AE0B8DC7640D Ref B: SYD03EDGE1315 Ref C: 2025-07-17T03:08:19Z'
+        status: 200 OK
+        code: 200
+        duration: 4.866839216s
+    - id: 7
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "2"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gtqmcn/providers/Microsoft.Insights/dataCollectionEndpoints/asotest-dce-owjjmt?api-version=2023-03-11
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 250
+        uncompressed: false
+        body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Insights/dataCollectionEndpoints/asotest-dce-owjjmt'' under resource group ''asotest-rg-gtqmcn'' was not found. For more details please go to https://aka.ms/ARMResourceNotFoundFix"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "250"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Failure-Cause:
+                - gateway
+            X-Msedge-Ref:
+                - 'Ref A: FDAD85A91ECB4C7387F25E726640CA9D Ref B: SYD03EDGE1315 Ref C: 2025-07-17T03:08:30Z'
+        status: 404 Not Found
+        code: 404
+        duration: 216.936924ms
+    - id: 8
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gtqmcn?api-version=2020-06-01
+        method: DELETE
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Location:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRHVFFNQ04tV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638883185143745236&c=MIIHpTCCBo2gAwIBAgITfwV1XFBM14xxqYIqEgAEBXVcUDANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDIwHhcNMjUwNDIwMTQ1OTM3WhcNMjUxMDE3MTQ1OTM3WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANlxIFJqNN_OufUB10c86078n914r2WPITqQ7XIuNjZ3kKFyJfNTPH9FCgXYcFiZyl31-F519KwpAfPU6ZaDGIAFAGVh7uwm0NddEAeZQMryzM0oLIhpawnErtAgi6xebrBkm0o-m6f_MCJGLUai_vdl1aFF-tvHldU0S1BX9f1UEIxoQxYWtSOf1UldgltKscFsAHqF-g4qmkAIrV0Ox5br72D_Xh88YTwytDn9B_8bZDAEXu__M70zYUYp_rtk4Xh0DblPC3f_ygvya4-UPS0051jbJELzA01aKbASDBa1KuzLpbmuK1NeDS-BkZ703MlU9CqT5v5GQL801MWZ85UCAwEAAaOCBJIwggSOMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDAyKDQpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MB0GA1UdDgQWBBQeorhOSJxew_PgXhQhp2jF5vagozAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBSuecJrXSWIEwb2BwnDl3x7l48dVTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAAbqu_D90nsX9dNeMEROR-3mF-w5R8A8iq4ZfHbQbtBrIGJnQoGhHpbItIox0cOCH9GhDmvlEesTxLvmiLl3pdRs70eK90tbUxYsQDNN4tsfl3m3B_-Jk0Z12D2-vckHNA6jB1q620KCtft5LW2gLJmS80-AhisqwYMsx6N_aw69y5XNbtBDVyAgCI7zlxtLRZmQtkrE1rPDjvXy6aC6UgdnWx__LK9KqedcOuXWaQ_xJ9LaUUb2wC39Orm3cmx_Hrt72kMh9ebwnnoaRZNa31wA6zJerb5-oruoIMyiHfTTykazrioLX6feYqUmMI6CpAN_nGyQAlSg5uO8pYDiaCc&s=XXy-WMqCryuitIFZ3Sp3T7w9IQII38kyoCdVpEOQy6l64prYORE3HoudPuPe7OXnE3VfFZnkTeTbpB2iS21Lc3O8iyuo2atXdiR0DqEHoE6qqdKUWscDGoSGavbrOeW-t3UhFo0st-AYTCz-BPgJ2e3vQdcmLAPdwD_mOkWzmVbsfAnKI6QJaMc-4ZN69HKYy5DgqhXiytBRmTTFk60RfsZ_ySc-GK_W-8nBq3bfzrJ135G7ykUfPoK5pJVRehfphejMrzkejTyb0pBJ_q3tTvjYUms4CJFUZc1O0IU0jD8zMzQ512teGmKsoaGjsFHVlQunqmoYvfiz2H0a3Nb7Yw&h=D9YdyJ6qYCcqZV0vs0L_r85B5coo4nn1e_a2z2ekwSY
+            Pragma:
+                - no-cache
+            Retry-After:
+                - "15"
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Deletes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: 4CAE1A6E61934E53A477160318B5CCAE Ref B: SYD03EDGE1315 Ref C: 2025-07-17T03:08:31Z'
+        status: 202 Accepted
+        code: 202
+        duration: 3.098902357s
+    - id: 9
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRHVFFNQ04tV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638883185143745236&c=MIIHpTCCBo2gAwIBAgITfwV1XFBM14xxqYIqEgAEBXVcUDANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDIwHhcNMjUwNDIwMTQ1OTM3WhcNMjUxMDE3MTQ1OTM3WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANlxIFJqNN_OufUB10c86078n914r2WPITqQ7XIuNjZ3kKFyJfNTPH9FCgXYcFiZyl31-F519KwpAfPU6ZaDGIAFAGVh7uwm0NddEAeZQMryzM0oLIhpawnErtAgi6xebrBkm0o-m6f_MCJGLUai_vdl1aFF-tvHldU0S1BX9f1UEIxoQxYWtSOf1UldgltKscFsAHqF-g4qmkAIrV0Ox5br72D_Xh88YTwytDn9B_8bZDAEXu__M70zYUYp_rtk4Xh0DblPC3f_ygvya4-UPS0051jbJELzA01aKbASDBa1KuzLpbmuK1NeDS-BkZ703MlU9CqT5v5GQL801MWZ85UCAwEAAaOCBJIwggSOMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDAyKDQpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MB0GA1UdDgQWBBQeorhOSJxew_PgXhQhp2jF5vagozAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBSuecJrXSWIEwb2BwnDl3x7l48dVTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAAbqu_D90nsX9dNeMEROR-3mF-w5R8A8iq4ZfHbQbtBrIGJnQoGhHpbItIox0cOCH9GhDmvlEesTxLvmiLl3pdRs70eK90tbUxYsQDNN4tsfl3m3B_-Jk0Z12D2-vckHNA6jB1q620KCtft5LW2gLJmS80-AhisqwYMsx6N_aw69y5XNbtBDVyAgCI7zlxtLRZmQtkrE1rPDjvXy6aC6UgdnWx__LK9KqedcOuXWaQ_xJ9LaUUb2wC39Orm3cmx_Hrt72kMh9ebwnnoaRZNa31wA6zJerb5-oruoIMyiHfTTykazrioLX6feYqUmMI6CpAN_nGyQAlSg5uO8pYDiaCc&s=XXy-WMqCryuitIFZ3Sp3T7w9IQII38kyoCdVpEOQy6l64prYORE3HoudPuPe7OXnE3VfFZnkTeTbpB2iS21Lc3O8iyuo2atXdiR0DqEHoE6qqdKUWscDGoSGavbrOeW-t3UhFo0st-AYTCz-BPgJ2e3vQdcmLAPdwD_mOkWzmVbsfAnKI6QJaMc-4ZN69HKYy5DgqhXiytBRmTTFk60RfsZ_ySc-GK_W-8nBq3bfzrJ135G7ykUfPoK5pJVRehfphejMrzkejTyb0pBJ_q3tTvjYUms4CJFUZc1O0IU0jD8zMzQ512teGmKsoaGjsFHVlQunqmoYvfiz2H0a3Nb7Yw&h=D9YdyJ6qYCcqZV0vs0L_r85B5coo4nn1e_a2z2ekwSY
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 77A237FECF5F41B097AD8AE3EEB75C85 Ref B: SYD03EDGE1315 Ref C: 2025-07-17T03:08:54Z'
+        status: 200 OK
+        code: 200
+        duration: 761.682793ms
