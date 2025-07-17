@@ -68,5 +68,3 @@ ActivityLogAlert: Resource
     ├── Tags: map[string]string
     └── Type: *string
 
-augmentConversionForActionGroup: Interface
-

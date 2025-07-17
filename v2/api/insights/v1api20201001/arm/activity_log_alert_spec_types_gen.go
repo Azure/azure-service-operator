@@ -55,7 +55,7 @@ type AlertRuleProperties struct {
 // A list of Activity Log Alert rule actions.
 type ActionList struct {
 	// ActionGroups: The list of the Action Groups.
-	ActionGroups []ActionGroup `json:"actionGroups,omitempty"`
+	ActionGroups []ActionGroupReference `json:"actionGroups,omitempty"`
 }
 
 // An Activity Log Alert rule condition that is met when all its member conditions are met.
@@ -65,7 +65,7 @@ type AlertRuleAllOfCondition struct {
 }
 
 // A pointer to an Azure Action Group.
-type ActionGroup struct {
+type ActionGroupReference struct {
 	ActionGroupId *string `json:"actionGroupId,omitempty"`
 
 	// WebhookProperties: the dictionary of custom properties to include with the post operation. These data are appended to
