@@ -1,0 +1,29 @@
+apiVersion: cognitiveservices.azure.com/v1api20250601
+kind: Account
+metadata:
+  name: sample-name
+spec:
+  identity:
+    type: SystemAssigned
+  kind: OpenAI
+  location: westus3
+  operatorSpec:
+    secrets:
+      key1:
+        name: sample-secrets
+        key: key1
+      key2:
+        name: sample-secrets
+        key: key2
+    secretExpressions:
+      - name: sample-secrets
+        key: endpoint
+        value: self.status.properties.endpoint
+      - name: sample-secrets
+        value: 'self.status.properties.endpoints.transformMapEntry(k, v, {k.replace(" ", "-").lowerAscii(): v})'
+  owner:
+    name: sample-rg
+  properties:
+    publicNetworkAccess: Enabled
+  sku:
+    name: S0
