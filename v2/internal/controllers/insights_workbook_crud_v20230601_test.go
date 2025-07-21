@@ -85,6 +85,9 @@ func Test_Insights_Workbook_v20230601_CRUD(t *testing.T) {
 	workbook.Spec.Tags["updated"] = "true"
 	tc.PatchResourceAndWait(old, workbook)
 
+	tc.Expect(workbook.Status.Id).ToNot(BeNil())
+	armId := *workbook.Status.Id
+
 	// Verify the update
 	tc.Expect(workbook.Status.Description).ToNot(BeNil())
 	tc.Expect(*workbook.Status.Description).To(Equal("Updated test workbook description"))
