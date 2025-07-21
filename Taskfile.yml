@@ -738,6 +738,7 @@ tasks:
     deps:
       - controller:generate-crds
     dir: "{{.CONTROLLER_ROOT}}"
+    silent: true
     sources:
       - "{{.CONTROLLER_OUTPUT}}/crd/generated/bases/*.yaml"
     cmds:
