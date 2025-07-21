@@ -122,6 +122,7 @@ tasks:
     deps: 
       - header-check
       - specifier-check
+      - controller:check-crd-size
 
   make-release-artifacts:
     desc: Produce files required for an ASOv2 release
@@ -732,6 +733,16 @@ tasks:
       CRD_OPTIONS: crd:crdVersions=v1,allowDangerousTypes=true output:crd:artifacts:config={{.CONTROLLER_OUTPUT}}/crd/generated/bases
       WEBHOOK_OPTIONS: webhook output:webhook:artifacts:config={{.CONTROLLER_OUTPUT}}/webhook
       RBAC_OPTIONS: rbac:roleName=manager-role output:rbac:artifacts:config={{.CONTROLLER_OUTPUT}}/rbac
+
+  controller:check-crd-size:
+    desc: Check that generated CRDs are not too large for Kubernetes
+    deps:
+      - controller:generate-crds
+    dir: "{{.CONTROLLER_ROOT}}"
+    sources:
+      - "{{.CONTROLLER_OUTPUT}}/crd/generated/bases/*.yaml"
+    cmds:
+      - "{{.SCRIPTS_ROOT}}/check-crd-size.sh {{.CONTROLLER_OUTPUT}}/crd/generated/bases"
 
   controller:generate-genruntime-deepcopy:
     desc: Run controller-gen to generate {{.CONTROLLER_APP}} CRD files.
