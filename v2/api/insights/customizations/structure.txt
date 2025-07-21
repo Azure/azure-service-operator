@@ -15,3 +15,5 @@ ScheduledQueryRuleExtension: Object (0 properties)
 
 WebtestExtension: Object (0 properties)
 
+WorkbookExtension: Object (0 properties)
+
