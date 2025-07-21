@@ -733,6 +733,52 @@ tasks:
       WEBHOOK_OPTIONS: webhook output:webhook:artifacts:config={{.CONTROLLER_OUTPUT}}/webhook
       RBAC_OPTIONS: rbac:roleName=manager-role output:rbac:artifacts:config={{.CONTROLLER_OUTPUT}}/rbac
 
+  controller:check-crd-size:
+    desc: Check that generated CRDs are not too large for Kubernetes
+    deps:
+      - controller:generate-crds
+    dir: "{{.CONTROLLER_ROOT}}"
+    sources:
+      - "{{.CONTROLLER_OUTPUT}}/crd/generated/bases/*.yaml"
+    cmds:
+      - |
+        echo "Checking CRD sizes..."
+        FAILED=false
+        LIMIT_MB=1.5
+        LIMIT_BYTES=$((LIMIT_MB * 1024 * 1024))
+        CRD_DIR="{{.CONTROLLER_OUTPUT}}/crd/generated/bases"
+        
+        echo "Checking CRDs against size limit of ${LIMIT_MB}MiB (${LIMIT_BYTES} bytes)..."
+        
+        for crd_file in "$CRD_DIR"/*.yaml; do
+          if [ -f "$crd_file" ]; then
+            # Convert YAML to JSON and get size using yq
+            json_size=$(yq -o=json "$crd_file" | wc -c)
+            
+            if [ "$json_size" -gt "$LIMIT_BYTES" ]; then
+              yaml_size=$(wc -c < "$crd_file")
+              # Use python for floating point calculation
+              size_mb=$(python3 -c "print(f'{$json_size / 1024 / 1024:.2f}')")
+              echo "❌ CRD too large: $(basename "$crd_file")"
+              echo "   JSON size: ${json_size} bytes (${size_mb}MiB)"
+              echo "   YAML size: ${yaml_size} bytes"
+              echo "   Limit: ${LIMIT_BYTES} bytes (${LIMIT_MB}MiB)"
+              FAILED=true
+            else
+              # Use python for floating point calculation
+              size_mb=$(python3 -c "print(f'{$json_size / 1024 / 1024:.2f}')")
+              echo "✅ $(basename "$crd_file"): ${size_mb}MiB"
+            fi
+          fi
+        done
+        
+        if [ "$FAILED" = true ]; then
+          echo "❌ Build failed: One or more CRDs exceed the ${LIMIT_MB}MiB size limit"
+          exit 1
+        else
+          echo "✅ All CRDs are within the size limit"
+        fi
+
   controller:generate-genruntime-deepcopy:
     desc: Run controller-gen to generate {{.CONTROLLER_APP}} CRD files.
     dir: "{{.CONTROLLER_ROOT}}"
