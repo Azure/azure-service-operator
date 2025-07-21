@@ -1,9 +1,10 @@
 apiVersion: insights.azure.com/v1api20230601
 kind: Workbook
 metadata:
-  name: "c0de8e62-4b3a-4a1b-9b1a-1234567890ab"
+  name: sample-workbook
   namespace: default
 spec:
+  azureName: "c0de8e62-4b3a-4a1b-9b1a-1234567890ab"
   location: westus
   owner:
     name: aso-sample-rg
