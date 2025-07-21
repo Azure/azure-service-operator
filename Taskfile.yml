@@ -122,6 +122,7 @@ tasks:
     deps: 
       - header-check
       - specifier-check
+      - controller:check-crd-size
 
   make-release-artifacts:
     desc: Produce files required for an ASOv2 release
