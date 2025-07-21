@@ -745,7 +745,8 @@ tasks:
         echo "Checking CRD sizes..."
         FAILED=false
         LIMIT_MB=1.5
-        LIMIT_BYTES=$((LIMIT_MB * 1024 * 1024))
+        # Convert 1.5 MiB to bytes: 1.5 * 1024 * 1024 = 1572864
+        LIMIT_BYTES=1572864
         CRD_DIR="{{.CONTROLLER_OUTPUT}}/crd/generated/bases"
         
         echo "Checking CRDs against size limit of ${LIMIT_MB}MiB (${LIMIT_BYTES} bytes)..."
