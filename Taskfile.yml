@@ -753,8 +753,8 @@ tasks:
         
         for crd_file in "$CRD_DIR"/*.yaml; do
           if [ -f "$crd_file" ]; then
-            # Convert YAML to JSON and get size using yq
-            json_size=$(yq -o=json "$crd_file" | wc -c)
+            # Convert YAML to compact JSON and get size using yq
+            json_size=$(yq -o=json --indent 0 "$crd_file" | wc -c)
             
             if [ "$json_size" -gt "$LIMIT_BYTES" ]; then
               yaml_size=$(wc -c < "$crd_file")
