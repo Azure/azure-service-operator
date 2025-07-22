@@ -546,9 +546,9 @@ To install the CRDs for these resources, your ASO configuration must include `in
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource | ARM Version | CRD Version   | Supported From | Sample |
-|----------|-------------|---------------|----------------|--------|
-| Workbook | 2023-06-01  | v1api20230601 | v2.16.0        | -      |
+| Resource | ARM Version | CRD Version   | Supported From | Sample                                                                                                                          |
+|----------|-------------|---------------|----------------|---------------------------------------------------------------------------------------------------------------------------------|
+| Workbook | 2023-06-01  | v1api20230601 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/insights/v1api20230601/v1api20230601_workbook.yaml) |
 
 ### Latest Released Versions
 
