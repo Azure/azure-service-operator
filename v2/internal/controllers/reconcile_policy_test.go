@@ -211,16 +211,22 @@ func testDeleteSkipped(t *testing.T, policy string) {
 	tc.Expect(rg.Status.Id).ToNot(BeNil())
 	armId := *rg.Status.Id
 
+	if policy == "skip" {
+		// This is a hack so that we can tell when reconcile has happened to avoid a race in the recording.
+		// It's only required in the skip case because for detach-on-delete we don't reconcile at all
+		// See HasReconcilePolicyAnnotationChanged
+		old := rg.DeepCopy()
+		rg.Status.Conditions[0].ObservedGeneration = -1
+		tc.PatchStatus(old, rg)
+	}
+
 	// Update to skip reconcile
 	old := rg.DeepCopy()
-	rg.Status.Conditions[0].ObservedGeneration = -1 // This is a hack so that we can tell when reconcile has happened to avoid a race
-	tc.PatchStatus(old, rg)
-
 	rg.Annotations["serviceoperator.azure.com/reconcile-policy"] = policy
 	tc.Patch(old, rg)
-	rv := rg.GetResourceVersion()
-	print(rv)
-	tc.Eventually(rg).Should(tc.Match.BeProvisioned(0))
+	// TODO: There may still be a race here where delete in the operator code gets the old cached value without the policy in the detach-on-delete case,
+	// TODO: since there is no reconcile after the annotation patch (see HasReconcilePolicyAnnotationChanged), so this eventually finishes quickly.
+	tc.Eventually(rg).Should(tc.Match.BeProvisioned(-1))
 
 	tc.DeleteResourceAndWait(rg)
 
