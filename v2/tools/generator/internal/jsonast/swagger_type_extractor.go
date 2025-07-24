@@ -788,7 +788,10 @@ func (extractor *SwaggerTypeExtractor) extractResourceSubpath(operationPath stri
 
 // Some services hardcode default into their URLs like : blobService/default/containers/{containerName}
 // and we don't want the "default" name to be part of the resource type name for those cases, so we detect these hard coded names.
-var hardCodedNames = set.Make("default", "web")
+var hardCodedNames = set.Make(
+	"current",
+	"default",
+	"web")
 
 // inferNameFromURLPath attempts to extract a name from a Swagger operation path
 // for example “…/Microsoft.GroupName/resourceType/{resourceId}” would result

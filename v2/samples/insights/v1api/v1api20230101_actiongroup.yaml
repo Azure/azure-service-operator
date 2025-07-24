@@ -1,7 +1,7 @@
 apiVersion: insights.azure.com/v1api20230101
 kind: ActionGroup
 metadata:
-  name: aso-sample-group
+  name: aso-sample-actiongroup
   namespace: default
 spec:
   enabled: false
