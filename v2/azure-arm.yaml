@@ -2900,6 +2900,15 @@ objectModelConfiguration:
       LogicAppReceiver:
         ResourceId:
           $referenceType: arm
+    2023-06-01:
+      Workbook:
+        $exportAs: Workbook
+        $supportedFrom: v2.16.0
+      WorkbookProperties:
+        SourceId:
+          $referenceType: arm
+        StorageUri:
+          $referenceType: arm
     2022-10-01:
       Autoscalesetting:
         $exportAs: AutoscaleSetting

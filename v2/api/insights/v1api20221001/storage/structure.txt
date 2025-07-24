@@ -170,3 +170,5 @@ AutoscaleSetting: Resource
     ├── TargetResourceUri: *string
     └── Type: *string
 
+augmentConversionForSystemData_STATUS: Interface
+
