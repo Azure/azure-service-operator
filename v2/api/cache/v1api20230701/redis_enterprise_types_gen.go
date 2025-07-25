@@ -50,22 +50,36 @@ var _ conversion.Convertible = &RedisEnterprise{}
 
 // ConvertFrom populates our RedisEnterprise from the provided hub RedisEnterprise
 func (enterprise *RedisEnterprise) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.RedisEnterprise)
-	if !ok {
-		return fmt.Errorf("expected cache/v1api20230701/storage/RedisEnterprise but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.RedisEnterprise
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return enterprise.AssignProperties_From_RedisEnterprise(source)
+	err = enterprise.AssignProperties_From_RedisEnterprise(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to enterprise")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub RedisEnterprise from our RedisEnterprise
 func (enterprise *RedisEnterprise) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.RedisEnterprise)
-	if !ok {
-		return fmt.Errorf("expected cache/v1api20230701/storage/RedisEnterprise but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.RedisEnterprise
+	err := enterprise.AssignProperties_To_RedisEnterprise(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from enterprise")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return enterprise.AssignProperties_To_RedisEnterprise(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &RedisEnterprise{}
@@ -86,17 +100,6 @@ func (enterprise *RedisEnterprise) SecretDestinationExpressions() []*core.Destin
 		return nil
 	}
 	return enterprise.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &RedisEnterprise{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (enterprise *RedisEnterprise) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*RedisEnterprise_STATUS); ok {
-		return enterprise.Spec.Initialize_From_RedisEnterprise_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type RedisEnterprise_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &RedisEnterprise{}
@@ -581,42 +584,6 @@ func (enterprise *RedisEnterprise_Spec) AssignProperties_To_RedisEnterprise_Spec
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_RedisEnterprise_STATUS populates our RedisEnterprise_Spec from the provided source RedisEnterprise_STATUS
-func (enterprise *RedisEnterprise_Spec) Initialize_From_RedisEnterprise_STATUS(source *RedisEnterprise_STATUS) error {
-
-	// Location
-	enterprise.Location = genruntime.ClonePointerToString(source.Location)
-
-	// MinimumTlsVersion
-	if source.MinimumTlsVersion != nil {
-		minimumTlsVersion := genruntime.ToEnum(string(*source.MinimumTlsVersion), clusterProperties_MinimumTlsVersion_Values)
-		enterprise.MinimumTlsVersion = &minimumTlsVersion
-	} else {
-		enterprise.MinimumTlsVersion = nil
-	}
-
-	// Sku
-	if source.Sku != nil {
-		var sku Sku
-		err := sku.Initialize_From_Sku_STATUS(source.Sku)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_Sku_STATUS() to populate field Sku")
-		}
-		enterprise.Sku = &sku
-	} else {
-		enterprise.Sku = nil
-	}
-
-	// Tags
-	enterprise.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Zones
-	enterprise.Zones = genruntime.CloneSliceOfString(source.Zones)
 
 	// No error
 	return nil
@@ -1404,24 +1371,6 @@ func (sku *Sku) AssignProperties_To_Sku(destination *storage.Sku) error {
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Sku_STATUS populates our Sku from the provided source Sku_STATUS
-func (sku *Sku) Initialize_From_Sku_STATUS(source *Sku_STATUS) error {
-
-	// Capacity
-	sku.Capacity = genruntime.ClonePointerToInt(source.Capacity)
-
-	// Name
-	if source.Name != nil {
-		name := genruntime.ToEnum(string(*source.Name), sku_Name_Values)
-		sku.Name = &name
-	} else {
-		sku.Name = nil
 	}
 
 	// No error
