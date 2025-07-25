@@ -116,7 +116,12 @@ func (a *A) ValidateUpdate(ctx context.Context, oldResource runtime.Object, newR
 
 // createValidations validates the creation of the resource
 func (a *A) createValidations() []func(ctx context.Context, obj *v20200101.A) (admission.Warnings, error) {
-	return []func(ctx context.Context, obj *v20200101.A) (admission.Warnings, error){a.validateResourceReferences, a.validateOwnerReference, a.validateSecretDestinations, a.validateConfigMapDestinations}
+	return []func(ctx context.Context, obj *v20200101.A) (admission.Warnings, error){
+		a.validateResourceReferences,
+		a.validateOwnerReference,
+		a.validateSecretDestinations,
+		a.validateConfigMapDestinations,
+	}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -278,7 +283,12 @@ func (b *B) ValidateUpdate(ctx context.Context, oldResource runtime.Object, newR
 
 // createValidations validates the creation of the resource
 func (b *B) createValidations() []func(ctx context.Context, obj *v20200101.B) (admission.Warnings, error) {
-	return []func(ctx context.Context, obj *v20200101.B) (admission.Warnings, error){b.validateResourceReferences, b.validateOwnerReference, b.validateSecretDestinations, b.validateConfigMapDestinations}
+	return []func(ctx context.Context, obj *v20200101.B) (admission.Warnings, error){
+		b.validateResourceReferences,
+		b.validateOwnerReference,
+		b.validateSecretDestinations,
+		b.validateConfigMapDestinations,
+	}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -440,7 +450,12 @@ func (c *C) ValidateUpdate(ctx context.Context, oldResource runtime.Object, newR
 
 // createValidations validates the creation of the resource
 func (c *C) createValidations() []func(ctx context.Context, obj *v20200101.C) (admission.Warnings, error) {
-	return []func(ctx context.Context, obj *v20200101.C) (admission.Warnings, error){c.validateResourceReferences, c.validateOwnerReference, c.validateSecretDestinations, c.validateConfigMapDestinations}
+	return []func(ctx context.Context, obj *v20200101.C) (admission.Warnings, error){
+		c.validateResourceReferences,
+		c.validateOwnerReference,
+		c.validateSecretDestinations,
+		c.validateConfigMapDestinations,
+	}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -602,7 +617,12 @@ func (d *D) ValidateUpdate(ctx context.Context, oldResource runtime.Object, newR
 
 // createValidations validates the creation of the resource
 func (d *D) createValidations() []func(ctx context.Context, obj *v20200101.D) (admission.Warnings, error) {
-	return []func(ctx context.Context, obj *v20200101.D) (admission.Warnings, error){d.validateResourceReferences, d.validateOwnerReference, d.validateSecretDestinations, d.validateConfigMapDestinations}
+	return []func(ctx context.Context, obj *v20200101.D) (admission.Warnings, error){
+		d.validateResourceReferences,
+		d.validateOwnerReference,
+		d.validateSecretDestinations,
+		d.validateConfigMapDestinations,
+	}
 }
 
 // deleteValidations validates the deletion of the resource
