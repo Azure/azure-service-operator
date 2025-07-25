@@ -693,7 +693,12 @@ func (r *ResourceRegistrationFile) makeSimpleWatchesExpr(
 
 	keyParams := make([]dst.Expr, 0, len(keys))
 	for _, key := range keys {
-		keyParams = append(keyParams, astbuilder.StringLiteral(key))
+		k := astbuilder.StringLiteral(key)
+
+		k.Decorations().Before = dst.NewLine
+		k.Decorations().After = dst.NewLine
+
+		keyParams = append(keyParams, k)
 	}
 
 	listType := typeName.WithName(typeName.Name() + "List")
@@ -702,9 +707,13 @@ func (r *ResourceRegistrationFile) makeSimpleWatchesExpr(
 		return nil, eris.Wrapf(err, "creating type expression for %s", listType.Name())
 	}
 
+	slice := astbuilder.SliceLiteral(dst.NewIdent("string"), keyParams...)
+	slice.Decorations().Before = dst.NewLine
+	slice.Decorations().After = dst.NewLine
+
 	eventHandler := astbuilder.CallFunc(
 		watchHelperFuncName,
-		astbuilder.SliceLiteral(dst.NewIdent("string"), keyParams...),
+		slice,
 		astbuilder.AddrOf(astbuilder.NewCompositeLiteralBuilder(listTypeExpr).Build()))
 	newWatchBuilder.AddField("MakeEventHandler", eventHandler)
 
