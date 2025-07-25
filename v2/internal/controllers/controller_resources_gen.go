@@ -382,8 +382,13 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.oauth2.grantTypes.authorizationCode", ".spec.oauth2.grantTypes.clientCredentials"}, &apimanagement_v20220801s.AuthorizationProviderList{}),
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.oauth2.grantTypes.authorizationCode",
+						".spec.oauth2.grantTypes.clientCredentials",
+					},
+					&apimanagement_v20220801s.AuthorizationProviderList{}),
 			},
 		},
 	})
@@ -397,8 +402,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.parameters"}, &apimanagement_v20220801s.AuthorizationProvidersAuthorizationList{}),
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.parameters",
+					},
+					&apimanagement_v20220801s.AuthorizationProvidersAuthorizationList{}),
 			},
 		},
 	})
@@ -416,8 +425,13 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.ConfigMap{},
-				MakeEventHandler: watchConfigMapsFactory([]string{".spec.objectIdFromConfig", ".spec.tenantIdFromConfig"}, &apimanagement_v20220801s.AuthorizationProvidersAuthorizationsAccessPolicyList{}),
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.objectIdFromConfig",
+						".spec.tenantIdFromConfig",
+					},
+					&apimanagement_v20220801s.AuthorizationProvidersAuthorizationsAccessPolicyList{}),
 			},
 		},
 	})
@@ -431,8 +445,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.proxy.password"}, &apimanagement_v20220801s.BackendList{}),
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.proxy.password",
+					},
+					&apimanagement_v20220801s.BackendList{}),
 			},
 		},
 	})
@@ -446,8 +464,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.ConfigMap{},
-				MakeEventHandler: watchConfigMapsFactory([]string{".spec.keyVault.identityClientIdFromConfig"}, &apimanagement_v20220801s.NamedValueList{}),
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.keyVault.identityClientIdFromConfig",
+					},
+					&apimanagement_v20220801s.NamedValueList{}),
 			},
 		},
 	})
@@ -498,12 +520,27 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.certificates.certificatePassword", ".spec.hostnameConfigurations.certificatePassword"}, &apimanagement_v20220801s.ServiceList{}),
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.certificates.certificatePassword",
+						".spec.hostnameConfigurations.certificatePassword",
+					},
+					&apimanagement_v20220801s.ServiceList{}),
 			},
 			{
-				Type:             &v1.ConfigMap{},
-				MakeEventHandler: watchConfigMapsFactory([]string{".spec.certificates.certificate.expiryFromConfig", ".spec.certificates.certificate.subjectFromConfig", ".spec.certificates.certificate.thumbprintFromConfig", ".spec.hostnameConfigurations.certificate.expiryFromConfig", ".spec.hostnameConfigurations.certificate.subjectFromConfig", ".spec.hostnameConfigurations.certificate.thumbprintFromConfig", ".spec.hostnameConfigurations.identityClientIdFromConfig"}, &apimanagement_v20220801s.ServiceList{}),
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.certificates.certificate.expiryFromConfig",
+						".spec.certificates.certificate.subjectFromConfig",
+						".spec.certificates.certificate.thumbprintFromConfig",
+						".spec.hostnameConfigurations.certificate.expiryFromConfig",
+						".spec.hostnameConfigurations.certificate.subjectFromConfig",
+						".spec.hostnameConfigurations.certificate.thumbprintFromConfig",
+						".spec.hostnameConfigurations.identityClientIdFromConfig",
+					},
+					&apimanagement_v20220801s.ServiceList{}),
 			},
 		},
 	})
@@ -521,8 +558,13 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.primaryKey", ".spec.secondaryKey"}, &apimanagement_v20220801s.SubscriptionList{}),
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.primaryKey",
+						".spec.secondaryKey",
+					},
+					&apimanagement_v20220801s.SubscriptionList{}),
 			},
 		},
 	})
@@ -537,8 +579,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.configuration.secrets.value"}, &app_v20240301s.ContainerAppList{}),
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.configuration.secrets.value",
+					},
+					&app_v20240301s.ContainerAppList{}),
 			},
 		},
 	})
@@ -552,8 +598,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.configuration.secrets.value"}, &app_v20240301s.JobList{}),
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.configuration.secrets.value",
+					},
+					&app_v20240301s.JobList{}),
 			},
 		},
 	})
@@ -583,8 +633,16 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.appLogsConfiguration.logAnalyticsConfiguration.sharedKey", ".spec.customDomainConfiguration.certificatePassword", ".spec.customDomainConfiguration.certificateValue", ".spec.daprAIConnectionString", ".spec.daprAIInstrumentationKey"}, &app_v20240301s.ManagedEnvironmentList{}),
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.appLogsConfiguration.logAnalyticsConfiguration.sharedKey",
+						".spec.customDomainConfiguration.certificatePassword",
+						".spec.customDomainConfiguration.certificateValue",
+						".spec.daprAIConnectionString",
+						".spec.daprAIInstrumentationKey",
+					},
+					&app_v20240301s.ManagedEnvironmentList{}),
 			},
 		},
 	})
@@ -599,8 +657,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.ConfigMap{},
-				MakeEventHandler: watchConfigMapsFactory([]string{".spec.principalIdFromConfig"}, &authorization_v20220401s.RoleAssignmentList{}),
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.principalIdFromConfig",
+					},
+					&authorization_v20220401s.RoleAssignmentList{}),
 			},
 		},
 	})
@@ -625,8 +687,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.ConfigMap{},
-				MakeEventHandler: watchConfigMapsFactory([]string{".spec.hostNameFromConfig"}, &cdn_v20230501s.AfdOriginList{}),
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.hostNameFromConfig",
+					},
+					&cdn_v20230501s.AfdOriginList{}),
 			},
 		},
 	})
@@ -683,12 +749,28 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.properties.apiProperties.eventHubConnectionString", ".spec.properties.apiProperties.qnaAzureSearchEndpointKey", ".spec.properties.apiProperties.storageAccountConnectionString", ".spec.properties.migrationToken"}, &cognitiveservices_v20250601s.AccountList{}),
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.properties.apiProperties.eventHubConnectionString",
+						".spec.properties.apiProperties.qnaAzureSearchEndpointKey",
+						".spec.properties.apiProperties.storageAccountConnectionString",
+						".spec.properties.migrationToken",
+					},
+					&cognitiveservices_v20250601s.AccountList{}),
 			},
 			{
-				Type:             &v1.ConfigMap{},
-				MakeEventHandler: watchConfigMapsFactory([]string{".spec.properties.apiProperties.aadClientIdFromConfig", ".spec.properties.apiProperties.aadTenantIdFromConfig", ".spec.properties.apiProperties.qnaAzureSearchEndpointIdFromConfig", ".spec.properties.apiProperties.qnaRuntimeEndpointFromConfig", ".spec.properties.apiProperties.superUserFromConfig", ".spec.properties.apiProperties.websiteNameFromConfig"}, &cognitiveservices_v20250601s.AccountList{}),
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.properties.apiProperties.aadClientIdFromConfig",
+						".spec.properties.apiProperties.aadTenantIdFromConfig",
+						".spec.properties.apiProperties.qnaAzureSearchEndpointIdFromConfig",
+						".spec.properties.apiProperties.qnaRuntimeEndpointFromConfig",
+						".spec.properties.apiProperties.superUserFromConfig",
+						".spec.properties.apiProperties.websiteNameFromConfig",
+					},
+					&cognitiveservices_v20250601s.AccountList{}),
 			},
 		},
 	})
@@ -714,8 +796,15 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.ConfigMap{},
-				MakeEventHandler: watchConfigMapsFactory([]string{".spec.properties.model.formatFromConfig", ".spec.properties.model.nameFromConfig", ".spec.properties.model.publisherFromConfig", ".spec.properties.model.versionFromConfig"}, &cognitiveservices_v20250601s.DeploymentList{}),
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.properties.model.formatFromConfig",
+						".spec.properties.model.nameFromConfig",
+						".spec.properties.model.publisherFromConfig",
+						".spec.properties.model.versionFromConfig",
+					},
+					&cognitiveservices_v20250601s.DeploymentList{}),
 			},
 		},
 	})
@@ -730,8 +819,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.osProfile.adminPassword"}, &compute_v20220301s.VirtualMachineList{}),
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.osProfile.adminPassword",
+					},
+					&compute_v20220301s.VirtualMachineList{}),
 			},
 		},
 	})
@@ -749,8 +842,13 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.virtualMachineProfile.extensionProfile.extensions.protectedSettings", ".spec.virtualMachineProfile.osProfile.adminPassword"}, &compute_v20220301s.VirtualMachineScaleSetList{}),
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.virtualMachineProfile.extensionProfile.extensions.protectedSettings",
+						".spec.virtualMachineProfile.osProfile.adminPassword",
+					},
+					&compute_v20220301s.VirtualMachineScaleSetList{}),
 			},
 		},
 	})
@@ -764,8 +862,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.protectedSettings"}, &compute_v20220301s.VirtualMachineScaleSetsExtensionList{}),
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.protectedSettings",
+					},
+					&compute_v20220301s.VirtualMachineScaleSetsExtensionList{}),
 			},
 		},
 	})
@@ -779,8 +881,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.protectedSettings"}, &compute_v20220301s.VirtualMachinesExtensionList{}),
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.protectedSettings",
+					},
+					&compute_v20220301s.VirtualMachinesExtensionList{}),
 			},
 		},
 	})
@@ -800,8 +906,13 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.ConfigMap{},
-				MakeEventHandler: watchConfigMapsFactory([]string{".spec.activeKey.keyUrlFromConfig", ".spec.federatedClientIdFromConfig"}, &compute_v20240302s.DiskEncryptionSetList{}),
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.activeKey.keyUrlFromConfig",
+						".spec.federatedClientIdFromConfig",
+					},
+					&compute_v20240302s.DiskEncryptionSetList{}),
 			},
 		},
 	})
@@ -828,8 +939,15 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.containers.environmentVariables.secureValue", ".spec.diagnostics.logAnalytics.workspaceKey", ".spec.imageRegistryCredentials.password", ".spec.initContainers.environmentVariables.secureValue"}, &containerinstance_v20211001s.ContainerGroupList{}),
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.containers.environmentVariables.secureValue",
+						".spec.diagnostics.logAnalytics.workspaceKey",
+						".spec.imageRegistryCredentials.password",
+						".spec.initContainers.environmentVariables.secureValue",
+					},
+					&containerinstance_v20211001s.ContainerGroupList{}),
 			},
 		},
 	})
@@ -843,8 +961,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.ConfigMap{},
-				MakeEventHandler: watchConfigMapsFactory([]string{".spec.encryption.keyVaultProperties.identityFromConfig"}, &containerregistry_v20230701s.RegistryList{}),
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.encryption.keyVaultProperties.identityFromConfig",
+					},
+					&containerregistry_v20230701s.RegistryList{}),
 			},
 		},
 	})
@@ -867,8 +989,13 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.servicePrincipalProfile.secret", ".spec.windowsProfile.adminPassword"}, &containerservice_v20240901s.ManagedClusterList{}),
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.servicePrincipalProfile.secret",
+						".spec.windowsProfile.adminPassword",
+					},
+					&containerservice_v20240901s.ManagedClusterList{}),
 			},
 		},
 	})
@@ -890,8 +1017,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.properties.default.administratorLoginPassword"}, &dbformariadb_v20180601s.ServerList{}),
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.properties.default.administratorLoginPassword",
+					},
+					&dbformariadb_v20180601s.ServerList{}),
 			},
 		},
 	})
@@ -909,8 +1040,13 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.administratorLoginPassword", ".spec.importSourceProperties.sasToken"}, &dbformysql_v20231230s.FlexibleServerList{}),
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.administratorLoginPassword",
+						".spec.importSourceProperties.sasToken",
+					},
+					&dbformysql_v20231230s.FlexibleServerList{}),
 			},
 		},
 	})
@@ -928,8 +1064,13 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.ConfigMap{},
-				MakeEventHandler: watchConfigMapsFactory([]string{".spec.sidFromConfig", ".spec.tenantIdFromConfig"}, &dbformysql_v20231230s.FlexibleServersAdministratorList{}),
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.sidFromConfig",
+						".spec.tenantIdFromConfig",
+					},
+					&dbformysql_v20231230s.FlexibleServersAdministratorList{}),
 			},
 		},
 	})
@@ -954,12 +1095,21 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.administratorLoginPassword"}, &dbforpostgresql_v20240801s.FlexibleServerList{}),
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.administratorLoginPassword",
+					},
+					&dbforpostgresql_v20240801s.FlexibleServerList{}),
 			},
 			{
-				Type:             &v1.ConfigMap{},
-				MakeEventHandler: watchConfigMapsFactory([]string{".spec.dataEncryption.geoBackupKeyURIFromConfig", ".spec.dataEncryption.primaryKeyURIFromConfig"}, &dbforpostgresql_v20240801s.FlexibleServerList{}),
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.dataEncryption.geoBackupKeyURIFromConfig",
+						".spec.dataEncryption.primaryKeyURIFromConfig",
+					},
+					&dbforpostgresql_v20240801s.FlexibleServerList{}),
 			},
 		},
 	})
@@ -995,8 +1145,16 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.properties.routing.endpoints.eventHubs.connectionString", ".spec.properties.routing.endpoints.serviceBusQueues.connectionString", ".spec.properties.routing.endpoints.serviceBusTopics.connectionString", ".spec.properties.routing.endpoints.storageContainers.connectionString", ".spec.properties.storageEndpoints.connectionString"}, &devices_v20210702s.IotHubList{}),
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.properties.routing.endpoints.eventHubs.connectionString",
+						".spec.properties.routing.endpoints.serviceBusQueues.connectionString",
+						".spec.properties.routing.endpoints.serviceBusTopics.connectionString",
+						".spec.properties.routing.endpoints.storageContainers.connectionString",
+						".spec.properties.storageEndpoints.connectionString",
+					},
+					&devices_v20210702s.IotHubList{}),
 			},
 		},
 	})
@@ -1011,8 +1169,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.properties.administrator.password"}, &documentdb_v20240701s.MongoClusterList{}),
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.properties.administrator.password",
+					},
+					&documentdb_v20240701s.MongoClusterList{}),
 			},
 		},
 	})
@@ -1032,8 +1194,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.password"}, &documentdb_v20240815s.MongodbUserDefinitionList{}),
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.password",
+					},
+					&documentdb_v20240815s.MongodbUserDefinitionList{}),
 			},
 		},
 	})
@@ -1054,8 +1220,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.ConfigMap{},
-				MakeEventHandler: watchConfigMapsFactory([]string{".spec.principalIdFromConfig"}, &documentdb_v20240815s.SqlRoleAssignmentList{}),
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.principalIdFromConfig",
+					},
+					&documentdb_v20240815s.SqlRoleAssignmentList{}),
 			},
 		},
 	})
@@ -1071,8 +1241,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.destination.webHook.endpointUrl"}, &eventgrid_v20200601s.EventSubscriptionList{}),
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.destination.webHook.endpointUrl",
+					},
+					&eventgrid_v20200601s.EventSubscriptionList{}),
 			},
 		},
 	})
@@ -1111,8 +1285,15 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.ConfigMap{},
-				MakeEventHandler: watchConfigMapsFactory([]string{".spec.properties.accessPolicies.applicationIdFromConfig", ".spec.properties.accessPolicies.objectIdFromConfig", ".spec.properties.accessPolicies.tenantIdFromConfig", ".spec.properties.tenantIdFromConfig"}, &keyvault_v20230701s.VaultList{}),
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.properties.accessPolicies.applicationIdFromConfig",
+						".spec.properties.accessPolicies.objectIdFromConfig",
+						".spec.properties.accessPolicies.tenantIdFromConfig",
+						".spec.properties.tenantIdFromConfig",
+					},
+					&keyvault_v20230701s.VaultList{}),
 			},
 		},
 	})
@@ -1126,8 +1307,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.configurationProtectedSettings"}, &kubernetesconfiguration_v20241101s.ExtensionList{}),
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.configurationProtectedSettings",
+					},
+					&kubernetesconfiguration_v20241101s.ExtensionList{}),
 			},
 		},
 	})
@@ -1189,12 +1374,31 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.azureBlob.accountKey", ".spec.azureBlob.sasToken", ".spec.azureBlob.servicePrincipal.clientCertificate", ".spec.azureBlob.servicePrincipal.clientCertificatePassword", ".spec.azureBlob.servicePrincipal.clientSecret", ".spec.bucket.accessKey", ".spec.configurationProtectedSettings", ".spec.gitRepository.httpsCACert", ".spec.ociRepository.tlsConfig.caCertificate", ".spec.ociRepository.tlsConfig.clientCertificate", ".spec.ociRepository.tlsConfig.privateKey"}, &kubernetesconfiguration_v20241101s.FluxConfigurationList{}),
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.azureBlob.accountKey",
+						".spec.azureBlob.sasToken",
+						".spec.azureBlob.servicePrincipal.clientCertificate",
+						".spec.azureBlob.servicePrincipal.clientCertificatePassword",
+						".spec.azureBlob.servicePrincipal.clientSecret",
+						".spec.bucket.accessKey",
+						".spec.configurationProtectedSettings",
+						".spec.gitRepository.httpsCACert",
+						".spec.ociRepository.tlsConfig.caCertificate",
+						".spec.ociRepository.tlsConfig.clientCertificate",
+						".spec.ociRepository.tlsConfig.privateKey",
+					},
+					&kubernetesconfiguration_v20241101s.FluxConfigurationList{}),
 			},
 			{
-				Type:             &v1.ConfigMap{},
-				MakeEventHandler: watchConfigMapsFactory([]string{".spec.azureBlob.servicePrincipal.clientIdFromConfig", ".spec.azureBlob.servicePrincipal.tenantIdFromConfig"}, &kubernetesconfiguration_v20241101s.FluxConfigurationList{}),
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.azureBlob.servicePrincipal.clientIdFromConfig",
+						".spec.azureBlob.servicePrincipal.tenantIdFromConfig",
+					},
+					&kubernetesconfiguration_v20241101s.FluxConfigurationList{}),
 			},
 		},
 	})
@@ -1208,8 +1412,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.virtualClusterGraduationProperties"}, &kusto_v20230815s.ClusterList{}),
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.virtualClusterGraduationProperties",
+					},
+					&kusto_v20230815s.ClusterList{}),
 			},
 		},
 	})
@@ -1226,8 +1434,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.ConfigMap{},
-				MakeEventHandler: watchConfigMapsFactory([]string{".spec.encryption.keyVaultProperties.identityClientIdFromConfig"}, &machinelearningservices_v20240401s.WorkspaceList{}),
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.encryption.keyVaultProperties.identityClientIdFromConfig",
+					},
+					&machinelearningservices_v20240401s.WorkspaceList{}),
 			},
 		},
 	})
@@ -1301,12 +1513,34 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.properties.aks.properties.sslConfiguration.cert", ".spec.properties.aks.properties.sslConfiguration.key", ".spec.properties.amlCompute.properties.userAccountCredentials.adminUserPassword", ".spec.properties.amlCompute.properties.userAccountCredentials.adminUserSshPublicKey", ".spec.properties.databricks.properties.databricksAccessToken", ".spec.properties.hdInsight.properties.administratorAccount.password", ".spec.properties.hdInsight.properties.administratorAccount.privateKeyData", ".spec.properties.hdInsight.properties.administratorAccount.publicKeyData", ".spec.properties.kubernetes.properties.relayConnectionString", ".spec.properties.kubernetes.properties.serviceBusConnectionString", ".spec.properties.virtualMachine.properties.administratorAccount.password", ".spec.properties.virtualMachine.properties.administratorAccount.privateKeyData", ".spec.properties.virtualMachine.properties.administratorAccount.publicKeyData"}, &machinelearningservices_v20240401s.WorkspacesComputeList{}),
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.properties.aks.properties.sslConfiguration.cert",
+						".spec.properties.aks.properties.sslConfiguration.key",
+						".spec.properties.amlCompute.properties.userAccountCredentials.adminUserPassword",
+						".spec.properties.amlCompute.properties.userAccountCredentials.adminUserSshPublicKey",
+						".spec.properties.databricks.properties.databricksAccessToken",
+						".spec.properties.hdInsight.properties.administratorAccount.password",
+						".spec.properties.hdInsight.properties.administratorAccount.privateKeyData",
+						".spec.properties.hdInsight.properties.administratorAccount.publicKeyData",
+						".spec.properties.kubernetes.properties.relayConnectionString",
+						".spec.properties.kubernetes.properties.serviceBusConnectionString",
+						".spec.properties.virtualMachine.properties.administratorAccount.password",
+						".spec.properties.virtualMachine.properties.administratorAccount.privateKeyData",
+						".spec.properties.virtualMachine.properties.administratorAccount.publicKeyData",
+					},
+					&machinelearningservices_v20240401s.WorkspacesComputeList{}),
 			},
 			{
-				Type:             &v1.ConfigMap{},
-				MakeEventHandler: watchConfigMapsFactory([]string{".spec.properties.computeInstance.properties.personalComputeInstanceSettings.assignedUser.objectIdFromConfig", ".spec.properties.computeInstance.properties.personalComputeInstanceSettings.assignedUser.tenantIdFromConfig", ".spec.properties.kubernetes.properties.extensionPrincipalIdFromConfig"}, &machinelearningservices_v20240401s.WorkspacesComputeList{}),
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.properties.computeInstance.properties.personalComputeInstanceSettings.assignedUser.objectIdFromConfig",
+						".spec.properties.computeInstance.properties.personalComputeInstanceSettings.assignedUser.tenantIdFromConfig",
+						".spec.properties.kubernetes.properties.extensionPrincipalIdFromConfig",
+					},
+					&machinelearningservices_v20240401s.WorkspacesComputeList{}),
 			},
 		},
 	})
@@ -1388,12 +1622,36 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.properties.accessKey.credentials.secretAccessKey", ".spec.properties.accountKey.credentials.key", ".spec.properties.apiKey.credentials.key", ".spec.properties.customKeys.credentials.keys", ".spec.properties.oAuth2.credentials.clientSecret", ".spec.properties.oAuth2.credentials.developerToken", ".spec.properties.oAuth2.credentials.password", ".spec.properties.oAuth2.credentials.refreshToken", ".spec.properties.pat.credentials.pat", ".spec.properties.sas.credentials.sas", ".spec.properties.servicePrincipal.credentials.clientSecret", ".spec.properties.usernamePassword.credentials.password", ".spec.properties.usernamePassword.credentials.securityToken"}, &machinelearningservices_v20240401s.WorkspacesConnectionList{}),
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.properties.accessKey.credentials.secretAccessKey",
+						".spec.properties.accountKey.credentials.key",
+						".spec.properties.apiKey.credentials.key",
+						".spec.properties.customKeys.credentials.keys",
+						".spec.properties.oAuth2.credentials.clientSecret",
+						".spec.properties.oAuth2.credentials.developerToken",
+						".spec.properties.oAuth2.credentials.password",
+						".spec.properties.oAuth2.credentials.refreshToken",
+						".spec.properties.pat.credentials.pat",
+						".spec.properties.sas.credentials.sas",
+						".spec.properties.servicePrincipal.credentials.clientSecret",
+						".spec.properties.usernamePassword.credentials.password",
+						".spec.properties.usernamePassword.credentials.securityToken",
+					},
+					&machinelearningservices_v20240401s.WorkspacesConnectionList{}),
 			},
 			{
-				Type:             &v1.ConfigMap{},
-				MakeEventHandler: watchConfigMapsFactory([]string{".spec.properties.managedIdentity.credentials.clientIdFromConfig", ".spec.properties.oAuth2.credentials.clientIdFromConfig", ".spec.properties.oAuth2.credentials.tenantIdFromConfig", ".spec.properties.servicePrincipal.credentials.clientIdFromConfig", ".spec.properties.servicePrincipal.credentials.tenantIdFromConfig"}, &machinelearningservices_v20240401s.WorkspacesConnectionList{}),
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.properties.managedIdentity.credentials.clientIdFromConfig",
+						".spec.properties.oAuth2.credentials.clientIdFromConfig",
+						".spec.properties.oAuth2.credentials.tenantIdFromConfig",
+						".spec.properties.servicePrincipal.credentials.clientIdFromConfig",
+						".spec.properties.servicePrincipal.credentials.tenantIdFromConfig",
+					},
+					&machinelearningservices_v20240401s.WorkspacesConnectionList{}),
 			},
 		},
 	})
@@ -1411,8 +1669,13 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.ConfigMap{},
-				MakeEventHandler: watchConfigMapsFactory([]string{".spec.issuerFromConfig", ".spec.subjectFromConfig"}, &managedidentity_v20230131s.FederatedIdentityCredentialList{}),
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.issuerFromConfig",
+						".spec.subjectFromConfig",
+					},
+					&managedidentity_v20230131s.FederatedIdentityCredentialList{}),
 			},
 		},
 	})
@@ -1458,8 +1721,16 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.authenticationCertificates.data", ".spec.sslCertificates.data", ".spec.sslCertificates.password", ".spec.trustedClientCertificates.data", ".spec.trustedRootCertificates.data"}, &network_v20220701s.ApplicationGatewayList{}),
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.authenticationCertificates.data",
+						".spec.sslCertificates.data",
+						".spec.sslCertificates.password",
+						".spec.trustedClientCertificates.data",
+						".spec.trustedRootCertificates.data",
+					},
+					&network_v20220701s.ApplicationGatewayList{}),
 			},
 		},
 	})
@@ -1473,8 +1744,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.ConfigMap{},
-				MakeEventHandler: watchConfigMapsFactory([]string{".spec.targetDnsServers.ipAddressFromConfig"}, &network_v20220701s.DnsForwardingRuleSetsForwardingRuleList{}),
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.targetDnsServers.ipAddressFromConfig",
+					},
+					&network_v20220701s.DnsForwardingRuleSetsForwardingRuleList{}),
 			},
 		},
 	})
@@ -1638,8 +1913,40 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.properties.pnsCredentials.admCredential.properties.authTokenUrl", ".spec.properties.pnsCredentials.admCredential.properties.clientId", ".spec.properties.pnsCredentials.admCredential.properties.clientSecret", ".spec.properties.pnsCredentials.apnsCredential.properties.apnsCertificate", ".spec.properties.pnsCredentials.apnsCredential.properties.appId", ".spec.properties.pnsCredentials.apnsCredential.properties.appName", ".spec.properties.pnsCredentials.apnsCredential.properties.certificateKey", ".spec.properties.pnsCredentials.apnsCredential.properties.endpoint", ".spec.properties.pnsCredentials.apnsCredential.properties.keyId", ".spec.properties.pnsCredentials.apnsCredential.properties.thumbprint", ".spec.properties.pnsCredentials.apnsCredential.properties.token", ".spec.properties.pnsCredentials.baiduCredential.properties.baiduApiKey", ".spec.properties.pnsCredentials.baiduCredential.properties.baiduEndPoint", ".spec.properties.pnsCredentials.baiduCredential.properties.baiduSecretKey", ".spec.properties.pnsCredentials.browserCredential.properties.subject", ".spec.properties.pnsCredentials.browserCredential.properties.vapidPrivateKey", ".spec.properties.pnsCredentials.browserCredential.properties.vapidPublicKey", ".spec.properties.pnsCredentials.gcmCredential.properties.gcmEndpoint", ".spec.properties.pnsCredentials.gcmCredential.properties.googleApiKey", ".spec.properties.pnsCredentials.mpnsCredential.properties.certificateKey", ".spec.properties.pnsCredentials.mpnsCredential.properties.mpnsCertificate", ".spec.properties.pnsCredentials.mpnsCredential.properties.thumbprint", ".spec.properties.pnsCredentials.wnsCredential.properties.certificateKey", ".spec.properties.pnsCredentials.wnsCredential.properties.packageSid", ".spec.properties.pnsCredentials.wnsCredential.properties.secretKey", ".spec.properties.pnsCredentials.wnsCredential.properties.windowsLiveEndpoint", ".spec.properties.pnsCredentials.wnsCredential.properties.wnsCertificate", ".spec.properties.pnsCredentials.xiaomiCredential.properties.appSecret", ".spec.properties.pnsCredentials.xiaomiCredential.properties.endpoint"}, &notificationhubs_v20230901s.NamespaceList{}),
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.properties.pnsCredentials.admCredential.properties.authTokenUrl",
+						".spec.properties.pnsCredentials.admCredential.properties.clientId",
+						".spec.properties.pnsCredentials.admCredential.properties.clientSecret",
+						".spec.properties.pnsCredentials.apnsCredential.properties.apnsCertificate",
+						".spec.properties.pnsCredentials.apnsCredential.properties.appId",
+						".spec.properties.pnsCredentials.apnsCredential.properties.appName",
+						".spec.properties.pnsCredentials.apnsCredential.properties.certificateKey",
+						".spec.properties.pnsCredentials.apnsCredential.properties.endpoint",
+						".spec.properties.pnsCredentials.apnsCredential.properties.keyId",
+						".spec.properties.pnsCredentials.apnsCredential.properties.thumbprint",
+						".spec.properties.pnsCredentials.apnsCredential.properties.token",
+						".spec.properties.pnsCredentials.baiduCredential.properties.baiduApiKey",
+						".spec.properties.pnsCredentials.baiduCredential.properties.baiduEndPoint",
+						".spec.properties.pnsCredentials.baiduCredential.properties.baiduSecretKey",
+						".spec.properties.pnsCredentials.browserCredential.properties.subject",
+						".spec.properties.pnsCredentials.browserCredential.properties.vapidPrivateKey",
+						".spec.properties.pnsCredentials.browserCredential.properties.vapidPublicKey",
+						".spec.properties.pnsCredentials.gcmCredential.properties.gcmEndpoint",
+						".spec.properties.pnsCredentials.gcmCredential.properties.googleApiKey",
+						".spec.properties.pnsCredentials.mpnsCredential.properties.certificateKey",
+						".spec.properties.pnsCredentials.mpnsCredential.properties.mpnsCertificate",
+						".spec.properties.pnsCredentials.mpnsCredential.properties.thumbprint",
+						".spec.properties.pnsCredentials.wnsCredential.properties.certificateKey",
+						".spec.properties.pnsCredentials.wnsCredential.properties.packageSid",
+						".spec.properties.pnsCredentials.wnsCredential.properties.secretKey",
+						".spec.properties.pnsCredentials.wnsCredential.properties.windowsLiveEndpoint",
+						".spec.properties.pnsCredentials.wnsCredential.properties.wnsCertificate",
+						".spec.properties.pnsCredentials.xiaomiCredential.properties.appSecret",
+						".spec.properties.pnsCredentials.xiaomiCredential.properties.endpoint",
+					},
+					&notificationhubs_v20230901s.NamespaceList{}),
 			},
 		},
 	})
@@ -1766,8 +2073,40 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.properties.admCredential.properties.authTokenUrl", ".spec.properties.admCredential.properties.clientId", ".spec.properties.admCredential.properties.clientSecret", ".spec.properties.apnsCredential.properties.apnsCertificate", ".spec.properties.apnsCredential.properties.appId", ".spec.properties.apnsCredential.properties.appName", ".spec.properties.apnsCredential.properties.certificateKey", ".spec.properties.apnsCredential.properties.endpoint", ".spec.properties.apnsCredential.properties.keyId", ".spec.properties.apnsCredential.properties.thumbprint", ".spec.properties.apnsCredential.properties.token", ".spec.properties.baiduCredential.properties.baiduApiKey", ".spec.properties.baiduCredential.properties.baiduEndPoint", ".spec.properties.baiduCredential.properties.baiduSecretKey", ".spec.properties.browserCredential.properties.subject", ".spec.properties.browserCredential.properties.vapidPrivateKey", ".spec.properties.browserCredential.properties.vapidPublicKey", ".spec.properties.gcmCredential.properties.gcmEndpoint", ".spec.properties.gcmCredential.properties.googleApiKey", ".spec.properties.mpnsCredential.properties.certificateKey", ".spec.properties.mpnsCredential.properties.mpnsCertificate", ".spec.properties.mpnsCredential.properties.thumbprint", ".spec.properties.wnsCredential.properties.certificateKey", ".spec.properties.wnsCredential.properties.packageSid", ".spec.properties.wnsCredential.properties.secretKey", ".spec.properties.wnsCredential.properties.windowsLiveEndpoint", ".spec.properties.wnsCredential.properties.wnsCertificate", ".spec.properties.xiaomiCredential.properties.appSecret", ".spec.properties.xiaomiCredential.properties.endpoint"}, &notificationhubs_v20230901s.NotificationHubList{}),
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.properties.admCredential.properties.authTokenUrl",
+						".spec.properties.admCredential.properties.clientId",
+						".spec.properties.admCredential.properties.clientSecret",
+						".spec.properties.apnsCredential.properties.apnsCertificate",
+						".spec.properties.apnsCredential.properties.appId",
+						".spec.properties.apnsCredential.properties.appName",
+						".spec.properties.apnsCredential.properties.certificateKey",
+						".spec.properties.apnsCredential.properties.endpoint",
+						".spec.properties.apnsCredential.properties.keyId",
+						".spec.properties.apnsCredential.properties.thumbprint",
+						".spec.properties.apnsCredential.properties.token",
+						".spec.properties.baiduCredential.properties.baiduApiKey",
+						".spec.properties.baiduCredential.properties.baiduEndPoint",
+						".spec.properties.baiduCredential.properties.baiduSecretKey",
+						".spec.properties.browserCredential.properties.subject",
+						".spec.properties.browserCredential.properties.vapidPrivateKey",
+						".spec.properties.browserCredential.properties.vapidPublicKey",
+						".spec.properties.gcmCredential.properties.gcmEndpoint",
+						".spec.properties.gcmCredential.properties.googleApiKey",
+						".spec.properties.mpnsCredential.properties.certificateKey",
+						".spec.properties.mpnsCredential.properties.mpnsCertificate",
+						".spec.properties.mpnsCredential.properties.thumbprint",
+						".spec.properties.wnsCredential.properties.certificateKey",
+						".spec.properties.wnsCredential.properties.packageSid",
+						".spec.properties.wnsCredential.properties.secretKey",
+						".spec.properties.wnsCredential.properties.windowsLiveEndpoint",
+						".spec.properties.wnsCredential.properties.wnsCertificate",
+						".spec.properties.xiaomiCredential.properties.appSecret",
+						".spec.properties.xiaomiCredential.properties.endpoint",
+					},
+					&notificationhubs_v20230901s.NotificationHubList{}),
 			},
 		},
 	})
@@ -1791,12 +2130,21 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.clusterProfile.pullSecret", ".spec.servicePrincipalProfile.clientSecret"}, &redhatopenshift_v20231122s.OpenShiftClusterList{}),
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.clusterProfile.pullSecret",
+						".spec.servicePrincipalProfile.clientSecret",
+					},
+					&redhatopenshift_v20231122s.OpenShiftClusterList{}),
 			},
 			{
-				Type:             &v1.ConfigMap{},
-				MakeEventHandler: watchConfigMapsFactory([]string{".spec.servicePrincipalProfile.clientIdFromConfig"}, &redhatopenshift_v20231122s.OpenShiftClusterList{}),
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.servicePrincipalProfile.clientIdFromConfig",
+					},
+					&redhatopenshift_v20231122s.OpenShiftClusterList{}),
 			},
 		},
 	})
@@ -1819,8 +2167,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.ConfigMap{},
-				MakeEventHandler: watchConfigMapsFactory([]string{".spec.keyVaultBaseUriFromConfig"}, &signalrservice_v20240301s.CustomCertificateList{}),
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.keyVaultBaseUriFromConfig",
+					},
+					&signalrservice_v20240301s.CustomCertificateList{}),
 			},
 		},
 	})
@@ -1837,8 +2189,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.administratorLoginPassword"}, &sql_v20211101s.ServerList{}),
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.administratorLoginPassword",
+					},
+					&sql_v20211101s.ServerList{}),
 			},
 		},
 	})
@@ -1856,8 +2212,13 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.ConfigMap{},
-				MakeEventHandler: watchConfigMapsFactory([]string{".spec.sidFromConfig", ".spec.tenantIdFromConfig"}, &sql_v20211101s.ServersAdministratorList{}),
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.sidFromConfig",
+						".spec.tenantIdFromConfig",
+					},
+					&sql_v20211101s.ServersAdministratorList{}),
 			},
 		},
 	})
@@ -1872,8 +2233,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.storageAccountAccessKey"}, &sql_v20211101s.ServersAuditingSettingList{}),
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.storageAccountAccessKey",
+					},
+					&sql_v20211101s.ServersAuditingSettingList{}),
 			},
 		},
 	})
@@ -1891,8 +2256,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.storageAccountAccessKey"}, &sql_v20211101s.ServersDatabasesAuditingSettingList{}),
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.storageAccountAccessKey",
+					},
+					&sql_v20211101s.ServersDatabasesAuditingSettingList{}),
 			},
 		},
 	})
@@ -1908,8 +2277,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.storageAccountAccessKey"}, &sql_v20211101s.ServersDatabasesSecurityAlertPolicyList{}),
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.storageAccountAccessKey",
+					},
+					&sql_v20211101s.ServersDatabasesSecurityAlertPolicyList{}),
 			},
 		},
 	})
@@ -1932,12 +2305,21 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.storageAccountAccessKey", ".spec.storageContainerSasKey"}, &sql_v20211101s.ServersDatabasesVulnerabilityAssessmentList{}),
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.storageAccountAccessKey",
+						".spec.storageContainerSasKey",
+					},
+					&sql_v20211101s.ServersDatabasesVulnerabilityAssessmentList{}),
 			},
 			{
-				Type:             &v1.ConfigMap{},
-				MakeEventHandler: watchConfigMapsFactory([]string{".spec.storageContainerPathFromConfig"}, &sql_v20211101s.ServersDatabasesVulnerabilityAssessmentList{}),
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.storageContainerPathFromConfig",
+					},
+					&sql_v20211101s.ServersDatabasesVulnerabilityAssessmentList{}),
 			},
 		},
 	})
@@ -1956,8 +2338,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.storageAccountAccessKey"}, &sql_v20211101s.ServersSecurityAlertPolicyList{}),
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.storageAccountAccessKey",
+					},
+					&sql_v20211101s.ServersSecurityAlertPolicyList{}),
 			},
 		},
 	})
@@ -1980,12 +2366,21 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.storageAccountAccessKey", ".spec.storageContainerSasKey"}, &sql_v20211101s.ServersVulnerabilityAssessmentList{}),
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.storageAccountAccessKey",
+						".spec.storageContainerSasKey",
+					},
+					&sql_v20211101s.ServersVulnerabilityAssessmentList{}),
 			},
 			{
-				Type:             &v1.ConfigMap{},
-				MakeEventHandler: watchConfigMapsFactory([]string{".spec.storageContainerPathFromConfig"}, &sql_v20211101s.ServersVulnerabilityAssessmentList{}),
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.storageContainerPathFromConfig",
+					},
+					&sql_v20211101s.ServersVulnerabilityAssessmentList{}),
 			},
 		},
 	})
@@ -2014,12 +2409,20 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.sqlAdministratorLoginPassword"}, &synapse_v20210601s.WorkspaceList{}),
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.sqlAdministratorLoginPassword",
+					},
+					&synapse_v20210601s.WorkspaceList{}),
 			},
 			{
-				Type:             &v1.ConfigMap{},
-				MakeEventHandler: watchConfigMapsFactory([]string{".spec.defaultDataLakeStorage.accountUrlFromConfig"}, &synapse_v20210601s.WorkspaceList{}),
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.defaultDataLakeStorage.accountUrlFromConfig",
+					},
+					&synapse_v20210601s.WorkspaceList{}),
 			},
 		},
 	})
@@ -2035,8 +2438,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.siteConfig.azureStorageAccounts.accessKey"}, &web_v20220301s.SiteList{}),
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.siteConfig.azureStorageAccounts.accessKey",
+					},
+					&web_v20220301s.SiteList{}),
 			},
 		},
 	})
@@ -2050,8 +2457,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.gitHubActionConfiguration.containerConfiguration.password"}, &web_v20220301s.SitesSourcecontrolList{}),
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.gitHubActionConfiguration.containerConfiguration.password",
+					},
+					&web_v20220301s.SitesSourcecontrolList{}),
 			},
 		},
 	})
