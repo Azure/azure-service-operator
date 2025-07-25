@@ -116,7 +116,13 @@ func (deployment *Deployment) ValidateUpdate(ctx context.Context, oldResource ru
 
 // createValidations validates the creation of the resource
 func (deployment *Deployment) createValidations() []func(ctx context.Context, obj *v20250601.Deployment) (admission.Warnings, error) {
-	return []func(ctx context.Context, obj *v20250601.Deployment) (admission.Warnings, error){deployment.validateResourceReferences, deployment.validateOwnerReference, deployment.validateSecretDestinations, deployment.validateConfigMapDestinations, deployment.validateOptionalConfigMapReferences}
+	return []func(ctx context.Context, obj *v20250601.Deployment) (admission.Warnings, error){
+		deployment.validateResourceReferences,
+		deployment.validateOwnerReference,
+		deployment.validateSecretDestinations,
+		deployment.validateConfigMapDestinations,
+		deployment.validateOptionalConfigMapReferences,
+	}
 }
 
 // deleteValidations validates the deletion of the resource

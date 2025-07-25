@@ -116,7 +116,12 @@ func (service *SearchService) ValidateUpdate(ctx context.Context, oldResource ru
 
 // createValidations validates the creation of the resource
 func (service *SearchService) createValidations() []func(ctx context.Context, obj *v20220901.SearchService) (admission.Warnings, error) {
-	return []func(ctx context.Context, obj *v20220901.SearchService) (admission.Warnings, error){service.validateResourceReferences, service.validateOwnerReference, service.validateSecretDestinations, service.validateConfigMapDestinations}
+	return []func(ctx context.Context, obj *v20220901.SearchService) (admission.Warnings, error){
+		service.validateResourceReferences,
+		service.validateOwnerReference,
+		service.validateSecretDestinations,
+		service.validateConfigMapDestinations,
+	}
 }
 
 // deleteValidations validates the deletion of the resource

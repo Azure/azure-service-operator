@@ -116,7 +116,12 @@ func (firewall *AzureFirewall) ValidateUpdate(ctx context.Context, oldResource r
 
 // createValidations validates the creation of the resource
 func (firewall *AzureFirewall) createValidations() []func(ctx context.Context, obj *v20240301.AzureFirewall) (admission.Warnings, error) {
-	return []func(ctx context.Context, obj *v20240301.AzureFirewall) (admission.Warnings, error){firewall.validateResourceReferences, firewall.validateOwnerReference, firewall.validateSecretDestinations, firewall.validateConfigMapDestinations}
+	return []func(ctx context.Context, obj *v20240301.AzureFirewall) (admission.Warnings, error){
+		firewall.validateResourceReferences,
+		firewall.validateOwnerReference,
+		firewall.validateSecretDestinations,
+		firewall.validateConfigMapDestinations,
+	}
 }
 
 // deleteValidations validates the deletion of the resource

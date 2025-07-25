@@ -116,7 +116,12 @@ func (definition *MongodbRoleDefinition) ValidateUpdate(ctx context.Context, old
 
 // createValidations validates the creation of the resource
 func (definition *MongodbRoleDefinition) createValidations() []func(ctx context.Context, obj *v20240815.MongodbRoleDefinition) (admission.Warnings, error) {
-	return []func(ctx context.Context, obj *v20240815.MongodbRoleDefinition) (admission.Warnings, error){definition.validateResourceReferences, definition.validateOwnerReference, definition.validateSecretDestinations, definition.validateConfigMapDestinations}
+	return []func(ctx context.Context, obj *v20240815.MongodbRoleDefinition) (admission.Warnings, error){
+		definition.validateResourceReferences,
+		definition.validateOwnerReference,
+		definition.validateSecretDestinations,
+		definition.validateConfigMapDestinations,
+	}
 }
 
 // deleteValidations validates the deletion of the resource

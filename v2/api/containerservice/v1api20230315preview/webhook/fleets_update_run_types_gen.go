@@ -116,7 +116,12 @@ func (updateRun *FleetsUpdateRun) ValidateUpdate(ctx context.Context, oldResourc
 
 // createValidations validates the creation of the resource
 func (updateRun *FleetsUpdateRun) createValidations() []func(ctx context.Context, obj *v20230315p.FleetsUpdateRun) (admission.Warnings, error) {
-	return []func(ctx context.Context, obj *v20230315p.FleetsUpdateRun) (admission.Warnings, error){updateRun.validateResourceReferences, updateRun.validateOwnerReference, updateRun.validateSecretDestinations, updateRun.validateConfigMapDestinations}
+	return []func(ctx context.Context, obj *v20230315p.FleetsUpdateRun) (admission.Warnings, error){
+		updateRun.validateResourceReferences,
+		updateRun.validateOwnerReference,
+		updateRun.validateSecretDestinations,
+		updateRun.validateConfigMapDestinations,
+	}
 }
 
 // deleteValidations validates the deletion of the resource
