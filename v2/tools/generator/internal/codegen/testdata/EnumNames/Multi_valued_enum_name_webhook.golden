@@ -116,7 +116,12 @@ func (resource *AResource) ValidateUpdate(ctx context.Context, oldResource runti
 
 // createValidations validates the creation of the resource
 func (resource *AResource) createValidations() []func(ctx context.Context, obj *v20200101.AResource) (admission.Warnings, error) {
-	return []func(ctx context.Context, obj *v20200101.AResource) (admission.Warnings, error){resource.validateResourceReferences, resource.validateOwnerReference, resource.validateSecretDestinations, resource.validateConfigMapDestinations}
+	return []func(ctx context.Context, obj *v20200101.AResource) (admission.Warnings, error){
+		resource.validateResourceReferences,
+		resource.validateOwnerReference,
+		resource.validateSecretDestinations,
+		resource.validateConfigMapDestinations,
+	}
 }
 
 // deleteValidations validates the deletion of the resource

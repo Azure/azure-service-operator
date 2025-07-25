@@ -116,7 +116,13 @@ func (account *Account) ValidateUpdate(ctx context.Context, oldResource runtime.
 
 // createValidations validates the creation of the resource
 func (account *Account) createValidations() []func(ctx context.Context, obj *v20250601.Account) (admission.Warnings, error) {
-	return []func(ctx context.Context, obj *v20250601.Account) (admission.Warnings, error){account.validateResourceReferences, account.validateOwnerReference, account.validateSecretDestinations, account.validateConfigMapDestinations, account.validateOptionalConfigMapReferences}
+	return []func(ctx context.Context, obj *v20250601.Account) (admission.Warnings, error){
+		account.validateResourceReferences,
+		account.validateOwnerReference,
+		account.validateSecretDestinations,
+		account.validateConfigMapDestinations,
+		account.validateOptionalConfigMapReferences,
+	}
 }
 
 // deleteValidations validates the deletion of the resource

@@ -116,7 +116,12 @@ func (account *StorageAccount) ValidateUpdate(ctx context.Context, oldResource r
 
 // createValidations validates the creation of the resource
 func (account *StorageAccount) createValidations() []func(ctx context.Context, obj *v20220901.StorageAccount) (admission.Warnings, error) {
-	return []func(ctx context.Context, obj *v20220901.StorageAccount) (admission.Warnings, error){account.validateResourceReferences, account.validateOwnerReference, account.validateSecretDestinations, account.validateConfigMapDestinations}
+	return []func(ctx context.Context, obj *v20220901.StorageAccount) (admission.Warnings, error){
+		account.validateResourceReferences,
+		account.validateOwnerReference,
+		account.validateSecretDestinations,
+		account.validateConfigMapDestinations,
+	}
 }
 
 // deleteValidations validates the deletion of the resource

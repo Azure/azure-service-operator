@@ -116,7 +116,12 @@ func (member *FleetsMember) ValidateUpdate(ctx context.Context, oldResource runt
 
 // createValidations validates the creation of the resource
 func (member *FleetsMember) createValidations() []func(ctx context.Context, obj *v20230315p.FleetsMember) (admission.Warnings, error) {
-	return []func(ctx context.Context, obj *v20230315p.FleetsMember) (admission.Warnings, error){member.validateResourceReferences, member.validateOwnerReference, member.validateSecretDestinations, member.validateConfigMapDestinations}
+	return []func(ctx context.Context, obj *v20230315p.FleetsMember) (admission.Warnings, error){
+		member.validateResourceReferences,
+		member.validateOwnerReference,
+		member.validateSecretDestinations,
+		member.validateConfigMapDestinations,
+	}
 }
 
 // deleteValidations validates the deletion of the resource

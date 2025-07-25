@@ -116,7 +116,12 @@ func (policy *FirewallPolicy) ValidateUpdate(ctx context.Context, oldResource ru
 
 // createValidations validates the creation of the resource
 func (policy *FirewallPolicy) createValidations() []func(ctx context.Context, obj *v20240301.FirewallPolicy) (admission.Warnings, error) {
-	return []func(ctx context.Context, obj *v20240301.FirewallPolicy) (admission.Warnings, error){policy.validateResourceReferences, policy.validateOwnerReference, policy.validateSecretDestinations, policy.validateConfigMapDestinations}
+	return []func(ctx context.Context, obj *v20240301.FirewallPolicy) (admission.Warnings, error){
+		policy.validateResourceReferences,
+		policy.validateOwnerReference,
+		policy.validateSecretDestinations,
+		policy.validateConfigMapDestinations,
+	}
 }
 
 // deleteValidations validates the deletion of the resource

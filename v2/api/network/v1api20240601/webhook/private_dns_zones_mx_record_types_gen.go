@@ -116,7 +116,12 @@ func (record *PrivateDnsZonesMXRecord) ValidateUpdate(ctx context.Context, oldRe
 
 // createValidations validates the creation of the resource
 func (record *PrivateDnsZonesMXRecord) createValidations() []func(ctx context.Context, obj *v20240601.PrivateDnsZonesMXRecord) (admission.Warnings, error) {
-	return []func(ctx context.Context, obj *v20240601.PrivateDnsZonesMXRecord) (admission.Warnings, error){record.validateResourceReferences, record.validateOwnerReference, record.validateSecretDestinations, record.validateConfigMapDestinations}
+	return []func(ctx context.Context, obj *v20240601.PrivateDnsZonesMXRecord) (admission.Warnings, error){
+		record.validateResourceReferences,
+		record.validateOwnerReference,
+		record.validateSecretDestinations,
+		record.validateConfigMapDestinations,
+	}
 }
 
 // deleteValidations validates the deletion of the resource

@@ -553,6 +553,9 @@ func (v *ValidatorBuilder) localValidationFuncBody(
 			continue
 		}
 
+		expr.Decorations().Before = dst.NewLine
+		expr.Decorations().After = dst.NewLine
+
 		elements = append(elements, expr)
 	}
 
