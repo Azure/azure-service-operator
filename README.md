@@ -22,7 +22,7 @@ There are two major versions of Azure Service Operator: v1 and v2. Consult the b
 | ASO Version | Lifecycle stage | Development status        | Installation options                                                                                                                                                                                    |
 | ----------- | --------------- |---------------------------| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | v2          | Stable          | Under active development. | [Helm chart](/v2/charts), [GitHub release 2.x](https://github.com/Azure/azure-service-operator/releases). See [installation](https://azure.github.io/azure-service-operator/#installation) for example. |
-| v1          | Decprecated     | Halted                    | [Helm chart](/charts), [OperatorHub](https://operatorhub.io/operator/azure-service-operator) or [GitHub release 1.x](https://github.com/Azure/azure-service-operator/releases)                          |
+| v1          | Deprecated      | Halted                    | [Helm chart](/charts), [OperatorHub](https://operatorhub.io/operator/azure-service-operator) or [GitHub release 1.x](https://github.com/Azure/azure-service-operator/releases)                          |
 
 ### ASO v2
 Azure Service Operator v2 was built based on the lessons learned from ASO v1, with the following improvements:
@@ -42,8 +42,6 @@ Azure Service Operator v2 was built based on the lessons learned from ASO v1, wi
 Azure Service Operator v1 is no longer being maintained - this means no bug fixes and no security updates.
 
 See the [ASOv1 to ASOv2 migration guide](https://azure.github.io/azure-service-operator/guide/asov1-asov2-migration/) for migrating from ASOv1 to ASOv2.
-
-[Learn more about Azure Service Operator v1](https://github.com/Azure/azure-service-operator/blob/main/README.md)
 
 ## Contributing
 
