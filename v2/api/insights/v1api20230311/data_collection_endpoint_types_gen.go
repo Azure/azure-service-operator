@@ -261,9 +261,6 @@ type DataCollectionEndpoint_Spec struct {
 	// Identity: Managed service identity of the resource.
 	Identity *ManagedServiceIdentity `json:"identity,omitempty"`
 
-	// ImmutableId: The immutable ID of this data collection endpoint resource. This property is READ-ONLY.
-	ImmutableId *string `json:"immutableId,omitempty"`
-
 	// Kind: The kind of the resource.
 	Kind *DataCollectionEndpoint_Kind_Spec `json:"kind,omitempty"`
 
@@ -325,18 +322,12 @@ func (endpoint *DataCollectionEndpoint_Spec) ConvertToARM(resolved genruntime.Co
 	result.Name = resolved.Name
 
 	// Set property "Properties":
-	if endpoint.Description != nil ||
-		endpoint.ImmutableId != nil ||
-		endpoint.NetworkAcls != nil {
+	if endpoint.Description != nil || endpoint.NetworkAcls != nil {
 		result.Properties = &arm.DataCollectionEndpointSpec{}
 	}
 	if endpoint.Description != nil {
 		description := *endpoint.Description
 		result.Properties.Description = &description
-	}
-	if endpoint.ImmutableId != nil {
-		immutableId := *endpoint.ImmutableId
-		result.Properties.ImmutableId = &immutableId
 	}
 	if endpoint.NetworkAcls != nil {
 		networkAcls_ARM, err := (*endpoint.NetworkAcls).ConvertToARM(resolved)
@@ -390,15 +381,6 @@ func (endpoint *DataCollectionEndpoint_Spec) PopulateFromARM(owner genruntime.Ar
 		}
 		identity := identity1
 		endpoint.Identity = &identity
-	}
-
-	// Set property "ImmutableId":
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ImmutableId != nil {
-			immutableId := *typedInput.Properties.ImmutableId
-			endpoint.ImmutableId = &immutableId
-		}
 	}
 
 	// Set property "Kind":
@@ -520,9 +502,6 @@ func (endpoint *DataCollectionEndpoint_Spec) AssignProperties_From_DataCollectio
 		endpoint.Identity = nil
 	}
 
-	// ImmutableId
-	endpoint.ImmutableId = genruntime.ClonePointerToString(source.ImmutableId)
-
 	// Kind
 	if source.Kind != nil {
 		kind := *source.Kind
@@ -596,9 +575,6 @@ func (endpoint *DataCollectionEndpoint_Spec) AssignProperties_To_DataCollectionE
 	} else {
 		destination.Identity = nil
 	}
-
-	// ImmutableId
-	destination.ImmutableId = genruntime.ClonePointerToString(endpoint.ImmutableId)
 
 	// Kind
 	if endpoint.Kind != nil {
@@ -677,9 +653,6 @@ func (endpoint *DataCollectionEndpoint_Spec) Initialize_From_DataCollectionEndpo
 	} else {
 		endpoint.Identity = nil
 	}
-
-	// ImmutableId
-	endpoint.ImmutableId = genruntime.ClonePointerToString(source.ImmutableId)
 
 	// Kind
 	if source.Kind != nil {

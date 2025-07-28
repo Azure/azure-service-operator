@@ -6,7 +6,7 @@ APIVersion: Enum (1 value)
 
 DataCollectionEndpoint: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (12 properties)
+├── Spec: Object (11 properties)
 │   ├── AzureName: string
 │   ├── Description: *string
 │   ├── Identity: *Object (3 properties)
@@ -15,7 +15,6 @@ DataCollectionEndpoint: Resource
 │   │   └── UserAssignedIdentities: Object (2 properties)[]
 │   │       ├── PropertyBag: genruntime.PropertyBag
 │   │       └── Reference: genruntime.ResourceReference
-│   ├── ImmutableId: *string
 │   ├── Kind: *string
 │   ├── Location: *string
 │   ├── NetworkAcls: *Object (2 properties)

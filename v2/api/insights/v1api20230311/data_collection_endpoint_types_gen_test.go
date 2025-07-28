@@ -618,7 +618,6 @@ func DataCollectionEndpoint_SpecGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForDataCollectionEndpoint_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["ImmutableId"] = gen.PtrOf(gen.AlphaString())
 	gens["Kind"] = gen.PtrOf(gen.OneConstOf(DataCollectionEndpoint_Kind_Spec_Linux, DataCollectionEndpoint_Kind_Spec_Windows))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(

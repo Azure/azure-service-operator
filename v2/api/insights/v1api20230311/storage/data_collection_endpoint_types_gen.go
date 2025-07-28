@@ -178,7 +178,6 @@ type DataCollectionEndpoint_Spec struct {
 	AzureName       string                              `json:"azureName,omitempty"`
 	Description     *string                             `json:"description,omitempty"`
 	Identity        *ManagedServiceIdentity             `json:"identity,omitempty"`
-	ImmutableId     *string                             `json:"immutableId,omitempty"`
 	Kind            *string                             `json:"kind,omitempty"`
 	Location        *string                             `json:"location,omitempty"`
 	NetworkAcls     *NetworkRuleSet                     `json:"networkAcls,omitempty"`

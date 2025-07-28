@@ -648,6 +648,13 @@ typeTransformers:
       required: true
     because: This property should be marked required in Swagger
 
+  - group: insights
+    name: DataCollectionEndpointSpec
+    property: ImmutableId
+    remove: true
+    because: This property should be marked readonly in Swagger
+
+
 status:
 
   overrides: [

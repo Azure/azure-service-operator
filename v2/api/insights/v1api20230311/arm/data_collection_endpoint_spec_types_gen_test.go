@@ -85,7 +85,6 @@ func DataCollectionEndpointSpecGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForDataCollectionEndpointSpec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDataCollectionEndpointSpec(gens map[string]gopter.Gen) {
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["ImmutableId"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForDataCollectionEndpointSpec is a factory method for creating gopter generators

@@ -90,9 +90,8 @@ DataCollectionEndpoint_Spec: Object (6 properties)
 │   └── "Windows"
 ├── Location: *string
 ├── Name: string
-├── Properties: *Object (3 properties)
+├── Properties: *Object (2 properties)
 │   ├── Description: *string
-│   ├── ImmutableId: *string
 │   └── NetworkAcls: *Object (1 property)
 │       └── PublicNetworkAccess: *Enum (3 values)
 │           ├── "Disabled"

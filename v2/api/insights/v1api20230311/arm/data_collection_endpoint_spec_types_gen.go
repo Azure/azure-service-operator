@@ -59,9 +59,6 @@ type DataCollectionEndpointSpec struct {
 	// Description: Description of the data collection endpoint.
 	Description *string `json:"description,omitempty"`
 
-	// ImmutableId: The immutable ID of this data collection endpoint resource. This property is READ-ONLY.
-	ImmutableId *string `json:"immutableId,omitempty"`
-
 	// NetworkAcls: Network access control rules for the endpoints.
 	NetworkAcls *NetworkRuleSet `json:"networkAcls,omitempty"`
 }
