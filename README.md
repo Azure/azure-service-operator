@@ -43,7 +43,7 @@ Azure Service Operator v1 is no longer being maintained - this means no bug fixe
 
 See the [ASOv1 to ASOv2 migration guide](https://azure.github.io/azure-service-operator/guide/asov1-asov2-migration/) for migrating from ASOv1 to ASOv2.
 
-[Learn more about Azure Service Operator v1](/docs/v1/README.md)
+[Learn more about Azure Service Operator v1](https://github.com/Azure/azure-service-operator/blob/main/README.md)
 
 ## Contributing
 
