@@ -4,14 +4,18 @@
 package storage
 
 import (
+	"context"
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/go-logr/logr"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 // +kubebuilder:rbac:groups=network.azure.com,resources=publicipprefixes,verbs=get;list;watch;create;update;patch;delete
@@ -65,6 +69,23 @@ func (prefix *PublicIPPrefix) SecretDestinationExpressions() []*core.Destination
 		return nil
 	}
 	return prefix.Spec.OperatorSpec.SecretExpressions
+}
+
+var _ genruntime.KubernetesConfigExporter = &PublicIPPrefix{}
+
+// ExportKubernetesConfigMaps defines a resource which can create ConfigMaps in Kubernetes.
+func (prefix *PublicIPPrefix) ExportKubernetesConfigMaps(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
+	collector := configmaps.NewCollector(prefix.Namespace)
+	if prefix.Spec.OperatorSpec != nil && prefix.Spec.OperatorSpec.ConfigMaps != nil {
+		if prefix.Status.IpPrefix != nil {
+			collector.AddValue(prefix.Spec.OperatorSpec.ConfigMaps.IpPrefix, *prefix.Status.IpPrefix)
+		}
+	}
+	result, err := collector.Values()
+	if err != nil {
+		return nil, err
+	}
+	return configmaps.SliceToClientObjectSlice(result), nil
 }
 
 var _ genruntime.KubernetesResource = &PublicIPPrefix{}
@@ -276,9 +297,10 @@ type NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded struct {
 // Storage version of v1api20240301.PublicIPPrefixOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type PublicIPPrefixOperatorSpec struct {
-	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
-	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+	ConfigMapExpressions []*core.DestinationExpression     `json:"configMapExpressions,omitempty"`
+	ConfigMaps           *PublicIPPrefixOperatorConfigMaps `json:"configMaps,omitempty"`
+	PropertyBag          genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression     `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20240301.PublicIPPrefixSku
@@ -302,6 +324,12 @@ type PublicIPPrefixSku_STATUS struct {
 type ReferencedPublicIpAddress_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1api20240301.PublicIPPrefixOperatorConfigMaps
+type PublicIPPrefixOperatorConfigMaps struct {
+	IpPrefix    *genruntime.ConfigMapDestination `json:"ipPrefix,omitempty"`
+	PropertyBag genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
 }
 
 func init() {

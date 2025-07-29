@@ -575,7 +575,7 @@ type IPRule struct {
 	Action *IPRule_Action `json:"action,omitempty"`
 
 	// Value: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.
-	Value *string `json:"value,omitempty"`
+	Value *string `json:"value,omitempty" optionalConfigMapPair:"Value"`
 }
 
 // Properties of key vault.

@@ -153,7 +153,13 @@ func (prefix *PublicIPPrefix) validateConfigMapDestinations(ctx context.Context,
 	if obj.Spec.OperatorSpec == nil {
 		return nil, nil
 	}
-	return configmaps.ValidateDestinations(obj, nil, obj.Spec.OperatorSpec.ConfigMapExpressions)
+	var toValidate []*genruntime.ConfigMapDestination
+	if obj.Spec.OperatorSpec.ConfigMaps != nil {
+		toValidate = []*genruntime.ConfigMapDestination{
+			obj.Spec.OperatorSpec.ConfigMaps.IpPrefix,
+		}
+	}
+	return configmaps.ValidateDestinations(obj, toValidate, obj.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
