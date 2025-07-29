@@ -26,4 +26,4 @@ jobs:
           submodules: 'true'
 
       - name: Install Dependencies
-        run: .devcontainer/install-dependencies.sh
+        run: sudo .devcontainer/install-dependencies.sh
