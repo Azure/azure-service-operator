@@ -116,7 +116,12 @@ func (endpoint *DataCollectionEndpoint) ValidateUpdate(ctx context.Context, oldR
 
 // createValidations validates the creation of the resource
 func (endpoint *DataCollectionEndpoint) createValidations() []func(ctx context.Context, obj *v20230311.DataCollectionEndpoint) (admission.Warnings, error) {
-	return []func(ctx context.Context, obj *v20230311.DataCollectionEndpoint) (admission.Warnings, error){endpoint.validateResourceReferences, endpoint.validateOwnerReference, endpoint.validateSecretDestinations, endpoint.validateConfigMapDestinations}
+	return []func(ctx context.Context, obj *v20230311.DataCollectionEndpoint) (admission.Warnings, error){
+		endpoint.validateResourceReferences,
+		endpoint.validateOwnerReference,
+		endpoint.validateSecretDestinations,
+		endpoint.validateConfigMapDestinations,
+	}
 }
 
 // deleteValidations validates the deletion of the resource

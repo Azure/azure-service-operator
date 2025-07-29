@@ -266,11 +266,6 @@ func (in *DataCollectionEndpoint_Spec) DeepCopyInto(out *DataCollectionEndpoint_
 		*out = new(ManagedServiceIdentity)
 		(*in).DeepCopyInto(*out)
 	}
-	if in.ImmutableId != nil {
-		in, out := &in.ImmutableId, &out.ImmutableId
-		*out = new(string)
-		**out = **in
-	}
 	if in.Kind != nil {
 		in, out := &in.Kind, &out.Kind
 		*out = new(DataCollectionEndpoint_Kind_Spec)

@@ -116,7 +116,11 @@ func (association *DataCollectionRuleAssociation) ValidateUpdate(ctx context.Con
 
 // createValidations validates the creation of the resource
 func (association *DataCollectionRuleAssociation) createValidations() []func(ctx context.Context, obj *v20230311.DataCollectionRuleAssociation) (admission.Warnings, error) {
-	return []func(ctx context.Context, obj *v20230311.DataCollectionRuleAssociation) (admission.Warnings, error){association.validateResourceReferences, association.validateSecretDestinations, association.validateConfigMapDestinations}
+	return []func(ctx context.Context, obj *v20230311.DataCollectionRuleAssociation) (admission.Warnings, error){
+		association.validateResourceReferences,
+		association.validateSecretDestinations,
+		association.validateConfigMapDestinations,
+	}
 }
 
 // deleteValidations validates the deletion of the resource

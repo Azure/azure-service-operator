@@ -116,7 +116,12 @@ func (alert *ActivityLogAlert) ValidateUpdate(ctx context.Context, oldResource r
 
 // createValidations validates the creation of the resource
 func (alert *ActivityLogAlert) createValidations() []func(ctx context.Context, obj *v20201001.ActivityLogAlert) (admission.Warnings, error) {
-	return []func(ctx context.Context, obj *v20201001.ActivityLogAlert) (admission.Warnings, error){alert.validateResourceReferences, alert.validateOwnerReference, alert.validateSecretDestinations, alert.validateConfigMapDestinations}
+	return []func(ctx context.Context, obj *v20201001.ActivityLogAlert) (admission.Warnings, error){
+		alert.validateResourceReferences,
+		alert.validateOwnerReference,
+		alert.validateSecretDestinations,
+		alert.validateConfigMapDestinations,
+	}
 }
 
 // deleteValidations validates the deletion of the resource

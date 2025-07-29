@@ -104,7 +104,12 @@ func (plan *PricingPlan) ValidateUpdate(ctx context.Context, oldResource runtime
 
 // createValidations validates the creation of the resource
 func (plan *PricingPlan) createValidations() []func(ctx context.Context, obj *v20171001.PricingPlan) (admission.Warnings, error) {
-	return []func(ctx context.Context, obj *v20171001.PricingPlan) (admission.Warnings, error){plan.validateResourceReferences, plan.validateOwnerReference, plan.validateSecretDestinations, plan.validateConfigMapDestinations}
+	return []func(ctx context.Context, obj *v20171001.PricingPlan) (admission.Warnings, error){
+		plan.validateResourceReferences,
+		plan.validateOwnerReference,
+		plan.validateSecretDestinations,
+		plan.validateConfigMapDestinations,
+	}
 }
 
 // deleteValidations validates the deletion of the resource
