@@ -1,0 +1,3098 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.17.3
+  name: namespacestopicssubscriptionsrules.servicebus.azure.com
+spec:
+  group: servicebus.azure.com
+  names:
+    kind: NamespacesTopicsSubscriptionsRule
+    listKind: NamespacesTopicsSubscriptionsRuleList
+    plural: namespacestopicssubscriptionsrules
+    singular: namespacestopicssubscriptionsrule
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1api20210101preview
+    schema:
+      openAPIV3Schema:
+        description: |-
+          Generator information:
+          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2021-01-01-preview/Rules.json
+          - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}/rules/{ruleName}
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              action:
+                description: |-
+                  Action: Represents the filter actions which are allowed for the transformation of a message that have been matched by a
+                  filter expression.
+                properties:
+                  compatibilityLevel:
+                    description: |-
+                      CompatibilityLevel: This property is reserved for future use. An integer value showing the compatibility level,
+                      currently hard-coded to 20.
+                    type: integer
+                  requiresPreprocessing:
+                    description: 'RequiresPreprocessing: Value that indicates whether
+                      the rule action requires preprocessing.'
+                    type: boolean
+                  sqlExpression:
+                    description: 'SqlExpression: SQL expression. e.g. MyProperty=''ABC'''
+                    type: string
+                type: object
+              azureName:
+                description: |-
+                  AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+                  doesn't have to be.
+                maxLength: 50
+                minLength: 1
+                type: string
+              correlationFilter:
+                description: 'CorrelationFilter: Properties of correlationFilter'
+                properties:
+                  contentType:
+                    description: 'ContentType: Content type of the message.'
+                    type: string
+                  correlationId:
+                    description: 'CorrelationId: Identifier of the correlation.'
+                    type: string
+                  label:
+                    description: 'Label: Application specific label.'
+                    type: string
+                  messageId:
+                    description: 'MessageId: Identifier of the message.'
+                    type: string
+                  properties:
+                    additionalProperties:
+                      type: string
+                    description: 'Properties: dictionary object for custom filters'
+                    type: object
+                  replyTo:
+                    description: 'ReplyTo: Address of the queue to reply to.'
+                    type: string
+                  replyToSessionId:
+                    description: 'ReplyToSessionId: Session identifier to reply to.'
+                    type: string
+                  requiresPreprocessing:
+                    description: 'RequiresPreprocessing: Value that indicates whether
+                      the rule action requires preprocessing.'
+                    type: boolean
+                  sessionId:
+                    description: 'SessionId: Session identifier.'
+                    type: string
+                  to:
+                    description: 'To: Address to send to.'
+                    type: string
+                type: object
+              filterType:
+                description: 'FilterType: Filter type that is evaluated against a
+                  BrokeredMessage.'
+                enum:
+                - CorrelationFilter
+                - SqlFilter
+                type: string
+              operatorSpec:
+                description: |-
+                  OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+                  passed directly to Azure
+                properties:
+                  configMapExpressions:
+                    description: 'ConfigMapExpressions: configures where to place
+                      operator written dynamic ConfigMaps (created with CEL expressions).'
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                  secretExpressions:
+                    description: 'SecretExpressions: configures where to place operator
+                      written dynamic secrets (created with CEL expressions).'
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                type: object
+              owner:
+                description: |-
+                  Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+                  controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+                  reference to a servicebus.azure.com/NamespacesTopicsSubscription resource
+                properties:
+                  armId:
+                    pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                    type: string
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                type: object
+              sqlFilter:
+                description: 'SqlFilter: Properties of sqlFilter'
+                properties:
+                  compatibilityLevel:
+                    description: |-
+                      CompatibilityLevel: This property is reserved for future use. An integer value showing the compatibility level,
+                      currently hard-coded to 20.
+                    maximum: 20
+                    minimum: 20
+                    type: integer
+                  requiresPreprocessing:
+                    description: 'RequiresPreprocessing: Value that indicates whether
+                      the rule action requires preprocessing.'
+                    type: boolean
+                  sqlExpression:
+                    description: 'SqlExpression: The SQL expression. e.g. MyProperty=''ABC'''
+                    type: string
+                type: object
+            required:
+            - owner
+            type: object
+          status:
+            properties:
+              action:
+                description: |-
+                  Action: Represents the filter actions which are allowed for the transformation of a message that have been matched by a
+                  filter expression.
+                properties:
+                  compatibilityLevel:
+                    description: |-
+                      CompatibilityLevel: This property is reserved for future use. An integer value showing the compatibility level,
+                      currently hard-coded to 20.
+                    type: integer
+                  requiresPreprocessing:
+                    description: 'RequiresPreprocessing: Value that indicates whether
+                      the rule action requires preprocessing.'
+                    type: boolean
+                  sqlExpression:
+                    description: 'SqlExpression: SQL expression. e.g. MyProperty=''ABC'''
+                    type: string
+                type: object
+              conditions:
+                description: 'Conditions: The observed state of the resource'
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration is the .metadata.generation that the condition was set based upon. For instance, if
+                        .metadata.generation is currently 12, but the .status.condition[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: |-
+                        Reason for the condition's last transition.
+                        Reasons are upper CamelCase (PascalCase) with no spaces. A reason is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: |-
+                        Severity with which to treat failures of this type of condition.
+                        For conditions which have positive polarity (Status == True is their normal/healthy state), this will be omitted when Status == True
+                        For conditions which have negative polarity (Status == False is their normal/healthy state), this will be omitted when Status == False.
+                        This is omitted in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              correlationFilter:
+                description: 'CorrelationFilter: Properties of correlationFilter'
+                properties:
+                  contentType:
+                    description: 'ContentType: Content type of the message.'
+                    type: string
+                  correlationId:
+                    description: 'CorrelationId: Identifier of the correlation.'
+                    type: string
+                  label:
+                    description: 'Label: Application specific label.'
+                    type: string
+                  messageId:
+                    description: 'MessageId: Identifier of the message.'
+                    type: string
+                  properties:
+                    additionalProperties:
+                      type: string
+                    description: 'Properties: dictionary object for custom filters'
+                    type: object
+                  replyTo:
+                    description: 'ReplyTo: Address of the queue to reply to.'
+                    type: string
+                  replyToSessionId:
+                    description: 'ReplyToSessionId: Session identifier to reply to.'
+                    type: string
+                  requiresPreprocessing:
+                    description: 'RequiresPreprocessing: Value that indicates whether
+                      the rule action requires preprocessing.'
+                    type: boolean
+                  sessionId:
+                    description: 'SessionId: Session identifier.'
+                    type: string
+                  to:
+                    description: 'To: Address to send to.'
+                    type: string
+                type: object
+              filterType:
+                description: 'FilterType: Filter type that is evaluated against a
+                  BrokeredMessage.'
+                type: string
+              id:
+                description: 'Id: Resource Id'
+                type: string
+              name:
+                description: 'Name: Resource name'
+                type: string
+              sqlFilter:
+                description: 'SqlFilter: Properties of sqlFilter'
+                properties:
+                  compatibilityLevel:
+                    description: |-
+                      CompatibilityLevel: This property is reserved for future use. An integer value showing the compatibility level,
+                      currently hard-coded to 20.
+                    type: integer
+                  requiresPreprocessing:
+                    description: 'RequiresPreprocessing: Value that indicates whether
+                      the rule action requires preprocessing.'
+                    type: boolean
+                  sqlExpression:
+                    description: 'SqlExpression: The SQL expression. e.g. MyProperty=''ABC'''
+                    type: string
+                type: object
+              systemData:
+                description: 'SystemData: The system meta data relating to this resource.'
+                properties:
+                  createdAt:
+                    description: 'CreatedAt: The timestamp of resource creation (UTC).'
+                    type: string
+                  createdBy:
+                    description: 'CreatedBy: The identity that created the resource.'
+                    type: string
+                  createdByType:
+                    description: 'CreatedByType: The type of identity that created
+                      the resource.'
+                    type: string
+                  lastModifiedAt:
+                    description: 'LastModifiedAt: The type of identity that last modified
+                      the resource.'
+                    type: string
+                  lastModifiedBy:
+                    description: 'LastModifiedBy: The identity that last modified
+                      the resource.'
+                    type: string
+                  lastModifiedByType:
+                    description: 'LastModifiedByType: The type of identity that last
+                      modified the resource.'
+                    type: string
+                type: object
+              type:
+                description: 'Type: Resource type'
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: false
+    subresources:
+      status: {}
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1api20210101previewstorage
+    schema:
+      openAPIV3Schema:
+        description: |-
+          Storage version of v1api20210101preview.NamespacesTopicsSubscriptionsRule
+          Generator information:
+          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2021-01-01-preview/Rules.json
+          - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}/rules/{ruleName}
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Storage version of v1api20210101preview.NamespacesTopicsSubscriptionsRule_Spec
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: |-
+                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                  resources, allowing for full fidelity round trip conversions
+                type: object
+              action:
+                description: |-
+                  Storage version of v1api20210101preview.Action
+                  Represents the filter actions which are allowed for the transformation of a message that have been matched by a filter
+                  expression.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  compatibilityLevel:
+                    type: integer
+                  requiresPreprocessing:
+                    type: boolean
+                  sqlExpression:
+                    type: string
+                type: object
+              azureName:
+                description: |-
+                  AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+                  doesn't have to be.
+                type: string
+              correlationFilter:
+                description: |-
+                  Storage version of v1api20210101preview.CorrelationFilter
+                  Represents the correlation filter expression.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  contentType:
+                    type: string
+                  correlationId:
+                    type: string
+                  label:
+                    type: string
+                  messageId:
+                    type: string
+                  properties:
+                    additionalProperties:
+                      type: string
+                    type: object
+                  replyTo:
+                    type: string
+                  replyToSessionId:
+                    type: string
+                  requiresPreprocessing:
+                    type: boolean
+                  sessionId:
+                    type: string
+                  to:
+                    type: string
+                type: object
+              filterType:
+                type: string
+              operatorSpec:
+                description: |-
+                  Storage version of v1api20210101preview.NamespacesTopicsSubscriptionsRuleOperatorSpec
+                  Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  configMapExpressions:
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                  secretExpressions:
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                type: object
+              originalVersion:
+                type: string
+              owner:
+                description: |-
+                  Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+                  controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+                  reference to a servicebus.azure.com/NamespacesTopicsSubscription resource
+                properties:
+                  armId:
+                    pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                    type: string
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                type: object
+              sqlFilter:
+                description: |-
+                  Storage version of v1api20210101preview.SqlFilter
+                  Represents a filter which is a composition of an expression and an action that is executed in the pub/sub pipeline.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  compatibilityLevel:
+                    type: integer
+                  requiresPreprocessing:
+                    type: boolean
+                  sqlExpression:
+                    type: string
+                type: object
+            required:
+            - owner
+            type: object
+          status:
+            description: Storage version of v1api20210101preview.NamespacesTopicsSubscriptionsRule_STATUS
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: |-
+                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                  resources, allowing for full fidelity round trip conversions
+                type: object
+              action:
+                description: |-
+                  Storage version of v1api20210101preview.Action_STATUS
+                  Represents the filter actions which are allowed for the transformation of a message that have been matched by a filter
+                  expression.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  compatibilityLevel:
+                    type: integer
+                  requiresPreprocessing:
+                    type: boolean
+                  sqlExpression:
+                    type: string
+                type: object
+              conditions:
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration is the .metadata.generation that the condition was set based upon. For instance, if
+                        .metadata.generation is currently 12, but the .status.condition[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: |-
+                        Reason for the condition's last transition.
+                        Reasons are upper CamelCase (PascalCase) with no spaces. A reason is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: |-
+                        Severity with which to treat failures of this type of condition.
+                        For conditions which have positive polarity (Status == True is their normal/healthy state), this will be omitted when Status == True
+                        For conditions which have negative polarity (Status == False is their normal/healthy state), this will be omitted when Status == False.
+                        This is omitted in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              correlationFilter:
+                description: |-
+                  Storage version of v1api20210101preview.CorrelationFilter_STATUS
+                  Represents the correlation filter expression.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  contentType:
+                    type: string
+                  correlationId:
+                    type: string
+                  label:
+                    type: string
+                  messageId:
+                    type: string
+                  properties:
+                    additionalProperties:
+                      type: string
+                    type: object
+                  replyTo:
+                    type: string
+                  replyToSessionId:
+                    type: string
+                  requiresPreprocessing:
+                    type: boolean
+                  sessionId:
+                    type: string
+                  to:
+                    type: string
+                type: object
+              filterType:
+                type: string
+              id:
+                type: string
+              name:
+                type: string
+              sqlFilter:
+                description: |-
+                  Storage version of v1api20210101preview.SqlFilter_STATUS
+                  Represents a filter which is a composition of an expression and an action that is executed in the pub/sub pipeline.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  compatibilityLevel:
+                    type: integer
+                  requiresPreprocessing:
+                    type: boolean
+                  sqlExpression:
+                    type: string
+                type: object
+              systemData:
+                description: |-
+                  Storage version of v1api20210101preview.SystemData_STATUS
+                  Metadata pertaining to creation and last modification of the resource.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  createdAt:
+                    type: string
+                  createdBy:
+                    type: string
+                  createdByType:
+                    type: string
+                  lastModifiedAt:
+                    type: string
+                  lastModifiedBy:
+                    type: string
+                  lastModifiedByType:
+                    type: string
+                type: object
+              type:
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: false
+    subresources:
+      status: {}
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1api20211101
+    schema:
+      openAPIV3Schema:
+        description: |-
+          Generator information:
+          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/stable/2021-11-01/Rules.json
+          - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}/rules/{ruleName}
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              action:
+                description: |-
+                  Action: Represents the filter actions which are allowed for the transformation of a message that have been matched by a
+                  filter expression.
+                properties:
+                  compatibilityLevel:
+                    description: |-
+                      CompatibilityLevel: This property is reserved for future use. An integer value showing the compatibility level,
+                      currently hard-coded to 20.
+                    type: integer
+                  requiresPreprocessing:
+                    description: 'RequiresPreprocessing: Value that indicates whether
+                      the rule action requires preprocessing.'
+                    type: boolean
+                  sqlExpression:
+                    description: 'SqlExpression: SQL expression. e.g. MyProperty=''ABC'''
+                    type: string
+                type: object
+              azureName:
+                description: |-
+                  AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+                  doesn't have to be.
+                maxLength: 50
+                minLength: 1
+                type: string
+              correlationFilter:
+                description: 'CorrelationFilter: Properties of correlationFilter'
+                properties:
+                  contentType:
+                    description: 'ContentType: Content type of the message.'
+                    type: string
+                  correlationId:
+                    description: 'CorrelationId: Identifier of the correlation.'
+                    type: string
+                  label:
+                    description: 'Label: Application specific label.'
+                    type: string
+                  messageId:
+                    description: 'MessageId: Identifier of the message.'
+                    type: string
+                  properties:
+                    additionalProperties:
+                      type: string
+                    description: 'Properties: dictionary object for custom filters'
+                    type: object
+                  replyTo:
+                    description: 'ReplyTo: Address of the queue to reply to.'
+                    type: string
+                  replyToSessionId:
+                    description: 'ReplyToSessionId: Session identifier to reply to.'
+                    type: string
+                  requiresPreprocessing:
+                    description: 'RequiresPreprocessing: Value that indicates whether
+                      the rule action requires preprocessing.'
+                    type: boolean
+                  sessionId:
+                    description: 'SessionId: Session identifier.'
+                    type: string
+                  to:
+                    description: 'To: Address to send to.'
+                    type: string
+                type: object
+              filterType:
+                description: 'FilterType: Filter type that is evaluated against a
+                  BrokeredMessage.'
+                enum:
+                - CorrelationFilter
+                - SqlFilter
+                type: string
+              operatorSpec:
+                description: |-
+                  OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+                  passed directly to Azure
+                properties:
+                  configMapExpressions:
+                    description: 'ConfigMapExpressions: configures where to place
+                      operator written dynamic ConfigMaps (created with CEL expressions).'
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                  secretExpressions:
+                    description: 'SecretExpressions: configures where to place operator
+                      written dynamic secrets (created with CEL expressions).'
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                type: object
+              owner:
+                description: |-
+                  Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+                  controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+                  reference to a servicebus.azure.com/NamespacesTopicsSubscription resource
+                properties:
+                  armId:
+                    pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                    type: string
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                type: object
+              sqlFilter:
+                description: 'SqlFilter: Properties of sqlFilter'
+                properties:
+                  compatibilityLevel:
+                    description: |-
+                      CompatibilityLevel: This property is reserved for future use. An integer value showing the compatibility level,
+                      currently hard-coded to 20.
+                    type: integer
+                  requiresPreprocessing:
+                    description: 'RequiresPreprocessing: Value that indicates whether
+                      the rule action requires preprocessing.'
+                    type: boolean
+                  sqlExpression:
+                    description: 'SqlExpression: The SQL expression. e.g. MyProperty=''ABC'''
+                    type: string
+                type: object
+            required:
+            - owner
+            type: object
+          status:
+            properties:
+              action:
+                description: |-
+                  Action: Represents the filter actions which are allowed for the transformation of a message that have been matched by a
+                  filter expression.
+                properties:
+                  compatibilityLevel:
+                    description: |-
+                      CompatibilityLevel: This property is reserved for future use. An integer value showing the compatibility level,
+                      currently hard-coded to 20.
+                    type: integer
+                  requiresPreprocessing:
+                    description: 'RequiresPreprocessing: Value that indicates whether
+                      the rule action requires preprocessing.'
+                    type: boolean
+                  sqlExpression:
+                    description: 'SqlExpression: SQL expression. e.g. MyProperty=''ABC'''
+                    type: string
+                type: object
+              conditions:
+                description: 'Conditions: The observed state of the resource'
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration is the .metadata.generation that the condition was set based upon. For instance, if
+                        .metadata.generation is currently 12, but the .status.condition[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: |-
+                        Reason for the condition's last transition.
+                        Reasons are upper CamelCase (PascalCase) with no spaces. A reason is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: |-
+                        Severity with which to treat failures of this type of condition.
+                        For conditions which have positive polarity (Status == True is their normal/healthy state), this will be omitted when Status == True
+                        For conditions which have negative polarity (Status == False is their normal/healthy state), this will be omitted when Status == False.
+                        This is omitted in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              correlationFilter:
+                description: 'CorrelationFilter: Properties of correlationFilter'
+                properties:
+                  contentType:
+                    description: 'ContentType: Content type of the message.'
+                    type: string
+                  correlationId:
+                    description: 'CorrelationId: Identifier of the correlation.'
+                    type: string
+                  label:
+                    description: 'Label: Application specific label.'
+                    type: string
+                  messageId:
+                    description: 'MessageId: Identifier of the message.'
+                    type: string
+                  properties:
+                    additionalProperties:
+                      type: string
+                    description: 'Properties: dictionary object for custom filters'
+                    type: object
+                  replyTo:
+                    description: 'ReplyTo: Address of the queue to reply to.'
+                    type: string
+                  replyToSessionId:
+                    description: 'ReplyToSessionId: Session identifier to reply to.'
+                    type: string
+                  requiresPreprocessing:
+                    description: 'RequiresPreprocessing: Value that indicates whether
+                      the rule action requires preprocessing.'
+                    type: boolean
+                  sessionId:
+                    description: 'SessionId: Session identifier.'
+                    type: string
+                  to:
+                    description: 'To: Address to send to.'
+                    type: string
+                type: object
+              filterType:
+                description: 'FilterType: Filter type that is evaluated against a
+                  BrokeredMessage.'
+                type: string
+              id:
+                description: |-
+                  Id: Fully qualified resource ID for the resource. Ex -
+                  /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+                type: string
+              location:
+                description: 'Location: The geo-location where the resource lives'
+                type: string
+              name:
+                description: 'Name: The name of the resource'
+                type: string
+              sqlFilter:
+                description: 'SqlFilter: Properties of sqlFilter'
+                properties:
+                  compatibilityLevel:
+                    description: |-
+                      CompatibilityLevel: This property is reserved for future use. An integer value showing the compatibility level,
+                      currently hard-coded to 20.
+                    type: integer
+                  requiresPreprocessing:
+                    description: 'RequiresPreprocessing: Value that indicates whether
+                      the rule action requires preprocessing.'
+                    type: boolean
+                  sqlExpression:
+                    description: 'SqlExpression: The SQL expression. e.g. MyProperty=''ABC'''
+                    type: string
+                type: object
+              systemData:
+                description: 'SystemData: The system meta data relating to this resource.'
+                properties:
+                  createdAt:
+                    description: 'CreatedAt: The timestamp of resource creation (UTC).'
+                    type: string
+                  createdBy:
+                    description: 'CreatedBy: The identity that created the resource.'
+                    type: string
+                  createdByType:
+                    description: 'CreatedByType: The type of identity that created
+                      the resource.'
+                    type: string
+                  lastModifiedAt:
+                    description: 'LastModifiedAt: The type of identity that last modified
+                      the resource.'
+                    type: string
+                  lastModifiedBy:
+                    description: 'LastModifiedBy: The identity that last modified
+                      the resource.'
+                    type: string
+                  lastModifiedByType:
+                    description: 'LastModifiedByType: The type of identity that last
+                      modified the resource.'
+                    type: string
+                type: object
+              type:
+                description: 'Type: The type of the resource. E.g. "Microsoft.EventHub/Namespaces"
+                  or "Microsoft.EventHub/Namespaces/EventHubs"'
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: false
+    subresources:
+      status: {}
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1api20211101storage
+    schema:
+      openAPIV3Schema:
+        description: |-
+          Storage version of v1api20211101.NamespacesTopicsSubscriptionsRule
+          Generator information:
+          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/stable/2021-11-01/Rules.json
+          - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}/rules/{ruleName}
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Storage version of v1api20211101.NamespacesTopicsSubscriptionsRule_Spec
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: |-
+                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                  resources, allowing for full fidelity round trip conversions
+                type: object
+              action:
+                description: |-
+                  Storage version of v1api20211101.Action
+                  Represents the filter actions which are allowed for the transformation of a message that have been matched by a filter
+                  expression.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  compatibilityLevel:
+                    type: integer
+                  requiresPreprocessing:
+                    type: boolean
+                  sqlExpression:
+                    type: string
+                type: object
+              azureName:
+                description: |-
+                  AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+                  doesn't have to be.
+                type: string
+              correlationFilter:
+                description: |-
+                  Storage version of v1api20211101.CorrelationFilter
+                  Represents the correlation filter expression.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  contentType:
+                    type: string
+                  correlationId:
+                    type: string
+                  label:
+                    type: string
+                  messageId:
+                    type: string
+                  properties:
+                    additionalProperties:
+                      type: string
+                    type: object
+                  replyTo:
+                    type: string
+                  replyToSessionId:
+                    type: string
+                  requiresPreprocessing:
+                    type: boolean
+                  sessionId:
+                    type: string
+                  to:
+                    type: string
+                type: object
+              filterType:
+                type: string
+              operatorSpec:
+                description: |-
+                  Storage version of v1api20211101.NamespacesTopicsSubscriptionsRuleOperatorSpec
+                  Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  configMapExpressions:
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                  secretExpressions:
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                type: object
+              originalVersion:
+                type: string
+              owner:
+                description: |-
+                  Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+                  controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+                  reference to a servicebus.azure.com/NamespacesTopicsSubscription resource
+                properties:
+                  armId:
+                    pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                    type: string
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                type: object
+              sqlFilter:
+                description: |-
+                  Storage version of v1api20211101.SqlFilter
+                  Represents a filter which is a composition of an expression and an action that is executed in the pub/sub pipeline.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  compatibilityLevel:
+                    type: integer
+                  requiresPreprocessing:
+                    type: boolean
+                  sqlExpression:
+                    type: string
+                type: object
+            required:
+            - owner
+            type: object
+          status:
+            description: Storage version of v1api20211101.NamespacesTopicsSubscriptionsRule_STATUS
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: |-
+                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                  resources, allowing for full fidelity round trip conversions
+                type: object
+              action:
+                description: |-
+                  Storage version of v1api20211101.Action_STATUS
+                  Represents the filter actions which are allowed for the transformation of a message that have been matched by a filter
+                  expression.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  compatibilityLevel:
+                    type: integer
+                  requiresPreprocessing:
+                    type: boolean
+                  sqlExpression:
+                    type: string
+                type: object
+              conditions:
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration is the .metadata.generation that the condition was set based upon. For instance, if
+                        .metadata.generation is currently 12, but the .status.condition[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: |-
+                        Reason for the condition's last transition.
+                        Reasons are upper CamelCase (PascalCase) with no spaces. A reason is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: |-
+                        Severity with which to treat failures of this type of condition.
+                        For conditions which have positive polarity (Status == True is their normal/healthy state), this will be omitted when Status == True
+                        For conditions which have negative polarity (Status == False is their normal/healthy state), this will be omitted when Status == False.
+                        This is omitted in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              correlationFilter:
+                description: |-
+                  Storage version of v1api20211101.CorrelationFilter_STATUS
+                  Represents the correlation filter expression.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  contentType:
+                    type: string
+                  correlationId:
+                    type: string
+                  label:
+                    type: string
+                  messageId:
+                    type: string
+                  properties:
+                    additionalProperties:
+                      type: string
+                    type: object
+                  replyTo:
+                    type: string
+                  replyToSessionId:
+                    type: string
+                  requiresPreprocessing:
+                    type: boolean
+                  sessionId:
+                    type: string
+                  to:
+                    type: string
+                type: object
+              filterType:
+                type: string
+              id:
+                type: string
+              location:
+                type: string
+              name:
+                type: string
+              sqlFilter:
+                description: |-
+                  Storage version of v1api20211101.SqlFilter_STATUS
+                  Represents a filter which is a composition of an expression and an action that is executed in the pub/sub pipeline.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  compatibilityLevel:
+                    type: integer
+                  requiresPreprocessing:
+                    type: boolean
+                  sqlExpression:
+                    type: string
+                type: object
+              systemData:
+                description: |-
+                  Storage version of v1api20211101.SystemData_STATUS
+                  Metadata pertaining to creation and last modification of the resource.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  createdAt:
+                    type: string
+                  createdBy:
+                    type: string
+                  createdByType:
+                    type: string
+                  lastModifiedAt:
+                    type: string
+                  lastModifiedBy:
+                    type: string
+                  lastModifiedByType:
+                    type: string
+                type: object
+              type:
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: false
+    subresources:
+      status: {}
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1api20221001preview
+    schema:
+      openAPIV3Schema:
+        description: |-
+          Generator information:
+          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/Rules.json
+          - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}/rules/{ruleName}
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              action:
+                description: |-
+                  Action: Represents the filter actions which are allowed for the transformation of a message that have been matched by a
+                  filter expression.
+                properties:
+                  compatibilityLevel:
+                    description: |-
+                      CompatibilityLevel: This property is reserved for future use. An integer value showing the compatibility level,
+                      currently hard-coded to 20.
+                    type: integer
+                  requiresPreprocessing:
+                    description: 'RequiresPreprocessing: Value that indicates whether
+                      the rule action requires preprocessing.'
+                    type: boolean
+                  sqlExpression:
+                    description: 'SqlExpression: SQL expression. e.g. MyProperty=''ABC'''
+                    type: string
+                type: object
+              azureName:
+                description: |-
+                  AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+                  doesn't have to be.
+                maxLength: 50
+                minLength: 1
+                type: string
+              correlationFilter:
+                description: 'CorrelationFilter: Properties of correlationFilter'
+                properties:
+                  contentType:
+                    description: 'ContentType: Content type of the message.'
+                    type: string
+                  correlationId:
+                    description: 'CorrelationId: Identifier of the correlation.'
+                    type: string
+                  label:
+                    description: 'Label: Application specific label.'
+                    type: string
+                  messageId:
+                    description: 'MessageId: Identifier of the message.'
+                    type: string
+                  properties:
+                    additionalProperties:
+                      type: string
+                    description: 'Properties: dictionary object for custom filters'
+                    type: object
+                  replyTo:
+                    description: 'ReplyTo: Address of the queue to reply to.'
+                    type: string
+                  replyToSessionId:
+                    description: 'ReplyToSessionId: Session identifier to reply to.'
+                    type: string
+                  requiresPreprocessing:
+                    description: 'RequiresPreprocessing: Value that indicates whether
+                      the rule action requires preprocessing.'
+                    type: boolean
+                  sessionId:
+                    description: 'SessionId: Session identifier.'
+                    type: string
+                  to:
+                    description: 'To: Address to send to.'
+                    type: string
+                type: object
+              filterType:
+                description: 'FilterType: Filter type that is evaluated against a
+                  BrokeredMessage.'
+                enum:
+                - CorrelationFilter
+                - SqlFilter
+                type: string
+              operatorSpec:
+                description: |-
+                  OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+                  passed directly to Azure
+                properties:
+                  configMapExpressions:
+                    description: 'ConfigMapExpressions: configures where to place
+                      operator written dynamic ConfigMaps (created with CEL expressions).'
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                  secretExpressions:
+                    description: 'SecretExpressions: configures where to place operator
+                      written dynamic secrets (created with CEL expressions).'
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                type: object
+              owner:
+                description: |-
+                  Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+                  controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+                  reference to a servicebus.azure.com/NamespacesTopicsSubscription resource
+                properties:
+                  armId:
+                    pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                    type: string
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                type: object
+              sqlFilter:
+                description: 'SqlFilter: Properties of sqlFilter'
+                properties:
+                  compatibilityLevel:
+                    description: |-
+                      CompatibilityLevel: This property is reserved for future use. An integer value showing the compatibility level,
+                      currently hard-coded to 20.
+                    type: integer
+                  requiresPreprocessing:
+                    description: 'RequiresPreprocessing: Value that indicates whether
+                      the rule action requires preprocessing.'
+                    type: boolean
+                  sqlExpression:
+                    description: 'SqlExpression: The SQL expression. e.g. MyProperty=''ABC'''
+                    type: string
+                type: object
+            required:
+            - owner
+            type: object
+          status:
+            properties:
+              action:
+                description: |-
+                  Action: Represents the filter actions which are allowed for the transformation of a message that have been matched by a
+                  filter expression.
+                properties:
+                  compatibilityLevel:
+                    description: |-
+                      CompatibilityLevel: This property is reserved for future use. An integer value showing the compatibility level,
+                      currently hard-coded to 20.
+                    type: integer
+                  requiresPreprocessing:
+                    description: 'RequiresPreprocessing: Value that indicates whether
+                      the rule action requires preprocessing.'
+                    type: boolean
+                  sqlExpression:
+                    description: 'SqlExpression: SQL expression. e.g. MyProperty=''ABC'''
+                    type: string
+                type: object
+              conditions:
+                description: 'Conditions: The observed state of the resource'
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration is the .metadata.generation that the condition was set based upon. For instance, if
+                        .metadata.generation is currently 12, but the .status.condition[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: |-
+                        Reason for the condition's last transition.
+                        Reasons are upper CamelCase (PascalCase) with no spaces. A reason is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: |-
+                        Severity with which to treat failures of this type of condition.
+                        For conditions which have positive polarity (Status == True is their normal/healthy state), this will be omitted when Status == True
+                        For conditions which have negative polarity (Status == False is their normal/healthy state), this will be omitted when Status == False.
+                        This is omitted in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              correlationFilter:
+                description: 'CorrelationFilter: Properties of correlationFilter'
+                properties:
+                  contentType:
+                    description: 'ContentType: Content type of the message.'
+                    type: string
+                  correlationId:
+                    description: 'CorrelationId: Identifier of the correlation.'
+                    type: string
+                  label:
+                    description: 'Label: Application specific label.'
+                    type: string
+                  messageId:
+                    description: 'MessageId: Identifier of the message.'
+                    type: string
+                  properties:
+                    additionalProperties:
+                      type: string
+                    description: 'Properties: dictionary object for custom filters'
+                    type: object
+                  replyTo:
+                    description: 'ReplyTo: Address of the queue to reply to.'
+                    type: string
+                  replyToSessionId:
+                    description: 'ReplyToSessionId: Session identifier to reply to.'
+                    type: string
+                  requiresPreprocessing:
+                    description: 'RequiresPreprocessing: Value that indicates whether
+                      the rule action requires preprocessing.'
+                    type: boolean
+                  sessionId:
+                    description: 'SessionId: Session identifier.'
+                    type: string
+                  to:
+                    description: 'To: Address to send to.'
+                    type: string
+                type: object
+              filterType:
+                description: 'FilterType: Filter type that is evaluated against a
+                  BrokeredMessage.'
+                type: string
+              id:
+                description: |-
+                  Id: Fully qualified resource ID for the resource. Ex -
+                  /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+                type: string
+              location:
+                description: 'Location: The geo-location where the resource lives'
+                type: string
+              name:
+                description: 'Name: The name of the resource'
+                type: string
+              sqlFilter:
+                description: 'SqlFilter: Properties of sqlFilter'
+                properties:
+                  compatibilityLevel:
+                    description: |-
+                      CompatibilityLevel: This property is reserved for future use. An integer value showing the compatibility level,
+                      currently hard-coded to 20.
+                    type: integer
+                  requiresPreprocessing:
+                    description: 'RequiresPreprocessing: Value that indicates whether
+                      the rule action requires preprocessing.'
+                    type: boolean
+                  sqlExpression:
+                    description: 'SqlExpression: The SQL expression. e.g. MyProperty=''ABC'''
+                    type: string
+                type: object
+              systemData:
+                description: 'SystemData: The system meta data relating to this resource.'
+                properties:
+                  createdAt:
+                    description: 'CreatedAt: The timestamp of resource creation (UTC).'
+                    type: string
+                  createdBy:
+                    description: 'CreatedBy: The identity that created the resource.'
+                    type: string
+                  createdByType:
+                    description: 'CreatedByType: The type of identity that created
+                      the resource.'
+                    type: string
+                  lastModifiedAt:
+                    description: 'LastModifiedAt: The type of identity that last modified
+                      the resource.'
+                    type: string
+                  lastModifiedBy:
+                    description: 'LastModifiedBy: The identity that last modified
+                      the resource.'
+                    type: string
+                  lastModifiedByType:
+                    description: 'LastModifiedByType: The type of identity that last
+                      modified the resource.'
+                    type: string
+                type: object
+              type:
+                description: 'Type: The type of the resource. E.g. "Microsoft.EventHub/Namespaces"
+                  or "Microsoft.EventHub/Namespaces/EventHubs"'
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: false
+    subresources:
+      status: {}
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1api20221001previewstorage
+    schema:
+      openAPIV3Schema:
+        description: |-
+          Storage version of v1api20221001preview.NamespacesTopicsSubscriptionsRule
+          Generator information:
+          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/Rules.json
+          - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}/rules/{ruleName}
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Storage version of v1api20221001preview.NamespacesTopicsSubscriptionsRule_Spec
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: |-
+                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                  resources, allowing for full fidelity round trip conversions
+                type: object
+              action:
+                description: |-
+                  Storage version of v1api20221001preview.Action
+                  Represents the filter actions which are allowed for the transformation of a message that have been matched by a filter
+                  expression.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  compatibilityLevel:
+                    type: integer
+                  requiresPreprocessing:
+                    type: boolean
+                  sqlExpression:
+                    type: string
+                type: object
+              azureName:
+                description: |-
+                  AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+                  doesn't have to be.
+                type: string
+              correlationFilter:
+                description: |-
+                  Storage version of v1api20221001preview.CorrelationFilter
+                  Represents the correlation filter expression.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  contentType:
+                    type: string
+                  correlationId:
+                    type: string
+                  label:
+                    type: string
+                  messageId:
+                    type: string
+                  properties:
+                    additionalProperties:
+                      type: string
+                    type: object
+                  replyTo:
+                    type: string
+                  replyToSessionId:
+                    type: string
+                  requiresPreprocessing:
+                    type: boolean
+                  sessionId:
+                    type: string
+                  to:
+                    type: string
+                type: object
+              filterType:
+                type: string
+              operatorSpec:
+                description: |-
+                  Storage version of v1api20221001preview.NamespacesTopicsSubscriptionsRuleOperatorSpec
+                  Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  configMapExpressions:
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                  secretExpressions:
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                type: object
+              originalVersion:
+                type: string
+              owner:
+                description: |-
+                  Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+                  controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+                  reference to a servicebus.azure.com/NamespacesTopicsSubscription resource
+                properties:
+                  armId:
+                    pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                    type: string
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                type: object
+              sqlFilter:
+                description: |-
+                  Storage version of v1api20221001preview.SqlFilter
+                  Represents a filter which is a composition of an expression and an action that is executed in the pub/sub pipeline.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  compatibilityLevel:
+                    type: integer
+                  requiresPreprocessing:
+                    type: boolean
+                  sqlExpression:
+                    type: string
+                type: object
+            required:
+            - owner
+            type: object
+          status:
+            description: Storage version of v1api20221001preview.NamespacesTopicsSubscriptionsRule_STATUS
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: |-
+                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                  resources, allowing for full fidelity round trip conversions
+                type: object
+              action:
+                description: |-
+                  Storage version of v1api20221001preview.Action_STATUS
+                  Represents the filter actions which are allowed for the transformation of a message that have been matched by a filter
+                  expression.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  compatibilityLevel:
+                    type: integer
+                  requiresPreprocessing:
+                    type: boolean
+                  sqlExpression:
+                    type: string
+                type: object
+              conditions:
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration is the .metadata.generation that the condition was set based upon. For instance, if
+                        .metadata.generation is currently 12, but the .status.condition[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: |-
+                        Reason for the condition's last transition.
+                        Reasons are upper CamelCase (PascalCase) with no spaces. A reason is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: |-
+                        Severity with which to treat failures of this type of condition.
+                        For conditions which have positive polarity (Status == True is their normal/healthy state), this will be omitted when Status == True
+                        For conditions which have negative polarity (Status == False is their normal/healthy state), this will be omitted when Status == False.
+                        This is omitted in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              correlationFilter:
+                description: |-
+                  Storage version of v1api20221001preview.CorrelationFilter_STATUS
+                  Represents the correlation filter expression.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  contentType:
+                    type: string
+                  correlationId:
+                    type: string
+                  label:
+                    type: string
+                  messageId:
+                    type: string
+                  properties:
+                    additionalProperties:
+                      type: string
+                    type: object
+                  replyTo:
+                    type: string
+                  replyToSessionId:
+                    type: string
+                  requiresPreprocessing:
+                    type: boolean
+                  sessionId:
+                    type: string
+                  to:
+                    type: string
+                type: object
+              filterType:
+                type: string
+              id:
+                type: string
+              location:
+                type: string
+              name:
+                type: string
+              sqlFilter:
+                description: |-
+                  Storage version of v1api20221001preview.SqlFilter_STATUS
+                  Represents a filter which is a composition of an expression and an action that is executed in the pub/sub pipeline.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  compatibilityLevel:
+                    type: integer
+                  requiresPreprocessing:
+                    type: boolean
+                  sqlExpression:
+                    type: string
+                type: object
+              systemData:
+                description: |-
+                  Storage version of v1api20221001preview.SystemData_STATUS
+                  Metadata pertaining to creation and last modification of the resource.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  createdAt:
+                    type: string
+                  createdBy:
+                    type: string
+                  createdByType:
+                    type: string
+                  lastModifiedAt:
+                    type: string
+                  lastModifiedBy:
+                    type: string
+                  lastModifiedByType:
+                    type: string
+                type: object
+              type:
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: false
+    subresources:
+      status: {}
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1api20240101
+    schema:
+      openAPIV3Schema:
+        description: |-
+          Generator information:
+          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/stable/2024-01-01/Rules.json
+          - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}/rules/{ruleName}
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              action:
+                description: |-
+                  Action: Represents the filter actions which are allowed for the transformation of a message that have been matched by a
+                  filter expression.
+                properties:
+                  compatibilityLevel:
+                    description: |-
+                      CompatibilityLevel: This property is reserved for future use. An integer value showing the compatibility level,
+                      currently hard-coded to 20.
+                    type: integer
+                  requiresPreprocessing:
+                    description: 'RequiresPreprocessing: Value that indicates whether
+                      the rule action requires preprocessing.'
+                    type: boolean
+                  sqlExpression:
+                    description: 'SqlExpression: SQL expression. e.g. MyProperty=''ABC'''
+                    type: string
+                type: object
+              azureName:
+                description: |-
+                  AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+                  doesn't have to be.
+                maxLength: 50
+                minLength: 1
+                type: string
+              correlationFilter:
+                description: 'CorrelationFilter: Properties of correlationFilter'
+                properties:
+                  contentType:
+                    description: 'ContentType: Content type of the message.'
+                    type: string
+                  correlationId:
+                    description: 'CorrelationId: Identifier of the correlation.'
+                    type: string
+                  label:
+                    description: 'Label: Application specific label.'
+                    type: string
+                  messageId:
+                    description: 'MessageId: Identifier of the message.'
+                    type: string
+                  properties:
+                    additionalProperties:
+                      type: string
+                    description: 'Properties: dictionary object for custom filters'
+                    type: object
+                  replyTo:
+                    description: 'ReplyTo: Address of the queue to reply to.'
+                    type: string
+                  replyToSessionId:
+                    description: 'ReplyToSessionId: Session identifier to reply to.'
+                    type: string
+                  requiresPreprocessing:
+                    description: 'RequiresPreprocessing: Value that indicates whether
+                      the rule action requires preprocessing.'
+                    type: boolean
+                  sessionId:
+                    description: 'SessionId: Session identifier.'
+                    type: string
+                  to:
+                    description: 'To: Address to send to.'
+                    type: string
+                type: object
+              filterType:
+                description: 'FilterType: Filter type that is evaluated against a
+                  BrokeredMessage.'
+                enum:
+                - CorrelationFilter
+                - SqlFilter
+                type: string
+              operatorSpec:
+                description: |-
+                  OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+                  passed directly to Azure
+                properties:
+                  configMapExpressions:
+                    description: 'ConfigMapExpressions: configures where to place
+                      operator written dynamic ConfigMaps (created with CEL expressions).'
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                  secretExpressions:
+                    description: 'SecretExpressions: configures where to place operator
+                      written dynamic secrets (created with CEL expressions).'
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                type: object
+              owner:
+                description: |-
+                  Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+                  controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+                  reference to a servicebus.azure.com/NamespacesTopicsSubscription resource
+                properties:
+                  armId:
+                    pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                    type: string
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                type: object
+              sqlFilter:
+                description: 'SqlFilter: Properties of sqlFilter'
+                properties:
+                  compatibilityLevel:
+                    description: |-
+                      CompatibilityLevel: This property is reserved for future use. An integer value showing the compatibility level,
+                      currently hard-coded to 20.
+                    type: integer
+                  requiresPreprocessing:
+                    description: 'RequiresPreprocessing: Value that indicates whether
+                      the rule action requires preprocessing.'
+                    type: boolean
+                  sqlExpression:
+                    description: 'SqlExpression: The SQL expression. e.g. MyProperty=''ABC'''
+                    type: string
+                type: object
+            required:
+            - owner
+            type: object
+          status:
+            properties:
+              action:
+                description: |-
+                  Action: Represents the filter actions which are allowed for the transformation of a message that have been matched by a
+                  filter expression.
+                properties:
+                  compatibilityLevel:
+                    description: |-
+                      CompatibilityLevel: This property is reserved for future use. An integer value showing the compatibility level,
+                      currently hard-coded to 20.
+                    type: integer
+                  requiresPreprocessing:
+                    description: 'RequiresPreprocessing: Value that indicates whether
+                      the rule action requires preprocessing.'
+                    type: boolean
+                  sqlExpression:
+                    description: 'SqlExpression: SQL expression. e.g. MyProperty=''ABC'''
+                    type: string
+                type: object
+              conditions:
+                description: 'Conditions: The observed state of the resource'
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration is the .metadata.generation that the condition was set based upon. For instance, if
+                        .metadata.generation is currently 12, but the .status.condition[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: |-
+                        Reason for the condition's last transition.
+                        Reasons are upper CamelCase (PascalCase) with no spaces. A reason is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: |-
+                        Severity with which to treat failures of this type of condition.
+                        For conditions which have positive polarity (Status == True is their normal/healthy state), this will be omitted when Status == True
+                        For conditions which have negative polarity (Status == False is their normal/healthy state), this will be omitted when Status == False.
+                        This is omitted in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              correlationFilter:
+                description: 'CorrelationFilter: Properties of correlationFilter'
+                properties:
+                  contentType:
+                    description: 'ContentType: Content type of the message.'
+                    type: string
+                  correlationId:
+                    description: 'CorrelationId: Identifier of the correlation.'
+                    type: string
+                  label:
+                    description: 'Label: Application specific label.'
+                    type: string
+                  messageId:
+                    description: 'MessageId: Identifier of the message.'
+                    type: string
+                  properties:
+                    additionalProperties:
+                      type: string
+                    description: 'Properties: dictionary object for custom filters'
+                    type: object
+                  replyTo:
+                    description: 'ReplyTo: Address of the queue to reply to.'
+                    type: string
+                  replyToSessionId:
+                    description: 'ReplyToSessionId: Session identifier to reply to.'
+                    type: string
+                  requiresPreprocessing:
+                    description: 'RequiresPreprocessing: Value that indicates whether
+                      the rule action requires preprocessing.'
+                    type: boolean
+                  sessionId:
+                    description: 'SessionId: Session identifier.'
+                    type: string
+                  to:
+                    description: 'To: Address to send to.'
+                    type: string
+                type: object
+              filterType:
+                description: 'FilterType: Filter type that is evaluated against a
+                  BrokeredMessage.'
+                type: string
+              id:
+                description: |-
+                  Id: Fully qualified resource ID for the resource. Ex -
+                  /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+                type: string
+              location:
+                description: 'Location: The geo-location where the resource lives'
+                type: string
+              name:
+                description: 'Name: The name of the resource'
+                type: string
+              sqlFilter:
+                description: 'SqlFilter: Properties of sqlFilter'
+                properties:
+                  compatibilityLevel:
+                    description: |-
+                      CompatibilityLevel: This property is reserved for future use. An integer value showing the compatibility level,
+                      currently hard-coded to 20.
+                    type: integer
+                  requiresPreprocessing:
+                    description: 'RequiresPreprocessing: Value that indicates whether
+                      the rule action requires preprocessing.'
+                    type: boolean
+                  sqlExpression:
+                    description: 'SqlExpression: The SQL expression. e.g. MyProperty=''ABC'''
+                    type: string
+                type: object
+              systemData:
+                description: 'SystemData: The system meta data relating to this resource.'
+                properties:
+                  createdAt:
+                    description: 'CreatedAt: The timestamp of resource creation (UTC).'
+                    type: string
+                  createdBy:
+                    description: 'CreatedBy: The identity that created the resource.'
+                    type: string
+                  createdByType:
+                    description: 'CreatedByType: The type of identity that created
+                      the resource.'
+                    type: string
+                  lastModifiedAt:
+                    description: 'LastModifiedAt: The type of identity that last modified
+                      the resource.'
+                    type: string
+                  lastModifiedBy:
+                    description: 'LastModifiedBy: The identity that last modified
+                      the resource.'
+                    type: string
+                  lastModifiedByType:
+                    description: 'LastModifiedByType: The type of identity that last
+                      modified the resource.'
+                    type: string
+                type: object
+              type:
+                description: 'Type: The type of the resource. E.g. "Microsoft.EventHub/Namespaces"
+                  or "Microsoft.EventHub/Namespaces/EventHubs"'
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: false
+    subresources:
+      status: {}
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1api20240101storage
+    schema:
+      openAPIV3Schema:
+        description: |-
+          Storage version of v1api20240101.NamespacesTopicsSubscriptionsRule
+          Generator information:
+          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/stable/2024-01-01/Rules.json
+          - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}/rules/{ruleName}
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Storage version of v1api20240101.NamespacesTopicsSubscriptionsRule_Spec
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: |-
+                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                  resources, allowing for full fidelity round trip conversions
+                type: object
+              action:
+                description: |-
+                  Storage version of v1api20240101.Action
+                  Represents the filter actions which are allowed for the transformation of a message that have been matched by a filter
+                  expression.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  compatibilityLevel:
+                    type: integer
+                  requiresPreprocessing:
+                    type: boolean
+                  sqlExpression:
+                    type: string
+                type: object
+              azureName:
+                description: |-
+                  AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+                  doesn't have to be.
+                type: string
+              correlationFilter:
+                description: |-
+                  Storage version of v1api20240101.CorrelationFilter
+                  Represents the correlation filter expression.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  contentType:
+                    type: string
+                  correlationId:
+                    type: string
+                  label:
+                    type: string
+                  messageId:
+                    type: string
+                  properties:
+                    additionalProperties:
+                      type: string
+                    type: object
+                  replyTo:
+                    type: string
+                  replyToSessionId:
+                    type: string
+                  requiresPreprocessing:
+                    type: boolean
+                  sessionId:
+                    type: string
+                  to:
+                    type: string
+                type: object
+              filterType:
+                type: string
+              operatorSpec:
+                description: |-
+                  Storage version of v1api20240101.NamespacesTopicsSubscriptionsRuleOperatorSpec
+                  Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  configMapExpressions:
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                  secretExpressions:
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                type: object
+              originalVersion:
+                type: string
+              owner:
+                description: |-
+                  Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+                  controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+                  reference to a servicebus.azure.com/NamespacesTopicsSubscription resource
+                properties:
+                  armId:
+                    pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                    type: string
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                type: object
+              sqlFilter:
+                description: |-
+                  Storage version of v1api20240101.SqlFilter
+                  Represents a filter which is a composition of an expression and an action that is executed in the pub/sub pipeline.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  compatibilityLevel:
+                    type: integer
+                  requiresPreprocessing:
+                    type: boolean
+                  sqlExpression:
+                    type: string
+                type: object
+            required:
+            - owner
+            type: object
+          status:
+            description: Storage version of v1api20240101.NamespacesTopicsSubscriptionsRule_STATUS
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: |-
+                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                  resources, allowing for full fidelity round trip conversions
+                type: object
+              action:
+                description: |-
+                  Storage version of v1api20240101.Action_STATUS
+                  Represents the filter actions which are allowed for the transformation of a message that have been matched by a filter
+                  expression.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  compatibilityLevel:
+                    type: integer
+                  requiresPreprocessing:
+                    type: boolean
+                  sqlExpression:
+                    type: string
+                type: object
+              conditions:
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration is the .metadata.generation that the condition was set based upon. For instance, if
+                        .metadata.generation is currently 12, but the .status.condition[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: |-
+                        Reason for the condition's last transition.
+                        Reasons are upper CamelCase (PascalCase) with no spaces. A reason is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: |-
+                        Severity with which to treat failures of this type of condition.
+                        For conditions which have positive polarity (Status == True is their normal/healthy state), this will be omitted when Status == True
+                        For conditions which have negative polarity (Status == False is their normal/healthy state), this will be omitted when Status == False.
+                        This is omitted in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              correlationFilter:
+                description: |-
+                  Storage version of v1api20240101.CorrelationFilter_STATUS
+                  Represents the correlation filter expression.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  contentType:
+                    type: string
+                  correlationId:
+                    type: string
+                  label:
+                    type: string
+                  messageId:
+                    type: string
+                  properties:
+                    additionalProperties:
+                      type: string
+                    type: object
+                  replyTo:
+                    type: string
+                  replyToSessionId:
+                    type: string
+                  requiresPreprocessing:
+                    type: boolean
+                  sessionId:
+                    type: string
+                  to:
+                    type: string
+                type: object
+              filterType:
+                type: string
+              id:
+                type: string
+              location:
+                type: string
+              name:
+                type: string
+              sqlFilter:
+                description: |-
+                  Storage version of v1api20240101.SqlFilter_STATUS
+                  Represents a filter which is a composition of an expression and an action that is executed in the pub/sub pipeline.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  compatibilityLevel:
+                    type: integer
+                  requiresPreprocessing:
+                    type: boolean
+                  sqlExpression:
+                    type: string
+                type: object
+              systemData:
+                description: |-
+                  Storage version of v1api20240101.SystemData_STATUS
+                  Metadata pertaining to creation and last modification of the resource.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  createdAt:
+                    type: string
+                  createdBy:
+                    type: string
+                  createdByType:
+                    type: string
+                  lastModifiedAt:
+                    type: string
+                  lastModifiedBy:
+                    type: string
+                  lastModifiedByType:
+                    type: string
+                type: object
+              type:
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

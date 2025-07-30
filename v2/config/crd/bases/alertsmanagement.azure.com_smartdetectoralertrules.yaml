@@ -1,0 +1,887 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.17.3
+  name: smartdetectoralertrules.alertsmanagement.azure.com
+spec:
+  group: alertsmanagement.azure.com
+  names:
+    kind: SmartDetectorAlertRule
+    listKind: SmartDetectorAlertRuleList
+    plural: smartdetectoralertrules
+    singular: smartdetectoralertrule
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1api20210401
+    schema:
+      openAPIV3Schema:
+        description: |-
+          Generator information:
+          - Generated from: /alertsmanagement/resource-manager/Microsoft.AlertsManagement/stable/2021-04-01/SmartDetectorAlertRulesApi.json
+          - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.alertsManagement/smartDetectorAlertRules/{alertRuleName}
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              actionGroups:
+                description: 'ActionGroups: The alert rule actions.'
+                properties:
+                  customEmailSubject:
+                    description: 'CustomEmailSubject: An optional custom email subject
+                      to use in email notifications.'
+                    type: string
+                  customWebhookPayload:
+                    description: 'CustomWebhookPayload: An optional custom web-hook
+                      payload to use in web-hook notifications.'
+                    type: string
+                  groupReferences:
+                    description: 'GroupReferences: The Action Group resource IDs.'
+                    items:
+                      description: ResourceReference represents a resource reference,
+                        either to a Kubernetes resource or directly to an Azure resource
+                        via ARMID
+                      properties:
+                        armId:
+                          description: |-
+                            ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                            The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                            ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                          pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                          type: string
+                        group:
+                          description: Group is the Kubernetes group of the resource.
+                          type: string
+                        kind:
+                          description: Kind is the Kubernetes kind of the resource.
+                          type: string
+                        name:
+                          description: Name is the Kubernetes name of the resource.
+                          type: string
+                      type: object
+                    type: array
+                required:
+                - groupReferences
+                type: object
+              azureName:
+                description: |-
+                  AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+                  doesn't have to be.
+                type: string
+              description:
+                description: 'Description: The alert rule description.'
+                type: string
+              detector:
+                description: 'Detector: The alert rule''s detector.'
+                properties:
+                  id:
+                    description: 'Id: The detector id.'
+                    type: string
+                  parameters:
+                    additionalProperties:
+                      x-kubernetes-preserve-unknown-fields: true
+                    description: 'Parameters: The detector''s parameters.'''
+                    type: object
+                required:
+                - id
+                type: object
+              frequency:
+                description: |-
+                  Frequency: The alert rule frequency in ISO8601 format. The time granularity must be in minutes and minimum value is 1
+                  minute, depending on the detector.
+                type: string
+              location:
+                description: 'Location: The resource location.'
+                type: string
+              operatorSpec:
+                description: |-
+                  OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+                  passed directly to Azure
+                properties:
+                  configMapExpressions:
+                    description: 'ConfigMapExpressions: configures where to place
+                      operator written dynamic ConfigMaps (created with CEL expressions).'
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                  secretExpressions:
+                    description: 'SecretExpressions: configures where to place operator
+                      written dynamic secrets (created with CEL expressions).'
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                type: object
+              owner:
+                description: |-
+                  Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+                  controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+                  reference to a resources.azure.com/ResourceGroup resource
+                properties:
+                  armId:
+                    pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                    type: string
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                type: object
+              scopeReferences:
+                description: 'ScopeReferences: The alert rule resources scope.'
+                items:
+                  description: ResourceReference represents a resource reference,
+                    either to a Kubernetes resource or directly to an Azure resource
+                    via ARMID
+                  properties:
+                    armId:
+                      description: |-
+                        ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                        The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                        ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                      pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                      type: string
+                    group:
+                      description: Group is the Kubernetes group of the resource.
+                      type: string
+                    kind:
+                      description: Kind is the Kubernetes kind of the resource.
+                      type: string
+                    name:
+                      description: Name is the Kubernetes name of the resource.
+                      type: string
+                  type: object
+                type: array
+              severity:
+                description: 'Severity: The alert rule severity.'
+                enum:
+                - Sev0
+                - Sev1
+                - Sev2
+                - Sev3
+                - Sev4
+                type: string
+              state:
+                description: 'State: The alert rule state.'
+                enum:
+                - Disabled
+                - Enabled
+                type: string
+              tags:
+                additionalProperties:
+                  type: string
+                description: 'Tags: The resource tags.'
+                type: object
+              throttling:
+                description: 'Throttling: The alert rule throttling information.'
+                properties:
+                  duration:
+                    description: |-
+                      Duration: The required duration (in ISO8601 format) to wait before notifying on the alert rule again. The time
+                      granularity must be in minutes and minimum value is 0 minutes
+                    type: string
+                type: object
+            required:
+            - actionGroups
+            - detector
+            - frequency
+            - owner
+            - scopeReferences
+            - severity
+            - state
+            type: object
+          status:
+            properties:
+              actionGroups:
+                description: 'ActionGroups: The alert rule actions.'
+                properties:
+                  customEmailSubject:
+                    description: 'CustomEmailSubject: An optional custom email subject
+                      to use in email notifications.'
+                    type: string
+                  customWebhookPayload:
+                    description: 'CustomWebhookPayload: An optional custom web-hook
+                      payload to use in web-hook notifications.'
+                    type: string
+                  groupIds:
+                    description: 'GroupIds: The Action Group resource IDs.'
+                    items:
+                      type: string
+                    type: array
+                type: object
+              conditions:
+                description: 'Conditions: The observed state of the resource'
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration is the .metadata.generation that the condition was set based upon. For instance, if
+                        .metadata.generation is currently 12, but the .status.condition[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: |-
+                        Reason for the condition's last transition.
+                        Reasons are upper CamelCase (PascalCase) with no spaces. A reason is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: |-
+                        Severity with which to treat failures of this type of condition.
+                        For conditions which have positive polarity (Status == True is their normal/healthy state), this will be omitted when Status == True
+                        For conditions which have negative polarity (Status == False is their normal/healthy state), this will be omitted when Status == False.
+                        This is omitted in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              description:
+                description: 'Description: The alert rule description.'
+                type: string
+              detector:
+                description: 'Detector: The alert rule''s detector.'
+                properties:
+                  description:
+                    description: 'Description: The Smart Detector description.'
+                    type: string
+                  id:
+                    description: 'Id: The detector id.'
+                    type: string
+                  imagePaths:
+                    description: 'ImagePaths: The Smart Detector image path. By default
+                      this is not populated, unless it''s specified in expandDetector'
+                    items:
+                      type: string
+                    type: array
+                  name:
+                    description: 'Name: The Smart Detector name.'
+                    type: string
+                  parameterDefinitions:
+                    description: 'ParameterDefinitions: The Smart Detector parameters
+                      definitions.'''
+                    items:
+                      description: The detector parameter definition.
+                      properties:
+                        description:
+                          description: 'Description: The detector parameter description.'
+                          type: string
+                        displayName:
+                          description: 'DisplayName: The detector parameter display
+                            name.'
+                          type: string
+                        isMandatory:
+                          description: 'IsMandatory: A value indicating whether this
+                            detector parameter is mandatory.'
+                          type: boolean
+                        name:
+                          description: 'Name: The detector parameter name.'
+                          type: string
+                        type:
+                          description: 'Type: The detector parameter type.'
+                          type: string
+                      type: object
+                    type: array
+                  parameters:
+                    additionalProperties:
+                      x-kubernetes-preserve-unknown-fields: true
+                    description: 'Parameters: The detector''s parameters.'''
+                    type: object
+                  supportedCadences:
+                    description: 'SupportedCadences: The Smart Detector supported
+                      cadences.'
+                    items:
+                      type: integer
+                    type: array
+                  supportedResourceTypes:
+                    description: 'SupportedResourceTypes: The Smart Detector supported
+                      resource types.'
+                    items:
+                      type: string
+                    type: array
+                type: object
+              frequency:
+                description: |-
+                  Frequency: The alert rule frequency in ISO8601 format. The time granularity must be in minutes and minimum value is 1
+                  minute, depending on the detector.
+                type: string
+              id:
+                description: 'Id: The resource ID.'
+                type: string
+              location:
+                description: 'Location: The resource location.'
+                type: string
+              name:
+                description: 'Name: The resource name.'
+                type: string
+              scope:
+                description: 'Scope: The alert rule resources scope.'
+                items:
+                  type: string
+                type: array
+              severity:
+                description: 'Severity: The alert rule severity.'
+                type: string
+              state:
+                description: 'State: The alert rule state.'
+                type: string
+              tags:
+                additionalProperties:
+                  type: string
+                description: 'Tags: The resource tags.'
+                type: object
+              throttling:
+                description: 'Throttling: The alert rule throttling information.'
+                properties:
+                  duration:
+                    description: |-
+                      Duration: The required duration (in ISO8601 format) to wait before notifying on the alert rule again. The time
+                      granularity must be in minutes and minimum value is 0 minutes
+                    type: string
+                type: object
+              type:
+                description: 'Type: The resource type.'
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: false
+    subresources:
+      status: {}
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1api20210401storage
+    schema:
+      openAPIV3Schema:
+        description: |-
+          Storage version of v1api20210401.SmartDetectorAlertRule
+          Generator information:
+          - Generated from: /alertsmanagement/resource-manager/Microsoft.AlertsManagement/stable/2021-04-01/SmartDetectorAlertRulesApi.json
+          - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.alertsManagement/smartDetectorAlertRules/{alertRuleName}
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Storage version of v1api20210401.SmartDetectorAlertRule_Spec
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: |-
+                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                  resources, allowing for full fidelity round trip conversions
+                type: object
+              actionGroups:
+                description: |-
+                  Storage version of v1api20210401.ActionGroupsInformation
+                  The Action Groups information, used by the alert rule.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  customEmailSubject:
+                    type: string
+                  customWebhookPayload:
+                    type: string
+                  groupReferences:
+                    items:
+                      description: ResourceReference represents a resource reference,
+                        either to a Kubernetes resource or directly to an Azure resource
+                        via ARMID
+                      properties:
+                        armId:
+                          description: |-
+                            ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                            The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                            ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                          pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                          type: string
+                        group:
+                          description: Group is the Kubernetes group of the resource.
+                          type: string
+                        kind:
+                          description: Kind is the Kubernetes kind of the resource.
+                          type: string
+                        name:
+                          description: Name is the Kubernetes name of the resource.
+                          type: string
+                      type: object
+                    type: array
+                type: object
+              azureName:
+                description: |-
+                  AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+                  doesn't have to be.
+                type: string
+              description:
+                type: string
+              detector:
+                description: |-
+                  Storage version of v1api20210401.Detector
+                  The detector information. By default this is not populated, unless it's specified in expandDetector
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  id:
+                    type: string
+                  parameters:
+                    additionalProperties:
+                      x-kubernetes-preserve-unknown-fields: true
+                    type: object
+                type: object
+              frequency:
+                type: string
+              location:
+                type: string
+              operatorSpec:
+                description: |-
+                  Storage version of v1api20210401.SmartDetectorAlertRuleOperatorSpec
+                  Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  configMapExpressions:
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                  secretExpressions:
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                type: object
+              originalVersion:
+                type: string
+              owner:
+                description: |-
+                  Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+                  controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+                  reference to a resources.azure.com/ResourceGroup resource
+                properties:
+                  armId:
+                    pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                    type: string
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                type: object
+              scopeReferences:
+                items:
+                  description: ResourceReference represents a resource reference,
+                    either to a Kubernetes resource or directly to an Azure resource
+                    via ARMID
+                  properties:
+                    armId:
+                      description: |-
+                        ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                        The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                        ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                      pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                      type: string
+                    group:
+                      description: Group is the Kubernetes group of the resource.
+                      type: string
+                    kind:
+                      description: Kind is the Kubernetes kind of the resource.
+                      type: string
+                    name:
+                      description: Name is the Kubernetes name of the resource.
+                      type: string
+                  type: object
+                type: array
+              severity:
+                type: string
+              state:
+                type: string
+              tags:
+                additionalProperties:
+                  type: string
+                type: object
+              throttling:
+                description: |-
+                  Storage version of v1api20210401.ThrottlingInformation
+                  Optional throttling information for the alert rule.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  duration:
+                    type: string
+                type: object
+            required:
+            - owner
+            type: object
+          status:
+            description: Storage version of v1api20210401.SmartDetectorAlertRule_STATUS
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: |-
+                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                  resources, allowing for full fidelity round trip conversions
+                type: object
+              actionGroups:
+                description: |-
+                  Storage version of v1api20210401.ActionGroupsInformation_STATUS
+                  The Action Groups information, used by the alert rule.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  customEmailSubject:
+                    type: string
+                  customWebhookPayload:
+                    type: string
+                  groupIds:
+                    items:
+                      type: string
+                    type: array
+                type: object
+              conditions:
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration is the .metadata.generation that the condition was set based upon. For instance, if
+                        .metadata.generation is currently 12, but the .status.condition[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: |-
+                        Reason for the condition's last transition.
+                        Reasons are upper CamelCase (PascalCase) with no spaces. A reason is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: |-
+                        Severity with which to treat failures of this type of condition.
+                        For conditions which have positive polarity (Status == True is their normal/healthy state), this will be omitted when Status == True
+                        For conditions which have negative polarity (Status == False is their normal/healthy state), this will be omitted when Status == False.
+                        This is omitted in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              description:
+                type: string
+              detector:
+                description: |-
+                  Storage version of v1api20210401.Detector_STATUS
+                  The detector information. By default this is not populated, unless it's specified in expandDetector
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  description:
+                    type: string
+                  id:
+                    type: string
+                  imagePaths:
+                    items:
+                      type: string
+                    type: array
+                  name:
+                    type: string
+                  parameterDefinitions:
+                    items:
+                      description: |-
+                        Storage version of v1api20210401.DetectorParameterDefinition_STATUS
+                        The detector parameter definition.
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                            resources, allowing for full fidelity round trip conversions
+                          type: object
+                        description:
+                          type: string
+                        displayName:
+                          type: string
+                        isMandatory:
+                          type: boolean
+                        name:
+                          type: string
+                        type:
+                          type: string
+                      type: object
+                    type: array
+                  parameters:
+                    additionalProperties:
+                      x-kubernetes-preserve-unknown-fields: true
+                    type: object
+                  supportedCadences:
+                    items:
+                      type: integer
+                    type: array
+                  supportedResourceTypes:
+                    items:
+                      type: string
+                    type: array
+                type: object
+              frequency:
+                type: string
+              id:
+                type: string
+              location:
+                type: string
+              name:
+                type: string
+              scope:
+                items:
+                  type: string
+                type: array
+              severity:
+                type: string
+              state:
+                type: string
+              tags:
+                additionalProperties:
+                  type: string
+                type: object
+              throttling:
+                description: |-
+                  Storage version of v1api20210401.ThrottlingInformation_STATUS
+                  Optional throttling information for the alert rule.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  duration:
+                    type: string
+                type: object
+              type:
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

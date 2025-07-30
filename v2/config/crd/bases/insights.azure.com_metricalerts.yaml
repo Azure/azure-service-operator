@@ -1,0 +1,1885 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.17.3
+  name: metricalerts.insights.azure.com
+spec:
+  group: insights.azure.com
+  names:
+    kind: MetricAlert
+    listKind: MetricAlertList
+    plural: metricalerts
+    singular: metricalert
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1api20180301
+    schema:
+      openAPIV3Schema:
+        description: |-
+          Generator information:
+          - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2018-03-01/metricAlert_API.json
+          - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/metricAlerts/{ruleName}
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              actions:
+                description: |-
+                  Actions: the array of actions that are performed when the alert rule becomes active, and when an alert condition is
+                  resolved.
+                items:
+                  description: An alert action.
+                  properties:
+                    actionGroupId:
+                      description: 'ActionGroupId: the id of the action group to use.'
+                      type: string
+                    webHookProperties:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        WebHookProperties: This field allows specifying custom properties, which would be appended to the alert payload sent as
+                        input to the webhook.
+                      type: object
+                  type: object
+                type: array
+              autoMitigate:
+                description: 'AutoMitigate: the flag that indicates whether the alert
+                  should be auto resolved or not. The default is true.'
+                type: boolean
+              azureName:
+                description: |-
+                  AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+                  doesn't have to be.
+                type: string
+              criteria:
+                description: 'Criteria: defines the specific alert criteria information.'
+                properties:
+                  microsoftAzureMonitorMultipleResourceMultipleMetricCriteria:
+                    description: 'MicrosoftAzureMonitorMultipleResourceMultipleMetric:
+                      Mutually exclusive with all other properties'
+                    properties:
+                      additionalProperties:
+                        additionalProperties:
+                          x-kubernetes-preserve-unknown-fields: true
+                        type: object
+                      allOf:
+                        description: 'AllOf: the list of multiple metric criteria
+                          for this ''all of'' operation.'
+                        items:
+                          properties:
+                            dynamicThresholdCriterion:
+                              description: 'Dynamic: Mutually exclusive with all other
+                                properties'
+                              properties:
+                                additionalProperties:
+                                  additionalProperties:
+                                    x-kubernetes-preserve-unknown-fields: true
+                                  type: object
+                                alertSensitivity:
+                                  description: |-
+                                    AlertSensitivity: The extent of deviation required to trigger an alert. This will affect how tight the threshold is to
+                                    the metric series pattern.
+                                  enum:
+                                  - High
+                                  - Low
+                                  - Medium
+                                  type: string
+                                criterionType:
+                                  description: 'CriterionType: Specifies the type
+                                    of threshold criteria'
+                                  enum:
+                                  - DynamicThresholdCriterion
+                                  type: string
+                                dimensions:
+                                  description: 'Dimensions: List of dimension conditions.'
+                                  items:
+                                    description: Specifies a metric dimension.
+                                    properties:
+                                      name:
+                                        description: 'Name: Name of the dimension.'
+                                        type: string
+                                      operator:
+                                        description: 'Operator: the dimension operator.
+                                          Only ''Include'' and ''Exclude'' are supported'
+                                        type: string
+                                      values:
+                                        description: 'Values: list of dimension values.'
+                                        items:
+                                          type: string
+                                        type: array
+                                    required:
+                                    - name
+                                    - operator
+                                    - values
+                                    type: object
+                                  type: array
+                                failingPeriods:
+                                  description: |-
+                                    FailingPeriods: The minimum number of violations required within the selected lookback time window required to raise an
+                                    alert.
+                                  properties:
+                                    minFailingPeriodsToAlert:
+                                      description: |-
+                                        MinFailingPeriodsToAlert: The number of violations to trigger an alert. Should be smaller or equal to
+                                        numberOfEvaluationPeriods.
+                                      type: number
+                                    numberOfEvaluationPeriods:
+                                      description: |-
+                                        NumberOfEvaluationPeriods: The number of aggregated lookback points. The lookback time window is calculated based on the
+                                        aggregation granularity (windowSize) and the selected number of aggregated points.
+                                      type: number
+                                  required:
+                                  - minFailingPeriodsToAlert
+                                  - numberOfEvaluationPeriods
+                                  type: object
+                                ignoreDataBefore:
+                                  description: |-
+                                    IgnoreDataBefore: Use this option to set the date from which to start learning the metric historical data and calculate
+                                    the dynamic thresholds (in ISO8601 format)
+                                  type: string
+                                metricName:
+                                  description: 'MetricName: Name of the metric.'
+                                  type: string
+                                metricNamespace:
+                                  description: 'MetricNamespace: Namespace of the
+                                    metric.'
+                                  type: string
+                                name:
+                                  description: 'Name: Name of the criteria.'
+                                  type: string
+                                operator:
+                                  description: 'Operator: The operator used to compare
+                                    the metric value against the threshold.'
+                                  enum:
+                                  - GreaterOrLessThan
+                                  - GreaterThan
+                                  - LessThan
+                                  type: string
+                                skipMetricValidation:
+                                  description: |-
+                                    SkipMetricValidation: Allows creating an alert rule on a custom metric that isn't yet emitted, by causing the metric
+                                    validation to be skipped.
+                                  type: boolean
+                                timeAggregation:
+                                  description: 'TimeAggregation: the criteria time
+                                    aggregation types.'
+                                  enum:
+                                  - Average
+                                  - Count
+                                  - Maximum
+                                  - Minimum
+                                  - Total
+                                  type: string
+                              required:
+                              - alertSensitivity
+                              - criterionType
+                              - failingPeriods
+                              - metricName
+                              - name
+                              - operator
+                              - timeAggregation
+                              type: object
+                            staticThresholdCriterion:
+                              description: 'Static: Mutually exclusive with all other
+                                properties'
+                              properties:
+                                additionalProperties:
+                                  additionalProperties:
+                                    x-kubernetes-preserve-unknown-fields: true
+                                  type: object
+                                criterionType:
+                                  description: 'CriterionType: Specifies the type
+                                    of threshold criteria'
+                                  enum:
+                                  - StaticThresholdCriterion
+                                  type: string
+                                dimensions:
+                                  description: 'Dimensions: List of dimension conditions.'
+                                  items:
+                                    description: Specifies a metric dimension.
+                                    properties:
+                                      name:
+                                        description: 'Name: Name of the dimension.'
+                                        type: string
+                                      operator:
+                                        description: 'Operator: the dimension operator.
+                                          Only ''Include'' and ''Exclude'' are supported'
+                                        type: string
+                                      values:
+                                        description: 'Values: list of dimension values.'
+                                        items:
+                                          type: string
+                                        type: array
+                                    required:
+                                    - name
+                                    - operator
+                                    - values
+                                    type: object
+                                  type: array
+                                metricName:
+                                  description: 'MetricName: Name of the metric.'
+                                  type: string
+                                metricNamespace:
+                                  description: 'MetricNamespace: Namespace of the
+                                    metric.'
+                                  type: string
+                                name:
+                                  description: 'Name: Name of the criteria.'
+                                  type: string
+                                operator:
+                                  description: 'Operator: the criteria operator.'
+                                  enum:
+                                  - Equals
+                                  - GreaterThan
+                                  - GreaterThanOrEqual
+                                  - LessThan
+                                  - LessThanOrEqual
+                                  type: string
+                                skipMetricValidation:
+                                  description: |-
+                                    SkipMetricValidation: Allows creating an alert rule on a custom metric that isn't yet emitted, by causing the metric
+                                    validation to be skipped.
+                                  type: boolean
+                                threshold:
+                                  description: 'Threshold: the criteria threshold
+                                    value that activates the alert.'
+                                  type: number
+                                timeAggregation:
+                                  description: 'TimeAggregation: the criteria time
+                                    aggregation types.'
+                                  enum:
+                                  - Average
+                                  - Count
+                                  - Maximum
+                                  - Minimum
+                                  - Total
+                                  type: string
+                              required:
+                              - criterionType
+                              - metricName
+                              - name
+                              - operator
+                              - threshold
+                              - timeAggregation
+                              type: object
+                          type: object
+                        type: array
+                      odata.type:
+                        description: 'OdataType: specifies the type of the alert criteria.'
+                        enum:
+                        - Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria
+                        type: string
+                    required:
+                    - odata.type
+                    type: object
+                  microsoftAzureMonitorSingleResourceMultipleMetricCriteria:
+                    description: 'MicrosoftAzureMonitorSingleResourceMultipleMetric:
+                      Mutually exclusive with all other properties'
+                    properties:
+                      additionalProperties:
+                        additionalProperties:
+                          x-kubernetes-preserve-unknown-fields: true
+                        type: object
+                      allOf:
+                        description: 'AllOf: The list of metric criteria for this
+                          ''all of'' operation.'
+                        items:
+                          properties:
+                            additionalProperties:
+                              additionalProperties:
+                                x-kubernetes-preserve-unknown-fields: true
+                              type: object
+                            criterionType:
+                              description: 'CriterionType: Specifies the type of threshold
+                                criteria'
+                              enum:
+                              - StaticThresholdCriterion
+                              type: string
+                            dimensions:
+                              description: 'Dimensions: List of dimension conditions.'
+                              items:
+                                description: Specifies a metric dimension.
+                                properties:
+                                  name:
+                                    description: 'Name: Name of the dimension.'
+                                    type: string
+                                  operator:
+                                    description: 'Operator: the dimension operator.
+                                      Only ''Include'' and ''Exclude'' are supported'
+                                    type: string
+                                  values:
+                                    description: 'Values: list of dimension values.'
+                                    items:
+                                      type: string
+                                    type: array
+                                required:
+                                - name
+                                - operator
+                                - values
+                                type: object
+                              type: array
+                            metricName:
+                              description: 'MetricName: Name of the metric.'
+                              type: string
+                            metricNamespace:
+                              description: 'MetricNamespace: Namespace of the metric.'
+                              type: string
+                            name:
+                              description: 'Name: Name of the criteria.'
+                              type: string
+                            operator:
+                              description: 'Operator: the criteria operator.'
+                              enum:
+                              - Equals
+                              - GreaterThan
+                              - GreaterThanOrEqual
+                              - LessThan
+                              - LessThanOrEqual
+                              type: string
+                            skipMetricValidation:
+                              description: |-
+                                SkipMetricValidation: Allows creating an alert rule on a custom metric that isn't yet emitted, by causing the metric
+                                validation to be skipped.
+                              type: boolean
+                            threshold:
+                              description: 'Threshold: the criteria threshold value
+                                that activates the alert.'
+                              type: number
+                            timeAggregation:
+                              description: 'TimeAggregation: the criteria time aggregation
+                                types.'
+                              enum:
+                              - Average
+                              - Count
+                              - Maximum
+                              - Minimum
+                              - Total
+                              type: string
+                          required:
+                          - criterionType
+                          - metricName
+                          - name
+                          - operator
+                          - threshold
+                          - timeAggregation
+                          type: object
+                        type: array
+                      odata.type:
+                        description: 'OdataType: specifies the type of the alert criteria.'
+                        enum:
+                        - Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria
+                        type: string
+                    required:
+                    - odata.type
+                    type: object
+                  microsoftAzureMonitorWebtestLocationAvailabilityCriteria:
+                    description: 'MicrosoftAzureMonitorWebtestLocationAvailability:
+                      Mutually exclusive with all other properties'
+                    properties:
+                      additionalProperties:
+                        additionalProperties:
+                          x-kubernetes-preserve-unknown-fields: true
+                        type: object
+                      componentReference:
+                        description: 'ComponentReference: The Application Insights
+                          resource Id.'
+                        properties:
+                          armId:
+                            description: |-
+                              ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                              The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                              ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                            pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                            type: string
+                          group:
+                            description: Group is the Kubernetes group of the resource.
+                            type: string
+                          kind:
+                            description: Kind is the Kubernetes kind of the resource.
+                            type: string
+                          name:
+                            description: Name is the Kubernetes name of the resource.
+                            type: string
+                        type: object
+                      failedLocationCount:
+                        description: 'FailedLocationCount: The number of failed locations.'
+                        type: number
+                      odata.type:
+                        description: 'OdataType: specifies the type of the alert criteria.'
+                        enum:
+                        - Microsoft.Azure.Monitor.WebtestLocationAvailabilityCriteria
+                        type: string
+                      webTestId:
+                        description: 'WebTestId: The Application Insights web test
+                          Id.'
+                        type: string
+                    required:
+                    - componentReference
+                    - failedLocationCount
+                    - odata.type
+                    - webTestId
+                    type: object
+                type: object
+              description:
+                description: 'Description: the description of the metric alert that
+                  will be included in the alert email.'
+                type: string
+              enabled:
+                description: 'Enabled: the flag that indicates whether the metric
+                  alert is enabled.'
+                type: boolean
+              evaluationFrequency:
+                description: 'EvaluationFrequency: how often the metric alert is evaluated
+                  represented in ISO 8601 duration format.'
+                type: string
+              location:
+                description: 'Location: Resource location'
+                type: string
+              operatorSpec:
+                description: |-
+                  OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+                  passed directly to Azure
+                properties:
+                  configMapExpressions:
+                    description: 'ConfigMapExpressions: configures where to place
+                      operator written dynamic ConfigMaps (created with CEL expressions).'
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                  secretExpressions:
+                    description: 'SecretExpressions: configures where to place operator
+                      written dynamic secrets (created with CEL expressions).'
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                type: object
+              owner:
+                description: |-
+                  Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+                  controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+                  reference to a resources.azure.com/ResourceGroup resource
+                properties:
+                  armId:
+                    pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                    type: string
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                type: object
+              scopesReferences:
+                description: |-
+                  ScopesReferences: the list of resource id's that this metric alert is scoped to. You cannot change the scope of a metric
+                  rule based on logs.
+                items:
+                  description: ResourceReference represents a resource reference,
+                    either to a Kubernetes resource or directly to an Azure resource
+                    via ARMID
+                  properties:
+                    armId:
+                      description: |-
+                        ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                        The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                        ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                      pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                      type: string
+                    group:
+                      description: Group is the Kubernetes group of the resource.
+                      type: string
+                    kind:
+                      description: Kind is the Kubernetes kind of the resource.
+                      type: string
+                    name:
+                      description: Name is the Kubernetes name of the resource.
+                      type: string
+                  type: object
+                type: array
+              severity:
+                description: 'Severity: Alert severity {0, 1, 2, 3, 4}'
+                type: integer
+              tags:
+                additionalProperties:
+                  type: string
+                description: 'Tags: Resource tags'
+                type: object
+              targetResourceRegion:
+                description: |-
+                  TargetResourceRegion: the region of the target resource(s) on which the alert is created/updated. Mandatory if the scope
+                  contains a subscription, resource group, or more than one resource.
+                type: string
+              targetResourceType:
+                description: |-
+                  TargetResourceType: the resource type of the target resource(s) on which the alert is created/updated. Mandatory if the
+                  scope contains a subscription, resource group, or more than one resource.
+                type: string
+              windowSize:
+                description: |-
+                  WindowSize: the period of time (in ISO 8601 duration format) that is used to monitor alert activity based on the
+                  threshold.
+                type: string
+            required:
+            - criteria
+            - enabled
+            - evaluationFrequency
+            - location
+            - owner
+            - scopesReferences
+            - severity
+            - windowSize
+            type: object
+          status:
+            properties:
+              actions:
+                description: |-
+                  Actions: the array of actions that are performed when the alert rule becomes active, and when an alert condition is
+                  resolved.
+                items:
+                  description: An alert action.
+                  properties:
+                    actionGroupId:
+                      description: 'ActionGroupId: the id of the action group to use.'
+                      type: string
+                    webHookProperties:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        WebHookProperties: This field allows specifying custom properties, which would be appended to the alert payload sent as
+                        input to the webhook.
+                      type: object
+                  type: object
+                type: array
+              autoMitigate:
+                description: 'AutoMitigate: the flag that indicates whether the alert
+                  should be auto resolved or not. The default is true.'
+                type: boolean
+              conditions:
+                description: 'Conditions: The observed state of the resource'
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration is the .metadata.generation that the condition was set based upon. For instance, if
+                        .metadata.generation is currently 12, but the .status.condition[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: |-
+                        Reason for the condition's last transition.
+                        Reasons are upper CamelCase (PascalCase) with no spaces. A reason is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: |-
+                        Severity with which to treat failures of this type of condition.
+                        For conditions which have positive polarity (Status == True is their normal/healthy state), this will be omitted when Status == True
+                        For conditions which have negative polarity (Status == False is their normal/healthy state), this will be omitted when Status == False.
+                        This is omitted in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              criteria:
+                description: 'Criteria: defines the specific alert criteria information.'
+                properties:
+                  microsoftAzureMonitorMultipleResourceMultipleMetricCriteria:
+                    description: 'MicrosoftAzureMonitorMultipleResourceMultipleMetric:
+                      Mutually exclusive with all other properties'
+                    properties:
+                      additionalProperties:
+                        additionalProperties:
+                          x-kubernetes-preserve-unknown-fields: true
+                        type: object
+                      allOf:
+                        description: 'AllOf: the list of multiple metric criteria
+                          for this ''all of'' operation.'
+                        items:
+                          properties:
+                            dynamicThresholdCriterion:
+                              description: 'Dynamic: Mutually exclusive with all other
+                                properties'
+                              properties:
+                                additionalProperties:
+                                  additionalProperties:
+                                    x-kubernetes-preserve-unknown-fields: true
+                                  type: object
+                                alertSensitivity:
+                                  description: |-
+                                    AlertSensitivity: The extent of deviation required to trigger an alert. This will affect how tight the threshold is to
+                                    the metric series pattern.
+                                  type: string
+                                criterionType:
+                                  description: 'CriterionType: Specifies the type
+                                    of threshold criteria'
+                                  type: string
+                                dimensions:
+                                  description: 'Dimensions: List of dimension conditions.'
+                                  items:
+                                    description: Specifies a metric dimension.
+                                    properties:
+                                      name:
+                                        description: 'Name: Name of the dimension.'
+                                        type: string
+                                      operator:
+                                        description: 'Operator: the dimension operator.
+                                          Only ''Include'' and ''Exclude'' are supported'
+                                        type: string
+                                      values:
+                                        description: 'Values: list of dimension values.'
+                                        items:
+                                          type: string
+                                        type: array
+                                    type: object
+                                  type: array
+                                failingPeriods:
+                                  description: |-
+                                    FailingPeriods: The minimum number of violations required within the selected lookback time window required to raise an
+                                    alert.
+                                  properties:
+                                    minFailingPeriodsToAlert:
+                                      description: |-
+                                        MinFailingPeriodsToAlert: The number of violations to trigger an alert. Should be smaller or equal to
+                                        numberOfEvaluationPeriods.
+                                      type: number
+                                    numberOfEvaluationPeriods:
+                                      description: |-
+                                        NumberOfEvaluationPeriods: The number of aggregated lookback points. The lookback time window is calculated based on the
+                                        aggregation granularity (windowSize) and the selected number of aggregated points.
+                                      type: number
+                                  type: object
+                                ignoreDataBefore:
+                                  description: |-
+                                    IgnoreDataBefore: Use this option to set the date from which to start learning the metric historical data and calculate
+                                    the dynamic thresholds (in ISO8601 format)
+                                  type: string
+                                metricName:
+                                  description: 'MetricName: Name of the metric.'
+                                  type: string
+                                metricNamespace:
+                                  description: 'MetricNamespace: Namespace of the
+                                    metric.'
+                                  type: string
+                                name:
+                                  description: 'Name: Name of the criteria.'
+                                  type: string
+                                operator:
+                                  description: 'Operator: The operator used to compare
+                                    the metric value against the threshold.'
+                                  type: string
+                                skipMetricValidation:
+                                  description: |-
+                                    SkipMetricValidation: Allows creating an alert rule on a custom metric that isn't yet emitted, by causing the metric
+                                    validation to be skipped.
+                                  type: boolean
+                                timeAggregation:
+                                  description: 'TimeAggregation: the criteria time
+                                    aggregation types.'
+                                  type: string
+                              type: object
+                            staticThresholdCriterion:
+                              description: 'Static: Mutually exclusive with all other
+                                properties'
+                              properties:
+                                additionalProperties:
+                                  additionalProperties:
+                                    x-kubernetes-preserve-unknown-fields: true
+                                  type: object
+                                criterionType:
+                                  description: 'CriterionType: Specifies the type
+                                    of threshold criteria'
+                                  type: string
+                                dimensions:
+                                  description: 'Dimensions: List of dimension conditions.'
+                                  items:
+                                    description: Specifies a metric dimension.
+                                    properties:
+                                      name:
+                                        description: 'Name: Name of the dimension.'
+                                        type: string
+                                      operator:
+                                        description: 'Operator: the dimension operator.
+                                          Only ''Include'' and ''Exclude'' are supported'
+                                        type: string
+                                      values:
+                                        description: 'Values: list of dimension values.'
+                                        items:
+                                          type: string
+                                        type: array
+                                    type: object
+                                  type: array
+                                metricName:
+                                  description: 'MetricName: Name of the metric.'
+                                  type: string
+                                metricNamespace:
+                                  description: 'MetricNamespace: Namespace of the
+                                    metric.'
+                                  type: string
+                                name:
+                                  description: 'Name: Name of the criteria.'
+                                  type: string
+                                operator:
+                                  description: 'Operator: the criteria operator.'
+                                  type: string
+                                skipMetricValidation:
+                                  description: |-
+                                    SkipMetricValidation: Allows creating an alert rule on a custom metric that isn't yet emitted, by causing the metric
+                                    validation to be skipped.
+                                  type: boolean
+                                threshold:
+                                  description: 'Threshold: the criteria threshold
+                                    value that activates the alert.'
+                                  type: number
+                                timeAggregation:
+                                  description: 'TimeAggregation: the criteria time
+                                    aggregation types.'
+                                  type: string
+                              type: object
+                          type: object
+                        type: array
+                      odata.type:
+                        description: 'OdataType: specifies the type of the alert criteria.'
+                        type: string
+                    type: object
+                  microsoftAzureMonitorSingleResourceMultipleMetricCriteria:
+                    description: 'MicrosoftAzureMonitorSingleResourceMultipleMetric:
+                      Mutually exclusive with all other properties'
+                    properties:
+                      additionalProperties:
+                        additionalProperties:
+                          x-kubernetes-preserve-unknown-fields: true
+                        type: object
+                      allOf:
+                        description: 'AllOf: The list of metric criteria for this
+                          ''all of'' operation.'
+                        items:
+                          properties:
+                            additionalProperties:
+                              additionalProperties:
+                                x-kubernetes-preserve-unknown-fields: true
+                              type: object
+                            criterionType:
+                              description: 'CriterionType: Specifies the type of threshold
+                                criteria'
+                              type: string
+                            dimensions:
+                              description: 'Dimensions: List of dimension conditions.'
+                              items:
+                                description: Specifies a metric dimension.
+                                properties:
+                                  name:
+                                    description: 'Name: Name of the dimension.'
+                                    type: string
+                                  operator:
+                                    description: 'Operator: the dimension operator.
+                                      Only ''Include'' and ''Exclude'' are supported'
+                                    type: string
+                                  values:
+                                    description: 'Values: list of dimension values.'
+                                    items:
+                                      type: string
+                                    type: array
+                                type: object
+                              type: array
+                            metricName:
+                              description: 'MetricName: Name of the metric.'
+                              type: string
+                            metricNamespace:
+                              description: 'MetricNamespace: Namespace of the metric.'
+                              type: string
+                            name:
+                              description: 'Name: Name of the criteria.'
+                              type: string
+                            operator:
+                              description: 'Operator: the criteria operator.'
+                              type: string
+                            skipMetricValidation:
+                              description: |-
+                                SkipMetricValidation: Allows creating an alert rule on a custom metric that isn't yet emitted, by causing the metric
+                                validation to be skipped.
+                              type: boolean
+                            threshold:
+                              description: 'Threshold: the criteria threshold value
+                                that activates the alert.'
+                              type: number
+                            timeAggregation:
+                              description: 'TimeAggregation: the criteria time aggregation
+                                types.'
+                              type: string
+                          type: object
+                        type: array
+                      odata.type:
+                        description: 'OdataType: specifies the type of the alert criteria.'
+                        type: string
+                    type: object
+                  microsoftAzureMonitorWebtestLocationAvailabilityCriteria:
+                    description: 'MicrosoftAzureMonitorWebtestLocationAvailability:
+                      Mutually exclusive with all other properties'
+                    properties:
+                      additionalProperties:
+                        additionalProperties:
+                          x-kubernetes-preserve-unknown-fields: true
+                        type: object
+                      componentId:
+                        description: 'ComponentId: The Application Insights resource
+                          Id.'
+                        type: string
+                      failedLocationCount:
+                        description: 'FailedLocationCount: The number of failed locations.'
+                        type: number
+                      odata.type:
+                        description: 'OdataType: specifies the type of the alert criteria.'
+                        type: string
+                      webTestId:
+                        description: 'WebTestId: The Application Insights web test
+                          Id.'
+                        type: string
+                    type: object
+                type: object
+              description:
+                description: 'Description: the description of the metric alert that
+                  will be included in the alert email.'
+                type: string
+              enabled:
+                description: 'Enabled: the flag that indicates whether the metric
+                  alert is enabled.'
+                type: boolean
+              evaluationFrequency:
+                description: 'EvaluationFrequency: how often the metric alert is evaluated
+                  represented in ISO 8601 duration format.'
+                type: string
+              id:
+                description: 'Id: Azure resource Id'
+                type: string
+              isMigrated:
+                description: 'IsMigrated: the value indicating whether this alert
+                  rule is migrated.'
+                type: boolean
+              lastUpdatedTime:
+                description: 'LastUpdatedTime: Last time the rule was updated in ISO8601
+                  format.'
+                type: string
+              location:
+                description: 'Location: Resource location'
+                type: string
+              name:
+                description: 'Name: Azure resource name'
+                type: string
+              scopes:
+                description: |-
+                  Scopes: the list of resource id's that this metric alert is scoped to. You cannot change the scope of a metric rule
+                  based on logs.
+                items:
+                  type: string
+                type: array
+              severity:
+                description: 'Severity: Alert severity {0, 1, 2, 3, 4}'
+                type: integer
+              tags:
+                additionalProperties:
+                  type: string
+                description: 'Tags: Resource tags'
+                type: object
+              targetResourceRegion:
+                description: |-
+                  TargetResourceRegion: the region of the target resource(s) on which the alert is created/updated. Mandatory if the scope
+                  contains a subscription, resource group, or more than one resource.
+                type: string
+              targetResourceType:
+                description: |-
+                  TargetResourceType: the resource type of the target resource(s) on which the alert is created/updated. Mandatory if the
+                  scope contains a subscription, resource group, or more than one resource.
+                type: string
+              type:
+                description: 'Type: Azure resource type'
+                type: string
+              windowSize:
+                description: |-
+                  WindowSize: the period of time (in ISO 8601 duration format) that is used to monitor alert activity based on the
+                  threshold.
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: false
+    subresources:
+      status: {}
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1api20180301storage
+    schema:
+      openAPIV3Schema:
+        description: |-
+          Storage version of v1api20180301.MetricAlert
+          Generator information:
+          - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2018-03-01/metricAlert_API.json
+          - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/metricAlerts/{ruleName}
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Storage version of v1api20180301.MetricAlert_Spec
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: |-
+                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                  resources, allowing for full fidelity round trip conversions
+                type: object
+              actions:
+                items:
+                  description: |-
+                    Storage version of v1api20180301.MetricAlertAction
+                    An alert action.
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    actionGroupId:
+                      type: string
+                    webHookProperties:
+                      additionalProperties:
+                        type: string
+                      type: object
+                  type: object
+                type: array
+              autoMitigate:
+                type: boolean
+              azureName:
+                description: |-
+                  AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+                  doesn't have to be.
+                type: string
+              criteria:
+                description: Storage version of v1api20180301.MetricAlertCriteria
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  microsoftAzureMonitorMultipleResourceMultipleMetricCriteria:
+                    description: Storage version of v1api20180301.MetricAlertMultipleResourceMultipleMetricCriteria
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      additionalProperties:
+                        additionalProperties:
+                          x-kubernetes-preserve-unknown-fields: true
+                        type: object
+                      allOf:
+                        items:
+                          description: Storage version of v1api20180301.MultiMetricCriteria
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                resources, allowing for full fidelity round trip conversions
+                              type: object
+                            dynamicThresholdCriterion:
+                              description: Storage version of v1api20180301.DynamicMetricCriteria
+                              properties:
+                                $propertyBag:
+                                  additionalProperties:
+                                    type: string
+                                  description: |-
+                                    PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                    resources, allowing for full fidelity round trip conversions
+                                  type: object
+                                additionalProperties:
+                                  additionalProperties:
+                                    x-kubernetes-preserve-unknown-fields: true
+                                  type: object
+                                alertSensitivity:
+                                  type: string
+                                criterionType:
+                                  type: string
+                                dimensions:
+                                  items:
+                                    description: |-
+                                      Storage version of v1api20180301.MetricDimension
+                                      Specifies a metric dimension.
+                                    properties:
+                                      $propertyBag:
+                                        additionalProperties:
+                                          type: string
+                                        description: |-
+                                          PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                          resources, allowing for full fidelity round trip conversions
+                                        type: object
+                                      name:
+                                        type: string
+                                      operator:
+                                        type: string
+                                      values:
+                                        items:
+                                          type: string
+                                        type: array
+                                    type: object
+                                  type: array
+                                failingPeriods:
+                                  description: |-
+                                    Storage version of v1api20180301.DynamicThresholdFailingPeriods
+                                    The minimum number of violations required within the selected lookback time window required to raise an alert.
+                                  properties:
+                                    $propertyBag:
+                                      additionalProperties:
+                                        type: string
+                                      description: |-
+                                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                        resources, allowing for full fidelity round trip conversions
+                                      type: object
+                                    minFailingPeriodsToAlert:
+                                      type: number
+                                    numberOfEvaluationPeriods:
+                                      type: number
+                                  type: object
+                                ignoreDataBefore:
+                                  type: string
+                                metricName:
+                                  type: string
+                                metricNamespace:
+                                  type: string
+                                name:
+                                  type: string
+                                operator:
+                                  type: string
+                                skipMetricValidation:
+                                  type: boolean
+                                timeAggregation:
+                                  type: string
+                              type: object
+                            staticThresholdCriterion:
+                              description: Storage version of v1api20180301.MetricCriteria
+                              properties:
+                                $propertyBag:
+                                  additionalProperties:
+                                    type: string
+                                  description: |-
+                                    PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                    resources, allowing for full fidelity round trip conversions
+                                  type: object
+                                additionalProperties:
+                                  additionalProperties:
+                                    x-kubernetes-preserve-unknown-fields: true
+                                  type: object
+                                criterionType:
+                                  type: string
+                                dimensions:
+                                  items:
+                                    description: |-
+                                      Storage version of v1api20180301.MetricDimension
+                                      Specifies a metric dimension.
+                                    properties:
+                                      $propertyBag:
+                                        additionalProperties:
+                                          type: string
+                                        description: |-
+                                          PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                          resources, allowing for full fidelity round trip conversions
+                                        type: object
+                                      name:
+                                        type: string
+                                      operator:
+                                        type: string
+                                      values:
+                                        items:
+                                          type: string
+                                        type: array
+                                    type: object
+                                  type: array
+                                metricName:
+                                  type: string
+                                metricNamespace:
+                                  type: string
+                                name:
+                                  type: string
+                                operator:
+                                  type: string
+                                skipMetricValidation:
+                                  type: boolean
+                                threshold:
+                                  type: number
+                                timeAggregation:
+                                  type: string
+                              type: object
+                          type: object
+                        type: array
+                      odata.type:
+                        type: string
+                    type: object
+                  microsoftAzureMonitorSingleResourceMultipleMetricCriteria:
+                    description: Storage version of v1api20180301.MetricAlertSingleResourceMultipleMetricCriteria
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      additionalProperties:
+                        additionalProperties:
+                          x-kubernetes-preserve-unknown-fields: true
+                        type: object
+                      allOf:
+                        items:
+                          description: Storage version of v1api20180301.MetricCriteria
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                resources, allowing for full fidelity round trip conversions
+                              type: object
+                            additionalProperties:
+                              additionalProperties:
+                                x-kubernetes-preserve-unknown-fields: true
+                              type: object
+                            criterionType:
+                              type: string
+                            dimensions:
+                              items:
+                                description: |-
+                                  Storage version of v1api20180301.MetricDimension
+                                  Specifies a metric dimension.
+                                properties:
+                                  $propertyBag:
+                                    additionalProperties:
+                                      type: string
+                                    description: |-
+                                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                      resources, allowing for full fidelity round trip conversions
+                                    type: object
+                                  name:
+                                    type: string
+                                  operator:
+                                    type: string
+                                  values:
+                                    items:
+                                      type: string
+                                    type: array
+                                type: object
+                              type: array
+                            metricName:
+                              type: string
+                            metricNamespace:
+                              type: string
+                            name:
+                              type: string
+                            operator:
+                              type: string
+                            skipMetricValidation:
+                              type: boolean
+                            threshold:
+                              type: number
+                            timeAggregation:
+                              type: string
+                          type: object
+                        type: array
+                      odata.type:
+                        type: string
+                    type: object
+                  microsoftAzureMonitorWebtestLocationAvailabilityCriteria:
+                    description: Storage version of v1api20180301.WebtestLocationAvailabilityCriteria
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      additionalProperties:
+                        additionalProperties:
+                          x-kubernetes-preserve-unknown-fields: true
+                        type: object
+                      componentReference:
+                        description: 'ComponentReference: The Application Insights
+                          resource Id.'
+                        properties:
+                          armId:
+                            description: |-
+                              ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                              The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                              ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                            pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                            type: string
+                          group:
+                            description: Group is the Kubernetes group of the resource.
+                            type: string
+                          kind:
+                            description: Kind is the Kubernetes kind of the resource.
+                            type: string
+                          name:
+                            description: Name is the Kubernetes name of the resource.
+                            type: string
+                        type: object
+                      failedLocationCount:
+                        type: number
+                      odata.type:
+                        type: string
+                      webTestId:
+                        type: string
+                    required:
+                    - componentReference
+                    type: object
+                type: object
+              description:
+                type: string
+              enabled:
+                type: boolean
+              evaluationFrequency:
+                type: string
+              location:
+                type: string
+              operatorSpec:
+                description: |-
+                  Storage version of v1api20180301.MetricAlertOperatorSpec
+                  Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  configMapExpressions:
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                  secretExpressions:
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                type: object
+              originalVersion:
+                type: string
+              owner:
+                description: |-
+                  Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+                  controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+                  reference to a resources.azure.com/ResourceGroup resource
+                properties:
+                  armId:
+                    pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                    type: string
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                type: object
+              scopesReferences:
+                items:
+                  description: ResourceReference represents a resource reference,
+                    either to a Kubernetes resource or directly to an Azure resource
+                    via ARMID
+                  properties:
+                    armId:
+                      description: |-
+                        ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                        The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                        ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                      pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                      type: string
+                    group:
+                      description: Group is the Kubernetes group of the resource.
+                      type: string
+                    kind:
+                      description: Kind is the Kubernetes kind of the resource.
+                      type: string
+                    name:
+                      description: Name is the Kubernetes name of the resource.
+                      type: string
+                  type: object
+                type: array
+              severity:
+                type: integer
+              tags:
+                additionalProperties:
+                  type: string
+                type: object
+              targetResourceRegion:
+                type: string
+              targetResourceType:
+                type: string
+              windowSize:
+                type: string
+            required:
+            - owner
+            type: object
+          status:
+            description: Storage version of v1api20180301.MetricAlert_STATUS
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: |-
+                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                  resources, allowing for full fidelity round trip conversions
+                type: object
+              actions:
+                items:
+                  description: |-
+                    Storage version of v1api20180301.MetricAlertAction_STATUS
+                    An alert action.
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    actionGroupId:
+                      type: string
+                    webHookProperties:
+                      additionalProperties:
+                        type: string
+                      type: object
+                  type: object
+                type: array
+              autoMitigate:
+                type: boolean
+              conditions:
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration is the .metadata.generation that the condition was set based upon. For instance, if
+                        .metadata.generation is currently 12, but the .status.condition[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: |-
+                        Reason for the condition's last transition.
+                        Reasons are upper CamelCase (PascalCase) with no spaces. A reason is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: |-
+                        Severity with which to treat failures of this type of condition.
+                        For conditions which have positive polarity (Status == True is their normal/healthy state), this will be omitted when Status == True
+                        For conditions which have negative polarity (Status == False is their normal/healthy state), this will be omitted when Status == False.
+                        This is omitted in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              criteria:
+                description: Storage version of v1api20180301.MetricAlertCriteria_STATUS
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  microsoftAzureMonitorMultipleResourceMultipleMetricCriteria:
+                    description: Storage version of v1api20180301.MetricAlertMultipleResourceMultipleMetricCriteria_STATUS
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      additionalProperties:
+                        additionalProperties:
+                          x-kubernetes-preserve-unknown-fields: true
+                        type: object
+                      allOf:
+                        items:
+                          description: Storage version of v1api20180301.MultiMetricCriteria_STATUS
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                resources, allowing for full fidelity round trip conversions
+                              type: object
+                            dynamicThresholdCriterion:
+                              description: Storage version of v1api20180301.DynamicMetricCriteria_STATUS
+                              properties:
+                                $propertyBag:
+                                  additionalProperties:
+                                    type: string
+                                  description: |-
+                                    PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                    resources, allowing for full fidelity round trip conversions
+                                  type: object
+                                additionalProperties:
+                                  additionalProperties:
+                                    x-kubernetes-preserve-unknown-fields: true
+                                  type: object
+                                alertSensitivity:
+                                  type: string
+                                criterionType:
+                                  type: string
+                                dimensions:
+                                  items:
+                                    description: |-
+                                      Storage version of v1api20180301.MetricDimension_STATUS
+                                      Specifies a metric dimension.
+                                    properties:
+                                      $propertyBag:
+                                        additionalProperties:
+                                          type: string
+                                        description: |-
+                                          PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                          resources, allowing for full fidelity round trip conversions
+                                        type: object
+                                      name:
+                                        type: string
+                                      operator:
+                                        type: string
+                                      values:
+                                        items:
+                                          type: string
+                                        type: array
+                                    type: object
+                                  type: array
+                                failingPeriods:
+                                  description: |-
+                                    Storage version of v1api20180301.DynamicThresholdFailingPeriods_STATUS
+                                    The minimum number of violations required within the selected lookback time window required to raise an alert.
+                                  properties:
+                                    $propertyBag:
+                                      additionalProperties:
+                                        type: string
+                                      description: |-
+                                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                        resources, allowing for full fidelity round trip conversions
+                                      type: object
+                                    minFailingPeriodsToAlert:
+                                      type: number
+                                    numberOfEvaluationPeriods:
+                                      type: number
+                                  type: object
+                                ignoreDataBefore:
+                                  type: string
+                                metricName:
+                                  type: string
+                                metricNamespace:
+                                  type: string
+                                name:
+                                  type: string
+                                operator:
+                                  type: string
+                                skipMetricValidation:
+                                  type: boolean
+                                timeAggregation:
+                                  type: string
+                              type: object
+                            staticThresholdCriterion:
+                              description: Storage version of v1api20180301.MetricCriteria_STATUS
+                              properties:
+                                $propertyBag:
+                                  additionalProperties:
+                                    type: string
+                                  description: |-
+                                    PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                    resources, allowing for full fidelity round trip conversions
+                                  type: object
+                                additionalProperties:
+                                  additionalProperties:
+                                    x-kubernetes-preserve-unknown-fields: true
+                                  type: object
+                                criterionType:
+                                  type: string
+                                dimensions:
+                                  items:
+                                    description: |-
+                                      Storage version of v1api20180301.MetricDimension_STATUS
+                                      Specifies a metric dimension.
+                                    properties:
+                                      $propertyBag:
+                                        additionalProperties:
+                                          type: string
+                                        description: |-
+                                          PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                          resources, allowing for full fidelity round trip conversions
+                                        type: object
+                                      name:
+                                        type: string
+                                      operator:
+                                        type: string
+                                      values:
+                                        items:
+                                          type: string
+                                        type: array
+                                    type: object
+                                  type: array
+                                metricName:
+                                  type: string
+                                metricNamespace:
+                                  type: string
+                                name:
+                                  type: string
+                                operator:
+                                  type: string
+                                skipMetricValidation:
+                                  type: boolean
+                                threshold:
+                                  type: number
+                                timeAggregation:
+                                  type: string
+                              type: object
+                          type: object
+                        type: array
+                      odata.type:
+                        type: string
+                    type: object
+                  microsoftAzureMonitorSingleResourceMultipleMetricCriteria:
+                    description: Storage version of v1api20180301.MetricAlertSingleResourceMultipleMetricCriteria_STATUS
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      additionalProperties:
+                        additionalProperties:
+                          x-kubernetes-preserve-unknown-fields: true
+                        type: object
+                      allOf:
+                        items:
+                          description: Storage version of v1api20180301.MetricCriteria_STATUS
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                resources, allowing for full fidelity round trip conversions
+                              type: object
+                            additionalProperties:
+                              additionalProperties:
+                                x-kubernetes-preserve-unknown-fields: true
+                              type: object
+                            criterionType:
+                              type: string
+                            dimensions:
+                              items:
+                                description: |-
+                                  Storage version of v1api20180301.MetricDimension_STATUS
+                                  Specifies a metric dimension.
+                                properties:
+                                  $propertyBag:
+                                    additionalProperties:
+                                      type: string
+                                    description: |-
+                                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                      resources, allowing for full fidelity round trip conversions
+                                    type: object
+                                  name:
+                                    type: string
+                                  operator:
+                                    type: string
+                                  values:
+                                    items:
+                                      type: string
+                                    type: array
+                                type: object
+                              type: array
+                            metricName:
+                              type: string
+                            metricNamespace:
+                              type: string
+                            name:
+                              type: string
+                            operator:
+                              type: string
+                            skipMetricValidation:
+                              type: boolean
+                            threshold:
+                              type: number
+                            timeAggregation:
+                              type: string
+                          type: object
+                        type: array
+                      odata.type:
+                        type: string
+                    type: object
+                  microsoftAzureMonitorWebtestLocationAvailabilityCriteria:
+                    description: Storage version of v1api20180301.WebtestLocationAvailabilityCriteria_STATUS
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      additionalProperties:
+                        additionalProperties:
+                          x-kubernetes-preserve-unknown-fields: true
+                        type: object
+                      componentId:
+                        type: string
+                      failedLocationCount:
+                        type: number
+                      odata.type:
+                        type: string
+                      webTestId:
+                        type: string
+                    type: object
+                type: object
+              description:
+                type: string
+              enabled:
+                type: boolean
+              evaluationFrequency:
+                type: string
+              id:
+                type: string
+              isMigrated:
+                type: boolean
+              lastUpdatedTime:
+                type: string
+              location:
+                type: string
+              name:
+                type: string
+              scopes:
+                items:
+                  type: string
+                type: array
+              severity:
+                type: integer
+              tags:
+                additionalProperties:
+                  type: string
+                type: object
+              targetResourceRegion:
+                type: string
+              targetResourceType:
+                type: string
+              type:
+                type: string
+              windowSize:
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

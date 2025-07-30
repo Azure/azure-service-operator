@@ -1,0 +1,717 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.17.3
+  name: sitessourcecontrols.web.azure.com
+spec:
+  group: web.azure.com
+  names:
+    kind: SitesSourcecontrol
+    listKind: SitesSourcecontrolList
+    plural: sitessourcecontrols
+    singular: sitessourcecontrol
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1api20220301
+    schema:
+      openAPIV3Schema:
+        description: |-
+          Generator information:
+          - Generated from: /web/resource-manager/Microsoft.Web/stable/2022-03-01/WebApps.json
+          - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/sourcecontrols/web
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              branch:
+                description: 'Branch: Name of branch to use for deployment.'
+                type: string
+              deploymentRollbackEnabled:
+                description: 'DeploymentRollbackEnabled: <code>true</code> to enable
+                  deployment rollback; otherwise, <code>false</code>.'
+                type: boolean
+              gitHubActionConfiguration:
+                description: 'GitHubActionConfiguration: If GitHub Action is selected,
+                  than the associated configuration.'
+                properties:
+                  codeConfiguration:
+                    description: 'CodeConfiguration: GitHub Action code configuration.'
+                    properties:
+                      runtimeStack:
+                        description: 'RuntimeStack: Runtime stack is used to determine
+                          the workflow file content for code base apps.'
+                        type: string
+                      runtimeVersion:
+                        description: 'RuntimeVersion: Runtime version is used to determine
+                          what build version to set in the workflow file.'
+                        type: string
+                    type: object
+                  containerConfiguration:
+                    description: 'ContainerConfiguration: GitHub Action container
+                      configuration.'
+                    properties:
+                      imageName:
+                        description: 'ImageName: The image name for the build.'
+                        type: string
+                      password:
+                        description: 'Password: The password used to upload the image
+                          to the container registry.'
+                        properties:
+                          key:
+                            description: Key is the key in the Kubernetes secret being
+                              referenced
+                            type: string
+                          name:
+                            description: |-
+                              Name is the name of the Kubernetes secret being referenced.
+                              The secret must be in the same namespace as the resource
+                            type: string
+                        required:
+                        - key
+                        - name
+                        type: object
+                      serverUrl:
+                        description: 'ServerUrl: The server URL for the container
+                          registry where the build will be hosted.'
+                        type: string
+                      username:
+                        description: 'Username: The username used to upload the image
+                          to the container registry.'
+                        type: string
+                    type: object
+                  generateWorkflowFile:
+                    description: |-
+                      GenerateWorkflowFile: Workflow option to determine whether the workflow file should be generated and written to the
+                      repository.
+                    type: boolean
+                  isLinux:
+                    description: 'IsLinux: This will help determine the workflow configuration
+                      to select.'
+                    type: boolean
+                type: object
+              isGitHubAction:
+                description: 'IsGitHubAction: <code>true</code> if this is deployed
+                  via GitHub action.'
+                type: boolean
+              isManualIntegration:
+                description: |-
+                  IsManualIntegration: <code>true</code> to limit to manual integration; <code>false</code> to enable continuous
+                  integration (which configures webhooks into online repos like GitHub).
+                type: boolean
+              isMercurial:
+                description: 'IsMercurial: <code>true</code> for a Mercurial repository;
+                  <code>false</code> for a Git repository.'
+                type: boolean
+              kind:
+                description: 'Kind: Kind of resource.'
+                type: string
+              operatorSpec:
+                description: |-
+                  OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+                  passed directly to Azure
+                properties:
+                  configMapExpressions:
+                    description: 'ConfigMapExpressions: configures where to place
+                      operator written dynamic ConfigMaps (created with CEL expressions).'
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                  secretExpressions:
+                    description: 'SecretExpressions: configures where to place operator
+                      written dynamic secrets (created with CEL expressions).'
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                type: object
+              owner:
+                description: |-
+                  Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+                  controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+                  reference to a web.azure.com/Site resource
+                properties:
+                  armId:
+                    pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                    type: string
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                type: object
+              repoUrl:
+                description: 'RepoUrl: Repository or source control URL.'
+                type: string
+            required:
+            - owner
+            type: object
+          status:
+            properties:
+              branch:
+                description: 'Branch: Name of branch to use for deployment.'
+                type: string
+              conditions:
+                description: 'Conditions: The observed state of the resource'
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration is the .metadata.generation that the condition was set based upon. For instance, if
+                        .metadata.generation is currently 12, but the .status.condition[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: |-
+                        Reason for the condition's last transition.
+                        Reasons are upper CamelCase (PascalCase) with no spaces. A reason is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: |-
+                        Severity with which to treat failures of this type of condition.
+                        For conditions which have positive polarity (Status == True is their normal/healthy state), this will be omitted when Status == True
+                        For conditions which have negative polarity (Status == False is their normal/healthy state), this will be omitted when Status == False.
+                        This is omitted in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              deploymentRollbackEnabled:
+                description: 'DeploymentRollbackEnabled: <code>true</code> to enable
+                  deployment rollback; otherwise, <code>false</code>.'
+                type: boolean
+              gitHubActionConfiguration:
+                description: 'GitHubActionConfiguration: If GitHub Action is selected,
+                  than the associated configuration.'
+                properties:
+                  codeConfiguration:
+                    description: 'CodeConfiguration: GitHub Action code configuration.'
+                    properties:
+                      runtimeStack:
+                        description: 'RuntimeStack: Runtime stack is used to determine
+                          the workflow file content for code base apps.'
+                        type: string
+                      runtimeVersion:
+                        description: 'RuntimeVersion: Runtime version is used to determine
+                          what build version to set in the workflow file.'
+                        type: string
+                    type: object
+                  containerConfiguration:
+                    description: 'ContainerConfiguration: GitHub Action container
+                      configuration.'
+                    properties:
+                      imageName:
+                        description: 'ImageName: The image name for the build.'
+                        type: string
+                      serverUrl:
+                        description: 'ServerUrl: The server URL for the container
+                          registry where the build will be hosted.'
+                        type: string
+                      username:
+                        description: 'Username: The username used to upload the image
+                          to the container registry.'
+                        type: string
+                    type: object
+                  generateWorkflowFile:
+                    description: |-
+                      GenerateWorkflowFile: Workflow option to determine whether the workflow file should be generated and written to the
+                      repository.
+                    type: boolean
+                  isLinux:
+                    description: 'IsLinux: This will help determine the workflow configuration
+                      to select.'
+                    type: boolean
+                type: object
+              id:
+                description: 'Id: Resource Id.'
+                type: string
+              isGitHubAction:
+                description: 'IsGitHubAction: <code>true</code> if this is deployed
+                  via GitHub action.'
+                type: boolean
+              isManualIntegration:
+                description: |-
+                  IsManualIntegration: <code>true</code> to limit to manual integration; <code>false</code> to enable continuous
+                  integration (which configures webhooks into online repos like GitHub).
+                type: boolean
+              isMercurial:
+                description: 'IsMercurial: <code>true</code> for a Mercurial repository;
+                  <code>false</code> for a Git repository.'
+                type: boolean
+              kind:
+                description: 'Kind: Kind of resource.'
+                type: string
+              name:
+                description: 'Name: Resource Name.'
+                type: string
+              repoUrl:
+                description: 'RepoUrl: Repository or source control URL.'
+                type: string
+              type:
+                description: 'Type: Resource type.'
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: false
+    subresources:
+      status: {}
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1api20220301storage
+    schema:
+      openAPIV3Schema:
+        description: |-
+          Storage version of v1api20220301.SitesSourcecontrol
+          Generator information:
+          - Generated from: /web/resource-manager/Microsoft.Web/stable/2022-03-01/WebApps.json
+          - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/sourcecontrols/web
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Storage version of v1api20220301.SitesSourcecontrol_Spec
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: |-
+                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                  resources, allowing for full fidelity round trip conversions
+                type: object
+              branch:
+                type: string
+              deploymentRollbackEnabled:
+                type: boolean
+              gitHubActionConfiguration:
+                description: |-
+                  Storage version of v1api20220301.GitHubActionConfiguration
+                  The GitHub action configuration.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  codeConfiguration:
+                    description: |-
+                      Storage version of v1api20220301.GitHubActionCodeConfiguration
+                      The GitHub action code configuration.
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      runtimeStack:
+                        type: string
+                      runtimeVersion:
+                        type: string
+                    type: object
+                  containerConfiguration:
+                    description: |-
+                      Storage version of v1api20220301.GitHubActionContainerConfiguration
+                      The GitHub action container configuration.
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      imageName:
+                        type: string
+                      password:
+                        description: |-
+                          SecretReference is a reference to a Kubernetes secret and key in the same namespace as
+                          the resource it is on.
+                        properties:
+                          key:
+                            description: Key is the key in the Kubernetes secret being
+                              referenced
+                            type: string
+                          name:
+                            description: |-
+                              Name is the name of the Kubernetes secret being referenced.
+                              The secret must be in the same namespace as the resource
+                            type: string
+                        required:
+                        - key
+                        - name
+                        type: object
+                      serverUrl:
+                        type: string
+                      username:
+                        type: string
+                    type: object
+                  generateWorkflowFile:
+                    type: boolean
+                  isLinux:
+                    type: boolean
+                type: object
+              isGitHubAction:
+                type: boolean
+              isManualIntegration:
+                type: boolean
+              isMercurial:
+                type: boolean
+              kind:
+                type: string
+              operatorSpec:
+                description: |-
+                  Storage version of v1api20220301.SitesSourcecontrolOperatorSpec
+                  Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  configMapExpressions:
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                  secretExpressions:
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                type: object
+              originalVersion:
+                type: string
+              owner:
+                description: |-
+                  Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+                  controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+                  reference to a web.azure.com/Site resource
+                properties:
+                  armId:
+                    pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                    type: string
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                type: object
+              repoUrl:
+                type: string
+            required:
+            - owner
+            type: object
+          status:
+            description: Storage version of v1api20220301.SitesSourcecontrol_STATUS
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: |-
+                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                  resources, allowing for full fidelity round trip conversions
+                type: object
+              branch:
+                type: string
+              conditions:
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration is the .metadata.generation that the condition was set based upon. For instance, if
+                        .metadata.generation is currently 12, but the .status.condition[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: |-
+                        Reason for the condition's last transition.
+                        Reasons are upper CamelCase (PascalCase) with no spaces. A reason is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: |-
+                        Severity with which to treat failures of this type of condition.
+                        For conditions which have positive polarity (Status == True is their normal/healthy state), this will be omitted when Status == True
+                        For conditions which have negative polarity (Status == False is their normal/healthy state), this will be omitted when Status == False.
+                        This is omitted in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              deploymentRollbackEnabled:
+                type: boolean
+              gitHubActionConfiguration:
+                description: |-
+                  Storage version of v1api20220301.GitHubActionConfiguration_STATUS
+                  The GitHub action configuration.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  codeConfiguration:
+                    description: |-
+                      Storage version of v1api20220301.GitHubActionCodeConfiguration_STATUS
+                      The GitHub action code configuration.
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      runtimeStack:
+                        type: string
+                      runtimeVersion:
+                        type: string
+                    type: object
+                  containerConfiguration:
+                    description: |-
+                      Storage version of v1api20220301.GitHubActionContainerConfiguration_STATUS
+                      The GitHub action container configuration.
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      imageName:
+                        type: string
+                      serverUrl:
+                        type: string
+                      username:
+                        type: string
+                    type: object
+                  generateWorkflowFile:
+                    type: boolean
+                  isLinux:
+                    type: boolean
+                type: object
+              id:
+                type: string
+              isGitHubAction:
+                type: boolean
+              isManualIntegration:
+                type: boolean
+              isMercurial:
+                type: boolean
+              kind:
+                type: string
+              name:
+                type: string
+              repoUrl:
+                type: string
+              type:
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

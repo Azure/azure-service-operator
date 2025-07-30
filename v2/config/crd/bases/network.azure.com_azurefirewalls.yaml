@@ -1,0 +1,1924 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.17.3
+  name: azurefirewalls.network.azure.com
+spec:
+  group: network.azure.com
+  names:
+    kind: AzureFirewall
+    listKind: AzureFirewallList
+    plural: azurefirewalls
+    singular: azurefirewall
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1api20240301
+    schema:
+      openAPIV3Schema:
+        description: |-
+          Generator information:
+          - Generated from: /network/resource-manager/Microsoft.Network/stable/2024-03-01/azureFirewall.json
+          - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              additionalProperties:
+                additionalProperties:
+                  type: string
+                description: 'AdditionalProperties: The additional properties used
+                  to further config this azure firewall.'
+                type: object
+              applicationRuleCollections:
+                description: 'ApplicationRuleCollections: Collection of application
+                  rule collections used by Azure Firewall.'
+                items:
+                  description: Application rule collection resource.
+                  properties:
+                    action:
+                      description: 'Action: The action type of a rule collection.'
+                      properties:
+                        type:
+                          description: 'Type: The type of action.'
+                          enum:
+                          - Allow
+                          - Deny
+                          type: string
+                      type: object
+                    name:
+                      description: 'Name: The name of the resource that is unique
+                        within the Azure firewall. This name can be used to access
+                        the resource.'
+                      type: string
+                    priority:
+                      description: 'Priority: Priority of the application rule collection
+                        resource.'
+                      maximum: 65000
+                      minimum: 100
+                      type: integer
+                    rules:
+                      description: 'Rules: Collection of rules used by a application
+                        rule collection.'
+                      items:
+                        description: Properties of an application rule.
+                        properties:
+                          description:
+                            description: 'Description: Description of the rule.'
+                            type: string
+                          fqdnTags:
+                            description: 'FqdnTags: List of FQDN Tags for this rule.'
+                            items:
+                              type: string
+                            type: array
+                          name:
+                            description: 'Name: Name of the application rule.'
+                            type: string
+                          protocols:
+                            description: 'Protocols: Array of ApplicationRuleProtocols.'
+                            items:
+                              description: Properties of the application rule protocol.
+                              properties:
+                                port:
+                                  description: 'Port: Port number for the protocol,
+                                    cannot be greater than 64000. This field is optional.'
+                                  maximum: 64000
+                                  minimum: 0
+                                  type: integer
+                                protocolType:
+                                  description: 'ProtocolType: Protocol type.'
+                                  enum:
+                                  - Http
+                                  - Https
+                                  - Mssql
+                                  type: string
+                              type: object
+                            type: array
+                          sourceAddresses:
+                            description: 'SourceAddresses: List of source IP addresses
+                              for this rule.'
+                            items:
+                              type: string
+                            type: array
+                          sourceIpGroups:
+                            description: 'SourceIpGroups: List of source IpGroups
+                              for this rule.'
+                            items:
+                              type: string
+                            type: array
+                          targetFqdns:
+                            description: 'TargetFqdns: List of FQDNs for this rule.'
+                            items:
+                              type: string
+                            type: array
+                        type: object
+                      type: array
+                  type: object
+                type: array
+              autoscaleConfiguration:
+                description: 'AutoscaleConfiguration: Properties to provide a custom
+                  autoscale configuration to this azure firewall.'
+                properties:
+                  maxCapacity:
+                    description: |-
+                      MaxCapacity: The maximum number of capacity units for this azure firewall. Use null to reset the value to the service
+                      default.
+                    minimum: 2
+                    type: integer
+                  minCapacity:
+                    description: |-
+                      MinCapacity: The minimum number of capacity units for this azure firewall. Use null to reset the value to the service
+                      default.
+                    minimum: 2
+                    type: integer
+                type: object
+              azureName:
+                description: |-
+                  AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+                  doesn't have to be.
+                maxLength: 56
+                minLength: 1
+                type: string
+              firewallPolicy:
+                description: 'FirewallPolicy: The firewallPolicy associated with this
+                  azure firewall.'
+                properties:
+                  reference:
+                    description: 'Reference: Resource ID.'
+                    properties:
+                      armId:
+                        description: |-
+                          ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                          The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                          ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                        pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                        type: string
+                      group:
+                        description: Group is the Kubernetes group of the resource.
+                        type: string
+                      kind:
+                        description: Kind is the Kubernetes kind of the resource.
+                        type: string
+                      name:
+                        description: Name is the Kubernetes name of the resource.
+                        type: string
+                    type: object
+                type: object
+              hubIPAddresses:
+                description: 'HubIPAddresses: IP addresses associated with AzureFirewall.'
+                properties:
+                  privateIPAddress:
+                    description: 'PrivateIPAddress: Private IP Address associated
+                      with azure firewall.'
+                    type: string
+                  publicIPs:
+                    description: 'PublicIPs: Public IP addresses associated with azure
+                      firewall.'
+                    properties:
+                      addresses:
+                        description: 'Addresses: The list of Public IP addresses associated
+                          with azure firewall or IP addresses to be retained.'
+                        items:
+                          description: Public IP Address associated with azure firewall.
+                          properties:
+                            address:
+                              description: 'Address: Public IP Address value.'
+                              type: string
+                          type: object
+                        type: array
+                      count:
+                        description: 'Count: The number of Public IP addresses associated
+                          with azure firewall.'
+                        type: integer
+                    type: object
+                type: object
+              ipConfigurations:
+                description: 'IpConfigurations: IP configuration of the Azure Firewall
+                  resource.'
+                items:
+                  description: IP configuration of an Azure Firewall.
+                  properties:
+                    name:
+                      description: 'Name: Name of the resource that is unique within
+                        a resource group. This name can be used to access the resource.'
+                      type: string
+                    publicIPAddress:
+                      description: 'PublicIPAddress: Reference to the PublicIP resource.
+                        This field is a mandatory input if subnet is not null.'
+                      properties:
+                        reference:
+                          description: 'Reference: Resource ID.'
+                          properties:
+                            armId:
+                              description: |-
+                                ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                                The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                                ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                              pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                              type: string
+                            group:
+                              description: Group is the Kubernetes group of the resource.
+                              type: string
+                            kind:
+                              description: Kind is the Kubernetes kind of the resource.
+                              type: string
+                            name:
+                              description: Name is the Kubernetes name of the resource.
+                              type: string
+                          type: object
+                      type: object
+                    subnet:
+                      description: |-
+                        Subnet: Reference to the subnet resource. This resource must be named 'AzureFirewallSubnet' or
+                        'AzureFirewallManagementSubnet'.
+                      properties:
+                        reference:
+                          description: 'Reference: Resource ID.'
+                          properties:
+                            armId:
+                              description: |-
+                                ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                                The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                                ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                              pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                              type: string
+                            group:
+                              description: Group is the Kubernetes group of the resource.
+                              type: string
+                            kind:
+                              description: Kind is the Kubernetes kind of the resource.
+                              type: string
+                            name:
+                              description: Name is the Kubernetes name of the resource.
+                              type: string
+                          type: object
+                      type: object
+                  type: object
+                type: array
+              location:
+                description: 'Location: Resource location.'
+                type: string
+              managementIpConfiguration:
+                description: 'ManagementIpConfiguration: IP configuration of the Azure
+                  Firewall used for management traffic.'
+                properties:
+                  name:
+                    description: 'Name: Name of the resource that is unique within
+                      a resource group. This name can be used to access the resource.'
+                    type: string
+                  publicIPAddress:
+                    description: 'PublicIPAddress: Reference to the PublicIP resource.
+                      This field is a mandatory input if subnet is not null.'
+                    properties:
+                      reference:
+                        description: 'Reference: Resource ID.'
+                        properties:
+                          armId:
+                            description: |-
+                              ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                              The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                              ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                            pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                            type: string
+                          group:
+                            description: Group is the Kubernetes group of the resource.
+                            type: string
+                          kind:
+                            description: Kind is the Kubernetes kind of the resource.
+                            type: string
+                          name:
+                            description: Name is the Kubernetes name of the resource.
+                            type: string
+                        type: object
+                    type: object
+                  subnet:
+                    description: |-
+                      Subnet: Reference to the subnet resource. This resource must be named 'AzureFirewallSubnet' or
+                      'AzureFirewallManagementSubnet'.
+                    properties:
+                      reference:
+                        description: 'Reference: Resource ID.'
+                        properties:
+                          armId:
+                            description: |-
+                              ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                              The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                              ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                            pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                            type: string
+                          group:
+                            description: Group is the Kubernetes group of the resource.
+                            type: string
+                          kind:
+                            description: Kind is the Kubernetes kind of the resource.
+                            type: string
+                          name:
+                            description: Name is the Kubernetes name of the resource.
+                            type: string
+                        type: object
+                    type: object
+                type: object
+              natRuleCollections:
+                description: 'NatRuleCollections: Collection of NAT rule collections
+                  used by Azure Firewall.'
+                items:
+                  description: NAT rule collection resource.
+                  properties:
+                    action:
+                      description: 'Action: The action type of a NAT rule collection.'
+                      properties:
+                        type:
+                          description: 'Type: The type of action.'
+                          enum:
+                          - Dnat
+                          - Snat
+                          type: string
+                      type: object
+                    name:
+                      description: 'Name: The name of the resource that is unique
+                        within the Azure firewall. This name can be used to access
+                        the resource.'
+                      type: string
+                    priority:
+                      description: 'Priority: Priority of the NAT rule collection
+                        resource.'
+                      maximum: 65000
+                      minimum: 100
+                      type: integer
+                    rules:
+                      description: 'Rules: Collection of rules used by a NAT rule
+                        collection.'
+                      items:
+                        description: Properties of a NAT rule.
+                        properties:
+                          description:
+                            description: 'Description: Description of the rule.'
+                            type: string
+                          destinationAddresses:
+                            description: 'DestinationAddresses: List of destination
+                              IP addresses for this rule. Supports IP ranges, prefixes,
+                              and service tags.'
+                            items:
+                              type: string
+                            type: array
+                          destinationPorts:
+                            description: 'DestinationPorts: List of destination ports.'
+                            items:
+                              type: string
+                            type: array
+                          name:
+                            description: 'Name: Name of the NAT rule.'
+                            type: string
+                          protocols:
+                            description: 'Protocols: Array of AzureFirewallNetworkRuleProtocols
+                              applicable to this NAT rule.'
+                            items:
+                              description: The protocol of a Network Rule resource.
+                              enum:
+                              - Any
+                              - ICMP
+                              - TCP
+                              - UDP
+                              type: string
+                            type: array
+                          sourceAddresses:
+                            description: 'SourceAddresses: List of source IP addresses
+                              for this rule.'
+                            items:
+                              type: string
+                            type: array
+                          sourceIpGroups:
+                            description: 'SourceIpGroups: List of source IpGroups
+                              for this rule.'
+                            items:
+                              type: string
+                            type: array
+                          translatedAddress:
+                            description: 'TranslatedAddress: The translated address
+                              for this NAT rule.'
+                            type: string
+                          translatedFqdn:
+                            description: 'TranslatedFqdn: The translated FQDN for
+                              this NAT rule.'
+                            type: string
+                          translatedPort:
+                            description: 'TranslatedPort: The translated port for
+                              this NAT rule.'
+                            type: string
+                        type: object
+                      type: array
+                  type: object
+                type: array
+              networkRuleCollections:
+                description: 'NetworkRuleCollections: Collection of network rule collections
+                  used by Azure Firewall.'
+                items:
+                  description: Network rule collection resource.
+                  properties:
+                    action:
+                      description: 'Action: The action type of a rule collection.'
+                      properties:
+                        type:
+                          description: 'Type: The type of action.'
+                          enum:
+                          - Allow
+                          - Deny
+                          type: string
+                      type: object
+                    name:
+                      description: 'Name: The name of the resource that is unique
+                        within the Azure firewall. This name can be used to access
+                        the resource.'
+                      type: string
+                    priority:
+                      description: 'Priority: Priority of the network rule collection
+                        resource.'
+                      maximum: 65000
+                      minimum: 100
+                      type: integer
+                    rules:
+                      description: 'Rules: Collection of rules used by a network rule
+                        collection.'
+                      items:
+                        description: Properties of the network rule.
+                        properties:
+                          description:
+                            description: 'Description: Description of the rule.'
+                            type: string
+                          destinationAddresses:
+                            description: 'DestinationAddresses: List of destination
+                              IP addresses.'
+                            items:
+                              type: string
+                            type: array
+                          destinationFqdns:
+                            description: 'DestinationFqdns: List of destination FQDNs.'
+                            items:
+                              type: string
+                            type: array
+                          destinationIpGroups:
+                            description: 'DestinationIpGroups: List of destination
+                              IpGroups for this rule.'
+                            items:
+                              type: string
+                            type: array
+                          destinationPorts:
+                            description: 'DestinationPorts: List of destination ports.'
+                            items:
+                              type: string
+                            type: array
+                          name:
+                            description: 'Name: Name of the network rule.'
+                            type: string
+                          protocols:
+                            description: 'Protocols: Array of AzureFirewallNetworkRuleProtocols.'
+                            items:
+                              description: The protocol of a Network Rule resource.
+                              enum:
+                              - Any
+                              - ICMP
+                              - TCP
+                              - UDP
+                              type: string
+                            type: array
+                          sourceAddresses:
+                            description: 'SourceAddresses: List of source IP addresses
+                              for this rule.'
+                            items:
+                              type: string
+                            type: array
+                          sourceIpGroups:
+                            description: 'SourceIpGroups: List of source IpGroups
+                              for this rule.'
+                            items:
+                              type: string
+                            type: array
+                        type: object
+                      type: array
+                  type: object
+                type: array
+              operatorSpec:
+                description: |-
+                  OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+                  passed directly to Azure
+                properties:
+                  configMapExpressions:
+                    description: 'ConfigMapExpressions: configures where to place
+                      operator written dynamic ConfigMaps (created with CEL expressions).'
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                  secretExpressions:
+                    description: 'SecretExpressions: configures where to place operator
+                      written dynamic secrets (created with CEL expressions).'
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                type: object
+              owner:
+                description: |-
+                  Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+                  controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+                  reference to a resources.azure.com/ResourceGroup resource
+                properties:
+                  armId:
+                    pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                    type: string
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                type: object
+              sku:
+                description: 'Sku: The Azure Firewall Resource SKU.'
+                properties:
+                  name:
+                    description: 'Name: Name of an Azure Firewall SKU.'
+                    enum:
+                    - AZFW_Hub
+                    - AZFW_VNet
+                    type: string
+                  tier:
+                    description: 'Tier: Tier of an Azure Firewall.'
+                    enum:
+                    - Basic
+                    - Premium
+                    - Standard
+                    type: string
+                type: object
+              tags:
+                additionalProperties:
+                  type: string
+                description: 'Tags: Resource tags.'
+                type: object
+              threatIntelMode:
+                description: 'ThreatIntelMode: The operation mode for Threat Intelligence.'
+                enum:
+                - Alert
+                - Deny
+                - "Off"
+                type: string
+              virtualHub:
+                description: 'VirtualHub: The virtualHub to which the firewall belongs.'
+                properties:
+                  reference:
+                    description: 'Reference: Resource ID.'
+                    properties:
+                      armId:
+                        description: |-
+                          ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                          The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                          ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                        pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                        type: string
+                      group:
+                        description: Group is the Kubernetes group of the resource.
+                        type: string
+                      kind:
+                        description: Kind is the Kubernetes kind of the resource.
+                        type: string
+                      name:
+                        description: Name is the Kubernetes name of the resource.
+                        type: string
+                    type: object
+                type: object
+              zones:
+                description: 'Zones: A list of availability zones denoting where the
+                  resource needs to come from.'
+                items:
+                  type: string
+                type: array
+            required:
+            - owner
+            type: object
+          status:
+            description: Azure Firewall resource.
+            properties:
+              additionalProperties:
+                additionalProperties:
+                  type: string
+                description: 'AdditionalProperties: The additional properties used
+                  to further config this azure firewall.'
+                type: object
+              applicationRuleCollections:
+                description: 'ApplicationRuleCollections: Collection of application
+                  rule collections used by Azure Firewall.'
+                items:
+                  description: Application rule collection resource.
+                  properties:
+                    id:
+                      description: 'Id: Resource ID.'
+                      type: string
+                  type: object
+                type: array
+              autoscaleConfiguration:
+                description: 'AutoscaleConfiguration: Properties to provide a custom
+                  autoscale configuration to this azure firewall.'
+                properties:
+                  maxCapacity:
+                    description: |-
+                      MaxCapacity: The maximum number of capacity units for this azure firewall. Use null to reset the value to the service
+                      default.
+                    type: integer
+                  minCapacity:
+                    description: |-
+                      MinCapacity: The minimum number of capacity units for this azure firewall. Use null to reset the value to the service
+                      default.
+                    type: integer
+                type: object
+              conditions:
+                description: 'Conditions: The observed state of the resource'
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration is the .metadata.generation that the condition was set based upon. For instance, if
+                        .metadata.generation is currently 12, but the .status.condition[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: |-
+                        Reason for the condition's last transition.
+                        Reasons are upper CamelCase (PascalCase) with no spaces. A reason is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: |-
+                        Severity with which to treat failures of this type of condition.
+                        For conditions which have positive polarity (Status == True is their normal/healthy state), this will be omitted when Status == True
+                        For conditions which have negative polarity (Status == False is their normal/healthy state), this will be omitted when Status == False.
+                        This is omitted in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              etag:
+                description: 'Etag: A unique read-only string that changes whenever
+                  the resource is updated.'
+                type: string
+              firewallPolicy:
+                description: 'FirewallPolicy: The firewallPolicy associated with this
+                  azure firewall.'
+                properties:
+                  id:
+                    description: 'Id: Resource ID.'
+                    type: string
+                type: object
+              hubIPAddresses:
+                description: 'HubIPAddresses: IP addresses associated with AzureFirewall.'
+                properties:
+                  privateIPAddress:
+                    description: 'PrivateIPAddress: Private IP Address associated
+                      with azure firewall.'
+                    type: string
+                  publicIPs:
+                    description: 'PublicIPs: Public IP addresses associated with azure
+                      firewall.'
+                    properties:
+                      addresses:
+                        description: 'Addresses: The list of Public IP addresses associated
+                          with azure firewall or IP addresses to be retained.'
+                        items:
+                          description: Public IP Address associated with azure firewall.
+                          properties:
+                            address:
+                              description: 'Address: Public IP Address value.'
+                              type: string
+                          type: object
+                        type: array
+                      count:
+                        description: 'Count: The number of Public IP addresses associated
+                          with azure firewall.'
+                        type: integer
+                    type: object
+                type: object
+              id:
+                description: 'Id: Resource ID.'
+                type: string
+              ipConfigurations:
+                description: 'IpConfigurations: IP configuration of the Azure Firewall
+                  resource.'
+                items:
+                  description: IP configuration of an Azure Firewall.
+                  properties:
+                    id:
+                      description: 'Id: Resource ID.'
+                      type: string
+                  type: object
+                type: array
+              ipGroups:
+                description: 'IpGroups: IpGroups associated with AzureFirewall.'
+                items:
+                  description: IpGroups associated with azure firewall.
+                  properties:
+                    changeNumber:
+                      description: 'ChangeNumber: The iteration number.'
+                      type: string
+                    id:
+                      description: 'Id: Resource ID.'
+                      type: string
+                  type: object
+                type: array
+              location:
+                description: 'Location: Resource location.'
+                type: string
+              managementIpConfiguration:
+                description: 'ManagementIpConfiguration: IP configuration of the Azure
+                  Firewall used for management traffic.'
+                properties:
+                  id:
+                    description: 'Id: Resource ID.'
+                    type: string
+                type: object
+              name:
+                description: 'Name: Resource name.'
+                type: string
+              natRuleCollections:
+                description: 'NatRuleCollections: Collection of NAT rule collections
+                  used by Azure Firewall.'
+                items:
+                  description: NAT rule collection resource.
+                  properties:
+                    id:
+                      description: 'Id: Resource ID.'
+                      type: string
+                  type: object
+                type: array
+              networkRuleCollections:
+                description: 'NetworkRuleCollections: Collection of network rule collections
+                  used by Azure Firewall.'
+                items:
+                  description: Network rule collection resource.
+                  properties:
+                    id:
+                      description: 'Id: Resource ID.'
+                      type: string
+                  type: object
+                type: array
+              provisioningState:
+                description: 'ProvisioningState: The provisioning state of the Azure
+                  firewall resource.'
+                type: string
+              sku:
+                description: 'Sku: The Azure Firewall Resource SKU.'
+                properties:
+                  name:
+                    description: 'Name: Name of an Azure Firewall SKU.'
+                    type: string
+                  tier:
+                    description: 'Tier: Tier of an Azure Firewall.'
+                    type: string
+                type: object
+              tags:
+                additionalProperties:
+                  type: string
+                description: 'Tags: Resource tags.'
+                type: object
+              threatIntelMode:
+                description: 'ThreatIntelMode: The operation mode for Threat Intelligence.'
+                type: string
+              type:
+                description: 'Type: Resource type.'
+                type: string
+              virtualHub:
+                description: 'VirtualHub: The virtualHub to which the firewall belongs.'
+                properties:
+                  id:
+                    description: 'Id: Resource ID.'
+                    type: string
+                type: object
+              zones:
+                description: 'Zones: A list of availability zones denoting where the
+                  resource needs to come from.'
+                items:
+                  type: string
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: false
+    subresources:
+      status: {}
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1api20240301storage
+    schema:
+      openAPIV3Schema:
+        description: |-
+          Storage version of v1api20240301.AzureFirewall
+          Generator information:
+          - Generated from: /network/resource-manager/Microsoft.Network/stable/2024-03-01/azureFirewall.json
+          - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Storage version of v1api20240301.AzureFirewall_Spec
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: |-
+                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                  resources, allowing for full fidelity round trip conversions
+                type: object
+              additionalProperties:
+                additionalProperties:
+                  type: string
+                type: object
+              applicationRuleCollections:
+                items:
+                  description: |-
+                    Storage version of v1api20240301.AzureFirewallApplicationRuleCollection
+                    Application rule collection resource.
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    action:
+                      description: |-
+                        Storage version of v1api20240301.AzureFirewallRCAction
+                        Properties of the AzureFirewallRCAction.
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                            resources, allowing for full fidelity round trip conversions
+                          type: object
+                        type:
+                          type: string
+                      type: object
+                    name:
+                      type: string
+                    priority:
+                      type: integer
+                    rules:
+                      items:
+                        description: |-
+                          Storage version of v1api20240301.AzureFirewallApplicationRule
+                          Properties of an application rule.
+                        properties:
+                          $propertyBag:
+                            additionalProperties:
+                              type: string
+                            description: |-
+                              PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                              resources, allowing for full fidelity round trip conversions
+                            type: object
+                          description:
+                            type: string
+                          fqdnTags:
+                            items:
+                              type: string
+                            type: array
+                          name:
+                            type: string
+                          protocols:
+                            items:
+                              description: |-
+                                Storage version of v1api20240301.AzureFirewallApplicationRuleProtocol
+                                Properties of the application rule protocol.
+                              properties:
+                                $propertyBag:
+                                  additionalProperties:
+                                    type: string
+                                  description: |-
+                                    PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                    resources, allowing for full fidelity round trip conversions
+                                  type: object
+                                port:
+                                  type: integer
+                                protocolType:
+                                  type: string
+                              type: object
+                            type: array
+                          sourceAddresses:
+                            items:
+                              type: string
+                            type: array
+                          sourceIpGroups:
+                            items:
+                              type: string
+                            type: array
+                          targetFqdns:
+                            items:
+                              type: string
+                            type: array
+                        type: object
+                      type: array
+                  type: object
+                type: array
+              autoscaleConfiguration:
+                description: |-
+                  Storage version of v1api20240301.AzureFirewallAutoscaleConfiguration
+                  Azure Firewall Autoscale Configuration parameters.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  maxCapacity:
+                    type: integer
+                  minCapacity:
+                    type: integer
+                type: object
+              azureName:
+                description: |-
+                  AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+                  doesn't have to be.
+                type: string
+              firewallPolicy:
+                description: |-
+                  Storage version of v1api20240301.SubResource
+                  Reference to another subresource.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  reference:
+                    description: 'Reference: Resource ID.'
+                    properties:
+                      armId:
+                        description: |-
+                          ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                          The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                          ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                        pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                        type: string
+                      group:
+                        description: Group is the Kubernetes group of the resource.
+                        type: string
+                      kind:
+                        description: Kind is the Kubernetes kind of the resource.
+                        type: string
+                      name:
+                        description: Name is the Kubernetes name of the resource.
+                        type: string
+                    type: object
+                type: object
+              hubIPAddresses:
+                description: |-
+                  Storage version of v1api20240301.HubIPAddresses
+                  IP addresses associated with azure firewall.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  privateIPAddress:
+                    type: string
+                  publicIPs:
+                    description: |-
+                      Storage version of v1api20240301.HubPublicIPAddresses
+                      Public IP addresses associated with azure firewall.
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      addresses:
+                        items:
+                          description: |-
+                            Storage version of v1api20240301.AzureFirewallPublicIPAddress
+                            Public IP Address associated with azure firewall.
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                resources, allowing for full fidelity round trip conversions
+                              type: object
+                            address:
+                              type: string
+                          type: object
+                        type: array
+                      count:
+                        type: integer
+                    type: object
+                type: object
+              ipConfigurations:
+                items:
+                  description: |-
+                    Storage version of v1api20240301.AzureFirewallIPConfiguration
+                    IP configuration of an Azure Firewall.
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    name:
+                      type: string
+                    publicIPAddress:
+                      description: |-
+                        Storage version of v1api20240301.SubResource
+                        Reference to another subresource.
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                            resources, allowing for full fidelity round trip conversions
+                          type: object
+                        reference:
+                          description: 'Reference: Resource ID.'
+                          properties:
+                            armId:
+                              description: |-
+                                ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                                The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                                ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                              pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                              type: string
+                            group:
+                              description: Group is the Kubernetes group of the resource.
+                              type: string
+                            kind:
+                              description: Kind is the Kubernetes kind of the resource.
+                              type: string
+                            name:
+                              description: Name is the Kubernetes name of the resource.
+                              type: string
+                          type: object
+                      type: object
+                    subnet:
+                      description: |-
+                        Storage version of v1api20240301.SubResource
+                        Reference to another subresource.
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                            resources, allowing for full fidelity round trip conversions
+                          type: object
+                        reference:
+                          description: 'Reference: Resource ID.'
+                          properties:
+                            armId:
+                              description: |-
+                                ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                                The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                                ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                              pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                              type: string
+                            group:
+                              description: Group is the Kubernetes group of the resource.
+                              type: string
+                            kind:
+                              description: Kind is the Kubernetes kind of the resource.
+                              type: string
+                            name:
+                              description: Name is the Kubernetes name of the resource.
+                              type: string
+                          type: object
+                      type: object
+                  type: object
+                type: array
+              location:
+                type: string
+              managementIpConfiguration:
+                description: |-
+                  Storage version of v1api20240301.AzureFirewallIPConfiguration
+                  IP configuration of an Azure Firewall.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  name:
+                    type: string
+                  publicIPAddress:
+                    description: |-
+                      Storage version of v1api20240301.SubResource
+                      Reference to another subresource.
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      reference:
+                        description: 'Reference: Resource ID.'
+                        properties:
+                          armId:
+                            description: |-
+                              ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                              The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                              ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                            pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                            type: string
+                          group:
+                            description: Group is the Kubernetes group of the resource.
+                            type: string
+                          kind:
+                            description: Kind is the Kubernetes kind of the resource.
+                            type: string
+                          name:
+                            description: Name is the Kubernetes name of the resource.
+                            type: string
+                        type: object
+                    type: object
+                  subnet:
+                    description: |-
+                      Storage version of v1api20240301.SubResource
+                      Reference to another subresource.
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      reference:
+                        description: 'Reference: Resource ID.'
+                        properties:
+                          armId:
+                            description: |-
+                              ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                              The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                              ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                            pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                            type: string
+                          group:
+                            description: Group is the Kubernetes group of the resource.
+                            type: string
+                          kind:
+                            description: Kind is the Kubernetes kind of the resource.
+                            type: string
+                          name:
+                            description: Name is the Kubernetes name of the resource.
+                            type: string
+                        type: object
+                    type: object
+                type: object
+              natRuleCollections:
+                items:
+                  description: |-
+                    Storage version of v1api20240301.AzureFirewallNatRuleCollection
+                    NAT rule collection resource.
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    action:
+                      description: |-
+                        Storage version of v1api20240301.AzureFirewallNatRCAction
+                        AzureFirewall NAT Rule Collection Action.
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                            resources, allowing for full fidelity round trip conversions
+                          type: object
+                        type:
+                          type: string
+                      type: object
+                    name:
+                      type: string
+                    priority:
+                      type: integer
+                    rules:
+                      items:
+                        description: |-
+                          Storage version of v1api20240301.AzureFirewallNatRule
+                          Properties of a NAT rule.
+                        properties:
+                          $propertyBag:
+                            additionalProperties:
+                              type: string
+                            description: |-
+                              PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                              resources, allowing for full fidelity round trip conversions
+                            type: object
+                          description:
+                            type: string
+                          destinationAddresses:
+                            items:
+                              type: string
+                            type: array
+                          destinationPorts:
+                            items:
+                              type: string
+                            type: array
+                          name:
+                            type: string
+                          protocols:
+                            items:
+                              type: string
+                            type: array
+                          sourceAddresses:
+                            items:
+                              type: string
+                            type: array
+                          sourceIpGroups:
+                            items:
+                              type: string
+                            type: array
+                          translatedAddress:
+                            type: string
+                          translatedFqdn:
+                            type: string
+                          translatedPort:
+                            type: string
+                        type: object
+                      type: array
+                  type: object
+                type: array
+              networkRuleCollections:
+                items:
+                  description: |-
+                    Storage version of v1api20240301.AzureFirewallNetworkRuleCollection
+                    Network rule collection resource.
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    action:
+                      description: |-
+                        Storage version of v1api20240301.AzureFirewallRCAction
+                        Properties of the AzureFirewallRCAction.
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                            resources, allowing for full fidelity round trip conversions
+                          type: object
+                        type:
+                          type: string
+                      type: object
+                    name:
+                      type: string
+                    priority:
+                      type: integer
+                    rules:
+                      items:
+                        description: |-
+                          Storage version of v1api20240301.AzureFirewallNetworkRule
+                          Properties of the network rule.
+                        properties:
+                          $propertyBag:
+                            additionalProperties:
+                              type: string
+                            description: |-
+                              PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                              resources, allowing for full fidelity round trip conversions
+                            type: object
+                          description:
+                            type: string
+                          destinationAddresses:
+                            items:
+                              type: string
+                            type: array
+                          destinationFqdns:
+                            items:
+                              type: string
+                            type: array
+                          destinationIpGroups:
+                            items:
+                              type: string
+                            type: array
+                          destinationPorts:
+                            items:
+                              type: string
+                            type: array
+                          name:
+                            type: string
+                          protocols:
+                            items:
+                              type: string
+                            type: array
+                          sourceAddresses:
+                            items:
+                              type: string
+                            type: array
+                          sourceIpGroups:
+                            items:
+                              type: string
+                            type: array
+                        type: object
+                      type: array
+                  type: object
+                type: array
+              operatorSpec:
+                description: |-
+                  Storage version of v1api20240301.AzureFirewallOperatorSpec
+                  Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  configMapExpressions:
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                  secretExpressions:
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                type: object
+              originalVersion:
+                type: string
+              owner:
+                description: |-
+                  Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+                  controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+                  reference to a resources.azure.com/ResourceGroup resource
+                properties:
+                  armId:
+                    pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                    type: string
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                type: object
+              sku:
+                description: |-
+                  Storage version of v1api20240301.AzureFirewallSku
+                  SKU of an Azure Firewall.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  name:
+                    type: string
+                  tier:
+                    type: string
+                type: object
+              tags:
+                additionalProperties:
+                  type: string
+                type: object
+              threatIntelMode:
+                type: string
+              virtualHub:
+                description: |-
+                  Storage version of v1api20240301.SubResource
+                  Reference to another subresource.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  reference:
+                    description: 'Reference: Resource ID.'
+                    properties:
+                      armId:
+                        description: |-
+                          ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                          The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                          ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                        pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                        type: string
+                      group:
+                        description: Group is the Kubernetes group of the resource.
+                        type: string
+                      kind:
+                        description: Kind is the Kubernetes kind of the resource.
+                        type: string
+                      name:
+                        description: Name is the Kubernetes name of the resource.
+                        type: string
+                    type: object
+                type: object
+              zones:
+                items:
+                  type: string
+                type: array
+            required:
+            - owner
+            type: object
+          status:
+            description: |-
+              Storage version of v1api20240301.AzureFirewall_STATUS
+              Azure Firewall resource.
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: |-
+                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                  resources, allowing for full fidelity round trip conversions
+                type: object
+              additionalProperties:
+                additionalProperties:
+                  type: string
+                type: object
+              applicationRuleCollections:
+                items:
+                  description: |-
+                    Storage version of v1api20240301.AzureFirewallApplicationRuleCollection_STATUS
+                    Application rule collection resource.
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    id:
+                      type: string
+                  type: object
+                type: array
+              autoscaleConfiguration:
+                description: |-
+                  Storage version of v1api20240301.AzureFirewallAutoscaleConfiguration_STATUS
+                  Azure Firewall Autoscale Configuration parameters.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  maxCapacity:
+                    type: integer
+                  minCapacity:
+                    type: integer
+                type: object
+              conditions:
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration is the .metadata.generation that the condition was set based upon. For instance, if
+                        .metadata.generation is currently 12, but the .status.condition[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: |-
+                        Reason for the condition's last transition.
+                        Reasons are upper CamelCase (PascalCase) with no spaces. A reason is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: |-
+                        Severity with which to treat failures of this type of condition.
+                        For conditions which have positive polarity (Status == True is their normal/healthy state), this will be omitted when Status == True
+                        For conditions which have negative polarity (Status == False is their normal/healthy state), this will be omitted when Status == False.
+                        This is omitted in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              etag:
+                type: string
+              firewallPolicy:
+                description: |-
+                  Storage version of v1api20240301.SubResource_STATUS
+                  Reference to another subresource.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  id:
+                    type: string
+                type: object
+              hubIPAddresses:
+                description: |-
+                  Storage version of v1api20240301.HubIPAddresses_STATUS
+                  IP addresses associated with azure firewall.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  privateIPAddress:
+                    type: string
+                  publicIPs:
+                    description: |-
+                      Storage version of v1api20240301.HubPublicIPAddresses_STATUS
+                      Public IP addresses associated with azure firewall.
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      addresses:
+                        items:
+                          description: |-
+                            Storage version of v1api20240301.AzureFirewallPublicIPAddress_STATUS
+                            Public IP Address associated with azure firewall.
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                resources, allowing for full fidelity round trip conversions
+                              type: object
+                            address:
+                              type: string
+                          type: object
+                        type: array
+                      count:
+                        type: integer
+                    type: object
+                type: object
+              id:
+                type: string
+              ipConfigurations:
+                items:
+                  description: |-
+                    Storage version of v1api20240301.AzureFirewallIPConfiguration_STATUS
+                    IP configuration of an Azure Firewall.
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    id:
+                      type: string
+                  type: object
+                type: array
+              ipGroups:
+                items:
+                  description: |-
+                    Storage version of v1api20240301.AzureFirewallIpGroups_STATUS
+                    IpGroups associated with azure firewall.
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    changeNumber:
+                      type: string
+                    id:
+                      type: string
+                  type: object
+                type: array
+              location:
+                type: string
+              managementIpConfiguration:
+                description: |-
+                  Storage version of v1api20240301.AzureFirewallIPConfiguration_STATUS
+                  IP configuration of an Azure Firewall.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  id:
+                    type: string
+                type: object
+              name:
+                type: string
+              natRuleCollections:
+                items:
+                  description: |-
+                    Storage version of v1api20240301.AzureFirewallNatRuleCollection_STATUS
+                    NAT rule collection resource.
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    id:
+                      type: string
+                  type: object
+                type: array
+              networkRuleCollections:
+                items:
+                  description: |-
+                    Storage version of v1api20240301.AzureFirewallNetworkRuleCollection_STATUS
+                    Network rule collection resource.
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    id:
+                      type: string
+                  type: object
+                type: array
+              provisioningState:
+                type: string
+              sku:
+                description: |-
+                  Storage version of v1api20240301.AzureFirewallSku_STATUS
+                  SKU of an Azure Firewall.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  name:
+                    type: string
+                  tier:
+                    type: string
+                type: object
+              tags:
+                additionalProperties:
+                  type: string
+                type: object
+              threatIntelMode:
+                type: string
+              type:
+                type: string
+              virtualHub:
+                description: |-
+                  Storage version of v1api20240301.SubResource_STATUS
+                  Reference to another subresource.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  id:
+                    type: string
+                type: object
+              zones:
+                items:
+                  type: string
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

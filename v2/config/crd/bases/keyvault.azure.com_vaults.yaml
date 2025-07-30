@@ -1,0 +1,3099 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.17.3
+  name: vaults.keyvault.azure.com
+spec:
+  group: keyvault.azure.com
+  names:
+    kind: Vault
+    listKind: VaultList
+    plural: vaults
+    singular: vault
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1api20210401preview
+    schema:
+      openAPIV3Schema:
+        description: |-
+          Generator information:
+          - Generated from: /keyvault/resource-manager/Microsoft.KeyVault/preview/2021-04-01-preview/keyvault.json
+          - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              azureName:
+                description: |-
+                  AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+                  doesn't have to be.
+                pattern: ^[a-zA-Z0-9-]{3,24}$
+                type: string
+              location:
+                description: 'Location: The supported Azure location where the key
+                  vault should be created.'
+                type: string
+              operatorSpec:
+                description: |-
+                  OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+                  passed directly to Azure
+                properties:
+                  configMapExpressions:
+                    description: 'ConfigMapExpressions: configures where to place
+                      operator written dynamic ConfigMaps (created with CEL expressions).'
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                  secretExpressions:
+                    description: 'SecretExpressions: configures where to place operator
+                      written dynamic secrets (created with CEL expressions).'
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                type: object
+              owner:
+                description: |-
+                  Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+                  controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+                  reference to a resources.azure.com/ResourceGroup resource
+                properties:
+                  armId:
+                    pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                    type: string
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                type: object
+              properties:
+                description: 'Properties: Properties of the vault'
+                properties:
+                  accessPolicies:
+                    description: |-
+                      AccessPolicies: An array of 0 to 1024 identities that have access to the key vault. All identities in the array must use
+                      the same tenant ID as the key vault's tenant ID. When `createMode` is set to `recover`, access policies are not
+                      required. Otherwise, access policies are required.
+                    items:
+                      description: |-
+                        An identity that have access to the key vault. All identities in the array must use the same tenant ID as the key
+                        vault's tenant ID.
+                      properties:
+                        applicationId:
+                          description: 'ApplicationId:  Application ID of the client
+                            making request on behalf of a principal'
+                          pattern: ^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$
+                          type: string
+                        applicationIdFromConfig:
+                          description: 'ApplicationIdFromConfig:  Application ID of
+                            the client making request on behalf of a principal'
+                          properties:
+                            key:
+                              description: Key is the key in the Kubernetes configmap
+                                being referenced
+                              type: string
+                            name:
+                              description: |-
+                                Name is the name of the Kubernetes configmap being referenced.
+                                The configmap must be in the same namespace as the resource
+                              type: string
+                          required:
+                          - key
+                          - name
+                          type: object
+                        objectId:
+                          description: |-
+                            ObjectId: The object ID of a user, service principal or security group in the Azure Active Directory tenant for the
+                            vault. The object ID must be unique for the list of access policies.
+                          type: string
+                        objectIdFromConfig:
+                          description: |-
+                            ObjectIdFromConfig: The object ID of a user, service principal or security group in the Azure Active Directory tenant
+                            for the vault. The object ID must be unique for the list of access policies.
+                          properties:
+                            key:
+                              description: Key is the key in the Kubernetes configmap
+                                being referenced
+                              type: string
+                            name:
+                              description: |-
+                                Name is the name of the Kubernetes configmap being referenced.
+                                The configmap must be in the same namespace as the resource
+                              type: string
+                          required:
+                          - key
+                          - name
+                          type: object
+                        permissions:
+                          description: 'Permissions: Permissions the identity has
+                            for keys, secrets and certificates.'
+                          properties:
+                            certificates:
+                              description: 'Certificates: Permissions to certificates'
+                              items:
+                                enum:
+                                - backup
+                                - create
+                                - delete
+                                - deleteissuers
+                                - get
+                                - getissuers
+                                - import
+                                - list
+                                - listissuers
+                                - managecontacts
+                                - manageissuers
+                                - purge
+                                - recover
+                                - restore
+                                - setissuers
+                                - update
+                                type: string
+                              type: array
+                            keys:
+                              description: 'Keys: Permissions to keys'
+                              items:
+                                enum:
+                                - backup
+                                - create
+                                - decrypt
+                                - delete
+                                - encrypt
+                                - get
+                                - import
+                                - list
+                                - purge
+                                - recover
+                                - release
+                                - restore
+                                - sign
+                                - unwrapKey
+                                - update
+                                - verify
+                                - wrapKey
+                                type: string
+                              type: array
+                            secrets:
+                              description: 'Secrets: Permissions to secrets'
+                              items:
+                                enum:
+                                - backup
+                                - delete
+                                - get
+                                - list
+                                - purge
+                                - recover
+                                - restore
+                                - set
+                                type: string
+                              type: array
+                            storage:
+                              description: 'Storage: Permissions to storage accounts'
+                              items:
+                                enum:
+                                - backup
+                                - delete
+                                - deletesas
+                                - get
+                                - getsas
+                                - list
+                                - listsas
+                                - purge
+                                - recover
+                                - regeneratekey
+                                - restore
+                                - set
+                                - setsas
+                                - update
+                                type: string
+                              type: array
+                          type: object
+                        tenantId:
+                          description: 'TenantId: The Azure Active Directory tenant
+                            ID that should be used for authenticating requests to
+                            the key vault.'
+                          pattern: ^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$
+                          type: string
+                        tenantIdFromConfig:
+                          description: |-
+                            TenantIdFromConfig: The Azure Active Directory tenant ID that should be used for authenticating requests to the key
+                            vault.
+                          properties:
+                            key:
+                              description: Key is the key in the Kubernetes configmap
+                                being referenced
+                              type: string
+                            name:
+                              description: |-
+                                Name is the name of the Kubernetes configmap being referenced.
+                                The configmap must be in the same namespace as the resource
+                              type: string
+                          required:
+                          - key
+                          - name
+                          type: object
+                      required:
+                      - permissions
+                      type: object
+                    type: array
+                  createMode:
+                    description: 'CreateMode: The vault''s create mode to indicate
+                      whether the vault need to be recovered or not.'
+                    enum:
+                    - createOrRecover
+                    - default
+                    - purgeThenCreate
+                    - recover
+                    type: string
+                  enablePurgeProtection:
+                    description: |-
+                      EnablePurgeProtection: Property specifying whether protection against purge is enabled for this vault. Setting this
+                      property to true activates protection against purge for this vault and its content - only the Key Vault service may
+                      initiate a hard, irrecoverable deletion. The setting is effective only if soft delete is also enabled. Enabling this
+                      functionality is irreversible - that is, the property does not accept false as its value.
+                    type: boolean
+                  enableRbacAuthorization:
+                    description: |-
+                      EnableRbacAuthorization: Property that controls how data actions are authorized. When true, the key vault will use Role
+                      Based Access Control (RBAC) for authorization of data actions, and the access policies specified in vault properties
+                      will be  ignored. When false, the key vault will use the access policies specified in vault properties, and any policy
+                      stored on Azure Resource Manager will be ignored. If null or not specified, the vault is created with the default value
+                      of false. Note that management actions are always authorized with RBAC.
+                    type: boolean
+                  enableSoftDelete:
+                    description: |-
+                      EnableSoftDelete: Property to specify whether the 'soft delete' functionality is enabled for this key vault. If it's not
+                      set to any value(true or false) when creating new key vault, it will be set to true by default. Once set to true, it
+                      cannot be reverted to false.
+                    type: boolean
+                  enabledForDeployment:
+                    description: |-
+                      EnabledForDeployment: Property to specify whether Azure Virtual Machines are permitted to retrieve certificates stored
+                      as secrets from the key vault.
+                    type: boolean
+                  enabledForDiskEncryption:
+                    description: |-
+                      EnabledForDiskEncryption: Property to specify whether Azure Disk Encryption is permitted to retrieve secrets from the
+                      vault and unwrap keys.
+                    type: boolean
+                  enabledForTemplateDeployment:
+                    description: |-
+                      EnabledForTemplateDeployment: Property to specify whether Azure Resource Manager is permitted to retrieve secrets from
+                      the key vault.
+                    type: boolean
+                  networkAcls:
+                    description: 'NetworkAcls: Rules governing the accessibility of
+                      the key vault from specific network locations.'
+                    properties:
+                      bypass:
+                        description: |-
+                          Bypass: Tells what traffic can bypass network rules. This can be 'AzureServices' or 'None'.  If not specified the
+                          default is 'AzureServices'.
+                        enum:
+                        - AzureServices
+                        - None
+                        type: string
+                      defaultAction:
+                        description: |-
+                          DefaultAction: The default action when no rule from ipRules and from virtualNetworkRules match. This is only used after
+                          the bypass property has been evaluated.
+                        enum:
+                        - Allow
+                        - Deny
+                        type: string
+                      ipRules:
+                        description: 'IpRules: The list of IP address rules.'
+                        items:
+                          description: A rule governing the accessibility of a vault
+                            from a specific ip address or ip range.
+                          properties:
+                            value:
+                              description: |-
+                                Value: An IPv4 address range in CIDR notation, such as '124.56.78.91' (simple IP address) or '124.56.78.0/24' (all
+                                addresses that start with 124.56.78).
+                              type: string
+                          required:
+                          - value
+                          type: object
+                        type: array
+                      virtualNetworkRules:
+                        description: 'VirtualNetworkRules: The list of virtual network
+                          rules.'
+                        items:
+                          description: A rule governing the accessibility of a vault
+                            from a specific virtual network.
+                          properties:
+                            ignoreMissingVnetServiceEndpoint:
+                              description: |-
+                                IgnoreMissingVnetServiceEndpoint: Property to specify whether NRP will ignore the check if parent subnet has
+                                serviceEndpoints configured.
+                              type: boolean
+                            reference:
+                              description: |-
+                                Reference: Full resource id of a vnet subnet, such as
+                                '/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1'.
+                              properties:
+                                armId:
+                                  description: |-
+                                    ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                                    The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                                    ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                                  pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                                  type: string
+                                group:
+                                  description: Group is the Kubernetes group of the
+                                    resource.
+                                  type: string
+                                kind:
+                                  description: Kind is the Kubernetes kind of the
+                                    resource.
+                                  type: string
+                                name:
+                                  description: Name is the Kubernetes name of the
+                                    resource.
+                                  type: string
+                              type: object
+                          required:
+                          - reference
+                          type: object
+                        type: array
+                    type: object
+                  provisioningState:
+                    description: 'ProvisioningState: Provisioning state of the vault.'
+                    enum:
+                    - RegisteringDns
+                    - Succeeded
+                    type: string
+                  sku:
+                    description: 'Sku: SKU details'
+                    properties:
+                      family:
+                        description: 'Family: SKU family name'
+                        enum:
+                        - A
+                        type: string
+                      name:
+                        description: 'Name: SKU name to specify whether the key vault
+                          is a standard vault or a premium vault.'
+                        enum:
+                        - premium
+                        - standard
+                        type: string
+                    required:
+                    - family
+                    - name
+                    type: object
+                  softDeleteRetentionInDays:
+                    description: 'SoftDeleteRetentionInDays: softDelete data retention
+                      days. It accepts >=7 and <=90.'
+                    type: integer
+                  tenantId:
+                    description: 'TenantId: The Azure Active Directory tenant ID that
+                      should be used for authenticating requests to the key vault.'
+                    pattern: ^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$
+                    type: string
+                  tenantIdFromConfig:
+                    description: |-
+                      TenantIdFromConfig: The Azure Active Directory tenant ID that should be used for authenticating requests to the key
+                      vault.
+                    properties:
+                      key:
+                        description: Key is the key in the Kubernetes configmap being
+                          referenced
+                        type: string
+                      name:
+                        description: |-
+                          Name is the name of the Kubernetes configmap being referenced.
+                          The configmap must be in the same namespace as the resource
+                        type: string
+                    required:
+                    - key
+                    - name
+                    type: object
+                  vaultUri:
+                    description: 'VaultUri: The URI of the vault for performing operations
+                      on keys and secrets.'
+                    type: string
+                required:
+                - sku
+                type: object
+              tags:
+                additionalProperties:
+                  type: string
+                description: 'Tags: The tags that will be assigned to the key vault.'
+                type: object
+            required:
+            - location
+            - owner
+            - properties
+            type: object
+          status:
+            description: Resource information with extended details.
+            properties:
+              conditions:
+                description: 'Conditions: The observed state of the resource'
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration is the .metadata.generation that the condition was set based upon. For instance, if
+                        .metadata.generation is currently 12, but the .status.condition[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: |-
+                        Reason for the condition's last transition.
+                        Reasons are upper CamelCase (PascalCase) with no spaces. A reason is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: |-
+                        Severity with which to treat failures of this type of condition.
+                        For conditions which have positive polarity (Status == True is their normal/healthy state), this will be omitted when Status == True
+                        For conditions which have negative polarity (Status == False is their normal/healthy state), this will be omitted when Status == False.
+                        This is omitted in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              id:
+                description: 'Id: Fully qualified identifier of the key vault resource.'
+                type: string
+              location:
+                description: 'Location: Azure location of the key vault resource.'
+                type: string
+              name:
+                description: 'Name: Name of the key vault resource.'
+                type: string
+              properties:
+                description: 'Properties: Properties of the vault'
+                properties:
+                  accessPolicies:
+                    description: |-
+                      AccessPolicies: An array of 0 to 1024 identities that have access to the key vault. All identities in the array must use
+                      the same tenant ID as the key vault's tenant ID. When `createMode` is set to `recover`, access policies are not
+                      required. Otherwise, access policies are required.
+                    items:
+                      description: |-
+                        An identity that have access to the key vault. All identities in the array must use the same tenant ID as the key
+                        vault's tenant ID.
+                      properties:
+                        applicationId:
+                          description: 'ApplicationId:  Application ID of the client
+                            making request on behalf of a principal'
+                          type: string
+                        objectId:
+                          description: |-
+                            ObjectId: The object ID of a user, service principal or security group in the Azure Active Directory tenant for the
+                            vault. The object ID must be unique for the list of access policies.
+                          type: string
+                        permissions:
+                          description: 'Permissions: Permissions the identity has
+                            for keys, secrets and certificates.'
+                          properties:
+                            certificates:
+                              description: 'Certificates: Permissions to certificates'
+                              items:
+                                type: string
+                              type: array
+                            keys:
+                              description: 'Keys: Permissions to keys'
+                              items:
+                                type: string
+                              type: array
+                            secrets:
+                              description: 'Secrets: Permissions to secrets'
+                              items:
+                                type: string
+                              type: array
+                            storage:
+                              description: 'Storage: Permissions to storage accounts'
+                              items:
+                                type: string
+                              type: array
+                          type: object
+                        tenantId:
+                          description: 'TenantId: The Azure Active Directory tenant
+                            ID that should be used for authenticating requests to
+                            the key vault.'
+                          type: string
+                      type: object
+                    type: array
+                  createMode:
+                    description: 'CreateMode: The vault''s create mode to indicate
+                      whether the vault need to be recovered or not.'
+                    type: string
+                  enablePurgeProtection:
+                    description: |-
+                      EnablePurgeProtection: Property specifying whether protection against purge is enabled for this vault. Setting this
+                      property to true activates protection against purge for this vault and its content - only the Key Vault service may
+                      initiate a hard, irrecoverable deletion. The setting is effective only if soft delete is also enabled. Enabling this
+                      functionality is irreversible - that is, the property does not accept false as its value.
+                    type: boolean
+                  enableRbacAuthorization:
+                    description: |-
+                      EnableRbacAuthorization: Property that controls how data actions are authorized. When true, the key vault will use Role
+                      Based Access Control (RBAC) for authorization of data actions, and the access policies specified in vault properties
+                      will be  ignored. When false, the key vault will use the access policies specified in vault properties, and any policy
+                      stored on Azure Resource Manager will be ignored. If null or not specified, the vault is created with the default value
+                      of false. Note that management actions are always authorized with RBAC.
+                    type: boolean
+                  enableSoftDelete:
+                    description: |-
+                      EnableSoftDelete: Property to specify whether the 'soft delete' functionality is enabled for this key vault. If it's not
+                      set to any value(true or false) when creating new key vault, it will be set to true by default. Once set to true, it
+                      cannot be reverted to false.
+                    type: boolean
+                  enabledForDeployment:
+                    description: |-
+                      EnabledForDeployment: Property to specify whether Azure Virtual Machines are permitted to retrieve certificates stored
+                      as secrets from the key vault.
+                    type: boolean
+                  enabledForDiskEncryption:
+                    description: |-
+                      EnabledForDiskEncryption: Property to specify whether Azure Disk Encryption is permitted to retrieve secrets from the
+                      vault and unwrap keys.
+                    type: boolean
+                  enabledForTemplateDeployment:
+                    description: |-
+                      EnabledForTemplateDeployment: Property to specify whether Azure Resource Manager is permitted to retrieve secrets from
+                      the key vault.
+                    type: boolean
+                  hsmPoolResourceId:
+                    description: 'HsmPoolResourceId: The resource id of HSM Pool.'
+                    type: string
+                  networkAcls:
+                    description: 'NetworkAcls: Rules governing the accessibility of
+                      the key vault from specific network locations.'
+                    properties:
+                      bypass:
+                        description: |-
+                          Bypass: Tells what traffic can bypass network rules. This can be 'AzureServices' or 'None'.  If not specified the
+                          default is 'AzureServices'.
+                        type: string
+                      defaultAction:
+                        description: |-
+                          DefaultAction: The default action when no rule from ipRules and from virtualNetworkRules match. This is only used after
+                          the bypass property has been evaluated.
+                        type: string
+                      ipRules:
+                        description: 'IpRules: The list of IP address rules.'
+                        items:
+                          description: A rule governing the accessibility of a vault
+                            from a specific ip address or ip range.
+                          properties:
+                            value:
+                              description: |-
+                                Value: An IPv4 address range in CIDR notation, such as '124.56.78.91' (simple IP address) or '124.56.78.0/24' (all
+                                addresses that start with 124.56.78).
+                              type: string
+                          type: object
+                        type: array
+                      virtualNetworkRules:
+                        description: 'VirtualNetworkRules: The list of virtual network
+                          rules.'
+                        items:
+                          description: A rule governing the accessibility of a vault
+                            from a specific virtual network.
+                          properties:
+                            id:
+                              description: |-
+                                Id: Full resource id of a vnet subnet, such as
+                                '/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1'.
+                              type: string
+                            ignoreMissingVnetServiceEndpoint:
+                              description: |-
+                                IgnoreMissingVnetServiceEndpoint: Property to specify whether NRP will ignore the check if parent subnet has
+                                serviceEndpoints configured.
+                              type: boolean
+                          type: object
+                        type: array
+                    type: object
+                  privateEndpointConnections:
+                    description: 'PrivateEndpointConnections: List of private endpoint
+                      connections associated with the key vault.'
+                    items:
+                      description: Private endpoint connection item.
+                      properties:
+                        etag:
+                          description: 'Etag: Modified whenever there is a change
+                            in the state of private endpoint connection.'
+                          type: string
+                        id:
+                          description: 'Id: Id of private endpoint connection.'
+                          type: string
+                        privateEndpoint:
+                          description: 'PrivateEndpoint: Properties of the private
+                            endpoint object.'
+                          properties:
+                            id:
+                              description: 'Id: Full identifier of the private endpoint
+                                resource.'
+                              type: string
+                          type: object
+                        privateLinkServiceConnectionState:
+                          description: 'PrivateLinkServiceConnectionState: Approval
+                            state of the private link connection.'
+                          properties:
+                            actionsRequired:
+                              description: 'ActionsRequired: A message indicating
+                                if changes on the service provider require any updates
+                                on the consumer.'
+                              type: string
+                            description:
+                              description: 'Description: The reason for approval or
+                                rejection.'
+                              type: string
+                            status:
+                              description: 'Status: Indicates whether the connection
+                                has been approved, rejected or removed by the key
+                                vault owner.'
+                              type: string
+                          type: object
+                        provisioningState:
+                          description: 'ProvisioningState: Provisioning state of the
+                            private endpoint connection.'
+                          type: string
+                      type: object
+                    type: array
+                  provisioningState:
+                    description: 'ProvisioningState: Provisioning state of the vault.'
+                    type: string
+                  sku:
+                    description: 'Sku: SKU details'
+                    properties:
+                      family:
+                        description: 'Family: SKU family name'
+                        type: string
+                      name:
+                        description: 'Name: SKU name to specify whether the key vault
+                          is a standard vault or a premium vault.'
+                        type: string
+                    type: object
+                  softDeleteRetentionInDays:
+                    description: 'SoftDeleteRetentionInDays: softDelete data retention
+                      days. It accepts >=7 and <=90.'
+                    type: integer
+                  tenantId:
+                    description: 'TenantId: The Azure Active Directory tenant ID that
+                      should be used for authenticating requests to the key vault.'
+                    type: string
+                  vaultUri:
+                    description: 'VaultUri: The URI of the vault for performing operations
+                      on keys and secrets.'
+                    type: string
+                type: object
+              systemData:
+                description: 'SystemData: System metadata for the key vault.'
+                properties:
+                  createdAt:
+                    description: 'CreatedAt: The timestamp of the key vault resource
+                      creation (UTC).'
+                    type: string
+                  createdBy:
+                    description: 'CreatedBy: The identity that created the key vault
+                      resource.'
+                    type: string
+                  createdByType:
+                    description: 'CreatedByType: The type of identity that created
+                      the key vault resource.'
+                    type: string
+                  lastModifiedAt:
+                    description: 'LastModifiedAt: The timestamp of the key vault resource
+                      last modification (UTC).'
+                    type: string
+                  lastModifiedBy:
+                    description: 'LastModifiedBy: The identity that last modified
+                      the key vault resource.'
+                    type: string
+                  lastModifiedByType:
+                    description: 'LastModifiedByType: The type of identity that last
+                      modified the key vault resource.'
+                    type: string
+                type: object
+              tags:
+                additionalProperties:
+                  type: string
+                description: 'Tags: Tags assigned to the key vault resource.'
+                type: object
+              type:
+                description: 'Type: Resource type of the key vault resource.'
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: false
+    subresources:
+      status: {}
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1api20210401previewstorage
+    schema:
+      openAPIV3Schema:
+        description: |-
+          Storage version of v1api20210401preview.Vault
+          Generator information:
+          - Generated from: /keyvault/resource-manager/Microsoft.KeyVault/preview/2021-04-01-preview/keyvault.json
+          - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Storage version of v1api20210401preview.Vault_Spec
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: |-
+                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                  resources, allowing for full fidelity round trip conversions
+                type: object
+              azureName:
+                description: |-
+                  AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+                  doesn't have to be.
+                type: string
+              location:
+                type: string
+              operatorSpec:
+                description: |-
+                  Storage version of v1api20210401preview.VaultOperatorSpec
+                  Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  configMapExpressions:
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                  secretExpressions:
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                type: object
+              originalVersion:
+                type: string
+              owner:
+                description: |-
+                  Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+                  controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+                  reference to a resources.azure.com/ResourceGroup resource
+                properties:
+                  armId:
+                    pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                    type: string
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                type: object
+              properties:
+                description: |-
+                  Storage version of v1api20210401preview.VaultProperties
+                  Properties of the vault
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  accessPolicies:
+                    items:
+                      description: |-
+                        Storage version of v1api20210401preview.AccessPolicyEntry
+                        An identity that have access to the key vault. All identities in the array must use the same tenant ID as the key
+                        vault's tenant ID.
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                            resources, allowing for full fidelity round trip conversions
+                          type: object
+                        applicationId:
+                          type: string
+                        applicationIdFromConfig:
+                          description: |-
+                            ConfigMapReference is a reference to a Kubernetes configmap and key in the same namespace as
+                            the resource it is on.
+                          properties:
+                            key:
+                              description: Key is the key in the Kubernetes configmap
+                                being referenced
+                              type: string
+                            name:
+                              description: |-
+                                Name is the name of the Kubernetes configmap being referenced.
+                                The configmap must be in the same namespace as the resource
+                              type: string
+                          required:
+                          - key
+                          - name
+                          type: object
+                        objectId:
+                          type: string
+                        objectIdFromConfig:
+                          description: |-
+                            ConfigMapReference is a reference to a Kubernetes configmap and key in the same namespace as
+                            the resource it is on.
+                          properties:
+                            key:
+                              description: Key is the key in the Kubernetes configmap
+                                being referenced
+                              type: string
+                            name:
+                              description: |-
+                                Name is the name of the Kubernetes configmap being referenced.
+                                The configmap must be in the same namespace as the resource
+                              type: string
+                          required:
+                          - key
+                          - name
+                          type: object
+                        permissions:
+                          description: |-
+                            Storage version of v1api20210401preview.Permissions
+                            Permissions the identity has for keys, secrets, certificates and storage.
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                resources, allowing for full fidelity round trip conversions
+                              type: object
+                            certificates:
+                              items:
+                                type: string
+                              type: array
+                            keys:
+                              items:
+                                type: string
+                              type: array
+                            secrets:
+                              items:
+                                type: string
+                              type: array
+                            storage:
+                              items:
+                                type: string
+                              type: array
+                          type: object
+                        tenantId:
+                          type: string
+                        tenantIdFromConfig:
+                          description: |-
+                            ConfigMapReference is a reference to a Kubernetes configmap and key in the same namespace as
+                            the resource it is on.
+                          properties:
+                            key:
+                              description: Key is the key in the Kubernetes configmap
+                                being referenced
+                              type: string
+                            name:
+                              description: |-
+                                Name is the name of the Kubernetes configmap being referenced.
+                                The configmap must be in the same namespace as the resource
+                              type: string
+                          required:
+                          - key
+                          - name
+                          type: object
+                      type: object
+                    type: array
+                  createMode:
+                    type: string
+                  enablePurgeProtection:
+                    type: boolean
+                  enableRbacAuthorization:
+                    type: boolean
+                  enableSoftDelete:
+                    type: boolean
+                  enabledForDeployment:
+                    type: boolean
+                  enabledForDiskEncryption:
+                    type: boolean
+                  enabledForTemplateDeployment:
+                    type: boolean
+                  networkAcls:
+                    description: |-
+                      Storage version of v1api20210401preview.NetworkRuleSet
+                      A set of rules governing the network accessibility of a vault.
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      bypass:
+                        type: string
+                      defaultAction:
+                        type: string
+                      ipRules:
+                        items:
+                          description: |-
+                            Storage version of v1api20210401preview.IPRule
+                            A rule governing the accessibility of a vault from a specific ip address or ip range.
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                resources, allowing for full fidelity round trip conversions
+                              type: object
+                            value:
+                              type: string
+                          type: object
+                        type: array
+                      virtualNetworkRules:
+                        items:
+                          description: |-
+                            Storage version of v1api20210401preview.VirtualNetworkRule
+                            A rule governing the accessibility of a vault from a specific virtual network.
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                resources, allowing for full fidelity round trip conversions
+                              type: object
+                            ignoreMissingVnetServiceEndpoint:
+                              type: boolean
+                            reference:
+                              description: |-
+                                Reference: Full resource id of a vnet subnet, such as
+                                '/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1'.
+                              properties:
+                                armId:
+                                  description: |-
+                                    ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                                    The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                                    ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                                  pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                                  type: string
+                                group:
+                                  description: Group is the Kubernetes group of the
+                                    resource.
+                                  type: string
+                                kind:
+                                  description: Kind is the Kubernetes kind of the
+                                    resource.
+                                  type: string
+                                name:
+                                  description: Name is the Kubernetes name of the
+                                    resource.
+                                  type: string
+                              type: object
+                          required:
+                          - reference
+                          type: object
+                        type: array
+                    type: object
+                  provisioningState:
+                    type: string
+                  sku:
+                    description: |-
+                      Storage version of v1api20210401preview.Sku
+                      SKU details
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      family:
+                        type: string
+                      name:
+                        type: string
+                    type: object
+                  softDeleteRetentionInDays:
+                    type: integer
+                  tenantId:
+                    type: string
+                  tenantIdFromConfig:
+                    description: |-
+                      ConfigMapReference is a reference to a Kubernetes configmap and key in the same namespace as
+                      the resource it is on.
+                    properties:
+                      key:
+                        description: Key is the key in the Kubernetes configmap being
+                          referenced
+                        type: string
+                      name:
+                        description: |-
+                          Name is the name of the Kubernetes configmap being referenced.
+                          The configmap must be in the same namespace as the resource
+                        type: string
+                    required:
+                    - key
+                    - name
+                    type: object
+                  vaultUri:
+                    type: string
+                type: object
+              tags:
+                additionalProperties:
+                  type: string
+                type: object
+            required:
+            - owner
+            type: object
+          status:
+            description: |-
+              Storage version of v1api20210401preview.Vault_STATUS
+              Resource information with extended details.
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: |-
+                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                  resources, allowing for full fidelity round trip conversions
+                type: object
+              conditions:
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration is the .metadata.generation that the condition was set based upon. For instance, if
+                        .metadata.generation is currently 12, but the .status.condition[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: |-
+                        Reason for the condition's last transition.
+                        Reasons are upper CamelCase (PascalCase) with no spaces. A reason is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: |-
+                        Severity with which to treat failures of this type of condition.
+                        For conditions which have positive polarity (Status == True is their normal/healthy state), this will be omitted when Status == True
+                        For conditions which have negative polarity (Status == False is their normal/healthy state), this will be omitted when Status == False.
+                        This is omitted in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              id:
+                type: string
+              location:
+                type: string
+              name:
+                type: string
+              properties:
+                description: |-
+                  Storage version of v1api20210401preview.VaultProperties_STATUS
+                  Properties of the vault
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  accessPolicies:
+                    items:
+                      description: |-
+                        Storage version of v1api20210401preview.AccessPolicyEntry_STATUS
+                        An identity that have access to the key vault. All identities in the array must use the same tenant ID as the key
+                        vault's tenant ID.
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                            resources, allowing for full fidelity round trip conversions
+                          type: object
+                        applicationId:
+                          type: string
+                        objectId:
+                          type: string
+                        permissions:
+                          description: |-
+                            Storage version of v1api20210401preview.Permissions_STATUS
+                            Permissions the identity has for keys, secrets, certificates and storage.
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                resources, allowing for full fidelity round trip conversions
+                              type: object
+                            certificates:
+                              items:
+                                type: string
+                              type: array
+                            keys:
+                              items:
+                                type: string
+                              type: array
+                            secrets:
+                              items:
+                                type: string
+                              type: array
+                            storage:
+                              items:
+                                type: string
+                              type: array
+                          type: object
+                        tenantId:
+                          type: string
+                      type: object
+                    type: array
+                  createMode:
+                    type: string
+                  enablePurgeProtection:
+                    type: boolean
+                  enableRbacAuthorization:
+                    type: boolean
+                  enableSoftDelete:
+                    type: boolean
+                  enabledForDeployment:
+                    type: boolean
+                  enabledForDiskEncryption:
+                    type: boolean
+                  enabledForTemplateDeployment:
+                    type: boolean
+                  hsmPoolResourceId:
+                    type: string
+                  networkAcls:
+                    description: |-
+                      Storage version of v1api20210401preview.NetworkRuleSet_STATUS
+                      A set of rules governing the network accessibility of a vault.
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      bypass:
+                        type: string
+                      defaultAction:
+                        type: string
+                      ipRules:
+                        items:
+                          description: |-
+                            Storage version of v1api20210401preview.IPRule_STATUS
+                            A rule governing the accessibility of a vault from a specific ip address or ip range.
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                resources, allowing for full fidelity round trip conversions
+                              type: object
+                            value:
+                              type: string
+                          type: object
+                        type: array
+                      virtualNetworkRules:
+                        items:
+                          description: |-
+                            Storage version of v1api20210401preview.VirtualNetworkRule_STATUS
+                            A rule governing the accessibility of a vault from a specific virtual network.
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                resources, allowing for full fidelity round trip conversions
+                              type: object
+                            id:
+                              type: string
+                            ignoreMissingVnetServiceEndpoint:
+                              type: boolean
+                          type: object
+                        type: array
+                    type: object
+                  privateEndpointConnections:
+                    items:
+                      description: |-
+                        Storage version of v1api20210401preview.PrivateEndpointConnectionItem_STATUS
+                        Private endpoint connection item.
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                            resources, allowing for full fidelity round trip conversions
+                          type: object
+                        etag:
+                          type: string
+                        id:
+                          type: string
+                        privateEndpoint:
+                          description: |-
+                            Storage version of v1api20210401preview.PrivateEndpoint_STATUS
+                            Private endpoint object properties.
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                resources, allowing for full fidelity round trip conversions
+                              type: object
+                            id:
+                              type: string
+                          type: object
+                        privateLinkServiceConnectionState:
+                          description: |-
+                            Storage version of v1api20210401preview.PrivateLinkServiceConnectionState_STATUS
+                            An object that represents the approval state of the private link connection.
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                resources, allowing for full fidelity round trip conversions
+                              type: object
+                            actionsRequired:
+                              type: string
+                            description:
+                              type: string
+                            status:
+                              type: string
+                          type: object
+                        provisioningState:
+                          type: string
+                      type: object
+                    type: array
+                  provisioningState:
+                    type: string
+                  sku:
+                    description: |-
+                      Storage version of v1api20210401preview.Sku_STATUS
+                      SKU details
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      family:
+                        type: string
+                      name:
+                        type: string
+                    type: object
+                  softDeleteRetentionInDays:
+                    type: integer
+                  tenantId:
+                    type: string
+                  vaultUri:
+                    type: string
+                type: object
+              systemData:
+                description: |-
+                  Storage version of v1api20210401preview.SystemData_STATUS
+                  Metadata pertaining to creation and last modification of the key vault resource.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  createdAt:
+                    type: string
+                  createdBy:
+                    type: string
+                  createdByType:
+                    type: string
+                  lastModifiedAt:
+                    type: string
+                  lastModifiedBy:
+                    type: string
+                  lastModifiedByType:
+                    type: string
+                type: object
+              tags:
+                additionalProperties:
+                  type: string
+                type: object
+              type:
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: false
+    subresources:
+      status: {}
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1api20230701
+    schema:
+      openAPIV3Schema:
+        description: |-
+          Generator information:
+          - Generated from: /keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/keyvault.json
+          - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              azureName:
+                description: |-
+                  AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+                  doesn't have to be.
+                pattern: ^[a-zA-Z0-9-]{3,24}$
+                type: string
+              location:
+                description: 'Location: The supported Azure location where the key
+                  vault should be created.'
+                type: string
+              operatorSpec:
+                description: |-
+                  OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+                  passed directly to Azure
+                properties:
+                  configMapExpressions:
+                    description: 'ConfigMapExpressions: configures where to place
+                      operator written dynamic ConfigMaps (created with CEL expressions).'
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                  secretExpressions:
+                    description: 'SecretExpressions: configures where to place operator
+                      written dynamic secrets (created with CEL expressions).'
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                type: object
+              owner:
+                description: |-
+                  Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+                  controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+                  reference to a resources.azure.com/ResourceGroup resource
+                properties:
+                  armId:
+                    pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                    type: string
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                type: object
+              properties:
+                description: 'Properties: Properties of the vault'
+                properties:
+                  accessPolicies:
+                    description: |-
+                      AccessPolicies: An array of 0 to 1024 identities that have access to the key vault. All identities in the array must use
+                      the same tenant ID as the key vault's tenant ID. When `createMode` is set to `recover`, access policies are not
+                      required. Otherwise, access policies are required.
+                    items:
+                      description: |-
+                        An identity that have access to the key vault. All identities in the array must use the same tenant ID as the key
+                        vault's tenant ID.
+                      properties:
+                        applicationId:
+                          description: 'ApplicationId:  Application ID of the client
+                            making request on behalf of a principal'
+                          pattern: ^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$
+                          type: string
+                        applicationIdFromConfig:
+                          description: 'ApplicationIdFromConfig:  Application ID of
+                            the client making request on behalf of a principal'
+                          properties:
+                            key:
+                              description: Key is the key in the Kubernetes configmap
+                                being referenced
+                              type: string
+                            name:
+                              description: |-
+                                Name is the name of the Kubernetes configmap being referenced.
+                                The configmap must be in the same namespace as the resource
+                              type: string
+                          required:
+                          - key
+                          - name
+                          type: object
+                        objectId:
+                          description: |-
+                            ObjectId: The object ID of a user, service principal or security group in the Azure Active Directory tenant for the
+                            vault. The object ID must be unique for the list of access policies.
+                          type: string
+                        objectIdFromConfig:
+                          description: |-
+                            ObjectIdFromConfig: The object ID of a user, service principal or security group in the Azure Active Directory tenant
+                            for the vault. The object ID must be unique for the list of access policies.
+                          properties:
+                            key:
+                              description: Key is the key in the Kubernetes configmap
+                                being referenced
+                              type: string
+                            name:
+                              description: |-
+                                Name is the name of the Kubernetes configmap being referenced.
+                                The configmap must be in the same namespace as the resource
+                              type: string
+                          required:
+                          - key
+                          - name
+                          type: object
+                        permissions:
+                          description: 'Permissions: Permissions the identity has
+                            for keys, secrets and certificates.'
+                          properties:
+                            certificates:
+                              description: 'Certificates: Permissions to certificates'
+                              items:
+                                enum:
+                                - all
+                                - backup
+                                - create
+                                - delete
+                                - deleteissuers
+                                - get
+                                - getissuers
+                                - import
+                                - list
+                                - listissuers
+                                - managecontacts
+                                - manageissuers
+                                - purge
+                                - recover
+                                - restore
+                                - setissuers
+                                - update
+                                type: string
+                              type: array
+                            keys:
+                              description: 'Keys: Permissions to keys'
+                              items:
+                                enum:
+                                - all
+                                - backup
+                                - create
+                                - decrypt
+                                - delete
+                                - encrypt
+                                - get
+                                - getrotationpolicy
+                                - import
+                                - list
+                                - purge
+                                - recover
+                                - release
+                                - restore
+                                - rotate
+                                - setrotationpolicy
+                                - sign
+                                - unwrapKey
+                                - update
+                                - verify
+                                - wrapKey
+                                type: string
+                              type: array
+                            secrets:
+                              description: 'Secrets: Permissions to secrets'
+                              items:
+                                enum:
+                                - all
+                                - backup
+                                - delete
+                                - get
+                                - list
+                                - purge
+                                - recover
+                                - restore
+                                - set
+                                type: string
+                              type: array
+                            storage:
+                              description: 'Storage: Permissions to storage accounts'
+                              items:
+                                enum:
+                                - all
+                                - backup
+                                - delete
+                                - deletesas
+                                - get
+                                - getsas
+                                - list
+                                - listsas
+                                - purge
+                                - recover
+                                - regeneratekey
+                                - restore
+                                - set
+                                - setsas
+                                - update
+                                type: string
+                              type: array
+                          type: object
+                        tenantId:
+                          description: 'TenantId: The Azure Active Directory tenant
+                            ID that should be used for authenticating requests to
+                            the key vault.'
+                          pattern: ^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$
+                          type: string
+                        tenantIdFromConfig:
+                          description: |-
+                            TenantIdFromConfig: The Azure Active Directory tenant ID that should be used for authenticating requests to the key
+                            vault.
+                          properties:
+                            key:
+                              description: Key is the key in the Kubernetes configmap
+                                being referenced
+                              type: string
+                            name:
+                              description: |-
+                                Name is the name of the Kubernetes configmap being referenced.
+                                The configmap must be in the same namespace as the resource
+                              type: string
+                          required:
+                          - key
+                          - name
+                          type: object
+                      required:
+                      - permissions
+                      type: object
+                    type: array
+                  createMode:
+                    description: 'CreateMode: The vault''s create mode to indicate
+                      whether the vault need to be recovered or not.'
+                    enum:
+                    - createOrRecover
+                    - default
+                    - purgeThenCreate
+                    - recover
+                    type: string
+                  enablePurgeProtection:
+                    description: |-
+                      EnablePurgeProtection: Property specifying whether protection against purge is enabled for this vault. Setting this
+                      property to true activates protection against purge for this vault and its content - only the Key Vault service may
+                      initiate a hard, irrecoverable deletion. The setting is effective only if soft delete is also enabled. Enabling this
+                      functionality is irreversible - that is, the property does not accept false as its value.
+                    type: boolean
+                  enableRbacAuthorization:
+                    description: |-
+                      EnableRbacAuthorization: Property that controls how data actions are authorized. When true, the key vault will use Role
+                      Based Access Control (RBAC) for authorization of data actions, and the access policies specified in vault properties
+                      will be  ignored. When false, the key vault will use the access policies specified in vault properties, and any policy
+                      stored on Azure Resource Manager will be ignored. If null or not specified, the vault is created with the default value
+                      of false. Note that management actions are always authorized with RBAC.
+                    type: boolean
+                  enableSoftDelete:
+                    description: |-
+                      EnableSoftDelete: Property to specify whether the 'soft delete' functionality is enabled for this key vault. If it's not
+                      set to any value(true or false) when creating new key vault, it will be set to true by default. Once set to true, it
+                      cannot be reverted to false.
+                    type: boolean
+                  enabledForDeployment:
+                    description: |-
+                      EnabledForDeployment: Property to specify whether Azure Virtual Machines are permitted to retrieve certificates stored
+                      as secrets from the key vault.
+                    type: boolean
+                  enabledForDiskEncryption:
+                    description: |-
+                      EnabledForDiskEncryption: Property to specify whether Azure Disk Encryption is permitted to retrieve secrets from the
+                      vault and unwrap keys.
+                    type: boolean
+                  enabledForTemplateDeployment:
+                    description: |-
+                      EnabledForTemplateDeployment: Property to specify whether Azure Resource Manager is permitted to retrieve secrets from
+                      the key vault.
+                    type: boolean
+                  networkAcls:
+                    description: 'NetworkAcls: Rules governing the accessibility of
+                      the key vault from specific network locations.'
+                    properties:
+                      bypass:
+                        description: |-
+                          Bypass: Tells what traffic can bypass network rules. This can be 'AzureServices' or 'None'.  If not specified the
+                          default is 'AzureServices'.
+                        enum:
+                        - AzureServices
+                        - None
+                        type: string
+                      defaultAction:
+                        description: |-
+                          DefaultAction: The default action when no rule from ipRules and from virtualNetworkRules match. This is only used after
+                          the bypass property has been evaluated.
+                        enum:
+                        - Allow
+                        - Deny
+                        type: string
+                      ipRules:
+                        description: 'IpRules: The list of IP address rules.'
+                        items:
+                          description: A rule governing the accessibility of a vault
+                            from a specific ip address or ip range.
+                          properties:
+                            value:
+                              description: |-
+                                Value: An IPv4 address range in CIDR notation, such as '124.56.78.91' (simple IP address) or '124.56.78.0/24' (all
+                                addresses that start with 124.56.78).
+                              type: string
+                          required:
+                          - value
+                          type: object
+                        type: array
+                      virtualNetworkRules:
+                        description: 'VirtualNetworkRules: The list of virtual network
+                          rules.'
+                        items:
+                          description: A rule governing the accessibility of a vault
+                            from a specific virtual network.
+                          properties:
+                            ignoreMissingVnetServiceEndpoint:
+                              description: |-
+                                IgnoreMissingVnetServiceEndpoint: Property to specify whether NRP will ignore the check if parent subnet has
+                                serviceEndpoints configured.
+                              type: boolean
+                            reference:
+                              description: |-
+                                Reference: Full resource id of a vnet subnet, such as
+                                '/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1'.
+                              properties:
+                                armId:
+                                  description: |-
+                                    ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                                    The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                                    ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                                  pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                                  type: string
+                                group:
+                                  description: Group is the Kubernetes group of the
+                                    resource.
+                                  type: string
+                                kind:
+                                  description: Kind is the Kubernetes kind of the
+                                    resource.
+                                  type: string
+                                name:
+                                  description: Name is the Kubernetes name of the
+                                    resource.
+                                  type: string
+                              type: object
+                          required:
+                          - reference
+                          type: object
+                        type: array
+                    type: object
+                  provisioningState:
+                    description: 'ProvisioningState: Provisioning state of the vault.'
+                    enum:
+                    - RegisteringDns
+                    - Succeeded
+                    type: string
+                  publicNetworkAccess:
+                    description: |-
+                      PublicNetworkAccess: Property to specify whether the vault will accept traffic from public internet. If set to
+                      'disabled' all traffic except private endpoint traffic and that that originates from trusted services will be blocked.
+                      This will override the set firewall rules, meaning that even if the firewall rules are present we will not honor the
+                      rules.
+                    type: string
+                  sku:
+                    description: 'Sku: SKU details'
+                    properties:
+                      family:
+                        description: 'Family: SKU family name'
+                        enum:
+                        - A
+                        type: string
+                      name:
+                        description: 'Name: SKU name to specify whether the key vault
+                          is a standard vault or a premium vault.'
+                        enum:
+                        - premium
+                        - standard
+                        type: string
+                    required:
+                    - family
+                    - name
+                    type: object
+                  softDeleteRetentionInDays:
+                    description: 'SoftDeleteRetentionInDays: softDelete data retention
+                      days. It accepts >=7 and <=90.'
+                    type: integer
+                  tenantId:
+                    description: 'TenantId: The Azure Active Directory tenant ID that
+                      should be used for authenticating requests to the key vault.'
+                    pattern: ^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$
+                    type: string
+                  tenantIdFromConfig:
+                    description: |-
+                      TenantIdFromConfig: The Azure Active Directory tenant ID that should be used for authenticating requests to the key
+                      vault.
+                    properties:
+                      key:
+                        description: Key is the key in the Kubernetes configmap being
+                          referenced
+                        type: string
+                      name:
+                        description: |-
+                          Name is the name of the Kubernetes configmap being referenced.
+                          The configmap must be in the same namespace as the resource
+                        type: string
+                    required:
+                    - key
+                    - name
+                    type: object
+                  vaultUri:
+                    description: 'VaultUri: The URI of the vault for performing operations
+                      on keys and secrets.'
+                    type: string
+                required:
+                - sku
+                type: object
+              tags:
+                additionalProperties:
+                  type: string
+                description: 'Tags: The tags that will be assigned to the key vault.'
+                type: object
+            required:
+            - location
+            - owner
+            - properties
+            type: object
+          status:
+            description: Resource information with extended details.
+            properties:
+              conditions:
+                description: 'Conditions: The observed state of the resource'
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration is the .metadata.generation that the condition was set based upon. For instance, if
+                        .metadata.generation is currently 12, but the .status.condition[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: |-
+                        Reason for the condition's last transition.
+                        Reasons are upper CamelCase (PascalCase) with no spaces. A reason is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: |-
+                        Severity with which to treat failures of this type of condition.
+                        For conditions which have positive polarity (Status == True is their normal/healthy state), this will be omitted when Status == True
+                        For conditions which have negative polarity (Status == False is their normal/healthy state), this will be omitted when Status == False.
+                        This is omitted in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              id:
+                description: 'Id: Fully qualified identifier of the key vault resource.'
+                type: string
+              location:
+                description: 'Location: Azure location of the key vault resource.'
+                type: string
+              name:
+                description: 'Name: Name of the key vault resource.'
+                type: string
+              properties:
+                description: 'Properties: Properties of the vault'
+                properties:
+                  accessPolicies:
+                    description: |-
+                      AccessPolicies: An array of 0 to 1024 identities that have access to the key vault. All identities in the array must use
+                      the same tenant ID as the key vault's tenant ID. When `createMode` is set to `recover`, access policies are not
+                      required. Otherwise, access policies are required.
+                    items:
+                      description: |-
+                        An identity that have access to the key vault. All identities in the array must use the same tenant ID as the key
+                        vault's tenant ID.
+                      properties:
+                        applicationId:
+                          description: 'ApplicationId:  Application ID of the client
+                            making request on behalf of a principal'
+                          type: string
+                        objectId:
+                          description: |-
+                            ObjectId: The object ID of a user, service principal or security group in the Azure Active Directory tenant for the
+                            vault. The object ID must be unique for the list of access policies.
+                          type: string
+                        permissions:
+                          description: 'Permissions: Permissions the identity has
+                            for keys, secrets and certificates.'
+                          properties:
+                            certificates:
+                              description: 'Certificates: Permissions to certificates'
+                              items:
+                                type: string
+                              type: array
+                            keys:
+                              description: 'Keys: Permissions to keys'
+                              items:
+                                type: string
+                              type: array
+                            secrets:
+                              description: 'Secrets: Permissions to secrets'
+                              items:
+                                type: string
+                              type: array
+                            storage:
+                              description: 'Storage: Permissions to storage accounts'
+                              items:
+                                type: string
+                              type: array
+                          type: object
+                        tenantId:
+                          description: 'TenantId: The Azure Active Directory tenant
+                            ID that should be used for authenticating requests to
+                            the key vault.'
+                          type: string
+                      type: object
+                    type: array
+                  createMode:
+                    description: 'CreateMode: The vault''s create mode to indicate
+                      whether the vault need to be recovered or not.'
+                    type: string
+                  enablePurgeProtection:
+                    description: |-
+                      EnablePurgeProtection: Property specifying whether protection against purge is enabled for this vault. Setting this
+                      property to true activates protection against purge for this vault and its content - only the Key Vault service may
+                      initiate a hard, irrecoverable deletion. The setting is effective only if soft delete is also enabled. Enabling this
+                      functionality is irreversible - that is, the property does not accept false as its value.
+                    type: boolean
+                  enableRbacAuthorization:
+                    description: |-
+                      EnableRbacAuthorization: Property that controls how data actions are authorized. When true, the key vault will use Role
+                      Based Access Control (RBAC) for authorization of data actions, and the access policies specified in vault properties
+                      will be  ignored. When false, the key vault will use the access policies specified in vault properties, and any policy
+                      stored on Azure Resource Manager will be ignored. If null or not specified, the vault is created with the default value
+                      of false. Note that management actions are always authorized with RBAC.
+                    type: boolean
+                  enableSoftDelete:
+                    description: |-
+                      EnableSoftDelete: Property to specify whether the 'soft delete' functionality is enabled for this key vault. If it's not
+                      set to any value(true or false) when creating new key vault, it will be set to true by default. Once set to true, it
+                      cannot be reverted to false.
+                    type: boolean
+                  enabledForDeployment:
+                    description: |-
+                      EnabledForDeployment: Property to specify whether Azure Virtual Machines are permitted to retrieve certificates stored
+                      as secrets from the key vault.
+                    type: boolean
+                  enabledForDiskEncryption:
+                    description: |-
+                      EnabledForDiskEncryption: Property to specify whether Azure Disk Encryption is permitted to retrieve secrets from the
+                      vault and unwrap keys.
+                    type: boolean
+                  enabledForTemplateDeployment:
+                    description: |-
+                      EnabledForTemplateDeployment: Property to specify whether Azure Resource Manager is permitted to retrieve secrets from
+                      the key vault.
+                    type: boolean
+                  hsmPoolResourceId:
+                    description: 'HsmPoolResourceId: The resource id of HSM Pool.'
+                    type: string
+                  networkAcls:
+                    description: 'NetworkAcls: Rules governing the accessibility of
+                      the key vault from specific network locations.'
+                    properties:
+                      bypass:
+                        description: |-
+                          Bypass: Tells what traffic can bypass network rules. This can be 'AzureServices' or 'None'.  If not specified the
+                          default is 'AzureServices'.
+                        type: string
+                      defaultAction:
+                        description: |-
+                          DefaultAction: The default action when no rule from ipRules and from virtualNetworkRules match. This is only used after
+                          the bypass property has been evaluated.
+                        type: string
+                      ipRules:
+                        description: 'IpRules: The list of IP address rules.'
+                        items:
+                          description: A rule governing the accessibility of a vault
+                            from a specific ip address or ip range.
+                          properties:
+                            value:
+                              description: |-
+                                Value: An IPv4 address range in CIDR notation, such as '124.56.78.91' (simple IP address) or '124.56.78.0/24' (all
+                                addresses that start with 124.56.78).
+                              type: string
+                          type: object
+                        type: array
+                      virtualNetworkRules:
+                        description: 'VirtualNetworkRules: The list of virtual network
+                          rules.'
+                        items:
+                          description: A rule governing the accessibility of a vault
+                            from a specific virtual network.
+                          properties:
+                            id:
+                              description: |-
+                                Id: Full resource id of a vnet subnet, such as
+                                '/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1'.
+                              type: string
+                            ignoreMissingVnetServiceEndpoint:
+                              description: |-
+                                IgnoreMissingVnetServiceEndpoint: Property to specify whether NRP will ignore the check if parent subnet has
+                                serviceEndpoints configured.
+                              type: boolean
+                          type: object
+                        type: array
+                    type: object
+                  privateEndpointConnections:
+                    description: 'PrivateEndpointConnections: List of private endpoint
+                      connections associated with the key vault.'
+                    items:
+                      description: Private endpoint connection item.
+                      properties:
+                        etag:
+                          description: 'Etag: Modified whenever there is a change
+                            in the state of private endpoint connection.'
+                          type: string
+                        id:
+                          description: 'Id: Id of private endpoint connection.'
+                          type: string
+                        privateEndpoint:
+                          description: 'PrivateEndpoint: Properties of the private
+                            endpoint object.'
+                          properties:
+                            id:
+                              description: 'Id: Full identifier of the private endpoint
+                                resource.'
+                              type: string
+                          type: object
+                        privateLinkServiceConnectionState:
+                          description: 'PrivateLinkServiceConnectionState: Approval
+                            state of the private link connection.'
+                          properties:
+                            actionsRequired:
+                              description: 'ActionsRequired: A message indicating
+                                if changes on the service provider require any updates
+                                on the consumer.'
+                              type: string
+                            description:
+                              description: 'Description: The reason for approval or
+                                rejection.'
+                              type: string
+                            status:
+                              description: 'Status: Indicates whether the connection
+                                has been approved, rejected or removed by the key
+                                vault owner.'
+                              type: string
+                          type: object
+                        provisioningState:
+                          description: 'ProvisioningState: Provisioning state of the
+                            private endpoint connection.'
+                          type: string
+                      type: object
+                    type: array
+                  provisioningState:
+                    description: 'ProvisioningState: Provisioning state of the vault.'
+                    type: string
+                  publicNetworkAccess:
+                    description: |-
+                      PublicNetworkAccess: Property to specify whether the vault will accept traffic from public internet. If set to
+                      'disabled' all traffic except private endpoint traffic and that that originates from trusted services will be blocked.
+                      This will override the set firewall rules, meaning that even if the firewall rules are present we will not honor the
+                      rules.
+                    type: string
+                  sku:
+                    description: 'Sku: SKU details'
+                    properties:
+                      family:
+                        description: 'Family: SKU family name'
+                        type: string
+                      name:
+                        description: 'Name: SKU name to specify whether the key vault
+                          is a standard vault or a premium vault.'
+                        type: string
+                    type: object
+                  softDeleteRetentionInDays:
+                    description: 'SoftDeleteRetentionInDays: softDelete data retention
+                      days. It accepts >=7 and <=90.'
+                    type: integer
+                  tenantId:
+                    description: 'TenantId: The Azure Active Directory tenant ID that
+                      should be used for authenticating requests to the key vault.'
+                    type: string
+                  vaultUri:
+                    description: 'VaultUri: The URI of the vault for performing operations
+                      on keys and secrets.'
+                    type: string
+                type: object
+              systemData:
+                description: 'SystemData: System metadata for the key vault.'
+                properties:
+                  createdAt:
+                    description: 'CreatedAt: The timestamp of the key vault resource
+                      creation (UTC).'
+                    type: string
+                  createdBy:
+                    description: 'CreatedBy: The identity that created the key vault
+                      resource.'
+                    type: string
+                  createdByType:
+                    description: 'CreatedByType: The type of identity that created
+                      the key vault resource.'
+                    type: string
+                  lastModifiedAt:
+                    description: 'LastModifiedAt: The timestamp of the key vault resource
+                      last modification (UTC).'
+                    type: string
+                  lastModifiedBy:
+                    description: 'LastModifiedBy: The identity that last modified
+                      the key vault resource.'
+                    type: string
+                  lastModifiedByType:
+                    description: 'LastModifiedByType: The type of identity that last
+                      modified the key vault resource.'
+                    type: string
+                type: object
+              tags:
+                additionalProperties:
+                  type: string
+                description: 'Tags: Tags assigned to the key vault resource.'
+                type: object
+              type:
+                description: 'Type: Resource type of the key vault resource.'
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: false
+    subresources:
+      status: {}
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1api20230701storage
+    schema:
+      openAPIV3Schema:
+        description: |-
+          Storage version of v1api20230701.Vault
+          Generator information:
+          - Generated from: /keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/keyvault.json
+          - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Storage version of v1api20230701.Vault_Spec
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: |-
+                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                  resources, allowing for full fidelity round trip conversions
+                type: object
+              azureName:
+                description: |-
+                  AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+                  doesn't have to be.
+                type: string
+              location:
+                type: string
+              operatorSpec:
+                description: |-
+                  Storage version of v1api20230701.VaultOperatorSpec
+                  Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  configMapExpressions:
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                  secretExpressions:
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                type: object
+              originalVersion:
+                type: string
+              owner:
+                description: |-
+                  Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+                  controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+                  reference to a resources.azure.com/ResourceGroup resource
+                properties:
+                  armId:
+                    pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                    type: string
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                type: object
+              properties:
+                description: |-
+                  Storage version of v1api20230701.VaultProperties
+                  Properties of the vault
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  accessPolicies:
+                    items:
+                      description: |-
+                        Storage version of v1api20230701.AccessPolicyEntry
+                        An identity that have access to the key vault. All identities in the array must use the same tenant ID as the key
+                        vault's tenant ID.
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                            resources, allowing for full fidelity round trip conversions
+                          type: object
+                        applicationId:
+                          type: string
+                        applicationIdFromConfig:
+                          description: |-
+                            ConfigMapReference is a reference to a Kubernetes configmap and key in the same namespace as
+                            the resource it is on.
+                          properties:
+                            key:
+                              description: Key is the key in the Kubernetes configmap
+                                being referenced
+                              type: string
+                            name:
+                              description: |-
+                                Name is the name of the Kubernetes configmap being referenced.
+                                The configmap must be in the same namespace as the resource
+                              type: string
+                          required:
+                          - key
+                          - name
+                          type: object
+                        objectId:
+                          type: string
+                        objectIdFromConfig:
+                          description: |-
+                            ConfigMapReference is a reference to a Kubernetes configmap and key in the same namespace as
+                            the resource it is on.
+                          properties:
+                            key:
+                              description: Key is the key in the Kubernetes configmap
+                                being referenced
+                              type: string
+                            name:
+                              description: |-
+                                Name is the name of the Kubernetes configmap being referenced.
+                                The configmap must be in the same namespace as the resource
+                              type: string
+                          required:
+                          - key
+                          - name
+                          type: object
+                        permissions:
+                          description: |-
+                            Storage version of v1api20230701.Permissions
+                            Permissions the identity has for keys, secrets, certificates and storage.
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                resources, allowing for full fidelity round trip conversions
+                              type: object
+                            certificates:
+                              items:
+                                type: string
+                              type: array
+                            keys:
+                              items:
+                                type: string
+                              type: array
+                            secrets:
+                              items:
+                                type: string
+                              type: array
+                            storage:
+                              items:
+                                type: string
+                              type: array
+                          type: object
+                        tenantId:
+                          type: string
+                        tenantIdFromConfig:
+                          description: |-
+                            ConfigMapReference is a reference to a Kubernetes configmap and key in the same namespace as
+                            the resource it is on.
+                          properties:
+                            key:
+                              description: Key is the key in the Kubernetes configmap
+                                being referenced
+                              type: string
+                            name:
+                              description: |-
+                                Name is the name of the Kubernetes configmap being referenced.
+                                The configmap must be in the same namespace as the resource
+                              type: string
+                          required:
+                          - key
+                          - name
+                          type: object
+                      type: object
+                    type: array
+                  createMode:
+                    type: string
+                  enablePurgeProtection:
+                    type: boolean
+                  enableRbacAuthorization:
+                    type: boolean
+                  enableSoftDelete:
+                    type: boolean
+                  enabledForDeployment:
+                    type: boolean
+                  enabledForDiskEncryption:
+                    type: boolean
+                  enabledForTemplateDeployment:
+                    type: boolean
+                  networkAcls:
+                    description: |-
+                      Storage version of v1api20230701.NetworkRuleSet
+                      A set of rules governing the network accessibility of a vault.
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      bypass:
+                        type: string
+                      defaultAction:
+                        type: string
+                      ipRules:
+                        items:
+                          description: |-
+                            Storage version of v1api20230701.IPRule
+                            A rule governing the accessibility of a vault from a specific ip address or ip range.
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                resources, allowing for full fidelity round trip conversions
+                              type: object
+                            value:
+                              type: string
+                          type: object
+                        type: array
+                      virtualNetworkRules:
+                        items:
+                          description: |-
+                            Storage version of v1api20230701.VirtualNetworkRule
+                            A rule governing the accessibility of a vault from a specific virtual network.
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                resources, allowing for full fidelity round trip conversions
+                              type: object
+                            ignoreMissingVnetServiceEndpoint:
+                              type: boolean
+                            reference:
+                              description: |-
+                                Reference: Full resource id of a vnet subnet, such as
+                                '/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1'.
+                              properties:
+                                armId:
+                                  description: |-
+                                    ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                                    The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                                    ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                                  pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                                  type: string
+                                group:
+                                  description: Group is the Kubernetes group of the
+                                    resource.
+                                  type: string
+                                kind:
+                                  description: Kind is the Kubernetes kind of the
+                                    resource.
+                                  type: string
+                                name:
+                                  description: Name is the Kubernetes name of the
+                                    resource.
+                                  type: string
+                              type: object
+                          required:
+                          - reference
+                          type: object
+                        type: array
+                    type: object
+                  provisioningState:
+                    type: string
+                  publicNetworkAccess:
+                    type: string
+                  sku:
+                    description: |-
+                      Storage version of v1api20230701.Sku
+                      SKU details
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      family:
+                        type: string
+                      name:
+                        type: string
+                    type: object
+                  softDeleteRetentionInDays:
+                    type: integer
+                  tenantId:
+                    type: string
+                  tenantIdFromConfig:
+                    description: |-
+                      ConfigMapReference is a reference to a Kubernetes configmap and key in the same namespace as
+                      the resource it is on.
+                    properties:
+                      key:
+                        description: Key is the key in the Kubernetes configmap being
+                          referenced
+                        type: string
+                      name:
+                        description: |-
+                          Name is the name of the Kubernetes configmap being referenced.
+                          The configmap must be in the same namespace as the resource
+                        type: string
+                    required:
+                    - key
+                    - name
+                    type: object
+                  vaultUri:
+                    type: string
+                type: object
+              tags:
+                additionalProperties:
+                  type: string
+                type: object
+            required:
+            - owner
+            type: object
+          status:
+            description: |-
+              Storage version of v1api20230701.Vault_STATUS
+              Resource information with extended details.
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: |-
+                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                  resources, allowing for full fidelity round trip conversions
+                type: object
+              conditions:
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration is the .metadata.generation that the condition was set based upon. For instance, if
+                        .metadata.generation is currently 12, but the .status.condition[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: |-
+                        Reason for the condition's last transition.
+                        Reasons are upper CamelCase (PascalCase) with no spaces. A reason is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: |-
+                        Severity with which to treat failures of this type of condition.
+                        For conditions which have positive polarity (Status == True is their normal/healthy state), this will be omitted when Status == True
+                        For conditions which have negative polarity (Status == False is their normal/healthy state), this will be omitted when Status == False.
+                        This is omitted in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              id:
+                type: string
+              location:
+                type: string
+              name:
+                type: string
+              properties:
+                description: |-
+                  Storage version of v1api20230701.VaultProperties_STATUS
+                  Properties of the vault
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  accessPolicies:
+                    items:
+                      description: |-
+                        Storage version of v1api20230701.AccessPolicyEntry_STATUS
+                        An identity that have access to the key vault. All identities in the array must use the same tenant ID as the key
+                        vault's tenant ID.
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                            resources, allowing for full fidelity round trip conversions
+                          type: object
+                        applicationId:
+                          type: string
+                        objectId:
+                          type: string
+                        permissions:
+                          description: |-
+                            Storage version of v1api20230701.Permissions_STATUS
+                            Permissions the identity has for keys, secrets, certificates and storage.
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                resources, allowing for full fidelity round trip conversions
+                              type: object
+                            certificates:
+                              items:
+                                type: string
+                              type: array
+                            keys:
+                              items:
+                                type: string
+                              type: array
+                            secrets:
+                              items:
+                                type: string
+                              type: array
+                            storage:
+                              items:
+                                type: string
+                              type: array
+                          type: object
+                        tenantId:
+                          type: string
+                      type: object
+                    type: array
+                  createMode:
+                    type: string
+                  enablePurgeProtection:
+                    type: boolean
+                  enableRbacAuthorization:
+                    type: boolean
+                  enableSoftDelete:
+                    type: boolean
+                  enabledForDeployment:
+                    type: boolean
+                  enabledForDiskEncryption:
+                    type: boolean
+                  enabledForTemplateDeployment:
+                    type: boolean
+                  hsmPoolResourceId:
+                    type: string
+                  networkAcls:
+                    description: |-
+                      Storage version of v1api20230701.NetworkRuleSet_STATUS
+                      A set of rules governing the network accessibility of a vault.
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      bypass:
+                        type: string
+                      defaultAction:
+                        type: string
+                      ipRules:
+                        items:
+                          description: |-
+                            Storage version of v1api20230701.IPRule_STATUS
+                            A rule governing the accessibility of a vault from a specific ip address or ip range.
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                resources, allowing for full fidelity round trip conversions
+                              type: object
+                            value:
+                              type: string
+                          type: object
+                        type: array
+                      virtualNetworkRules:
+                        items:
+                          description: |-
+                            Storage version of v1api20230701.VirtualNetworkRule_STATUS
+                            A rule governing the accessibility of a vault from a specific virtual network.
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                resources, allowing for full fidelity round trip conversions
+                              type: object
+                            id:
+                              type: string
+                            ignoreMissingVnetServiceEndpoint:
+                              type: boolean
+                          type: object
+                        type: array
+                    type: object
+                  privateEndpointConnections:
+                    items:
+                      description: |-
+                        Storage version of v1api20230701.PrivateEndpointConnectionItem_STATUS
+                        Private endpoint connection item.
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                            resources, allowing for full fidelity round trip conversions
+                          type: object
+                        etag:
+                          type: string
+                        id:
+                          type: string
+                        privateEndpoint:
+                          description: |-
+                            Storage version of v1api20230701.PrivateEndpoint_STATUS
+                            Private endpoint object properties.
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                resources, allowing for full fidelity round trip conversions
+                              type: object
+                            id:
+                              type: string
+                          type: object
+                        privateLinkServiceConnectionState:
+                          description: |-
+                            Storage version of v1api20230701.PrivateLinkServiceConnectionState_STATUS
+                            An object that represents the approval state of the private link connection.
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                resources, allowing for full fidelity round trip conversions
+                              type: object
+                            actionsRequired:
+                              type: string
+                            description:
+                              type: string
+                            status:
+                              type: string
+                          type: object
+                        provisioningState:
+                          type: string
+                      type: object
+                    type: array
+                  provisioningState:
+                    type: string
+                  publicNetworkAccess:
+                    type: string
+                  sku:
+                    description: |-
+                      Storage version of v1api20230701.Sku_STATUS
+                      SKU details
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      family:
+                        type: string
+                      name:
+                        type: string
+                    type: object
+                  softDeleteRetentionInDays:
+                    type: integer
+                  tenantId:
+                    type: string
+                  vaultUri:
+                    type: string
+                type: object
+              systemData:
+                description: |-
+                  Storage version of v1api20230701.SystemData_STATUS
+                  Metadata pertaining to creation and last modification of the key vault resource.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  createdAt:
+                    type: string
+                  createdBy:
+                    type: string
+                  createdByType:
+                    type: string
+                  lastModifiedAt:
+                    type: string
+                  lastModifiedBy:
+                    type: string
+                  lastModifiedByType:
+                    type: string
+                type: object
+              tags:
+                additionalProperties:
+                  type: string
+                type: object
+              type:
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

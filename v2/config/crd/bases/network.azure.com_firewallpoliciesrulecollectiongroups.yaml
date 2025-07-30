@@ -1,0 +1,2380 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.17.3
+  name: firewallpoliciesrulecollectiongroups.network.azure.com
+spec:
+  group: network.azure.com
+  names:
+    kind: FirewallPoliciesRuleCollectionGroup
+    listKind: FirewallPoliciesRuleCollectionGroupList
+    plural: firewallpoliciesrulecollectiongroups
+    singular: firewallpoliciesrulecollectiongroup
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1api20240301
+    schema:
+      openAPIV3Schema:
+        description: |-
+          Generator information:
+          - Generated from: /network/resource-manager/Microsoft.Network/stable/2024-03-01/firewallPolicy.json
+          - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/ruleCollectionGroups/{ruleCollectionGroupName}
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              azureName:
+                description: |-
+                  AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+                  doesn't have to be.
+                type: string
+              operatorSpec:
+                description: |-
+                  OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+                  passed directly to Azure
+                properties:
+                  configMapExpressions:
+                    description: 'ConfigMapExpressions: configures where to place
+                      operator written dynamic ConfigMaps (created with CEL expressions).'
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                  secretExpressions:
+                    description: 'SecretExpressions: configures where to place operator
+                      written dynamic secrets (created with CEL expressions).'
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                type: object
+              owner:
+                description: |-
+                  Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+                  controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+                  reference to a network.azure.com/FirewallPolicy resource
+                properties:
+                  armId:
+                    pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                    type: string
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                type: object
+              priority:
+                description: 'Priority: Priority of the Firewall Policy Rule Collection
+                  Group resource.'
+                maximum: 65000
+                minimum: 100
+                type: integer
+              ruleCollections:
+                description: 'RuleCollections: Group of Firewall Policy rule collections.'
+                items:
+                  properties:
+                    firewallPolicyFilterRuleCollection:
+                      description: 'FirewallPolicyFilter: Mutually exclusive with
+                        all other properties'
+                      properties:
+                        action:
+                          description: 'Action: The action type of a Filter rule collection.'
+                          properties:
+                            type:
+                              description: 'Type: The type of action.'
+                              enum:
+                              - Allow
+                              - Deny
+                              type: string
+                          type: object
+                        name:
+                          description: 'Name: The name of the rule collection.'
+                          type: string
+                        priority:
+                          description: 'Priority: Priority of the Firewall Policy
+                            Rule Collection resource.'
+                          maximum: 65000
+                          minimum: 100
+                          type: integer
+                        ruleCollectionType:
+                          description: 'RuleCollectionType: The type of the rule collection.'
+                          enum:
+                          - FirewallPolicyFilterRuleCollection
+                          type: string
+                        rules:
+                          description: 'Rules: List of rules included in a rule collection.'
+                          items:
+                            properties:
+                              applicationRule:
+                                description: 'Application: Mutually exclusive with
+                                  all other properties'
+                                properties:
+                                  description:
+                                    description: 'Description: Description of the
+                                      rule.'
+                                    type: string
+                                  destinationAddresses:
+                                    description: 'DestinationAddresses: List of destination
+                                      IP addresses or Service Tags.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  fqdnTags:
+                                    description: 'FqdnTags: List of FQDN Tags for
+                                      this rule.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  httpHeadersToInsert:
+                                    description: 'HttpHeadersToInsert: List of HTTP/S
+                                      headers to insert.'
+                                    items:
+                                      description: name and value of HTTP/S header
+                                        to insert
+                                      properties:
+                                        headerName:
+                                          description: 'HeaderName: Contains the name
+                                            of the header'
+                                          type: string
+                                        headerValue:
+                                          description: 'HeaderValue: Contains the
+                                            value of the header'
+                                          type: string
+                                      type: object
+                                    type: array
+                                  name:
+                                    description: 'Name: Name of the rule.'
+                                    type: string
+                                  protocols:
+                                    description: 'Protocols: Array of Application
+                                      Protocols.'
+                                    items:
+                                      description: Properties of the application rule
+                                        protocol.
+                                      properties:
+                                        port:
+                                          description: 'Port: Port number for the
+                                            protocol, cannot be greater than 64000.'
+                                          maximum: 64000
+                                          minimum: 0
+                                          type: integer
+                                        protocolType:
+                                          description: 'ProtocolType: Protocol type.'
+                                          enum:
+                                          - Http
+                                          - Https
+                                          type: string
+                                      type: object
+                                    type: array
+                                  ruleType:
+                                    description: 'RuleType: Rule Type.'
+                                    enum:
+                                    - ApplicationRule
+                                    type: string
+                                  sourceAddresses:
+                                    description: 'SourceAddresses: List of source
+                                      IP addresses for this rule.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  sourceIpGroups:
+                                    description: 'SourceIpGroups: List of source IpGroups
+                                      for this rule.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  targetFqdns:
+                                    description: 'TargetFqdns: List of FQDNs for this
+                                      rule.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  targetUrls:
+                                    description: 'TargetUrls: List of Urls for this
+                                      rule condition.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  terminateTLS:
+                                    description: 'TerminateTLS: Terminate TLS connections
+                                      for this rule.'
+                                    type: boolean
+                                  webCategories:
+                                    description: 'WebCategories: List of destination
+                                      azure web categories.'
+                                    items:
+                                      type: string
+                                    type: array
+                                required:
+                                - ruleType
+                                type: object
+                              natRule:
+                                description: 'Nat: Mutually exclusive with all other
+                                  properties'
+                                properties:
+                                  description:
+                                    description: 'Description: Description of the
+                                      rule.'
+                                    type: string
+                                  destinationAddresses:
+                                    description: 'DestinationAddresses: List of destination
+                                      IP addresses or Service Tags.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  destinationPorts:
+                                    description: 'DestinationPorts: List of destination
+                                      ports.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  ipProtocols:
+                                    description: 'IpProtocols: Array of FirewallPolicyRuleNetworkProtocols.'
+                                    items:
+                                      description: The Network protocol of a Rule.
+                                      enum:
+                                      - Any
+                                      - ICMP
+                                      - TCP
+                                      - UDP
+                                      type: string
+                                    type: array
+                                  name:
+                                    description: 'Name: Name of the rule.'
+                                    type: string
+                                  ruleType:
+                                    description: 'RuleType: Rule Type.'
+                                    enum:
+                                    - NatRule
+                                    type: string
+                                  sourceAddresses:
+                                    description: 'SourceAddresses: List of source
+                                      IP addresses for this rule.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  sourceIpGroups:
+                                    description: 'SourceIpGroups: List of source IpGroups
+                                      for this rule.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  translatedAddress:
+                                    description: 'TranslatedAddress: The translated
+                                      address for this NAT rule.'
+                                    type: string
+                                  translatedFqdn:
+                                    description: 'TranslatedFqdn: The translated FQDN
+                                      for this NAT rule.'
+                                    type: string
+                                  translatedPort:
+                                    description: 'TranslatedPort: The translated port
+                                      for this NAT rule.'
+                                    type: string
+                                required:
+                                - ruleType
+                                type: object
+                              networkRule:
+                                description: 'Network: Mutually exclusive with all
+                                  other properties'
+                                properties:
+                                  description:
+                                    description: 'Description: Description of the
+                                      rule.'
+                                    type: string
+                                  destinationAddresses:
+                                    description: 'DestinationAddresses: List of destination
+                                      IP addresses or Service Tags.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  destinationFqdns:
+                                    description: 'DestinationFqdns: List of destination
+                                      FQDNs.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  destinationIpGroups:
+                                    description: 'DestinationIpGroups: List of destination
+                                      IpGroups for this rule.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  destinationPorts:
+                                    description: 'DestinationPorts: List of destination
+                                      ports.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  ipProtocols:
+                                    description: 'IpProtocols: Array of FirewallPolicyRuleNetworkProtocols.'
+                                    items:
+                                      description: The Network protocol of a Rule.
+                                      enum:
+                                      - Any
+                                      - ICMP
+                                      - TCP
+                                      - UDP
+                                      type: string
+                                    type: array
+                                  name:
+                                    description: 'Name: Name of the rule.'
+                                    type: string
+                                  ruleType:
+                                    description: 'RuleType: Rule Type.'
+                                    enum:
+                                    - NetworkRule
+                                    type: string
+                                  sourceAddresses:
+                                    description: 'SourceAddresses: List of source
+                                      IP addresses for this rule.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  sourceIpGroups:
+                                    description: 'SourceIpGroups: List of source IpGroups
+                                      for this rule.'
+                                    items:
+                                      type: string
+                                    type: array
+                                required:
+                                - ruleType
+                                type: object
+                            type: object
+                          type: array
+                      required:
+                      - ruleCollectionType
+                      type: object
+                    firewallPolicyNatRuleCollection:
+                      description: 'FirewallPolicyNat: Mutually exclusive with all
+                        other properties'
+                      properties:
+                        action:
+                          description: 'Action: The action type of a Nat rule collection.'
+                          properties:
+                            type:
+                              description: 'Type: The type of action.'
+                              enum:
+                              - DNAT
+                              type: string
+                          type: object
+                        name:
+                          description: 'Name: The name of the rule collection.'
+                          type: string
+                        priority:
+                          description: 'Priority: Priority of the Firewall Policy
+                            Rule Collection resource.'
+                          maximum: 65000
+                          minimum: 100
+                          type: integer
+                        ruleCollectionType:
+                          description: 'RuleCollectionType: The type of the rule collection.'
+                          enum:
+                          - FirewallPolicyNatRuleCollection
+                          type: string
+                        rules:
+                          description: 'Rules: List of rules included in a rule collection.'
+                          items:
+                            properties:
+                              applicationRule:
+                                description: 'Application: Mutually exclusive with
+                                  all other properties'
+                                properties:
+                                  description:
+                                    description: 'Description: Description of the
+                                      rule.'
+                                    type: string
+                                  destinationAddresses:
+                                    description: 'DestinationAddresses: List of destination
+                                      IP addresses or Service Tags.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  fqdnTags:
+                                    description: 'FqdnTags: List of FQDN Tags for
+                                      this rule.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  httpHeadersToInsert:
+                                    description: 'HttpHeadersToInsert: List of HTTP/S
+                                      headers to insert.'
+                                    items:
+                                      description: name and value of HTTP/S header
+                                        to insert
+                                      properties:
+                                        headerName:
+                                          description: 'HeaderName: Contains the name
+                                            of the header'
+                                          type: string
+                                        headerValue:
+                                          description: 'HeaderValue: Contains the
+                                            value of the header'
+                                          type: string
+                                      type: object
+                                    type: array
+                                  name:
+                                    description: 'Name: Name of the rule.'
+                                    type: string
+                                  protocols:
+                                    description: 'Protocols: Array of Application
+                                      Protocols.'
+                                    items:
+                                      description: Properties of the application rule
+                                        protocol.
+                                      properties:
+                                        port:
+                                          description: 'Port: Port number for the
+                                            protocol, cannot be greater than 64000.'
+                                          maximum: 64000
+                                          minimum: 0
+                                          type: integer
+                                        protocolType:
+                                          description: 'ProtocolType: Protocol type.'
+                                          enum:
+                                          - Http
+                                          - Https
+                                          type: string
+                                      type: object
+                                    type: array
+                                  ruleType:
+                                    description: 'RuleType: Rule Type.'
+                                    enum:
+                                    - ApplicationRule
+                                    type: string
+                                  sourceAddresses:
+                                    description: 'SourceAddresses: List of source
+                                      IP addresses for this rule.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  sourceIpGroups:
+                                    description: 'SourceIpGroups: List of source IpGroups
+                                      for this rule.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  targetFqdns:
+                                    description: 'TargetFqdns: List of FQDNs for this
+                                      rule.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  targetUrls:
+                                    description: 'TargetUrls: List of Urls for this
+                                      rule condition.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  terminateTLS:
+                                    description: 'TerminateTLS: Terminate TLS connections
+                                      for this rule.'
+                                    type: boolean
+                                  webCategories:
+                                    description: 'WebCategories: List of destination
+                                      azure web categories.'
+                                    items:
+                                      type: string
+                                    type: array
+                                required:
+                                - ruleType
+                                type: object
+                              natRule:
+                                description: 'Nat: Mutually exclusive with all other
+                                  properties'
+                                properties:
+                                  description:
+                                    description: 'Description: Description of the
+                                      rule.'
+                                    type: string
+                                  destinationAddresses:
+                                    description: 'DestinationAddresses: List of destination
+                                      IP addresses or Service Tags.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  destinationPorts:
+                                    description: 'DestinationPorts: List of destination
+                                      ports.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  ipProtocols:
+                                    description: 'IpProtocols: Array of FirewallPolicyRuleNetworkProtocols.'
+                                    items:
+                                      description: The Network protocol of a Rule.
+                                      enum:
+                                      - Any
+                                      - ICMP
+                                      - TCP
+                                      - UDP
+                                      type: string
+                                    type: array
+                                  name:
+                                    description: 'Name: Name of the rule.'
+                                    type: string
+                                  ruleType:
+                                    description: 'RuleType: Rule Type.'
+                                    enum:
+                                    - NatRule
+                                    type: string
+                                  sourceAddresses:
+                                    description: 'SourceAddresses: List of source
+                                      IP addresses for this rule.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  sourceIpGroups:
+                                    description: 'SourceIpGroups: List of source IpGroups
+                                      for this rule.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  translatedAddress:
+                                    description: 'TranslatedAddress: The translated
+                                      address for this NAT rule.'
+                                    type: string
+                                  translatedFqdn:
+                                    description: 'TranslatedFqdn: The translated FQDN
+                                      for this NAT rule.'
+                                    type: string
+                                  translatedPort:
+                                    description: 'TranslatedPort: The translated port
+                                      for this NAT rule.'
+                                    type: string
+                                required:
+                                - ruleType
+                                type: object
+                              networkRule:
+                                description: 'Network: Mutually exclusive with all
+                                  other properties'
+                                properties:
+                                  description:
+                                    description: 'Description: Description of the
+                                      rule.'
+                                    type: string
+                                  destinationAddresses:
+                                    description: 'DestinationAddresses: List of destination
+                                      IP addresses or Service Tags.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  destinationFqdns:
+                                    description: 'DestinationFqdns: List of destination
+                                      FQDNs.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  destinationIpGroups:
+                                    description: 'DestinationIpGroups: List of destination
+                                      IpGroups for this rule.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  destinationPorts:
+                                    description: 'DestinationPorts: List of destination
+                                      ports.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  ipProtocols:
+                                    description: 'IpProtocols: Array of FirewallPolicyRuleNetworkProtocols.'
+                                    items:
+                                      description: The Network protocol of a Rule.
+                                      enum:
+                                      - Any
+                                      - ICMP
+                                      - TCP
+                                      - UDP
+                                      type: string
+                                    type: array
+                                  name:
+                                    description: 'Name: Name of the rule.'
+                                    type: string
+                                  ruleType:
+                                    description: 'RuleType: Rule Type.'
+                                    enum:
+                                    - NetworkRule
+                                    type: string
+                                  sourceAddresses:
+                                    description: 'SourceAddresses: List of source
+                                      IP addresses for this rule.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  sourceIpGroups:
+                                    description: 'SourceIpGroups: List of source IpGroups
+                                      for this rule.'
+                                    items:
+                                      type: string
+                                    type: array
+                                required:
+                                - ruleType
+                                type: object
+                            type: object
+                          type: array
+                      required:
+                      - ruleCollectionType
+                      type: object
+                  type: object
+                type: array
+            required:
+            - owner
+            type: object
+          status:
+            properties:
+              conditions:
+                description: 'Conditions: The observed state of the resource'
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration is the .metadata.generation that the condition was set based upon. For instance, if
+                        .metadata.generation is currently 12, but the .status.condition[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: |-
+                        Reason for the condition's last transition.
+                        Reasons are upper CamelCase (PascalCase) with no spaces. A reason is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: |-
+                        Severity with which to treat failures of this type of condition.
+                        For conditions which have positive polarity (Status == True is their normal/healthy state), this will be omitted when Status == True
+                        For conditions which have negative polarity (Status == False is their normal/healthy state), this will be omitted when Status == False.
+                        This is omitted in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              etag:
+                description: 'Etag: A unique read-only string that changes whenever
+                  the resource is updated.'
+                type: string
+              id:
+                description: 'Id: Resource ID.'
+                type: string
+              name:
+                description: 'Name: The name of the resource that is unique within
+                  a resource group. This name can be used to access the resource.'
+                type: string
+              priority:
+                description: 'Priority: Priority of the Firewall Policy Rule Collection
+                  Group resource.'
+                type: integer
+              provisioningState:
+                description: 'ProvisioningState: The provisioning state of the firewall
+                  policy rule collection group resource.'
+                type: string
+              ruleCollections:
+                description: 'RuleCollections: Group of Firewall Policy rule collections.'
+                items:
+                  properties:
+                    firewallPolicyFilterRuleCollection:
+                      description: 'FirewallPolicyFilter: Mutually exclusive with
+                        all other properties'
+                      properties:
+                        action:
+                          description: 'Action: The action type of a Filter rule collection.'
+                          properties:
+                            type:
+                              description: 'Type: The type of action.'
+                              type: string
+                          type: object
+                        name:
+                          description: 'Name: The name of the rule collection.'
+                          type: string
+                        priority:
+                          description: 'Priority: Priority of the Firewall Policy
+                            Rule Collection resource.'
+                          type: integer
+                        ruleCollectionType:
+                          description: 'RuleCollectionType: The type of the rule collection.'
+                          type: string
+                        rules:
+                          description: 'Rules: List of rules included in a rule collection.'
+                          items:
+                            properties:
+                              applicationRule:
+                                description: 'Application: Mutually exclusive with
+                                  all other properties'
+                                properties:
+                                  description:
+                                    description: 'Description: Description of the
+                                      rule.'
+                                    type: string
+                                  destinationAddresses:
+                                    description: 'DestinationAddresses: List of destination
+                                      IP addresses or Service Tags.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  fqdnTags:
+                                    description: 'FqdnTags: List of FQDN Tags for
+                                      this rule.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  httpHeadersToInsert:
+                                    description: 'HttpHeadersToInsert: List of HTTP/S
+                                      headers to insert.'
+                                    items:
+                                      description: name and value of HTTP/S header
+                                        to insert
+                                      properties:
+                                        headerName:
+                                          description: 'HeaderName: Contains the name
+                                            of the header'
+                                          type: string
+                                        headerValue:
+                                          description: 'HeaderValue: Contains the
+                                            value of the header'
+                                          type: string
+                                      type: object
+                                    type: array
+                                  name:
+                                    description: 'Name: Name of the rule.'
+                                    type: string
+                                  protocols:
+                                    description: 'Protocols: Array of Application
+                                      Protocols.'
+                                    items:
+                                      description: Properties of the application rule
+                                        protocol.
+                                      properties:
+                                        port:
+                                          description: 'Port: Port number for the
+                                            protocol, cannot be greater than 64000.'
+                                          type: integer
+                                        protocolType:
+                                          description: 'ProtocolType: Protocol type.'
+                                          type: string
+                                      type: object
+                                    type: array
+                                  ruleType:
+                                    description: 'RuleType: Rule Type.'
+                                    type: string
+                                  sourceAddresses:
+                                    description: 'SourceAddresses: List of source
+                                      IP addresses for this rule.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  sourceIpGroups:
+                                    description: 'SourceIpGroups: List of source IpGroups
+                                      for this rule.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  targetFqdns:
+                                    description: 'TargetFqdns: List of FQDNs for this
+                                      rule.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  targetUrls:
+                                    description: 'TargetUrls: List of Urls for this
+                                      rule condition.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  terminateTLS:
+                                    description: 'TerminateTLS: Terminate TLS connections
+                                      for this rule.'
+                                    type: boolean
+                                  webCategories:
+                                    description: 'WebCategories: List of destination
+                                      azure web categories.'
+                                    items:
+                                      type: string
+                                    type: array
+                                type: object
+                              natRule:
+                                description: 'Nat: Mutually exclusive with all other
+                                  properties'
+                                properties:
+                                  description:
+                                    description: 'Description: Description of the
+                                      rule.'
+                                    type: string
+                                  destinationAddresses:
+                                    description: 'DestinationAddresses: List of destination
+                                      IP addresses or Service Tags.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  destinationPorts:
+                                    description: 'DestinationPorts: List of destination
+                                      ports.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  ipProtocols:
+                                    description: 'IpProtocols: Array of FirewallPolicyRuleNetworkProtocols.'
+                                    items:
+                                      description: The Network protocol of a Rule.
+                                      type: string
+                                    type: array
+                                  name:
+                                    description: 'Name: Name of the rule.'
+                                    type: string
+                                  ruleType:
+                                    description: 'RuleType: Rule Type.'
+                                    type: string
+                                  sourceAddresses:
+                                    description: 'SourceAddresses: List of source
+                                      IP addresses for this rule.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  sourceIpGroups:
+                                    description: 'SourceIpGroups: List of source IpGroups
+                                      for this rule.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  translatedAddress:
+                                    description: 'TranslatedAddress: The translated
+                                      address for this NAT rule.'
+                                    type: string
+                                  translatedFqdn:
+                                    description: 'TranslatedFqdn: The translated FQDN
+                                      for this NAT rule.'
+                                    type: string
+                                  translatedPort:
+                                    description: 'TranslatedPort: The translated port
+                                      for this NAT rule.'
+                                    type: string
+                                type: object
+                              networkRule:
+                                description: 'Network: Mutually exclusive with all
+                                  other properties'
+                                properties:
+                                  description:
+                                    description: 'Description: Description of the
+                                      rule.'
+                                    type: string
+                                  destinationAddresses:
+                                    description: 'DestinationAddresses: List of destination
+                                      IP addresses or Service Tags.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  destinationFqdns:
+                                    description: 'DestinationFqdns: List of destination
+                                      FQDNs.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  destinationIpGroups:
+                                    description: 'DestinationIpGroups: List of destination
+                                      IpGroups for this rule.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  destinationPorts:
+                                    description: 'DestinationPorts: List of destination
+                                      ports.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  ipProtocols:
+                                    description: 'IpProtocols: Array of FirewallPolicyRuleNetworkProtocols.'
+                                    items:
+                                      description: The Network protocol of a Rule.
+                                      type: string
+                                    type: array
+                                  name:
+                                    description: 'Name: Name of the rule.'
+                                    type: string
+                                  ruleType:
+                                    description: 'RuleType: Rule Type.'
+                                    type: string
+                                  sourceAddresses:
+                                    description: 'SourceAddresses: List of source
+                                      IP addresses for this rule.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  sourceIpGroups:
+                                    description: 'SourceIpGroups: List of source IpGroups
+                                      for this rule.'
+                                    items:
+                                      type: string
+                                    type: array
+                                type: object
+                            type: object
+                          type: array
+                      type: object
+                    firewallPolicyNatRuleCollection:
+                      description: 'FirewallPolicyNat: Mutually exclusive with all
+                        other properties'
+                      properties:
+                        action:
+                          description: 'Action: The action type of a Nat rule collection.'
+                          properties:
+                            type:
+                              description: 'Type: The type of action.'
+                              type: string
+                          type: object
+                        name:
+                          description: 'Name: The name of the rule collection.'
+                          type: string
+                        priority:
+                          description: 'Priority: Priority of the Firewall Policy
+                            Rule Collection resource.'
+                          type: integer
+                        ruleCollectionType:
+                          description: 'RuleCollectionType: The type of the rule collection.'
+                          type: string
+                        rules:
+                          description: 'Rules: List of rules included in a rule collection.'
+                          items:
+                            properties:
+                              applicationRule:
+                                description: 'Application: Mutually exclusive with
+                                  all other properties'
+                                properties:
+                                  description:
+                                    description: 'Description: Description of the
+                                      rule.'
+                                    type: string
+                                  destinationAddresses:
+                                    description: 'DestinationAddresses: List of destination
+                                      IP addresses or Service Tags.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  fqdnTags:
+                                    description: 'FqdnTags: List of FQDN Tags for
+                                      this rule.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  httpHeadersToInsert:
+                                    description: 'HttpHeadersToInsert: List of HTTP/S
+                                      headers to insert.'
+                                    items:
+                                      description: name and value of HTTP/S header
+                                        to insert
+                                      properties:
+                                        headerName:
+                                          description: 'HeaderName: Contains the name
+                                            of the header'
+                                          type: string
+                                        headerValue:
+                                          description: 'HeaderValue: Contains the
+                                            value of the header'
+                                          type: string
+                                      type: object
+                                    type: array
+                                  name:
+                                    description: 'Name: Name of the rule.'
+                                    type: string
+                                  protocols:
+                                    description: 'Protocols: Array of Application
+                                      Protocols.'
+                                    items:
+                                      description: Properties of the application rule
+                                        protocol.
+                                      properties:
+                                        port:
+                                          description: 'Port: Port number for the
+                                            protocol, cannot be greater than 64000.'
+                                          type: integer
+                                        protocolType:
+                                          description: 'ProtocolType: Protocol type.'
+                                          type: string
+                                      type: object
+                                    type: array
+                                  ruleType:
+                                    description: 'RuleType: Rule Type.'
+                                    type: string
+                                  sourceAddresses:
+                                    description: 'SourceAddresses: List of source
+                                      IP addresses for this rule.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  sourceIpGroups:
+                                    description: 'SourceIpGroups: List of source IpGroups
+                                      for this rule.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  targetFqdns:
+                                    description: 'TargetFqdns: List of FQDNs for this
+                                      rule.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  targetUrls:
+                                    description: 'TargetUrls: List of Urls for this
+                                      rule condition.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  terminateTLS:
+                                    description: 'TerminateTLS: Terminate TLS connections
+                                      for this rule.'
+                                    type: boolean
+                                  webCategories:
+                                    description: 'WebCategories: List of destination
+                                      azure web categories.'
+                                    items:
+                                      type: string
+                                    type: array
+                                type: object
+                              natRule:
+                                description: 'Nat: Mutually exclusive with all other
+                                  properties'
+                                properties:
+                                  description:
+                                    description: 'Description: Description of the
+                                      rule.'
+                                    type: string
+                                  destinationAddresses:
+                                    description: 'DestinationAddresses: List of destination
+                                      IP addresses or Service Tags.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  destinationPorts:
+                                    description: 'DestinationPorts: List of destination
+                                      ports.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  ipProtocols:
+                                    description: 'IpProtocols: Array of FirewallPolicyRuleNetworkProtocols.'
+                                    items:
+                                      description: The Network protocol of a Rule.
+                                      type: string
+                                    type: array
+                                  name:
+                                    description: 'Name: Name of the rule.'
+                                    type: string
+                                  ruleType:
+                                    description: 'RuleType: Rule Type.'
+                                    type: string
+                                  sourceAddresses:
+                                    description: 'SourceAddresses: List of source
+                                      IP addresses for this rule.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  sourceIpGroups:
+                                    description: 'SourceIpGroups: List of source IpGroups
+                                      for this rule.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  translatedAddress:
+                                    description: 'TranslatedAddress: The translated
+                                      address for this NAT rule.'
+                                    type: string
+                                  translatedFqdn:
+                                    description: 'TranslatedFqdn: The translated FQDN
+                                      for this NAT rule.'
+                                    type: string
+                                  translatedPort:
+                                    description: 'TranslatedPort: The translated port
+                                      for this NAT rule.'
+                                    type: string
+                                type: object
+                              networkRule:
+                                description: 'Network: Mutually exclusive with all
+                                  other properties'
+                                properties:
+                                  description:
+                                    description: 'Description: Description of the
+                                      rule.'
+                                    type: string
+                                  destinationAddresses:
+                                    description: 'DestinationAddresses: List of destination
+                                      IP addresses or Service Tags.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  destinationFqdns:
+                                    description: 'DestinationFqdns: List of destination
+                                      FQDNs.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  destinationIpGroups:
+                                    description: 'DestinationIpGroups: List of destination
+                                      IpGroups for this rule.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  destinationPorts:
+                                    description: 'DestinationPorts: List of destination
+                                      ports.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  ipProtocols:
+                                    description: 'IpProtocols: Array of FirewallPolicyRuleNetworkProtocols.'
+                                    items:
+                                      description: The Network protocol of a Rule.
+                                      type: string
+                                    type: array
+                                  name:
+                                    description: 'Name: Name of the rule.'
+                                    type: string
+                                  ruleType:
+                                    description: 'RuleType: Rule Type.'
+                                    type: string
+                                  sourceAddresses:
+                                    description: 'SourceAddresses: List of source
+                                      IP addresses for this rule.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  sourceIpGroups:
+                                    description: 'SourceIpGroups: List of source IpGroups
+                                      for this rule.'
+                                    items:
+                                      type: string
+                                    type: array
+                                type: object
+                            type: object
+                          type: array
+                      type: object
+                  type: object
+                type: array
+              size:
+                description: 'Size: A read-only string that represents the size of
+                  the FirewallPolicyRuleCollectionGroupProperties in MB. (ex 1.2MB)'
+                type: string
+              type:
+                description: 'Type: Rule Group type.'
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: false
+    subresources:
+      status: {}
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1api20240301storage
+    schema:
+      openAPIV3Schema:
+        description: |-
+          Storage version of v1api20240301.FirewallPoliciesRuleCollectionGroup
+          Generator information:
+          - Generated from: /network/resource-manager/Microsoft.Network/stable/2024-03-01/firewallPolicy.json
+          - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/ruleCollectionGroups/{ruleCollectionGroupName}
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Storage version of v1api20240301.FirewallPoliciesRuleCollectionGroup_Spec
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: |-
+                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                  resources, allowing for full fidelity round trip conversions
+                type: object
+              azureName:
+                description: |-
+                  AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+                  doesn't have to be.
+                type: string
+              operatorSpec:
+                description: |-
+                  Storage version of v1api20240301.FirewallPoliciesRuleCollectionGroupOperatorSpec
+                  Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  configMapExpressions:
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                  secretExpressions:
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                type: object
+              originalVersion:
+                type: string
+              owner:
+                description: |-
+                  Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+                  controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+                  reference to a network.azure.com/FirewallPolicy resource
+                properties:
+                  armId:
+                    pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                    type: string
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                type: object
+              priority:
+                type: integer
+              ruleCollections:
+                items:
+                  description: Storage version of v1api20240301.FirewallPolicyRuleCollection
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    firewallPolicyFilterRuleCollection:
+                      description: Storage version of v1api20240301.FirewallPolicyFilterRuleCollection
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                            resources, allowing for full fidelity round trip conversions
+                          type: object
+                        action:
+                          description: |-
+                            Storage version of v1api20240301.FirewallPolicyFilterRuleCollectionAction
+                            Properties of the FirewallPolicyFilterRuleCollectionAction.
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                resources, allowing for full fidelity round trip conversions
+                              type: object
+                            type:
+                              type: string
+                          type: object
+                        name:
+                          type: string
+                        priority:
+                          type: integer
+                        ruleCollectionType:
+                          type: string
+                        rules:
+                          items:
+                            description: Storage version of v1api20240301.FirewallPolicyRule
+                            properties:
+                              $propertyBag:
+                                additionalProperties:
+                                  type: string
+                                description: |-
+                                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                  resources, allowing for full fidelity round trip conversions
+                                type: object
+                              applicationRule:
+                                description: Storage version of v1api20240301.ApplicationRule
+                                properties:
+                                  $propertyBag:
+                                    additionalProperties:
+                                      type: string
+                                    description: |-
+                                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                      resources, allowing for full fidelity round trip conversions
+                                    type: object
+                                  description:
+                                    type: string
+                                  destinationAddresses:
+                                    items:
+                                      type: string
+                                    type: array
+                                  fqdnTags:
+                                    items:
+                                      type: string
+                                    type: array
+                                  httpHeadersToInsert:
+                                    items:
+                                      description: |-
+                                        Storage version of v1api20240301.FirewallPolicyHttpHeaderToInsert
+                                        name and value of HTTP/S header to insert
+                                      properties:
+                                        $propertyBag:
+                                          additionalProperties:
+                                            type: string
+                                          description: |-
+                                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                            resources, allowing for full fidelity round trip conversions
+                                          type: object
+                                        headerName:
+                                          type: string
+                                        headerValue:
+                                          type: string
+                                      type: object
+                                    type: array
+                                  name:
+                                    type: string
+                                  protocols:
+                                    items:
+                                      description: |-
+                                        Storage version of v1api20240301.FirewallPolicyRuleApplicationProtocol
+                                        Properties of the application rule protocol.
+                                      properties:
+                                        $propertyBag:
+                                          additionalProperties:
+                                            type: string
+                                          description: |-
+                                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                            resources, allowing for full fidelity round trip conversions
+                                          type: object
+                                        port:
+                                          type: integer
+                                        protocolType:
+                                          type: string
+                                      type: object
+                                    type: array
+                                  ruleType:
+                                    type: string
+                                  sourceAddresses:
+                                    items:
+                                      type: string
+                                    type: array
+                                  sourceIpGroups:
+                                    items:
+                                      type: string
+                                    type: array
+                                  targetFqdns:
+                                    items:
+                                      type: string
+                                    type: array
+                                  targetUrls:
+                                    items:
+                                      type: string
+                                    type: array
+                                  terminateTLS:
+                                    type: boolean
+                                  webCategories:
+                                    items:
+                                      type: string
+                                    type: array
+                                type: object
+                              natRule:
+                                description: Storage version of v1api20240301.NatRule
+                                properties:
+                                  $propertyBag:
+                                    additionalProperties:
+                                      type: string
+                                    description: |-
+                                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                      resources, allowing for full fidelity round trip conversions
+                                    type: object
+                                  description:
+                                    type: string
+                                  destinationAddresses:
+                                    items:
+                                      type: string
+                                    type: array
+                                  destinationPorts:
+                                    items:
+                                      type: string
+                                    type: array
+                                  ipProtocols:
+                                    items:
+                                      type: string
+                                    type: array
+                                  name:
+                                    type: string
+                                  ruleType:
+                                    type: string
+                                  sourceAddresses:
+                                    items:
+                                      type: string
+                                    type: array
+                                  sourceIpGroups:
+                                    items:
+                                      type: string
+                                    type: array
+                                  translatedAddress:
+                                    type: string
+                                  translatedFqdn:
+                                    type: string
+                                  translatedPort:
+                                    type: string
+                                type: object
+                              networkRule:
+                                description: Storage version of v1api20240301.NetworkRule
+                                properties:
+                                  $propertyBag:
+                                    additionalProperties:
+                                      type: string
+                                    description: |-
+                                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                      resources, allowing for full fidelity round trip conversions
+                                    type: object
+                                  description:
+                                    type: string
+                                  destinationAddresses:
+                                    items:
+                                      type: string
+                                    type: array
+                                  destinationFqdns:
+                                    items:
+                                      type: string
+                                    type: array
+                                  destinationIpGroups:
+                                    items:
+                                      type: string
+                                    type: array
+                                  destinationPorts:
+                                    items:
+                                      type: string
+                                    type: array
+                                  ipProtocols:
+                                    items:
+                                      type: string
+                                    type: array
+                                  name:
+                                    type: string
+                                  ruleType:
+                                    type: string
+                                  sourceAddresses:
+                                    items:
+                                      type: string
+                                    type: array
+                                  sourceIpGroups:
+                                    items:
+                                      type: string
+                                    type: array
+                                type: object
+                            type: object
+                          type: array
+                      type: object
+                    firewallPolicyNatRuleCollection:
+                      description: Storage version of v1api20240301.FirewallPolicyNatRuleCollection
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                            resources, allowing for full fidelity round trip conversions
+                          type: object
+                        action:
+                          description: |-
+                            Storage version of v1api20240301.FirewallPolicyNatRuleCollectionAction
+                            Properties of the FirewallPolicyNatRuleCollectionAction.
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                resources, allowing for full fidelity round trip conversions
+                              type: object
+                            type:
+                              type: string
+                          type: object
+                        name:
+                          type: string
+                        priority:
+                          type: integer
+                        ruleCollectionType:
+                          type: string
+                        rules:
+                          items:
+                            description: Storage version of v1api20240301.FirewallPolicyRule
+                            properties:
+                              $propertyBag:
+                                additionalProperties:
+                                  type: string
+                                description: |-
+                                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                  resources, allowing for full fidelity round trip conversions
+                                type: object
+                              applicationRule:
+                                description: Storage version of v1api20240301.ApplicationRule
+                                properties:
+                                  $propertyBag:
+                                    additionalProperties:
+                                      type: string
+                                    description: |-
+                                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                      resources, allowing for full fidelity round trip conversions
+                                    type: object
+                                  description:
+                                    type: string
+                                  destinationAddresses:
+                                    items:
+                                      type: string
+                                    type: array
+                                  fqdnTags:
+                                    items:
+                                      type: string
+                                    type: array
+                                  httpHeadersToInsert:
+                                    items:
+                                      description: |-
+                                        Storage version of v1api20240301.FirewallPolicyHttpHeaderToInsert
+                                        name and value of HTTP/S header to insert
+                                      properties:
+                                        $propertyBag:
+                                          additionalProperties:
+                                            type: string
+                                          description: |-
+                                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                            resources, allowing for full fidelity round trip conversions
+                                          type: object
+                                        headerName:
+                                          type: string
+                                        headerValue:
+                                          type: string
+                                      type: object
+                                    type: array
+                                  name:
+                                    type: string
+                                  protocols:
+                                    items:
+                                      description: |-
+                                        Storage version of v1api20240301.FirewallPolicyRuleApplicationProtocol
+                                        Properties of the application rule protocol.
+                                      properties:
+                                        $propertyBag:
+                                          additionalProperties:
+                                            type: string
+                                          description: |-
+                                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                            resources, allowing for full fidelity round trip conversions
+                                          type: object
+                                        port:
+                                          type: integer
+                                        protocolType:
+                                          type: string
+                                      type: object
+                                    type: array
+                                  ruleType:
+                                    type: string
+                                  sourceAddresses:
+                                    items:
+                                      type: string
+                                    type: array
+                                  sourceIpGroups:
+                                    items:
+                                      type: string
+                                    type: array
+                                  targetFqdns:
+                                    items:
+                                      type: string
+                                    type: array
+                                  targetUrls:
+                                    items:
+                                      type: string
+                                    type: array
+                                  terminateTLS:
+                                    type: boolean
+                                  webCategories:
+                                    items:
+                                      type: string
+                                    type: array
+                                type: object
+                              natRule:
+                                description: Storage version of v1api20240301.NatRule
+                                properties:
+                                  $propertyBag:
+                                    additionalProperties:
+                                      type: string
+                                    description: |-
+                                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                      resources, allowing for full fidelity round trip conversions
+                                    type: object
+                                  description:
+                                    type: string
+                                  destinationAddresses:
+                                    items:
+                                      type: string
+                                    type: array
+                                  destinationPorts:
+                                    items:
+                                      type: string
+                                    type: array
+                                  ipProtocols:
+                                    items:
+                                      type: string
+                                    type: array
+                                  name:
+                                    type: string
+                                  ruleType:
+                                    type: string
+                                  sourceAddresses:
+                                    items:
+                                      type: string
+                                    type: array
+                                  sourceIpGroups:
+                                    items:
+                                      type: string
+                                    type: array
+                                  translatedAddress:
+                                    type: string
+                                  translatedFqdn:
+                                    type: string
+                                  translatedPort:
+                                    type: string
+                                type: object
+                              networkRule:
+                                description: Storage version of v1api20240301.NetworkRule
+                                properties:
+                                  $propertyBag:
+                                    additionalProperties:
+                                      type: string
+                                    description: |-
+                                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                      resources, allowing for full fidelity round trip conversions
+                                    type: object
+                                  description:
+                                    type: string
+                                  destinationAddresses:
+                                    items:
+                                      type: string
+                                    type: array
+                                  destinationFqdns:
+                                    items:
+                                      type: string
+                                    type: array
+                                  destinationIpGroups:
+                                    items:
+                                      type: string
+                                    type: array
+                                  destinationPorts:
+                                    items:
+                                      type: string
+                                    type: array
+                                  ipProtocols:
+                                    items:
+                                      type: string
+                                    type: array
+                                  name:
+                                    type: string
+                                  ruleType:
+                                    type: string
+                                  sourceAddresses:
+                                    items:
+                                      type: string
+                                    type: array
+                                  sourceIpGroups:
+                                    items:
+                                      type: string
+                                    type: array
+                                type: object
+                            type: object
+                          type: array
+                      type: object
+                  type: object
+                type: array
+            required:
+            - owner
+            type: object
+          status:
+            description: Storage version of v1api20240301.FirewallPoliciesRuleCollectionGroup_STATUS
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: |-
+                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                  resources, allowing for full fidelity round trip conversions
+                type: object
+              conditions:
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration is the .metadata.generation that the condition was set based upon. For instance, if
+                        .metadata.generation is currently 12, but the .status.condition[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: |-
+                        Reason for the condition's last transition.
+                        Reasons are upper CamelCase (PascalCase) with no spaces. A reason is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: |-
+                        Severity with which to treat failures of this type of condition.
+                        For conditions which have positive polarity (Status == True is their normal/healthy state), this will be omitted when Status == True
+                        For conditions which have negative polarity (Status == False is their normal/healthy state), this will be omitted when Status == False.
+                        This is omitted in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              etag:
+                type: string
+              id:
+                type: string
+              name:
+                type: string
+              priority:
+                type: integer
+              provisioningState:
+                type: string
+              ruleCollections:
+                items:
+                  description: Storage version of v1api20240301.FirewallPolicyRuleCollection_STATUS
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    firewallPolicyFilterRuleCollection:
+                      description: Storage version of v1api20240301.FirewallPolicyFilterRuleCollection_STATUS
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                            resources, allowing for full fidelity round trip conversions
+                          type: object
+                        action:
+                          description: |-
+                            Storage version of v1api20240301.FirewallPolicyFilterRuleCollectionAction_STATUS
+                            Properties of the FirewallPolicyFilterRuleCollectionAction.
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                resources, allowing for full fidelity round trip conversions
+                              type: object
+                            type:
+                              type: string
+                          type: object
+                        name:
+                          type: string
+                        priority:
+                          type: integer
+                        ruleCollectionType:
+                          type: string
+                        rules:
+                          items:
+                            description: Storage version of v1api20240301.FirewallPolicyRule_STATUS
+                            properties:
+                              $propertyBag:
+                                additionalProperties:
+                                  type: string
+                                description: |-
+                                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                  resources, allowing for full fidelity round trip conversions
+                                type: object
+                              applicationRule:
+                                description: Storage version of v1api20240301.ApplicationRule_STATUS
+                                properties:
+                                  $propertyBag:
+                                    additionalProperties:
+                                      type: string
+                                    description: |-
+                                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                      resources, allowing for full fidelity round trip conversions
+                                    type: object
+                                  description:
+                                    type: string
+                                  destinationAddresses:
+                                    items:
+                                      type: string
+                                    type: array
+                                  fqdnTags:
+                                    items:
+                                      type: string
+                                    type: array
+                                  httpHeadersToInsert:
+                                    items:
+                                      description: |-
+                                        Storage version of v1api20240301.FirewallPolicyHttpHeaderToInsert_STATUS
+                                        name and value of HTTP/S header to insert
+                                      properties:
+                                        $propertyBag:
+                                          additionalProperties:
+                                            type: string
+                                          description: |-
+                                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                            resources, allowing for full fidelity round trip conversions
+                                          type: object
+                                        headerName:
+                                          type: string
+                                        headerValue:
+                                          type: string
+                                      type: object
+                                    type: array
+                                  name:
+                                    type: string
+                                  protocols:
+                                    items:
+                                      description: |-
+                                        Storage version of v1api20240301.FirewallPolicyRuleApplicationProtocol_STATUS
+                                        Properties of the application rule protocol.
+                                      properties:
+                                        $propertyBag:
+                                          additionalProperties:
+                                            type: string
+                                          description: |-
+                                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                            resources, allowing for full fidelity round trip conversions
+                                          type: object
+                                        port:
+                                          type: integer
+                                        protocolType:
+                                          type: string
+                                      type: object
+                                    type: array
+                                  ruleType:
+                                    type: string
+                                  sourceAddresses:
+                                    items:
+                                      type: string
+                                    type: array
+                                  sourceIpGroups:
+                                    items:
+                                      type: string
+                                    type: array
+                                  targetFqdns:
+                                    items:
+                                      type: string
+                                    type: array
+                                  targetUrls:
+                                    items:
+                                      type: string
+                                    type: array
+                                  terminateTLS:
+                                    type: boolean
+                                  webCategories:
+                                    items:
+                                      type: string
+                                    type: array
+                                type: object
+                              natRule:
+                                description: Storage version of v1api20240301.NatRule_STATUS
+                                properties:
+                                  $propertyBag:
+                                    additionalProperties:
+                                      type: string
+                                    description: |-
+                                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                      resources, allowing for full fidelity round trip conversions
+                                    type: object
+                                  description:
+                                    type: string
+                                  destinationAddresses:
+                                    items:
+                                      type: string
+                                    type: array
+                                  destinationPorts:
+                                    items:
+                                      type: string
+                                    type: array
+                                  ipProtocols:
+                                    items:
+                                      type: string
+                                    type: array
+                                  name:
+                                    type: string
+                                  ruleType:
+                                    type: string
+                                  sourceAddresses:
+                                    items:
+                                      type: string
+                                    type: array
+                                  sourceIpGroups:
+                                    items:
+                                      type: string
+                                    type: array
+                                  translatedAddress:
+                                    type: string
+                                  translatedFqdn:
+                                    type: string
+                                  translatedPort:
+                                    type: string
+                                type: object
+                              networkRule:
+                                description: Storage version of v1api20240301.NetworkRule_STATUS
+                                properties:
+                                  $propertyBag:
+                                    additionalProperties:
+                                      type: string
+                                    description: |-
+                                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                      resources, allowing for full fidelity round trip conversions
+                                    type: object
+                                  description:
+                                    type: string
+                                  destinationAddresses:
+                                    items:
+                                      type: string
+                                    type: array
+                                  destinationFqdns:
+                                    items:
+                                      type: string
+                                    type: array
+                                  destinationIpGroups:
+                                    items:
+                                      type: string
+                                    type: array
+                                  destinationPorts:
+                                    items:
+                                      type: string
+                                    type: array
+                                  ipProtocols:
+                                    items:
+                                      type: string
+                                    type: array
+                                  name:
+                                    type: string
+                                  ruleType:
+                                    type: string
+                                  sourceAddresses:
+                                    items:
+                                      type: string
+                                    type: array
+                                  sourceIpGroups:
+                                    items:
+                                      type: string
+                                    type: array
+                                type: object
+                            type: object
+                          type: array
+                      type: object
+                    firewallPolicyNatRuleCollection:
+                      description: Storage version of v1api20240301.FirewallPolicyNatRuleCollection_STATUS
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                            resources, allowing for full fidelity round trip conversions
+                          type: object
+                        action:
+                          description: |-
+                            Storage version of v1api20240301.FirewallPolicyNatRuleCollectionAction_STATUS
+                            Properties of the FirewallPolicyNatRuleCollectionAction.
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                resources, allowing for full fidelity round trip conversions
+                              type: object
+                            type:
+                              type: string
+                          type: object
+                        name:
+                          type: string
+                        priority:
+                          type: integer
+                        ruleCollectionType:
+                          type: string
+                        rules:
+                          items:
+                            description: Storage version of v1api20240301.FirewallPolicyRule_STATUS
+                            properties:
+                              $propertyBag:
+                                additionalProperties:
+                                  type: string
+                                description: |-
+                                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                  resources, allowing for full fidelity round trip conversions
+                                type: object
+                              applicationRule:
+                                description: Storage version of v1api20240301.ApplicationRule_STATUS
+                                properties:
+                                  $propertyBag:
+                                    additionalProperties:
+                                      type: string
+                                    description: |-
+                                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                      resources, allowing for full fidelity round trip conversions
+                                    type: object
+                                  description:
+                                    type: string
+                                  destinationAddresses:
+                                    items:
+                                      type: string
+                                    type: array
+                                  fqdnTags:
+                                    items:
+                                      type: string
+                                    type: array
+                                  httpHeadersToInsert:
+                                    items:
+                                      description: |-
+                                        Storage version of v1api20240301.FirewallPolicyHttpHeaderToInsert_STATUS
+                                        name and value of HTTP/S header to insert
+                                      properties:
+                                        $propertyBag:
+                                          additionalProperties:
+                                            type: string
+                                          description: |-
+                                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                            resources, allowing for full fidelity round trip conversions
+                                          type: object
+                                        headerName:
+                                          type: string
+                                        headerValue:
+                                          type: string
+                                      type: object
+                                    type: array
+                                  name:
+                                    type: string
+                                  protocols:
+                                    items:
+                                      description: |-
+                                        Storage version of v1api20240301.FirewallPolicyRuleApplicationProtocol_STATUS
+                                        Properties of the application rule protocol.
+                                      properties:
+                                        $propertyBag:
+                                          additionalProperties:
+                                            type: string
+                                          description: |-
+                                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                            resources, allowing for full fidelity round trip conversions
+                                          type: object
+                                        port:
+                                          type: integer
+                                        protocolType:
+                                          type: string
+                                      type: object
+                                    type: array
+                                  ruleType:
+                                    type: string
+                                  sourceAddresses:
+                                    items:
+                                      type: string
+                                    type: array
+                                  sourceIpGroups:
+                                    items:
+                                      type: string
+                                    type: array
+                                  targetFqdns:
+                                    items:
+                                      type: string
+                                    type: array
+                                  targetUrls:
+                                    items:
+                                      type: string
+                                    type: array
+                                  terminateTLS:
+                                    type: boolean
+                                  webCategories:
+                                    items:
+                                      type: string
+                                    type: array
+                                type: object
+                              natRule:
+                                description: Storage version of v1api20240301.NatRule_STATUS
+                                properties:
+                                  $propertyBag:
+                                    additionalProperties:
+                                      type: string
+                                    description: |-
+                                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                      resources, allowing for full fidelity round trip conversions
+                                    type: object
+                                  description:
+                                    type: string
+                                  destinationAddresses:
+                                    items:
+                                      type: string
+                                    type: array
+                                  destinationPorts:
+                                    items:
+                                      type: string
+                                    type: array
+                                  ipProtocols:
+                                    items:
+                                      type: string
+                                    type: array
+                                  name:
+                                    type: string
+                                  ruleType:
+                                    type: string
+                                  sourceAddresses:
+                                    items:
+                                      type: string
+                                    type: array
+                                  sourceIpGroups:
+                                    items:
+                                      type: string
+                                    type: array
+                                  translatedAddress:
+                                    type: string
+                                  translatedFqdn:
+                                    type: string
+                                  translatedPort:
+                                    type: string
+                                type: object
+                              networkRule:
+                                description: Storage version of v1api20240301.NetworkRule_STATUS
+                                properties:
+                                  $propertyBag:
+                                    additionalProperties:
+                                      type: string
+                                    description: |-
+                                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                      resources, allowing for full fidelity round trip conversions
+                                    type: object
+                                  description:
+                                    type: string
+                                  destinationAddresses:
+                                    items:
+                                      type: string
+                                    type: array
+                                  destinationFqdns:
+                                    items:
+                                      type: string
+                                    type: array
+                                  destinationIpGroups:
+                                    items:
+                                      type: string
+                                    type: array
+                                  destinationPorts:
+                                    items:
+                                      type: string
+                                    type: array
+                                  ipProtocols:
+                                    items:
+                                      type: string
+                                    type: array
+                                  name:
+                                    type: string
+                                  ruleType:
+                                    type: string
+                                  sourceAddresses:
+                                    items:
+                                      type: string
+                                    type: array
+                                  sourceIpGroups:
+                                    items:
+                                      type: string
+                                    type: array
+                                type: object
+                            type: object
+                          type: array
+                      type: object
+                  type: object
+                type: array
+              size:
+                type: string
+              type:
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

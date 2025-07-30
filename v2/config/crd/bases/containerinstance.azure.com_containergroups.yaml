@@ -1,0 +1,3578 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.17.3
+  name: containergroups.containerinstance.azure.com
+spec:
+  group: containerinstance.azure.com
+  names:
+    kind: ContainerGroup
+    listKind: ContainerGroupList
+    plural: containergroups
+    singular: containergroup
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1api20211001
+    schema:
+      openAPIV3Schema:
+        description: |-
+          Generator information:
+          - Generated from: /containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2021-10-01/containerInstance.json
+          - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              azureName:
+                description: |-
+                  AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+                  doesn't have to be.
+                type: string
+              containers:
+                description: 'Containers: The containers within the container group.'
+                items:
+                  description: A container instance.
+                  properties:
+                    command:
+                      description: 'Command: The commands to execute within the container
+                        instance in exec form.'
+                      items:
+                        type: string
+                      type: array
+                    environmentVariables:
+                      description: 'EnvironmentVariables: The environment variables
+                        to set in the container instance.'
+                      items:
+                        description: The environment variable to set within the container
+                          instance.
+                        properties:
+                          name:
+                            description: 'Name: The name of the environment variable.'
+                            type: string
+                          secureValue:
+                            description: 'SecureValue: The value of the secure environment
+                              variable.'
+                            properties:
+                              key:
+                                description: Key is the key in the Kubernetes secret
+                                  being referenced
+                                type: string
+                              name:
+                                description: |-
+                                  Name is the name of the Kubernetes secret being referenced.
+                                  The secret must be in the same namespace as the resource
+                                type: string
+                            required:
+                            - key
+                            - name
+                            type: object
+                          value:
+                            description: 'Value: The value of the environment variable.'
+                            type: string
+                        required:
+                        - name
+                        type: object
+                      type: array
+                    image:
+                      description: 'Image: The name of the image used to create the
+                        container instance.'
+                      type: string
+                    livenessProbe:
+                      description: 'LivenessProbe: The liveness probe.'
+                      properties:
+                        exec:
+                          description: 'Exec: The execution command to probe'
+                          properties:
+                            command:
+                              description: 'Command: The commands to execute within
+                                the container.'
+                              items:
+                                type: string
+                              type: array
+                          type: object
+                        failureThreshold:
+                          description: 'FailureThreshold: The failure threshold.'
+                          type: integer
+                        httpGet:
+                          description: 'HttpGet: The Http Get settings to probe'
+                          properties:
+                            httpHeaders:
+                              description: 'HttpHeaders: The HTTP headers.'
+                              items:
+                                description: The HTTP header.
+                                properties:
+                                  name:
+                                    description: 'Name: The header name.'
+                                    type: string
+                                  value:
+                                    description: 'Value: The header value.'
+                                    type: string
+                                type: object
+                              type: array
+                            path:
+                              description: 'Path: The path to probe.'
+                              type: string
+                            port:
+                              description: 'Port: The port number to probe.'
+                              type: integer
+                            scheme:
+                              description: 'Scheme: The scheme.'
+                              enum:
+                              - http
+                              - https
+                              type: string
+                          required:
+                          - port
+                          type: object
+                        initialDelaySeconds:
+                          description: 'InitialDelaySeconds: The initial delay seconds.'
+                          type: integer
+                        periodSeconds:
+                          description: 'PeriodSeconds: The period seconds.'
+                          type: integer
+                        successThreshold:
+                          description: 'SuccessThreshold: The success threshold.'
+                          type: integer
+                        timeoutSeconds:
+                          description: 'TimeoutSeconds: The timeout seconds.'
+                          type: integer
+                      type: object
+                    name:
+                      description: 'Name: The user-provided name of the container
+                        instance.'
+                      type: string
+                    ports:
+                      description: 'Ports: The exposed ports on the container instance.'
+                      items:
+                        description: The port exposed on the container instance.
+                        properties:
+                          port:
+                            description: 'Port: The port number exposed within the
+                              container group.'
+                            type: integer
+                          protocol:
+                            description: 'Protocol: The protocol associated with the
+                              port.'
+                            enum:
+                            - TCP
+                            - UDP
+                            type: string
+                        required:
+                        - port
+                        type: object
+                      type: array
+                    readinessProbe:
+                      description: 'ReadinessProbe: The readiness probe.'
+                      properties:
+                        exec:
+                          description: 'Exec: The execution command to probe'
+                          properties:
+                            command:
+                              description: 'Command: The commands to execute within
+                                the container.'
+                              items:
+                                type: string
+                              type: array
+                          type: object
+                        failureThreshold:
+                          description: 'FailureThreshold: The failure threshold.'
+                          type: integer
+                        httpGet:
+                          description: 'HttpGet: The Http Get settings to probe'
+                          properties:
+                            httpHeaders:
+                              description: 'HttpHeaders: The HTTP headers.'
+                              items:
+                                description: The HTTP header.
+                                properties:
+                                  name:
+                                    description: 'Name: The header name.'
+                                    type: string
+                                  value:
+                                    description: 'Value: The header value.'
+                                    type: string
+                                type: object
+                              type: array
+                            path:
+                              description: 'Path: The path to probe.'
+                              type: string
+                            port:
+                              description: 'Port: The port number to probe.'
+                              type: integer
+                            scheme:
+                              description: 'Scheme: The scheme.'
+                              enum:
+                              - http
+                              - https
+                              type: string
+                          required:
+                          - port
+                          type: object
+                        initialDelaySeconds:
+                          description: 'InitialDelaySeconds: The initial delay seconds.'
+                          type: integer
+                        periodSeconds:
+                          description: 'PeriodSeconds: The period seconds.'
+                          type: integer
+                        successThreshold:
+                          description: 'SuccessThreshold: The success threshold.'
+                          type: integer
+                        timeoutSeconds:
+                          description: 'TimeoutSeconds: The timeout seconds.'
+                          type: integer
+                      type: object
+                    resources:
+                      description: 'Resources: The resource requirements of the container
+                        instance.'
+                      properties:
+                        limits:
+                          description: 'Limits: The resource limits of this container
+                            instance.'
+                          properties:
+                            cpu:
+                              description: 'Cpu: The CPU limit of this container instance.'
+                              type: number
+                            gpu:
+                              description: 'Gpu: The GPU limit of this container instance.'
+                              properties:
+                                count:
+                                  description: 'Count: The count of the GPU resource.'
+                                  type: integer
+                                sku:
+                                  description: 'Sku: The SKU of the GPU resource.'
+                                  enum:
+                                  - K80
+                                  - P100
+                                  - V100
+                                  type: string
+                              required:
+                              - count
+                              - sku
+                              type: object
+                            memoryInGB:
+                              description: 'MemoryInGB: The memory limit in GB of
+                                this container instance.'
+                              type: number
+                          type: object
+                        requests:
+                          description: 'Requests: The resource requests of this container
+                            instance.'
+                          properties:
+                            cpu:
+                              description: 'Cpu: The CPU request of this container
+                                instance.'
+                              type: number
+                            gpu:
+                              description: 'Gpu: The GPU request of this container
+                                instance.'
+                              properties:
+                                count:
+                                  description: 'Count: The count of the GPU resource.'
+                                  type: integer
+                                sku:
+                                  description: 'Sku: The SKU of the GPU resource.'
+                                  enum:
+                                  - K80
+                                  - P100
+                                  - V100
+                                  type: string
+                              required:
+                              - count
+                              - sku
+                              type: object
+                            memoryInGB:
+                              description: 'MemoryInGB: The memory request in GB of
+                                this container instance.'
+                              type: number
+                          required:
+                          - cpu
+                          - memoryInGB
+                          type: object
+                      required:
+                      - requests
+                      type: object
+                    volumeMounts:
+                      description: 'VolumeMounts: The volume mounts available to the
+                        container instance.'
+                      items:
+                        description: The properties of the volume mount.
+                        properties:
+                          mountPath:
+                            description: 'MountPath: The path within the container
+                              where the volume should be mounted. Must not contain
+                              colon (:).'
+                            type: string
+                          name:
+                            description: 'Name: The name of the volume mount.'
+                            type: string
+                          readOnly:
+                            description: 'ReadOnly: The flag indicating whether the
+                              volume mount is read-only.'
+                            type: boolean
+                        required:
+                        - mountPath
+                        - name
+                        type: object
+                      type: array
+                  required:
+                  - image
+                  - name
+                  - resources
+                  type: object
+                type: array
+              diagnostics:
+                description: 'Diagnostics: The diagnostic information for a container
+                  group.'
+                properties:
+                  logAnalytics:
+                    description: 'LogAnalytics: Container group log analytics information.'
+                    properties:
+                      logType:
+                        description: 'LogType: The log type to be used.'
+                        enum:
+                        - ContainerInsights
+                        - ContainerInstanceLogs
+                        type: string
+                      metadata:
+                        additionalProperties:
+                          type: string
+                        description: 'Metadata: Metadata for log analytics.'
+                        type: object
+                      workspaceId:
+                        description: 'WorkspaceId: The workspace id for log analytics'
+                        type: string
+                      workspaceKey:
+                        description: 'WorkspaceKey: The workspace key for log analytics'
+                        properties:
+                          key:
+                            description: Key is the key in the Kubernetes secret being
+                              referenced
+                            type: string
+                          name:
+                            description: |-
+                              Name is the name of the Kubernetes secret being referenced.
+                              The secret must be in the same namespace as the resource
+                            type: string
+                        required:
+                        - key
+                        - name
+                        type: object
+                      workspaceResourceReference:
+                        description: 'WorkspaceResourceReference: The workspace resource
+                          id for log analytics'
+                        properties:
+                          armId:
+                            description: |-
+                              ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                              The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                              ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                            pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                            type: string
+                          group:
+                            description: Group is the Kubernetes group of the resource.
+                            type: string
+                          kind:
+                            description: Kind is the Kubernetes kind of the resource.
+                            type: string
+                          name:
+                            description: Name is the Kubernetes name of the resource.
+                            type: string
+                        type: object
+                    required:
+                    - workspaceId
+                    - workspaceKey
+                    type: object
+                type: object
+              dnsConfig:
+                description: 'DnsConfig: The DNS config information for a container
+                  group.'
+                properties:
+                  nameServers:
+                    description: 'NameServers: The DNS servers for the container group.'
+                    items:
+                      type: string
+                    type: array
+                  options:
+                    description: 'Options: The DNS options for the container group.'
+                    type: string
+                  searchDomains:
+                    description: 'SearchDomains: The DNS search domains for hostname
+                      lookup in the container group.'
+                    type: string
+                required:
+                - nameServers
+                type: object
+              encryptionProperties:
+                description: 'EncryptionProperties: The encryption properties for
+                  a container group.'
+                properties:
+                  keyName:
+                    description: 'KeyName: The encryption key name.'
+                    type: string
+                  keyVersion:
+                    description: 'KeyVersion: The encryption key version.'
+                    type: string
+                  vaultBaseUrl:
+                    description: 'VaultBaseUrl: The keyvault base url.'
+                    type: string
+                required:
+                - keyName
+                - keyVersion
+                - vaultBaseUrl
+                type: object
+              identity:
+                description: 'Identity: The identity of the container group, if configured.'
+                properties:
+                  type:
+                    description: |-
+                      Type: The type of identity used for the container group. The type 'SystemAssigned, UserAssigned' includes both an
+                      implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the
+                      container group.
+                    enum:
+                    - None
+                    - SystemAssigned
+                    - SystemAssigned, UserAssigned
+                    - UserAssigned
+                    type: string
+                  userAssignedIdentities:
+                    description: 'UserAssignedIdentities: The list of user identities
+                      associated with the container group.'
+                    items:
+                      description: Information about the user assigned identity for
+                        the resource
+                      properties:
+                        reference:
+                          description: ResourceReference represents a resource reference,
+                            either to a Kubernetes resource or directly to an Azure
+                            resource via ARMID
+                          properties:
+                            armId:
+                              description: |-
+                                ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                                The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                                ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                              pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                              type: string
+                            group:
+                              description: Group is the Kubernetes group of the resource.
+                              type: string
+                            kind:
+                              description: Kind is the Kubernetes kind of the resource.
+                              type: string
+                            name:
+                              description: Name is the Kubernetes name of the resource.
+                              type: string
+                          type: object
+                      type: object
+                    type: array
+                type: object
+              imageRegistryCredentials:
+                description: 'ImageRegistryCredentials: The image registry credentials
+                  by which the container group is created from.'
+                items:
+                  description: Image registry credential.
+                  properties:
+                    identity:
+                      description: 'Identity: The identity for the private registry.'
+                      type: string
+                    identityUrl:
+                      description: 'IdentityUrl: The identity URL for the private
+                        registry.'
+                      type: string
+                    password:
+                      description: 'Password: The password for the private registry.'
+                      properties:
+                        key:
+                          description: Key is the key in the Kubernetes secret being
+                            referenced
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes secret being referenced.
+                            The secret must be in the same namespace as the resource
+                          type: string
+                      required:
+                      - key
+                      - name
+                      type: object
+                    server:
+                      description: 'Server: The Docker image registry server without
+                        a protocol such as "http" and "https".'
+                      type: string
+                    username:
+                      description: 'Username: The username for the private registry.'
+                      type: string
+                  required:
+                  - server
+                  type: object
+                type: array
+              initContainers:
+                description: 'InitContainers: The init containers for a container
+                  group.'
+                items:
+                  description: The init container definition.
+                  properties:
+                    command:
+                      description: 'Command: The command to execute within the init
+                        container in exec form.'
+                      items:
+                        type: string
+                      type: array
+                    environmentVariables:
+                      description: 'EnvironmentVariables: The environment variables
+                        to set in the init container.'
+                      items:
+                        description: The environment variable to set within the container
+                          instance.
+                        properties:
+                          name:
+                            description: 'Name: The name of the environment variable.'
+                            type: string
+                          secureValue:
+                            description: 'SecureValue: The value of the secure environment
+                              variable.'
+                            properties:
+                              key:
+                                description: Key is the key in the Kubernetes secret
+                                  being referenced
+                                type: string
+                              name:
+                                description: |-
+                                  Name is the name of the Kubernetes secret being referenced.
+                                  The secret must be in the same namespace as the resource
+                                type: string
+                            required:
+                            - key
+                            - name
+                            type: object
+                          value:
+                            description: 'Value: The value of the environment variable.'
+                            type: string
+                        required:
+                        - name
+                        type: object
+                      type: array
+                    image:
+                      description: 'Image: The image of the init container.'
+                      type: string
+                    name:
+                      description: 'Name: The name for the init container.'
+                      type: string
+                    volumeMounts:
+                      description: 'VolumeMounts: The volume mounts available to the
+                        init container.'
+                      items:
+                        description: The properties of the volume mount.
+                        properties:
+                          mountPath:
+                            description: 'MountPath: The path within the container
+                              where the volume should be mounted. Must not contain
+                              colon (:).'
+                            type: string
+                          name:
+                            description: 'Name: The name of the volume mount.'
+                            type: string
+                          readOnly:
+                            description: 'ReadOnly: The flag indicating whether the
+                              volume mount is read-only.'
+                            type: boolean
+                        required:
+                        - mountPath
+                        - name
+                        type: object
+                      type: array
+                  required:
+                  - name
+                  type: object
+                type: array
+              ipAddress:
+                description: 'IpAddress: The IP address type of the container group.'
+                properties:
+                  autoGeneratedDomainNameLabelScope:
+                    description: |-
+                      AutoGeneratedDomainNameLabelScope: The value representing the security enum. The 'Unsecure' value is the default value
+                      if not selected and means the object's domain name label is not secured against subdomain takeover. The 'TenantReuse'
+                      value is the default value if selected and means the object's domain name label can be reused within the same tenant.
+                      The 'SubscriptionReuse' value means the object's domain name label can be reused within the same subscription. The
+                      'ResourceGroupReuse' value means the object's domain name label can be reused within the same resource group. The
+                      'NoReuse' value means the object's domain name label cannot be reused within the same resource group, subscription, or
+                      tenant.
+                    enum:
+                    - Noreuse
+                    - ResourceGroupReuse
+                    - SubscriptionReuse
+                    - TenantReuse
+                    - Unsecure
+                    type: string
+                  dnsNameLabel:
+                    description: 'DnsNameLabel: The Dns name label for the IP.'
+                    type: string
+                  ip:
+                    description: 'Ip: The IP exposed to the public internet.'
+                    type: string
+                  ports:
+                    description: 'Ports: The list of ports exposed on the container
+                      group.'
+                    items:
+                      description: The port exposed on the container group.
+                      properties:
+                        port:
+                          description: 'Port: The port number.'
+                          type: integer
+                        protocol:
+                          description: 'Protocol: The protocol associated with the
+                            port.'
+                          enum:
+                          - TCP
+                          - UDP
+                          type: string
+                      required:
+                      - port
+                      type: object
+                    type: array
+                  type:
+                    description: 'Type: Specifies if the IP is exposed to the public
+                      internet or private VNET.'
+                    enum:
+                    - Private
+                    - Public
+                    type: string
+                required:
+                - ports
+                - type
+                type: object
+              location:
+                description: 'Location: The resource location.'
+                type: string
+              operatorSpec:
+                description: |-
+                  OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+                  passed directly to Azure
+                properties:
+                  configMapExpressions:
+                    description: 'ConfigMapExpressions: configures where to place
+                      operator written dynamic ConfigMaps (created with CEL expressions).'
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                  secretExpressions:
+                    description: 'SecretExpressions: configures where to place operator
+                      written dynamic secrets (created with CEL expressions).'
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                type: object
+              osType:
+                description: 'OsType: The operating system type required by the containers
+                  in the container group.'
+                enum:
+                - Linux
+                - Windows
+                type: string
+              owner:
+                description: |-
+                  Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+                  controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+                  reference to a resources.azure.com/ResourceGroup resource
+                properties:
+                  armId:
+                    pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                    type: string
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                type: object
+              restartPolicy:
+                description: |-
+                  RestartPolicy: Restart policy for all containers within the container group.
+                  - `Always` Always restart
+                  - `OnFailure` Restart on failure
+                  - `Never` Never restart
+                enum:
+                - Always
+                - Never
+                - OnFailure
+                type: string
+              sku:
+                description: 'Sku: The SKU for a container group.'
+                enum:
+                - Dedicated
+                - Standard
+                type: string
+              subnetIds:
+                description: 'SubnetIds: The subnet resource IDs for a container group.'
+                items:
+                  description: Container group subnet information.
+                  properties:
+                    name:
+                      description: 'Name: Friendly name for the subnet.'
+                      type: string
+                    reference:
+                      description: 'Reference: Resource ID of virtual network and
+                        subnet.'
+                      properties:
+                        armId:
+                          description: |-
+                            ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                            The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                            ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                          pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                          type: string
+                        group:
+                          description: Group is the Kubernetes group of the resource.
+                          type: string
+                        kind:
+                          description: Kind is the Kubernetes kind of the resource.
+                          type: string
+                        name:
+                          description: Name is the Kubernetes name of the resource.
+                          type: string
+                      type: object
+                  required:
+                  - reference
+                  type: object
+                type: array
+              tags:
+                additionalProperties:
+                  type: string
+                description: 'Tags: The resource tags.'
+                type: object
+              volumes:
+                description: 'Volumes: The list of volumes that can be mounted by
+                  containers in this container group.'
+                items:
+                  description: The properties of the volume.
+                  properties:
+                    azureFile:
+                      description: 'AzureFile: The Azure File volume.'
+                      properties:
+                        readOnly:
+                          description: 'ReadOnly: The flag indicating whether the
+                            Azure File shared mounted as a volume is read-only.'
+                          type: boolean
+                        shareName:
+                          description: 'ShareName: The name of the Azure File share
+                            to be mounted as a volume.'
+                          type: string
+                        storageAccountKey:
+                          description: 'StorageAccountKey: The storage account access
+                            key used to access the Azure File share.'
+                          type: string
+                        storageAccountName:
+                          description: 'StorageAccountName: The name of the storage
+                            account that contains the Azure File share.'
+                          type: string
+                      required:
+                      - shareName
+                      - storageAccountName
+                      type: object
+                    emptyDir:
+                      additionalProperties:
+                        x-kubernetes-preserve-unknown-fields: true
+                      description: 'EmptyDir: The empty directory volume.'
+                      type: object
+                    gitRepo:
+                      description: 'GitRepo: The git repo volume.'
+                      properties:
+                        directory:
+                          description: |-
+                            Directory: Target directory name. Must not contain or start with '..'.  If '.' is supplied, the volume directory will be
+                            the git repository.  Otherwise, if specified, the volume will contain the git repository in the subdirectory with the
+                            given name.
+                          type: string
+                        repository:
+                          description: 'Repository: Repository URL'
+                          type: string
+                        revision:
+                          description: 'Revision: Commit hash for the specified revision.'
+                          type: string
+                      required:
+                      - repository
+                      type: object
+                    name:
+                      description: 'Name: The name of the volume.'
+                      type: string
+                    secret:
+                      additionalProperties:
+                        type: string
+                      description: 'Secret: The secret volume.'
+                      type: object
+                  required:
+                  - name
+                  type: object
+                type: array
+              zones:
+                description: 'Zones: The zones for the container group.'
+                items:
+                  type: string
+                type: array
+            required:
+            - containers
+            - osType
+            - owner
+            type: object
+          status:
+            description: A container group.
+            properties:
+              conditions:
+                description: 'Conditions: The observed state of the resource'
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration is the .metadata.generation that the condition was set based upon. For instance, if
+                        .metadata.generation is currently 12, but the .status.condition[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: |-
+                        Reason for the condition's last transition.
+                        Reasons are upper CamelCase (PascalCase) with no spaces. A reason is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: |-
+                        Severity with which to treat failures of this type of condition.
+                        For conditions which have positive polarity (Status == True is their normal/healthy state), this will be omitted when Status == True
+                        For conditions which have negative polarity (Status == False is their normal/healthy state), this will be omitted when Status == False.
+                        This is omitted in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              containers:
+                description: 'Containers: The containers within the container group.'
+                items:
+                  description: A container instance.
+                  properties:
+                    command:
+                      description: 'Command: The commands to execute within the container
+                        instance in exec form.'
+                      items:
+                        type: string
+                      type: array
+                    environmentVariables:
+                      description: 'EnvironmentVariables: The environment variables
+                        to set in the container instance.'
+                      items:
+                        description: The environment variable to set within the container
+                          instance.
+                        properties:
+                          name:
+                            description: 'Name: The name of the environment variable.'
+                            type: string
+                          value:
+                            description: 'Value: The value of the environment variable.'
+                            type: string
+                        type: object
+                      type: array
+                    image:
+                      description: 'Image: The name of the image used to create the
+                        container instance.'
+                      type: string
+                    instanceView:
+                      description: 'InstanceView: The instance view of the container
+                        instance. Only valid in response.'
+                      properties:
+                        currentState:
+                          description: 'CurrentState: Current container instance state.'
+                          properties:
+                            detailStatus:
+                              description: 'DetailStatus: The human-readable status
+                                of the container instance state.'
+                              type: string
+                            exitCode:
+                              description: 'ExitCode: The container instance exit
+                                codes correspond to those from the `docker run` command.'
+                              type: integer
+                            finishTime:
+                              description: 'FinishTime: The date-time when the container
+                                instance state finished.'
+                              type: string
+                            startTime:
+                              description: 'StartTime: The date-time when the container
+                                instance state started.'
+                              type: string
+                            state:
+                              description: 'State: The state of the container instance.'
+                              type: string
+                          type: object
+                        events:
+                          description: 'Events: The events of the container instance.'
+                          items:
+                            description: A container group or container instance event.
+                            properties:
+                              count:
+                                description: 'Count: The count of the event.'
+                                type: integer
+                              firstTimestamp:
+                                description: 'FirstTimestamp: The date-time of the
+                                  earliest logged event.'
+                                type: string
+                              lastTimestamp:
+                                description: 'LastTimestamp: The date-time of the
+                                  latest logged event.'
+                                type: string
+                              message:
+                                description: 'Message: The event message.'
+                                type: string
+                              name:
+                                description: 'Name: The event name.'
+                                type: string
+                              type:
+                                description: 'Type: The event type.'
+                                type: string
+                            type: object
+                          type: array
+                        previousState:
+                          description: 'PreviousState: Previous container instance
+                            state.'
+                          properties:
+                            detailStatus:
+                              description: 'DetailStatus: The human-readable status
+                                of the container instance state.'
+                              type: string
+                            exitCode:
+                              description: 'ExitCode: The container instance exit
+                                codes correspond to those from the `docker run` command.'
+                              type: integer
+                            finishTime:
+                              description: 'FinishTime: The date-time when the container
+                                instance state finished.'
+                              type: string
+                            startTime:
+                              description: 'StartTime: The date-time when the container
+                                instance state started.'
+                              type: string
+                            state:
+                              description: 'State: The state of the container instance.'
+                              type: string
+                          type: object
+                        restartCount:
+                          description: 'RestartCount: The number of times that the
+                            container instance has been restarted.'
+                          type: integer
+                      type: object
+                    livenessProbe:
+                      description: 'LivenessProbe: The liveness probe.'
+                      properties:
+                        exec:
+                          description: 'Exec: The execution command to probe'
+                          properties:
+                            command:
+                              description: 'Command: The commands to execute within
+                                the container.'
+                              items:
+                                type: string
+                              type: array
+                          type: object
+                        failureThreshold:
+                          description: 'FailureThreshold: The failure threshold.'
+                          type: integer
+                        httpGet:
+                          description: 'HttpGet: The Http Get settings to probe'
+                          properties:
+                            httpHeaders:
+                              description: 'HttpHeaders: The HTTP headers.'
+                              items:
+                                description: The HTTP header.
+                                properties:
+                                  name:
+                                    description: 'Name: The header name.'
+                                    type: string
+                                  value:
+                                    description: 'Value: The header value.'
+                                    type: string
+                                type: object
+                              type: array
+                            path:
+                              description: 'Path: The path to probe.'
+                              type: string
+                            port:
+                              description: 'Port: The port number to probe.'
+                              type: integer
+                            scheme:
+                              description: 'Scheme: The scheme.'
+                              type: string
+                          type: object
+                        initialDelaySeconds:
+                          description: 'InitialDelaySeconds: The initial delay seconds.'
+                          type: integer
+                        periodSeconds:
+                          description: 'PeriodSeconds: The period seconds.'
+                          type: integer
+                        successThreshold:
+                          description: 'SuccessThreshold: The success threshold.'
+                          type: integer
+                        timeoutSeconds:
+                          description: 'TimeoutSeconds: The timeout seconds.'
+                          type: integer
+                      type: object
+                    name:
+                      description: 'Name: The user-provided name of the container
+                        instance.'
+                      type: string
+                    ports:
+                      description: 'Ports: The exposed ports on the container instance.'
+                      items:
+                        description: The port exposed on the container instance.
+                        properties:
+                          port:
+                            description: 'Port: The port number exposed within the
+                              container group.'
+                            type: integer
+                          protocol:
+                            description: 'Protocol: The protocol associated with the
+                              port.'
+                            type: string
+                        type: object
+                      type: array
+                    readinessProbe:
+                      description: 'ReadinessProbe: The readiness probe.'
+                      properties:
+                        exec:
+                          description: 'Exec: The execution command to probe'
+                          properties:
+                            command:
+                              description: 'Command: The commands to execute within
+                                the container.'
+                              items:
+                                type: string
+                              type: array
+                          type: object
+                        failureThreshold:
+                          description: 'FailureThreshold: The failure threshold.'
+                          type: integer
+                        httpGet:
+                          description: 'HttpGet: The Http Get settings to probe'
+                          properties:
+                            httpHeaders:
+                              description: 'HttpHeaders: The HTTP headers.'
+                              items:
+                                description: The HTTP header.
+                                properties:
+                                  name:
+                                    description: 'Name: The header name.'
+                                    type: string
+                                  value:
+                                    description: 'Value: The header value.'
+                                    type: string
+                                type: object
+                              type: array
+                            path:
+                              description: 'Path: The path to probe.'
+                              type: string
+                            port:
+                              description: 'Port: The port number to probe.'
+                              type: integer
+                            scheme:
+                              description: 'Scheme: The scheme.'
+                              type: string
+                          type: object
+                        initialDelaySeconds:
+                          description: 'InitialDelaySeconds: The initial delay seconds.'
+                          type: integer
+                        periodSeconds:
+                          description: 'PeriodSeconds: The period seconds.'
+                          type: integer
+                        successThreshold:
+                          description: 'SuccessThreshold: The success threshold.'
+                          type: integer
+                        timeoutSeconds:
+                          description: 'TimeoutSeconds: The timeout seconds.'
+                          type: integer
+                      type: object
+                    resources:
+                      description: 'Resources: The resource requirements of the container
+                        instance.'
+                      properties:
+                        limits:
+                          description: 'Limits: The resource limits of this container
+                            instance.'
+                          properties:
+                            cpu:
+                              description: 'Cpu: The CPU limit of this container instance.'
+                              type: number
+                            gpu:
+                              description: 'Gpu: The GPU limit of this container instance.'
+                              properties:
+                                count:
+                                  description: 'Count: The count of the GPU resource.'
+                                  type: integer
+                                sku:
+                                  description: 'Sku: The SKU of the GPU resource.'
+                                  type: string
+                              type: object
+                            memoryInGB:
+                              description: 'MemoryInGB: The memory limit in GB of
+                                this container instance.'
+                              type: number
+                          type: object
+                        requests:
+                          description: 'Requests: The resource requests of this container
+                            instance.'
+                          properties:
+                            cpu:
+                              description: 'Cpu: The CPU request of this container
+                                instance.'
+                              type: number
+                            gpu:
+                              description: 'Gpu: The GPU request of this container
+                                instance.'
+                              properties:
+                                count:
+                                  description: 'Count: The count of the GPU resource.'
+                                  type: integer
+                                sku:
+                                  description: 'Sku: The SKU of the GPU resource.'
+                                  type: string
+                              type: object
+                            memoryInGB:
+                              description: 'MemoryInGB: The memory request in GB of
+                                this container instance.'
+                              type: number
+                          type: object
+                      type: object
+                    volumeMounts:
+                      description: 'VolumeMounts: The volume mounts available to the
+                        container instance.'
+                      items:
+                        description: The properties of the volume mount.
+                        properties:
+                          mountPath:
+                            description: 'MountPath: The path within the container
+                              where the volume should be mounted. Must not contain
+                              colon (:).'
+                            type: string
+                          name:
+                            description: 'Name: The name of the volume mount.'
+                            type: string
+                          readOnly:
+                            description: 'ReadOnly: The flag indicating whether the
+                              volume mount is read-only.'
+                            type: boolean
+                        type: object
+                      type: array
+                  type: object
+                type: array
+              diagnostics:
+                description: 'Diagnostics: The diagnostic information for a container
+                  group.'
+                properties:
+                  logAnalytics:
+                    description: 'LogAnalytics: Container group log analytics information.'
+                    properties:
+                      logType:
+                        description: 'LogType: The log type to be used.'
+                        type: string
+                      metadata:
+                        additionalProperties:
+                          type: string
+                        description: 'Metadata: Metadata for log analytics.'
+                        type: object
+                      workspaceId:
+                        description: 'WorkspaceId: The workspace id for log analytics'
+                        type: string
+                    type: object
+                type: object
+              dnsConfig:
+                description: 'DnsConfig: The DNS config information for a container
+                  group.'
+                properties:
+                  nameServers:
+                    description: 'NameServers: The DNS servers for the container group.'
+                    items:
+                      type: string
+                    type: array
+                  options:
+                    description: 'Options: The DNS options for the container group.'
+                    type: string
+                  searchDomains:
+                    description: 'SearchDomains: The DNS search domains for hostname
+                      lookup in the container group.'
+                    type: string
+                type: object
+              encryptionProperties:
+                description: 'EncryptionProperties: The encryption properties for
+                  a container group.'
+                properties:
+                  keyName:
+                    description: 'KeyName: The encryption key name.'
+                    type: string
+                  keyVersion:
+                    description: 'KeyVersion: The encryption key version.'
+                    type: string
+                  vaultBaseUrl:
+                    description: 'VaultBaseUrl: The keyvault base url.'
+                    type: string
+                type: object
+              id:
+                description: 'Id: The resource id.'
+                type: string
+              identity:
+                description: 'Identity: The identity of the container group, if configured.'
+                properties:
+                  principalId:
+                    description: |-
+                      PrincipalId: The principal id of the container group identity. This property will only be provided for a system assigned
+                      identity.
+                    type: string
+                  tenantId:
+                    description: |-
+                      TenantId: The tenant id associated with the container group. This property will only be provided for a system assigned
+                      identity.
+                    type: string
+                  type:
+                    description: |-
+                      Type: The type of identity used for the container group. The type 'SystemAssigned, UserAssigned' includes both an
+                      implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the
+                      container group.
+                    type: string
+                  userAssignedIdentities:
+                    additionalProperties:
+                      description: |-
+                        The list of user identities associated with the container group. The user identity dictionary key references will be ARM
+                        resource ids in the form:
+                        '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+                      properties:
+                        clientId:
+                          description: 'ClientId: The client id of user assigned identity.'
+                          type: string
+                        principalId:
+                          description: 'PrincipalId: The principal id of user assigned
+                            identity.'
+                          type: string
+                      type: object
+                    description: 'UserAssignedIdentities: The list of user identities
+                      associated with the container group.'
+                    type: object
+                type: object
+              imageRegistryCredentials:
+                description: 'ImageRegistryCredentials: The image registry credentials
+                  by which the container group is created from.'
+                items:
+                  description: Image registry credential.
+                  properties:
+                    identity:
+                      description: 'Identity: The identity for the private registry.'
+                      type: string
+                    identityUrl:
+                      description: 'IdentityUrl: The identity URL for the private
+                        registry.'
+                      type: string
+                    server:
+                      description: 'Server: The Docker image registry server without
+                        a protocol such as "http" and "https".'
+                      type: string
+                    username:
+                      description: 'Username: The username for the private registry.'
+                      type: string
+                  type: object
+                type: array
+              initContainers:
+                description: 'InitContainers: The init containers for a container
+                  group.'
+                items:
+                  description: The init container definition.
+                  properties:
+                    command:
+                      description: 'Command: The command to execute within the init
+                        container in exec form.'
+                      items:
+                        type: string
+                      type: array
+                    environmentVariables:
+                      description: 'EnvironmentVariables: The environment variables
+                        to set in the init container.'
+                      items:
+                        description: The environment variable to set within the container
+                          instance.
+                        properties:
+                          name:
+                            description: 'Name: The name of the environment variable.'
+                            type: string
+                          value:
+                            description: 'Value: The value of the environment variable.'
+                            type: string
+                        type: object
+                      type: array
+                    image:
+                      description: 'Image: The image of the init container.'
+                      type: string
+                    instanceView:
+                      description: 'InstanceView: The instance view of the init container.
+                        Only valid in response.'
+                      properties:
+                        currentState:
+                          description: 'CurrentState: The current state of the init
+                            container.'
+                          properties:
+                            detailStatus:
+                              description: 'DetailStatus: The human-readable status
+                                of the container instance state.'
+                              type: string
+                            exitCode:
+                              description: 'ExitCode: The container instance exit
+                                codes correspond to those from the `docker run` command.'
+                              type: integer
+                            finishTime:
+                              description: 'FinishTime: The date-time when the container
+                                instance state finished.'
+                              type: string
+                            startTime:
+                              description: 'StartTime: The date-time when the container
+                                instance state started.'
+                              type: string
+                            state:
+                              description: 'State: The state of the container instance.'
+                              type: string
+                          type: object
+                        events:
+                          description: 'Events: The events of the init container.'
+                          items:
+                            description: A container group or container instance event.
+                            properties:
+                              count:
+                                description: 'Count: The count of the event.'
+                                type: integer
+                              firstTimestamp:
+                                description: 'FirstTimestamp: The date-time of the
+                                  earliest logged event.'
+                                type: string
+                              lastTimestamp:
+                                description: 'LastTimestamp: The date-time of the
+                                  latest logged event.'
+                                type: string
+                              message:
+                                description: 'Message: The event message.'
+                                type: string
+                              name:
+                                description: 'Name: The event name.'
+                                type: string
+                              type:
+                                description: 'Type: The event type.'
+                                type: string
+                            type: object
+                          type: array
+                        previousState:
+                          description: 'PreviousState: The previous state of the init
+                            container.'
+                          properties:
+                            detailStatus:
+                              description: 'DetailStatus: The human-readable status
+                                of the container instance state.'
+                              type: string
+                            exitCode:
+                              description: 'ExitCode: The container instance exit
+                                codes correspond to those from the `docker run` command.'
+                              type: integer
+                            finishTime:
+                              description: 'FinishTime: The date-time when the container
+                                instance state finished.'
+                              type: string
+                            startTime:
+                              description: 'StartTime: The date-time when the container
+                                instance state started.'
+                              type: string
+                            state:
+                              description: 'State: The state of the container instance.'
+                              type: string
+                          type: object
+                        restartCount:
+                          description: 'RestartCount: The number of times that the
+                            init container has been restarted.'
+                          type: integer
+                      type: object
+                    name:
+                      description: 'Name: The name for the init container.'
+                      type: string
+                    volumeMounts:
+                      description: 'VolumeMounts: The volume mounts available to the
+                        init container.'
+                      items:
+                        description: The properties of the volume mount.
+                        properties:
+                          mountPath:
+                            description: 'MountPath: The path within the container
+                              where the volume should be mounted. Must not contain
+                              colon (:).'
+                            type: string
+                          name:
+                            description: 'Name: The name of the volume mount.'
+                            type: string
+                          readOnly:
+                            description: 'ReadOnly: The flag indicating whether the
+                              volume mount is read-only.'
+                            type: boolean
+                        type: object
+                      type: array
+                  type: object
+                type: array
+              instanceView:
+                description: 'InstanceView: The instance view of the container group.
+                  Only valid in response.'
+                properties:
+                  events:
+                    description: 'Events: The events of this container group.'
+                    items:
+                      description: A container group or container instance event.
+                      properties:
+                        count:
+                          description: 'Count: The count of the event.'
+                          type: integer
+                        firstTimestamp:
+                          description: 'FirstTimestamp: The date-time of the earliest
+                            logged event.'
+                          type: string
+                        lastTimestamp:
+                          description: 'LastTimestamp: The date-time of the latest
+                            logged event.'
+                          type: string
+                        message:
+                          description: 'Message: The event message.'
+                          type: string
+                        name:
+                          description: 'Name: The event name.'
+                          type: string
+                        type:
+                          description: 'Type: The event type.'
+                          type: string
+                      type: object
+                    type: array
+                  state:
+                    description: 'State: The state of the container group. Only valid
+                      in response.'
+                    type: string
+                type: object
+              ipAddress:
+                description: 'IpAddress: The IP address type of the container group.'
+                properties:
+                  autoGeneratedDomainNameLabelScope:
+                    description: |-
+                      AutoGeneratedDomainNameLabelScope: The value representing the security enum. The 'Unsecure' value is the default value
+                      if not selected and means the object's domain name label is not secured against subdomain takeover. The 'TenantReuse'
+                      value is the default value if selected and means the object's domain name label can be reused within the same tenant.
+                      The 'SubscriptionReuse' value means the object's domain name label can be reused within the same subscription. The
+                      'ResourceGroupReuse' value means the object's domain name label can be reused within the same resource group. The
+                      'NoReuse' value means the object's domain name label cannot be reused within the same resource group, subscription, or
+                      tenant.
+                    type: string
+                  dnsNameLabel:
+                    description: 'DnsNameLabel: The Dns name label for the IP.'
+                    type: string
+                  fqdn:
+                    description: 'Fqdn: The FQDN for the IP.'
+                    type: string
+                  ip:
+                    description: 'Ip: The IP exposed to the public internet.'
+                    type: string
+                  ports:
+                    description: 'Ports: The list of ports exposed on the container
+                      group.'
+                    items:
+                      description: The port exposed on the container group.
+                      properties:
+                        port:
+                          description: 'Port: The port number.'
+                          type: integer
+                        protocol:
+                          description: 'Protocol: The protocol associated with the
+                            port.'
+                          type: string
+                      type: object
+                    type: array
+                  type:
+                    description: 'Type: Specifies if the IP is exposed to the public
+                      internet or private VNET.'
+                    type: string
+                type: object
+              location:
+                description: 'Location: The resource location.'
+                type: string
+              name:
+                description: 'Name: The resource name.'
+                type: string
+              osType:
+                description: 'OsType: The operating system type required by the containers
+                  in the container group.'
+                type: string
+              provisioningState:
+                description: 'ProvisioningState: The provisioning state of the container
+                  group. This only appears in the response.'
+                type: string
+              restartPolicy:
+                description: |-
+                  RestartPolicy: Restart policy for all containers within the container group.
+                  - `Always` Always restart
+                  - `OnFailure` Restart on failure
+                  - `Never` Never restart
+                type: string
+              sku:
+                description: 'Sku: The SKU for a container group.'
+                type: string
+              subnetIds:
+                description: 'SubnetIds: The subnet resource IDs for a container group.'
+                items:
+                  description: Container group subnet information.
+                  properties:
+                    id:
+                      description: 'Id: Resource ID of virtual network and subnet.'
+                      type: string
+                    name:
+                      description: 'Name: Friendly name for the subnet.'
+                      type: string
+                  type: object
+                type: array
+              tags:
+                additionalProperties:
+                  type: string
+                description: 'Tags: The resource tags.'
+                type: object
+              type:
+                description: 'Type: The resource type.'
+                type: string
+              volumes:
+                description: 'Volumes: The list of volumes that can be mounted by
+                  containers in this container group.'
+                items:
+                  description: The properties of the volume.
+                  properties:
+                    azureFile:
+                      description: 'AzureFile: The Azure File volume.'
+                      properties:
+                        readOnly:
+                          description: 'ReadOnly: The flag indicating whether the
+                            Azure File shared mounted as a volume is read-only.'
+                          type: boolean
+                        shareName:
+                          description: 'ShareName: The name of the Azure File share
+                            to be mounted as a volume.'
+                          type: string
+                        storageAccountKey:
+                          description: 'StorageAccountKey: The storage account access
+                            key used to access the Azure File share.'
+                          type: string
+                        storageAccountName:
+                          description: 'StorageAccountName: The name of the storage
+                            account that contains the Azure File share.'
+                          type: string
+                      type: object
+                    emptyDir:
+                      additionalProperties:
+                        x-kubernetes-preserve-unknown-fields: true
+                      description: 'EmptyDir: The empty directory volume.'
+                      type: object
+                    gitRepo:
+                      description: 'GitRepo: The git repo volume.'
+                      properties:
+                        directory:
+                          description: |-
+                            Directory: Target directory name. Must not contain or start with '..'.  If '.' is supplied, the volume directory will be
+                            the git repository.  Otherwise, if specified, the volume will contain the git repository in the subdirectory with the
+                            given name.
+                          type: string
+                        repository:
+                          description: 'Repository: Repository URL'
+                          type: string
+                        revision:
+                          description: 'Revision: Commit hash for the specified revision.'
+                          type: string
+                      type: object
+                    name:
+                      description: 'Name: The name of the volume.'
+                      type: string
+                    secret:
+                      additionalProperties:
+                        type: string
+                      description: 'Secret: The secret volume.'
+                      type: object
+                  type: object
+                type: array
+              zones:
+                description: 'Zones: The zones for the container group.'
+                items:
+                  type: string
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: false
+    subresources:
+      status: {}
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1api20211001storage
+    schema:
+      openAPIV3Schema:
+        description: |-
+          Storage version of v1api20211001.ContainerGroup
+          Generator information:
+          - Generated from: /containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2021-10-01/containerInstance.json
+          - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Storage version of v1api20211001.ContainerGroup_Spec
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: |-
+                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                  resources, allowing for full fidelity round trip conversions
+                type: object
+              azureName:
+                description: |-
+                  AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+                  doesn't have to be.
+                type: string
+              containers:
+                items:
+                  description: |-
+                    Storage version of v1api20211001.Container
+                    A container instance.
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    command:
+                      items:
+                        type: string
+                      type: array
+                    environmentVariables:
+                      items:
+                        description: |-
+                          Storage version of v1api20211001.EnvironmentVariable
+                          The environment variable to set within the container instance.
+                        properties:
+                          $propertyBag:
+                            additionalProperties:
+                              type: string
+                            description: |-
+                              PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                              resources, allowing for full fidelity round trip conversions
+                            type: object
+                          name:
+                            type: string
+                          secureValue:
+                            description: |-
+                              SecretReference is a reference to a Kubernetes secret and key in the same namespace as
+                              the resource it is on.
+                            properties:
+                              key:
+                                description: Key is the key in the Kubernetes secret
+                                  being referenced
+                                type: string
+                              name:
+                                description: |-
+                                  Name is the name of the Kubernetes secret being referenced.
+                                  The secret must be in the same namespace as the resource
+                                type: string
+                            required:
+                            - key
+                            - name
+                            type: object
+                          value:
+                            type: string
+                        type: object
+                      type: array
+                    image:
+                      type: string
+                    livenessProbe:
+                      description: |-
+                        Storage version of v1api20211001.ContainerProbe
+                        The container probe, for liveness or readiness
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                            resources, allowing for full fidelity round trip conversions
+                          type: object
+                        exec:
+                          description: |-
+                            Storage version of v1api20211001.ContainerExec
+                            The container execution command, for liveness or readiness probe
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                resources, allowing for full fidelity round trip conversions
+                              type: object
+                            command:
+                              items:
+                                type: string
+                              type: array
+                          type: object
+                        failureThreshold:
+                          type: integer
+                        httpGet:
+                          description: |-
+                            Storage version of v1api20211001.ContainerHttpGet
+                            The container Http Get settings, for liveness or readiness probe
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                resources, allowing for full fidelity round trip conversions
+                              type: object
+                            httpHeaders:
+                              items:
+                                description: |-
+                                  Storage version of v1api20211001.HttpHeader
+                                  The HTTP header.
+                                properties:
+                                  $propertyBag:
+                                    additionalProperties:
+                                      type: string
+                                    description: |-
+                                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                      resources, allowing for full fidelity round trip conversions
+                                    type: object
+                                  name:
+                                    type: string
+                                  value:
+                                    type: string
+                                type: object
+                              type: array
+                            path:
+                              type: string
+                            port:
+                              type: integer
+                            scheme:
+                              type: string
+                          type: object
+                        initialDelaySeconds:
+                          type: integer
+                        periodSeconds:
+                          type: integer
+                        successThreshold:
+                          type: integer
+                        timeoutSeconds:
+                          type: integer
+                      type: object
+                    name:
+                      type: string
+                    ports:
+                      items:
+                        description: |-
+                          Storage version of v1api20211001.ContainerPort
+                          The port exposed on the container instance.
+                        properties:
+                          $propertyBag:
+                            additionalProperties:
+                              type: string
+                            description: |-
+                              PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                              resources, allowing for full fidelity round trip conversions
+                            type: object
+                          port:
+                            type: integer
+                          protocol:
+                            type: string
+                        type: object
+                      type: array
+                    readinessProbe:
+                      description: |-
+                        Storage version of v1api20211001.ContainerProbe
+                        The container probe, for liveness or readiness
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                            resources, allowing for full fidelity round trip conversions
+                          type: object
+                        exec:
+                          description: |-
+                            Storage version of v1api20211001.ContainerExec
+                            The container execution command, for liveness or readiness probe
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                resources, allowing for full fidelity round trip conversions
+                              type: object
+                            command:
+                              items:
+                                type: string
+                              type: array
+                          type: object
+                        failureThreshold:
+                          type: integer
+                        httpGet:
+                          description: |-
+                            Storage version of v1api20211001.ContainerHttpGet
+                            The container Http Get settings, for liveness or readiness probe
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                resources, allowing for full fidelity round trip conversions
+                              type: object
+                            httpHeaders:
+                              items:
+                                description: |-
+                                  Storage version of v1api20211001.HttpHeader
+                                  The HTTP header.
+                                properties:
+                                  $propertyBag:
+                                    additionalProperties:
+                                      type: string
+                                    description: |-
+                                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                      resources, allowing for full fidelity round trip conversions
+                                    type: object
+                                  name:
+                                    type: string
+                                  value:
+                                    type: string
+                                type: object
+                              type: array
+                            path:
+                              type: string
+                            port:
+                              type: integer
+                            scheme:
+                              type: string
+                          type: object
+                        initialDelaySeconds:
+                          type: integer
+                        periodSeconds:
+                          type: integer
+                        successThreshold:
+                          type: integer
+                        timeoutSeconds:
+                          type: integer
+                      type: object
+                    resources:
+                      description: |-
+                        Storage version of v1api20211001.ResourceRequirements
+                        The resource requirements.
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                            resources, allowing for full fidelity round trip conversions
+                          type: object
+                        limits:
+                          description: |-
+                            Storage version of v1api20211001.ResourceLimits
+                            The resource limits.
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                resources, allowing for full fidelity round trip conversions
+                              type: object
+                            cpu:
+                              type: number
+                            gpu:
+                              description: |-
+                                Storage version of v1api20211001.GpuResource
+                                The GPU resource.
+                              properties:
+                                $propertyBag:
+                                  additionalProperties:
+                                    type: string
+                                  description: |-
+                                    PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                    resources, allowing for full fidelity round trip conversions
+                                  type: object
+                                count:
+                                  type: integer
+                                sku:
+                                  type: string
+                              type: object
+                            memoryInGB:
+                              type: number
+                          type: object
+                        requests:
+                          description: |-
+                            Storage version of v1api20211001.ResourceRequests
+                            The resource requests.
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                resources, allowing for full fidelity round trip conversions
+                              type: object
+                            cpu:
+                              type: number
+                            gpu:
+                              description: |-
+                                Storage version of v1api20211001.GpuResource
+                                The GPU resource.
+                              properties:
+                                $propertyBag:
+                                  additionalProperties:
+                                    type: string
+                                  description: |-
+                                    PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                    resources, allowing for full fidelity round trip conversions
+                                  type: object
+                                count:
+                                  type: integer
+                                sku:
+                                  type: string
+                              type: object
+                            memoryInGB:
+                              type: number
+                          type: object
+                      type: object
+                    volumeMounts:
+                      items:
+                        description: |-
+                          Storage version of v1api20211001.VolumeMount
+                          The properties of the volume mount.
+                        properties:
+                          $propertyBag:
+                            additionalProperties:
+                              type: string
+                            description: |-
+                              PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                              resources, allowing for full fidelity round trip conversions
+                            type: object
+                          mountPath:
+                            type: string
+                          name:
+                            type: string
+                          readOnly:
+                            type: boolean
+                        type: object
+                      type: array
+                  type: object
+                type: array
+              diagnostics:
+                description: |-
+                  Storage version of v1api20211001.ContainerGroupDiagnostics
+                  Container group diagnostic information.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  logAnalytics:
+                    description: |-
+                      Storage version of v1api20211001.LogAnalytics
+                      Container group log analytics information.
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      logType:
+                        type: string
+                      metadata:
+                        additionalProperties:
+                          type: string
+                        type: object
+                      workspaceId:
+                        type: string
+                      workspaceKey:
+                        description: |-
+                          SecretReference is a reference to a Kubernetes secret and key in the same namespace as
+                          the resource it is on.
+                        properties:
+                          key:
+                            description: Key is the key in the Kubernetes secret being
+                              referenced
+                            type: string
+                          name:
+                            description: |-
+                              Name is the name of the Kubernetes secret being referenced.
+                              The secret must be in the same namespace as the resource
+                            type: string
+                        required:
+                        - key
+                        - name
+                        type: object
+                      workspaceResourceReference:
+                        description: 'WorkspaceResourceReference: The workspace resource
+                          id for log analytics'
+                        properties:
+                          armId:
+                            description: |-
+                              ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                              The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                              ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                            pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                            type: string
+                          group:
+                            description: Group is the Kubernetes group of the resource.
+                            type: string
+                          kind:
+                            description: Kind is the Kubernetes kind of the resource.
+                            type: string
+                          name:
+                            description: Name is the Kubernetes name of the resource.
+                            type: string
+                        type: object
+                    type: object
+                type: object
+              dnsConfig:
+                description: |-
+                  Storage version of v1api20211001.DnsConfiguration
+                  DNS configuration for the container group.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  nameServers:
+                    items:
+                      type: string
+                    type: array
+                  options:
+                    type: string
+                  searchDomains:
+                    type: string
+                type: object
+              encryptionProperties:
+                description: |-
+                  Storage version of v1api20211001.EncryptionProperties
+                  The container group encryption properties.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  keyName:
+                    type: string
+                  keyVersion:
+                    type: string
+                  vaultBaseUrl:
+                    type: string
+                type: object
+              identity:
+                description: |-
+                  Storage version of v1api20211001.ContainerGroupIdentity
+                  Identity for the container group.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  type:
+                    type: string
+                  userAssignedIdentities:
+                    items:
+                      description: |-
+                        Storage version of v1api20211001.UserAssignedIdentityDetails
+                        Information about the user assigned identity for the resource
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                            resources, allowing for full fidelity round trip conversions
+                          type: object
+                        reference:
+                          description: ResourceReference represents a resource reference,
+                            either to a Kubernetes resource or directly to an Azure
+                            resource via ARMID
+                          properties:
+                            armId:
+                              description: |-
+                                ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                                The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                                ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                              pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                              type: string
+                            group:
+                              description: Group is the Kubernetes group of the resource.
+                              type: string
+                            kind:
+                              description: Kind is the Kubernetes kind of the resource.
+                              type: string
+                            name:
+                              description: Name is the Kubernetes name of the resource.
+                              type: string
+                          type: object
+                      type: object
+                    type: array
+                type: object
+              imageRegistryCredentials:
+                items:
+                  description: |-
+                    Storage version of v1api20211001.ImageRegistryCredential
+                    Image registry credential.
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    identity:
+                      type: string
+                    identityUrl:
+                      type: string
+                    password:
+                      description: |-
+                        SecretReference is a reference to a Kubernetes secret and key in the same namespace as
+                        the resource it is on.
+                      properties:
+                        key:
+                          description: Key is the key in the Kubernetes secret being
+                            referenced
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes secret being referenced.
+                            The secret must be in the same namespace as the resource
+                          type: string
+                      required:
+                      - key
+                      - name
+                      type: object
+                    server:
+                      type: string
+                    username:
+                      type: string
+                  type: object
+                type: array
+              initContainers:
+                items:
+                  description: |-
+                    Storage version of v1api20211001.InitContainerDefinition
+                    The init container definition.
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    command:
+                      items:
+                        type: string
+                      type: array
+                    environmentVariables:
+                      items:
+                        description: |-
+                          Storage version of v1api20211001.EnvironmentVariable
+                          The environment variable to set within the container instance.
+                        properties:
+                          $propertyBag:
+                            additionalProperties:
+                              type: string
+                            description: |-
+                              PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                              resources, allowing for full fidelity round trip conversions
+                            type: object
+                          name:
+                            type: string
+                          secureValue:
+                            description: |-
+                              SecretReference is a reference to a Kubernetes secret and key in the same namespace as
+                              the resource it is on.
+                            properties:
+                              key:
+                                description: Key is the key in the Kubernetes secret
+                                  being referenced
+                                type: string
+                              name:
+                                description: |-
+                                  Name is the name of the Kubernetes secret being referenced.
+                                  The secret must be in the same namespace as the resource
+                                type: string
+                            required:
+                            - key
+                            - name
+                            type: object
+                          value:
+                            type: string
+                        type: object
+                      type: array
+                    image:
+                      type: string
+                    name:
+                      type: string
+                    volumeMounts:
+                      items:
+                        description: |-
+                          Storage version of v1api20211001.VolumeMount
+                          The properties of the volume mount.
+                        properties:
+                          $propertyBag:
+                            additionalProperties:
+                              type: string
+                            description: |-
+                              PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                              resources, allowing for full fidelity round trip conversions
+                            type: object
+                          mountPath:
+                            type: string
+                          name:
+                            type: string
+                          readOnly:
+                            type: boolean
+                        type: object
+                      type: array
+                  type: object
+                type: array
+              ipAddress:
+                description: |-
+                  Storage version of v1api20211001.IpAddress
+                  IP address for the container group.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  autoGeneratedDomainNameLabelScope:
+                    type: string
+                  dnsNameLabel:
+                    type: string
+                  ip:
+                    type: string
+                  ports:
+                    items:
+                      description: |-
+                        Storage version of v1api20211001.Port
+                        The port exposed on the container group.
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                            resources, allowing for full fidelity round trip conversions
+                          type: object
+                        port:
+                          type: integer
+                        protocol:
+                          type: string
+                      type: object
+                    type: array
+                  type:
+                    type: string
+                type: object
+              location:
+                type: string
+              operatorSpec:
+                description: |-
+                  Storage version of v1api20211001.ContainerGroupOperatorSpec
+                  Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  configMapExpressions:
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                  secretExpressions:
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                type: object
+              originalVersion:
+                type: string
+              osType:
+                type: string
+              owner:
+                description: |-
+                  Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+                  controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+                  reference to a resources.azure.com/ResourceGroup resource
+                properties:
+                  armId:
+                    pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                    type: string
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                type: object
+              restartPolicy:
+                type: string
+              sku:
+                type: string
+              subnetIds:
+                items:
+                  description: |-
+                    Storage version of v1api20211001.ContainerGroupSubnetId
+                    Container group subnet information.
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    name:
+                      type: string
+                    reference:
+                      description: 'Reference: Resource ID of virtual network and
+                        subnet.'
+                      properties:
+                        armId:
+                          description: |-
+                            ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                            The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                            ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                          pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                          type: string
+                        group:
+                          description: Group is the Kubernetes group of the resource.
+                          type: string
+                        kind:
+                          description: Kind is the Kubernetes kind of the resource.
+                          type: string
+                        name:
+                          description: Name is the Kubernetes name of the resource.
+                          type: string
+                      type: object
+                  required:
+                  - reference
+                  type: object
+                type: array
+              tags:
+                additionalProperties:
+                  type: string
+                type: object
+              volumes:
+                items:
+                  description: |-
+                    Storage version of v1api20211001.Volume
+                    The properties of the volume.
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    azureFile:
+                      description: |-
+                        Storage version of v1api20211001.AzureFileVolume
+                        The properties of the Azure File volume. Azure File shares are mounted as volumes.
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                            resources, allowing for full fidelity round trip conversions
+                          type: object
+                        readOnly:
+                          type: boolean
+                        shareName:
+                          type: string
+                        storageAccountKey:
+                          type: string
+                        storageAccountName:
+                          type: string
+                      type: object
+                    emptyDir:
+                      additionalProperties:
+                        x-kubernetes-preserve-unknown-fields: true
+                      type: object
+                    gitRepo:
+                      description: |-
+                        Storage version of v1api20211001.GitRepoVolume
+                        Represents a volume that is populated with the contents of a git repository
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                            resources, allowing for full fidelity round trip conversions
+                          type: object
+                        directory:
+                          type: string
+                        repository:
+                          type: string
+                        revision:
+                          type: string
+                      type: object
+                    name:
+                      type: string
+                    secret:
+                      additionalProperties:
+                        type: string
+                      type: object
+                  type: object
+                type: array
+              zones:
+                items:
+                  type: string
+                type: array
+            required:
+            - owner
+            type: object
+          status:
+            description: |-
+              Storage version of v1api20211001.ContainerGroup_STATUS
+              A container group.
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: |-
+                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                  resources, allowing for full fidelity round trip conversions
+                type: object
+              conditions:
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration is the .metadata.generation that the condition was set based upon. For instance, if
+                        .metadata.generation is currently 12, but the .status.condition[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: |-
+                        Reason for the condition's last transition.
+                        Reasons are upper CamelCase (PascalCase) with no spaces. A reason is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: |-
+                        Severity with which to treat failures of this type of condition.
+                        For conditions which have positive polarity (Status == True is their normal/healthy state), this will be omitted when Status == True
+                        For conditions which have negative polarity (Status == False is their normal/healthy state), this will be omitted when Status == False.
+                        This is omitted in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              containers:
+                items:
+                  description: |-
+                    Storage version of v1api20211001.Container_STATUS
+                    A container instance.
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    command:
+                      items:
+                        type: string
+                      type: array
+                    environmentVariables:
+                      items:
+                        description: |-
+                          Storage version of v1api20211001.EnvironmentVariable_STATUS
+                          The environment variable to set within the container instance.
+                        properties:
+                          $propertyBag:
+                            additionalProperties:
+                              type: string
+                            description: |-
+                              PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                              resources, allowing for full fidelity round trip conversions
+                            type: object
+                          name:
+                            type: string
+                          value:
+                            type: string
+                        type: object
+                      type: array
+                    image:
+                      type: string
+                    instanceView:
+                      description: Storage version of v1api20211001.ContainerProperties_InstanceView_STATUS
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                            resources, allowing for full fidelity round trip conversions
+                          type: object
+                        currentState:
+                          description: |-
+                            Storage version of v1api20211001.ContainerState_STATUS
+                            The container instance state.
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                resources, allowing for full fidelity round trip conversions
+                              type: object
+                            detailStatus:
+                              type: string
+                            exitCode:
+                              type: integer
+                            finishTime:
+                              type: string
+                            startTime:
+                              type: string
+                            state:
+                              type: string
+                          type: object
+                        events:
+                          items:
+                            description: |-
+                              Storage version of v1api20211001.Event_STATUS
+                              A container group or container instance event.
+                            properties:
+                              $propertyBag:
+                                additionalProperties:
+                                  type: string
+                                description: |-
+                                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                  resources, allowing for full fidelity round trip conversions
+                                type: object
+                              count:
+                                type: integer
+                              firstTimestamp:
+                                type: string
+                              lastTimestamp:
+                                type: string
+                              message:
+                                type: string
+                              name:
+                                type: string
+                              type:
+                                type: string
+                            type: object
+                          type: array
+                        previousState:
+                          description: |-
+                            Storage version of v1api20211001.ContainerState_STATUS
+                            The container instance state.
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                resources, allowing for full fidelity round trip conversions
+                              type: object
+                            detailStatus:
+                              type: string
+                            exitCode:
+                              type: integer
+                            finishTime:
+                              type: string
+                            startTime:
+                              type: string
+                            state:
+                              type: string
+                          type: object
+                        restartCount:
+                          type: integer
+                      type: object
+                    livenessProbe:
+                      description: |-
+                        Storage version of v1api20211001.ContainerProbe_STATUS
+                        The container probe, for liveness or readiness
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                            resources, allowing for full fidelity round trip conversions
+                          type: object
+                        exec:
+                          description: |-
+                            Storage version of v1api20211001.ContainerExec_STATUS
+                            The container execution command, for liveness or readiness probe
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                resources, allowing for full fidelity round trip conversions
+                              type: object
+                            command:
+                              items:
+                                type: string
+                              type: array
+                          type: object
+                        failureThreshold:
+                          type: integer
+                        httpGet:
+                          description: |-
+                            Storage version of v1api20211001.ContainerHttpGet_STATUS
+                            The container Http Get settings, for liveness or readiness probe
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                resources, allowing for full fidelity round trip conversions
+                              type: object
+                            httpHeaders:
+                              items:
+                                description: |-
+                                  Storage version of v1api20211001.HttpHeader_STATUS
+                                  The HTTP header.
+                                properties:
+                                  $propertyBag:
+                                    additionalProperties:
+                                      type: string
+                                    description: |-
+                                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                      resources, allowing for full fidelity round trip conversions
+                                    type: object
+                                  name:
+                                    type: string
+                                  value:
+                                    type: string
+                                type: object
+                              type: array
+                            path:
+                              type: string
+                            port:
+                              type: integer
+                            scheme:
+                              type: string
+                          type: object
+                        initialDelaySeconds:
+                          type: integer
+                        periodSeconds:
+                          type: integer
+                        successThreshold:
+                          type: integer
+                        timeoutSeconds:
+                          type: integer
+                      type: object
+                    name:
+                      type: string
+                    ports:
+                      items:
+                        description: |-
+                          Storage version of v1api20211001.ContainerPort_STATUS
+                          The port exposed on the container instance.
+                        properties:
+                          $propertyBag:
+                            additionalProperties:
+                              type: string
+                            description: |-
+                              PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                              resources, allowing for full fidelity round trip conversions
+                            type: object
+                          port:
+                            type: integer
+                          protocol:
+                            type: string
+                        type: object
+                      type: array
+                    readinessProbe:
+                      description: |-
+                        Storage version of v1api20211001.ContainerProbe_STATUS
+                        The container probe, for liveness or readiness
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                            resources, allowing for full fidelity round trip conversions
+                          type: object
+                        exec:
+                          description: |-
+                            Storage version of v1api20211001.ContainerExec_STATUS
+                            The container execution command, for liveness or readiness probe
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                resources, allowing for full fidelity round trip conversions
+                              type: object
+                            command:
+                              items:
+                                type: string
+                              type: array
+                          type: object
+                        failureThreshold:
+                          type: integer
+                        httpGet:
+                          description: |-
+                            Storage version of v1api20211001.ContainerHttpGet_STATUS
+                            The container Http Get settings, for liveness or readiness probe
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                resources, allowing for full fidelity round trip conversions
+                              type: object
+                            httpHeaders:
+                              items:
+                                description: |-
+                                  Storage version of v1api20211001.HttpHeader_STATUS
+                                  The HTTP header.
+                                properties:
+                                  $propertyBag:
+                                    additionalProperties:
+                                      type: string
+                                    description: |-
+                                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                      resources, allowing for full fidelity round trip conversions
+                                    type: object
+                                  name:
+                                    type: string
+                                  value:
+                                    type: string
+                                type: object
+                              type: array
+                            path:
+                              type: string
+                            port:
+                              type: integer
+                            scheme:
+                              type: string
+                          type: object
+                        initialDelaySeconds:
+                          type: integer
+                        periodSeconds:
+                          type: integer
+                        successThreshold:
+                          type: integer
+                        timeoutSeconds:
+                          type: integer
+                      type: object
+                    resources:
+                      description: |-
+                        Storage version of v1api20211001.ResourceRequirements_STATUS
+                        The resource requirements.
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                            resources, allowing for full fidelity round trip conversions
+                          type: object
+                        limits:
+                          description: |-
+                            Storage version of v1api20211001.ResourceLimits_STATUS
+                            The resource limits.
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                resources, allowing for full fidelity round trip conversions
+                              type: object
+                            cpu:
+                              type: number
+                            gpu:
+                              description: |-
+                                Storage version of v1api20211001.GpuResource_STATUS
+                                The GPU resource.
+                              properties:
+                                $propertyBag:
+                                  additionalProperties:
+                                    type: string
+                                  description: |-
+                                    PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                    resources, allowing for full fidelity round trip conversions
+                                  type: object
+                                count:
+                                  type: integer
+                                sku:
+                                  type: string
+                              type: object
+                            memoryInGB:
+                              type: number
+                          type: object
+                        requests:
+                          description: |-
+                            Storage version of v1api20211001.ResourceRequests_STATUS
+                            The resource requests.
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                resources, allowing for full fidelity round trip conversions
+                              type: object
+                            cpu:
+                              type: number
+                            gpu:
+                              description: |-
+                                Storage version of v1api20211001.GpuResource_STATUS
+                                The GPU resource.
+                              properties:
+                                $propertyBag:
+                                  additionalProperties:
+                                    type: string
+                                  description: |-
+                                    PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                    resources, allowing for full fidelity round trip conversions
+                                  type: object
+                                count:
+                                  type: integer
+                                sku:
+                                  type: string
+                              type: object
+                            memoryInGB:
+                              type: number
+                          type: object
+                      type: object
+                    volumeMounts:
+                      items:
+                        description: |-
+                          Storage version of v1api20211001.VolumeMount_STATUS
+                          The properties of the volume mount.
+                        properties:
+                          $propertyBag:
+                            additionalProperties:
+                              type: string
+                            description: |-
+                              PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                              resources, allowing for full fidelity round trip conversions
+                            type: object
+                          mountPath:
+                            type: string
+                          name:
+                            type: string
+                          readOnly:
+                            type: boolean
+                        type: object
+                      type: array
+                  type: object
+                type: array
+              diagnostics:
+                description: |-
+                  Storage version of v1api20211001.ContainerGroupDiagnostics_STATUS
+                  Container group diagnostic information.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  logAnalytics:
+                    description: |-
+                      Storage version of v1api20211001.LogAnalytics_STATUS
+                      Container group log analytics information.
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      logType:
+                        type: string
+                      metadata:
+                        additionalProperties:
+                          type: string
+                        type: object
+                      workspaceId:
+                        type: string
+                    type: object
+                type: object
+              dnsConfig:
+                description: |-
+                  Storage version of v1api20211001.DnsConfiguration_STATUS
+                  DNS configuration for the container group.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  nameServers:
+                    items:
+                      type: string
+                    type: array
+                  options:
+                    type: string
+                  searchDomains:
+                    type: string
+                type: object
+              encryptionProperties:
+                description: |-
+                  Storage version of v1api20211001.EncryptionProperties_STATUS
+                  The container group encryption properties.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  keyName:
+                    type: string
+                  keyVersion:
+                    type: string
+                  vaultBaseUrl:
+                    type: string
+                type: object
+              id:
+                type: string
+              identity:
+                description: |-
+                  Storage version of v1api20211001.ContainerGroupIdentity_STATUS
+                  Identity for the container group.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  principalId:
+                    type: string
+                  tenantId:
+                    type: string
+                  type:
+                    type: string
+                  userAssignedIdentities:
+                    additionalProperties:
+                      description: |-
+                        Storage version of v1api20211001.UserAssignedIdentities_STATUS
+                        The list of user identities associated with the container group. The user identity dictionary key references will be ARM
+                        resource ids in the form:
+                        '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                            resources, allowing for full fidelity round trip conversions
+                          type: object
+                        clientId:
+                          type: string
+                        principalId:
+                          type: string
+                      type: object
+                    type: object
+                type: object
+              imageRegistryCredentials:
+                items:
+                  description: |-
+                    Storage version of v1api20211001.ImageRegistryCredential_STATUS
+                    Image registry credential.
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    identity:
+                      type: string
+                    identityUrl:
+                      type: string
+                    server:
+                      type: string
+                    username:
+                      type: string
+                  type: object
+                type: array
+              initContainers:
+                items:
+                  description: |-
+                    Storage version of v1api20211001.InitContainerDefinition_STATUS
+                    The init container definition.
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    command:
+                      items:
+                        type: string
+                      type: array
+                    environmentVariables:
+                      items:
+                        description: |-
+                          Storage version of v1api20211001.EnvironmentVariable_STATUS
+                          The environment variable to set within the container instance.
+                        properties:
+                          $propertyBag:
+                            additionalProperties:
+                              type: string
+                            description: |-
+                              PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                              resources, allowing for full fidelity round trip conversions
+                            type: object
+                          name:
+                            type: string
+                          value:
+                            type: string
+                        type: object
+                      type: array
+                    image:
+                      type: string
+                    instanceView:
+                      description: Storage version of v1api20211001.InitContainerPropertiesDefinition_InstanceView_STATUS
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                            resources, allowing for full fidelity round trip conversions
+                          type: object
+                        currentState:
+                          description: |-
+                            Storage version of v1api20211001.ContainerState_STATUS
+                            The container instance state.
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                resources, allowing for full fidelity round trip conversions
+                              type: object
+                            detailStatus:
+                              type: string
+                            exitCode:
+                              type: integer
+                            finishTime:
+                              type: string
+                            startTime:
+                              type: string
+                            state:
+                              type: string
+                          type: object
+                        events:
+                          items:
+                            description: |-
+                              Storage version of v1api20211001.Event_STATUS
+                              A container group or container instance event.
+                            properties:
+                              $propertyBag:
+                                additionalProperties:
+                                  type: string
+                                description: |-
+                                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                  resources, allowing for full fidelity round trip conversions
+                                type: object
+                              count:
+                                type: integer
+                              firstTimestamp:
+                                type: string
+                              lastTimestamp:
+                                type: string
+                              message:
+                                type: string
+                              name:
+                                type: string
+                              type:
+                                type: string
+                            type: object
+                          type: array
+                        previousState:
+                          description: |-
+                            Storage version of v1api20211001.ContainerState_STATUS
+                            The container instance state.
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                resources, allowing for full fidelity round trip conversions
+                              type: object
+                            detailStatus:
+                              type: string
+                            exitCode:
+                              type: integer
+                            finishTime:
+                              type: string
+                            startTime:
+                              type: string
+                            state:
+                              type: string
+                          type: object
+                        restartCount:
+                          type: integer
+                      type: object
+                    name:
+                      type: string
+                    volumeMounts:
+                      items:
+                        description: |-
+                          Storage version of v1api20211001.VolumeMount_STATUS
+                          The properties of the volume mount.
+                        properties:
+                          $propertyBag:
+                            additionalProperties:
+                              type: string
+                            description: |-
+                              PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                              resources, allowing for full fidelity round trip conversions
+                            type: object
+                          mountPath:
+                            type: string
+                          name:
+                            type: string
+                          readOnly:
+                            type: boolean
+                        type: object
+                      type: array
+                  type: object
+                type: array
+              instanceView:
+                description: Storage version of v1api20211001.ContainerGroup_Properties_InstanceView_STATUS
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  events:
+                    items:
+                      description: |-
+                        Storage version of v1api20211001.Event_STATUS
+                        A container group or container instance event.
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                            resources, allowing for full fidelity round trip conversions
+                          type: object
+                        count:
+                          type: integer
+                        firstTimestamp:
+                          type: string
+                        lastTimestamp:
+                          type: string
+                        message:
+                          type: string
+                        name:
+                          type: string
+                        type:
+                          type: string
+                      type: object
+                    type: array
+                  state:
+                    type: string
+                type: object
+              ipAddress:
+                description: |-
+                  Storage version of v1api20211001.IpAddress_STATUS
+                  IP address for the container group.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  autoGeneratedDomainNameLabelScope:
+                    type: string
+                  dnsNameLabel:
+                    type: string
+                  fqdn:
+                    type: string
+                  ip:
+                    type: string
+                  ports:
+                    items:
+                      description: |-
+                        Storage version of v1api20211001.Port_STATUS
+                        The port exposed on the container group.
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                            resources, allowing for full fidelity round trip conversions
+                          type: object
+                        port:
+                          type: integer
+                        protocol:
+                          type: string
+                      type: object
+                    type: array
+                  type:
+                    type: string
+                type: object
+              location:
+                type: string
+              name:
+                type: string
+              osType:
+                type: string
+              provisioningState:
+                type: string
+              restartPolicy:
+                type: string
+              sku:
+                type: string
+              subnetIds:
+                items:
+                  description: |-
+                    Storage version of v1api20211001.ContainerGroupSubnetId_STATUS
+                    Container group subnet information.
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    id:
+                      type: string
+                    name:
+                      type: string
+                  type: object
+                type: array
+              tags:
+                additionalProperties:
+                  type: string
+                type: object
+              type:
+                type: string
+              volumes:
+                items:
+                  description: |-
+                    Storage version of v1api20211001.Volume_STATUS
+                    The properties of the volume.
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    azureFile:
+                      description: |-
+                        Storage version of v1api20211001.AzureFileVolume_STATUS
+                        The properties of the Azure File volume. Azure File shares are mounted as volumes.
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                            resources, allowing for full fidelity round trip conversions
+                          type: object
+                        readOnly:
+                          type: boolean
+                        shareName:
+                          type: string
+                        storageAccountKey:
+                          type: string
+                        storageAccountName:
+                          type: string
+                      type: object
+                    emptyDir:
+                      additionalProperties:
+                        x-kubernetes-preserve-unknown-fields: true
+                      type: object
+                    gitRepo:
+                      description: |-
+                        Storage version of v1api20211001.GitRepoVolume_STATUS
+                        Represents a volume that is populated with the contents of a git repository
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                            resources, allowing for full fidelity round trip conversions
+                          type: object
+                        directory:
+                          type: string
+                        repository:
+                          type: string
+                        revision:
+                          type: string
+                      type: object
+                    name:
+                      type: string
+                    secret:
+                      additionalProperties:
+                        type: string
+                      type: object
+                  type: object
+                type: array
+              zones:
+                items:
+                  type: string
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

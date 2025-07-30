@@ -1,0 +1,1661 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.17.3
+  name: webapplicationfirewallpolicies.network.frontdoor.azure.com
+spec:
+  group: network.frontdoor.azure.com
+  names:
+    kind: WebApplicationFirewallPolicy
+    listKind: WebApplicationFirewallPolicyList
+    plural: webapplicationfirewallpolicies
+    singular: webapplicationfirewallpolicy
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1api20220501
+    schema:
+      openAPIV3Schema:
+        description: |-
+          Generator information:
+          - Generated from: /frontdoor/resource-manager/Microsoft.Network/stable/2022-05-01/webapplicationfirewall.json
+          - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/FrontDoorWebApplicationFirewallPolicies/{policyName}
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              azureName:
+                description: |-
+                  AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+                  doesn't have to be.
+                maxLength: 128
+                type: string
+              customRules:
+                description: 'CustomRules: Describes custom rules inside the policy.'
+                properties:
+                  rules:
+                    description: 'Rules: List of rules'
+                    items:
+                      description: Defines contents of a web application rule
+                      properties:
+                        action:
+                          description: 'Action: Describes what action to be applied
+                            when rule matches.'
+                          enum:
+                          - Allow
+                          - AnomalyScoring
+                          - Block
+                          - Log
+                          - Redirect
+                          type: string
+                        enabledState:
+                          description: 'EnabledState: Describes if the custom rule
+                            is in enabled or disabled state. Defaults to Enabled if
+                            not specified.'
+                          enum:
+                          - Disabled
+                          - Enabled
+                          type: string
+                        matchConditions:
+                          description: 'MatchConditions: List of match conditions.'
+                          items:
+                            description: Define a match condition.
+                            properties:
+                              matchValue:
+                                description: 'MatchValue: List of possible match values.'
+                                items:
+                                  type: string
+                                type: array
+                              matchVariable:
+                                description: 'MatchVariable: Request variable to compare
+                                  with.'
+                                enum:
+                                - Cookies
+                                - PostArgs
+                                - QueryString
+                                - RemoteAddr
+                                - RequestBody
+                                - RequestHeader
+                                - RequestMethod
+                                - RequestUri
+                                - SocketAddr
+                                type: string
+                              negateCondition:
+                                description: 'NegateCondition: Describes if the result
+                                  of this condition should be negated.'
+                                type: boolean
+                              operator:
+                                description: 'Operator: Comparison type to use for
+                                  matching with the variable value.'
+                                enum:
+                                - Any
+                                - BeginsWith
+                                - Contains
+                                - EndsWith
+                                - Equal
+                                - GeoMatch
+                                - GreaterThan
+                                - GreaterThanOrEqual
+                                - IPMatch
+                                - LessThan
+                                - LessThanOrEqual
+                                - RegEx
+                                type: string
+                              selector:
+                                description: |-
+                                  Selector: Match against a specific key from the QueryString, PostArgs, RequestHeader or Cookies variables. Default is
+                                  null.
+                                type: string
+                              transforms:
+                                description: 'Transforms: List of transforms.'
+                                items:
+                                  description: Describes what transforms applied before
+                                    matching.
+                                  enum:
+                                  - Lowercase
+                                  - RemoveNulls
+                                  - Trim
+                                  - Uppercase
+                                  - UrlDecode
+                                  - UrlEncode
+                                  type: string
+                                type: array
+                            required:
+                            - matchValue
+                            - matchVariable
+                            - operator
+                            type: object
+                          type: array
+                        name:
+                          description: 'Name: Describes the name of the rule.'
+                          maxLength: 128
+                          type: string
+                        priority:
+                          description: 'Priority: Describes priority of the rule.
+                            Rules with a lower value will be evaluated before rules
+                            with a higher value.'
+                          type: integer
+                        rateLimitDurationInMinutes:
+                          description: 'RateLimitDurationInMinutes: Time window for
+                            resetting the rate limit count. Default is 1 minute.'
+                          maximum: 5
+                          minimum: 0
+                          type: integer
+                        rateLimitThreshold:
+                          description: 'RateLimitThreshold: Number of allowed requests
+                            per client within the time window.'
+                          minimum: 0
+                          type: integer
+                        ruleType:
+                          description: 'RuleType: Describes type of rule.'
+                          enum:
+                          - MatchRule
+                          - RateLimitRule
+                          type: string
+                      required:
+                      - action
+                      - matchConditions
+                      - priority
+                      - ruleType
+                      type: object
+                    type: array
+                type: object
+              etag:
+                description: 'Etag: Gets a unique read-only string that changes whenever
+                  the resource is updated.'
+                type: string
+              location:
+                description: 'Location: Resource location.'
+                type: string
+              managedRules:
+                description: 'ManagedRules: Describes managed rules inside the policy.'
+                properties:
+                  managedRuleSets:
+                    description: 'ManagedRuleSets: List of rule sets.'
+                    items:
+                      description: Defines a managed rule set.
+                      properties:
+                        exclusions:
+                          description: 'Exclusions: Describes the exclusions that
+                            are applied to all rules in the set.'
+                          items:
+                            description: Exclude variables from managed rule evaluation.
+                            properties:
+                              matchVariable:
+                                description: 'MatchVariable: The variable type to
+                                  be excluded.'
+                                enum:
+                                - QueryStringArgNames
+                                - RequestBodyJsonArgNames
+                                - RequestBodyPostArgNames
+                                - RequestCookieNames
+                                - RequestHeaderNames
+                                type: string
+                              selector:
+                                description: 'Selector: Selector value for which elements
+                                  in the collection this exclusion applies to.'
+                                type: string
+                              selectorMatchOperator:
+                                description: |-
+                                  SelectorMatchOperator: Comparison operator to apply to the selector when specifying which elements in the collection
+                                  this exclusion applies to.
+                                enum:
+                                - Contains
+                                - EndsWith
+                                - Equals
+                                - EqualsAny
+                                - StartsWith
+                                type: string
+                            required:
+                            - matchVariable
+                            - selector
+                            - selectorMatchOperator
+                            type: object
+                          type: array
+                        ruleGroupOverrides:
+                          description: 'RuleGroupOverrides: Defines the rule group
+                            overrides to apply to the rule set.'
+                          items:
+                            description: Defines a managed rule group override setting.
+                            properties:
+                              exclusions:
+                                description: 'Exclusions: Describes the exclusions
+                                  that are applied to all rules in the group.'
+                                items:
+                                  description: Exclude variables from managed rule
+                                    evaluation.
+                                  properties:
+                                    matchVariable:
+                                      description: 'MatchVariable: The variable type
+                                        to be excluded.'
+                                      enum:
+                                      - QueryStringArgNames
+                                      - RequestBodyJsonArgNames
+                                      - RequestBodyPostArgNames
+                                      - RequestCookieNames
+                                      - RequestHeaderNames
+                                      type: string
+                                    selector:
+                                      description: 'Selector: Selector value for which
+                                        elements in the collection this exclusion
+                                        applies to.'
+                                      type: string
+                                    selectorMatchOperator:
+                                      description: |-
+                                        SelectorMatchOperator: Comparison operator to apply to the selector when specifying which elements in the collection
+                                        this exclusion applies to.
+                                      enum:
+                                      - Contains
+                                      - EndsWith
+                                      - Equals
+                                      - EqualsAny
+                                      - StartsWith
+                                      type: string
+                                  required:
+                                  - matchVariable
+                                  - selector
+                                  - selectorMatchOperator
+                                  type: object
+                                type: array
+                              ruleGroupName:
+                                description: 'RuleGroupName: Describes the managed
+                                  rule group to override.'
+                                type: string
+                              rules:
+                                description: 'Rules: List of rules that will be disabled.
+                                  If none specified, all rules in the group will be
+                                  disabled.'
+                                items:
+                                  description: Defines a managed rule group override
+                                    setting.
+                                  properties:
+                                    action:
+                                      description: 'Action: Describes the override
+                                        action to be applied when rule matches.'
+                                      enum:
+                                      - Allow
+                                      - AnomalyScoring
+                                      - Block
+                                      - Log
+                                      - Redirect
+                                      type: string
+                                    enabledState:
+                                      description: 'EnabledState: Describes if the
+                                        managed rule is in enabled or disabled state.
+                                        Defaults to Disabled if not specified.'
+                                      enum:
+                                      - Disabled
+                                      - Enabled
+                                      type: string
+                                    exclusions:
+                                      description: 'Exclusions: Describes the exclusions
+                                        that are applied to this specific rule.'
+                                      items:
+                                        description: Exclude variables from managed
+                                          rule evaluation.
+                                        properties:
+                                          matchVariable:
+                                            description: 'MatchVariable: The variable
+                                              type to be excluded.'
+                                            enum:
+                                            - QueryStringArgNames
+                                            - RequestBodyJsonArgNames
+                                            - RequestBodyPostArgNames
+                                            - RequestCookieNames
+                                            - RequestHeaderNames
+                                            type: string
+                                          selector:
+                                            description: 'Selector: Selector value
+                                              for which elements in the collection
+                                              this exclusion applies to.'
+                                            type: string
+                                          selectorMatchOperator:
+                                            description: |-
+                                              SelectorMatchOperator: Comparison operator to apply to the selector when specifying which elements in the collection
+                                              this exclusion applies to.
+                                            enum:
+                                            - Contains
+                                            - EndsWith
+                                            - Equals
+                                            - EqualsAny
+                                            - StartsWith
+                                            type: string
+                                        required:
+                                        - matchVariable
+                                        - selector
+                                        - selectorMatchOperator
+                                        type: object
+                                      type: array
+                                    ruleId:
+                                      description: 'RuleId: Identifier for the managed
+                                        rule.'
+                                      type: string
+                                  required:
+                                  - ruleId
+                                  type: object
+                                type: array
+                            required:
+                            - ruleGroupName
+                            type: object
+                          type: array
+                        ruleSetAction:
+                          description: 'RuleSetAction: Defines the rule set action.'
+                          enum:
+                          - Block
+                          - Log
+                          - Redirect
+                          type: string
+                        ruleSetType:
+                          description: 'RuleSetType: Defines the rule set type to
+                            use.'
+                          type: string
+                        ruleSetVersion:
+                          description: 'RuleSetVersion: Defines the version of the
+                            rule set to use.'
+                          type: string
+                      required:
+                      - ruleSetType
+                      - ruleSetVersion
+                      type: object
+                    type: array
+                type: object
+              operatorSpec:
+                description: |-
+                  OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+                  passed directly to Azure
+                properties:
+                  configMapExpressions:
+                    description: 'ConfigMapExpressions: configures where to place
+                      operator written dynamic ConfigMaps (created with CEL expressions).'
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                  secretExpressions:
+                    description: 'SecretExpressions: configures where to place operator
+                      written dynamic secrets (created with CEL expressions).'
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                type: object
+              owner:
+                description: |-
+                  Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+                  controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+                  reference to a resources.azure.com/ResourceGroup resource
+                properties:
+                  armId:
+                    pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                    type: string
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                type: object
+              policySettings:
+                description: 'PolicySettings: Describes settings for the policy.'
+                properties:
+                  customBlockResponseBody:
+                    description: |-
+                      CustomBlockResponseBody: If the action type is block, customer can override the response body. The body must be
+                      specified in base64 encoding.
+                    pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{4})$
+                    type: string
+                  customBlockResponseStatusCode:
+                    description: 'CustomBlockResponseStatusCode: If the action type
+                      is block, customer can override the response status code.'
+                    type: integer
+                  enabledState:
+                    description: 'EnabledState: Describes if the policy is in enabled
+                      or disabled state. Defaults to Enabled if not specified.'
+                    enum:
+                    - Disabled
+                    - Enabled
+                    type: string
+                  mode:
+                    description: 'Mode: Describes if it is in detection mode or prevention
+                      mode at policy level.'
+                    enum:
+                    - Detection
+                    - Prevention
+                    type: string
+                  redirectUrl:
+                    description: 'RedirectUrl: If action type is redirect, this field
+                      represents redirect URL for the client.'
+                    type: string
+                  requestBodyCheck:
+                    description: 'RequestBodyCheck: Describes if policy managed rules
+                      will inspect the request body content.'
+                    enum:
+                    - Disabled
+                    - Enabled
+                    type: string
+                type: object
+              sku:
+                description: 'Sku: The pricing tier of web application firewall policy.
+                  Defaults to Classic_AzureFrontDoor if not specified.'
+                properties:
+                  name:
+                    description: 'Name: Name of the pricing tier.'
+                    enum:
+                    - Classic_AzureFrontDoor
+                    - Premium_AzureFrontDoor
+                    - Standard_AzureFrontDoor
+                    type: string
+                type: object
+              tags:
+                additionalProperties:
+                  type: string
+                description: 'Tags: Resource tags.'
+                type: object
+            required:
+            - owner
+            type: object
+          status:
+            properties:
+              conditions:
+                description: 'Conditions: The observed state of the resource'
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration is the .metadata.generation that the condition was set based upon. For instance, if
+                        .metadata.generation is currently 12, but the .status.condition[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: |-
+                        Reason for the condition's last transition.
+                        Reasons are upper CamelCase (PascalCase) with no spaces. A reason is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: |-
+                        Severity with which to treat failures of this type of condition.
+                        For conditions which have positive polarity (Status == True is their normal/healthy state), this will be omitted when Status == True
+                        For conditions which have negative polarity (Status == False is their normal/healthy state), this will be omitted when Status == False.
+                        This is omitted in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              customRules:
+                description: 'CustomRules: Describes custom rules inside the policy.'
+                properties:
+                  rules:
+                    description: 'Rules: List of rules'
+                    items:
+                      description: Defines contents of a web application rule
+                      properties:
+                        action:
+                          description: 'Action: Describes what action to be applied
+                            when rule matches.'
+                          type: string
+                        enabledState:
+                          description: 'EnabledState: Describes if the custom rule
+                            is in enabled or disabled state. Defaults to Enabled if
+                            not specified.'
+                          type: string
+                        matchConditions:
+                          description: 'MatchConditions: List of match conditions.'
+                          items:
+                            description: Define a match condition.
+                            properties:
+                              matchValue:
+                                description: 'MatchValue: List of possible match values.'
+                                items:
+                                  type: string
+                                type: array
+                              matchVariable:
+                                description: 'MatchVariable: Request variable to compare
+                                  with.'
+                                type: string
+                              negateCondition:
+                                description: 'NegateCondition: Describes if the result
+                                  of this condition should be negated.'
+                                type: boolean
+                              operator:
+                                description: 'Operator: Comparison type to use for
+                                  matching with the variable value.'
+                                type: string
+                              selector:
+                                description: |-
+                                  Selector: Match against a specific key from the QueryString, PostArgs, RequestHeader or Cookies variables. Default is
+                                  null.
+                                type: string
+                              transforms:
+                                description: 'Transforms: List of transforms.'
+                                items:
+                                  description: Describes what transforms applied before
+                                    matching.
+                                  type: string
+                                type: array
+                            type: object
+                          type: array
+                        name:
+                          description: 'Name: Describes the name of the rule.'
+                          type: string
+                        priority:
+                          description: 'Priority: Describes priority of the rule.
+                            Rules with a lower value will be evaluated before rules
+                            with a higher value.'
+                          type: integer
+                        rateLimitDurationInMinutes:
+                          description: 'RateLimitDurationInMinutes: Time window for
+                            resetting the rate limit count. Default is 1 minute.'
+                          type: integer
+                        rateLimitThreshold:
+                          description: 'RateLimitThreshold: Number of allowed requests
+                            per client within the time window.'
+                          type: integer
+                        ruleType:
+                          description: 'RuleType: Describes type of rule.'
+                          type: string
+                      type: object
+                    type: array
+                type: object
+              etag:
+                description: 'Etag: Gets a unique read-only string that changes whenever
+                  the resource is updated.'
+                type: string
+              frontendEndpointLinks:
+                description: 'FrontendEndpointLinks: Describes Frontend Endpoints
+                  associated with this Web Application Firewall policy.'
+                items:
+                  description: Defines the Resource ID for a Frontend Endpoint.
+                  properties:
+                    id:
+                      description: 'Id: Resource ID.'
+                      type: string
+                  type: object
+                type: array
+              id:
+                description: 'Id: Resource ID.'
+                type: string
+              location:
+                description: 'Location: Resource location.'
+                type: string
+              managedRules:
+                description: 'ManagedRules: Describes managed rules inside the policy.'
+                properties:
+                  managedRuleSets:
+                    description: 'ManagedRuleSets: List of rule sets.'
+                    items:
+                      description: Defines a managed rule set.
+                      properties:
+                        exclusions:
+                          description: 'Exclusions: Describes the exclusions that
+                            are applied to all rules in the set.'
+                          items:
+                            description: Exclude variables from managed rule evaluation.
+                            properties:
+                              matchVariable:
+                                description: 'MatchVariable: The variable type to
+                                  be excluded.'
+                                type: string
+                              selector:
+                                description: 'Selector: Selector value for which elements
+                                  in the collection this exclusion applies to.'
+                                type: string
+                              selectorMatchOperator:
+                                description: |-
+                                  SelectorMatchOperator: Comparison operator to apply to the selector when specifying which elements in the collection
+                                  this exclusion applies to.
+                                type: string
+                            type: object
+                          type: array
+                        ruleGroupOverrides:
+                          description: 'RuleGroupOverrides: Defines the rule group
+                            overrides to apply to the rule set.'
+                          items:
+                            description: Defines a managed rule group override setting.
+                            properties:
+                              exclusions:
+                                description: 'Exclusions: Describes the exclusions
+                                  that are applied to all rules in the group.'
+                                items:
+                                  description: Exclude variables from managed rule
+                                    evaluation.
+                                  properties:
+                                    matchVariable:
+                                      description: 'MatchVariable: The variable type
+                                        to be excluded.'
+                                      type: string
+                                    selector:
+                                      description: 'Selector: Selector value for which
+                                        elements in the collection this exclusion
+                                        applies to.'
+                                      type: string
+                                    selectorMatchOperator:
+                                      description: |-
+                                        SelectorMatchOperator: Comparison operator to apply to the selector when specifying which elements in the collection
+                                        this exclusion applies to.
+                                      type: string
+                                  type: object
+                                type: array
+                              ruleGroupName:
+                                description: 'RuleGroupName: Describes the managed
+                                  rule group to override.'
+                                type: string
+                              rules:
+                                description: 'Rules: List of rules that will be disabled.
+                                  If none specified, all rules in the group will be
+                                  disabled.'
+                                items:
+                                  description: Defines a managed rule group override
+                                    setting.
+                                  properties:
+                                    action:
+                                      description: 'Action: Describes the override
+                                        action to be applied when rule matches.'
+                                      type: string
+                                    enabledState:
+                                      description: 'EnabledState: Describes if the
+                                        managed rule is in enabled or disabled state.
+                                        Defaults to Disabled if not specified.'
+                                      type: string
+                                    exclusions:
+                                      description: 'Exclusions: Describes the exclusions
+                                        that are applied to this specific rule.'
+                                      items:
+                                        description: Exclude variables from managed
+                                          rule evaluation.
+                                        properties:
+                                          matchVariable:
+                                            description: 'MatchVariable: The variable
+                                              type to be excluded.'
+                                            type: string
+                                          selector:
+                                            description: 'Selector: Selector value
+                                              for which elements in the collection
+                                              this exclusion applies to.'
+                                            type: string
+                                          selectorMatchOperator:
+                                            description: |-
+                                              SelectorMatchOperator: Comparison operator to apply to the selector when specifying which elements in the collection
+                                              this exclusion applies to.
+                                            type: string
+                                        type: object
+                                      type: array
+                                    ruleId:
+                                      description: 'RuleId: Identifier for the managed
+                                        rule.'
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        ruleSetAction:
+                          description: 'RuleSetAction: Defines the rule set action.'
+                          type: string
+                        ruleSetType:
+                          description: 'RuleSetType: Defines the rule set type to
+                            use.'
+                          type: string
+                        ruleSetVersion:
+                          description: 'RuleSetVersion: Defines the version of the
+                            rule set to use.'
+                          type: string
+                      type: object
+                    type: array
+                type: object
+              name:
+                description: 'Name: Resource name.'
+                type: string
+              policySettings:
+                description: 'PolicySettings: Describes settings for the policy.'
+                properties:
+                  customBlockResponseBody:
+                    description: |-
+                      CustomBlockResponseBody: If the action type is block, customer can override the response body. The body must be
+                      specified in base64 encoding.
+                    type: string
+                  customBlockResponseStatusCode:
+                    description: 'CustomBlockResponseStatusCode: If the action type
+                      is block, customer can override the response status code.'
+                    type: integer
+                  enabledState:
+                    description: 'EnabledState: Describes if the policy is in enabled
+                      or disabled state. Defaults to Enabled if not specified.'
+                    type: string
+                  mode:
+                    description: 'Mode: Describes if it is in detection mode or prevention
+                      mode at policy level.'
+                    type: string
+                  redirectUrl:
+                    description: 'RedirectUrl: If action type is redirect, this field
+                      represents redirect URL for the client.'
+                    type: string
+                  requestBodyCheck:
+                    description: 'RequestBodyCheck: Describes if policy managed rules
+                      will inspect the request body content.'
+                    type: string
+                type: object
+              provisioningState:
+                description: 'ProvisioningState: Provisioning state of the policy.'
+                type: string
+              resourceState:
+                type: string
+              routingRuleLinks:
+                description: 'RoutingRuleLinks: Describes Routing Rules associated
+                  with this Web Application Firewall policy.'
+                items:
+                  description: Defines the Resource ID for a Routing Rule.
+                  properties:
+                    id:
+                      description: 'Id: Resource ID.'
+                      type: string
+                  type: object
+                type: array
+              securityPolicyLinks:
+                description: 'SecurityPolicyLinks: Describes Security Policy associated
+                  with this Web Application Firewall policy.'
+                items:
+                  description: Defines the Resource ID for a Security Policy.
+                  properties:
+                    id:
+                      description: 'Id: Resource ID.'
+                      type: string
+                  type: object
+                type: array
+              sku:
+                description: 'Sku: The pricing tier of web application firewall policy.
+                  Defaults to Classic_AzureFrontDoor if not specified.'
+                properties:
+                  name:
+                    description: 'Name: Name of the pricing tier.'
+                    type: string
+                type: object
+              tags:
+                additionalProperties:
+                  type: string
+                description: 'Tags: Resource tags.'
+                type: object
+              type:
+                description: 'Type: Resource type.'
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: false
+    subresources:
+      status: {}
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1api20220501storage
+    schema:
+      openAPIV3Schema:
+        description: |-
+          Storage version of v1api20220501.WebApplicationFirewallPolicy
+          Generator information:
+          - Generated from: /frontdoor/resource-manager/Microsoft.Network/stable/2022-05-01/webapplicationfirewall.json
+          - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/FrontDoorWebApplicationFirewallPolicies/{policyName}
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Storage version of v1api20220501.WebApplicationFirewallPolicy_Spec
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: |-
+                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                  resources, allowing for full fidelity round trip conversions
+                type: object
+              azureName:
+                description: |-
+                  AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+                  doesn't have to be.
+                type: string
+              customRules:
+                description: |-
+                  Storage version of v1api20220501.CustomRuleList
+                  Defines contents of custom rules
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  rules:
+                    items:
+                      description: |-
+                        Storage version of v1api20220501.CustomRule
+                        Defines contents of a web application rule
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                            resources, allowing for full fidelity round trip conversions
+                          type: object
+                        action:
+                          type: string
+                        enabledState:
+                          type: string
+                        matchConditions:
+                          items:
+                            description: |-
+                              Storage version of v1api20220501.MatchCondition
+                              Define a match condition.
+                            properties:
+                              $propertyBag:
+                                additionalProperties:
+                                  type: string
+                                description: |-
+                                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                  resources, allowing for full fidelity round trip conversions
+                                type: object
+                              matchValue:
+                                items:
+                                  type: string
+                                type: array
+                              matchVariable:
+                                type: string
+                              negateCondition:
+                                type: boolean
+                              operator:
+                                type: string
+                              selector:
+                                type: string
+                              transforms:
+                                items:
+                                  type: string
+                                type: array
+                            type: object
+                          type: array
+                        name:
+                          type: string
+                        priority:
+                          type: integer
+                        rateLimitDurationInMinutes:
+                          type: integer
+                        rateLimitThreshold:
+                          type: integer
+                        ruleType:
+                          type: string
+                      type: object
+                    type: array
+                type: object
+              etag:
+                type: string
+              location:
+                type: string
+              managedRules:
+                description: |-
+                  Storage version of v1api20220501.ManagedRuleSetList
+                  Defines the list of managed rule sets for the policy.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  managedRuleSets:
+                    items:
+                      description: |-
+                        Storage version of v1api20220501.ManagedRuleSet
+                        Defines a managed rule set.
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                            resources, allowing for full fidelity round trip conversions
+                          type: object
+                        exclusions:
+                          items:
+                            description: |-
+                              Storage version of v1api20220501.ManagedRuleExclusion
+                              Exclude variables from managed rule evaluation.
+                            properties:
+                              $propertyBag:
+                                additionalProperties:
+                                  type: string
+                                description: |-
+                                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                  resources, allowing for full fidelity round trip conversions
+                                type: object
+                              matchVariable:
+                                type: string
+                              selector:
+                                type: string
+                              selectorMatchOperator:
+                                type: string
+                            type: object
+                          type: array
+                        ruleGroupOverrides:
+                          items:
+                            description: |-
+                              Storage version of v1api20220501.ManagedRuleGroupOverride
+                              Defines a managed rule group override setting.
+                            properties:
+                              $propertyBag:
+                                additionalProperties:
+                                  type: string
+                                description: |-
+                                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                  resources, allowing for full fidelity round trip conversions
+                                type: object
+                              exclusions:
+                                items:
+                                  description: |-
+                                    Storage version of v1api20220501.ManagedRuleExclusion
+                                    Exclude variables from managed rule evaluation.
+                                  properties:
+                                    $propertyBag:
+                                      additionalProperties:
+                                        type: string
+                                      description: |-
+                                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                        resources, allowing for full fidelity round trip conversions
+                                      type: object
+                                    matchVariable:
+                                      type: string
+                                    selector:
+                                      type: string
+                                    selectorMatchOperator:
+                                      type: string
+                                  type: object
+                                type: array
+                              ruleGroupName:
+                                type: string
+                              rules:
+                                items:
+                                  description: |-
+                                    Storage version of v1api20220501.ManagedRuleOverride
+                                    Defines a managed rule group override setting.
+                                  properties:
+                                    $propertyBag:
+                                      additionalProperties:
+                                        type: string
+                                      description: |-
+                                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                        resources, allowing for full fidelity round trip conversions
+                                      type: object
+                                    action:
+                                      type: string
+                                    enabledState:
+                                      type: string
+                                    exclusions:
+                                      items:
+                                        description: |-
+                                          Storage version of v1api20220501.ManagedRuleExclusion
+                                          Exclude variables from managed rule evaluation.
+                                        properties:
+                                          $propertyBag:
+                                            additionalProperties:
+                                              type: string
+                                            description: |-
+                                              PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                              resources, allowing for full fidelity round trip conversions
+                                            type: object
+                                          matchVariable:
+                                            type: string
+                                          selector:
+                                            type: string
+                                          selectorMatchOperator:
+                                            type: string
+                                        type: object
+                                      type: array
+                                    ruleId:
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        ruleSetAction:
+                          type: string
+                        ruleSetType:
+                          type: string
+                        ruleSetVersion:
+                          type: string
+                      type: object
+                    type: array
+                type: object
+              operatorSpec:
+                description: |-
+                  Storage version of v1api20220501.WebApplicationFirewallPolicyOperatorSpec
+                  Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  configMapExpressions:
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                  secretExpressions:
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                type: object
+              originalVersion:
+                type: string
+              owner:
+                description: |-
+                  Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+                  controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+                  reference to a resources.azure.com/ResourceGroup resource
+                properties:
+                  armId:
+                    pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                    type: string
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                type: object
+              policySettings:
+                description: |-
+                  Storage version of v1api20220501.PolicySettings
+                  Defines top-level WebApplicationFirewallPolicy configuration settings.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  customBlockResponseBody:
+                    type: string
+                  customBlockResponseStatusCode:
+                    type: integer
+                  enabledState:
+                    type: string
+                  mode:
+                    type: string
+                  redirectUrl:
+                    type: string
+                  requestBodyCheck:
+                    type: string
+                type: object
+              sku:
+                description: |-
+                  Storage version of v1api20220501.Sku
+                  The pricing tier of the web application firewall policy.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  name:
+                    type: string
+                type: object
+              tags:
+                additionalProperties:
+                  type: string
+                type: object
+            required:
+            - owner
+            type: object
+          status:
+            description: Storage version of v1api20220501.WebApplicationFirewallPolicy_STATUS
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: |-
+                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                  resources, allowing for full fidelity round trip conversions
+                type: object
+              conditions:
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration is the .metadata.generation that the condition was set based upon. For instance, if
+                        .metadata.generation is currently 12, but the .status.condition[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: |-
+                        Reason for the condition's last transition.
+                        Reasons are upper CamelCase (PascalCase) with no spaces. A reason is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: |-
+                        Severity with which to treat failures of this type of condition.
+                        For conditions which have positive polarity (Status == True is their normal/healthy state), this will be omitted when Status == True
+                        For conditions which have negative polarity (Status == False is their normal/healthy state), this will be omitted when Status == False.
+                        This is omitted in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              customRules:
+                description: |-
+                  Storage version of v1api20220501.CustomRuleList_STATUS
+                  Defines contents of custom rules
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  rules:
+                    items:
+                      description: |-
+                        Storage version of v1api20220501.CustomRule_STATUS
+                        Defines contents of a web application rule
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                            resources, allowing for full fidelity round trip conversions
+                          type: object
+                        action:
+                          type: string
+                        enabledState:
+                          type: string
+                        matchConditions:
+                          items:
+                            description: |-
+                              Storage version of v1api20220501.MatchCondition_STATUS
+                              Define a match condition.
+                            properties:
+                              $propertyBag:
+                                additionalProperties:
+                                  type: string
+                                description: |-
+                                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                  resources, allowing for full fidelity round trip conversions
+                                type: object
+                              matchValue:
+                                items:
+                                  type: string
+                                type: array
+                              matchVariable:
+                                type: string
+                              negateCondition:
+                                type: boolean
+                              operator:
+                                type: string
+                              selector:
+                                type: string
+                              transforms:
+                                items:
+                                  type: string
+                                type: array
+                            type: object
+                          type: array
+                        name:
+                          type: string
+                        priority:
+                          type: integer
+                        rateLimitDurationInMinutes:
+                          type: integer
+                        rateLimitThreshold:
+                          type: integer
+                        ruleType:
+                          type: string
+                      type: object
+                    type: array
+                type: object
+              etag:
+                type: string
+              frontendEndpointLinks:
+                items:
+                  description: |-
+                    Storage version of v1api20220501.FrontendEndpointLink_STATUS
+                    Defines the Resource ID for a Frontend Endpoint.
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    id:
+                      type: string
+                  type: object
+                type: array
+              id:
+                type: string
+              location:
+                type: string
+              managedRules:
+                description: |-
+                  Storage version of v1api20220501.ManagedRuleSetList_STATUS
+                  Defines the list of managed rule sets for the policy.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  managedRuleSets:
+                    items:
+                      description: |-
+                        Storage version of v1api20220501.ManagedRuleSet_STATUS
+                        Defines a managed rule set.
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                            resources, allowing for full fidelity round trip conversions
+                          type: object
+                        exclusions:
+                          items:
+                            description: |-
+                              Storage version of v1api20220501.ManagedRuleExclusion_STATUS
+                              Exclude variables from managed rule evaluation.
+                            properties:
+                              $propertyBag:
+                                additionalProperties:
+                                  type: string
+                                description: |-
+                                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                  resources, allowing for full fidelity round trip conversions
+                                type: object
+                              matchVariable:
+                                type: string
+                              selector:
+                                type: string
+                              selectorMatchOperator:
+                                type: string
+                            type: object
+                          type: array
+                        ruleGroupOverrides:
+                          items:
+                            description: |-
+                              Storage version of v1api20220501.ManagedRuleGroupOverride_STATUS
+                              Defines a managed rule group override setting.
+                            properties:
+                              $propertyBag:
+                                additionalProperties:
+                                  type: string
+                                description: |-
+                                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                  resources, allowing for full fidelity round trip conversions
+                                type: object
+                              exclusions:
+                                items:
+                                  description: |-
+                                    Storage version of v1api20220501.ManagedRuleExclusion_STATUS
+                                    Exclude variables from managed rule evaluation.
+                                  properties:
+                                    $propertyBag:
+                                      additionalProperties:
+                                        type: string
+                                      description: |-
+                                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                        resources, allowing for full fidelity round trip conversions
+                                      type: object
+                                    matchVariable:
+                                      type: string
+                                    selector:
+                                      type: string
+                                    selectorMatchOperator:
+                                      type: string
+                                  type: object
+                                type: array
+                              ruleGroupName:
+                                type: string
+                              rules:
+                                items:
+                                  description: |-
+                                    Storage version of v1api20220501.ManagedRuleOverride_STATUS
+                                    Defines a managed rule group override setting.
+                                  properties:
+                                    $propertyBag:
+                                      additionalProperties:
+                                        type: string
+                                      description: |-
+                                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                        resources, allowing for full fidelity round trip conversions
+                                      type: object
+                                    action:
+                                      type: string
+                                    enabledState:
+                                      type: string
+                                    exclusions:
+                                      items:
+                                        description: |-
+                                          Storage version of v1api20220501.ManagedRuleExclusion_STATUS
+                                          Exclude variables from managed rule evaluation.
+                                        properties:
+                                          $propertyBag:
+                                            additionalProperties:
+                                              type: string
+                                            description: |-
+                                              PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                              resources, allowing for full fidelity round trip conversions
+                                            type: object
+                                          matchVariable:
+                                            type: string
+                                          selector:
+                                            type: string
+                                          selectorMatchOperator:
+                                            type: string
+                                        type: object
+                                      type: array
+                                    ruleId:
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        ruleSetAction:
+                          type: string
+                        ruleSetType:
+                          type: string
+                        ruleSetVersion:
+                          type: string
+                      type: object
+                    type: array
+                type: object
+              name:
+                type: string
+              policySettings:
+                description: |-
+                  Storage version of v1api20220501.PolicySettings_STATUS
+                  Defines top-level WebApplicationFirewallPolicy configuration settings.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  customBlockResponseBody:
+                    type: string
+                  customBlockResponseStatusCode:
+                    type: integer
+                  enabledState:
+                    type: string
+                  mode:
+                    type: string
+                  redirectUrl:
+                    type: string
+                  requestBodyCheck:
+                    type: string
+                type: object
+              provisioningState:
+                type: string
+              resourceState:
+                type: string
+              routingRuleLinks:
+                items:
+                  description: |-
+                    Storage version of v1api20220501.RoutingRuleLink_STATUS
+                    Defines the Resource ID for a Routing Rule.
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    id:
+                      type: string
+                  type: object
+                type: array
+              securityPolicyLinks:
+                items:
+                  description: |-
+                    Storage version of v1api20220501.SecurityPolicyLink_STATUS
+                    Defines the Resource ID for a Security Policy.
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    id:
+                      type: string
+                  type: object
+                type: array
+              sku:
+                description: |-
+                  Storage version of v1api20220501.Sku_STATUS
+                  The pricing tier of the web application firewall policy.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  name:
+                    type: string
+                type: object
+              tags:
+                additionalProperties:
+                  type: string
+                type: object
+              type:
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

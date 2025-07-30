@@ -1,0 +1,1716 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.17.3
+  name: actiongroups.insights.azure.com
+spec:
+  group: insights.azure.com
+  names:
+    kind: ActionGroup
+    listKind: ActionGroupList
+    plural: actiongroups
+    singular: actiongroup
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1api20230101
+    schema:
+      openAPIV3Schema:
+        description: |-
+          Generator information:
+          - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2023-01-01/actionGroups_API.json
+          - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/actionGroups/{actionGroupName}
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              armRoleReceivers:
+                description: |-
+                  ArmRoleReceivers: The list of ARM role receivers that are part of this action group. Roles are Azure RBAC roles and only
+                  built-in roles are supported.
+                items:
+                  description: An arm role receiver.
+                  properties:
+                    name:
+                      description: 'Name: The name of the arm role receiver. Names
+                        must be unique across all receivers within an action group.'
+                      type: string
+                    roleId:
+                      description: 'RoleId: The arm role id.'
+                      type: string
+                    useCommonAlertSchema:
+                      description: 'UseCommonAlertSchema: Indicates whether to use
+                        common alert schema.'
+                      type: boolean
+                  required:
+                  - name
+                  - roleId
+                  type: object
+                type: array
+              automationRunbookReceivers:
+                description: 'AutomationRunbookReceivers: The list of AutomationRunbook
+                  receivers that are part of this action group.'
+                items:
+                  description: The Azure Automation Runbook notification receiver.
+                  properties:
+                    automationAccountId:
+                      description: 'AutomationAccountId: The Azure automation account
+                        Id which holds this runbook and authenticate to Azure resource.'
+                      type: string
+                    isGlobalRunbook:
+                      description: 'IsGlobalRunbook: Indicates whether this instance
+                        is global runbook.'
+                      type: boolean
+                    name:
+                      description: 'Name: Indicates name of the webhook.'
+                      type: string
+                    runbookName:
+                      description: 'RunbookName: The name for this runbook.'
+                      type: string
+                    serviceUri:
+                      description: 'ServiceUri: The URI where webhooks should be sent.'
+                      type: string
+                    useCommonAlertSchema:
+                      description: 'UseCommonAlertSchema: Indicates whether to use
+                        common alert schema.'
+                      type: boolean
+                    webhookResourceReference:
+                      description: 'WebhookResourceReference: The resource id for
+                        webhook linked to this runbook.'
+                      properties:
+                        armId:
+                          description: |-
+                            ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                            The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                            ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                          pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                          type: string
+                        group:
+                          description: Group is the Kubernetes group of the resource.
+                          type: string
+                        kind:
+                          description: Kind is the Kubernetes kind of the resource.
+                          type: string
+                        name:
+                          description: Name is the Kubernetes name of the resource.
+                          type: string
+                      type: object
+                  required:
+                  - automationAccountId
+                  - isGlobalRunbook
+                  - runbookName
+                  - webhookResourceReference
+                  type: object
+                type: array
+              azureAppPushReceivers:
+                description: 'AzureAppPushReceivers: The list of AzureAppPush receivers
+                  that are part of this action group.'
+                items:
+                  description: The Azure mobile App push notification receiver.
+                  properties:
+                    emailAddress:
+                      description: 'EmailAddress: The email address registered for
+                        the Azure mobile app.'
+                      type: string
+                    name:
+                      description: 'Name: The name of the Azure mobile app push receiver.
+                        Names must be unique across all receivers within an action
+                        group.'
+                      type: string
+                  required:
+                  - emailAddress
+                  - name
+                  type: object
+                type: array
+              azureFunctionReceivers:
+                description: 'AzureFunctionReceivers: The list of azure function receivers
+                  that are part of this action group.'
+                items:
+                  description: An azure function receiver.
+                  properties:
+                    functionAppResourceReference:
+                      description: 'FunctionAppResourceReference: The azure resource
+                        id of the function app.'
+                      properties:
+                        armId:
+                          description: |-
+                            ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                            The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                            ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                          pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                          type: string
+                        group:
+                          description: Group is the Kubernetes group of the resource.
+                          type: string
+                        kind:
+                          description: Kind is the Kubernetes kind of the resource.
+                          type: string
+                        name:
+                          description: Name is the Kubernetes name of the resource.
+                          type: string
+                      type: object
+                    functionName:
+                      description: 'FunctionName: The function name in the function
+                        app.'
+                      type: string
+                    httpTriggerUrl:
+                      description: 'HttpTriggerUrl: The http trigger url where http
+                        request sent to.'
+                      type: string
+                    name:
+                      description: 'Name: The name of the azure function receiver.
+                        Names must be unique across all receivers within an action
+                        group.'
+                      type: string
+                    useCommonAlertSchema:
+                      description: 'UseCommonAlertSchema: Indicates whether to use
+                        common alert schema.'
+                      type: boolean
+                  required:
+                  - functionAppResourceReference
+                  - functionName
+                  - httpTriggerUrl
+                  - name
+                  type: object
+                type: array
+              azureName:
+                description: |-
+                  AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+                  doesn't have to be.
+                type: string
+              emailReceivers:
+                description: 'EmailReceivers: The list of email receivers that are
+                  part of this action group.'
+                items:
+                  description: An email receiver.
+                  properties:
+                    emailAddress:
+                      description: 'EmailAddress: The email address of this receiver.'
+                      type: string
+                    name:
+                      description: 'Name: The name of the email receiver. Names must
+                        be unique across all receivers within an action group.'
+                      type: string
+                    useCommonAlertSchema:
+                      description: 'UseCommonAlertSchema: Indicates whether to use
+                        common alert schema.'
+                      type: boolean
+                  required:
+                  - emailAddress
+                  - name
+                  type: object
+                type: array
+              enabled:
+                description: |-
+                  Enabled: Indicates whether this action group is enabled. If an action group is not enabled, then none of its receivers
+                  will receive communications.
+                type: boolean
+              eventHubReceivers:
+                description: 'EventHubReceivers: The list of event hub receivers that
+                  are part of this action group.'
+                items:
+                  description: An Event hub receiver.
+                  properties:
+                    eventHubName:
+                      description: 'EventHubName: The name of the specific Event Hub
+                        queue'
+                      type: string
+                    eventHubNameSpace:
+                      description: 'EventHubNameSpace: The Event Hub namespace'
+                      type: string
+                    name:
+                      description: 'Name: The name of the Event hub receiver. Names
+                        must be unique across all receivers within an action group.'
+                      type: string
+                    subscriptionId:
+                      description: 'SubscriptionId: The Id for the subscription containing
+                        this event hub'
+                      type: string
+                    tenantId:
+                      description: 'TenantId: The tenant Id for the subscription containing
+                        this event hub'
+                      type: string
+                    useCommonAlertSchema:
+                      description: 'UseCommonAlertSchema: Indicates whether to use
+                        common alert schema.'
+                      type: boolean
+                  required:
+                  - eventHubName
+                  - eventHubNameSpace
+                  - name
+                  - subscriptionId
+                  type: object
+                type: array
+              groupShortName:
+                description: 'GroupShortName: The short name of the action group.
+                  This will be used in SMS messages.'
+                maxLength: 12
+                type: string
+              itsmReceivers:
+                description: 'ItsmReceivers: The list of ITSM receivers that are part
+                  of this action group.'
+                items:
+                  description: An Itsm receiver.
+                  properties:
+                    connectionId:
+                      description: 'ConnectionId: Unique identification of ITSM connection
+                        among multiple defined in above workspace.'
+                      type: string
+                    name:
+                      description: 'Name: The name of the Itsm receiver. Names must
+                        be unique across all receivers within an action group.'
+                      type: string
+                    region:
+                      description: |-
+                        Region: Region in which workspace resides. Supported
+                        values:'centralindia','japaneast','southeastasia','australiasoutheast','uksouth','westcentralus','canadacentral','eastus','westeurope'
+                      type: string
+                    ticketConfiguration:
+                      description: |-
+                        TicketConfiguration: JSON blob for the configurations of the ITSM action. CreateMultipleWorkItems option will be part of
+                        this blob as well.
+                      type: string
+                    workspaceId:
+                      description: 'WorkspaceId: OMS LA instance identifier.'
+                      type: string
+                  required:
+                  - connectionId
+                  - name
+                  - region
+                  - ticketConfiguration
+                  - workspaceId
+                  type: object
+                type: array
+              location:
+                description: 'Location: Resource location'
+                type: string
+              logicAppReceivers:
+                description: 'LogicAppReceivers: The list of logic app receivers that
+                  are part of this action group.'
+                items:
+                  description: A logic app receiver.
+                  properties:
+                    callbackUrl:
+                      description: 'CallbackUrl: The callback url where http request
+                        sent to.'
+                      type: string
+                    name:
+                      description: 'Name: The name of the logic app receiver. Names
+                        must be unique across all receivers within an action group.'
+                      type: string
+                    resourceReference:
+                      description: 'ResourceReference: The azure resource id of the
+                        logic app receiver.'
+                      properties:
+                        armId:
+                          description: |-
+                            ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                            The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                            ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                          pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                          type: string
+                        group:
+                          description: Group is the Kubernetes group of the resource.
+                          type: string
+                        kind:
+                          description: Kind is the Kubernetes kind of the resource.
+                          type: string
+                        name:
+                          description: Name is the Kubernetes name of the resource.
+                          type: string
+                      type: object
+                    useCommonAlertSchema:
+                      description: 'UseCommonAlertSchema: Indicates whether to use
+                        common alert schema.'
+                      type: boolean
+                  required:
+                  - callbackUrl
+                  - name
+                  - resourceReference
+                  type: object
+                type: array
+              operatorSpec:
+                description: |-
+                  OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+                  passed directly to Azure
+                properties:
+                  configMapExpressions:
+                    description: 'ConfigMapExpressions: configures where to place
+                      operator written dynamic ConfigMaps (created with CEL expressions).'
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                  secretExpressions:
+                    description: 'SecretExpressions: configures where to place operator
+                      written dynamic secrets (created with CEL expressions).'
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                type: object
+              owner:
+                description: |-
+                  Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+                  controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+                  reference to a resources.azure.com/ResourceGroup resource
+                properties:
+                  armId:
+                    pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                    type: string
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                type: object
+              smsReceivers:
+                description: 'SmsReceivers: The list of SMS receivers that are part
+                  of this action group.'
+                items:
+                  description: An SMS receiver.
+                  properties:
+                    countryCode:
+                      description: 'CountryCode: The country code of the SMS receiver.'
+                      type: string
+                    name:
+                      description: 'Name: The name of the SMS receiver. Names must
+                        be unique across all receivers within an action group.'
+                      type: string
+                    phoneNumber:
+                      description: 'PhoneNumber: The phone number of the SMS receiver.'
+                      type: string
+                  required:
+                  - countryCode
+                  - name
+                  - phoneNumber
+                  type: object
+                type: array
+              tags:
+                additionalProperties:
+                  type: string
+                description: 'Tags: Resource tags'
+                type: object
+              voiceReceivers:
+                description: 'VoiceReceivers: The list of voice receivers that are
+                  part of this action group.'
+                items:
+                  description: A voice receiver.
+                  properties:
+                    countryCode:
+                      description: 'CountryCode: The country code of the voice receiver.'
+                      type: string
+                    name:
+                      description: 'Name: The name of the voice receiver. Names must
+                        be unique across all receivers within an action group.'
+                      type: string
+                    phoneNumber:
+                      description: 'PhoneNumber: The phone number of the voice receiver.'
+                      type: string
+                  required:
+                  - countryCode
+                  - name
+                  - phoneNumber
+                  type: object
+                type: array
+              webhookReceivers:
+                description: 'WebhookReceivers: The list of webhook receivers that
+                  are part of this action group.'
+                items:
+                  description: A webhook receiver.
+                  properties:
+                    identifierUri:
+                      description: 'IdentifierUri: Indicates the identifier uri for
+                        aad auth.'
+                      type: string
+                    name:
+                      description: 'Name: The name of the webhook receiver. Names
+                        must be unique across all receivers within an action group.'
+                      type: string
+                    objectId:
+                      description: 'ObjectId: Indicates the webhook app object Id
+                        for aad auth.'
+                      type: string
+                    serviceUri:
+                      description: 'ServiceUri: The URI where webhooks should be sent.'
+                      type: string
+                    tenantId:
+                      description: 'TenantId: Indicates the tenant id for aad auth.'
+                      type: string
+                    useAadAuth:
+                      description: 'UseAadAuth: Indicates whether or not use AAD authentication.'
+                      type: boolean
+                    useCommonAlertSchema:
+                      description: 'UseCommonAlertSchema: Indicates whether to use
+                        common alert schema.'
+                      type: boolean
+                  required:
+                  - name
+                  - serviceUri
+                  type: object
+                type: array
+            required:
+            - enabled
+            - groupShortName
+            - location
+            - owner
+            type: object
+          status:
+            description: An action group resource.
+            properties:
+              armRoleReceivers:
+                description: |-
+                  ArmRoleReceivers: The list of ARM role receivers that are part of this action group. Roles are Azure RBAC roles and only
+                  built-in roles are supported.
+                items:
+                  description: An arm role receiver.
+                  properties:
+                    name:
+                      description: 'Name: The name of the arm role receiver. Names
+                        must be unique across all receivers within an action group.'
+                      type: string
+                    roleId:
+                      description: 'RoleId: The arm role id.'
+                      type: string
+                    useCommonAlertSchema:
+                      description: 'UseCommonAlertSchema: Indicates whether to use
+                        common alert schema.'
+                      type: boolean
+                  type: object
+                type: array
+              automationRunbookReceivers:
+                description: 'AutomationRunbookReceivers: The list of AutomationRunbook
+                  receivers that are part of this action group.'
+                items:
+                  description: The Azure Automation Runbook notification receiver.
+                  properties:
+                    automationAccountId:
+                      description: 'AutomationAccountId: The Azure automation account
+                        Id which holds this runbook and authenticate to Azure resource.'
+                      type: string
+                    isGlobalRunbook:
+                      description: 'IsGlobalRunbook: Indicates whether this instance
+                        is global runbook.'
+                      type: boolean
+                    name:
+                      description: 'Name: Indicates name of the webhook.'
+                      type: string
+                    runbookName:
+                      description: 'RunbookName: The name for this runbook.'
+                      type: string
+                    serviceUri:
+                      description: 'ServiceUri: The URI where webhooks should be sent.'
+                      type: string
+                    useCommonAlertSchema:
+                      description: 'UseCommonAlertSchema: Indicates whether to use
+                        common alert schema.'
+                      type: boolean
+                    webhookResourceId:
+                      description: 'WebhookResourceId: The resource id for webhook
+                        linked to this runbook.'
+                      type: string
+                  type: object
+                type: array
+              azureAppPushReceivers:
+                description: 'AzureAppPushReceivers: The list of AzureAppPush receivers
+                  that are part of this action group.'
+                items:
+                  description: The Azure mobile App push notification receiver.
+                  properties:
+                    emailAddress:
+                      description: 'EmailAddress: The email address registered for
+                        the Azure mobile app.'
+                      type: string
+                    name:
+                      description: 'Name: The name of the Azure mobile app push receiver.
+                        Names must be unique across all receivers within an action
+                        group.'
+                      type: string
+                  type: object
+                type: array
+              azureFunctionReceivers:
+                description: 'AzureFunctionReceivers: The list of azure function receivers
+                  that are part of this action group.'
+                items:
+                  description: An azure function receiver.
+                  properties:
+                    functionAppResourceId:
+                      description: 'FunctionAppResourceId: The azure resource id of
+                        the function app.'
+                      type: string
+                    functionName:
+                      description: 'FunctionName: The function name in the function
+                        app.'
+                      type: string
+                    httpTriggerUrl:
+                      description: 'HttpTriggerUrl: The http trigger url where http
+                        request sent to.'
+                      type: string
+                    name:
+                      description: 'Name: The name of the azure function receiver.
+                        Names must be unique across all receivers within an action
+                        group.'
+                      type: string
+                    useCommonAlertSchema:
+                      description: 'UseCommonAlertSchema: Indicates whether to use
+                        common alert schema.'
+                      type: boolean
+                  type: object
+                type: array
+              conditions:
+                description: 'Conditions: The observed state of the resource'
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration is the .metadata.generation that the condition was set based upon. For instance, if
+                        .metadata.generation is currently 12, but the .status.condition[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: |-
+                        Reason for the condition's last transition.
+                        Reasons are upper CamelCase (PascalCase) with no spaces. A reason is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: |-
+                        Severity with which to treat failures of this type of condition.
+                        For conditions which have positive polarity (Status == True is their normal/healthy state), this will be omitted when Status == True
+                        For conditions which have negative polarity (Status == False is their normal/healthy state), this will be omitted when Status == False.
+                        This is omitted in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              emailReceivers:
+                description: 'EmailReceivers: The list of email receivers that are
+                  part of this action group.'
+                items:
+                  description: An email receiver.
+                  properties:
+                    emailAddress:
+                      description: 'EmailAddress: The email address of this receiver.'
+                      type: string
+                    name:
+                      description: 'Name: The name of the email receiver. Names must
+                        be unique across all receivers within an action group.'
+                      type: string
+                    status:
+                      description: 'Status: The receiver status of the e-mail.'
+                      type: string
+                    useCommonAlertSchema:
+                      description: 'UseCommonAlertSchema: Indicates whether to use
+                        common alert schema.'
+                      type: boolean
+                  type: object
+                type: array
+              enabled:
+                description: |-
+                  Enabled: Indicates whether this action group is enabled. If an action group is not enabled, then none of its receivers
+                  will receive communications.
+                type: boolean
+              eventHubReceivers:
+                description: 'EventHubReceivers: The list of event hub receivers that
+                  are part of this action group.'
+                items:
+                  description: An Event hub receiver.
+                  properties:
+                    eventHubName:
+                      description: 'EventHubName: The name of the specific Event Hub
+                        queue'
+                      type: string
+                    eventHubNameSpace:
+                      description: 'EventHubNameSpace: The Event Hub namespace'
+                      type: string
+                    name:
+                      description: 'Name: The name of the Event hub receiver. Names
+                        must be unique across all receivers within an action group.'
+                      type: string
+                    subscriptionId:
+                      description: 'SubscriptionId: The Id for the subscription containing
+                        this event hub'
+                      type: string
+                    tenantId:
+                      description: 'TenantId: The tenant Id for the subscription containing
+                        this event hub'
+                      type: string
+                    useCommonAlertSchema:
+                      description: 'UseCommonAlertSchema: Indicates whether to use
+                        common alert schema.'
+                      type: boolean
+                  type: object
+                type: array
+              groupShortName:
+                description: 'GroupShortName: The short name of the action group.
+                  This will be used in SMS messages.'
+                type: string
+              id:
+                description: 'Id: Azure resource Id'
+                type: string
+              itsmReceivers:
+                description: 'ItsmReceivers: The list of ITSM receivers that are part
+                  of this action group.'
+                items:
+                  description: An Itsm receiver.
+                  properties:
+                    connectionId:
+                      description: 'ConnectionId: Unique identification of ITSM connection
+                        among multiple defined in above workspace.'
+                      type: string
+                    name:
+                      description: 'Name: The name of the Itsm receiver. Names must
+                        be unique across all receivers within an action group.'
+                      type: string
+                    region:
+                      description: |-
+                        Region: Region in which workspace resides. Supported
+                        values:'centralindia','japaneast','southeastasia','australiasoutheast','uksouth','westcentralus','canadacentral','eastus','westeurope'
+                      type: string
+                    ticketConfiguration:
+                      description: |-
+                        TicketConfiguration: JSON blob for the configurations of the ITSM action. CreateMultipleWorkItems option will be part of
+                        this blob as well.
+                      type: string
+                    workspaceId:
+                      description: 'WorkspaceId: OMS LA instance identifier.'
+                      type: string
+                  type: object
+                type: array
+              location:
+                description: 'Location: Resource location'
+                type: string
+              logicAppReceivers:
+                description: 'LogicAppReceivers: The list of logic app receivers that
+                  are part of this action group.'
+                items:
+                  description: A logic app receiver.
+                  properties:
+                    callbackUrl:
+                      description: 'CallbackUrl: The callback url where http request
+                        sent to.'
+                      type: string
+                    name:
+                      description: 'Name: The name of the logic app receiver. Names
+                        must be unique across all receivers within an action group.'
+                      type: string
+                    resourceId:
+                      description: 'ResourceId: The azure resource id of the logic
+                        app receiver.'
+                      type: string
+                    useCommonAlertSchema:
+                      description: 'UseCommonAlertSchema: Indicates whether to use
+                        common alert schema.'
+                      type: boolean
+                  type: object
+                type: array
+              name:
+                description: 'Name: Azure resource name'
+                type: string
+              smsReceivers:
+                description: 'SmsReceivers: The list of SMS receivers that are part
+                  of this action group.'
+                items:
+                  description: An SMS receiver.
+                  properties:
+                    countryCode:
+                      description: 'CountryCode: The country code of the SMS receiver.'
+                      type: string
+                    name:
+                      description: 'Name: The name of the SMS receiver. Names must
+                        be unique across all receivers within an action group.'
+                      type: string
+                    phoneNumber:
+                      description: 'PhoneNumber: The phone number of the SMS receiver.'
+                      type: string
+                    status:
+                      description: 'Status: The status of the receiver.'
+                      type: string
+                  type: object
+                type: array
+              tags:
+                additionalProperties:
+                  type: string
+                description: 'Tags: Resource tags'
+                type: object
+              type:
+                description: 'Type: Azure resource type'
+                type: string
+              voiceReceivers:
+                description: 'VoiceReceivers: The list of voice receivers that are
+                  part of this action group.'
+                items:
+                  description: A voice receiver.
+                  properties:
+                    countryCode:
+                      description: 'CountryCode: The country code of the voice receiver.'
+                      type: string
+                    name:
+                      description: 'Name: The name of the voice receiver. Names must
+                        be unique across all receivers within an action group.'
+                      type: string
+                    phoneNumber:
+                      description: 'PhoneNumber: The phone number of the voice receiver.'
+                      type: string
+                  type: object
+                type: array
+              webhookReceivers:
+                description: 'WebhookReceivers: The list of webhook receivers that
+                  are part of this action group.'
+                items:
+                  description: A webhook receiver.
+                  properties:
+                    identifierUri:
+                      description: 'IdentifierUri: Indicates the identifier uri for
+                        aad auth.'
+                      type: string
+                    name:
+                      description: 'Name: The name of the webhook receiver. Names
+                        must be unique across all receivers within an action group.'
+                      type: string
+                    objectId:
+                      description: 'ObjectId: Indicates the webhook app object Id
+                        for aad auth.'
+                      type: string
+                    serviceUri:
+                      description: 'ServiceUri: The URI where webhooks should be sent.'
+                      type: string
+                    tenantId:
+                      description: 'TenantId: Indicates the tenant id for aad auth.'
+                      type: string
+                    useAadAuth:
+                      description: 'UseAadAuth: Indicates whether or not use AAD authentication.'
+                      type: boolean
+                    useCommonAlertSchema:
+                      description: 'UseCommonAlertSchema: Indicates whether to use
+                        common alert schema.'
+                      type: boolean
+                  type: object
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: false
+    subresources:
+      status: {}
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1api20230101storage
+    schema:
+      openAPIV3Schema:
+        description: |-
+          Storage version of v1api20230101.ActionGroup
+          Generator information:
+          - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2023-01-01/actionGroups_API.json
+          - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/actionGroups/{actionGroupName}
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Storage version of v1api20230101.ActionGroup_Spec
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: |-
+                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                  resources, allowing for full fidelity round trip conversions
+                type: object
+              armRoleReceivers:
+                items:
+                  description: |-
+                    Storage version of v1api20230101.ArmRoleReceiver
+                    An arm role receiver.
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    name:
+                      type: string
+                    roleId:
+                      type: string
+                    useCommonAlertSchema:
+                      type: boolean
+                  type: object
+                type: array
+              automationRunbookReceivers:
+                items:
+                  description: |-
+                    Storage version of v1api20230101.AutomationRunbookReceiver
+                    The Azure Automation Runbook notification receiver.
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    automationAccountId:
+                      type: string
+                    isGlobalRunbook:
+                      type: boolean
+                    name:
+                      type: string
+                    runbookName:
+                      type: string
+                    serviceUri:
+                      type: string
+                    useCommonAlertSchema:
+                      type: boolean
+                    webhookResourceReference:
+                      description: 'WebhookResourceReference: The resource id for
+                        webhook linked to this runbook.'
+                      properties:
+                        armId:
+                          description: |-
+                            ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                            The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                            ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                          pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                          type: string
+                        group:
+                          description: Group is the Kubernetes group of the resource.
+                          type: string
+                        kind:
+                          description: Kind is the Kubernetes kind of the resource.
+                          type: string
+                        name:
+                          description: Name is the Kubernetes name of the resource.
+                          type: string
+                      type: object
+                  required:
+                  - webhookResourceReference
+                  type: object
+                type: array
+              azureAppPushReceivers:
+                items:
+                  description: |-
+                    Storage version of v1api20230101.AzureAppPushReceiver
+                    The Azure mobile App push notification receiver.
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    emailAddress:
+                      type: string
+                    name:
+                      type: string
+                  type: object
+                type: array
+              azureFunctionReceivers:
+                items:
+                  description: |-
+                    Storage version of v1api20230101.AzureFunctionReceiver
+                    An azure function receiver.
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    functionAppResourceReference:
+                      description: 'FunctionAppResourceReference: The azure resource
+                        id of the function app.'
+                      properties:
+                        armId:
+                          description: |-
+                            ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                            The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                            ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                          pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                          type: string
+                        group:
+                          description: Group is the Kubernetes group of the resource.
+                          type: string
+                        kind:
+                          description: Kind is the Kubernetes kind of the resource.
+                          type: string
+                        name:
+                          description: Name is the Kubernetes name of the resource.
+                          type: string
+                      type: object
+                    functionName:
+                      type: string
+                    httpTriggerUrl:
+                      type: string
+                    name:
+                      type: string
+                    useCommonAlertSchema:
+                      type: boolean
+                  required:
+                  - functionAppResourceReference
+                  type: object
+                type: array
+              azureName:
+                description: |-
+                  AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+                  doesn't have to be.
+                type: string
+              emailReceivers:
+                items:
+                  description: |-
+                    Storage version of v1api20230101.EmailReceiver
+                    An email receiver.
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    emailAddress:
+                      type: string
+                    name:
+                      type: string
+                    useCommonAlertSchema:
+                      type: boolean
+                  type: object
+                type: array
+              enabled:
+                type: boolean
+              eventHubReceivers:
+                items:
+                  description: |-
+                    Storage version of v1api20230101.EventHubReceiver
+                    An Event hub receiver.
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    eventHubName:
+                      type: string
+                    eventHubNameSpace:
+                      type: string
+                    name:
+                      type: string
+                    subscriptionId:
+                      type: string
+                    tenantId:
+                      type: string
+                    useCommonAlertSchema:
+                      type: boolean
+                  type: object
+                type: array
+              groupShortName:
+                type: string
+              itsmReceivers:
+                items:
+                  description: |-
+                    Storage version of v1api20230101.ItsmReceiver
+                    An Itsm receiver.
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    connectionId:
+                      type: string
+                    name:
+                      type: string
+                    region:
+                      type: string
+                    ticketConfiguration:
+                      type: string
+                    workspaceId:
+                      type: string
+                  type: object
+                type: array
+              location:
+                type: string
+              logicAppReceivers:
+                items:
+                  description: |-
+                    Storage version of v1api20230101.LogicAppReceiver
+                    A logic app receiver.
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    callbackUrl:
+                      type: string
+                    name:
+                      type: string
+                    resourceReference:
+                      description: 'ResourceReference: The azure resource id of the
+                        logic app receiver.'
+                      properties:
+                        armId:
+                          description: |-
+                            ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                            The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                            ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                          pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                          type: string
+                        group:
+                          description: Group is the Kubernetes group of the resource.
+                          type: string
+                        kind:
+                          description: Kind is the Kubernetes kind of the resource.
+                          type: string
+                        name:
+                          description: Name is the Kubernetes name of the resource.
+                          type: string
+                      type: object
+                    useCommonAlertSchema:
+                      type: boolean
+                  required:
+                  - resourceReference
+                  type: object
+                type: array
+              operatorSpec:
+                description: |-
+                  Storage version of v1api20230101.ActionGroupOperatorSpec
+                  Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  configMapExpressions:
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                  secretExpressions:
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                type: object
+              originalVersion:
+                type: string
+              owner:
+                description: |-
+                  Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+                  controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+                  reference to a resources.azure.com/ResourceGroup resource
+                properties:
+                  armId:
+                    pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                    type: string
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                type: object
+              smsReceivers:
+                items:
+                  description: |-
+                    Storage version of v1api20230101.SmsReceiver
+                    An SMS receiver.
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    countryCode:
+                      type: string
+                    name:
+                      type: string
+                    phoneNumber:
+                      type: string
+                  type: object
+                type: array
+              tags:
+                additionalProperties:
+                  type: string
+                type: object
+              voiceReceivers:
+                items:
+                  description: |-
+                    Storage version of v1api20230101.VoiceReceiver
+                    A voice receiver.
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    countryCode:
+                      type: string
+                    name:
+                      type: string
+                    phoneNumber:
+                      type: string
+                  type: object
+                type: array
+              webhookReceivers:
+                items:
+                  description: |-
+                    Storage version of v1api20230101.WebhookReceiver
+                    A webhook receiver.
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    identifierUri:
+                      type: string
+                    name:
+                      type: string
+                    objectId:
+                      type: string
+                    serviceUri:
+                      type: string
+                    tenantId:
+                      type: string
+                    useAadAuth:
+                      type: boolean
+                    useCommonAlertSchema:
+                      type: boolean
+                  type: object
+                type: array
+            required:
+            - owner
+            type: object
+          status:
+            description: |-
+              Storage version of v1api20230101.ActionGroupResource_STATUS
+              An action group resource.
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: |-
+                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                  resources, allowing for full fidelity round trip conversions
+                type: object
+              armRoleReceivers:
+                items:
+                  description: |-
+                    Storage version of v1api20230101.ArmRoleReceiver_STATUS
+                    An arm role receiver.
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    name:
+                      type: string
+                    roleId:
+                      type: string
+                    useCommonAlertSchema:
+                      type: boolean
+                  type: object
+                type: array
+              automationRunbookReceivers:
+                items:
+                  description: |-
+                    Storage version of v1api20230101.AutomationRunbookReceiver_STATUS
+                    The Azure Automation Runbook notification receiver.
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    automationAccountId:
+                      type: string
+                    isGlobalRunbook:
+                      type: boolean
+                    name:
+                      type: string
+                    runbookName:
+                      type: string
+                    serviceUri:
+                      type: string
+                    useCommonAlertSchema:
+                      type: boolean
+                    webhookResourceId:
+                      type: string
+                  type: object
+                type: array
+              azureAppPushReceivers:
+                items:
+                  description: |-
+                    Storage version of v1api20230101.AzureAppPushReceiver_STATUS
+                    The Azure mobile App push notification receiver.
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    emailAddress:
+                      type: string
+                    name:
+                      type: string
+                  type: object
+                type: array
+              azureFunctionReceivers:
+                items:
+                  description: |-
+                    Storage version of v1api20230101.AzureFunctionReceiver_STATUS
+                    An azure function receiver.
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    functionAppResourceId:
+                      type: string
+                    functionName:
+                      type: string
+                    httpTriggerUrl:
+                      type: string
+                    name:
+                      type: string
+                    useCommonAlertSchema:
+                      type: boolean
+                  type: object
+                type: array
+              conditions:
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration is the .metadata.generation that the condition was set based upon. For instance, if
+                        .metadata.generation is currently 12, but the .status.condition[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: |-
+                        Reason for the condition's last transition.
+                        Reasons are upper CamelCase (PascalCase) with no spaces. A reason is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: |-
+                        Severity with which to treat failures of this type of condition.
+                        For conditions which have positive polarity (Status == True is their normal/healthy state), this will be omitted when Status == True
+                        For conditions which have negative polarity (Status == False is their normal/healthy state), this will be omitted when Status == False.
+                        This is omitted in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              emailReceivers:
+                items:
+                  description: |-
+                    Storage version of v1api20230101.EmailReceiver_STATUS
+                    An email receiver.
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    emailAddress:
+                      type: string
+                    name:
+                      type: string
+                    status:
+                      type: string
+                    useCommonAlertSchema:
+                      type: boolean
+                  type: object
+                type: array
+              enabled:
+                type: boolean
+              eventHubReceivers:
+                items:
+                  description: |-
+                    Storage version of v1api20230101.EventHubReceiver_STATUS
+                    An Event hub receiver.
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    eventHubName:
+                      type: string
+                    eventHubNameSpace:
+                      type: string
+                    name:
+                      type: string
+                    subscriptionId:
+                      type: string
+                    tenantId:
+                      type: string
+                    useCommonAlertSchema:
+                      type: boolean
+                  type: object
+                type: array
+              groupShortName:
+                type: string
+              id:
+                type: string
+              itsmReceivers:
+                items:
+                  description: |-
+                    Storage version of v1api20230101.ItsmReceiver_STATUS
+                    An Itsm receiver.
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    connectionId:
+                      type: string
+                    name:
+                      type: string
+                    region:
+                      type: string
+                    ticketConfiguration:
+                      type: string
+                    workspaceId:
+                      type: string
+                  type: object
+                type: array
+              location:
+                type: string
+              logicAppReceivers:
+                items:
+                  description: |-
+                    Storage version of v1api20230101.LogicAppReceiver_STATUS
+                    A logic app receiver.
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    callbackUrl:
+                      type: string
+                    name:
+                      type: string
+                    resourceId:
+                      type: string
+                    useCommonAlertSchema:
+                      type: boolean
+                  type: object
+                type: array
+              name:
+                type: string
+              smsReceivers:
+                items:
+                  description: |-
+                    Storage version of v1api20230101.SmsReceiver_STATUS
+                    An SMS receiver.
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    countryCode:
+                      type: string
+                    name:
+                      type: string
+                    phoneNumber:
+                      type: string
+                    status:
+                      type: string
+                  type: object
+                type: array
+              tags:
+                additionalProperties:
+                  type: string
+                type: object
+              type:
+                type: string
+              voiceReceivers:
+                items:
+                  description: |-
+                    Storage version of v1api20230101.VoiceReceiver_STATUS
+                    A voice receiver.
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    countryCode:
+                      type: string
+                    name:
+                      type: string
+                    phoneNumber:
+                      type: string
+                  type: object
+                type: array
+              webhookReceivers:
+                items:
+                  description: |-
+                    Storage version of v1api20230101.WebhookReceiver_STATUS
+                    A webhook receiver.
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    identifierUri:
+                      type: string
+                    name:
+                      type: string
+                    objectId:
+                      type: string
+                    serviceUri:
+                      type: string
+                    tenantId:
+                      type: string
+                    useAadAuth:
+                      type: boolean
+                    useCommonAlertSchema:
+                      type: boolean
+                  type: object
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

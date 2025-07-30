@@ -1,0 +1,715 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.17.3
+  name: serverselasticpools.sql.azure.com
+spec:
+  group: sql.azure.com
+  names:
+    kind: ServersElasticPool
+    listKind: ServersElasticPoolList
+    plural: serverselasticpools
+    singular: serverselasticpool
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1api20211101
+    schema:
+      openAPIV3Schema:
+        description: |-
+          Generator information:
+          - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/ElasticPools.json
+          - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              azureName:
+                description: |-
+                  AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+                  doesn't have to be.
+                type: string
+              highAvailabilityReplicaCount:
+                description: |-
+                  HighAvailabilityReplicaCount: The number of secondary replicas associated with the elastic pool that are used to provide
+                  high availability. Applicable only to Hyperscale elastic pools.
+                type: integer
+              licenseType:
+                description: 'LicenseType: The license type to apply for this elastic
+                  pool.'
+                enum:
+                - BasePrice
+                - LicenseIncluded
+                type: string
+              location:
+                description: 'Location: Resource location.'
+                type: string
+              maintenanceConfigurationId:
+                description: |-
+                  MaintenanceConfigurationId: Maintenance configuration id assigned to the elastic pool. This configuration defines the
+                  period when the maintenance updates will will occur.
+                type: string
+              maxSizeBytes:
+                description: 'MaxSizeBytes: The storage limit for the database elastic
+                  pool in bytes.'
+                type: integer
+              minCapacity:
+                description: 'MinCapacity: Minimal capacity that serverless pool will
+                  not shrink below, if not paused'
+                type: number
+              operatorSpec:
+                description: |-
+                  OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+                  passed directly to Azure
+                properties:
+                  configMapExpressions:
+                    description: 'ConfigMapExpressions: configures where to place
+                      operator written dynamic ConfigMaps (created with CEL expressions).'
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                  secretExpressions:
+                    description: 'SecretExpressions: configures where to place operator
+                      written dynamic secrets (created with CEL expressions).'
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                type: object
+              owner:
+                description: |-
+                  Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+                  controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+                  reference to a sql.azure.com/Server resource
+                properties:
+                  armId:
+                    pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                    type: string
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                type: object
+              perDatabaseSettings:
+                description: 'PerDatabaseSettings: The per database settings for the
+                  elastic pool.'
+                properties:
+                  maxCapacity:
+                    description: 'MaxCapacity: The maximum capacity any one database
+                      can consume.'
+                    type: number
+                  minCapacity:
+                    description: 'MinCapacity: The minimum capacity all databases
+                      are guaranteed.'
+                    type: number
+                type: object
+              sku:
+                description: |-
+                  Sku: The elastic pool SKU.
+                  The list of SKUs may vary by region and support offer. To determine the SKUs (including the SKU name, tier/edition,
+                  family, and capacity) that are available to your subscription in an Azure region, use the `Capabilities_ListByLocation`
+                  REST API or the following command:
+                  ```azurecli
+                  az sql elastic-pool list-editions -l <location> -o table
+                  ````
+                properties:
+                  capacity:
+                    description: 'Capacity: Capacity of the particular SKU.'
+                    type: integer
+                  family:
+                    description: 'Family: If the service has different generations
+                      of hardware, for the same SKU, then that can be captured here.'
+                    type: string
+                  name:
+                    description: 'Name: The name of the SKU, typically, a letter +
+                      Number code, e.g. P3.'
+                    type: string
+                  size:
+                    description: 'Size: Size of the particular SKU'
+                    type: string
+                  tier:
+                    description: 'Tier: The tier or edition of the particular SKU,
+                      e.g. Basic, Premium.'
+                    type: string
+                required:
+                - name
+                type: object
+              tags:
+                additionalProperties:
+                  type: string
+                description: 'Tags: Resource tags.'
+                type: object
+              zoneRedundant:
+                description: |-
+                  ZoneRedundant: Whether or not this elastic pool is zone redundant, which means the replicas of this elastic pool will be
+                  spread across multiple availability zones.
+                type: boolean
+            required:
+            - location
+            - owner
+            type: object
+          status:
+            properties:
+              conditions:
+                description: 'Conditions: The observed state of the resource'
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration is the .metadata.generation that the condition was set based upon. For instance, if
+                        .metadata.generation is currently 12, but the .status.condition[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: |-
+                        Reason for the condition's last transition.
+                        Reasons are upper CamelCase (PascalCase) with no spaces. A reason is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: |-
+                        Severity with which to treat failures of this type of condition.
+                        For conditions which have positive polarity (Status == True is their normal/healthy state), this will be omitted when Status == True
+                        For conditions which have negative polarity (Status == False is their normal/healthy state), this will be omitted when Status == False.
+                        This is omitted in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              creationDate:
+                description: 'CreationDate: The creation date of the elastic pool
+                  (ISO8601 format).'
+                type: string
+              highAvailabilityReplicaCount:
+                description: |-
+                  HighAvailabilityReplicaCount: The number of secondary replicas associated with the elastic pool that are used to provide
+                  high availability. Applicable only to Hyperscale elastic pools.
+                type: integer
+              id:
+                description: 'Id: Resource ID.'
+                type: string
+              kind:
+                description: 'Kind: Kind of elastic pool. This is metadata used for
+                  the Azure portal experience.'
+                type: string
+              licenseType:
+                description: 'LicenseType: The license type to apply for this elastic
+                  pool.'
+                type: string
+              location:
+                description: 'Location: Resource location.'
+                type: string
+              maintenanceConfigurationId:
+                description: |-
+                  MaintenanceConfigurationId: Maintenance configuration id assigned to the elastic pool. This configuration defines the
+                  period when the maintenance updates will will occur.
+                type: string
+              maxSizeBytes:
+                description: 'MaxSizeBytes: The storage limit for the database elastic
+                  pool in bytes.'
+                type: integer
+              minCapacity:
+                description: 'MinCapacity: Minimal capacity that serverless pool will
+                  not shrink below, if not paused'
+                type: number
+              name:
+                description: 'Name: Resource name.'
+                type: string
+              perDatabaseSettings:
+                description: 'PerDatabaseSettings: The per database settings for the
+                  elastic pool.'
+                properties:
+                  maxCapacity:
+                    description: 'MaxCapacity: The maximum capacity any one database
+                      can consume.'
+                    type: number
+                  minCapacity:
+                    description: 'MinCapacity: The minimum capacity all databases
+                      are guaranteed.'
+                    type: number
+                type: object
+              sku:
+                description: |-
+                  Sku: The elastic pool SKU.
+                  The list of SKUs may vary by region and support offer. To determine the SKUs (including the SKU name, tier/edition,
+                  family, and capacity) that are available to your subscription in an Azure region, use the `Capabilities_ListByLocation`
+                  REST API or the following command:
+                  ```azurecli
+                  az sql elastic-pool list-editions -l <location> -o table
+                  ````
+                properties:
+                  capacity:
+                    description: 'Capacity: Capacity of the particular SKU.'
+                    type: integer
+                  family:
+                    description: 'Family: If the service has different generations
+                      of hardware, for the same SKU, then that can be captured here.'
+                    type: string
+                  name:
+                    description: 'Name: The name of the SKU, typically, a letter +
+                      Number code, e.g. P3.'
+                    type: string
+                  size:
+                    description: 'Size: Size of the particular SKU'
+                    type: string
+                  tier:
+                    description: 'Tier: The tier or edition of the particular SKU,
+                      e.g. Basic, Premium.'
+                    type: string
+                type: object
+              state:
+                description: 'State: The state of the elastic pool.'
+                type: string
+              tags:
+                additionalProperties:
+                  type: string
+                description: 'Tags: Resource tags.'
+                type: object
+              type:
+                description: 'Type: Resource type.'
+                type: string
+              zoneRedundant:
+                description: |-
+                  ZoneRedundant: Whether or not this elastic pool is zone redundant, which means the replicas of this elastic pool will be
+                  spread across multiple availability zones.
+                type: boolean
+            type: object
+        type: object
+    served: true
+    storage: false
+    subresources:
+      status: {}
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1api20211101storage
+    schema:
+      openAPIV3Schema:
+        description: |-
+          Storage version of v1api20211101.ServersElasticPool
+          Generator information:
+          - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/ElasticPools.json
+          - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Storage version of v1api20211101.ServersElasticPool_Spec
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: |-
+                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                  resources, allowing for full fidelity round trip conversions
+                type: object
+              azureName:
+                description: |-
+                  AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+                  doesn't have to be.
+                type: string
+              highAvailabilityReplicaCount:
+                type: integer
+              licenseType:
+                type: string
+              location:
+                type: string
+              maintenanceConfigurationId:
+                type: string
+              maxSizeBytes:
+                type: integer
+              minCapacity:
+                type: number
+              operatorSpec:
+                description: |-
+                  Storage version of v1api20211101.ServersElasticPoolOperatorSpec
+                  Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  configMapExpressions:
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                  secretExpressions:
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                type: object
+              originalVersion:
+                type: string
+              owner:
+                description: |-
+                  Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+                  controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+                  reference to a sql.azure.com/Server resource
+                properties:
+                  armId:
+                    pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                    type: string
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                type: object
+              perDatabaseSettings:
+                description: |-
+                  Storage version of v1api20211101.ElasticPoolPerDatabaseSettings
+                  Per database settings of an elastic pool.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  maxCapacity:
+                    type: number
+                  minCapacity:
+                    type: number
+                type: object
+              sku:
+                description: |-
+                  Storage version of v1api20211101.Sku
+                  An ARM Resource SKU.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  capacity:
+                    type: integer
+                  family:
+                    type: string
+                  name:
+                    type: string
+                  size:
+                    type: string
+                  tier:
+                    type: string
+                type: object
+              tags:
+                additionalProperties:
+                  type: string
+                type: object
+              zoneRedundant:
+                type: boolean
+            required:
+            - owner
+            type: object
+          status:
+            description: Storage version of v1api20211101.ServersElasticPool_STATUS
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: |-
+                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                  resources, allowing for full fidelity round trip conversions
+                type: object
+              conditions:
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration is the .metadata.generation that the condition was set based upon. For instance, if
+                        .metadata.generation is currently 12, but the .status.condition[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: |-
+                        Reason for the condition's last transition.
+                        Reasons are upper CamelCase (PascalCase) with no spaces. A reason is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: |-
+                        Severity with which to treat failures of this type of condition.
+                        For conditions which have positive polarity (Status == True is their normal/healthy state), this will be omitted when Status == True
+                        For conditions which have negative polarity (Status == False is their normal/healthy state), this will be omitted when Status == False.
+                        This is omitted in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              creationDate:
+                type: string
+              highAvailabilityReplicaCount:
+                type: integer
+              id:
+                type: string
+              kind:
+                type: string
+              licenseType:
+                type: string
+              location:
+                type: string
+              maintenanceConfigurationId:
+                type: string
+              maxSizeBytes:
+                type: integer
+              minCapacity:
+                type: number
+              name:
+                type: string
+              perDatabaseSettings:
+                description: |-
+                  Storage version of v1api20211101.ElasticPoolPerDatabaseSettings_STATUS
+                  Per database settings of an elastic pool.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  maxCapacity:
+                    type: number
+                  minCapacity:
+                    type: number
+                type: object
+              sku:
+                description: |-
+                  Storage version of v1api20211101.Sku_STATUS
+                  An ARM Resource SKU.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  capacity:
+                    type: integer
+                  family:
+                    type: string
+                  name:
+                    type: string
+                  size:
+                    type: string
+                  tier:
+                    type: string
+                type: object
+              state:
+                type: string
+              tags:
+                additionalProperties:
+                  type: string
+                type: object
+              type:
+                type: string
+              zoneRedundant:
+                type: boolean
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
