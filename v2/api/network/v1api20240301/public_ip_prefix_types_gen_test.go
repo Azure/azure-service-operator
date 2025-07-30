@@ -364,103 +364,6 @@ func AddRelatedPropertyGeneratorsForPublicIPPrefix(gens map[string]gopter.Gen) {
 	gens["Status"] = PublicIPPrefix_STATUSGenerator()
 }
 
-func Test_PublicIPPrefixOperatorConfigMaps_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from PublicIPPrefixOperatorConfigMaps to PublicIPPrefixOperatorConfigMaps via AssignProperties_To_PublicIPPrefixOperatorConfigMaps & AssignProperties_From_PublicIPPrefixOperatorConfigMaps returns original",
-		prop.ForAll(RunPropertyAssignmentTestForPublicIPPrefixOperatorConfigMaps, PublicIPPrefixOperatorConfigMapsGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForPublicIPPrefixOperatorConfigMaps tests if a specific instance of PublicIPPrefixOperatorConfigMaps can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForPublicIPPrefixOperatorConfigMaps(subject PublicIPPrefixOperatorConfigMaps) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PublicIPPrefixOperatorConfigMaps
-	err := copied.AssignProperties_To_PublicIPPrefixOperatorConfigMaps(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual PublicIPPrefixOperatorConfigMaps
-	err = actual.AssignProperties_From_PublicIPPrefixOperatorConfigMaps(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_PublicIPPrefixOperatorConfigMaps_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PublicIPPrefixOperatorConfigMaps via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPublicIPPrefixOperatorConfigMaps, PublicIPPrefixOperatorConfigMapsGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForPublicIPPrefixOperatorConfigMaps runs a test to see if a specific instance of PublicIPPrefixOperatorConfigMaps round trips to JSON and back losslessly
-func RunJSONSerializationTestForPublicIPPrefixOperatorConfigMaps(subject PublicIPPrefixOperatorConfigMaps) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual PublicIPPrefixOperatorConfigMaps
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of PublicIPPrefixOperatorConfigMaps instances for property testing - lazily instantiated by
-// PublicIPPrefixOperatorConfigMapsGenerator()
-var publicIPPrefixOperatorConfigMapsGenerator gopter.Gen
-
-// PublicIPPrefixOperatorConfigMapsGenerator returns a generator of PublicIPPrefixOperatorConfigMaps instances for property testing.
-func PublicIPPrefixOperatorConfigMapsGenerator() gopter.Gen {
-	if publicIPPrefixOperatorConfigMapsGenerator != nil {
-		return publicIPPrefixOperatorConfigMapsGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	publicIPPrefixOperatorConfigMapsGenerator = gen.Struct(reflect.TypeOf(PublicIPPrefixOperatorConfigMaps{}), generators)
-
-	return publicIPPrefixOperatorConfigMapsGenerator
-}
-
 func Test_PublicIPPrefixOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -553,15 +456,9 @@ func PublicIPPrefixOperatorSpecGenerator() gopter.Gen {
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForPublicIPPrefixOperatorSpec(generators)
 	publicIPPrefixOperatorSpecGenerator = gen.Struct(reflect.TypeOf(PublicIPPrefixOperatorSpec{}), generators)
 
 	return publicIPPrefixOperatorSpecGenerator
-}
-
-// AddRelatedPropertyGeneratorsForPublicIPPrefixOperatorSpec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForPublicIPPrefixOperatorSpec(gens map[string]gopter.Gen) {
-	gens["ConfigMaps"] = gen.PtrOf(PublicIPPrefixOperatorConfigMapsGenerator())
 }
 
 func Test_PublicIPPrefixSku_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

@@ -1270,10 +1270,8 @@ PublicIPPrefix: Resource
 │   ├── Location: *string
 │   ├── NatGateway: *Object (1 property)
 │   │   └── Reference: *genruntime.ResourceReference
-│   ├── OperatorSpec: *Object (3 properties)
+│   ├── OperatorSpec: *Object (2 properties)
 │   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
-│   │   ├── ConfigMaps: *Object (1 property)
-│   │   │   └── IpPrefix: *genruntime.ConfigMapDestination
 │   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PrefixLength: *int

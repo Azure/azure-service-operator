@@ -1131,11 +1131,8 @@ PublicIPPrefix: Resource
 │   ├── NatGateway: *Object (2 properties)
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   └── Reference: *genruntime.ResourceReference
-│   ├── OperatorSpec: *Object (4 properties)
+│   ├── OperatorSpec: *Object (3 properties)
 │   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
-│   │   ├── ConfigMaps: *Object (2 properties)
-│   │   │   ├── IpPrefix: *genruntime.ConfigMapDestination
-│   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
@@ -1296,8 +1293,6 @@ augmentConversionForPrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbe
 augmentConversionForPrivateLinkService_Spec: Interface
 
 augmentConversionForPublicIPPrefix: Interface
-
-augmentConversionForPublicIPPrefixOperatorConfigMaps: Interface
 
 augmentConversionForPublicIPPrefixOperatorSpec: Interface
 

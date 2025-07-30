@@ -4,21 +4,17 @@
 package storage
 
 import (
-	"context"
 	"fmt"
 	v20240101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240101/storage"
 	v20240301s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
-	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
-	"github.com/go-logr/logr"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
 
@@ -91,23 +87,6 @@ func (prefix *PublicIPPrefix) SecretDestinationExpressions() []*core.Destination
 		return nil
 	}
 	return prefix.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.KubernetesConfigExporter = &PublicIPPrefix{}
-
-// ExportKubernetesConfigMaps defines a resource which can create ConfigMaps in Kubernetes.
-func (prefix *PublicIPPrefix) ExportKubernetesConfigMaps(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
-	collector := configmaps.NewCollector(prefix.Namespace)
-	if prefix.Spec.OperatorSpec != nil && prefix.Spec.OperatorSpec.ConfigMaps != nil {
-		if prefix.Status.IpPrefix != nil {
-			collector.AddValue(prefix.Spec.OperatorSpec.ConfigMaps.IpPrefix, *prefix.Status.IpPrefix)
-		}
-	}
-	result, err := collector.Values()
-	if err != nil {
-		return nil, err
-	}
-	return configmaps.SliceToClientObjectSlice(result), nil
 }
 
 var _ genruntime.KubernetesResource = &PublicIPPrefix{}
@@ -1327,10 +1306,9 @@ func (embedded *NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded) AssignPropert
 // Storage version of v1api20220701.PublicIPPrefixOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type PublicIPPrefixOperatorSpec struct {
-	ConfigMapExpressions []*core.DestinationExpression     `json:"configMapExpressions,omitempty"`
-	ConfigMaps           *PublicIPPrefixOperatorConfigMaps `json:"configMaps,omitempty"`
-	PropertyBag          genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	SecretExpressions    []*core.DestinationExpression     `json:"secretExpressions,omitempty"`
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // AssignProperties_From_PublicIPPrefixOperatorSpec populates our PublicIPPrefixOperatorSpec from the provided source PublicIPPrefixOperatorSpec
@@ -1354,18 +1332,6 @@ func (operator *PublicIPPrefixOperatorSpec) AssignProperties_From_PublicIPPrefix
 		operator.ConfigMapExpressions = configMapExpressionList
 	} else {
 		operator.ConfigMapExpressions = nil
-	}
-
-	// ConfigMaps
-	if source.ConfigMaps != nil {
-		var configMap PublicIPPrefixOperatorConfigMaps
-		err := configMap.AssignProperties_From_PublicIPPrefixOperatorConfigMaps(source.ConfigMaps)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_PublicIPPrefixOperatorConfigMaps() to populate field ConfigMaps")
-		}
-		operator.ConfigMaps = &configMap
-	} else {
-		operator.ConfigMaps = nil
 	}
 
 	// SecretExpressions
@@ -1427,18 +1393,6 @@ func (operator *PublicIPPrefixOperatorSpec) AssignProperties_To_PublicIPPrefixOp
 		destination.ConfigMapExpressions = configMapExpressionList
 	} else {
 		destination.ConfigMapExpressions = nil
-	}
-
-	// ConfigMaps
-	if operator.ConfigMaps != nil {
-		var configMap v20240301s.PublicIPPrefixOperatorConfigMaps
-		err := operator.ConfigMaps.AssignProperties_To_PublicIPPrefixOperatorConfigMaps(&configMap)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_PublicIPPrefixOperatorConfigMaps() to populate field ConfigMaps")
-		}
-		destination.ConfigMaps = &configMap
-	} else {
-		destination.ConfigMaps = nil
 	}
 
 	// SecretExpressions
@@ -1720,83 +1674,6 @@ type augmentConversionForPublicIPPrefixSku_STATUS interface {
 type augmentConversionForReferencedPublicIpAddress_STATUS interface {
 	AssignPropertiesFrom(src *v20240301s.ReferencedPublicIpAddress_STATUS) error
 	AssignPropertiesTo(dst *v20240301s.ReferencedPublicIpAddress_STATUS) error
-}
-
-// Storage version of v1api20220701.PublicIPPrefixOperatorConfigMaps
-type PublicIPPrefixOperatorConfigMaps struct {
-	IpPrefix    *genruntime.ConfigMapDestination `json:"ipPrefix,omitempty"`
-	PropertyBag genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
-}
-
-// AssignProperties_From_PublicIPPrefixOperatorConfigMaps populates our PublicIPPrefixOperatorConfigMaps from the provided source PublicIPPrefixOperatorConfigMaps
-func (maps *PublicIPPrefixOperatorConfigMaps) AssignProperties_From_PublicIPPrefixOperatorConfigMaps(source *v20240301s.PublicIPPrefixOperatorConfigMaps) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// IpPrefix
-	if source.IpPrefix != nil {
-		ipPrefix := source.IpPrefix.Copy()
-		maps.IpPrefix = &ipPrefix
-	} else {
-		maps.IpPrefix = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		maps.PropertyBag = propertyBag
-	} else {
-		maps.PropertyBag = nil
-	}
-
-	// Invoke the augmentConversionForPublicIPPrefixOperatorConfigMaps interface (if implemented) to customize the conversion
-	var mapsAsAny any = maps
-	if augmentedMaps, ok := mapsAsAny.(augmentConversionForPublicIPPrefixOperatorConfigMaps); ok {
-		err := augmentedMaps.AssignPropertiesFrom(source)
-		if err != nil {
-			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
-		}
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_PublicIPPrefixOperatorConfigMaps populates the provided destination PublicIPPrefixOperatorConfigMaps from our PublicIPPrefixOperatorConfigMaps
-func (maps *PublicIPPrefixOperatorConfigMaps) AssignProperties_To_PublicIPPrefixOperatorConfigMaps(destination *v20240301s.PublicIPPrefixOperatorConfigMaps) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(maps.PropertyBag)
-
-	// IpPrefix
-	if maps.IpPrefix != nil {
-		ipPrefix := maps.IpPrefix.Copy()
-		destination.IpPrefix = &ipPrefix
-	} else {
-		destination.IpPrefix = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// Invoke the augmentConversionForPublicIPPrefixOperatorConfigMaps interface (if implemented) to customize the conversion
-	var mapsAsAny any = maps
-	if augmentedMaps, ok := mapsAsAny.(augmentConversionForPublicIPPrefixOperatorConfigMaps); ok {
-		err := augmentedMaps.AssignPropertiesTo(destination)
-		if err != nil {
-			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
-		}
-	}
-
-	// No error
-	return nil
-}
-
-type augmentConversionForPublicIPPrefixOperatorConfigMaps interface {
-	AssignPropertiesFrom(src *v20240301s.PublicIPPrefixOperatorConfigMaps) error
-	AssignPropertiesTo(dst *v20240301s.PublicIPPrefixOperatorConfigMaps) error
 }
 
 func init() {
