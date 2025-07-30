@@ -70,8 +70,10 @@ spec:
         - --json-logging
         {{- end }}
         env:
+        {{- if .Values.go.memLimit }}
         - name: GOMEMLIMIT
           value: {{ .Values.go.memLimit }}
+        {{- end }}
         - name: AZURE_CLIENT_ID
           valueFrom:
             secretKeyRef:
