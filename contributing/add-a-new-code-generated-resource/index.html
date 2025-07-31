@@ -20,23 +20,27 @@
 
 <title>Adding a new code generated resource to ASO v2 | Azure Service Operator</title>
 <meta name="description" content="Want to add a new resource to Azure Service Operator v2? You’re in the right place - here’s your step by step guide.
-By the end of this process, you’ll have created a new resource, written a test to verify it works, and created a sample to demonstrate how to use it. This sounds like a lot of work, but most of it is done for you by our code generator.">
+Quick Start Adding a new resource is a multi-step process driven by our code generator. At a high level, the process is:
+Configure: Edit v2/azure-arm.yaml to add the new resource. Generate: Run task generator:quick-checks to generate the Go code. This will likely fail. Fix &amp; Repeat: Fix errors reported by the generator by adding configuration to v2/azure-arm.yaml, then re-run the generator. Repeat until generation succeeds. Test: Write an integration test to verify the resource can be created, updated, and deleted. Sample: Create a sample YAML to demonstrate how to use the resource. Verify: Run task ci to ensure all checks pass before creating a pull request. Step by step guide By the end of this process, you’ll have created a new resource, written a test to verify it works, and created a sample to demonstrate how to use it. This sounds like a lot of work, but most of it is done for you by our code generator.">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="Adding a new code generated resource to ASO v2">
   <meta property="og:description" content="Want to add a new resource to Azure Service Operator v2? You’re in the right place - here’s your step by step guide.
-By the end of this process, you’ll have created a new resource, written a test to verify it works, and created a sample to demonstrate how to use it. This sounds like a lot of work, but most of it is done for you by our code generator.">
+Quick Start Adding a new resource is a multi-step process driven by our code generator. At a high level, the process is:
+Configure: Edit v2/azure-arm.yaml to add the new resource. Generate: Run task generator:quick-checks to generate the Go code. This will likely fail. Fix &amp; Repeat: Fix errors reported by the generator by adding configuration to v2/azure-arm.yaml, then re-run the generator. Repeat until generation succeeds. Test: Write an integration test to verify the resource can be created, updated, and deleted. Sample: Create a sample YAML to demonstrate how to use the resource. Verify: Run task ci to ensure all checks pass before creating a pull request. Step by step guide By the end of this process, you’ll have created a new resource, written a test to verify it works, and created a sample to demonstrate how to use it. This sounds like a lot of work, but most of it is done for you by our code generator.">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="website">
 
   <meta itemprop="name" content="Adding a new code generated resource to ASO v2">
   <meta itemprop="description" content="Want to add a new resource to Azure Service Operator v2? You’re in the right place - here’s your step by step guide.
-By the end of this process, you’ll have created a new resource, written a test to verify it works, and created a sample to demonstrate how to use it. This sounds like a lot of work, but most of it is done for you by our code generator.">
-  <meta itemprop="wordCount" content="344">
+Quick Start Adding a new resource is a multi-step process driven by our code generator. At a high level, the process is:
+Configure: Edit v2/azure-arm.yaml to add the new resource. Generate: Run task generator:quick-checks to generate the Go code. This will likely fail. Fix &amp; Repeat: Fix errors reported by the generator by adding configuration to v2/azure-arm.yaml, then re-run the generator. Repeat until generation succeeds. Test: Write an integration test to verify the resource can be created, updated, and deleted. Sample: Create a sample YAML to demonstrate how to use the resource. Verify: Run task ci to ensure all checks pass before creating a pull request. Step by step guide By the end of this process, you’ll have created a new resource, written a test to verify it works, and created a sample to demonstrate how to use it. This sounds like a lot of work, but most of it is done for you by our code generator.">
+  <meta itemprop="wordCount" content="454">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Adding a new code generated resource to ASO v2">
   <meta name="twitter:description" content="Want to add a new resource to Azure Service Operator v2? You’re in the right place - here’s your step by step guide.
-By the end of this process, you’ll have created a new resource, written a test to verify it works, and created a sample to demonstrate how to use it. This sounds like a lot of work, but most of it is done for you by our code generator.">
+Quick Start Adding a new resource is a multi-step process driven by our code generator. At a high level, the process is:
+Configure: Edit v2/azure-arm.yaml to add the new resource. Generate: Run task generator:quick-checks to generate the Go code. This will likely fail. Fix &amp; Repeat: Fix errors reported by the generator by adding configuration to v2/azure-arm.yaml, then re-run the generator. Repeat until generation succeeds. Test: Write an integration test to verify the resource can be created, updated, and deleted. Sample: Create a sample YAML to demonstrate how to use the resource. Verify: Run task ci to ensure all checks pass before creating a pull request. Step by step guide By the end of this process, you’ll have created a new resource, written a test to verify it works, and created a sample to demonstrate how to use it. This sounds like a lot of work, but most of it is done for you by our code generator.">
 <link rel="preload" href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" as="style" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.23492894e2143579e4fcade06854c917cc97dba91a591ba26c9f4a415d9f2d3d.css" rel="stylesheet" integrity="sha256-I0kolOIUNXnk/K3gaFTJF8yX26kaWRuibJ9KQV2fLT0=" crossorigin="anonymous">
 <script
@@ -817,7 +821,15 @@ By the end of this process, you’ll have created a new resource, written a test
 
 </div>
 
-            
+            <div class="td-toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#quick-start">Quick Start</a></li>
+    <li><a href="#step-by-step-guide">Step by step guide</a></li>
+  </ul>
+</nav>
+      </div>
+    
             
 
           </aside>
@@ -840,6 +852,17 @@ By the end of this process, you’ll have created a new resource, written a test
 		
 </header>
 	<p>Want to add a new resource to Azure Service Operator v2? You&rsquo;re in the right place - here&rsquo;s your step by step guide.</p>
+<h2 id="quick-start">Quick Start</h2>
+<p>Adding a new resource is a multi-step process driven by our code generator. At a high level, the process is:</p>
+<ol>
+<li><strong>Configure</strong>: Edit <code>v2/azure-arm.yaml</code> to add the new resource.</li>
+<li><strong>Generate</strong>: Run <code>task generator:quick-checks</code> to generate the Go code. This will likely fail.</li>
+<li><strong>Fix &amp; Repeat</strong>: Fix errors reported by the generator by adding configuration to <code>v2/azure-arm.yaml</code>, then re-run the generator. Repeat until generation succeeds.</li>
+<li><strong>Test</strong>: Write an integration test to verify the resource can be created, updated, and deleted.</li>
+<li><strong>Sample</strong>: Create a sample YAML to demonstrate how to use the resource.</li>
+<li><strong>Verify</strong>: Run <code>task ci</code> to ensure all checks pass before creating a pull request.</li>
+</ol>
+<h2 id="step-by-step-guide">Step by step guide</h2>
 <p>By the end of this process, you&rsquo;ll have created a new resource, written a test to verify it works, and created a sample to demonstrate how to use it. This sounds like a lot of work, but most of it is done for you by our code generator.</p>
 <ol>
 <li>
