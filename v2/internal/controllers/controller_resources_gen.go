@@ -2384,7 +2384,25 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(storage_v20230101s.StorageAccount)})
+	result = append(result, &registration.StorageType{
+		Obj: new(storage_v20230101s.StorageAccount),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.networkAcls.ipRules.valueFromConfig",
+				Func: indexStorageStorageAccountValueFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.networkAcls.ipRules.valueFromConfig",
+					},
+					&storage_v20230101s.StorageAccountList{}),
+			},
+		},
+	})
 	result = append(result, &registration.StorageType{Obj: new(storage_v20230101s.StorageAccountsBlobService)})
 	result = append(result, &registration.StorageType{Obj: new(storage_v20230101s.StorageAccountsBlobServicesContainer)})
 	result = append(result, &registration.StorageType{Obj: new(storage_v20230101s.StorageAccountsFileService)})
@@ -9512,6 +9530,25 @@ func indexSqlServersVulnerabilityAssessmentStorageContainerSasKey(rawObj client.
 		return nil
 	}
 	return obj.Spec.StorageContainerSasKey.Index()
+}
+
+// indexStorageStorageAccountValueFromConfig an index function for storage_v20230101s.StorageAccount .spec.networkAcls.ipRules.valueFromConfig
+func indexStorageStorageAccountValueFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*storage_v20230101s.StorageAccount)
+	if !ok {
+		return nil
+	}
+	var result []string
+	if obj.Spec.NetworkAcls == nil {
+		return nil
+	}
+	for _, ipRuleItem := range obj.Spec.NetworkAcls.IpRules {
+		if ipRuleItem.ValueFromConfig == nil {
+			continue
+		}
+		result = append(result, ipRuleItem.ValueFromConfig.Index()...)
+	}
+	return result
 }
 
 // indexSynapseWorkspaceAccountUrlFromConfig an index function for synapse_v20210601s.Workspace .spec.defaultDataLakeStorage.accountUrlFromConfig

@@ -733,9 +733,10 @@ type EncryptionServices_STATUS struct {
 // Storage version of v1api20230101.IPRule
 // IP rule with specific IP or IP range in CIDR format.
 type IPRule struct {
-	Action      *string                `json:"action,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Value       *string                `json:"value,omitempty"`
+	Action          *string                        `json:"action,omitempty"`
+	PropertyBag     genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
+	Value           *string                        `json:"value,omitempty" optionalConfigMapPair:"Value"`
+	ValueFromConfig *genruntime.ConfigMapReference `json:"valueFromConfig,omitempty" optionalConfigMapPair:"Value"`
 }
 
 // Storage version of v1api20230101.IPRule_STATUS

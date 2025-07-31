@@ -4395,6 +4395,9 @@ objectModelConfiguration:
       VirtualNetworkRule:
         Id:
           $referenceType: arm
+      IPRule:
+        Value:
+          $importConfigMapMode: optional
     2022-09-01:
       StorageAccount:
         $export: true
@@ -4457,6 +4460,9 @@ objectModelConfiguration:
       SignedIdentifier:
         Id:
           $referenceType: arm
+      IPRule:
+        Value:
+          $importConfigMapMode: optional
     2023-01-01:
       StorageAccount:
         $export: true
@@ -4519,6 +4525,9 @@ objectModelConfiguration:
       SignedIdentifier:
         Id:
           $referenceType: arm
+      IPRule:
+        Value:
+          $importConfigMapMode: optional
   subscription:
     2021-10-01:
       Alias:
