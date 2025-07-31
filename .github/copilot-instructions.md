@@ -50,6 +50,14 @@ Before completing your task, you **must** run these checks in the specified orde
 
 If an issue seems too complex to fix, please stop and ask for clarification.
 
+## Key Guidelines
+
+1. Follow Go best practices and idiomatic patterns
+2. Maintain existing code structure and organization
+3. Write unit tests for new functionality. Use table-driven unit tests when possible.
+4. Document public APIs and complex logic. Suggest changes to the `docs/hugo/content` folder when appropriate
+
 ## Reference Documentation
 
 We have extensive reference documentation available under the `docs/hugo/content` directory, including a detailed contributors guide in the `docs/hugo/content/contributing` directory. Please consult this as required.
+
