@@ -10,6 +10,7 @@
 +)
  
  // +kubebuilder:object:root=true
+ // +kubebuilder:resource:categories={azure,person}
  // +kubebuilder:subresource:status
  type Person struct {
  	metav1.TypeMeta   `json:",inline"`

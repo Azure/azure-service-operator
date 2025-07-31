@@ -18,6 +18,7 @@ import (
 // +kubebuilder:rbac:groups=synapse.azure.com,resources={workspacesbigdatapools/status,workspacesbigdatapools/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
+// +kubebuilder:resource:categories={azure,synapse}
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"

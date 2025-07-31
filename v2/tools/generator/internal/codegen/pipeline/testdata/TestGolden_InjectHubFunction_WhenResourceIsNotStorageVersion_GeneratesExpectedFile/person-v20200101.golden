@@ -6,6 +6,7 @@ package v20200101
 import metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 // +kubebuilder:object:root=true
+// +kubebuilder:resource:categories={azure,person}
 // +kubebuilder:subresource:status
 type Person struct {
 	metav1.TypeMeta   `json:",inline"`
