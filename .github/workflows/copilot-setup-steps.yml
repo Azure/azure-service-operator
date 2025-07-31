@@ -26,4 +26,7 @@ jobs:
           submodules: 'true'
 
       - name: Install Dependencies
-        run: sudo .devcontainer/install-dependencies.sh
+        run: sudo .devcontainer/install-dependencies.sh --skip-installed
+
+      - name: Set custom PATH
+        run: echo "PATH=$PATH:$(realpath ./hack/tools)" >> $GITHUB_ENV
