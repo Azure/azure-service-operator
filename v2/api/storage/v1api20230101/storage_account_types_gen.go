@@ -10031,9 +10031,11 @@ type IPRule struct {
 	// Action: The action of IP ACL rule.
 	Action *IPRule_Action `json:"action,omitempty"`
 
-	// +kubebuilder:validation:Required
 	// Value: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.
-	Value *string `json:"value,omitempty"`
+	Value *string `json:"value,omitempty" optionalConfigMapPair:"Value"`
+
+	// ValueFromConfig: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.
+	ValueFromConfig *genruntime.ConfigMapReference `json:"valueFromConfig,omitempty" optionalConfigMapPair:"Value"`
 }
 
 var _ genruntime.ARMTransformer = &IPRule{}
@@ -10056,6 +10058,14 @@ func (rule *IPRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 	// Set property "Value":
 	if rule.Value != nil {
 		value := *rule.Value
+		result.Value = &value
+	}
+	if rule.ValueFromConfig != nil {
+		valueValue, err := resolved.ResolvedConfigMaps.Lookup(*rule.ValueFromConfig)
+		if err != nil {
+			return nil, eris.Wrap(err, "looking up configmap for property Value")
+		}
+		value := valueValue
 		result.Value = &value
 	}
 	return result, nil
@@ -10087,6 +10097,8 @@ func (rule *IPRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, ar
 		rule.Value = &value
 	}
 
+	// no assignment for property "ValueFromConfig"
+
 	// No error
 	return nil
 }
@@ -10105,6 +10117,14 @@ func (rule *IPRule) AssignProperties_From_IPRule(source *storage.IPRule) error {
 
 	// Value
 	rule.Value = genruntime.ClonePointerToString(source.Value)
+
+	// ValueFromConfig
+	if source.ValueFromConfig != nil {
+		valueFromConfig := source.ValueFromConfig.Copy()
+		rule.ValueFromConfig = &valueFromConfig
+	} else {
+		rule.ValueFromConfig = nil
+	}
 
 	// No error
 	return nil
@@ -10125,6 +10145,14 @@ func (rule *IPRule) AssignProperties_To_IPRule(destination *storage.IPRule) erro
 
 	// Value
 	destination.Value = genruntime.ClonePointerToString(rule.Value)
+
+	// ValueFromConfig
+	if rule.ValueFromConfig != nil {
+		valueFromConfig := rule.ValueFromConfig.Copy()
+		destination.ValueFromConfig = &valueFromConfig
+	} else {
+		destination.ValueFromConfig = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

@@ -116,7 +116,12 @@ func (rule *FirewallRule) ValidateUpdate(ctx context.Context, oldResource runtim
 
 // createValidations validates the creation of the resource
 func (rule *FirewallRule) createValidations() []func(ctx context.Context, obj *v20240701.FirewallRule) (admission.Warnings, error) {
-	return []func(ctx context.Context, obj *v20240701.FirewallRule) (admission.Warnings, error){rule.validateResourceReferences, rule.validateOwnerReference, rule.validateSecretDestinations, rule.validateConfigMapDestinations}
+	return []func(ctx context.Context, obj *v20240701.FirewallRule) (admission.Warnings, error){
+		rule.validateResourceReferences,
+		rule.validateOwnerReference,
+		rule.validateSecretDestinations,
+		rule.validateConfigMapDestinations,
+	}
 }
 
 // deleteValidations validates the deletion of the resource

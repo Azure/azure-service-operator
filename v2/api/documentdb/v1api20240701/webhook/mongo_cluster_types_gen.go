@@ -116,7 +116,12 @@ func (cluster *MongoCluster) ValidateUpdate(ctx context.Context, oldResource run
 
 // createValidations validates the creation of the resource
 func (cluster *MongoCluster) createValidations() []func(ctx context.Context, obj *v20240701.MongoCluster) (admission.Warnings, error) {
-	return []func(ctx context.Context, obj *v20240701.MongoCluster) (admission.Warnings, error){cluster.validateResourceReferences, cluster.validateOwnerReference, cluster.validateSecretDestinations, cluster.validateConfigMapDestinations}
+	return []func(ctx context.Context, obj *v20240701.MongoCluster) (admission.Warnings, error){
+		cluster.validateResourceReferences,
+		cluster.validateOwnerReference,
+		cluster.validateSecretDestinations,
+		cluster.validateConfigMapDestinations,
+	}
 }
 
 // deleteValidations validates the deletion of the resource

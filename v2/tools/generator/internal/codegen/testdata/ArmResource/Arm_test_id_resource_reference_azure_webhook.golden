@@ -116,7 +116,12 @@ func (resource *FakeResource) ValidateUpdate(ctx context.Context, oldResource ru
 
 // createValidations validates the creation of the resource
 func (resource *FakeResource) createValidations() []func(ctx context.Context, obj *v20200101.FakeResource) (admission.Warnings, error) {
-	return []func(ctx context.Context, obj *v20200101.FakeResource) (admission.Warnings, error){resource.validateResourceReferences, resource.validateOwnerReference, resource.validateSecretDestinations, resource.validateConfigMapDestinations}
+	return []func(ctx context.Context, obj *v20200101.FakeResource) (admission.Warnings, error){
+		resource.validateResourceReferences,
+		resource.validateOwnerReference,
+		resource.validateSecretDestinations,
+		resource.validateConfigMapDestinations,
+	}
 }
 
 // deleteValidations validates the deletion of the resource
