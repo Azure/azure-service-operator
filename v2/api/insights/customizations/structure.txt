@@ -7,6 +7,8 @@ AutoscaleSettingExtension: Object (0 properties)
 
 ComponentExtension: Object (0 properties)
 
+DataCollectionRuleExtension: Object (0 properties)
+
 DiagnosticSettingExtension: Object (0 properties)
 
 MetricAlertExtension: Object (0 properties)

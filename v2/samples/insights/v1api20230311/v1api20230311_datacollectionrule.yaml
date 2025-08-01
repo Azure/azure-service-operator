@@ -1,0 +1,32 @@
+apiVersion: insights.azure.com/v1api20230311
+kind: DataCollectionRule
+metadata:
+  name: aso-sample-datacollectionrule
+  namespace: default
+spec:
+  location: westus2
+  owner:
+    name: aso-sample-rg
+  description: "Sample data collection rule for performance counters"
+  dataSources:
+    performanceCounters:
+      - name: "perfCounterDataSource"
+        counterSpecifiers:
+          - "\\Processor Information(_Total)\\% Processor Time"
+          - "\\Processor Information(_Total)\\% Privileged Time"
+          - "\\Processor Information(_Total)\\% User Time"
+          - "\\Memory\\Available Bytes"
+          - "\\Memory\\% Committed Bytes In Use"
+        samplingFrequencyInSeconds: 60
+        streams:
+          - "Microsoft-Perf"
+  destinations:
+    logAnalytics:
+      - name: "logAnalyticsDestination"
+        workspaceResourceReference:
+          name: aso-sample-workspace
+  dataFlows:
+    - streams:
+        - "Microsoft-Perf"
+      destinations:
+        - "logAnalyticsDestination"

@@ -210,6 +210,9 @@ import (
 	insights_v20230101 "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230101"
 	insights_v20230101s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230101/storage"
 	insights_v20230101w "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230101/webhook"
+	insights_v20230311 "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230311"
+	insights_v20230311s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230311/storage"
+	insights_v20230311w "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230311/webhook"
 	insights_v20240101p "github.com/Azure/azure-service-operator/v2/api/insights/v1api20240101preview"
 	insights_v20240101ps "github.com/Azure/azure-service-operator/v2/api/insights/v1api20240101preview/storage"
 	insights_v20240101pw "github.com/Azure/azure-service-operator/v2/api/insights/v1api20240101preview/webhook"
@@ -1263,6 +1266,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(insights_v20220615s.Webtest)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20221001s.AutoscaleSetting)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20230101s.ActionGroup)})
+	result = append(result, &registration.StorageType{Obj: new(insights_v20230311s.DataCollectionRule)})
 	result = append(result, &registration.StorageType{
 		Obj: new(keyvault_v20230701s.Vault),
 		Indexes: []registration.Index{
@@ -3915,6 +3919,12 @@ func getKnownTypes() []*registration.KnownType {
 	})
 	result = append(result, &registration.KnownType{Obj: new(insights_v20230101s.ActionGroup)})
 	result = append(result, &registration.KnownType{
+		Obj:       new(insights_v20230311.DataCollectionRule),
+		Defaulter: &insights_v20230311w.DataCollectionRule{},
+		Validator: &insights_v20230311w.DataCollectionRule{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(insights_v20230311s.DataCollectionRule)})
+	result = append(result, &registration.KnownType{
 		Obj:       new(insights_v20240101p.ScheduledQueryRule),
 		Defaulter: &insights_v20240101pw.ScheduledQueryRule{},
 		Validator: &insights_v20240101pw.ScheduledQueryRule{},
@@ -5293,6 +5303,8 @@ func createScheme() *runtime.Scheme {
 	_ = insights_v20221001s.AddToScheme(scheme)
 	_ = insights_v20230101.AddToScheme(scheme)
 	_ = insights_v20230101s.AddToScheme(scheme)
+	_ = insights_v20230311.AddToScheme(scheme)
+	_ = insights_v20230311s.AddToScheme(scheme)
 	_ = insights_v20240101p.AddToScheme(scheme)
 	_ = insights_v20240101ps.AddToScheme(scheme)
 	_ = keyvault_v20210401p.AddToScheme(scheme)
@@ -5492,6 +5504,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &insights_customizations.ActionGroupExtension{})
 	result = append(result, &insights_customizations.AutoscaleSettingExtension{})
 	result = append(result, &insights_customizations.ComponentExtension{})
+	result = append(result, &insights_customizations.DataCollectionRuleExtension{})
 	result = append(result, &insights_customizations.DiagnosticSettingExtension{})
 	result = append(result, &insights_customizations.MetricAlertExtension{})
 	result = append(result, &insights_customizations.ScheduledQueryRuleExtension{})
