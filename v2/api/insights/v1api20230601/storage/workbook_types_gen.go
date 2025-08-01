@@ -179,7 +179,6 @@ type Workbook_Spec struct {
 	Category        *string                 `json:"category,omitempty"`
 	Description     *string                 `json:"description,omitempty"`
 	DisplayName     *string                 `json:"displayName,omitempty"`
-	Etag            *string                 `json:"etag,omitempty"`
 	Identity        *ManagedServiceIdentity `json:"identity,omitempty"`
 	Kind            *string                 `json:"kind,omitempty"`
 	Location        *string                 `json:"location,omitempty"`

@@ -1071,7 +1071,6 @@ func AddIndependentPropertyGeneratorsForWorkbook_Spec(gens map[string]gopter.Gen
 	gens["Category"] = gen.PtrOf(gen.AlphaString())
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DisplayName"] = gen.PtrOf(gen.AlphaString())
-	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Kind"] = gen.PtrOf(gen.OneConstOf(Workbook_Kind_Spec_Shared))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["PropertiesTags"] = gen.SliceOf(gen.AlphaString())

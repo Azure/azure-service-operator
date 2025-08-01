@@ -453,11 +453,6 @@ func (in *Workbook_Spec) DeepCopyInto(out *Workbook_Spec) {
 		*out = new(string)
 		**out = **in
 	}
-	if in.Etag != nil {
-		in, out := &in.Etag, &out.Etag
-		*out = new(string)
-		**out = **in
-	}
 	if in.Identity != nil {
 		in, out := &in.Identity, &out.Identity
 		*out = new(ManagedServiceIdentity)

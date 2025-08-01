@@ -6,9 +6,6 @@ package arm
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Workbook_Spec struct {
-	// Etag: Resource etag
-	Etag *string `json:"etag,omitempty"`
-
 	// Identity: Identity used for BYOS
 	Identity *ManagedServiceIdentity `json:"identity,omitempty"`
 

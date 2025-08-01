@@ -6,12 +6,11 @@ APIVersion: Enum (1 value)
 
 Workbook: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (18 properties)
+├── Spec: Object (17 properties)
 │   ├── AzureName: string
 │   ├── Category: *string
 │   ├── Description: *string
 │   ├── DisplayName: *string
-│   ├── Etag: *string
 │   ├── Identity: *Object (3 properties)
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   ├── Type: *string

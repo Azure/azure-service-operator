@@ -286,7 +286,6 @@ func Workbook_SpecGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForWorkbook_Spec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForWorkbook_Spec(gens map[string]gopter.Gen) {
-	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Kind"] = gen.PtrOf(gen.OneConstOf(Workbook_Kind_Spec_Shared))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()

@@ -648,6 +648,12 @@ typeTransformers:
       required: true
     because: This property should be marked required in Swagger
 
+  - group: insights
+    name: Workbook_Spec
+    property: Etag
+    remove: true
+    because: This property should be marked readonly in Swagger
+
 status:
 
   overrides: [

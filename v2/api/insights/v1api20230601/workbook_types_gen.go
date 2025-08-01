@@ -266,9 +266,6 @@ type Workbook_Spec struct {
 	// DisplayName: The user-defined name (display name) of the workbook.
 	DisplayName *string `json:"displayName,omitempty"`
 
-	// Etag: Resource etag
-	Etag *string `json:"etag,omitempty"`
-
 	// Identity: Identity used for BYOS
 	Identity *ManagedServiceIdentity `json:"identity,omitempty"`
 
@@ -317,12 +314,6 @@ func (workbook *Workbook_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		return nil, nil
 	}
 	result := &arm.Workbook_Spec{}
-
-	// Set property "Etag":
-	if workbook.Etag != nil {
-		etag := *workbook.Etag
-		result.Etag = &etag
-	}
 
 	// Set property "Identity":
 	if workbook.Identity != nil {
@@ -452,12 +443,6 @@ func (workbook *Workbook_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 			displayName := *typedInput.Properties.DisplayName
 			workbook.DisplayName = &displayName
 		}
-	}
-
-	// Set property "Etag":
-	if typedInput.Etag != nil {
-		etag := *typedInput.Etag
-		workbook.Etag = &etag
 	}
 
 	// Set property "Identity":
@@ -600,9 +585,6 @@ func (workbook *Workbook_Spec) AssignProperties_From_Workbook_Spec(source *stora
 	// DisplayName
 	workbook.DisplayName = genruntime.ClonePointerToString(source.DisplayName)
 
-	// Etag
-	workbook.Etag = genruntime.ClonePointerToString(source.Etag)
-
 	// Identity
 	if source.Identity != nil {
 		var identity ManagedServiceIdentity
@@ -695,9 +677,6 @@ func (workbook *Workbook_Spec) AssignProperties_To_Workbook_Spec(destination *st
 
 	// DisplayName
 	destination.DisplayName = genruntime.ClonePointerToString(workbook.DisplayName)
-
-	// Etag
-	destination.Etag = genruntime.ClonePointerToString(workbook.Etag)
 
 	// Identity
 	if workbook.Identity != nil {
@@ -795,9 +774,6 @@ func (workbook *Workbook_Spec) Initialize_From_Workbook_STATUS(source *Workbook_
 
 	// DisplayName
 	workbook.DisplayName = genruntime.ClonePointerToString(source.DisplayName)
-
-	// Etag
-	workbook.Etag = genruntime.ClonePointerToString(source.Etag)
 
 	// Identity
 	if source.Identity != nil {

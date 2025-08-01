@@ -49,8 +49,7 @@ Workbook_STATUS: Object (10 properties)
 ├── Tags: map[string]string
 └── Type: *string
 
-Workbook_Spec: Object (7 properties)
-├── Etag: *string
+Workbook_Spec: Object (6 properties)
 ├── Identity: *Object (2 properties)
 │   ├── Type: *Enum (4 values)
 │   │   ├── "None"
