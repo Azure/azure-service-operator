@@ -8,7 +8,6 @@ import (
 	v20220615s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20220615/storage"
 	v20221001s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20221001/storage"
 	v20230311s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230311/storage"
-	v20230601s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230601/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -937,13 +936,8 @@ func (rule *ScheduledQueryRule_STATUS) AssignProperties_From_ScheduledQueryRule_
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData_STATUSStash from SystemData")
 		}
-		var systemDataSTATUSStashLocal v20230311s.SystemData_STATUS
-		err = systemDataSTATUSStash.AssignProperties_To_SystemData_STATUS(&systemDataSTATUSStashLocal)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData_STATUSStash")
-		}
-		var systemDataSTATUSPivot v20230601s.SystemData_STATUS
-		err = systemDataSTATUSStashLocal.AssignProperties_To_SystemData_STATUS(&systemDataSTATUSPivot)
+		var systemDataSTATUSPivot v20230311s.SystemData_STATUS
+		err = systemDataSTATUSStash.AssignProperties_To_SystemData_STATUS(&systemDataSTATUSPivot)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData_STATUSPivot from SystemData_STATUSStash")
 		}
@@ -1124,23 +1118,18 @@ func (rule *ScheduledQueryRule_STATUS) AssignProperties_To_ScheduledQueryRule_ST
 
 	// SystemData
 	if rule.SystemData != nil {
-		var systemDataSTATUSPivot v20230601s.SystemData_STATUS
+		var systemDataSTATUSPivot v20230311s.SystemData_STATUS
 		err := rule.SystemData.AssignProperties_To_SystemData_STATUS(&systemDataSTATUSPivot)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData_STATUSPivot from SystemData")
 		}
-		var systemDataSTATUSStash v20230311s.SystemData_STATUS
+		var systemDataSTATUSStash v20221001s.SystemData_STATUS
 		err = systemDataSTATUSStash.AssignProperties_From_SystemData_STATUS(&systemDataSTATUSPivot)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData_STATUSStash from SystemData_STATUSPivot")
 		}
-		var systemDataSTATUSStashLocal v20221001s.SystemData_STATUS
-		err = systemDataSTATUSStashLocal.AssignProperties_From_SystemData_STATUS(&systemDataSTATUSStash)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData_STATUSStash")
-		}
 		var systemDatum v20220615s.SystemData_STATUS
-		err = systemDatum.AssignProperties_From_SystemData_STATUS(&systemDataSTATUSStashLocal)
+		err = systemDatum.AssignProperties_From_SystemData_STATUS(&systemDataSTATUSStash)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData from SystemData_STATUSStash")
 		}
@@ -1756,7 +1745,7 @@ type SystemData_STATUS struct {
 }
 
 // AssignProperties_From_SystemData_STATUS populates our SystemData_STATUS from the provided source SystemData_STATUS
-func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v20230601s.SystemData_STATUS) error {
+func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v20230311s.SystemData_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1799,7 +1788,7 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 }
 
 // AssignProperties_To_SystemData_STATUS populates the provided destination SystemData_STATUS from our SystemData_STATUS
-func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *v20230601s.SystemData_STATUS) error {
+func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *v20230311s.SystemData_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(data.PropertyBag)
 
@@ -1867,8 +1856,8 @@ type augmentConversionForScheduledQueryRuleOperatorSpec interface {
 }
 
 type augmentConversionForSystemData_STATUS interface {
-	AssignPropertiesFrom(src *v20230601s.SystemData_STATUS) error
-	AssignPropertiesTo(dst *v20230601s.SystemData_STATUS) error
+	AssignPropertiesFrom(src *v20230311s.SystemData_STATUS) error
+	AssignPropertiesTo(dst *v20230311s.SystemData_STATUS) error
 }
 
 // Storage version of v1api20240101preview.Condition
@@ -2372,7 +2361,7 @@ type UserAssignedIdentityDetails struct {
 }
 
 // AssignProperties_From_UserAssignedIdentityDetails populates our UserAssignedIdentityDetails from the provided source UserAssignedIdentityDetails
-func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedIdentityDetails(source *v20230601s.UserAssignedIdentityDetails) error {
+func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedIdentityDetails(source *v20230311s.UserAssignedIdentityDetails) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2400,7 +2389,7 @@ func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedId
 }
 
 // AssignProperties_To_UserAssignedIdentityDetails populates the provided destination UserAssignedIdentityDetails from our UserAssignedIdentityDetails
-func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIdentityDetails(destination *v20230601s.UserAssignedIdentityDetails) error {
+func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIdentityDetails(destination *v20230311s.UserAssignedIdentityDetails) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(details.PropertyBag)
 
@@ -2446,8 +2435,8 @@ type augmentConversionForCondition_STATUS interface {
 }
 
 type augmentConversionForUserAssignedIdentityDetails interface {
-	AssignPropertiesFrom(src *v20230601s.UserAssignedIdentityDetails) error
-	AssignPropertiesTo(dst *v20230601s.UserAssignedIdentityDetails) error
+	AssignPropertiesFrom(src *v20230311s.UserAssignedIdentityDetails) error
+	AssignPropertiesTo(dst *v20230311s.UserAssignedIdentityDetails) error
 }
 
 // Storage version of v1api20240101preview.Condition_FailingPeriods
