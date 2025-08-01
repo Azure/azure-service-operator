@@ -1,0 +1,1586 @@
+---
+version: 2
+interactions:
+    - id: 0
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 93
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"location":"westus2","name":"asotest-rg-ecveqt","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "93"
+            Content-Type:
+                - application/json
+            Test-Request-Hash:
+                - 31ec9675ef9256f471ef7b89245f30d5a724e5b0d4bb61ff0fd5db8e7614182f
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt?api-version=2020-06-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 276
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt","name":"asotest-rg-ecveqt","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "276"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: C6128B7DB23F4E42BE816D0EE22AB62E Ref B: SYD03EDGE1616 Ref C: 2025-07-14T03:35:25Z'
+        status: 201 Created
+        code: 201
+        duration: 2.589485112s
+    - id: 1
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt?api-version=2020-06-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 276
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt","name":"asotest-rg-ecveqt","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "276"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 2ACB8C63A6A8441EBAAE522E7BABAE36 Ref B: SYD03EDGE1616 Ref C: 2025-07-14T03:35:30Z'
+        status: 200 OK
+        code: 200
+        duration: 304.470994ms
+    - id: 2
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 111
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"kind":"web","location":"westus2","name":"asotest-component-bbpfnz","properties":{"Application_Type":"other"}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "111"
+            Content-Type:
+                - application/json
+            Test-Request-Hash:
+                - 3f8e75871a9f63c089aced76a723ad4fdd7784b931e77a2d2726ff760fe57997
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt/providers/Microsoft.Insights/components/asotest-component-bbpfnz?api-version=2020-02-02
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1581
+        uncompressed: false
+        body: "{\r\n  \"kind\": \"web\",\r\n  \"etag\": \"\\\"4705c6bf-0000-0800-0000-68747b150000\\\"\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt/providers/microsoft.insights/components/asotest-component-bbpfnz\",\r\n  \"name\": \"asotest-component-bbpfnz\",\r\n  \"type\": \"microsoft.insights/components\",\r\n  \"location\": \"westus2\",\r\n  \"tags\": {},\r\n  \"properties\": {\r\n    \"ApplicationId\": \"asotest-component-bbpfnz\",\r\n    \"AppId\": \"2426da44-c19d-43bc-90ac-249a34eb9d85\",\r\n    \"Application_Type\": \"other\",\r\n    \"Flow_Type\": null,\r\n    \"Request_Source\": null,\r\n    \"InstrumentationKey\": \"b91b1e4c-60c2-4794-9488-1824dbe88ab4\",\r\n    \"ConnectionString\": \"InstrumentationKey=b91b1e4c-60c2-4794-9488-1824dbe88ab4;IngestionEndpoint=https://westus2-2.in.applicationinsights.azure.com/;LiveEndpoint=https://westus2.livediagnostics.monitor.azure.com/;ApplicationId=2426da44-c19d-43bc-90ac-249a34eb9d85\",\r\n    \"Name\": \"asotest-component-bbpfnz\",\r\n    \"CreationDate\": \"2025-07-14T03:35:38.3643673+00:00\",\r\n    \"TenantId\": \"00000000-0000-0000-0000-000000000000\",\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"SamplingPercentage\": null,\r\n    \"RetentionInDays\": 90,\r\n    \"WorkspaceResourceId\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/ai_asotest-component-bbpfnz_2426da44-c19d-43bc-90ac-249a34eb9d85_managed/providers/Microsoft.OperationalInsights/workspaces/managed-asotest-component-bbpfnz-ws\",\r\n    \"IngestionMode\": \"LogAnalytics\",\r\n    \"publicNetworkAccessForIngestion\": \"Enabled\",\r\n    \"publicNetworkAccessForQuery\": \"Enabled\",\r\n    \"Ver\": \"v2\"\r\n  }\r\n}"
+        headers:
+            Access-Control-Expose-Headers:
+                - Request-Context
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "1581"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Request-Context:
+                - appId=cid-v1:0dd6a9c3-b728-41ca-aa78-7e1962e22331
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/southeastasia/2bf21431-f092-46ef-a5c0-317816a1b7f5
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "12000"
+            X-Msedge-Ref:
+                - 'Ref A: 11181336B78A47118A0105EF7DB42CA2 Ref B: SYD03EDGE1616 Ref C: 2025-07-14T03:35:34Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 13.487214487s
+    - id: 3
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt/providers/Microsoft.Insights/components/asotest-component-bbpfnz?api-version=2020-02-02
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1581
+        uncompressed: false
+        body: "{\r\n  \"kind\": \"web\",\r\n  \"etag\": \"\\\"4705c6bf-0000-0800-0000-68747b150000\\\"\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt/providers/microsoft.insights/components/asotest-component-bbpfnz\",\r\n  \"name\": \"asotest-component-bbpfnz\",\r\n  \"type\": \"microsoft.insights/components\",\r\n  \"location\": \"westus2\",\r\n  \"tags\": {},\r\n  \"properties\": {\r\n    \"ApplicationId\": \"asotest-component-bbpfnz\",\r\n    \"AppId\": \"2426da44-c19d-43bc-90ac-249a34eb9d85\",\r\n    \"Application_Type\": \"other\",\r\n    \"Flow_Type\": null,\r\n    \"Request_Source\": null,\r\n    \"InstrumentationKey\": \"b91b1e4c-60c2-4794-9488-1824dbe88ab4\",\r\n    \"ConnectionString\": \"InstrumentationKey=b91b1e4c-60c2-4794-9488-1824dbe88ab4;IngestionEndpoint=https://westus2-2.in.applicationinsights.azure.com/;LiveEndpoint=https://westus2.livediagnostics.monitor.azure.com/;ApplicationId=2426da44-c19d-43bc-90ac-249a34eb9d85\",\r\n    \"Name\": \"asotest-component-bbpfnz\",\r\n    \"CreationDate\": \"2025-07-14T03:35:38.3643673+00:00\",\r\n    \"TenantId\": \"00000000-0000-0000-0000-000000000000\",\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"SamplingPercentage\": null,\r\n    \"RetentionInDays\": 90,\r\n    \"WorkspaceResourceId\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/ai_asotest-component-bbpfnz_2426da44-c19d-43bc-90ac-249a34eb9d85_managed/providers/Microsoft.OperationalInsights/workspaces/managed-asotest-component-bbpfnz-ws\",\r\n    \"IngestionMode\": \"LogAnalytics\",\r\n    \"publicNetworkAccessForIngestion\": \"Enabled\",\r\n    \"publicNetworkAccessForQuery\": \"Enabled\",\r\n    \"Ver\": \"v2\"\r\n  }\r\n}"
+        headers:
+            Access-Control-Expose-Headers:
+                - Request-Context
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "1581"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Request-Context:
+                - appId=cid-v1:0dd6a9c3-b728-41ca-aa78-7e1962e22331
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: D8F29F72F45140F2A2ED1723ED6E7271 Ref B: SYD03EDGE1616 Ref C: 2025-07-14T03:36:04Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 821.422192ms
+    - id: 4
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 132
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"kind":"web","location":"westus2","name":"asotest-component-bbpfnz","properties":{"Application_Type":"other","RetentionInDays":60}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "132"
+            Content-Type:
+                - application/json
+            Test-Request-Hash:
+                - c842cfcd3a3fa8e3a797377a8196a664709e0a124c95453ea5d583e026519fea
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt/providers/Microsoft.Insights/components/asotest-component-bbpfnz?api-version=2020-02-02
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1607
+        uncompressed: false
+        body: "{\r\n  \"kind\": \"web\",\r\n  \"etag\": \"\\\"4705c7c5-0000-0800-0000-68747b280000\\\"\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt/providers/microsoft.insights/components/asotest-component-bbpfnz\",\r\n  \"name\": \"asotest-component-bbpfnz\",\r\n  \"type\": \"microsoft.insights/components\",\r\n  \"location\": \"westus2\",\r\n  \"tags\": {},\r\n  \"properties\": {\r\n    \"ApplicationId\": \"asotest-component-bbpfnz\",\r\n    \"AppId\": \"2426da44-c19d-43bc-90ac-249a34eb9d85\",\r\n    \"Application_Type\": \"other\",\r\n    \"Flow_Type\": null,\r\n    \"Request_Source\": null,\r\n    \"InstrumentationKey\": \"b91b1e4c-60c2-4794-9488-1824dbe88ab4\",\r\n    \"ConnectionString\": \"InstrumentationKey=b91b1e4c-60c2-4794-9488-1824dbe88ab4;IngestionEndpoint=https://westus2-2.in.applicationinsights.azure.com/;LiveEndpoint=https://westus2.livediagnostics.monitor.azure.com/;ApplicationId=2426da44-c19d-43bc-90ac-249a34eb9d85\",\r\n    \"Name\": \"asotest-component-bbpfnz\",\r\n    \"CreationDate\": \"2025-07-14T03:35:38.3643673+00:00\",\r\n    \"TenantId\": \"00000000-0000-0000-0000-000000000000\",\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"SamplingPercentage\": null,\r\n    \"RetentionInDays\": 60,\r\n    \"Retention\": \"P60D\",\r\n    \"WorkspaceResourceId\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/ai_asotest-component-bbpfnz_2426da44-c19d-43bc-90ac-249a34eb9d85_managed/providers/Microsoft.OperationalInsights/workspaces/managed-asotest-component-bbpfnz-ws\",\r\n    \"IngestionMode\": \"LogAnalytics\",\r\n    \"publicNetworkAccessForIngestion\": \"Enabled\",\r\n    \"publicNetworkAccessForQuery\": \"Enabled\",\r\n    \"Ver\": \"v2\"\r\n  }\r\n}"
+        headers:
+            Access-Control-Expose-Headers:
+                - Request-Context
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "1607"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Request-Context:
+                - appId=cid-v1:0dd6a9c3-b728-41ca-aa78-7e1962e22331
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/southeastasia/b69ff02e-a769-43e2-89a6-0921249f618d
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: F37819B110AE465894382BD5095C2871 Ref B: SYD03EDGE1616 Ref C: 2025-07-14T03:36:07Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 2.316520897s
+    - id: 5
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "1"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt/providers/Microsoft.Insights/components/asotest-component-bbpfnz?api-version=2020-02-02
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1607
+        uncompressed: false
+        body: "{\r\n  \"kind\": \"web\",\r\n  \"etag\": \"\\\"4705c7c5-0000-0800-0000-68747b280000\\\"\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt/providers/microsoft.insights/components/asotest-component-bbpfnz\",\r\n  \"name\": \"asotest-component-bbpfnz\",\r\n  \"type\": \"microsoft.insights/components\",\r\n  \"location\": \"westus2\",\r\n  \"tags\": {},\r\n  \"properties\": {\r\n    \"ApplicationId\": \"asotest-component-bbpfnz\",\r\n    \"AppId\": \"2426da44-c19d-43bc-90ac-249a34eb9d85\",\r\n    \"Application_Type\": \"other\",\r\n    \"Flow_Type\": null,\r\n    \"Request_Source\": null,\r\n    \"InstrumentationKey\": \"b91b1e4c-60c2-4794-9488-1824dbe88ab4\",\r\n    \"ConnectionString\": \"InstrumentationKey=b91b1e4c-60c2-4794-9488-1824dbe88ab4;IngestionEndpoint=https://westus2-2.in.applicationinsights.azure.com/;LiveEndpoint=https://westus2.livediagnostics.monitor.azure.com/;ApplicationId=2426da44-c19d-43bc-90ac-249a34eb9d85\",\r\n    \"Name\": \"asotest-component-bbpfnz\",\r\n    \"CreationDate\": \"2025-07-14T03:35:38.3643673+00:00\",\r\n    \"TenantId\": \"00000000-0000-0000-0000-000000000000\",\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"SamplingPercentage\": null,\r\n    \"RetentionInDays\": 60,\r\n    \"Retention\": \"P60D\",\r\n    \"WorkspaceResourceId\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/ai_asotest-component-bbpfnz_2426da44-c19d-43bc-90ac-249a34eb9d85_managed/providers/Microsoft.OperationalInsights/workspaces/managed-asotest-component-bbpfnz-ws\",\r\n    \"IngestionMode\": \"LogAnalytics\",\r\n    \"publicNetworkAccessForIngestion\": \"Enabled\",\r\n    \"publicNetworkAccessForQuery\": \"Enabled\",\r\n    \"Ver\": \"v2\"\r\n  }\r\n}"
+        headers:
+            Access-Control-Expose-Headers:
+                - Request-Context
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "1607"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Request-Context:
+                - appId=cid-v1:0dd6a9c3-b728-41ca-aa78-7e1962e22331
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 718FF2FCC9734FFB95851EBD8A00E1FA Ref B: SYD03EDGE1616 Ref C: 2025-07-14T03:36:12Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 767.162754ms
+    - id: 6
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 595
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"location":"westus2","name":"asotest-webtest-mwlxeg","properties":{"Enabled":true,"Frequency":300,"Kind":"standard","Locations":[{"Id":"us-ca-sjc-azr"}],"Name":"mywebtest","Request":{"HttpVerb":"GET","RequestUrl":"https://github.com/Azure/azure-service-operator"},"SyntheticMonitorId":"asotest-webtest-mwlxeg","ValidationRules":{"ExpectedHttpStatusCode":200,"SSLCertRemainingLifetimeCheck":7,"SSLCheck":true}},"tags":{"hidden-link:/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt/providers/microsoft.insights/components/asotest-component-bbpfnz":"Resource"}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "595"
+            Content-Type:
+                - application/json
+            Test-Request-Hash:
+                - 1230d6c61f5bff2e43e123be04c1d46312de987a544065ccc9fc3b167fb2e576
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt/providers/Microsoft.Insights/webtests/asotest-webtest-mwlxeg?api-version=2022-06-15
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1384
+        uncompressed: false
+        body: "{\r\n  \"kind\": null,\r\n  \"etag\": \"\\\"4705afc9-0000-0800-0000-68747b370000\\\"\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt/providers/microsoft.insights/webtests/asotest-webtest-mwlxeg\",\r\n  \"name\": \"asotest-webtest-mwlxeg\",\r\n  \"type\": \"microsoft.insights/webtests\",\r\n  \"location\": \"westus2\",\r\n  \"tags\": {\r\n    \"hidden-link:/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt/providers/microsoft.insights/components/asotest-component-bbpfnz\": \"Resource\"\r\n  },\r\n  \"properties\": {\r\n    \"SyntheticMonitorId\": \"asotest-webtest-mwlxeg\",\r\n    \"Name\": \"mywebtest\",\r\n    \"Description\": null,\r\n    \"Enabled\": true,\r\n    \"Frequency\": 300,\r\n    \"Timeout\": 30,\r\n    \"Kind\": \"standard\",\r\n    \"RetryEnabled\": null,\r\n    \"Locations\": [\r\n      {\r\n        \"Id\": \"us-ca-sjc-azr\"\r\n      }\r\n    ],\r\n    \"Configuration\": null,\r\n    \"Request\": {\r\n      \"RequestUrl\": \"https://github.com/Azure/azure-service-operator\",\r\n      \"Headers\": null,\r\n      \"HttpVerb\": \"GET\",\r\n      \"RequestBody\": null,\r\n      \"ParseDependentRequests\": null,\r\n      \"FollowRedirects\": null\r\n    },\r\n    \"ValidationRules\": {\r\n      \"ExpectedHttpStatusCode\": 200,\r\n      \"IgnoreHttpStatusCode\": null,\r\n      \"ContentValidation\": null,\r\n      \"SSLCheck\": true,\r\n      \"SSLCertRemainingLifetimeCheck\": 7\r\n    },\r\n    \"provisioningState\": \"Succeeded\"\r\n  }\r\n}"
+        headers:
+            Access-Control-Expose-Headers:
+                - Request-Context
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "1384"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Request-Context:
+                - appId=cid-v1:0dd6a9c3-b728-41ca-aa78-7e1962e22331
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/southeastasia/bf4bad1c-9259-49ab-a583-9abd8f4f3fbd
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: EC3B883F54C749FBAB91EEE6F4D2CA3F Ref B: SYD03EDGE1616 Ref C: 2025-07-14T03:36:19Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 4.479656051s
+    - id: 7
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 90
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"name":"current","properties":{"planType":"Basic","stopSendNotificationWhenHitCap":true}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "90"
+            Content-Type:
+                - application/json
+            Test-Request-Hash:
+                - 70cd276aea25f5a3e6eecd22dbaa01aa48092b5a1260327375dc028601cb53e4
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt/providers/microsoft.insights/components/asotest-component-bbpfnz/pricingPlans/current?api-version=2017-10-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 687
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt/providers/microsoft.insights/components/asotest-component-bbpfnz/pricingPlans/current","name":"current","type":"microsoft.insights/components/pricingPlans","location":null,"tags":null,"kind":null,"etag":null,"properties":{"planType":"Basic","PricingType":"Basic","cap":0.0,"maxHistoryCap":1000.0,"resetHour":0,"warningThreshold":0,"stopSendNotificationWhenHitThreshold":false,"stopSendNotificationWhenHitCap":true,"DataVolumeCap":0.0,"MaxHistoryCap":1000.0,"ResetHour":0,"WarningThreshold":0,"DisableNotificationWhenHitThreshold":false,"DisableNotificationWhenHitCap":true,"IsDreamSpark":false}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "687"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/southeastasia/0081ba6f-32d1-43de-b5a2-7d992a50ca9b
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: A2E5F3DD3B3A414BB261F06BD0A472D5 Ref B: SYD03EDGE1616 Ref C: 2025-07-14T03:36:19Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 4.710579627s
+    - id: 8
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 595
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"location":"westus2","name":"asotest-webtest-nlulpz","properties":{"Enabled":true,"Frequency":300,"Kind":"standard","Locations":[{"Id":"us-ca-sjc-azr"}],"Name":"mywebtest","Request":{"HttpVerb":"GET","RequestUrl":"https://github.com/Azure/azure-service-operator"},"SyntheticMonitorId":"asotest-webtest-nlulpz","ValidationRules":{"ExpectedHttpStatusCode":200,"SSLCertRemainingLifetimeCheck":7,"SSLCheck":true}},"tags":{"hidden-link:/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt/providers/microsoft.insights/components/asotest-component-bbpfnz":"Resource"}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "595"
+            Content-Type:
+                - application/json
+            Test-Request-Hash:
+                - e007493d5b9fefafa0f0622ab9b066acb6d24ae2e13e14e98e4fa4c32c4d88bd
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt/providers/Microsoft.Insights/webtests/asotest-webtest-nlulpz?api-version=2018-05-01-preview
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1384
+        uncompressed: false
+        body: "{\r\n  \"kind\": null,\r\n  \"etag\": \"\\\"4705f1c9-0000-0800-0000-68747b380000\\\"\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt/providers/microsoft.insights/webtests/asotest-webtest-nlulpz\",\r\n  \"name\": \"asotest-webtest-nlulpz\",\r\n  \"type\": \"microsoft.insights/webtests\",\r\n  \"location\": \"westus2\",\r\n  \"tags\": {\r\n    \"hidden-link:/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt/providers/microsoft.insights/components/asotest-component-bbpfnz\": \"Resource\"\r\n  },\r\n  \"properties\": {\r\n    \"SyntheticMonitorId\": \"asotest-webtest-nlulpz\",\r\n    \"Name\": \"mywebtest\",\r\n    \"Description\": null,\r\n    \"Enabled\": true,\r\n    \"Frequency\": 300,\r\n    \"Timeout\": 30,\r\n    \"Kind\": \"standard\",\r\n    \"RetryEnabled\": null,\r\n    \"Locations\": [\r\n      {\r\n        \"Id\": \"us-ca-sjc-azr\"\r\n      }\r\n    ],\r\n    \"Configuration\": null,\r\n    \"Request\": {\r\n      \"RequestUrl\": \"https://github.com/Azure/azure-service-operator\",\r\n      \"Headers\": null,\r\n      \"HttpVerb\": \"GET\",\r\n      \"RequestBody\": null,\r\n      \"ParseDependentRequests\": null,\r\n      \"FollowRedirects\": null\r\n    },\r\n    \"ValidationRules\": {\r\n      \"ExpectedHttpStatusCode\": 200,\r\n      \"IgnoreHttpStatusCode\": null,\r\n      \"ContentValidation\": null,\r\n      \"SSLCheck\": true,\r\n      \"SSLCertRemainingLifetimeCheck\": 7\r\n    },\r\n    \"provisioningState\": \"Succeeded\"\r\n  }\r\n}"
+        headers:
+            Access-Control-Expose-Headers:
+                - Request-Context
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "1384"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Request-Context:
+                - appId=cid-v1:0dd6a9c3-b728-41ca-aa78-7e1962e22331
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/southeastasia/f945c448-0139-4879-a9ba-d6c5bde44470
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: D4B205247E4A4CFB923F2F2900CD90D3 Ref B: SYD03EDGE1616 Ref C: 2025-07-14T03:36:19Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 5.949941836s
+    - id: 9
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt/providers/Microsoft.Insights/webtests/asotest-webtest-mwlxeg?api-version=2022-06-15
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1384
+        uncompressed: false
+        body: "{\r\n  \"kind\": null,\r\n  \"etag\": \"\\\"4705afc9-0000-0800-0000-68747b370000\\\"\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt/providers/microsoft.insights/webtests/asotest-webtest-mwlxeg\",\r\n  \"name\": \"asotest-webtest-mwlxeg\",\r\n  \"type\": \"microsoft.insights/webtests\",\r\n  \"location\": \"westus2\",\r\n  \"tags\": {\r\n    \"hidden-link:/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt/providers/microsoft.insights/components/asotest-component-bbpfnz\": \"Resource\"\r\n  },\r\n  \"properties\": {\r\n    \"SyntheticMonitorId\": \"asotest-webtest-mwlxeg\",\r\n    \"Name\": \"mywebtest\",\r\n    \"Description\": null,\r\n    \"Enabled\": true,\r\n    \"Frequency\": 300,\r\n    \"Timeout\": 30,\r\n    \"Kind\": \"standard\",\r\n    \"RetryEnabled\": null,\r\n    \"Locations\": [\r\n      {\r\n        \"Id\": \"us-ca-sjc-azr\"\r\n      }\r\n    ],\r\n    \"Configuration\": null,\r\n    \"Request\": {\r\n      \"RequestUrl\": \"https://github.com/Azure/azure-service-operator\",\r\n      \"Headers\": null,\r\n      \"HttpVerb\": \"GET\",\r\n      \"RequestBody\": null,\r\n      \"ParseDependentRequests\": null,\r\n      \"FollowRedirects\": null\r\n    },\r\n    \"ValidationRules\": {\r\n      \"ExpectedHttpStatusCode\": 200,\r\n      \"IgnoreHttpStatusCode\": null,\r\n      \"ContentValidation\": null,\r\n      \"SSLCheck\": true,\r\n      \"SSLCertRemainingLifetimeCheck\": 7\r\n    },\r\n    \"provisioningState\": \"Succeeded\"\r\n  }\r\n}"
+        headers:
+            Access-Control-Expose-Headers:
+                - Request-Context
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "1384"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Request-Context:
+                - appId=cid-v1:0dd6a9c3-b728-41ca-aa78-7e1962e22331
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: F1904B72B21D49B5AFAFCFD29DB10010 Ref B: SYD03EDGE1616 Ref C: 2025-07-14T03:36:29Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 859.286411ms
+    - id: 10
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt/providers/microsoft.insights/components/asotest-component-bbpfnz/pricingPlans/current?api-version=2017-10-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 687
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt/providers/microsoft.insights/components/asotest-component-bbpfnz/pricingPlans/current","name":"current","type":"microsoft.insights/components/pricingPlans","location":null,"tags":null,"kind":null,"etag":null,"properties":{"planType":"Basic","PricingType":"Basic","cap":0.0,"maxHistoryCap":1000.0,"resetHour":0,"warningThreshold":0,"stopSendNotificationWhenHitThreshold":false,"stopSendNotificationWhenHitCap":true,"DataVolumeCap":0.0,"MaxHistoryCap":1000.0,"ResetHour":0,"WarningThreshold":0,"DisableNotificationWhenHitThreshold":false,"DisableNotificationWhenHitCap":true,"IsDreamSpark":false}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "687"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/southeastasia/411e592a-072d-4ce2-87be-962684eb0b78
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 3520383DD45E401484AF83DB4B348186 Ref B: SYD03EDGE1616 Ref C: 2025-07-14T03:36:29Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 1.671341376s
+    - id: 11
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt/providers/Microsoft.Insights/webtests/asotest-webtest-nlulpz?api-version=2018-05-01-preview
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1384
+        uncompressed: false
+        body: "{\r\n  \"kind\": null,\r\n  \"etag\": \"\\\"4705f1c9-0000-0800-0000-68747b380000\\\"\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt/providers/microsoft.insights/webtests/asotest-webtest-nlulpz\",\r\n  \"name\": \"asotest-webtest-nlulpz\",\r\n  \"type\": \"microsoft.insights/webtests\",\r\n  \"location\": \"westus2\",\r\n  \"tags\": {\r\n    \"hidden-link:/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt/providers/microsoft.insights/components/asotest-component-bbpfnz\": \"Resource\"\r\n  },\r\n  \"properties\": {\r\n    \"SyntheticMonitorId\": \"asotest-webtest-nlulpz\",\r\n    \"Name\": \"mywebtest\",\r\n    \"Description\": null,\r\n    \"Enabled\": true,\r\n    \"Frequency\": 300,\r\n    \"Timeout\": 30,\r\n    \"Kind\": \"standard\",\r\n    \"RetryEnabled\": null,\r\n    \"Locations\": [\r\n      {\r\n        \"Id\": \"us-ca-sjc-azr\"\r\n      }\r\n    ],\r\n    \"Configuration\": null,\r\n    \"Request\": {\r\n      \"RequestUrl\": \"https://github.com/Azure/azure-service-operator\",\r\n      \"Headers\": null,\r\n      \"HttpVerb\": \"GET\",\r\n      \"RequestBody\": null,\r\n      \"ParseDependentRequests\": null,\r\n      \"FollowRedirects\": null\r\n    },\r\n    \"ValidationRules\": {\r\n      \"ExpectedHttpStatusCode\": 200,\r\n      \"IgnoreHttpStatusCode\": null,\r\n      \"ContentValidation\": null,\r\n      \"SSLCheck\": true,\r\n      \"SSLCertRemainingLifetimeCheck\": 7\r\n    },\r\n    \"provisioningState\": \"Succeeded\"\r\n  }\r\n}"
+        headers:
+            Access-Control-Expose-Headers:
+                - Request-Context
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "1384"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Request-Context:
+                - appId=cid-v1:0dd6a9c3-b728-41ca-aa78-7e1962e22331
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: FEDDA6C801764EE48FAEDAB2BF011BAC Ref B: SYD03EDGE1616 Ref C: 2025-07-14T03:36:32Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 941.160048ms
+    - id: 12
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 596
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"location":"westus2","name":"asotest-webtest-nlulpz","properties":{"Enabled":false,"Frequency":300,"Kind":"standard","Locations":[{"Id":"us-ca-sjc-azr"}],"Name":"mywebtest","Request":{"HttpVerb":"GET","RequestUrl":"https://github.com/Azure/azure-service-operator"},"SyntheticMonitorId":"asotest-webtest-nlulpz","ValidationRules":{"ExpectedHttpStatusCode":200,"SSLCertRemainingLifetimeCheck":7,"SSLCheck":true}},"tags":{"hidden-link:/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt/providers/microsoft.insights/components/asotest-component-bbpfnz":"Resource"}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "596"
+            Content-Type:
+                - application/json
+            Test-Request-Hash:
+                - 9c8e38c56e7f024545539a1d25fb50f01afe8c86c39c7b4880b0f2ce921a09be
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt/providers/Microsoft.Insights/webtests/asotest-webtest-nlulpz?api-version=2018-05-01-preview
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1385
+        uncompressed: false
+        body: "{\r\n  \"kind\": null,\r\n  \"etag\": \"\\\"4705cbcc-0000-0800-0000-68747b430000\\\"\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt/providers/microsoft.insights/webtests/asotest-webtest-nlulpz\",\r\n  \"name\": \"asotest-webtest-nlulpz\",\r\n  \"type\": \"microsoft.insights/webtests\",\r\n  \"location\": \"westus2\",\r\n  \"tags\": {\r\n    \"hidden-link:/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt/providers/microsoft.insights/components/asotest-component-bbpfnz\": \"Resource\"\r\n  },\r\n  \"properties\": {\r\n    \"SyntheticMonitorId\": \"asotest-webtest-nlulpz\",\r\n    \"Name\": \"mywebtest\",\r\n    \"Description\": null,\r\n    \"Enabled\": false,\r\n    \"Frequency\": 300,\r\n    \"Timeout\": 30,\r\n    \"Kind\": \"standard\",\r\n    \"RetryEnabled\": null,\r\n    \"Locations\": [\r\n      {\r\n        \"Id\": \"us-ca-sjc-azr\"\r\n      }\r\n    ],\r\n    \"Configuration\": null,\r\n    \"Request\": {\r\n      \"RequestUrl\": \"https://github.com/Azure/azure-service-operator\",\r\n      \"Headers\": null,\r\n      \"HttpVerb\": \"GET\",\r\n      \"RequestBody\": null,\r\n      \"ParseDependentRequests\": null,\r\n      \"FollowRedirects\": null\r\n    },\r\n    \"ValidationRules\": {\r\n      \"ExpectedHttpStatusCode\": 200,\r\n      \"IgnoreHttpStatusCode\": null,\r\n      \"ContentValidation\": null,\r\n      \"SSLCheck\": true,\r\n      \"SSLCertRemainingLifetimeCheck\": 7\r\n    },\r\n    \"provisioningState\": \"Succeeded\"\r\n  }\r\n}"
+        headers:
+            Access-Control-Expose-Headers:
+                - Request-Context
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "1385"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Request-Context:
+                - appId=cid-v1:0dd6a9c3-b728-41ca-aa78-7e1962e22331
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/southeastasia/06992517-478f-4dd2-9570-b8e3ed4fd9c4
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: 74C5C765798347209EC705175EB6F1D5 Ref B: SYD03EDGE1616 Ref C: 2025-07-14T03:36:35Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 687.570237ms
+    - id: 13
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 596
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"location":"westus2","name":"asotest-webtest-mwlxeg","properties":{"Enabled":false,"Frequency":300,"Kind":"standard","Locations":[{"Id":"us-ca-sjc-azr"}],"Name":"mywebtest","Request":{"HttpVerb":"GET","RequestUrl":"https://github.com/Azure/azure-service-operator"},"SyntheticMonitorId":"asotest-webtest-mwlxeg","ValidationRules":{"ExpectedHttpStatusCode":200,"SSLCertRemainingLifetimeCheck":7,"SSLCheck":true}},"tags":{"hidden-link:/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt/providers/microsoft.insights/components/asotest-component-bbpfnz":"Resource"}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "596"
+            Content-Type:
+                - application/json
+            Test-Request-Hash:
+                - f284618327bb8b8a84c8dfec6c45e2b0afe3487bc3338fcd1d1ac1c51e0821c2
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt/providers/Microsoft.Insights/webtests/asotest-webtest-mwlxeg?api-version=2022-06-15
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1385
+        uncompressed: false
+        body: "{\r\n  \"kind\": null,\r\n  \"etag\": \"\\\"4705cecc-0000-0800-0000-68747b430000\\\"\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt/providers/microsoft.insights/webtests/asotest-webtest-mwlxeg\",\r\n  \"name\": \"asotest-webtest-mwlxeg\",\r\n  \"type\": \"microsoft.insights/webtests\",\r\n  \"location\": \"westus2\",\r\n  \"tags\": {\r\n    \"hidden-link:/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt/providers/microsoft.insights/components/asotest-component-bbpfnz\": \"Resource\"\r\n  },\r\n  \"properties\": {\r\n    \"SyntheticMonitorId\": \"asotest-webtest-mwlxeg\",\r\n    \"Name\": \"mywebtest\",\r\n    \"Description\": null,\r\n    \"Enabled\": false,\r\n    \"Frequency\": 300,\r\n    \"Timeout\": 30,\r\n    \"Kind\": \"standard\",\r\n    \"RetryEnabled\": null,\r\n    \"Locations\": [\r\n      {\r\n        \"Id\": \"us-ca-sjc-azr\"\r\n      }\r\n    ],\r\n    \"Configuration\": null,\r\n    \"Request\": {\r\n      \"RequestUrl\": \"https://github.com/Azure/azure-service-operator\",\r\n      \"Headers\": null,\r\n      \"HttpVerb\": \"GET\",\r\n      \"RequestBody\": null,\r\n      \"ParseDependentRequests\": null,\r\n      \"FollowRedirects\": null\r\n    },\r\n    \"ValidationRules\": {\r\n      \"ExpectedHttpStatusCode\": 200,\r\n      \"IgnoreHttpStatusCode\": null,\r\n      \"ContentValidation\": null,\r\n      \"SSLCheck\": true,\r\n      \"SSLCertRemainingLifetimeCheck\": 7\r\n    },\r\n    \"provisioningState\": \"Succeeded\"\r\n  }\r\n}"
+        headers:
+            Access-Control-Expose-Headers:
+                - Request-Context
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "1385"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Request-Context:
+                - appId=cid-v1:0dd6a9c3-b728-41ca-aa78-7e1962e22331
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/southeastasia/59538e85-eed8-42ae-9648-84476d1bc384
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: 65B578D19B804DB599F04A7FA5F8B022 Ref B: SYD03EDGE1616 Ref C: 2025-07-14T03:36:35Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 729.912512ms
+    - id: 14
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 91
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"name":"current","properties":{"planType":"Basic","stopSendNotificationWhenHitCap":false}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "91"
+            Content-Type:
+                - application/json
+            Test-Request-Hash:
+                - b4296c6b946f5e7474be9d862691843b3b4a255afcf913b5ede9850b4b96277c
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt/providers/microsoft.insights/components/asotest-component-bbpfnz/pricingPlans/current?api-version=2017-10-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 689
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt/providers/microsoft.insights/components/asotest-component-bbpfnz/pricingPlans/current","name":"current","type":"microsoft.insights/components/pricingPlans","location":null,"tags":null,"kind":null,"etag":null,"properties":{"planType":"Basic","PricingType":"Basic","cap":0.0,"maxHistoryCap":1000.0,"resetHour":0,"warningThreshold":0,"stopSendNotificationWhenHitThreshold":false,"stopSendNotificationWhenHitCap":false,"DataVolumeCap":0.0,"MaxHistoryCap":1000.0,"ResetHour":0,"WarningThreshold":0,"DisableNotificationWhenHitThreshold":false,"DisableNotificationWhenHitCap":false,"IsDreamSpark":false}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "689"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/southeastasia/1d521735-3720-4808-82c1-c0446049d253
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: CDD42385A203497B99BABCEEE8DC416C Ref B: SYD03EDGE1616 Ref C: 2025-07-14T03:36:35Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 1.403850424s
+    - id: 15
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "1"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt/providers/Microsoft.Insights/webtests/asotest-webtest-nlulpz?api-version=2018-05-01-preview
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1385
+        uncompressed: false
+        body: "{\r\n  \"kind\": null,\r\n  \"etag\": \"\\\"4705cbcc-0000-0800-0000-68747b430000\\\"\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt/providers/microsoft.insights/webtests/asotest-webtest-nlulpz\",\r\n  \"name\": \"asotest-webtest-nlulpz\",\r\n  \"type\": \"microsoft.insights/webtests\",\r\n  \"location\": \"westus2\",\r\n  \"tags\": {\r\n    \"hidden-link:/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt/providers/microsoft.insights/components/asotest-component-bbpfnz\": \"Resource\"\r\n  },\r\n  \"properties\": {\r\n    \"SyntheticMonitorId\": \"asotest-webtest-nlulpz\",\r\n    \"Name\": \"mywebtest\",\r\n    \"Description\": null,\r\n    \"Enabled\": false,\r\n    \"Frequency\": 300,\r\n    \"Timeout\": 30,\r\n    \"Kind\": \"standard\",\r\n    \"RetryEnabled\": null,\r\n    \"Locations\": [\r\n      {\r\n        \"Id\": \"us-ca-sjc-azr\"\r\n      }\r\n    ],\r\n    \"Configuration\": null,\r\n    \"Request\": {\r\n      \"RequestUrl\": \"https://github.com/Azure/azure-service-operator\",\r\n      \"Headers\": null,\r\n      \"HttpVerb\": \"GET\",\r\n      \"RequestBody\": null,\r\n      \"ParseDependentRequests\": null,\r\n      \"FollowRedirects\": null\r\n    },\r\n    \"ValidationRules\": {\r\n      \"ExpectedHttpStatusCode\": 200,\r\n      \"IgnoreHttpStatusCode\": null,\r\n      \"ContentValidation\": null,\r\n      \"SSLCheck\": true,\r\n      \"SSLCertRemainingLifetimeCheck\": 7\r\n    },\r\n    \"provisioningState\": \"Succeeded\"\r\n  }\r\n}"
+        headers:
+            Access-Control-Expose-Headers:
+                - Request-Context
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "1385"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Request-Context:
+                - appId=cid-v1:0dd6a9c3-b728-41ca-aa78-7e1962e22331
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16498"
+            X-Msedge-Ref:
+                - 'Ref A: 2B15915CA00D4129A504D30EF7AEA6D8 Ref B: SYD03EDGE1616 Ref C: 2025-07-14T03:36:36Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 447.349182ms
+    - id: 16
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "1"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt/providers/Microsoft.Insights/webtests/asotest-webtest-mwlxeg?api-version=2022-06-15
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1385
+        uncompressed: false
+        body: "{\r\n  \"kind\": null,\r\n  \"etag\": \"\\\"4705cecc-0000-0800-0000-68747b430000\\\"\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt/providers/microsoft.insights/webtests/asotest-webtest-mwlxeg\",\r\n  \"name\": \"asotest-webtest-mwlxeg\",\r\n  \"type\": \"microsoft.insights/webtests\",\r\n  \"location\": \"westus2\",\r\n  \"tags\": {\r\n    \"hidden-link:/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt/providers/microsoft.insights/components/asotest-component-bbpfnz\": \"Resource\"\r\n  },\r\n  \"properties\": {\r\n    \"SyntheticMonitorId\": \"asotest-webtest-mwlxeg\",\r\n    \"Name\": \"mywebtest\",\r\n    \"Description\": null,\r\n    \"Enabled\": false,\r\n    \"Frequency\": 300,\r\n    \"Timeout\": 30,\r\n    \"Kind\": \"standard\",\r\n    \"RetryEnabled\": null,\r\n    \"Locations\": [\r\n      {\r\n        \"Id\": \"us-ca-sjc-azr\"\r\n      }\r\n    ],\r\n    \"Configuration\": null,\r\n    \"Request\": {\r\n      \"RequestUrl\": \"https://github.com/Azure/azure-service-operator\",\r\n      \"Headers\": null,\r\n      \"HttpVerb\": \"GET\",\r\n      \"RequestBody\": null,\r\n      \"ParseDependentRequests\": null,\r\n      \"FollowRedirects\": null\r\n    },\r\n    \"ValidationRules\": {\r\n      \"ExpectedHttpStatusCode\": 200,\r\n      \"IgnoreHttpStatusCode\": null,\r\n      \"ContentValidation\": null,\r\n      \"SSLCheck\": true,\r\n      \"SSLCertRemainingLifetimeCheck\": 7\r\n    },\r\n    \"provisioningState\": \"Succeeded\"\r\n  }\r\n}"
+        headers:
+            Access-Control-Expose-Headers:
+                - Request-Context
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "1385"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Request-Context:
+                - appId=cid-v1:0dd6a9c3-b728-41ca-aa78-7e1962e22331
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 03E1EC2824B74143A3170EFAA6790670 Ref B: SYD03EDGE1616 Ref C: 2025-07-14T03:36:36Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 767.399511ms
+    - id: 17
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "1"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt/providers/microsoft.insights/components/asotest-component-bbpfnz/pricingPlans/current?api-version=2017-10-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 689
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt/providers/microsoft.insights/components/asotest-component-bbpfnz/pricingPlans/current","name":"current","type":"microsoft.insights/components/pricingPlans","location":null,"tags":null,"kind":null,"etag":null,"properties":{"planType":"Basic","PricingType":"Basic","cap":0.0,"maxHistoryCap":1000.0,"resetHour":0,"warningThreshold":0,"stopSendNotificationWhenHitThreshold":false,"stopSendNotificationWhenHitCap":false,"DataVolumeCap":0.0,"MaxHistoryCap":1000.0,"ResetHour":0,"WarningThreshold":0,"DisableNotificationWhenHitThreshold":false,"DisableNotificationWhenHitCap":false,"IsDreamSpark":false}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "689"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/southeastasia/3b778452-3312-4795-8197-baa7da858163
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 5D75793E78DB481595ED744790FC10EA Ref B: SYD03EDGE1616 Ref C: 2025-07-14T03:36:38Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 1.811509242s
+    - id: 18
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt/providers/Microsoft.Insights/webtests/asotest-webtest-mwlxeg?api-version=2022-06-15
+        method: DELETE
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Access-Control-Expose-Headers:
+                - Request-Context
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Request-Context:
+                - appId=cid-v1:0dd6a9c3-b728-41ca-aa78-7e1962e22331
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/southeastasia/71514588-0380-495d-888a-e50a8ce380c1
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Deletes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: 8D82F478BF164A35B65994832815DAD6 Ref B: SYD03EDGE1616 Ref C: 2025-07-14T03:36:40Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 2.326796917s
+    - id: 19
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt/providers/Microsoft.Insights/webtests/asotest-webtest-nlulpz?api-version=2018-05-01-preview
+        method: DELETE
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Access-Control-Expose-Headers:
+                - Request-Context
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Request-Context:
+                - appId=cid-v1:0dd6a9c3-b728-41ca-aa78-7e1962e22331
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/southeastasia/e32f1169-4583-41d8-b3d6-321ca2da96c1
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Deletes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: 472DEE00A8D6481CBBAD18B702EE27AC Ref B: SYD03EDGE1616 Ref C: 2025-07-14T03:36:40Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 3.571073456s
+    - id: 20
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt/providers/microsoft.insights/webtests/asotest-webtest-mwlxeg?api-version=2022-06-15
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 239
+        uncompressed: false
+        body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''microsoft.insights/webtests/asotest-webtest-mwlxeg'' under resource group ''asotest-rg-ecveqt'' was not found. For more details please go to https://aka.ms/ARMResourceNotFoundFix"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "239"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Failure-Cause:
+                - gateway
+            X-Msedge-Ref:
+                - 'Ref A: 180E4F21F5C2466C8B1CE98B090CFC5E Ref B: SYD03EDGE1616 Ref C: 2025-07-14T03:36:46Z'
+        status: 404 Not Found
+        code: 404
+        duration: 285.26597ms
+    - id: 21
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt/providers/microsoft.insights/webtests/asotest-webtest-nlulpz?api-version=2018-05-01-preview
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 239
+        uncompressed: false
+        body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''microsoft.insights/webtests/asotest-webtest-nlulpz'' under resource group ''asotest-rg-ecveqt'' was not found. For more details please go to https://aka.ms/ARMResourceNotFoundFix"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "239"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Failure-Cause:
+                - gateway
+            X-Msedge-Ref:
+                - 'Ref A: F2F337C62BD249C9ADD7D801C7A357F5 Ref B: SYD03EDGE1616 Ref C: 2025-07-14T03:36:51Z'
+        status: 404 Not Found
+        code: 404
+        duration: 298.249385ms
+    - id: 22
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt/providers/Microsoft.Insights/components/asotest-component-bbpfnz?api-version=2020-02-02
+        method: DELETE
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Access-Control-Expose-Headers:
+                - Request-Context
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Request-Context:
+                - appId=cid-v1:0dd6a9c3-b728-41ca-aa78-7e1962e22331
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/southeastasia/c842e963-27bb-4886-9bf3-20c40c7f8dc2
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Deletes:
+                - "12000"
+            X-Msedge-Ref:
+                - 'Ref A: 88400FAF151E444C91536E7963818EFB Ref B: SYD03EDGE1616 Ref C: 2025-07-14T03:36:52Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 7.541214833s
+    - id: 23
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt/providers/microsoft.insights/components/asotest-component-bbpfnz?api-version=2020-02-02
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 243
+        uncompressed: false
+        body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''microsoft.insights/components/asotest-component-bbpfnz'' under resource group ''asotest-rg-ecveqt'' was not found. For more details please go to https://aka.ms/ARMResourceNotFoundFix"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "243"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Failure-Cause:
+                - gateway
+            X-Msedge-Ref:
+                - 'Ref A: 6C7A2532D43B44658976A46C8FAFEADF Ref B: SYD03EDGE1616 Ref C: 2025-07-14T03:37:14Z'
+        status: 404 Not Found
+        code: 404
+        duration: 286.904891ms
+    - id: 24
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt?api-version=2020-06-01
+        method: DELETE
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Location:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFQ1ZFUVQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638880610388460804&c=MIIHhzCCBm-gAwIBAgITfAeDEnPW_KxJbq8EjgAAB4MSczANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDUwHhcNMjUwNDIwMTUyMDI3WhcNMjUxMDE3MTUyMDI3WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALO1SAvt4DI7FxxBmZBcfoKDLiXpS8U5adZbRlRvVm-EcAWqGNnVo1AxaXu3ghKMY95LxffhvcYAZ56WhgOxA_gpAUzm4t0yW0aVzv7vAOWZHIG1fvTcWY_sHCkuTyCNAcRbNbaqbidaK9ZOTQ19baUQ26kVkP7tjTi6DWWRlM25d4YQcGaWJoBwUtol-hgB5Z_rVMljRF5Q1T9_3YpRBw57SpHvmb30JNQSpndyeu--Ip8pMwpNaiIRF70G8WfbTBoJhRqNqNAKBLU3CAVV4H6lYrXtSK-gkZC0EzjZ4ze_XVDGBd1sOPsbMx4aQgZEiuDJuuk9eqTzzur3IDUdrP0CAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9DTzFQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA1LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MB0GA1UdDgQWBBSRrAa71kVppeoZonY7QPy_R7XWQzAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBR61hmFKHlscXYeYPjzS--iBUIWHTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAChQXwS0_EaMb7G3BWGDeoNhAAEaoKkJVUy5HVGyWKADFm6Tp2WidwOIMoOu-IuoA634ORJ7bIwsC2WhUA0Z8-c2AAD956dAtCkn5pEBXSqwuKMM3l9KOClAY1RiAQcP-GWtmb_mqZspO78GHaq-mwiyIDUICM-uZl-qR6UVt6rLn5xPqHNkenxrslS_G3IJ9yCV1sflxhz93B7VR9H7BtOxd_nqZOD5uSV3OpPnATTRO0KB3VBbZ0KqvdtWoHjNywLqMuhJUufHw2zmlQ-Yj3ndha_yTvOQlT-85ikSoyWI0P4_GeEwX9RdkiVHVzx3gR8HzFKkJXOwRvxQE_9Ov_0&s=GQTuROf-K5Ej5yqP7llpBl4jO1IAlpm6Ahm36KYYQRClEpcFa3Yayz6YJQLOIjM8C3ztHi_RvvT6GNbzocO_GV-CQbnWEo2rgQb-T9yfK2xk7ry7VMVYPqDw_YTipY4-kID1K6yhiWkQLnMcEOySjh9jO1O0vFQRxXp_Fdqn5HBuiPvG0Ji1WuJzDvTtuwNO1-59dfQqatBvcTN8YkkFcSi52-MhEuSyL95l1suIrV607-KHqnHi4p1CQaYpLlaULw84pjwsSNGfTmp9HFhIVlAJMAULwLLmH-q-6U9s98P36ugcCR5wITHmXwwWeALecXkLFrlkBIY615eZ5Ydpaw&h=aPMdFBnB-jFgLOOrU4ekoW7JaGcqNeQ1VTrKk4qVQ7c
+            Pragma:
+                - no-cache
+            Retry-After:
+                - "15"
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Deletes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: DF77F7B85A544CCC981352A3AE9054CF Ref B: SYD03EDGE1616 Ref C: 2025-07-14T03:37:15Z'
+        status: 202 Accepted
+        code: 202
+        duration: 3.28640246s
+    - id: 25
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFQ1ZFUVQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638880610388460804&c=MIIHhzCCBm-gAwIBAgITfAeDEnPW_KxJbq8EjgAAB4MSczANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDUwHhcNMjUwNDIwMTUyMDI3WhcNMjUxMDE3MTUyMDI3WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALO1SAvt4DI7FxxBmZBcfoKDLiXpS8U5adZbRlRvVm-EcAWqGNnVo1AxaXu3ghKMY95LxffhvcYAZ56WhgOxA_gpAUzm4t0yW0aVzv7vAOWZHIG1fvTcWY_sHCkuTyCNAcRbNbaqbidaK9ZOTQ19baUQ26kVkP7tjTi6DWWRlM25d4YQcGaWJoBwUtol-hgB5Z_rVMljRF5Q1T9_3YpRBw57SpHvmb30JNQSpndyeu--Ip8pMwpNaiIRF70G8WfbTBoJhRqNqNAKBLU3CAVV4H6lYrXtSK-gkZC0EzjZ4ze_XVDGBd1sOPsbMx4aQgZEiuDJuuk9eqTzzur3IDUdrP0CAwEAAaOCBHQwggRwMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9DTzFQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA1LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQ08xUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNS5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0NPMVBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3J0MB0GA1UdDgQWBBSRrAa71kVppeoZonY7QPy_R7XWQzAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDUuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBR61hmFKHlscXYeYPjzS--iBUIWHTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAChQXwS0_EaMb7G3BWGDeoNhAAEaoKkJVUy5HVGyWKADFm6Tp2WidwOIMoOu-IuoA634ORJ7bIwsC2WhUA0Z8-c2AAD956dAtCkn5pEBXSqwuKMM3l9KOClAY1RiAQcP-GWtmb_mqZspO78GHaq-mwiyIDUICM-uZl-qR6UVt6rLn5xPqHNkenxrslS_G3IJ9yCV1sflxhz93B7VR9H7BtOxd_nqZOD5uSV3OpPnATTRO0KB3VBbZ0KqvdtWoHjNywLqMuhJUufHw2zmlQ-Yj3ndha_yTvOQlT-85ikSoyWI0P4_GeEwX9RdkiVHVzx3gR8HzFKkJXOwRvxQE_9Ov_0&s=GQTuROf-K5Ej5yqP7llpBl4jO1IAlpm6Ahm36KYYQRClEpcFa3Yayz6YJQLOIjM8C3ztHi_RvvT6GNbzocO_GV-CQbnWEo2rgQb-T9yfK2xk7ry7VMVYPqDw_YTipY4-kID1K6yhiWkQLnMcEOySjh9jO1O0vFQRxXp_Fdqn5HBuiPvG0Ji1WuJzDvTtuwNO1-59dfQqatBvcTN8YkkFcSi52-MhEuSyL95l1suIrV607-KHqnHi4p1CQaYpLlaULw84pjwsSNGfTmp9HFhIVlAJMAULwLLmH-q-6U9s98P36ugcCR5wITHmXwwWeALecXkLFrlkBIY615eZ5Ydpaw&h=aPMdFBnB-jFgLOOrU4ekoW7JaGcqNeQ1VTrKk4qVQ7c
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 2A85EE4130BA4BD2932A9D52143B4B56 Ref B: SYD03EDGE1616 Ref C: 2025-07-14T03:37:39Z'
+        status: 200 OK
+        code: 200
+        duration: 1.419510705s
+    - id: 26
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt/providers/microsoft.insights/components/asotest-component-bbpfnz/pricingPlans/current?api-version=2017-10-01
+        method: DELETE
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 332
+        uncompressed: false
+        body: '{"error":{"code":"ParentResourceNotFound","message":"Failed to perform ''delete'' on resource(s) of type ''components/pricingPlans'', because the parent resource ''/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecveqt/providers/microsoft.insights/components/asotest-component-bbpfnz'' could not be found."}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "332"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Failure-Cause:
+                - gateway
+            X-Msedge-Ref:
+                - 'Ref A: DECA3C096AB44759828234948E9C6893 Ref B: SYD03EDGE1616 Ref C: 2025-07-14T03:37:43Z'
+        status: 404 Not Found
+        code: 404
+        duration: 359.72076ms

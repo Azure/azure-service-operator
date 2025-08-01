@@ -1,0 +1,16 @@
+apiVersion: insights.azure.com/v1api20230311
+kind: DataCollectionRuleAssociation
+metadata:
+  name: aso-sample-datacollectionruleassociation
+  namespace: default
+spec:
+  azureName: "configurationAccessEndpoint"
+  dataCollectionEndpointReference:
+    name: aso-sample-datacollectionendpoint
+    group: insights.azure.com
+    kind: DataCollectionEndpoint
+  description: "Sample data collection rule association"
+  owner:
+    group: storage.azure.com
+    kind: StorageAccount
+    name: asostorage
