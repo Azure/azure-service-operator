@@ -11,7 +11,7 @@ Development of these new resources is complete and they will be available in the
 
 | Resource | ARM Version | CRD Version   | Supported From | Sample                                                                                                                          |
 |----------|-------------|---------------|----------------|---------------------------------------------------------------------------------------------------------------------------------|
-| Workbook | 2023-06-01  | v1api20230601 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/insights/v1api20230601/v1api20230601_workbook.yaml) |
+| Workbook | 2023-06-01  | v1api20230601 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/insights/v1api20230601/v1api20230601_workbook.yaml) |
 
 ### Latest Released Versions
 
