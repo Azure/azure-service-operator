@@ -2909,7 +2909,7 @@ objectModelConfiguration:
     2023-06-01:
       Workbook:
         $exportAs: Workbook
-        $supportedFrom: v2.16.0
+        $supportedFrom: v2.15.0
       WorkbookProperties:
         SourceId:
           $referenceType: arm
