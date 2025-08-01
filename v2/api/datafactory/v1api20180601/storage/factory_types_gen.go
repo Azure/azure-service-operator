@@ -19,6 +19,7 @@ import (
 // +kubebuilder:rbac:groups=datafactory.azure.com,resources={factories/status,factories/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
+// +kubebuilder:resource:categories={azure,datafactory}
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"

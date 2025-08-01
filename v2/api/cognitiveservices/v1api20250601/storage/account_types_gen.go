@@ -19,6 +19,7 @@ import (
 // +kubebuilder:rbac:groups=cognitiveservices.azure.com,resources={accounts/status,accounts/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
+// +kubebuilder:resource:categories={azure,cognitiveservices}
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"

@@ -13,6 +13,7 @@ import (
 // +kubebuilder:rbac:groups=test.azure.com,resources={fakeresources/status,fakeresources/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
+// +kubebuilder:resource:categories={azure,test}
 // +kubebuilder:storageversion
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/FakeResource
 type FakeResource struct {

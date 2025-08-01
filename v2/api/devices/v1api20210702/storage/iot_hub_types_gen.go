@@ -18,6 +18,7 @@ import (
 // +kubebuilder:rbac:groups=devices.azure.com,resources={iothubs/status,iothubs/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
+// +kubebuilder:resource:categories={azure,devices}
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
