@@ -24,13 +24,14 @@ func Test_Insights_Workbook_v20230601_CRUD(t *testing.T) {
 
 	// Create a workbook with the required GUID-based azureName
 	workbookName := tc.Namer.GenerateName("workbook")
-	workbookAzureName := "11111111-2222-3333-4444-555555555555" // GUID format required by Azure
+	uuid, err := tc.Namer.GenerateUUID()
+	tc.Expect(err).ToNot(HaveOccurred())
 
 	kind := insights.Workbook_Kind_Spec_Shared
 	workbook := &insights.Workbook{
 		ObjectMeta: tc.MakeObjectMetaWithName(workbookName),
 		Spec: insights.Workbook_Spec{
-			AzureName:   workbookAzureName,
+			AzureName:   uuid.String(),
 			Location:    tc.AzureRegion,
 			Owner:       testcommon.AsOwner(rg),
 			Category:    to.Ptr("workbook"),
