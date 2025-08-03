@@ -540,6 +540,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/kubernetesconfiguration/v1api20241101/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/cache/v1api20250401/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/cognitiveservices/v1api20250601/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.0.0-beta.4/</loc>
