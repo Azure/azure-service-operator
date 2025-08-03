@@ -9,6 +9,7 @@ import (
 )
 
 // +kubebuilder:object:root=true
+// +kubebuilder:resource:categories={azure,person}
 // +kubebuilder:subresource:status
 // Storage version of v20211231.Person
 type Person struct {

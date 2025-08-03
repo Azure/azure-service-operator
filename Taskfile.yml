@@ -267,7 +267,9 @@ tasks:
     desc: Update {{.GENERATOR_APP}} golden test outputs.
     dir: '{{.GENERATOR_ROOT}}'
     cmds:
-      - go test ./... -run ^TestGolden -update
+      - go test ./...
+    env:
+      GOLDIE_UPDATE: 1
 
   generator:format-code:
     desc: Ensure all code for the code generator is formatted
