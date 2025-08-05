@@ -73,6 +73,8 @@ func Test_DocumentDB_SQLDatabase_v20231115_CRUD(t *testing.T) {
 	tc.LogSectionf("Creating SQL account and database %q", dbName)
 	tc.CreateResourcesAndWait(acct, db)
 
+	acctId := *acct.Status.Id
+
 	tc.T.Logf("SQL account and database successfully created")
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
@@ -96,6 +98,16 @@ func Test_DocumentDB_SQLDatabase_v20231115_CRUD(t *testing.T) {
 
 	// There aren't any attributes to update for databases, other than
 	// throughput settings once they're available.
+
+	tc.DeleteResourceAndWait(acct)
+
+	// Ensure that the resource was really deleted in Azure
+	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
+		tc.Ctx,
+		acctId,
+		string(documentdb.APIVersion_Value))
+	tc.Expect(err).ToNot(HaveOccurred())
+	tc.Expect(exists).To(BeFalse())
 }
 
 func CosmosDB_SQL_Container_v20231115_CRUD(tc *testcommon.KubePerTestContext, db client.Object) {
