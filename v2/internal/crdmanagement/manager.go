@@ -378,8 +378,6 @@ func (m *Manager) applyCRDs(
 
 	i := 0
 	for _, instruction := range instructionsToApply {
-		instruction := instruction
-
 		i += 1
 		toApply := &apiextensions.CustomResourceDefinition{
 			ObjectMeta: metav1.ObjectMeta{
@@ -399,6 +397,9 @@ func (m *Manager) applyCRDs(
 			return nil
 		})
 		if err != nil {
+			// Logging here before returning because we may cancel the lease (due to defer cancel()) above, and we want to ensure
+			// we can see the error before the process is killed due to lease release.
+			m.logger.Error(err, "Failed to apply CRD", "name", instruction.CRD.Name)
 			return eris.Wrapf(err, "failed to apply CRD %s", instruction.CRD.Name)
 		}
 

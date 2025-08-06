@@ -9,6 +9,7 @@ import (
 )
 
 // +kubebuilder:object:root=true
+// +kubebuilder:resource:categories={azure,sql}
 // +kubebuilder:subresource:status
 // Generator information:
 // - Generated from: /sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/Servers.json

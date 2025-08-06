@@ -9,6 +9,7 @@ import metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 // +kubebuilder:rbac:groups=person.azure.com,resources={people/status,people/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
+// +kubebuilder:resource:categories={azure,person}
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 type Person struct {

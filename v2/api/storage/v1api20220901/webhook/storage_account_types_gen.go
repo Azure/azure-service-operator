@@ -121,6 +121,7 @@ func (account *StorageAccount) createValidations() []func(ctx context.Context, o
 		account.validateOwnerReference,
 		account.validateSecretDestinations,
 		account.validateConfigMapDestinations,
+		account.validateOptionalConfigMapReferences,
 	}
 }
 
@@ -145,6 +146,9 @@ func (account *StorageAccount) updateValidations() []func(ctx context.Context, o
 		func(ctx context.Context, oldObj *v20220901.StorageAccount, newObj *v20220901.StorageAccount) (admission.Warnings, error) {
 			return account.validateConfigMapDestinations(ctx, newObj)
 		},
+		func(ctx context.Context, oldObj *v20220901.StorageAccount, newObj *v20220901.StorageAccount) (admission.Warnings, error) {
+			return account.validateOptionalConfigMapReferences(ctx, newObj)
+		},
 	}
 }
 
@@ -165,6 +169,15 @@ func (account *StorageAccount) validateConfigMapDestinations(ctx context.Context
 		}
 	}
 	return configmaps.ValidateDestinations(obj, toValidate, obj.Spec.OperatorSpec.ConfigMapExpressions)
+}
+
+// validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
+func (account *StorageAccount) validateOptionalConfigMapReferences(ctx context.Context, obj *v20220901.StorageAccount) (admission.Warnings, error) {
+	refs, err := reflecthelpers.FindOptionalConfigMapReferences(&obj.Spec)
+	if err != nil {
+		return nil, err
+	}
+	return configmaps.ValidateOptionalReferences(refs)
 }
 
 // validateOwnerReference validates the owner field

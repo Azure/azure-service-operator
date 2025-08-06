@@ -1,0 +1,12 @@
+# This sample demonstrates how to create a Redis Enterprise Database using the v1api20250401 API version.
+apiVersion: cache.azure.com/v1api20250401
+kind: RedisEnterpriseDatabase
+metadata:
+  name: default
+  namespace: default
+spec:
+  owner:
+    name: sampleredisenterprise
+  clientProtocol: Encrypted
+  clusteringPolicy: EnterpriseCluster
+  evictionPolicy: AllKeysLRU

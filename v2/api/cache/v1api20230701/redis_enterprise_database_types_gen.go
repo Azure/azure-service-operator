@@ -19,6 +19,7 @@ import (
 )
 
 // +kubebuilder:object:root=true
+// +kubebuilder:resource:categories={azure,cache}
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
@@ -50,22 +51,36 @@ var _ conversion.Convertible = &RedisEnterpriseDatabase{}
 
 // ConvertFrom populates our RedisEnterpriseDatabase from the provided hub RedisEnterpriseDatabase
 func (database *RedisEnterpriseDatabase) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.RedisEnterpriseDatabase)
-	if !ok {
-		return fmt.Errorf("expected cache/v1api20230701/storage/RedisEnterpriseDatabase but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.RedisEnterpriseDatabase
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return database.AssignProperties_From_RedisEnterpriseDatabase(source)
+	err = database.AssignProperties_From_RedisEnterpriseDatabase(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to database")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub RedisEnterpriseDatabase from our RedisEnterpriseDatabase
 func (database *RedisEnterpriseDatabase) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.RedisEnterpriseDatabase)
-	if !ok {
-		return fmt.Errorf("expected cache/v1api20230701/storage/RedisEnterpriseDatabase but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.RedisEnterpriseDatabase
+	err := database.AssignProperties_To_RedisEnterpriseDatabase(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from database")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return database.AssignProperties_To_RedisEnterpriseDatabase(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &RedisEnterpriseDatabase{}
@@ -86,17 +101,6 @@ func (database *RedisEnterpriseDatabase) SecretDestinationExpressions() []*core.
 		return nil
 	}
 	return database.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &RedisEnterpriseDatabase{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (database *RedisEnterpriseDatabase) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*RedisEnterpriseDatabase_STATUS); ok {
-		return database.Spec.Initialize_From_RedisEnterpriseDatabase_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type RedisEnterpriseDatabase_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &RedisEnterpriseDatabase{}
@@ -721,82 +725,6 @@ func (database *RedisEnterpriseDatabase_Spec) AssignProperties_To_RedisEnterpris
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_RedisEnterpriseDatabase_STATUS populates our RedisEnterpriseDatabase_Spec from the provided source RedisEnterpriseDatabase_STATUS
-func (database *RedisEnterpriseDatabase_Spec) Initialize_From_RedisEnterpriseDatabase_STATUS(source *RedisEnterpriseDatabase_STATUS) error {
-
-	// ClientProtocol
-	if source.ClientProtocol != nil {
-		clientProtocol := genruntime.ToEnum(string(*source.ClientProtocol), databaseProperties_ClientProtocol_Values)
-		database.ClientProtocol = &clientProtocol
-	} else {
-		database.ClientProtocol = nil
-	}
-
-	// ClusteringPolicy
-	if source.ClusteringPolicy != nil {
-		clusteringPolicy := genruntime.ToEnum(string(*source.ClusteringPolicy), databaseProperties_ClusteringPolicy_Values)
-		database.ClusteringPolicy = &clusteringPolicy
-	} else {
-		database.ClusteringPolicy = nil
-	}
-
-	// EvictionPolicy
-	if source.EvictionPolicy != nil {
-		evictionPolicy := genruntime.ToEnum(string(*source.EvictionPolicy), databaseProperties_EvictionPolicy_Values)
-		database.EvictionPolicy = &evictionPolicy
-	} else {
-		database.EvictionPolicy = nil
-	}
-
-	// GeoReplication
-	if source.GeoReplication != nil {
-		var geoReplication DatabaseProperties_GeoReplication
-		err := geoReplication.Initialize_From_DatabaseProperties_GeoReplication_STATUS(source.GeoReplication)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_DatabaseProperties_GeoReplication_STATUS() to populate field GeoReplication")
-		}
-		database.GeoReplication = &geoReplication
-	} else {
-		database.GeoReplication = nil
-	}
-
-	// Modules
-	if source.Modules != nil {
-		moduleList := make([]Module, len(source.Modules))
-		for moduleIndex, moduleItem := range source.Modules {
-			// Shadow the loop variable to avoid aliasing
-			moduleItem := moduleItem
-			var module Module
-			err := module.Initialize_From_Module_STATUS(&moduleItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_Module_STATUS() to populate field Modules")
-			}
-			moduleList[moduleIndex] = module
-		}
-		database.Modules = moduleList
-	} else {
-		database.Modules = nil
-	}
-
-	// Persistence
-	if source.Persistence != nil {
-		var persistence Persistence
-		err := persistence.Initialize_From_Persistence_STATUS(source.Persistence)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_Persistence_STATUS() to populate field Persistence")
-		}
-		database.Persistence = &persistence
-	} else {
-		database.Persistence = nil
-	}
-
-	// Port
-	database.Port = genruntime.ClonePointerToInt(source.Port)
 
 	// No error
 	return nil
@@ -1506,34 +1434,6 @@ func (replication *DatabaseProperties_GeoReplication) AssignProperties_To_Databa
 	return nil
 }
 
-// Initialize_From_DatabaseProperties_GeoReplication_STATUS populates our DatabaseProperties_GeoReplication from the provided source DatabaseProperties_GeoReplication_STATUS
-func (replication *DatabaseProperties_GeoReplication) Initialize_From_DatabaseProperties_GeoReplication_STATUS(source *DatabaseProperties_GeoReplication_STATUS) error {
-
-	// GroupNickname
-	replication.GroupNickname = genruntime.ClonePointerToString(source.GroupNickname)
-
-	// LinkedDatabases
-	if source.LinkedDatabases != nil {
-		linkedDatabaseList := make([]LinkedDatabase, len(source.LinkedDatabases))
-		for linkedDatabaseIndex, linkedDatabaseItem := range source.LinkedDatabases {
-			// Shadow the loop variable to avoid aliasing
-			linkedDatabaseItem := linkedDatabaseItem
-			var linkedDatabase LinkedDatabase
-			err := linkedDatabase.Initialize_From_LinkedDatabase_STATUS(&linkedDatabaseItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_LinkedDatabase_STATUS() to populate field LinkedDatabases")
-			}
-			linkedDatabaseList[linkedDatabaseIndex] = linkedDatabase
-		}
-		replication.LinkedDatabases = linkedDatabaseList
-	} else {
-		replication.LinkedDatabases = nil
-	}
-
-	// No error
-	return nil
-}
-
 type DatabaseProperties_GeoReplication_STATUS struct {
 	// GroupNickname: Name for the group of linked database resources
 	GroupNickname *string `json:"groupNickname,omitempty"`
@@ -1732,19 +1632,6 @@ func (module *Module) AssignProperties_To_Module(destination *storage.Module) er
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Module_STATUS populates our Module from the provided source Module_STATUS
-func (module *Module) Initialize_From_Module_STATUS(source *Module_STATUS) error {
-
-	// Args
-	module.Args = genruntime.ClonePointerToString(source.Args)
-
-	// Name
-	module.Name = genruntime.ClonePointerToString(source.Name)
 
 	// No error
 	return nil
@@ -2020,45 +1907,6 @@ func (persistence *Persistence) AssignProperties_To_Persistence(destination *sto
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Persistence_STATUS populates our Persistence from the provided source Persistence_STATUS
-func (persistence *Persistence) Initialize_From_Persistence_STATUS(source *Persistence_STATUS) error {
-
-	// AofEnabled
-	if source.AofEnabled != nil {
-		aofEnabled := *source.AofEnabled
-		persistence.AofEnabled = &aofEnabled
-	} else {
-		persistence.AofEnabled = nil
-	}
-
-	// AofFrequency
-	if source.AofFrequency != nil {
-		aofFrequency := genruntime.ToEnum(string(*source.AofFrequency), persistence_AofFrequency_Values)
-		persistence.AofFrequency = &aofFrequency
-	} else {
-		persistence.AofFrequency = nil
-	}
-
-	// RdbEnabled
-	if source.RdbEnabled != nil {
-		rdbEnabled := *source.RdbEnabled
-		persistence.RdbEnabled = &rdbEnabled
-	} else {
-		persistence.RdbEnabled = nil
-	}
-
-	// RdbFrequency
-	if source.RdbFrequency != nil {
-		rdbFrequency := genruntime.ToEnum(string(*source.RdbFrequency), persistence_RdbFrequency_Values)
-		persistence.RdbFrequency = &rdbFrequency
-	} else {
-		persistence.RdbFrequency = nil
 	}
 
 	// No error
@@ -2397,21 +2245,6 @@ func (database *LinkedDatabase) AssignProperties_To_LinkedDatabase(destination *
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_LinkedDatabase_STATUS populates our LinkedDatabase from the provided source LinkedDatabase_STATUS
-func (database *LinkedDatabase) Initialize_From_LinkedDatabase_STATUS(source *LinkedDatabase_STATUS) error {
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		database.Reference = &reference
-	} else {
-		database.Reference = nil
 	}
 
 	// No error

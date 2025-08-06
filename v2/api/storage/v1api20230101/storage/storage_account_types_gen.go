@@ -22,6 +22,7 @@ import (
 // +kubebuilder:rbac:groups=storage.azure.com,resources={storageaccounts/status,storageaccounts/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
+// +kubebuilder:resource:categories={azure,storage}
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
@@ -733,9 +734,10 @@ type EncryptionServices_STATUS struct {
 // Storage version of v1api20230101.IPRule
 // IP rule with specific IP or IP range in CIDR format.
 type IPRule struct {
-	Action      *string                `json:"action,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Value       *string                `json:"value,omitempty"`
+	Action          *string                        `json:"action,omitempty"`
+	PropertyBag     genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
+	Value           *string                        `json:"value,omitempty" optionalConfigMapPair:"Value"`
+	ValueFromConfig *genruntime.ConfigMapReference `json:"valueFromConfig,omitempty" optionalConfigMapPair:"Value"`
 }
 
 // Storage version of v1api20230101.IPRule_STATUS

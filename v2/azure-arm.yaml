@@ -1428,6 +1428,16 @@ objectModelConfiguration:
       Redis_PatchSchedule:
         $exportAs: RedisPatchSchedule
         $supportedFrom: v2.10.0
+    2025-04-01:
+      RedisEnterprise:
+        $exportAs: RedisEnterprise
+        $supportedFrom: v2.15.0
+      ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity:
+        UserAssignedIdentityResourceId:
+          $referenceType: arm
+      RedisEnterprise_Database:
+        $exportAs: RedisEnterpriseDatabase
+        $supportedFrom: v2.15.0
   cdn:
     2021-06-01:
       # DeepCreatedOriginGroup actually is a resource, for some CDN SKUs it's required to be specified on the CDN endpoint
@@ -4435,6 +4445,9 @@ objectModelConfiguration:
       VirtualNetworkRule:
         Id:
           $referenceType: arm
+      IPRule:
+        Value:
+          $importConfigMapMode: optional
     2022-09-01:
       StorageAccount:
         $export: true
@@ -4497,6 +4510,9 @@ objectModelConfiguration:
       SignedIdentifier:
         Id:
           $referenceType: arm
+      IPRule:
+        Value:
+          $importConfigMapMode: optional
     2023-01-01:
       StorageAccount:
         $export: true
@@ -4559,6 +4575,9 @@ objectModelConfiguration:
       SignedIdentifier:
         Id:
           $referenceType: arm
+      IPRule:
+        Value:
+          $importConfigMapMode: optional
   subscription:
     2021-10-01:
       Alias:

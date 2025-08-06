@@ -12,6 +12,7 @@ import (
 // +kubebuilder:rbac:groups=test.azure.com,resources={as/status,as/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
+// +kubebuilder:resource:categories={azure,test}
 // +kubebuilder:storageversion
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/A
 type A struct {
@@ -32,6 +33,7 @@ type AList struct {
 // +kubebuilder:rbac:groups=test.azure.com,resources={bs/status,bs/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
+// +kubebuilder:resource:categories={azure,test}
 // +kubebuilder:storageversion
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/B
 type B struct {
@@ -52,6 +54,7 @@ type BList struct {
 // +kubebuilder:rbac:groups=test.azure.com,resources={cs/status,cs/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
+// +kubebuilder:resource:categories={azure,test}
 // +kubebuilder:storageversion
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/C
 type C struct {
@@ -72,6 +75,7 @@ type CList struct {
 // +kubebuilder:rbac:groups=test.azure.com,resources={ds/status,ds/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
+// +kubebuilder:resource:categories={azure,test}
 // +kubebuilder:storageversion
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/D
 type D struct {

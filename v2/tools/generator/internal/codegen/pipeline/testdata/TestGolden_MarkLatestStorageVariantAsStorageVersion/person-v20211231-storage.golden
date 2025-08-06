@@ -12,6 +12,7 @@
 +// +kubebuilder:rbac:groups=person.azure.com,resources={people/status,people/finalizers},verbs=get;update;patch
 +
  // +kubebuilder:object:root=true
+ // +kubebuilder:resource:categories={azure,person}
  // +kubebuilder:subresource:status
 +// +kubebuilder:storageversion
  // Storage version of v20211231.Person

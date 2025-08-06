@@ -53,6 +53,9 @@ import (
 	cache_v20230801 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230801"
 	cache_v20230801s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230801/storage"
 	cache_v20230801w "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230801/webhook"
+	cache_v20250401 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20250401"
+	cache_v20250401s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20250401/storage"
+	cache_v20250401w "github.com/Azure/azure-service-operator/v2/api/cache/v1api20250401/webhook"
 	cdn_customizations "github.com/Azure/azure-service-operator/v2/api/cdn/customizations"
 	cdn_v20210601 "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20210601"
 	cdn_v20210601s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20210601/storage"
@@ -677,12 +680,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 	})
 	result = append(result, &registration.StorageType{Obj: new(authorization_v20220401s.RoleDefinition)})
 	result = append(result, &registration.StorageType{Obj: new(batch_v20210101s.BatchAccount)})
-	result = append(result, &registration.StorageType{Obj: new(cache_v20230701s.RedisEnterprise)})
-	result = append(result, &registration.StorageType{Obj: new(cache_v20230701s.RedisEnterpriseDatabase)})
 	result = append(result, &registration.StorageType{Obj: new(cache_v20230801s.Redis)})
 	result = append(result, &registration.StorageType{Obj: new(cache_v20230801s.RedisFirewallRule)})
 	result = append(result, &registration.StorageType{Obj: new(cache_v20230801s.RedisLinkedServer)})
 	result = append(result, &registration.StorageType{Obj: new(cache_v20230801s.RedisPatchSchedule)})
+	result = append(result, &registration.StorageType{Obj: new(cache_v20250401s.RedisEnterprise)})
+	result = append(result, &registration.StorageType{Obj: new(cache_v20250401s.RedisEnterpriseDatabase)})
 	result = append(result, &registration.StorageType{Obj: new(cdn_v20210601s.ProfilesEndpoint)})
 	result = append(result, &registration.StorageType{Obj: new(cdn_v20230501s.AfdCustomDomain)})
 	result = append(result, &registration.StorageType{Obj: new(cdn_v20230501s.AfdEndpoint)})
@@ -2397,7 +2400,25 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(storage_v20230101s.StorageAccount)})
+	result = append(result, &registration.StorageType{
+		Obj: new(storage_v20230101s.StorageAccount),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.networkAcls.ipRules.valueFromConfig",
+				Func: indexStorageStorageAccountValueFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.networkAcls.ipRules.valueFromConfig",
+					},
+					&storage_v20230101s.StorageAccountList{}),
+			},
+		},
+	})
 	result = append(result, &registration.StorageType{Obj: new(storage_v20230101s.StorageAccountsBlobService)})
 	result = append(result, &registration.StorageType{Obj: new(storage_v20230101s.StorageAccountsBlobServicesContainer)})
 	result = append(result, &registration.StorageType{Obj: new(storage_v20230101s.StorageAccountsFileService)})
@@ -2833,6 +2854,16 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(cache_v20230801s.RedisFirewallRule)},
 		&registration.KnownType{Obj: new(cache_v20230801s.RedisLinkedServer)},
 		&registration.KnownType{Obj: new(cache_v20230801s.RedisPatchSchedule)})
+	result = append(result, &registration.KnownType{
+		Obj:       new(cache_v20250401.RedisEnterprise),
+		Defaulter: &cache_v20250401w.RedisEnterprise{},
+		Validator: &cache_v20250401w.RedisEnterprise{},
+	}, &registration.KnownType{
+		Obj:       new(cache_v20250401.RedisEnterpriseDatabase),
+		Defaulter: &cache_v20250401w.RedisEnterpriseDatabase{},
+		Validator: &cache_v20250401w.RedisEnterpriseDatabase{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(cache_v20250401s.RedisEnterprise)}, &registration.KnownType{Obj: new(cache_v20250401s.RedisEnterpriseDatabase)})
 	result = append(result, &registration.KnownType{
 		Obj:       new(cdn_v20210601.Profile),
 		Defaulter: &cdn_v20210601w.Profile{},
@@ -5216,6 +5247,8 @@ func createScheme() *runtime.Scheme {
 	_ = cache_v20230701s.AddToScheme(scheme)
 	_ = cache_v20230801.AddToScheme(scheme)
 	_ = cache_v20230801s.AddToScheme(scheme)
+	_ = cache_v20250401.AddToScheme(scheme)
+	_ = cache_v20250401s.AddToScheme(scheme)
 	_ = cdn_v20210601.AddToScheme(scheme)
 	_ = cdn_v20210601s.AddToScheme(scheme)
 	_ = cdn_v20230501.AddToScheme(scheme)
@@ -9557,6 +9590,25 @@ func indexSqlServersVulnerabilityAssessmentStorageContainerSasKey(rawObj client.
 		return nil
 	}
 	return obj.Spec.StorageContainerSasKey.Index()
+}
+
+// indexStorageStorageAccountValueFromConfig an index function for storage_v20230101s.StorageAccount .spec.networkAcls.ipRules.valueFromConfig
+func indexStorageStorageAccountValueFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*storage_v20230101s.StorageAccount)
+	if !ok {
+		return nil
+	}
+	var result []string
+	if obj.Spec.NetworkAcls == nil {
+		return nil
+	}
+	for _, ipRuleItem := range obj.Spec.NetworkAcls.IpRules {
+		if ipRuleItem.ValueFromConfig == nil {
+			continue
+		}
+		result = append(result, ipRuleItem.ValueFromConfig.Index()...)
+	}
+	return result
 }
 
 // indexSynapseWorkspaceAccountUrlFromConfig an index function for synapse_v20210601s.Workspace .spec.defaultDataLakeStorage.accountUrlFromConfig
