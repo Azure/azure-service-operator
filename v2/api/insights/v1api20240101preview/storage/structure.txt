@@ -175,3 +175,5 @@ augmentConversionForScheduledQueryRule_Spec: Interface
 
 augmentConversionForSystemData_STATUS: Interface
 
+augmentConversionForUserAssignedIdentityDetails: Interface
+

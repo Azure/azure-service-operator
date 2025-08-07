@@ -1,0 +1,577 @@
+---
+version: 2
+interactions:
+    - id: 0
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 93
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"location":"westus2","name":"asotest-rg-czdspw","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "93"
+            Content-Type:
+                - application/json
+            Test-Request-Hash:
+                - 5bdefd4c92625dae02133b15e9baebb9119932c0a007270173f3c970df4c5a24
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-czdspw?api-version=2020-06-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 276
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-czdspw","name":"asotest-rg-czdspw","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "276"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: 61E95EC5D94744DF89CD6E713EBA8547 Ref B: MAA201060513045 Ref C: 2025-08-01T03:57:26Z'
+        status: 201 Created
+        code: 201
+        duration: 4.215692699s
+    - id: 1
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-czdspw?api-version=2020-06-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 276
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-czdspw","name":"asotest-rg-czdspw","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "276"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: CC9B3CD6BD2E4DC994A3BE39FE917C4B Ref B: MAA201060513045 Ref C: 2025-08-01T03:57:35Z'
+        status: 200 OK
+        code: 200
+        duration: 687.493383ms
+    - id: 2
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 1166
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"kind":"shared","location":"westus2","name":"a6a43183-3dd4-4f4b-b08f-6e1f88ace68d","properties":{"category":"workbook","description":"A test workbook created by ASO integration tests","displayName":"Test Workbook","serializedData":"{\n\t\t\t\t\"version\": \"Notebook/1.0\",\n\t\t\t\t\"items\": [\n\t\t\t\t\t{\n\t\t\t\t\t\t\"type\": 1,\n\t\t\t\t\t\t\"content\": {\n\t\t\t\t\t\t\t\"json\": \"## Test Workbook\\n\\nThis is a test workbook created by Azure Service Operator integration tests.\\n\\n\"\n\t\t\t\t\t\t},\n\t\t\t\t\t\t\"name\": \"text - 0\"\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\t\"type\": 3,\n\t\t\t\t\t\t\"content\": {\n\t\t\t\t\t\t\t\"version\": \"KqlItem/1.0\",\n\t\t\t\t\t\t\t\"query\": \"// Test query\\nresources\\n| limit 10\",\n\t\t\t\t\t\t\t\"size\": 0,\n\t\t\t\t\t\t\t\"title\": \"Sample Query\",\n\t\t\t\t\t\t\t\"queryType\": 1,\n\t\t\t\t\t\t\t\"resourceType\": \"microsoft.resourcegraph/resources\"\n\t\t\t\t\t\t},\n\t\t\t\t\t\t\"name\": \"query - 1\"\n\t\t\t\t\t}\n\t\t\t\t],\n\t\t\t\t\"isLocked\": false,\n\t\t\t\t\"fallbackResourceIds\": []\n\t\t\t}","version":"Notebook/1.0"},"tags":{"purpose":"testing","source":"azure-service-operator"}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "1166"
+            Content-Type:
+                - application/json
+            Test-Request-Hash:
+                - b2abfc9537aea7acaadc048f9c6da25cd91fb90ea6853a629993632dcaf00c69
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-czdspw/providers/Microsoft.Insights/workbooks/a6a43183-3dd4-4f4b-b08f-6e1f88ace68d?api-version=2023-06-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1760
+        uncompressed: false
+        body: "{\r\n  \"kind\": \"shared\",\r\n  \"etag\": \"\\\"2101790f-0000-0800-0000-688c3b340000\\\"\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-czdspw/providers/microsoft.insights/workbooks/a6a43183-3dd4-4f4b-b08f-6e1f88ace68d\",\r\n  \"name\": \"a6a43183-3dd4-4f4b-b08f-6e1f88ace68d\",\r\n  \"type\": null,\r\n  \"location\": \"westus2\",\r\n  \"tags\": {\r\n    \"purpose\": \"testing\",\r\n    \"source\": \"azure-service-operator\",\r\n    \"hidden-title\": \"Test Workbook\"\r\n  },\r\n  \"properties\": {\r\n    \"displayName\": \"Test Workbook\",\r\n    \"serializedData\": \"{\\n\\t\\t\\t\\t\\\"version\\\": \\\"Notebook/1.0\\\",\\n\\t\\t\\t\\t\\\"items\\\": [\\n\\t\\t\\t\\t\\t{\\n\\t\\t\\t\\t\\t\\t\\\"type\\\": 1,\\n\\t\\t\\t\\t\\t\\t\\\"content\\\": {\\n\\t\\t\\t\\t\\t\\t\\t\\\"json\\\": \\\"## Test Workbook\\\\n\\\\nThis is a test workbook created by Azure Service Operator integration tests.\\\\n\\\\n\\\"\\n\\t\\t\\t\\t\\t\\t},\\n\\t\\t\\t\\t\\t\\t\\\"name\\\": \\\"text - 0\\\"\\n\\t\\t\\t\\t\\t},\\n\\t\\t\\t\\t\\t{\\n\\t\\t\\t\\t\\t\\t\\\"type\\\": 3,\\n\\t\\t\\t\\t\\t\\t\\\"content\\\": {\\n\\t\\t\\t\\t\\t\\t\\t\\\"version\\\": \\\"KqlItem/1.0\\\",\\n\\t\\t\\t\\t\\t\\t\\t\\\"query\\\": \\\"// Test query\\\\nresources\\\\n| limit 10\\\",\\n\\t\\t\\t\\t\\t\\t\\t\\\"size\\\": 0,\\n\\t\\t\\t\\t\\t\\t\\t\\\"title\\\": \\\"Sample Query\\\",\\n\\t\\t\\t\\t\\t\\t\\t\\\"queryType\\\": 1,\\n\\t\\t\\t\\t\\t\\t\\t\\\"resourceType\\\": \\\"microsoft.resourcegraph/resources\\\"\\n\\t\\t\\t\\t\\t\\t},\\n\\t\\t\\t\\t\\t\\t\\\"name\\\": \\\"query - 1\\\"\\n\\t\\t\\t\\t\\t}\\n\\t\\t\\t\\t],\\n\\t\\t\\t\\t\\\"isLocked\\\": false,\\n\\t\\t\\t\\t\\\"fallbackResourceIds\\\": []\\n\\t\\t\\t}\",\r\n    \"version\": \"Notebook/1.0\",\r\n    \"category\": \"workbook\",\r\n    \"userId\": \"1ae5915d-78fe-468d-affb-c275790fa149\",\r\n    \"sourceId\": null,\r\n    \"timeModified\": \"2001-02-03T04:05:06Z\",\r\n    \"tags\": null,\r\n    \"storageUri\": null,\r\n    \"description\": \"A test workbook created by ASO integration tests\",\r\n    \"revision\": \"ae9f8a741dd0470689c1e3700a1af564\"\r\n  }\r\n}"
+        headers:
+            Access-Control-Expose-Headers:
+                - Request-Context
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "1760"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Request-Context:
+                - appId=cid-v1:0dd6a9c3-b728-41ca-aa78-7e1962e22331
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/bc270503-7288-4a41-9000-0ff81d82c1e3
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: 91AF236432C044C29D872BFD03F19736 Ref B: MAA201060513045 Ref C: 2025-08-01T03:57:39Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 1.639820086s
+    - id: 3
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-czdspw/providers/Microsoft.Insights/workbooks/a6a43183-3dd4-4f4b-b08f-6e1f88ace68d?api-version=2023-06-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 920
+        uncompressed: false
+        body: "{\r\n  \"kind\": \"shared\",\r\n  \"etag\": \"\\\"2101790f-0000-0800-0000-688c3b340000\\\"\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-czdspw/providers/microsoft.insights/workbooks/a6a43183-3dd4-4f4b-b08f-6e1f88ace68d\",\r\n  \"name\": \"a6a43183-3dd4-4f4b-b08f-6e1f88ace68d\",\r\n  \"type\": null,\r\n  \"location\": \"westus2\",\r\n  \"tags\": {\r\n    \"purpose\": \"testing\",\r\n    \"source\": \"azure-service-operator\",\r\n    \"hidden-title\": \"Test Workbook\"\r\n  },\r\n  \"properties\": {\r\n    \"displayName\": \"Test Workbook\",\r\n    \"serializedData\": null,\r\n    \"version\": \"Notebook/1.0\",\r\n    \"category\": \"workbook\",\r\n    \"userId\": \"1ae5915d-78fe-468d-affb-c275790fa149\",\r\n    \"sourceId\": null,\r\n    \"timeModified\": \"2001-02-03T04:05:06Z\",\r\n    \"tags\": null,\r\n    \"storageUri\": null,\r\n    \"description\": \"A test workbook created by ASO integration tests\",\r\n    \"revision\": \"ae9f8a741dd0470689c1e3700a1af564\"\r\n  }\r\n}"
+        headers:
+            Access-Control-Expose-Headers:
+                - Request-Context
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "920"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Request-Context:
+                - appId=cid-v1:0dd6a9c3-b728-41ca-aa78-7e1962e22331
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 44BF89820D004314A24F241BE1F7E4B1 Ref B: MAA201060513045 Ref C: 2025-08-01T03:57:43Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 434.341581ms
+    - id: 4
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 1168
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"kind":"shared","location":"westus2","name":"a6a43183-3dd4-4f4b-b08f-6e1f88ace68d","properties":{"category":"workbook","description":"Updated test workbook description","displayName":"Test Workbook","serializedData":"{\n\t\t\t\t\"version\": \"Notebook/1.0\",\n\t\t\t\t\"items\": [\n\t\t\t\t\t{\n\t\t\t\t\t\t\"type\": 1,\n\t\t\t\t\t\t\"content\": {\n\t\t\t\t\t\t\t\"json\": \"## Test Workbook\\n\\nThis is a test workbook created by Azure Service Operator integration tests.\\n\\n\"\n\t\t\t\t\t\t},\n\t\t\t\t\t\t\"name\": \"text - 0\"\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\t\"type\": 3,\n\t\t\t\t\t\t\"content\": {\n\t\t\t\t\t\t\t\"version\": \"KqlItem/1.0\",\n\t\t\t\t\t\t\t\"query\": \"// Test query\\nresources\\n| limit 10\",\n\t\t\t\t\t\t\t\"size\": 0,\n\t\t\t\t\t\t\t\"title\": \"Sample Query\",\n\t\t\t\t\t\t\t\"queryType\": 1,\n\t\t\t\t\t\t\t\"resourceType\": \"microsoft.resourcegraph/resources\"\n\t\t\t\t\t\t},\n\t\t\t\t\t\t\"name\": \"query - 1\"\n\t\t\t\t\t}\n\t\t\t\t],\n\t\t\t\t\"isLocked\": false,\n\t\t\t\t\"fallbackResourceIds\": []\n\t\t\t}","version":"Notebook/1.0"},"tags":{"purpose":"testing","source":"azure-service-operator","updated":"true"}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "1168"
+            Content-Type:
+                - application/json
+            Test-Request-Hash:
+                - 04b73566bf7250ab0288b5bdfce36fc6d55a8b20450667ac5c69ab75222ec32c
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-czdspw/providers/Microsoft.Insights/workbooks/a6a43183-3dd4-4f4b-b08f-6e1f88ace68d?api-version=2023-06-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1770
+        uncompressed: false
+        body: "{\r\n  \"kind\": \"shared\",\r\n  \"etag\": \"\\\"2101ca0f-0000-0800-0000-688c3b3d0000\\\"\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-czdspw/providers/microsoft.insights/workbooks/a6a43183-3dd4-4f4b-b08f-6e1f88ace68d\",\r\n  \"name\": \"a6a43183-3dd4-4f4b-b08f-6e1f88ace68d\",\r\n  \"type\": null,\r\n  \"location\": \"westus2\",\r\n  \"tags\": {\r\n    \"purpose\": \"testing\",\r\n    \"source\": \"azure-service-operator\",\r\n    \"updated\": \"true\",\r\n    \"hidden-title\": \"Test Workbook\"\r\n  },\r\n  \"properties\": {\r\n    \"displayName\": \"Test Workbook\",\r\n    \"serializedData\": \"{\\n\\t\\t\\t\\t\\\"version\\\": \\\"Notebook/1.0\\\",\\n\\t\\t\\t\\t\\\"items\\\": [\\n\\t\\t\\t\\t\\t{\\n\\t\\t\\t\\t\\t\\t\\\"type\\\": 1,\\n\\t\\t\\t\\t\\t\\t\\\"content\\\": {\\n\\t\\t\\t\\t\\t\\t\\t\\\"json\\\": \\\"## Test Workbook\\\\n\\\\nThis is a test workbook created by Azure Service Operator integration tests.\\\\n\\\\n\\\"\\n\\t\\t\\t\\t\\t\\t},\\n\\t\\t\\t\\t\\t\\t\\\"name\\\": \\\"text - 0\\\"\\n\\t\\t\\t\\t\\t},\\n\\t\\t\\t\\t\\t{\\n\\t\\t\\t\\t\\t\\t\\\"type\\\": 3,\\n\\t\\t\\t\\t\\t\\t\\\"content\\\": {\\n\\t\\t\\t\\t\\t\\t\\t\\\"version\\\": \\\"KqlItem/1.0\\\",\\n\\t\\t\\t\\t\\t\\t\\t\\\"query\\\": \\\"// Test query\\\\nresources\\\\n| limit 10\\\",\\n\\t\\t\\t\\t\\t\\t\\t\\\"size\\\": 0,\\n\\t\\t\\t\\t\\t\\t\\t\\\"title\\\": \\\"Sample Query\\\",\\n\\t\\t\\t\\t\\t\\t\\t\\\"queryType\\\": 1,\\n\\t\\t\\t\\t\\t\\t\\t\\\"resourceType\\\": \\\"microsoft.resourcegraph/resources\\\"\\n\\t\\t\\t\\t\\t\\t},\\n\\t\\t\\t\\t\\t\\t\\\"name\\\": \\\"query - 1\\\"\\n\\t\\t\\t\\t\\t}\\n\\t\\t\\t\\t],\\n\\t\\t\\t\\t\\\"isLocked\\\": false,\\n\\t\\t\\t\\t\\\"fallbackResourceIds\\\": []\\n\\t\\t\\t}\",\r\n    \"version\": \"Notebook/1.0\",\r\n    \"category\": \"workbook\",\r\n    \"userId\": \"1ae5915d-78fe-468d-affb-c275790fa149\",\r\n    \"sourceId\": null,\r\n    \"timeModified\": \"2001-02-03T04:05:06Z\",\r\n    \"tags\": null,\r\n    \"storageUri\": null,\r\n    \"description\": \"Updated test workbook description\",\r\n    \"revision\": \"b92967442aae4177b7a88eae4c899470\"\r\n  }\r\n}"
+        headers:
+            Access-Control-Expose-Headers:
+                - Request-Context
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "1770"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Request-Context:
+                - appId=cid-v1:0dd6a9c3-b728-41ca-aa78-7e1962e22331
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/5566884e-323f-4fa4-9bdc-f65e334adbaa
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: B9E056AB954C4D0AB27D8980F88688B1 Ref B: MAA201060513045 Ref C: 2025-08-01T03:57:49Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 572.509904ms
+    - id: 5
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "1"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-czdspw/providers/Microsoft.Insights/workbooks/a6a43183-3dd4-4f4b-b08f-6e1f88ace68d?api-version=2023-06-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 930
+        uncompressed: false
+        body: "{\r\n  \"kind\": \"shared\",\r\n  \"etag\": \"\\\"2101ca0f-0000-0800-0000-688c3b3d0000\\\"\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-czdspw/providers/microsoft.insights/workbooks/a6a43183-3dd4-4f4b-b08f-6e1f88ace68d\",\r\n  \"name\": \"a6a43183-3dd4-4f4b-b08f-6e1f88ace68d\",\r\n  \"type\": null,\r\n  \"location\": \"westus2\",\r\n  \"tags\": {\r\n    \"purpose\": \"testing\",\r\n    \"source\": \"azure-service-operator\",\r\n    \"updated\": \"true\",\r\n    \"hidden-title\": \"Test Workbook\"\r\n  },\r\n  \"properties\": {\r\n    \"displayName\": \"Test Workbook\",\r\n    \"serializedData\": null,\r\n    \"version\": \"Notebook/1.0\",\r\n    \"category\": \"workbook\",\r\n    \"userId\": \"1ae5915d-78fe-468d-affb-c275790fa149\",\r\n    \"sourceId\": null,\r\n    \"timeModified\": \"2001-02-03T04:05:06Z\",\r\n    \"tags\": null,\r\n    \"storageUri\": null,\r\n    \"description\": \"Updated test workbook description\",\r\n    \"revision\": \"b92967442aae4177b7a88eae4c899470\"\r\n  }\r\n}"
+        headers:
+            Access-Control-Expose-Headers:
+                - Request-Context
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "930"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Request-Context:
+                - appId=cid-v1:0dd6a9c3-b728-41ca-aa78-7e1962e22331
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: EFDE692E72CA438BAEBD67BEEF96BA71 Ref B: MAA201060513045 Ref C: 2025-08-01T03:57:50Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 432.486818ms
+    - id: 6
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-czdspw/providers/Microsoft.Insights/workbooks/a6a43183-3dd4-4f4b-b08f-6e1f88ace68d?api-version=2023-06-01
+        method: DELETE
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Access-Control-Expose-Headers:
+                - Request-Context
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Request-Context:
+                - appId=cid-v1:0dd6a9c3-b728-41ca-aa78-7e1962e22331
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/497d810b-496c-4a50-b99e-1b7b32ac8f58
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Deletes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: E53BE14806B34BCFB36D4128500ED371 Ref B: MAA201060513045 Ref C: 2025-08-01T03:57:54Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 860.957125ms
+    - id: 7
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-czdspw/providers/microsoft.insights/workbooks/a6a43183-3dd4-4f4b-b08f-6e1f88ace68d?api-version=2023-06-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 254
+        uncompressed: false
+        body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''microsoft.insights/workbooks/a6a43183-3dd4-4f4b-b08f-6e1f88ace68d'' under resource group ''asotest-rg-czdspw'' was not found. For more details please go to https://aka.ms/ARMResourceNotFoundFix"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "254"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Failure-Cause:
+                - gateway
+            X-Msedge-Ref:
+                - 'Ref A: B117A2BFB58E43EFA09B81A4E8CC3556 Ref B: MAA201060513045 Ref C: 2025-08-01T03:58:00Z'
+        status: 404 Not Found
+        code: 404
+        duration: 401.50654ms
+    - id: 8
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-czdspw?api-version=2020-06-01
+        method: DELETE
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Location:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRDWkRTUFctV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638896174814044710&c=MIIIpTCCBo2gAwIBAgITFgGsmnj73LBE7PaBtQABAayaeDANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDMwHhcNMjUwNzE4MTIwNDI4WhcNMjYwMTE0MTIwNDI4WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAKYwXiklImL5-WfPWj2FX3_Y-JxCd3XXEOuNXx5ggHubZZamujLTqEBSFsFYiH_9NCaqKTiATXu6fBpzW3ghgYhwr0PL071fQT15KnnNUFjd5hFXB7SYti9IwWu1lxSAz-De7HivujKdlsgcmfoV6upRQ0eva9e74EwLV9pCn4WQAhs-6T8p0CytQsi81qHMWybAbNvfom0ox78IEWdS_6g_d4Jl_I4ccYLMyRTOV2NioM96cRECWCZhbpLl1zwoYGSbU5H0MZaiCBjPlhXN40BqagpamZfP98sPYSBfreh6-iMGU5tNTRkh8RiJqzjhzIUpEv3PqLtWTyPUB8JS7aUCAwEAAaOCBJIwggSOMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQU0zUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMygxKS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0FNM1BLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDMoMSkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9BTTNQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDAzKDEpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQU0zUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMygxKS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0FNM1BLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDMoMSkuY3J0MB0GA1UdDgQWBBTxzPCXgPzIUiTz94us0y0CCMf8BzAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDMoMSkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDMoMSkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDMoMSkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDMoMSkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDMoMSkuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBRIo61gdWpv7GDzaVXRALEyV_xs5DAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggIBAAqNK9Ejzdnb9L4TyakCpJByRYVTN_6nCGbtUd2E2sELjuJGRGiRmujp_jqNyIofO_ghSaP_tqH-3WRTRUbnt5xM8aBYoYJSOgKgTsNrB6clspdhCCmzhJy6EQuOqfUDm3C7hDru1_bN3DwXt3VpDqfuYtM3MAabKg0oCYVWgFwnAKYmZLZMWMQh7k_hZxy1gOCQmE9U08tf_pU21aI0El6n5A5uG2FT0placwchheFmXAtoPjT7nU53HVmRissxUR_vRCDj_ZCFo3K3nZNXCQOKPAMc9-LC0prb9Slg6siKtSHB3iGjNQlT9-nbSnDgifI8zC1cvT8CdaNLOmUywRIB4wvRn1z123NuyfJaIz95igW9P189vBTJEZREF-MgJEboWKdlGNn6bbBtu0waqAmUU7WVLeZKdtUI6EEKF7wRGYuY_BhZx1ipyXnBHZpsufuH4AwgOO289QKmqg8QAy7HFD9c8H8fNCtR7sTZ4YNP2AhEaES0rkMSQUCNVEz42YEBi2GgrSpnI94SPdb3J3PkCMZ4OgFRjztLO7nrgbPtflhSOo_VOE0_7Y74km43WAMQPKL3-44vQrEQ61Hd_24IcFh_ChNXvUDqp39GzYlO3D0zlau4ozll8BeLUZrJwHTQWZS8XR-EifCl4MW5Y3Y1SxOLrIxnukCzQxL7aGmc&s=UGQFqxEiWiTSfSAGjUgSBPgTEZeU7r6EpI3P9rWdreyUxrMNmytRpH5Wn0_wEwFupVLxpbFDfh6tA-GztXt43uvGuR_JjlPeqZ5uX7qjmTB5cb0BTrMX5MdUmNZw_av_wOxi_T1hy00_5dfaO9wwjUEtZ9tQiUFM-1Wh91sErCdU6tQYgO33PUvEbrMqrKEGqGwY_IRuYkbkMNy13gHcMh_R_hKeCLvd0ze4JnbWh1PZzQlGqdImHrIOrEa8yCLL1ZL4fNIdO-Z9e0OVcZoDC8lsg7k5K6cdEu_ubZj2TrA2Ta6JsZte1knK8Fgar3Zs-54t46crWhPVTRa_dy9XNA&h=Xmct3-RfG7rPs-Ib_4B6Lfw4kJo_qWARKLCPh2vugVg
+            Pragma:
+                - no-cache
+            Retry-After:
+                - "15"
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Deletes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: 4F9439BED1F24A41B18B94D19767252C Ref B: MAA201060513045 Ref C: 2025-08-01T03:58:01Z'
+        status: 202 Accepted
+        code: 202
+        duration: 485.726018ms
+    - id: 9
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRDWkRTUFctV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638896174814044710&c=MIIIpTCCBo2gAwIBAgITFgGsmnj73LBE7PaBtQABAayaeDANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDMwHhcNMjUwNzE4MTIwNDI4WhcNMjYwMTE0MTIwNDI4WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAKYwXiklImL5-WfPWj2FX3_Y-JxCd3XXEOuNXx5ggHubZZamujLTqEBSFsFYiH_9NCaqKTiATXu6fBpzW3ghgYhwr0PL071fQT15KnnNUFjd5hFXB7SYti9IwWu1lxSAz-De7HivujKdlsgcmfoV6upRQ0eva9e74EwLV9pCn4WQAhs-6T8p0CytQsi81qHMWybAbNvfom0ox78IEWdS_6g_d4Jl_I4ccYLMyRTOV2NioM96cRECWCZhbpLl1zwoYGSbU5H0MZaiCBjPlhXN40BqagpamZfP98sPYSBfreh6-iMGU5tNTRkh8RiJqzjhzIUpEv3PqLtWTyPUB8JS7aUCAwEAAaOCBJIwggSOMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFghfmRS4WsmTQCAWQCAQcwggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQU0zUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMygxKS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0FNM1BLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDMoMSkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9BTTNQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDAzKDEpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQU0zUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMygxKS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0FNM1BLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDMoMSkuY3J0MB0GA1UdDgQWBBTxzPCXgPzIUiTz94us0y0CCMf8BzAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDMoMSkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDMoMSkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDMoMSkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDMoMSkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDMoMSkuY3JsMIGdBgNVHSAEgZUwgZIwDAYKKwYBBAGCN3sBATBmBgorBgEEAYI3ewICMFgwVgYIKwYBBQUHAgIwSh5IADMAMwBlADAAMQA5ADIAMQAtADQAZAA2ADQALQA0AGYAOABjAC0AYQAwADUANQAtADUAYgBkAGEAZgBmAGQANQBlADMAMwBkMAwGCisGAQQBgjd7AwIwDAYKKwYBBAGCN3sEAjAfBgNVHSMEGDAWgBRIo61gdWpv7GDzaVXRALEyV_xs5DAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggIBAAqNK9Ejzdnb9L4TyakCpJByRYVTN_6nCGbtUd2E2sELjuJGRGiRmujp_jqNyIofO_ghSaP_tqH-3WRTRUbnt5xM8aBYoYJSOgKgTsNrB6clspdhCCmzhJy6EQuOqfUDm3C7hDru1_bN3DwXt3VpDqfuYtM3MAabKg0oCYVWgFwnAKYmZLZMWMQh7k_hZxy1gOCQmE9U08tf_pU21aI0El6n5A5uG2FT0placwchheFmXAtoPjT7nU53HVmRissxUR_vRCDj_ZCFo3K3nZNXCQOKPAMc9-LC0prb9Slg6siKtSHB3iGjNQlT9-nbSnDgifI8zC1cvT8CdaNLOmUywRIB4wvRn1z123NuyfJaIz95igW9P189vBTJEZREF-MgJEboWKdlGNn6bbBtu0waqAmUU7WVLeZKdtUI6EEKF7wRGYuY_BhZx1ipyXnBHZpsufuH4AwgOO289QKmqg8QAy7HFD9c8H8fNCtR7sTZ4YNP2AhEaES0rkMSQUCNVEz42YEBi2GgrSpnI94SPdb3J3PkCMZ4OgFRjztLO7nrgbPtflhSOo_VOE0_7Y74km43WAMQPKL3-44vQrEQ61Hd_24IcFh_ChNXvUDqp39GzYlO3D0zlau4ozll8BeLUZrJwHTQWZS8XR-EifCl4MW5Y3Y1SxOLrIxnukCzQxL7aGmc&s=UGQFqxEiWiTSfSAGjUgSBPgTEZeU7r6EpI3P9rWdreyUxrMNmytRpH5Wn0_wEwFupVLxpbFDfh6tA-GztXt43uvGuR_JjlPeqZ5uX7qjmTB5cb0BTrMX5MdUmNZw_av_wOxi_T1hy00_5dfaO9wwjUEtZ9tQiUFM-1Wh91sErCdU6tQYgO33PUvEbrMqrKEGqGwY_IRuYkbkMNy13gHcMh_R_hKeCLvd0ze4JnbWh1PZzQlGqdImHrIOrEa8yCLL1ZL4fNIdO-Z9e0OVcZoDC8lsg7k5K6cdEu_ubZj2TrA2Ta6JsZte1knK8Fgar3Zs-54t46crWhPVTRa_dy9XNA&h=Xmct3-RfG7rPs-Ib_4B6Lfw4kJo_qWARKLCPh2vugVg
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 40428699398945C283190A671D24ABFF Ref B: MAA201060513045 Ref C: 2025-08-01T03:58:18Z'
+        status: 200 OK
+        code: 200
+        duration: 1.130005996s
