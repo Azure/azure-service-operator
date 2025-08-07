@@ -116,7 +116,12 @@ func (workbook *Workbook) ValidateUpdate(ctx context.Context, oldResource runtim
 
 // createValidations validates the creation of the resource
 func (workbook *Workbook) createValidations() []func(ctx context.Context, obj *v20230601.Workbook) (admission.Warnings, error) {
-	return []func(ctx context.Context, obj *v20230601.Workbook) (admission.Warnings, error){workbook.validateResourceReferences, workbook.validateOwnerReference, workbook.validateSecretDestinations, workbook.validateConfigMapDestinations}
+	return []func(ctx context.Context, obj *v20230601.Workbook) (admission.Warnings, error){
+		workbook.validateResourceReferences,
+		workbook.validateOwnerReference,
+		workbook.validateSecretDestinations,
+		workbook.validateConfigMapDestinations,
+	}
 }
 
 // deleteValidations validates the deletion of the resource
