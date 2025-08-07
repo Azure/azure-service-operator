@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230701/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -18,6 +17,7 @@ import (
 )
 
 // +kubebuilder:object:root=true
+// +kubebuilder:resource:categories={azure,cache}
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
@@ -50,22 +50,36 @@ var _ conversion.Convertible = &RedisEnterpriseDatabase{}
 
 // ConvertFrom populates our RedisEnterpriseDatabase from the provided hub RedisEnterpriseDatabase
 func (database *RedisEnterpriseDatabase) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.RedisEnterpriseDatabase)
-	if !ok {
-		return fmt.Errorf("expected cache/v1api20230701/storage/RedisEnterpriseDatabase but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.RedisEnterpriseDatabase
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return database.AssignProperties_From_RedisEnterpriseDatabase(source)
+	err = database.AssignProperties_From_RedisEnterpriseDatabase(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to database")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub RedisEnterpriseDatabase from our RedisEnterpriseDatabase
 func (database *RedisEnterpriseDatabase) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.RedisEnterpriseDatabase)
-	if !ok {
-		return fmt.Errorf("expected cache/v1api20230701/storage/RedisEnterpriseDatabase but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.RedisEnterpriseDatabase
+	err := database.AssignProperties_To_RedisEnterpriseDatabase(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from database")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return database.AssignProperties_To_RedisEnterpriseDatabase(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &RedisEnterpriseDatabase{}

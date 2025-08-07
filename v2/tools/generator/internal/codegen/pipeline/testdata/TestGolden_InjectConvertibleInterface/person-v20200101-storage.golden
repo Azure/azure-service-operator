@@ -13,6 +13,7 @@
  )
  
  // +kubebuilder:object:root=true
+ // +kubebuilder:resource:categories={azure,person}
  // +kubebuilder:subresource:status
  // Storage version of v20200101.Person
  type Person struct {

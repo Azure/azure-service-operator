@@ -107,7 +107,39 @@ RedisEnterpriseDatabase: Resource
     ├── ResourceState: *string
     └── Type: *string
 
+augmentConversionForDatabaseProperties_GeoReplication: Interface
+
+augmentConversionForDatabaseProperties_GeoReplication_STATUS: Interface
+
+augmentConversionForLinkedDatabase: Interface
+
+augmentConversionForLinkedDatabase_STATUS: Interface
+
+augmentConversionForModule: Interface
+
+augmentConversionForModule_STATUS: Interface
+
+augmentConversionForPersistence: Interface
+
+augmentConversionForPersistence_STATUS: Interface
+
 augmentConversionForPrivateEndpointConnection_STATUS: Interface
+
+augmentConversionForRedisEnterprise: Interface
+
+augmentConversionForRedisEnterpriseDatabase: Interface
+
+augmentConversionForRedisEnterpriseDatabaseOperatorSpec: Interface
+
+augmentConversionForRedisEnterpriseDatabase_STATUS: Interface
+
+augmentConversionForRedisEnterpriseDatabase_Spec: Interface
+
+augmentConversionForRedisEnterpriseOperatorSpec: Interface
+
+augmentConversionForRedisEnterprise_STATUS: Interface
+
+augmentConversionForRedisEnterprise_Spec: Interface
 
 augmentConversionForSku: Interface
 

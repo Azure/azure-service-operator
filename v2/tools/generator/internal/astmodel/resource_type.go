@@ -654,6 +654,8 @@ func (resource *ResourceType) AsDeclarations(
 	}
 
 	astbuilder.AddComment(&comments, "// +kubebuilder:object:root=true")
+	categoryName := strings.Replace(strings.ToLower(declContext.Name.InternalPackageReference().Group()), ".", "", -1)
+	astbuilder.AddComment(&comments, fmt.Sprintf("// +kubebuilder:resource:categories={azure,%s}", categoryName))
 	if resource.status != nil {
 		astbuilder.AddComment(&comments, "// +kubebuilder:subresource:status")
 	}

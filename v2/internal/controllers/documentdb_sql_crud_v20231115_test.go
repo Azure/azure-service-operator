@@ -37,7 +37,7 @@ func Test_DocumentDB_SQLDatabase_v20231115_CRUD(t *testing.T) {
 	// Declare a Cosmos DB account
 	offerType := documentdb.DatabaseAccountOfferType_Standard
 	kind := documentdb.DatabaseAccount_Kind_Spec_GlobalDocumentDB
-	acct := documentdb.DatabaseAccount{
+	acct := &documentdb.DatabaseAccount{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("sqlacct")),
 		Spec: documentdb.DatabaseAccount_Spec{
 			Location:                 tc.AzureRegion,
@@ -55,11 +55,11 @@ func Test_DocumentDB_SQLDatabase_v20231115_CRUD(t *testing.T) {
 
 	// Declare a SQL database
 	dbName := tc.Namer.GenerateName("sqldb")
-	db := documentdb.SqlDatabase{
+	db := &documentdb.SqlDatabase{
 		ObjectMeta: tc.MakeObjectMetaWithName(dbName),
 		Spec: documentdb.SqlDatabase_Spec{
 			Location: to.Ptr("australiaeast"), // Capacity constraints // tc.AzureRegion
-			Owner:    testcommon.AsOwner(&acct),
+			Owner:    testcommon.AsOwner(acct),
 			Options: &documentdb.CreateUpdateOptions{
 				AutoscaleSettings: &documentdb.AutoscaleSettings{
 					MaxThroughput: to.Ptr(4000),
@@ -71,31 +71,43 @@ func Test_DocumentDB_SQLDatabase_v20231115_CRUD(t *testing.T) {
 		},
 	}
 	tc.LogSectionf("Creating SQL account and database %q", dbName)
-	tc.CreateResourcesAndWait(&acct, &db)
+	tc.CreateResourcesAndWait(acct, db)
+
+	acctId := *acct.Status.Id
 
 	tc.T.Logf("SQL account and database successfully created")
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "CosmosDB SQL RoleAssignment CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				CosmosDB_SQL_RoleAssignment_v20231115_CRUD(tc, rg, &acct)
+				CosmosDB_SQL_RoleAssignment_v20231115_CRUD(tc, rg, acct)
 			},
 		},
 		testcommon.Subtest{
 			Name: "CosmosDB SQL Container CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				CosmosDB_SQL_Container_v20231115_CRUD(tc, &db)
+				CosmosDB_SQL_Container_v20231115_CRUD(tc, db)
 			},
 		},
 		testcommon.Subtest{
 			Name: "CosmosDB SQL Database throughputsettings CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				CosmosDB_SQL_Database_ThroughputSettings_v20231115_CRUD(tc, &db)
+				CosmosDB_SQL_Database_ThroughputSettings_v20231115_CRUD(tc, db)
 			},
 		})
 
 	// There aren't any attributes to update for databases, other than
 	// throughput settings once they're available.
+
+	tc.DeleteResourceAndWait(acct)
+
+	// Ensure that the resource was really deleted in Azure
+	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
+		tc.Ctx,
+		acctId,
+		string(documentdb.APIVersion_Value))
+	tc.Expect(err).ToNot(HaveOccurred())
+	tc.Expect(exists).To(BeFalse())
 }
 
 func CosmosDB_SQL_Container_v20231115_CRUD(tc *testcommon.KubePerTestContext, db client.Object) {
@@ -106,7 +118,7 @@ func CosmosDB_SQL_Container_v20231115_CRUD(tc *testcommon.KubePerTestContext, db
 	lastWriterWins := documentdb.ConflictResolutionPolicy_Mode_LastWriterWins
 	consistent := documentdb.IndexingPolicy_IndexingMode_Consistent
 	hash := documentdb.ContainerPartitionKey_Kind_Hash
-	container := documentdb.SqlDatabaseContainer{
+	container := &documentdb.SqlDatabaseContainer{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
 		Spec: documentdb.SqlDatabaseContainer_Spec{
 			Location: to.Ptr("australiaeast"), // Capacity constraints // tc.AzureRegion
@@ -137,37 +149,38 @@ func CosmosDB_SQL_Container_v20231115_CRUD(tc *testcommon.KubePerTestContext, db
 		},
 	}
 
-	tc.CreateResourceAndWait(&container)
+	tc.CreateResourceAndWait(container)
+
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "CosmosDB SQL Trigger CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				CosmosDB_SQL_Trigger_v20231115_CRUD(tc, &container)
+				CosmosDB_SQL_Trigger_v20231115_CRUD(tc, container)
 			},
 		},
 		testcommon.Subtest{
 			Name: "CosmosDB SQL Stored Procedure CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				CosmosDB_SQL_StoredProcedure_v20231115_CRUD(tc, &container)
+				CosmosDB_SQL_StoredProcedure_v20231115_CRUD(tc, container)
 			},
 		},
 		testcommon.Subtest{
 			Name: "CosmosDB SQL User-defined Function CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				CosmosDB_SQL_UserDefinedFunction_v20231115_CRUD(tc, &container)
+				CosmosDB_SQL_UserDefinedFunction_v20231115_CRUD(tc, container)
 			},
 		},
 		testcommon.Subtest{
 			Name: "CosmosDB SQL Container ThroughputSettings CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				CosmosDB_SQL_Database_Container_ThroughputSettings_v20231115_CRUD(tc, &container)
+				CosmosDB_SQL_Database_Container_ThroughputSettings_v20231115_CRUD(tc, container)
 			},
 		})
 
 	tc.LogSubsectionf("Updating the default TTL on container %q", name)
 	old := container.DeepCopy()
 	container.Spec.Resource.DefaultTtl = to.Ptr(400)
-	tc.PatchResourceAndWait(old, &container)
+	tc.PatchResourceAndWait(old, container)
 	tc.Expect(container.Status.Resource).ToNot(BeNil())
 	tc.Expect(container.Status.Resource.DefaultTtl).ToNot(BeNil())
 	tc.Expect(*container.Status.Resource.DefaultTtl).To(Equal(400))

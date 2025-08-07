@@ -157,18 +157,6 @@ jobs:
       - name: Take Ownership
         run: sudo chown -R $USER:$USER .
 
-      # We were using bash upload previously, but it's unsupported since 2022 and
-      # seems to hang forever now. There seems to be significant throttling of tokenless requests (from forks)
-      # errors like: Upload failed: {"detail":"Tokenless has reached GitHub rate limit. Please upload using a token:
-      # https://docs.codecov.com/docs/adding-the-codecov-token. Expected available in 395 seconds."}
-      # Unfortunately I don't see another choice for this so for now we'll live with it
-      - name: Upload code coverage to Codecov
-        uses: codecov/codecov-action@v4
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          directory: reports
-          verbose: true
-
   # TODO: Changing this name requires changing the github API calls in pr-validation-fork.yml
   integration-tests:
     runs-on: [self-hosted, 1ES.Pool=aso-1es-pool]

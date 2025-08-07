@@ -19,6 +19,7 @@ import (
 // +kubebuilder:rbac:groups=containerservice.azure.com,resources={fleetsupdateruns/status,fleetsupdateruns/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
+// +kubebuilder:resource:categories={azure,containerservice}
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"

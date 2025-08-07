@@ -18,6 +18,7 @@ import (
 // +kubebuilder:rbac:groups=compute.azure.com,resources={diskencryptionsets/status,diskencryptionsets/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
+// +kubebuilder:resource:categories={azure,compute}
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"

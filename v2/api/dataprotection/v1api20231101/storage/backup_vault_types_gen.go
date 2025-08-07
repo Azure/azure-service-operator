@@ -22,6 +22,7 @@ import (
 // +kubebuilder:rbac:groups=dataprotection.azure.com,resources={backupvaults/status,backupvaults/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
+// +kubebuilder:resource:categories={azure,dataprotection}
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
