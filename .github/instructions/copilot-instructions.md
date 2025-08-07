@@ -61,6 +61,12 @@ If an issue seems too complex to fix, please stop and ask for clarification.
 3. Write unit tests for new functionality. Use table-driven unit tests when possible.
 4. Document public APIs and complex logic. Suggest changes to the `docs/hugo/content` folder when appropriate
 
+## Detailed instructions
+
+Please reference the following additional files for detailed instructions in specific scenarios.
+
+* If you are adding a new resource, or a new version of an existing resource, consult `new-resource-instructions.md`.
+
 ## Reference Documentation
 
 We have extensive reference documentation available under the `docs/hugo/content` directory, including a detailed contributors guide in the `docs/hugo/content/contributing` directory. Please consult this as required.
