@@ -25,6 +25,8 @@ spec:
       - name: "logAnalyticsDestination"
         workspaceResourceReference:
           name: aso-sample-workspace
+          group: operationalinsights.azure.com
+          kind: Workspace
   dataFlows:
     - streams:
         - "Microsoft-Perf"
