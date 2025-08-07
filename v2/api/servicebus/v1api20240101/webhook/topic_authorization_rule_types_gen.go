@@ -116,7 +116,12 @@ func (rule *TopicAuthorizationRule) ValidateUpdate(ctx context.Context, oldResou
 
 // createValidations validates the creation of the resource
 func (rule *TopicAuthorizationRule) createValidations() []func(ctx context.Context, obj *v20240101.TopicAuthorizationRule) (admission.Warnings, error) {
-	return []func(ctx context.Context, obj *v20240101.TopicAuthorizationRule) (admission.Warnings, error){rule.validateResourceReferences, rule.validateOwnerReference, rule.validateSecretDestinations, rule.validateConfigMapDestinations}
+	return []func(ctx context.Context, obj *v20240101.TopicAuthorizationRule) (admission.Warnings, error){
+		rule.validateResourceReferences,
+		rule.validateOwnerReference,
+		rule.validateSecretDestinations,
+		rule.validateConfigMapDestinations,
+	}
 }
 
 // deleteValidations validates the deletion of the resource

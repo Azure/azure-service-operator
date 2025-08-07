@@ -116,7 +116,12 @@ func (setting *AutoscaleSetting) ValidateUpdate(ctx context.Context, oldResource
 
 // createValidations validates the creation of the resource
 func (setting *AutoscaleSetting) createValidations() []func(ctx context.Context, obj *v20221001.AutoscaleSetting) (admission.Warnings, error) {
-	return []func(ctx context.Context, obj *v20221001.AutoscaleSetting) (admission.Warnings, error){setting.validateResourceReferences, setting.validateOwnerReference, setting.validateSecretDestinations, setting.validateConfigMapDestinations}
+	return []func(ctx context.Context, obj *v20221001.AutoscaleSetting) (admission.Warnings, error){
+		setting.validateResourceReferences,
+		setting.validateOwnerReference,
+		setting.validateSecretDestinations,
+		setting.validateConfigMapDestinations,
+	}
 }
 
 // deleteValidations validates the deletion of the resource

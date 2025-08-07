@@ -21,6 +21,7 @@ import (
 )
 
 // +kubebuilder:object:root=true
+// +kubebuilder:resource:categories={azure,storage}
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
@@ -5593,9 +5594,10 @@ func (services *EncryptionServices_STATUS) AssignProperties_To_EncryptionService
 // Storage version of v1api20210401.IPRule
 // IP rule with specific IP or IP range in CIDR format.
 type IPRule struct {
-	Action      *string                `json:"action,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Value       *string                `json:"value,omitempty"`
+	Action          *string                        `json:"action,omitempty"`
+	PropertyBag     genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
+	Value           *string                        `json:"value,omitempty" optionalConfigMapPair:"Value"`
+	ValueFromConfig *genruntime.ConfigMapReference `json:"valueFromConfig,omitempty" optionalConfigMapPair:"Value"`
 }
 
 // AssignProperties_From_IPRule populates our IPRule from the provided source IPRule
@@ -5608,6 +5610,14 @@ func (rule *IPRule) AssignProperties_From_IPRule(source *storage.IPRule) error {
 
 	// Value
 	rule.Value = genruntime.ClonePointerToString(source.Value)
+
+	// ValueFromConfig
+	if source.ValueFromConfig != nil {
+		valueFromConfig := source.ValueFromConfig.Copy()
+		rule.ValueFromConfig = &valueFromConfig
+	} else {
+		rule.ValueFromConfig = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -5639,6 +5649,14 @@ func (rule *IPRule) AssignProperties_To_IPRule(destination *storage.IPRule) erro
 
 	// Value
 	destination.Value = genruntime.ClonePointerToString(rule.Value)
+
+	// ValueFromConfig
+	if rule.ValueFromConfig != nil {
+		valueFromConfig := rule.ValueFromConfig.Copy()
+		destination.ValueFromConfig = &valueFromConfig
+	} else {
+		destination.ValueFromConfig = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

@@ -5,7 +5,8 @@ package v1api20230701
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230701/storage"
+	v20230701s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230701/storage"
+	v20250401s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20250401/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +36,7 @@ func RunPropertyAssignmentTestForPrivateEndpointConnection_STATUS(subject Privat
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrivateEndpointConnection_STATUS
+	var other v20230701s.PrivateEndpointConnection_STATUS
 	err := copied.AssignProperties_To_PrivateEndpointConnection_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -139,7 +140,7 @@ func RunResourceConversionTestForRedisEnterprise(subject RedisEnterprise) string
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.RedisEnterprise
+	var hub v20250401s.RedisEnterprise
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -181,7 +182,7 @@ func RunPropertyAssignmentTestForRedisEnterprise(subject RedisEnterprise) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RedisEnterprise
+	var other v20230701s.RedisEnterprise
 	err := copied.AssignProperties_To_RedisEnterprise(&other)
 	if err != nil {
 		return err.Error()
@@ -284,7 +285,7 @@ func RunPropertyAssignmentTestForRedisEnterpriseOperatorSpec(subject RedisEnterp
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RedisEnterpriseOperatorSpec
+	var other v20230701s.RedisEnterpriseOperatorSpec
 	err := copied.AssignProperties_To_RedisEnterpriseOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -381,7 +382,7 @@ func RunPropertyAssignmentTestForRedisEnterprise_STATUS(subject RedisEnterprise_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RedisEnterprise_STATUS
+	var other v20230701s.RedisEnterprise_STATUS
 	err := copied.AssignProperties_To_RedisEnterprise_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -529,7 +530,7 @@ func RunPropertyAssignmentTestForRedisEnterprise_Spec(subject RedisEnterprise_Sp
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RedisEnterprise_Spec
+	var other v20230701s.RedisEnterprise_Spec
 	err := copied.AssignProperties_To_RedisEnterprise_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -653,7 +654,7 @@ func RunPropertyAssignmentTestForSku(subject Sku) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Sku
+	var other v20230701s.Sku
 	err := copied.AssignProperties_To_Sku(&other)
 	if err != nil {
 		return err.Error()
@@ -763,7 +764,7 @@ func RunPropertyAssignmentTestForSku_STATUS(subject Sku_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Sku_STATUS
+	var other v20230701s.Sku_STATUS
 	err := copied.AssignProperties_To_Sku_STATUS(&other)
 	if err != nil {
 		return err.Error()

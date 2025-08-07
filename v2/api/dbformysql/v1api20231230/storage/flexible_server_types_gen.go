@@ -23,6 +23,7 @@ import (
 // +kubebuilder:rbac:groups=dbformysql.azure.com,resources={flexibleservers/status,flexibleservers/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
+// +kubebuilder:resource:categories={azure,dbformysql}
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"

@@ -6,6 +6,19 @@ layout: single
 
 Want to add a new resource to Azure Service Operator v2? You're in the right place - here's your step by step guide.
 
+## Quick Start
+
+Adding a new resource is a multi-step process driven by our code generator. At a high level, the process is:
+
+1.  **Configure**: Edit `v2/azure-arm.yaml` to add the new resource.
+2.  **Generate**: Run `task generator:quick-checks` to generate the Go code. This will likely fail.
+3.  **Fix & Repeat**: Fix errors reported by the generator by adding configuration to `v2/azure-arm.yaml`, then re-run the generator. Repeat until generation succeeds.
+4.  **Test**: Write an integration test to verify the resource can be created, updated, and deleted.
+5.  **Sample**: Create a sample YAML to demonstrate how to use the resource.
+6.  **Verify**: Run `task ci` to ensure all checks pass before creating a pull request.
+
+## Step by step guide
+
 By the end of this process, you'll have created a new resource, written a test to verify it works, and created a sample to demonstrate how to use it. This sounds like a lot of work, but most of it is done for you by our code generator.
 
 1. [**Before you begin**]({{< relref "before-you-begin" >}}) sets the context for the rest of the process. You begin by identifying the resource you want to add and preparing your development environment.
