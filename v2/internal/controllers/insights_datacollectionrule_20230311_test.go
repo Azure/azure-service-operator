@@ -16,7 +16,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
-func Test_Insights_DataCollectionRule_CRUD(t *testing.T) {
+func Test_Insights_DataCollectionRule_v20210601_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
@@ -42,8 +42,8 @@ func Test_Insights_DataCollectionRule_CRUD(t *testing.T) {
 	dataCollectionRule := &insights.DataCollectionRule{
 		ObjectMeta: tc.MakeObjectMeta("datacollectionrule"),
 		Spec: insights.DataCollectionRule_Spec{
-			Location: tc.AzureRegion,
-			Owner:    testcommon.AsOwner(rg),
+			Location:    tc.AzureRegion,
+			Owner:       testcommon.AsOwner(rg),
 			Description: to.Ptr("Test data collection rule for Azure Service Operator"),
 			DataSources: &insights.DataSourcesSpec{
 				PerformanceCounters: []insights.PerfCounterDataSource{
@@ -64,7 +64,7 @@ func Test_Insights_DataCollectionRule_CRUD(t *testing.T) {
 			Destinations: &insights.DestinationsSpec{
 				LogAnalytics: []insights.LogAnalyticsDestination{
 					{
-						Name:                      to.Ptr("logAnalyticsDestination"),
+						Name:                       to.Ptr("logAnalyticsDestination"),
 						WorkspaceResourceReference: tc.MakeReferenceFromResource(workspace),
 					},
 				},
