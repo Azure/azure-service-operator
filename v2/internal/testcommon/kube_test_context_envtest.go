@@ -33,7 +33,6 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/controller"
 	"sigs.k8s.io/controller-runtime/pkg/envtest"
 	"sigs.k8s.io/controller-runtime/pkg/metrics/server"
-	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 	"sigs.k8s.io/controller-runtime/pkg/webhook"
 
 	"github.com/Azure/azure-service-operator/v2/internal/config"
@@ -233,10 +232,6 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 
 			// Use appropriate backoff for mode.
 			RateLimiter: generic.NewRateLimiter(minBackoff, maxBackoff),
-
-			LogConstructor: func(request *reconcile.Request) logr.Logger {
-				return ctrl.Log
-			},
 		},
 		// Specified here because usually controller-runtime logging would detect panics and log them for us
 		// but in the case of envtest we disable those logs because they're too verbose.

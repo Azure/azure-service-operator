@@ -431,7 +431,7 @@ func initializeClients(cfg config.Values, mgr ctrl.Manager) (*clients, error) {
 	// Register the evaluator for use by webhooks
 	asocel.RegisterEvaluator(expressionEvaluator)
 
-	options := makeControllerOptions(log, cfg)
+	options := makeControllerOptions(cfg)
 
 	return &clients{
 		positiveConditions:     positiveConditions,
@@ -485,7 +485,7 @@ func initializeWatchers(readyResources map[string]apiextensions.CustomResourceDe
 	return nil
 }
 
-func makeControllerOptions(log logr.Logger, cfg config.Values) generic.Options {
+func makeControllerOptions(cfg config.Values) generic.Options {
 	var additionalRateLimiters []workqueue.TypedRateLimiter[reconcile.Request]
 	if cfg.RateLimit.Mode == config.RateLimitModeBucket {
 		additionalRateLimiters = append(
@@ -506,14 +506,6 @@ func makeControllerOptions(log logr.Logger, cfg config.Values) generic.Options {
 		Config: cfg,
 		Options: controller.Options{
 			MaxConcurrentReconciles: cfg.MaxConcurrentReconciles,
-			LogConstructor: func(req *reconcile.Request) logr.Logger {
-				// refer to https://github.com/kubernetes-sigs/controller-runtime/pull/1827/files
-				if req == nil {
-					return log
-				}
-				// TODO: do we need GVK here too?
-				return log.WithValues("namespace", req.Namespace, "name", req.Name)
-			},
 			// These rate limits are used for happy-path backoffs (for example polling async operation IDs for PUT/DELETE)
 			RateLimiter: generic.NewRateLimiter(1*time.Second, 1*time.Minute, additionalRateLimiters...),
 		},
