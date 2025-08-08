@@ -10,7 +10,6 @@ import (
 	"fmt"
 
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
-	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 
 	"github.com/go-logr/logr"
 	"github.com/rotisserie/eris"
@@ -30,6 +29,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 
 	"github.com/Azure/azure-service-operator/v2/internal/config"
+	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/util/interval"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
