@@ -22,6 +22,9 @@ import (
 	app_v20240301 "github.com/Azure/azure-service-operator/v2/api/app/v1api20240301"
 	app_v20240301s "github.com/Azure/azure-service-operator/v2/api/app/v1api20240301/storage"
 	app_v20240301w "github.com/Azure/azure-service-operator/v2/api/app/v1api20240301/webhook"
+	app_v20250101 "github.com/Azure/azure-service-operator/v2/api/app/v1api20250101"
+	app_v20250101s "github.com/Azure/azure-service-operator/v2/api/app/v1api20250101/storage"
+	app_v20250101w "github.com/Azure/azure-service-operator/v2/api/app/v1api20250101/webhook"
 	appconfiguration_customizations "github.com/Azure/azure-service-operator/v2/api/appconfiguration/customizations"
 	appconfiguration_v20220501 "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20220501"
 	appconfiguration_v20220501s "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20220501/storage"
@@ -580,9 +583,9 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(app_v20240301s.AuthConfig)})
+	result = append(result, &registration.StorageType{Obj: new(app_v20250101s.AuthConfig)})
 	result = append(result, &registration.StorageType{
-		Obj: new(app_v20240301s.ContainerApp),
+		Obj: new(app_v20250101s.ContainerApp),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.configuration.secrets.value",
@@ -596,12 +599,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 					[]string{
 						".spec.configuration.secrets.value",
 					},
-					&app_v20240301s.ContainerAppList{}),
+					&app_v20250101s.ContainerAppList{}),
 			},
 		},
 	})
 	result = append(result, &registration.StorageType{
-		Obj: new(app_v20240301s.Job),
+		Obj: new(app_v20250101s.Job),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.configuration.secrets.value",
@@ -615,12 +618,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 					[]string{
 						".spec.configuration.secrets.value",
 					},
-					&app_v20240301s.JobList{}),
+					&app_v20250101s.JobList{}),
 			},
 		},
 	})
 	result = append(result, &registration.StorageType{
-		Obj: new(app_v20240301s.ManagedEnvironment),
+		Obj: new(app_v20250101s.ManagedEnvironment),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.customDomainConfiguration.certificatePassword",
@@ -654,7 +657,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 						".spec.daprAIConnectionString",
 						".spec.daprAIInstrumentationKey",
 					},
-					&app_v20240301s.ManagedEnvironmentList{}),
+					&app_v20250101s.ManagedEnvironmentList{}),
 			},
 		},
 	})
@@ -2722,6 +2725,34 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(app_v20240301s.ContainerApp)},
 		&registration.KnownType{Obj: new(app_v20240301s.Job)},
 		&registration.KnownType{Obj: new(app_v20240301s.ManagedEnvironment)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(app_v20250101.AuthConfig),
+			Defaulter: &app_v20250101w.AuthConfig{},
+			Validator: &app_v20250101w.AuthConfig{},
+		},
+		&registration.KnownType{
+			Obj:       new(app_v20250101.ContainerApp),
+			Defaulter: &app_v20250101w.ContainerApp{},
+			Validator: &app_v20250101w.ContainerApp{},
+		},
+		&registration.KnownType{
+			Obj:       new(app_v20250101.Job),
+			Defaulter: &app_v20250101w.Job{},
+			Validator: &app_v20250101w.Job{},
+		},
+		&registration.KnownType{
+			Obj:       new(app_v20250101.ManagedEnvironment),
+			Defaulter: &app_v20250101w.ManagedEnvironment{},
+			Validator: &app_v20250101w.ManagedEnvironment{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(app_v20250101s.AuthConfig)},
+		&registration.KnownType{Obj: new(app_v20250101s.ContainerApp)},
+		&registration.KnownType{Obj: new(app_v20250101s.Job)},
+		&registration.KnownType{Obj: new(app_v20250101s.ManagedEnvironment)})
 	result = append(result, &registration.KnownType{
 		Obj:       new(appconfiguration_v20220501.ConfigurationStore),
 		Defaulter: &appconfiguration_v20220501w.ConfigurationStore{},
@@ -5229,6 +5260,8 @@ func createScheme() *runtime.Scheme {
 	_ = apimanagement_v20230501ps.AddToScheme(scheme)
 	_ = app_v20240301.AddToScheme(scheme)
 	_ = app_v20240301s.AddToScheme(scheme)
+	_ = app_v20250101.AddToScheme(scheme)
+	_ = app_v20250101s.AddToScheme(scheme)
 	_ = appconfiguration_v20220501.AddToScheme(scheme)
 	_ = appconfiguration_v20220501s.AddToScheme(scheme)
 	_ = authorization_v20200801p.AddToScheme(scheme)
@@ -5971,9 +6004,9 @@ func indexApimanagementSubscriptionSecondaryKey(rawObj client.Object) []string {
 	return obj.Spec.SecondaryKey.Index()
 }
 
-// indexAppContainerAppValue an index function for app_v20240301s.ContainerApp .spec.configuration.secrets.value
+// indexAppContainerAppValue an index function for app_v20250101s.ContainerApp .spec.configuration.secrets.value
 func indexAppContainerAppValue(rawObj client.Object) []string {
-	obj, ok := rawObj.(*app_v20240301s.ContainerApp)
+	obj, ok := rawObj.(*app_v20250101s.ContainerApp)
 	if !ok {
 		return nil
 	}
@@ -5990,9 +6023,9 @@ func indexAppContainerAppValue(rawObj client.Object) []string {
 	return result
 }
 
-// indexAppJobValue an index function for app_v20240301s.Job .spec.configuration.secrets.value
+// indexAppJobValue an index function for app_v20250101s.Job .spec.configuration.secrets.value
 func indexAppJobValue(rawObj client.Object) []string {
-	obj, ok := rawObj.(*app_v20240301s.Job)
+	obj, ok := rawObj.(*app_v20250101s.Job)
 	if !ok {
 		return nil
 	}
@@ -6009,9 +6042,9 @@ func indexAppJobValue(rawObj client.Object) []string {
 	return result
 }
 
-// indexAppManagedEnvironmentCertificatePassword an index function for app_v20240301s.ManagedEnvironment .spec.customDomainConfiguration.certificatePassword
+// indexAppManagedEnvironmentCertificatePassword an index function for app_v20250101s.ManagedEnvironment .spec.customDomainConfiguration.certificatePassword
 func indexAppManagedEnvironmentCertificatePassword(rawObj client.Object) []string {
-	obj, ok := rawObj.(*app_v20240301s.ManagedEnvironment)
+	obj, ok := rawObj.(*app_v20250101s.ManagedEnvironment)
 	if !ok {
 		return nil
 	}
@@ -6024,9 +6057,9 @@ func indexAppManagedEnvironmentCertificatePassword(rawObj client.Object) []strin
 	return obj.Spec.CustomDomainConfiguration.CertificatePassword.Index()
 }
 
-// indexAppManagedEnvironmentCertificateValue an index function for app_v20240301s.ManagedEnvironment .spec.customDomainConfiguration.certificateValue
+// indexAppManagedEnvironmentCertificateValue an index function for app_v20250101s.ManagedEnvironment .spec.customDomainConfiguration.certificateValue
 func indexAppManagedEnvironmentCertificateValue(rawObj client.Object) []string {
-	obj, ok := rawObj.(*app_v20240301s.ManagedEnvironment)
+	obj, ok := rawObj.(*app_v20250101s.ManagedEnvironment)
 	if !ok {
 		return nil
 	}
@@ -6039,9 +6072,9 @@ func indexAppManagedEnvironmentCertificateValue(rawObj client.Object) []string {
 	return obj.Spec.CustomDomainConfiguration.CertificateValue.Index()
 }
 
-// indexAppManagedEnvironmentDaprAIConnectionString an index function for app_v20240301s.ManagedEnvironment .spec.daprAIConnectionString
+// indexAppManagedEnvironmentDaprAIConnectionString an index function for app_v20250101s.ManagedEnvironment .spec.daprAIConnectionString
 func indexAppManagedEnvironmentDaprAIConnectionString(rawObj client.Object) []string {
-	obj, ok := rawObj.(*app_v20240301s.ManagedEnvironment)
+	obj, ok := rawObj.(*app_v20250101s.ManagedEnvironment)
 	if !ok {
 		return nil
 	}
@@ -6051,9 +6084,9 @@ func indexAppManagedEnvironmentDaprAIConnectionString(rawObj client.Object) []st
 	return obj.Spec.DaprAIConnectionString.Index()
 }
 
-// indexAppManagedEnvironmentDaprAIInstrumentationKey an index function for app_v20240301s.ManagedEnvironment .spec.daprAIInstrumentationKey
+// indexAppManagedEnvironmentDaprAIInstrumentationKey an index function for app_v20250101s.ManagedEnvironment .spec.daprAIInstrumentationKey
 func indexAppManagedEnvironmentDaprAIInstrumentationKey(rawObj client.Object) []string {
-	obj, ok := rawObj.(*app_v20240301s.ManagedEnvironment)
+	obj, ok := rawObj.(*app_v20250101s.ManagedEnvironment)
 	if !ok {
 		return nil
 	}
@@ -6063,9 +6096,9 @@ func indexAppManagedEnvironmentDaprAIInstrumentationKey(rawObj client.Object) []
 	return obj.Spec.DaprAIInstrumentationKey.Index()
 }
 
-// indexAppManagedEnvironmentSharedKey an index function for app_v20240301s.ManagedEnvironment .spec.appLogsConfiguration.logAnalyticsConfiguration.sharedKey
+// indexAppManagedEnvironmentSharedKey an index function for app_v20250101s.ManagedEnvironment .spec.appLogsConfiguration.logAnalyticsConfiguration.sharedKey
 func indexAppManagedEnvironmentSharedKey(rawObj client.Object) []string {
-	obj, ok := rawObj.(*app_v20240301s.ManagedEnvironment)
+	obj, ok := rawObj.(*app_v20250101s.ManagedEnvironment)
 	if !ok {
 		return nil
 	}

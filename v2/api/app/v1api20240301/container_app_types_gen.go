@@ -55,22 +55,36 @@ var _ conversion.Convertible = &ContainerApp{}
 
 // ConvertFrom populates our ContainerApp from the provided hub ContainerApp
 func (containerApp *ContainerApp) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.ContainerApp)
-	if !ok {
-		return fmt.Errorf("expected app/v1api20240301/storage/ContainerApp but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.ContainerApp
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return containerApp.AssignProperties_From_ContainerApp(source)
+	err = containerApp.AssignProperties_From_ContainerApp(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to containerApp")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ContainerApp from our ContainerApp
 func (containerApp *ContainerApp) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.ContainerApp)
-	if !ok {
-		return fmt.Errorf("expected app/v1api20240301/storage/ContainerApp but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.ContainerApp
+	err := containerApp.AssignProperties_To_ContainerApp(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from containerApp")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return containerApp.AssignProperties_To_ContainerApp(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &ContainerApp{}
@@ -91,17 +105,6 @@ func (containerApp *ContainerApp) SecretDestinationExpressions() []*core.Destina
 		return nil
 	}
 	return containerApp.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &ContainerApp{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (containerApp *ContainerApp) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*ContainerApp_STATUS); ok {
-		return containerApp.Spec.Initialize_From_ContainerApp_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type ContainerApp_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesConfigExporter = &ContainerApp{}
@@ -810,86 +813,6 @@ func (containerApp *ContainerApp_Spec) AssignProperties_To_ContainerApp_Spec(des
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ContainerApp_STATUS populates our ContainerApp_Spec from the provided source ContainerApp_STATUS
-func (containerApp *ContainerApp_Spec) Initialize_From_ContainerApp_STATUS(source *ContainerApp_STATUS) error {
-
-	// Configuration
-	if source.Configuration != nil {
-		var configuration Configuration
-		err := configuration.Initialize_From_Configuration_STATUS(source.Configuration)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_Configuration_STATUS() to populate field Configuration")
-		}
-		containerApp.Configuration = &configuration
-	} else {
-		containerApp.Configuration = nil
-	}
-
-	// EnvironmentReference
-	if source.EnvironmentId != nil {
-		environmentReference := genruntime.CreateResourceReferenceFromARMID(*source.EnvironmentId)
-		containerApp.EnvironmentReference = &environmentReference
-	} else {
-		containerApp.EnvironmentReference = nil
-	}
-
-	// ExtendedLocation
-	if source.ExtendedLocation != nil {
-		var extendedLocation ExtendedLocation
-		err := extendedLocation.Initialize_From_ExtendedLocation_STATUS(source.ExtendedLocation)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
-		}
-		containerApp.ExtendedLocation = &extendedLocation
-	} else {
-		containerApp.ExtendedLocation = nil
-	}
-
-	// Identity
-	if source.Identity != nil {
-		var identity ManagedServiceIdentity
-		err := identity.Initialize_From_ManagedServiceIdentity_STATUS(source.Identity)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ManagedServiceIdentity_STATUS() to populate field Identity")
-		}
-		containerApp.Identity = &identity
-	} else {
-		containerApp.Identity = nil
-	}
-
-	// Location
-	containerApp.Location = genruntime.ClonePointerToString(source.Location)
-
-	// ManagedEnvironmentReference
-	if source.ManagedEnvironmentId != nil {
-		managedEnvironmentReference := genruntime.CreateResourceReferenceFromARMID(*source.ManagedEnvironmentId)
-		containerApp.ManagedEnvironmentReference = &managedEnvironmentReference
-	} else {
-		containerApp.ManagedEnvironmentReference = nil
-	}
-
-	// Tags
-	containerApp.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Template
-	if source.Template != nil {
-		var template Template
-		err := template.Initialize_From_Template_STATUS(source.Template)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_Template_STATUS() to populate field Template")
-		}
-		containerApp.Template = &template
-	} else {
-		containerApp.Template = nil
-	}
-
-	// WorkloadProfileName
-	containerApp.WorkloadProfileName = genruntime.ClonePointerToString(source.WorkloadProfileName)
 
 	// No error
 	return nil
@@ -1866,96 +1789,6 @@ func (configuration *Configuration) AssignProperties_To_Configuration(destinatio
 	return nil
 }
 
-// Initialize_From_Configuration_STATUS populates our Configuration from the provided source Configuration_STATUS
-func (configuration *Configuration) Initialize_From_Configuration_STATUS(source *Configuration_STATUS) error {
-
-	// ActiveRevisionsMode
-	if source.ActiveRevisionsMode != nil {
-		activeRevisionsMode := genruntime.ToEnum(string(*source.ActiveRevisionsMode), configuration_ActiveRevisionsMode_Values)
-		configuration.ActiveRevisionsMode = &activeRevisionsMode
-	} else {
-		configuration.ActiveRevisionsMode = nil
-	}
-
-	// Dapr
-	if source.Dapr != nil {
-		var dapr Dapr
-		err := dapr.Initialize_From_Dapr_STATUS(source.Dapr)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_Dapr_STATUS() to populate field Dapr")
-		}
-		configuration.Dapr = &dapr
-	} else {
-		configuration.Dapr = nil
-	}
-
-	// Ingress
-	if source.Ingress != nil {
-		var ingress Ingress
-		err := ingress.Initialize_From_Ingress_STATUS(source.Ingress)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_Ingress_STATUS() to populate field Ingress")
-		}
-		configuration.Ingress = &ingress
-	} else {
-		configuration.Ingress = nil
-	}
-
-	// MaxInactiveRevisions
-	configuration.MaxInactiveRevisions = genruntime.ClonePointerToInt(source.MaxInactiveRevisions)
-
-	// Registries
-	if source.Registries != nil {
-		registryList := make([]RegistryCredentials, len(source.Registries))
-		for registryIndex, registryItem := range source.Registries {
-			// Shadow the loop variable to avoid aliasing
-			registryItem := registryItem
-			var registry RegistryCredentials
-			err := registry.Initialize_From_RegistryCredentials_STATUS(&registryItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_RegistryCredentials_STATUS() to populate field Registries")
-			}
-			registryList[registryIndex] = registry
-		}
-		configuration.Registries = registryList
-	} else {
-		configuration.Registries = nil
-	}
-
-	// Secrets
-	if source.Secrets != nil {
-		secretList := make([]Secret, len(source.Secrets))
-		for secretIndex, secretItem := range source.Secrets {
-			// Shadow the loop variable to avoid aliasing
-			secretItem := secretItem
-			var secret Secret
-			err := secret.Initialize_From_Secret_STATUS(&secretItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_Secret_STATUS() to populate field Secrets")
-			}
-			secretList[secretIndex] = secret
-		}
-		configuration.Secrets = secretList
-	} else {
-		configuration.Secrets = nil
-	}
-
-	// Service
-	if source.Service != nil {
-		var service Service
-		err := service.Initialize_From_Service_STATUS(source.Service)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_Service_STATUS() to populate field Service")
-		}
-		configuration.Service = &service
-	} else {
-		configuration.Service = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Non versioned Container App configuration properties that define the mutable settings of a Container app
 type Configuration_STATUS struct {
 	// ActiveRevisionsMode: ActiveRevisionsMode controls how active revisions are handled for the Container app:
@@ -2517,24 +2350,6 @@ func (location *ExtendedLocation) AssignProperties_To_ExtendedLocation(destinati
 	return nil
 }
 
-// Initialize_From_ExtendedLocation_STATUS populates our ExtendedLocation from the provided source ExtendedLocation_STATUS
-func (location *ExtendedLocation) Initialize_From_ExtendedLocation_STATUS(source *ExtendedLocation_STATUS) error {
-
-	// Name
-	location.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Type
-	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), extendedLocationType_Values)
-		location.Type = &typeVar
-	} else {
-		location.Type = nil
-	}
-
-	// No error
-	return nil
-}
-
 // The complex type of the extended location.
 type ExtendedLocation_STATUS struct {
 	// Name: The name of the extended location.
@@ -2756,33 +2571,6 @@ func (identity *ManagedServiceIdentity) AssignProperties_To_ManagedServiceIdenti
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ManagedServiceIdentity_STATUS populates our ManagedServiceIdentity from the provided source ManagedServiceIdentity_STATUS
-func (identity *ManagedServiceIdentity) Initialize_From_ManagedServiceIdentity_STATUS(source *ManagedServiceIdentity_STATUS) error {
-
-	// Type
-	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), managedServiceIdentityType_Values)
-		identity.Type = &typeVar
-	} else {
-		identity.Type = nil
-	}
-
-	// UserAssignedIdentities
-	if source.UserAssignedIdentities != nil {
-		userAssignedIdentityList := make([]UserAssignedIdentityDetails, 0, len(source.UserAssignedIdentities))
-		for userAssignedIdentitiesKey := range source.UserAssignedIdentities {
-			userAssignedIdentitiesRef := genruntime.CreateResourceReferenceFromARMID(userAssignedIdentitiesKey)
-			userAssignedIdentityList = append(userAssignedIdentityList, UserAssignedIdentityDetails{Reference: userAssignedIdentitiesRef})
-		}
-		identity.UserAssignedIdentities = userAssignedIdentityList
-	} else {
-		identity.UserAssignedIdentities = nil
 	}
 
 	// No error
@@ -3318,103 +3106,6 @@ func (template *Template) AssignProperties_To_Template(destination *storage.Temp
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Template_STATUS populates our Template from the provided source Template_STATUS
-func (template *Template) Initialize_From_Template_STATUS(source *Template_STATUS) error {
-
-	// Containers
-	if source.Containers != nil {
-		containerList := make([]Container, len(source.Containers))
-		for containerIndex, containerItem := range source.Containers {
-			// Shadow the loop variable to avoid aliasing
-			containerItem := containerItem
-			var container Container
-			err := container.Initialize_From_Container_STATUS(&containerItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_Container_STATUS() to populate field Containers")
-			}
-			containerList[containerIndex] = container
-		}
-		template.Containers = containerList
-	} else {
-		template.Containers = nil
-	}
-
-	// InitContainers
-	if source.InitContainers != nil {
-		initContainerList := make([]BaseContainer, len(source.InitContainers))
-		for initContainerIndex, initContainerItem := range source.InitContainers {
-			// Shadow the loop variable to avoid aliasing
-			initContainerItem := initContainerItem
-			var initContainer BaseContainer
-			err := initContainer.Initialize_From_BaseContainer_STATUS(&initContainerItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_BaseContainer_STATUS() to populate field InitContainers")
-			}
-			initContainerList[initContainerIndex] = initContainer
-		}
-		template.InitContainers = initContainerList
-	} else {
-		template.InitContainers = nil
-	}
-
-	// RevisionSuffix
-	template.RevisionSuffix = genruntime.ClonePointerToString(source.RevisionSuffix)
-
-	// Scale
-	if source.Scale != nil {
-		var scale Scale
-		err := scale.Initialize_From_Scale_STATUS(source.Scale)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_Scale_STATUS() to populate field Scale")
-		}
-		template.Scale = &scale
-	} else {
-		template.Scale = nil
-	}
-
-	// ServiceBinds
-	if source.ServiceBinds != nil {
-		serviceBindList := make([]ServiceBind, len(source.ServiceBinds))
-		for serviceBindIndex, serviceBindItem := range source.ServiceBinds {
-			// Shadow the loop variable to avoid aliasing
-			serviceBindItem := serviceBindItem
-			var serviceBind ServiceBind
-			err := serviceBind.Initialize_From_ServiceBind_STATUS(&serviceBindItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_ServiceBind_STATUS() to populate field ServiceBinds")
-			}
-			serviceBindList[serviceBindIndex] = serviceBind
-		}
-		template.ServiceBinds = serviceBindList
-	} else {
-		template.ServiceBinds = nil
-	}
-
-	// TerminationGracePeriodSeconds
-	template.TerminationGracePeriodSeconds = genruntime.ClonePointerToInt(source.TerminationGracePeriodSeconds)
-
-	// Volumes
-	if source.Volumes != nil {
-		volumeList := make([]Volume, len(source.Volumes))
-		for volumeIndex, volumeItem := range source.Volumes {
-			// Shadow the loop variable to avoid aliasing
-			volumeItem := volumeItem
-			var volume Volume
-			err := volume.Initialize_From_Volume_STATUS(&volumeItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_Volume_STATUS() to populate field Volumes")
-			}
-			volumeList[volumeIndex] = volume
-		}
-		template.Volumes = volumeList
-	} else {
-		template.Volumes = nil
 	}
 
 	// No error
@@ -4026,73 +3717,6 @@ func (container *BaseContainer) AssignProperties_To_BaseContainer(destination *s
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_BaseContainer_STATUS populates our BaseContainer from the provided source BaseContainer_STATUS
-func (container *BaseContainer) Initialize_From_BaseContainer_STATUS(source *BaseContainer_STATUS) error {
-
-	// Args
-	container.Args = genruntime.CloneSliceOfString(source.Args)
-
-	// Command
-	container.Command = genruntime.CloneSliceOfString(source.Command)
-
-	// Env
-	if source.Env != nil {
-		envList := make([]EnvironmentVar, len(source.Env))
-		for envIndex, envItem := range source.Env {
-			// Shadow the loop variable to avoid aliasing
-			envItem := envItem
-			var env EnvironmentVar
-			err := env.Initialize_From_EnvironmentVar_STATUS(&envItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_EnvironmentVar_STATUS() to populate field Env")
-			}
-			envList[envIndex] = env
-		}
-		container.Env = envList
-	} else {
-		container.Env = nil
-	}
-
-	// Image
-	container.Image = genruntime.ClonePointerToString(source.Image)
-
-	// Name
-	container.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Resources
-	if source.Resources != nil {
-		var resource ContainerResources
-		err := resource.Initialize_From_ContainerResources_STATUS(source.Resources)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ContainerResources_STATUS() to populate field Resources")
-		}
-		container.Resources = &resource
-	} else {
-		container.Resources = nil
-	}
-
-	// VolumeMounts
-	if source.VolumeMounts != nil {
-		volumeMountList := make([]VolumeMount, len(source.VolumeMounts))
-		for volumeMountIndex, volumeMountItem := range source.VolumeMounts {
-			// Shadow the loop variable to avoid aliasing
-			volumeMountItem := volumeMountItem
-			var volumeMount VolumeMount
-			err := volumeMount.Initialize_From_VolumeMount_STATUS(&volumeMountItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_VolumeMount_STATUS() to populate field VolumeMounts")
-			}
-			volumeMountList[volumeMountIndex] = volumeMount
-		}
-		container.VolumeMounts = volumeMountList
-	} else {
-		container.VolumeMounts = nil
 	}
 
 	// No error
@@ -4719,91 +4343,6 @@ func (container *Container) AssignProperties_To_Container(destination *storage.C
 	return nil
 }
 
-// Initialize_From_Container_STATUS populates our Container from the provided source Container_STATUS
-func (container *Container) Initialize_From_Container_STATUS(source *Container_STATUS) error {
-
-	// Args
-	container.Args = genruntime.CloneSliceOfString(source.Args)
-
-	// Command
-	container.Command = genruntime.CloneSliceOfString(source.Command)
-
-	// Env
-	if source.Env != nil {
-		envList := make([]EnvironmentVar, len(source.Env))
-		for envIndex, envItem := range source.Env {
-			// Shadow the loop variable to avoid aliasing
-			envItem := envItem
-			var env EnvironmentVar
-			err := env.Initialize_From_EnvironmentVar_STATUS(&envItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_EnvironmentVar_STATUS() to populate field Env")
-			}
-			envList[envIndex] = env
-		}
-		container.Env = envList
-	} else {
-		container.Env = nil
-	}
-
-	// Image
-	container.Image = genruntime.ClonePointerToString(source.Image)
-
-	// Name
-	container.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Probes
-	if source.Probes != nil {
-		probeList := make([]ContainerAppProbe, len(source.Probes))
-		for probeIndex, probeItem := range source.Probes {
-			// Shadow the loop variable to avoid aliasing
-			probeItem := probeItem
-			var probe ContainerAppProbe
-			err := probe.Initialize_From_ContainerAppProbe_STATUS(&probeItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_ContainerAppProbe_STATUS() to populate field Probes")
-			}
-			probeList[probeIndex] = probe
-		}
-		container.Probes = probeList
-	} else {
-		container.Probes = nil
-	}
-
-	// Resources
-	if source.Resources != nil {
-		var resource ContainerResources
-		err := resource.Initialize_From_ContainerResources_STATUS(source.Resources)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ContainerResources_STATUS() to populate field Resources")
-		}
-		container.Resources = &resource
-	} else {
-		container.Resources = nil
-	}
-
-	// VolumeMounts
-	if source.VolumeMounts != nil {
-		volumeMountList := make([]VolumeMount, len(source.VolumeMounts))
-		for volumeMountIndex, volumeMountItem := range source.VolumeMounts {
-			// Shadow the loop variable to avoid aliasing
-			volumeMountItem := volumeMountItem
-			var volumeMount VolumeMount
-			err := volumeMount.Initialize_From_VolumeMount_STATUS(&volumeMountItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_VolumeMount_STATUS() to populate field VolumeMounts")
-			}
-			volumeMountList[volumeMountIndex] = volumeMount
-		}
-		container.VolumeMounts = volumeMountList
-	} else {
-		container.VolumeMounts = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Container App container definition
 type Container_STATUS struct {
 	// Args: Container start command arguments.
@@ -5422,57 +4961,6 @@ func (dapr *Dapr) AssignProperties_To_Dapr(destination *storage.Dapr) error {
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Dapr_STATUS populates our Dapr from the provided source Dapr_STATUS
-func (dapr *Dapr) Initialize_From_Dapr_STATUS(source *Dapr_STATUS) error {
-
-	// AppId
-	dapr.AppId = genruntime.ClonePointerToString(source.AppId)
-
-	// AppPort
-	dapr.AppPort = genruntime.ClonePointerToInt(source.AppPort)
-
-	// AppProtocol
-	if source.AppProtocol != nil {
-		appProtocol := genruntime.ToEnum(string(*source.AppProtocol), dapr_AppProtocol_Values)
-		dapr.AppProtocol = &appProtocol
-	} else {
-		dapr.AppProtocol = nil
-	}
-
-	// EnableApiLogging
-	if source.EnableApiLogging != nil {
-		enableApiLogging := *source.EnableApiLogging
-		dapr.EnableApiLogging = &enableApiLogging
-	} else {
-		dapr.EnableApiLogging = nil
-	}
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		dapr.Enabled = &enabled
-	} else {
-		dapr.Enabled = nil
-	}
-
-	// HttpMaxRequestSize
-	dapr.HttpMaxRequestSize = genruntime.ClonePointerToInt(source.HttpMaxRequestSize)
-
-	// HttpReadBufferSize
-	dapr.HttpReadBufferSize = genruntime.ClonePointerToInt(source.HttpReadBufferSize)
-
-	// LogLevel
-	if source.LogLevel != nil {
-		logLevel := genruntime.ToEnum(string(*source.LogLevel), dapr_LogLevel_Values)
-		dapr.LogLevel = &logLevel
-	} else {
-		dapr.LogLevel = nil
 	}
 
 	// No error
@@ -6272,147 +5760,6 @@ func (ingress *Ingress) AssignProperties_To_Ingress(destination *storage.Ingress
 	return nil
 }
 
-// Initialize_From_Ingress_STATUS populates our Ingress from the provided source Ingress_STATUS
-func (ingress *Ingress) Initialize_From_Ingress_STATUS(source *Ingress_STATUS) error {
-
-	// AdditionalPortMappings
-	if source.AdditionalPortMappings != nil {
-		additionalPortMappingList := make([]IngressPortMapping, len(source.AdditionalPortMappings))
-		for additionalPortMappingIndex, additionalPortMappingItem := range source.AdditionalPortMappings {
-			// Shadow the loop variable to avoid aliasing
-			additionalPortMappingItem := additionalPortMappingItem
-			var additionalPortMapping IngressPortMapping
-			err := additionalPortMapping.Initialize_From_IngressPortMapping_STATUS(&additionalPortMappingItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_IngressPortMapping_STATUS() to populate field AdditionalPortMappings")
-			}
-			additionalPortMappingList[additionalPortMappingIndex] = additionalPortMapping
-		}
-		ingress.AdditionalPortMappings = additionalPortMappingList
-	} else {
-		ingress.AdditionalPortMappings = nil
-	}
-
-	// AllowInsecure
-	if source.AllowInsecure != nil {
-		allowInsecure := *source.AllowInsecure
-		ingress.AllowInsecure = &allowInsecure
-	} else {
-		ingress.AllowInsecure = nil
-	}
-
-	// ClientCertificateMode
-	if source.ClientCertificateMode != nil {
-		clientCertificateMode := genruntime.ToEnum(string(*source.ClientCertificateMode), ingress_ClientCertificateMode_Values)
-		ingress.ClientCertificateMode = &clientCertificateMode
-	} else {
-		ingress.ClientCertificateMode = nil
-	}
-
-	// CorsPolicy
-	if source.CorsPolicy != nil {
-		var corsPolicy CorsPolicy
-		err := corsPolicy.Initialize_From_CorsPolicy_STATUS(source.CorsPolicy)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_CorsPolicy_STATUS() to populate field CorsPolicy")
-		}
-		ingress.CorsPolicy = &corsPolicy
-	} else {
-		ingress.CorsPolicy = nil
-	}
-
-	// CustomDomains
-	if source.CustomDomains != nil {
-		customDomainList := make([]CustomDomain, len(source.CustomDomains))
-		for customDomainIndex, customDomainItem := range source.CustomDomains {
-			// Shadow the loop variable to avoid aliasing
-			customDomainItem := customDomainItem
-			var customDomain CustomDomain
-			err := customDomain.Initialize_From_CustomDomain_STATUS(&customDomainItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_CustomDomain_STATUS() to populate field CustomDomains")
-			}
-			customDomainList[customDomainIndex] = customDomain
-		}
-		ingress.CustomDomains = customDomainList
-	} else {
-		ingress.CustomDomains = nil
-	}
-
-	// ExposedPort
-	ingress.ExposedPort = genruntime.ClonePointerToInt(source.ExposedPort)
-
-	// External
-	if source.External != nil {
-		external := *source.External
-		ingress.External = &external
-	} else {
-		ingress.External = nil
-	}
-
-	// IpSecurityRestrictions
-	if source.IpSecurityRestrictions != nil {
-		ipSecurityRestrictionList := make([]IpSecurityRestrictionRule, len(source.IpSecurityRestrictions))
-		for ipSecurityRestrictionIndex, ipSecurityRestrictionItem := range source.IpSecurityRestrictions {
-			// Shadow the loop variable to avoid aliasing
-			ipSecurityRestrictionItem := ipSecurityRestrictionItem
-			var ipSecurityRestriction IpSecurityRestrictionRule
-			err := ipSecurityRestriction.Initialize_From_IpSecurityRestrictionRule_STATUS(&ipSecurityRestrictionItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_IpSecurityRestrictionRule_STATUS() to populate field IpSecurityRestrictions")
-			}
-			ipSecurityRestrictionList[ipSecurityRestrictionIndex] = ipSecurityRestriction
-		}
-		ingress.IpSecurityRestrictions = ipSecurityRestrictionList
-	} else {
-		ingress.IpSecurityRestrictions = nil
-	}
-
-	// StickySessions
-	if source.StickySessions != nil {
-		var stickySession Ingress_StickySessions
-		err := stickySession.Initialize_From_Ingress_StickySessions_STATUS(source.StickySessions)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_Ingress_StickySessions_STATUS() to populate field StickySessions")
-		}
-		ingress.StickySessions = &stickySession
-	} else {
-		ingress.StickySessions = nil
-	}
-
-	// TargetPort
-	ingress.TargetPort = genruntime.ClonePointerToInt(source.TargetPort)
-
-	// Traffic
-	if source.Traffic != nil {
-		trafficList := make([]TrafficWeight, len(source.Traffic))
-		for trafficIndex, trafficItem := range source.Traffic {
-			// Shadow the loop variable to avoid aliasing
-			trafficItem := trafficItem
-			var traffic TrafficWeight
-			err := traffic.Initialize_From_TrafficWeight_STATUS(&trafficItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_TrafficWeight_STATUS() to populate field Traffic")
-			}
-			trafficList[trafficIndex] = traffic
-		}
-		ingress.Traffic = trafficList
-	} else {
-		ingress.Traffic = nil
-	}
-
-	// Transport
-	if source.Transport != nil {
-		transport := genruntime.ToEnum(string(*source.Transport), ingress_Transport_Values)
-		ingress.Transport = &transport
-	} else {
-		ingress.Transport = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Container App Ingress configuration.
 type Ingress_STATUS struct {
 	// AdditionalPortMappings: Settings to expose additional ports on container app
@@ -7068,22 +6415,6 @@ func (credentials *RegistryCredentials) AssignProperties_To_RegistryCredentials(
 	return nil
 }
 
-// Initialize_From_RegistryCredentials_STATUS populates our RegistryCredentials from the provided source RegistryCredentials_STATUS
-func (credentials *RegistryCredentials) Initialize_From_RegistryCredentials_STATUS(source *RegistryCredentials_STATUS) error {
-
-	// PasswordSecretRef
-	credentials.PasswordSecretRef = genruntime.ClonePointerToString(source.PasswordSecretRef)
-
-	// Server
-	credentials.Server = genruntime.ClonePointerToString(source.Server)
-
-	// Username
-	credentials.Username = genruntime.ClonePointerToString(source.Username)
-
-	// No error
-	return nil
-}
-
 // Container App Private Registry
 type RegistryCredentials_STATUS struct {
 	// Identity: A Managed Identity to use to authenticate with Azure Container Registry. For user-assigned identities, use the
@@ -7336,37 +6667,6 @@ func (scale *Scale) AssignProperties_To_Scale(destination *storage.Scale) error 
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Scale_STATUS populates our Scale from the provided source Scale_STATUS
-func (scale *Scale) Initialize_From_Scale_STATUS(source *Scale_STATUS) error {
-
-	// MaxReplicas
-	scale.MaxReplicas = genruntime.ClonePointerToInt(source.MaxReplicas)
-
-	// MinReplicas
-	scale.MinReplicas = genruntime.ClonePointerToInt(source.MinReplicas)
-
-	// Rules
-	if source.Rules != nil {
-		ruleList := make([]ScaleRule, len(source.Rules))
-		for ruleIndex, ruleItem := range source.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
-			var rule ScaleRule
-			err := rule.Initialize_From_ScaleRule_STATUS(&ruleItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_ScaleRule_STATUS() to populate field Rules")
-			}
-			ruleList[ruleIndex] = rule
-		}
-		scale.Rules = ruleList
-	} else {
-		scale.Rules = nil
 	}
 
 	// No error
@@ -7654,19 +6954,6 @@ func (secret *Secret) AssignProperties_To_Secret(destination *storage.Secret) er
 	return nil
 }
 
-// Initialize_From_Secret_STATUS populates our Secret from the provided source Secret_STATUS
-func (secret *Secret) Initialize_From_Secret_STATUS(source *Secret_STATUS) error {
-
-	// KeyVaultUrl
-	secret.KeyVaultUrl = genruntime.ClonePointerToString(source.KeyVaultUrl)
-
-	// Name
-	secret.Name = genruntime.ClonePointerToString(source.Name)
-
-	// No error
-	return nil
-}
-
 // Secret definition.
 type Secret_STATUS struct {
 	// Identity: Resource ID of a managed identity to authenticate with Azure Key Vault, or System to use a system-assigned
@@ -7832,16 +7119,6 @@ func (service *Service) AssignProperties_To_Service(destination *storage.Service
 	return nil
 }
 
-// Initialize_From_Service_STATUS populates our Service from the provided source Service_STATUS
-func (service *Service) Initialize_From_Service_STATUS(source *Service_STATUS) error {
-
-	// Type
-	service.Type = genruntime.ClonePointerToString(source.Type)
-
-	// No error
-	return nil
-}
-
 // Container App to be a dev service
 type Service_STATUS struct {
 	// Type: Dev ContainerApp service type
@@ -8000,24 +7277,6 @@ func (bind *ServiceBind) AssignProperties_To_ServiceBind(destination *storage.Se
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ServiceBind_STATUS populates our ServiceBind from the provided source ServiceBind_STATUS
-func (bind *ServiceBind) Initialize_From_ServiceBind_STATUS(source *ServiceBind_STATUS) error {
-
-	// Name
-	bind.Name = genruntime.ClonePointerToString(source.Name)
-
-	// ServiceReference
-	if source.ServiceId != nil {
-		serviceReference := genruntime.CreateResourceReferenceFromARMID(*source.ServiceId)
-		bind.ServiceReference = &serviceReference
-	} else {
-		bind.ServiceReference = nil
 	}
 
 	// No error
@@ -8411,48 +7670,6 @@ func (volume *Volume) AssignProperties_To_Volume(destination *storage.Volume) er
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Volume_STATUS populates our Volume from the provided source Volume_STATUS
-func (volume *Volume) Initialize_From_Volume_STATUS(source *Volume_STATUS) error {
-
-	// MountOptions
-	volume.MountOptions = genruntime.ClonePointerToString(source.MountOptions)
-
-	// Name
-	volume.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Secrets
-	if source.Secrets != nil {
-		secretList := make([]SecretVolumeItem, len(source.Secrets))
-		for secretIndex, secretItem := range source.Secrets {
-			// Shadow the loop variable to avoid aliasing
-			secretItem := secretItem
-			var secret SecretVolumeItem
-			err := secret.Initialize_From_SecretVolumeItem_STATUS(&secretItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_SecretVolumeItem_STATUS() to populate field Secrets")
-			}
-			secretList[secretIndex] = secret
-		}
-		volume.Secrets = secretList
-	} else {
-		volume.Secrets = nil
-	}
-
-	// StorageName
-	volume.StorageName = genruntime.ClonePointerToString(source.StorageName)
-
-	// StorageType
-	if source.StorageType != nil {
-		storageType := genruntime.ToEnum(string(*source.StorageType), volume_StorageType_Values)
-		volume.StorageType = &storageType
-	} else {
-		volume.StorageType = nil
 	}
 
 	// No error
@@ -8949,63 +8166,6 @@ func (probe *ContainerAppProbe) AssignProperties_To_ContainerAppProbe(destinatio
 	return nil
 }
 
-// Initialize_From_ContainerAppProbe_STATUS populates our ContainerAppProbe from the provided source ContainerAppProbe_STATUS
-func (probe *ContainerAppProbe) Initialize_From_ContainerAppProbe_STATUS(source *ContainerAppProbe_STATUS) error {
-
-	// FailureThreshold
-	probe.FailureThreshold = genruntime.ClonePointerToInt(source.FailureThreshold)
-
-	// HttpGet
-	if source.HttpGet != nil {
-		var httpGet ContainerAppProbe_HttpGet
-		err := httpGet.Initialize_From_ContainerAppProbe_HttpGet_STATUS(source.HttpGet)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ContainerAppProbe_HttpGet_STATUS() to populate field HttpGet")
-		}
-		probe.HttpGet = &httpGet
-	} else {
-		probe.HttpGet = nil
-	}
-
-	// InitialDelaySeconds
-	probe.InitialDelaySeconds = genruntime.ClonePointerToInt(source.InitialDelaySeconds)
-
-	// PeriodSeconds
-	probe.PeriodSeconds = genruntime.ClonePointerToInt(source.PeriodSeconds)
-
-	// SuccessThreshold
-	probe.SuccessThreshold = genruntime.ClonePointerToInt(source.SuccessThreshold)
-
-	// TcpSocket
-	if source.TcpSocket != nil {
-		var tcpSocket ContainerAppProbe_TcpSocket
-		err := tcpSocket.Initialize_From_ContainerAppProbe_TcpSocket_STATUS(source.TcpSocket)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ContainerAppProbe_TcpSocket_STATUS() to populate field TcpSocket")
-		}
-		probe.TcpSocket = &tcpSocket
-	} else {
-		probe.TcpSocket = nil
-	}
-
-	// TerminationGracePeriodSeconds
-	probe.TerminationGracePeriodSeconds = genruntime.ClonePointerToInt(source.TerminationGracePeriodSeconds)
-
-	// TimeoutSeconds
-	probe.TimeoutSeconds = genruntime.ClonePointerToInt(source.TimeoutSeconds)
-
-	// Type
-	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), containerAppProbe_Type_Values)
-		probe.Type = &typeVar
-	} else {
-		probe.Type = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Probe describes a health check to be performed against a container to determine whether it is alive or ready to receive
 // traffic.
 type ContainerAppProbe_STATUS struct {
@@ -9361,24 +8521,6 @@ func (resources *ContainerResources) AssignProperties_To_ContainerResources(dest
 	return nil
 }
 
-// Initialize_From_ContainerResources_STATUS populates our ContainerResources from the provided source ContainerResources_STATUS
-func (resources *ContainerResources) Initialize_From_ContainerResources_STATUS(source *ContainerResources_STATUS) error {
-
-	// Cpu
-	if source.Cpu != nil {
-		cpu := *source.Cpu
-		resources.Cpu = &cpu
-	} else {
-		resources.Cpu = nil
-	}
-
-	// Memory
-	resources.Memory = genruntime.ClonePointerToString(source.Memory)
-
-	// No error
-	return nil
-}
-
 // Container App container resource requirements.
 type ContainerResources_STATUS struct {
 	// Cpu: Required CPU in cores, e.g. 0.5
@@ -9655,36 +8797,6 @@ func (policy *CorsPolicy) AssignProperties_To_CorsPolicy(destination *storage.Co
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_CorsPolicy_STATUS populates our CorsPolicy from the provided source CorsPolicy_STATUS
-func (policy *CorsPolicy) Initialize_From_CorsPolicy_STATUS(source *CorsPolicy_STATUS) error {
-
-	// AllowCredentials
-	if source.AllowCredentials != nil {
-		allowCredential := *source.AllowCredentials
-		policy.AllowCredentials = &allowCredential
-	} else {
-		policy.AllowCredentials = nil
-	}
-
-	// AllowedHeaders
-	policy.AllowedHeaders = genruntime.CloneSliceOfString(source.AllowedHeaders)
-
-	// AllowedMethods
-	policy.AllowedMethods = genruntime.CloneSliceOfString(source.AllowedMethods)
-
-	// AllowedOrigins
-	policy.AllowedOrigins = genruntime.CloneSliceOfString(source.AllowedOrigins)
-
-	// ExposeHeaders
-	policy.ExposeHeaders = genruntime.CloneSliceOfString(source.ExposeHeaders)
-
-	// MaxAge
-	policy.MaxAge = genruntime.ClonePointerToInt(source.MaxAge)
 
 	// No error
 	return nil
@@ -9972,32 +9084,6 @@ func (domain *CustomDomain) AssignProperties_To_CustomDomain(destination *storag
 	return nil
 }
 
-// Initialize_From_CustomDomain_STATUS populates our CustomDomain from the provided source CustomDomain_STATUS
-func (domain *CustomDomain) Initialize_From_CustomDomain_STATUS(source *CustomDomain_STATUS) error {
-
-	// BindingType
-	if source.BindingType != nil {
-		bindingType := genruntime.ToEnum(string(*source.BindingType), customDomain_BindingType_Values)
-		domain.BindingType = &bindingType
-	} else {
-		domain.BindingType = nil
-	}
-
-	// CertificateReference
-	if source.CertificateId != nil {
-		certificateReference := genruntime.CreateResourceReferenceFromARMID(*source.CertificateId)
-		domain.CertificateReference = &certificateReference
-	} else {
-		domain.CertificateReference = nil
-	}
-
-	// Name
-	domain.Name = genruntime.ClonePointerToString(source.Name)
-
-	// No error
-	return nil
-}
-
 // Custom Domain of a Container App
 type CustomDomain_STATUS struct {
 	// BindingType: Custom Domain binding type.
@@ -10278,22 +9364,6 @@ func (environmentVar *EnvironmentVar) AssignProperties_To_EnvironmentVar(destina
 	return nil
 }
 
-// Initialize_From_EnvironmentVar_STATUS populates our EnvironmentVar from the provided source EnvironmentVar_STATUS
-func (environmentVar *EnvironmentVar) Initialize_From_EnvironmentVar_STATUS(source *EnvironmentVar_STATUS) error {
-
-	// Name
-	environmentVar.Name = genruntime.ClonePointerToString(source.Name)
-
-	// SecretRef
-	environmentVar.SecretRef = genruntime.ClonePointerToString(source.SecretRef)
-
-	// Value
-	environmentVar.Value = genruntime.ClonePointerToString(source.Value)
-
-	// No error
-	return nil
-}
-
 // Container App container environment variable.
 type EnvironmentVar_STATUS struct {
 	// Name: Environment variable name.
@@ -10496,21 +9566,6 @@ func (sessions *Ingress_StickySessions) AssignProperties_To_Ingress_StickySessio
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Ingress_StickySessions_STATUS populates our Ingress_StickySessions from the provided source Ingress_StickySessions_STATUS
-func (sessions *Ingress_StickySessions) Initialize_From_Ingress_StickySessions_STATUS(source *Ingress_StickySessions_STATUS) error {
-
-	// Affinity
-	if source.Affinity != nil {
-		affinity := genruntime.ToEnum(string(*source.Affinity), ingress_StickySessions_Affinity_Values)
-		sessions.Affinity = &affinity
-	} else {
-		sessions.Affinity = nil
 	}
 
 	// No error
@@ -10746,27 +9801,6 @@ func (mapping *IngressPortMapping) AssignProperties_To_IngressPortMapping(destin
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_IngressPortMapping_STATUS populates our IngressPortMapping from the provided source IngressPortMapping_STATUS
-func (mapping *IngressPortMapping) Initialize_From_IngressPortMapping_STATUS(source *IngressPortMapping_STATUS) error {
-
-	// ExposedPort
-	mapping.ExposedPort = genruntime.ClonePointerToInt(source.ExposedPort)
-
-	// External
-	if source.External != nil {
-		external := *source.External
-		mapping.External = &external
-	} else {
-		mapping.External = nil
-	}
-
-	// TargetPort
-	mapping.TargetPort = genruntime.ClonePointerToInt(source.TargetPort)
 
 	// No error
 	return nil
@@ -11021,30 +10055,6 @@ func (rule *IpSecurityRestrictionRule) AssignProperties_To_IpSecurityRestriction
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_IpSecurityRestrictionRule_STATUS populates our IpSecurityRestrictionRule from the provided source IpSecurityRestrictionRule_STATUS
-func (rule *IpSecurityRestrictionRule) Initialize_From_IpSecurityRestrictionRule_STATUS(source *IpSecurityRestrictionRule_STATUS) error {
-
-	// Action
-	if source.Action != nil {
-		action := genruntime.ToEnum(string(*source.Action), ipSecurityRestrictionRule_Action_Values)
-		rule.Action = &action
-	} else {
-		rule.Action = nil
-	}
-
-	// Description
-	rule.Description = genruntime.ClonePointerToString(source.Description)
-
-	// IpAddressRange
-	rule.IpAddressRange = genruntime.ClonePointerToString(source.IpAddressRange)
-
-	// Name
-	rule.Name = genruntime.ClonePointerToString(source.Name)
 
 	// No error
 	return nil
@@ -11433,64 +10443,6 @@ func (rule *ScaleRule) AssignProperties_To_ScaleRule(destination *storage.ScaleR
 	return nil
 }
 
-// Initialize_From_ScaleRule_STATUS populates our ScaleRule from the provided source ScaleRule_STATUS
-func (rule *ScaleRule) Initialize_From_ScaleRule_STATUS(source *ScaleRule_STATUS) error {
-
-	// AzureQueue
-	if source.AzureQueue != nil {
-		var azureQueue QueueScaleRule
-		err := azureQueue.Initialize_From_QueueScaleRule_STATUS(source.AzureQueue)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_QueueScaleRule_STATUS() to populate field AzureQueue")
-		}
-		rule.AzureQueue = &azureQueue
-	} else {
-		rule.AzureQueue = nil
-	}
-
-	// Custom
-	if source.Custom != nil {
-		var custom CustomScaleRule
-		err := custom.Initialize_From_CustomScaleRule_STATUS(source.Custom)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_CustomScaleRule_STATUS() to populate field Custom")
-		}
-		rule.Custom = &custom
-	} else {
-		rule.Custom = nil
-	}
-
-	// Http
-	if source.Http != nil {
-		var http HttpScaleRule
-		err := http.Initialize_From_HttpScaleRule_STATUS(source.Http)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_HttpScaleRule_STATUS() to populate field Http")
-		}
-		rule.Http = &http
-	} else {
-		rule.Http = nil
-	}
-
-	// Name
-	rule.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Tcp
-	if source.Tcp != nil {
-		var tcp TcpScaleRule
-		err := tcp.Initialize_From_TcpScaleRule_STATUS(source.Tcp)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_TcpScaleRule_STATUS() to populate field Tcp")
-		}
-		rule.Tcp = &tcp
-	} else {
-		rule.Tcp = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Container App container scaling rule.
 type ScaleRule_STATUS struct {
 	// AzureQueue: Azure Queue based scaling.
@@ -11797,19 +10749,6 @@ func (item *SecretVolumeItem) AssignProperties_To_SecretVolumeItem(destination *
 	return nil
 }
 
-// Initialize_From_SecretVolumeItem_STATUS populates our SecretVolumeItem from the provided source SecretVolumeItem_STATUS
-func (item *SecretVolumeItem) Initialize_From_SecretVolumeItem_STATUS(source *SecretVolumeItem_STATUS) error {
-
-	// Path
-	item.Path = genruntime.ClonePointerToString(source.Path)
-
-	// SecretRef
-	item.SecretRef = genruntime.ClonePointerToString(source.SecretRef)
-
-	// No error
-	return nil
-}
-
 // Secret to be added to volume.
 type SecretVolumeItem_STATUS struct {
 	// Path: Path to project secret to. If no path is provided, path defaults to name of secret listed in secretRef.
@@ -12026,30 +10965,6 @@ func (weight *TrafficWeight) AssignProperties_To_TrafficWeight(destination *stor
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_TrafficWeight_STATUS populates our TrafficWeight from the provided source TrafficWeight_STATUS
-func (weight *TrafficWeight) Initialize_From_TrafficWeight_STATUS(source *TrafficWeight_STATUS) error {
-
-	// Label
-	weight.Label = genruntime.ClonePointerToString(source.Label)
-
-	// LatestRevision
-	if source.LatestRevision != nil {
-		latestRevision := *source.LatestRevision
-		weight.LatestRevision = &latestRevision
-	} else {
-		weight.LatestRevision = nil
-	}
-
-	// RevisionName
-	weight.RevisionName = genruntime.ClonePointerToString(source.RevisionName)
-
-	// Weight
-	weight.Weight = genruntime.ClonePointerToInt(source.Weight)
 
 	// No error
 	return nil
@@ -12311,22 +11226,6 @@ func (mount *VolumeMount) AssignProperties_To_VolumeMount(destination *storage.V
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_VolumeMount_STATUS populates our VolumeMount from the provided source VolumeMount_STATUS
-func (mount *VolumeMount) Initialize_From_VolumeMount_STATUS(source *VolumeMount_STATUS) error {
-
-	// MountPath
-	mount.MountPath = genruntime.ClonePointerToString(source.MountPath)
-
-	// SubPath
-	mount.SubPath = genruntime.ClonePointerToString(source.SubPath)
-
-	// VolumeName
-	mount.VolumeName = genruntime.ClonePointerToString(source.VolumeName)
 
 	// No error
 	return nil
@@ -12632,48 +11531,6 @@ func (httpGet *ContainerAppProbe_HttpGet) AssignProperties_To_ContainerAppProbe_
 	return nil
 }
 
-// Initialize_From_ContainerAppProbe_HttpGet_STATUS populates our ContainerAppProbe_HttpGet from the provided source ContainerAppProbe_HttpGet_STATUS
-func (httpGet *ContainerAppProbe_HttpGet) Initialize_From_ContainerAppProbe_HttpGet_STATUS(source *ContainerAppProbe_HttpGet_STATUS) error {
-
-	// Host
-	httpGet.Host = genruntime.ClonePointerToString(source.Host)
-
-	// HttpHeaders
-	if source.HttpHeaders != nil {
-		httpHeaderList := make([]ContainerAppProbe_HttpGet_HttpHeaders, len(source.HttpHeaders))
-		for httpHeaderIndex, httpHeaderItem := range source.HttpHeaders {
-			// Shadow the loop variable to avoid aliasing
-			httpHeaderItem := httpHeaderItem
-			var httpHeader ContainerAppProbe_HttpGet_HttpHeaders
-			err := httpHeader.Initialize_From_ContainerAppProbe_HttpGet_HttpHeaders_STATUS(&httpHeaderItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_ContainerAppProbe_HttpGet_HttpHeaders_STATUS() to populate field HttpHeaders")
-			}
-			httpHeaderList[httpHeaderIndex] = httpHeader
-		}
-		httpGet.HttpHeaders = httpHeaderList
-	} else {
-		httpGet.HttpHeaders = nil
-	}
-
-	// Path
-	httpGet.Path = genruntime.ClonePointerToString(source.Path)
-
-	// Port
-	httpGet.Port = genruntime.ClonePointerToInt(source.Port)
-
-	// Scheme
-	if source.Scheme != nil {
-		scheme := genruntime.ToEnum(string(*source.Scheme), containerAppProbe_HttpGet_Scheme_Values)
-		httpGet.Scheme = &scheme
-	} else {
-		httpGet.Scheme = nil
-	}
-
-	// No error
-	return nil
-}
-
 type ContainerAppProbe_HttpGet_STATUS struct {
 	// Host: Host name to connect to, defaults to the pod IP. You probably want to set "Host" in httpHeaders instead.
 	Host *string `json:"host,omitempty"`
@@ -12931,19 +11788,6 @@ func (socket *ContainerAppProbe_TcpSocket) AssignProperties_To_ContainerAppProbe
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ContainerAppProbe_TcpSocket_STATUS populates our ContainerAppProbe_TcpSocket from the provided source ContainerAppProbe_TcpSocket_STATUS
-func (socket *ContainerAppProbe_TcpSocket) Initialize_From_ContainerAppProbe_TcpSocket_STATUS(source *ContainerAppProbe_TcpSocket_STATUS) error {
-
-	// Host
-	socket.Host = genruntime.ClonePointerToString(source.Host)
-
-	// Port
-	socket.Port = genruntime.ClonePointerToInt(source.Port)
 
 	// No error
 	return nil
@@ -13239,37 +12083,6 @@ func (rule *CustomScaleRule) AssignProperties_To_CustomScaleRule(destination *st
 	return nil
 }
 
-// Initialize_From_CustomScaleRule_STATUS populates our CustomScaleRule from the provided source CustomScaleRule_STATUS
-func (rule *CustomScaleRule) Initialize_From_CustomScaleRule_STATUS(source *CustomScaleRule_STATUS) error {
-
-	// Auth
-	if source.Auth != nil {
-		authList := make([]ScaleRuleAuth, len(source.Auth))
-		for authIndex, authItem := range source.Auth {
-			// Shadow the loop variable to avoid aliasing
-			authItem := authItem
-			var auth ScaleRuleAuth
-			err := auth.Initialize_From_ScaleRuleAuth_STATUS(&authItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_ScaleRuleAuth_STATUS() to populate field Auth")
-			}
-			authList[authIndex] = auth
-		}
-		rule.Auth = authList
-	} else {
-		rule.Auth = nil
-	}
-
-	// Metadata
-	rule.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
-
-	// Type
-	rule.Type = genruntime.ClonePointerToString(source.Type)
-
-	// No error
-	return nil
-}
-
 // Container App container Custom scaling rule.
 type CustomScaleRule_STATUS struct {
 	// Auth: Authentication secrets for the custom scale rule.
@@ -13527,34 +12340,6 @@ func (rule *HttpScaleRule) AssignProperties_To_HttpScaleRule(destination *storag
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_HttpScaleRule_STATUS populates our HttpScaleRule from the provided source HttpScaleRule_STATUS
-func (rule *HttpScaleRule) Initialize_From_HttpScaleRule_STATUS(source *HttpScaleRule_STATUS) error {
-
-	// Auth
-	if source.Auth != nil {
-		authList := make([]ScaleRuleAuth, len(source.Auth))
-		for authIndex, authItem := range source.Auth {
-			// Shadow the loop variable to avoid aliasing
-			authItem := authItem
-			var auth ScaleRuleAuth
-			err := auth.Initialize_From_ScaleRuleAuth_STATUS(&authItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_ScaleRuleAuth_STATUS() to populate field Auth")
-			}
-			authList[authIndex] = auth
-		}
-		rule.Auth = authList
-	} else {
-		rule.Auth = nil
-	}
-
-	// Metadata
-	rule.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
 
 	// No error
 	return nil
@@ -13877,37 +12662,6 @@ func (rule *QueueScaleRule) AssignProperties_To_QueueScaleRule(destination *stor
 	return nil
 }
 
-// Initialize_From_QueueScaleRule_STATUS populates our QueueScaleRule from the provided source QueueScaleRule_STATUS
-func (rule *QueueScaleRule) Initialize_From_QueueScaleRule_STATUS(source *QueueScaleRule_STATUS) error {
-
-	// Auth
-	if source.Auth != nil {
-		authList := make([]ScaleRuleAuth, len(source.Auth))
-		for authIndex, authItem := range source.Auth {
-			// Shadow the loop variable to avoid aliasing
-			authItem := authItem
-			var auth ScaleRuleAuth
-			err := auth.Initialize_From_ScaleRuleAuth_STATUS(&authItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_ScaleRuleAuth_STATUS() to populate field Auth")
-			}
-			authList[authIndex] = auth
-		}
-		rule.Auth = authList
-	} else {
-		rule.Auth = nil
-	}
-
-	// QueueLength
-	rule.QueueLength = genruntime.ClonePointerToInt(source.QueueLength)
-
-	// QueueName
-	rule.QueueName = genruntime.ClonePointerToString(source.QueueName)
-
-	// No error
-	return nil
-}
-
 // Container App container Azure Queue based scaling rule.
 type QueueScaleRule_STATUS struct {
 	// Auth: Authentication secrets for the queue scale rule.
@@ -14167,34 +12921,6 @@ func (rule *TcpScaleRule) AssignProperties_To_TcpScaleRule(destination *storage.
 	return nil
 }
 
-// Initialize_From_TcpScaleRule_STATUS populates our TcpScaleRule from the provided source TcpScaleRule_STATUS
-func (rule *TcpScaleRule) Initialize_From_TcpScaleRule_STATUS(source *TcpScaleRule_STATUS) error {
-
-	// Auth
-	if source.Auth != nil {
-		authList := make([]ScaleRuleAuth, len(source.Auth))
-		for authIndex, authItem := range source.Auth {
-			// Shadow the loop variable to avoid aliasing
-			authItem := authItem
-			var auth ScaleRuleAuth
-			err := auth.Initialize_From_ScaleRuleAuth_STATUS(&authItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_ScaleRuleAuth_STATUS() to populate field Auth")
-			}
-			authList[authIndex] = auth
-		}
-		rule.Auth = authList
-	} else {
-		rule.Auth = nil
-	}
-
-	// Metadata
-	rule.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
-
-	// No error
-	return nil
-}
-
 // Container App container Tcp scaling rule.
 type TcpScaleRule_STATUS struct {
 	// Auth: Authentication secrets for the tcp scale rule.
@@ -14401,19 +13127,6 @@ func (headers *ContainerAppProbe_HttpGet_HttpHeaders) AssignProperties_To_Contai
 	return nil
 }
 
-// Initialize_From_ContainerAppProbe_HttpGet_HttpHeaders_STATUS populates our ContainerAppProbe_HttpGet_HttpHeaders from the provided source ContainerAppProbe_HttpGet_HttpHeaders_STATUS
-func (headers *ContainerAppProbe_HttpGet_HttpHeaders) Initialize_From_ContainerAppProbe_HttpGet_HttpHeaders_STATUS(source *ContainerAppProbe_HttpGet_HttpHeaders_STATUS) error {
-
-	// Name
-	headers.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Value
-	headers.Value = genruntime.ClonePointerToString(source.Value)
-
-	// No error
-	return nil
-}
-
 type ContainerAppProbe_HttpGet_HttpHeaders_STATUS struct {
 	// Name: The header field name
 	Name *string `json:"name,omitempty"`
@@ -14604,19 +13317,6 @@ func (auth *ScaleRuleAuth) AssignProperties_To_ScaleRuleAuth(destination *storag
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ScaleRuleAuth_STATUS populates our ScaleRuleAuth from the provided source ScaleRuleAuth_STATUS
-func (auth *ScaleRuleAuth) Initialize_From_ScaleRuleAuth_STATUS(source *ScaleRuleAuth_STATUS) error {
-
-	// SecretRef
-	auth.SecretRef = genruntime.ClonePointerToString(source.SecretRef)
-
-	// TriggerParameter
-	auth.TriggerParameter = genruntime.ClonePointerToString(source.TriggerParameter)
 
 	// No error
 	return nil
