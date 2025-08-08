@@ -192,6 +192,9 @@ import (
 	eventhub_v20240101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20240101/storage"
 	eventhub_v20240101w "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20240101/webhook"
 	insights_customizations "github.com/Azure/azure-service-operator/v2/api/insights/customizations"
+	insights_v20171001 "github.com/Azure/azure-service-operator/v2/api/insights/v1api20171001"
+	insights_v20171001s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20171001/storage"
+	insights_v20171001w "github.com/Azure/azure-service-operator/v2/api/insights/v1api20171001/webhook"
 	insights_v20180301 "github.com/Azure/azure-service-operator/v2/api/insights/v1api20180301"
 	insights_v20180301s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20180301/storage"
 	insights_v20180301w "github.com/Azure/azure-service-operator/v2/api/insights/v1api20180301/webhook"
@@ -201,6 +204,9 @@ import (
 	insights_v20200202 "github.com/Azure/azure-service-operator/v2/api/insights/v1api20200202"
 	insights_v20200202s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20200202/storage"
 	insights_v20200202w "github.com/Azure/azure-service-operator/v2/api/insights/v1api20200202/webhook"
+	insights_v20201001 "github.com/Azure/azure-service-operator/v2/api/insights/v1api20201001"
+	insights_v20201001s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20201001/storage"
+	insights_v20201001w "github.com/Azure/azure-service-operator/v2/api/insights/v1api20201001/webhook"
 	insights_v20210501p "github.com/Azure/azure-service-operator/v2/api/insights/v1api20210501preview"
 	insights_v20210501ps "github.com/Azure/azure-service-operator/v2/api/insights/v1api20210501preview/storage"
 	insights_v20210501pw "github.com/Azure/azure-service-operator/v2/api/insights/v1api20210501preview/webhook"
@@ -213,6 +219,9 @@ import (
 	insights_v20230101 "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230101"
 	insights_v20230101s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230101/storage"
 	insights_v20230101w "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230101/webhook"
+	insights_v20230311 "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230311"
+	insights_v20230311s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230311/storage"
+	insights_v20230311w "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230311/webhook"
 	insights_v20240101p "github.com/Azure/azure-service-operator/v2/api/insights/v1api20240101preview"
 	insights_v20240101ps "github.com/Azure/azure-service-operator/v2/api/insights/v1api20240101preview/storage"
 	insights_v20240101pw "github.com/Azure/azure-service-operator/v2/api/insights/v1api20240101preview/webhook"
@@ -1259,13 +1268,17 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(eventhub_v20240101s.NamespacesEventhub)})
 	result = append(result, &registration.StorageType{Obj: new(eventhub_v20240101s.NamespacesEventhubsAuthorizationRule)})
 	result = append(result, &registration.StorageType{Obj: new(eventhub_v20240101s.NamespacesEventhubsConsumerGroup)})
+	result = append(result, &registration.StorageType{Obj: new(insights_v20171001s.PricingPlan)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20180301s.MetricAlert)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20200202s.Component)})
+	result = append(result, &registration.StorageType{Obj: new(insights_v20201001s.ActivityLogAlert)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20210501ps.DiagnosticSetting)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20220615s.ScheduledQueryRule)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20220615s.Webtest)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20221001s.AutoscaleSetting)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20230101s.ActionGroup)})
+	result = append(result, &registration.StorageType{Obj: new(insights_v20230311s.DataCollectionEndpoint)})
+	result = append(result, &registration.StorageType{Obj: new(insights_v20230311s.DataCollectionRuleAssociation)})
 	result = append(result, &registration.StorageType{
 		Obj: new(keyvault_v20230701s.Vault),
 		Indexes: []registration.Index{
@@ -3882,6 +3895,12 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(eventhub_v20240101s.NamespacesEventhubsAuthorizationRule)},
 		&registration.KnownType{Obj: new(eventhub_v20240101s.NamespacesEventhubsConsumerGroup)})
 	result = append(result, &registration.KnownType{
+		Obj:       new(insights_v20171001.PricingPlan),
+		Defaulter: &insights_v20171001w.PricingPlan{},
+		Validator: &insights_v20171001w.PricingPlan{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(insights_v20171001s.PricingPlan)})
+	result = append(result, &registration.KnownType{
 		Obj:       new(insights_v20180301.MetricAlert),
 		Defaulter: &insights_v20180301w.MetricAlert{},
 		Validator: &insights_v20180301w.MetricAlert{},
@@ -3899,6 +3918,12 @@ func getKnownTypes() []*registration.KnownType {
 		Validator: &insights_v20200202w.Component{},
 	})
 	result = append(result, &registration.KnownType{Obj: new(insights_v20200202s.Component)})
+	result = append(result, &registration.KnownType{
+		Obj:       new(insights_v20201001.ActivityLogAlert),
+		Defaulter: &insights_v20201001w.ActivityLogAlert{},
+		Validator: &insights_v20201001w.ActivityLogAlert{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(insights_v20201001s.ActivityLogAlert)})
 	result = append(result, &registration.KnownType{
 		Obj:       new(insights_v20210501p.DiagnosticSetting),
 		Defaulter: &insights_v20210501pw.DiagnosticSetting{},
@@ -3927,6 +3952,16 @@ func getKnownTypes() []*registration.KnownType {
 		Validator: &insights_v20230101w.ActionGroup{},
 	})
 	result = append(result, &registration.KnownType{Obj: new(insights_v20230101s.ActionGroup)})
+	result = append(result, &registration.KnownType{
+		Obj:       new(insights_v20230311.DataCollectionEndpoint),
+		Defaulter: &insights_v20230311w.DataCollectionEndpoint{},
+		Validator: &insights_v20230311w.DataCollectionEndpoint{},
+	}, &registration.KnownType{
+		Obj:       new(insights_v20230311.DataCollectionRuleAssociation),
+		Defaulter: &insights_v20230311w.DataCollectionRuleAssociation{},
+		Validator: &insights_v20230311w.DataCollectionRuleAssociation{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(insights_v20230311s.DataCollectionEndpoint)}, &registration.KnownType{Obj: new(insights_v20230311s.DataCollectionRuleAssociation)})
 	result = append(result, &registration.KnownType{
 		Obj:       new(insights_v20240101p.ScheduledQueryRule),
 		Defaulter: &insights_v20240101pw.ScheduledQueryRule{},
@@ -5294,12 +5329,16 @@ func createScheme() *runtime.Scheme {
 	_ = eventhub_v20211101s.AddToScheme(scheme)
 	_ = eventhub_v20240101.AddToScheme(scheme)
 	_ = eventhub_v20240101s.AddToScheme(scheme)
+	_ = insights_v20171001.AddToScheme(scheme)
+	_ = insights_v20171001s.AddToScheme(scheme)
 	_ = insights_v20180301.AddToScheme(scheme)
 	_ = insights_v20180301s.AddToScheme(scheme)
 	_ = insights_v20180501p.AddToScheme(scheme)
 	_ = insights_v20180501ps.AddToScheme(scheme)
 	_ = insights_v20200202.AddToScheme(scheme)
 	_ = insights_v20200202s.AddToScheme(scheme)
+	_ = insights_v20201001.AddToScheme(scheme)
+	_ = insights_v20201001s.AddToScheme(scheme)
 	_ = insights_v20210501p.AddToScheme(scheme)
 	_ = insights_v20210501ps.AddToScheme(scheme)
 	_ = insights_v20220615.AddToScheme(scheme)
@@ -5308,6 +5347,8 @@ func createScheme() *runtime.Scheme {
 	_ = insights_v20221001s.AddToScheme(scheme)
 	_ = insights_v20230101.AddToScheme(scheme)
 	_ = insights_v20230101s.AddToScheme(scheme)
+	_ = insights_v20230311.AddToScheme(scheme)
+	_ = insights_v20230311s.AddToScheme(scheme)
 	_ = insights_v20240101p.AddToScheme(scheme)
 	_ = insights_v20240101ps.AddToScheme(scheme)
 	_ = keyvault_v20210401p.AddToScheme(scheme)
@@ -5505,10 +5546,14 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &eventhub_customizations.NamespacesEventhubsAuthorizationRuleExtension{})
 	result = append(result, &eventhub_customizations.NamespacesEventhubsConsumerGroupExtension{})
 	result = append(result, &insights_customizations.ActionGroupExtension{})
+	result = append(result, &insights_customizations.ActivityLogAlertExtension{})
 	result = append(result, &insights_customizations.AutoscaleSettingExtension{})
 	result = append(result, &insights_customizations.ComponentExtension{})
+	result = append(result, &insights_customizations.DataCollectionEndpointExtension{})
+	result = append(result, &insights_customizations.DataCollectionRuleAssociationExtension{})
 	result = append(result, &insights_customizations.DiagnosticSettingExtension{})
 	result = append(result, &insights_customizations.MetricAlertExtension{})
+	result = append(result, &insights_customizations.PricingPlanExtension{})
 	result = append(result, &insights_customizations.ScheduledQueryRuleExtension{})
 	result = append(result, &insights_customizations.WebtestExtension{})
 	result = append(result, &keyvault_customizations.VaultExtension{})

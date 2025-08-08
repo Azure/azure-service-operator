@@ -53,7 +53,9 @@ func SortPackageReferencesByPathAndVersion(packages []PackageReference) {
 		})
 }
 
-// ComparePathAndVersion compares two paths containing versions and returns true if left should go before right
+// ComparePathAndVersion compares two paths containing versions
+// and returns < 0 if left should go before right,
+// > 0 if right should go before left, and 0 if they are equal.
 func ComparePathAndVersion(left string, right string) int {
 	comparer := versionComparer{
 		left:  []rune(left),

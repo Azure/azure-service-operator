@@ -15,7 +15,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
-func Test_Insights_ActionGroup_CRUD(t *testing.T) {
+func Test_Insights_ActionGroup_v20230101_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
