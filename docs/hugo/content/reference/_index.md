@@ -74,6 +74,17 @@ These are older versions of resources still available for use in the current rel
 
 To install the CRDs for these resources, your ASO configuration must include `app.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+| Resource           | ARM Version | CRD Version   | Supported From | Sample |
+|--------------------|-------------|---------------|----------------|--------|
+| AuthConfig         | 2025-01-01  | v1api20250101 | v2.15.0        | -      |
+| ContainerApp       | 2025-01-01  | v1api20250101 | v2.15.0        | -      |
+| Job                | 2025-01-01  | v1api20250101 | v2.15.0        | -      |
+| ManagedEnvironment | 2025-01-01  | v1api20250101 | v2.15.0        | -      |
+
 ### Released
 
 These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.

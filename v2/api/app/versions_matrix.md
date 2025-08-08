@@ -1,245 +1,256 @@
-| Type Definitions in package "app"                                        | v1api20240301 |
-|--------------------------------------------------------------------------|---------------|
-| APIVersion                                                               | v1api20240301 |
-| AllowedAudiencesValidation                                               | v1api20240301 |
-| AllowedAudiencesValidation_STATUS                                        | v1api20240301 |
-| AllowedPrincipals                                                        | v1api20240301 |
-| AllowedPrincipals_STATUS                                                 | v1api20240301 |
-| AppLogsConfiguration                                                     | v1api20240301 |
-| AppLogsConfiguration_STATUS                                              | v1api20240301 |
-| AppRegistration                                                          | v1api20240301 |
-| AppRegistration_STATUS                                                   | v1api20240301 |
-| Apple                                                                    | v1api20240301 |
-| AppleRegistration                                                        | v1api20240301 |
-| AppleRegistration_STATUS                                                 | v1api20240301 |
-| Apple_STATUS                                                             | v1api20240301 |
-| AuthConfig                                                               | v1api20240301 |
-| AuthConfig_STATUS                                                        | v1api20240301 |
-| AuthConfig_Spec                                                          | v1api20240301 |
-| AuthPlatform                                                             | v1api20240301 |
-| AuthPlatform_STATUS                                                      | v1api20240301 |
-| AzureActiveDirectory                                                     | v1api20240301 |
-| AzureActiveDirectoryLogin                                                | v1api20240301 |
-| AzureActiveDirectoryLogin_STATUS                                         | v1api20240301 |
-| AzureActiveDirectoryRegistration                                         | v1api20240301 |
-| AzureActiveDirectoryRegistration_STATUS                                  | v1api20240301 |
-| AzureActiveDirectoryValidation                                           | v1api20240301 |
-| AzureActiveDirectoryValidation_STATUS                                    | v1api20240301 |
-| AzureActiveDirectory_STATUS                                              | v1api20240301 |
-| AzureStaticWebApps                                                       | v1api20240301 |
-| AzureStaticWebAppsRegistration                                           | v1api20240301 |
-| AzureStaticWebAppsRegistration_STATUS                                    | v1api20240301 |
-| AzureStaticWebApps_STATUS                                                | v1api20240301 |
-| BaseContainer                                                            | v1api20240301 |
-| BaseContainer_STATUS                                                     | v1api20240301 |
-| BlobStorageTokenStore                                                    | v1api20240301 |
-| BlobStorageTokenStore_STATUS                                             | v1api20240301 |
-| ClientRegistration                                                       | v1api20240301 |
-| ClientRegistration_STATUS                                                | v1api20240301 |
-| Configuration                                                            | v1api20240301 |
-| Configuration_ActiveRevisionsMode                                        | v1api20240301 |
-| Configuration_ActiveRevisionsMode_STATUS                                 | v1api20240301 |
-| Configuration_STATUS                                                     | v1api20240301 |
-| Container                                                                | v1api20240301 |
-| ContainerApp                                                             | v1api20240301 |
-| ContainerAppProbe                                                        | v1api20240301 |
-| ContainerAppProbe_HttpGet                                                | v1api20240301 |
-| ContainerAppProbe_HttpGet_HttpHeaders                                    | v1api20240301 |
-| ContainerAppProbe_HttpGet_HttpHeaders_STATUS                             | v1api20240301 |
-| ContainerAppProbe_HttpGet_STATUS                                         | v1api20240301 |
-| ContainerAppProbe_HttpGet_Scheme                                         | v1api20240301 |
-| ContainerAppProbe_HttpGet_Scheme_STATUS                                  | v1api20240301 |
-| ContainerAppProbe_STATUS                                                 | v1api20240301 |
-| ContainerAppProbe_TcpSocket                                              | v1api20240301 |
-| ContainerAppProbe_TcpSocket_STATUS                                       | v1api20240301 |
-| ContainerAppProbe_Type                                                   | v1api20240301 |
-| ContainerAppProbe_Type_STATUS                                            | v1api20240301 |
-| ContainerApp_Properties_ProvisioningState_STATUS                         | v1api20240301 |
-| ContainerApp_Properties_STATUS                                           | v1api20240301 |
-| ContainerApp_Properties_Spec                                             | v1api20240301 |
-| ContainerApp_STATUS                                                      | v1api20240301 |
-| ContainerApp_Spec                                                        | v1api20240301 |
-| ContainerApps_AuthConfig_Properties_STATUS                               | v1api20240301 |
-| ContainerApps_AuthConfig_Properties_Spec                                 | v1api20240301 |
-| ContainerResources                                                       | v1api20240301 |
-| ContainerResources_STATUS                                                | v1api20240301 |
-| Container_STATUS                                                         | v1api20240301 |
-| CookieExpiration                                                         | v1api20240301 |
-| CookieExpiration_Convention                                              | v1api20240301 |
-| CookieExpiration_Convention_STATUS                                       | v1api20240301 |
-| CookieExpiration_STATUS                                                  | v1api20240301 |
-| CorsPolicy                                                               | v1api20240301 |
-| CorsPolicy_STATUS                                                        | v1api20240301 |
-| CustomDomain                                                             | v1api20240301 |
-| CustomDomainConfiguration                                                | v1api20240301 |
-| CustomDomainConfiguration_STATUS                                         | v1api20240301 |
-| CustomDomain_BindingType                                                 | v1api20240301 |
-| CustomDomain_BindingType_STATUS                                          | v1api20240301 |
-| CustomDomain_STATUS                                                      | v1api20240301 |
-| CustomOpenIdConnectProvider                                              | v1api20240301 |
-| CustomOpenIdConnectProvider_STATUS                                       | v1api20240301 |
-| CustomScaleRule                                                          | v1api20240301 |
-| CustomScaleRule_STATUS                                                   | v1api20240301 |
-| Dapr                                                                     | v1api20240301 |
-| DaprConfiguration_STATUS                                                 | v1api20240301 |
-| Dapr_AppProtocol                                                         | v1api20240301 |
-| Dapr_AppProtocol_STATUS                                                  | v1api20240301 |
-| Dapr_LogLevel                                                            | v1api20240301 |
-| Dapr_LogLevel_STATUS                                                     | v1api20240301 |
-| Dapr_STATUS                                                              | v1api20240301 |
-| DefaultAuthorizationPolicy                                               | v1api20240301 |
-| DefaultAuthorizationPolicy_STATUS                                        | v1api20240301 |
-| EncryptionSettings                                                       | v1api20240301 |
-| EncryptionSettings_STATUS                                                | v1api20240301 |
-| EnvironmentVar                                                           | v1api20240301 |
-| EnvironmentVar_STATUS                                                    | v1api20240301 |
-| ExtendedLocation                                                         | v1api20240301 |
-| ExtendedLocationType                                                     | v1api20240301 |
-| ExtendedLocationType_STATUS                                              | v1api20240301 |
-| ExtendedLocation_STATUS                                                  | v1api20240301 |
-| Facebook                                                                 | v1api20240301 |
-| Facebook_STATUS                                                          | v1api20240301 |
-| ForwardProxy                                                             | v1api20240301 |
-| ForwardProxy_Convention                                                  | v1api20240301 |
-| ForwardProxy_Convention_STATUS                                           | v1api20240301 |
-| ForwardProxy_STATUS                                                      | v1api20240301 |
-| GitHub                                                                   | v1api20240301 |
-| GitHub_STATUS                                                            | v1api20240301 |
-| GlobalValidation                                                         | v1api20240301 |
-| GlobalValidation_STATUS                                                  | v1api20240301 |
-| GlobalValidation_UnauthenticatedClientAction                             | v1api20240301 |
-| GlobalValidation_UnauthenticatedClientAction_STATUS                      | v1api20240301 |
-| Google                                                                   | v1api20240301 |
-| Google_STATUS                                                            | v1api20240301 |
-| HttpScaleRule                                                            | v1api20240301 |
-| HttpScaleRule_STATUS                                                     | v1api20240301 |
-| HttpSettings                                                             | v1api20240301 |
-| HttpSettingsRoutes                                                       | v1api20240301 |
-| HttpSettingsRoutes_STATUS                                                | v1api20240301 |
-| HttpSettings_STATUS                                                      | v1api20240301 |
-| IdentityProviders                                                        | v1api20240301 |
-| IdentityProviders_STATUS                                                 | v1api20240301 |
-| Ingress                                                                  | v1api20240301 |
-| IngressPortMapping                                                       | v1api20240301 |
-| IngressPortMapping_STATUS                                                | v1api20240301 |
-| Ingress_ClientCertificateMode                                            | v1api20240301 |
-| Ingress_ClientCertificateMode_STATUS                                     | v1api20240301 |
-| Ingress_STATUS                                                           | v1api20240301 |
-| Ingress_StickySessions                                                   | v1api20240301 |
-| Ingress_StickySessions_Affinity                                          | v1api20240301 |
-| Ingress_StickySessions_Affinity_STATUS                                   | v1api20240301 |
-| Ingress_StickySessions_STATUS                                            | v1api20240301 |
-| Ingress_Transport                                                        | v1api20240301 |
-| Ingress_Transport_STATUS                                                 | v1api20240301 |
-| IpSecurityRestrictionRule                                                | v1api20240301 |
-| IpSecurityRestrictionRule_Action                                         | v1api20240301 |
-| IpSecurityRestrictionRule_Action_STATUS                                  | v1api20240301 |
-| IpSecurityRestrictionRule_STATUS                                         | v1api20240301 |
-| Job                                                                      | v1api20240301 |
-| JobConfiguration                                                         | v1api20240301 |
-| JobConfiguration_EventTriggerConfig                                      | v1api20240301 |
-| JobConfiguration_EventTriggerConfig_STATUS                               | v1api20240301 |
-| JobConfiguration_ManualTriggerConfig                                     | v1api20240301 |
-| JobConfiguration_ManualTriggerConfig_STATUS                              | v1api20240301 |
-| JobConfiguration_STATUS                                                  | v1api20240301 |
-| JobConfiguration_ScheduleTriggerConfig                                   | v1api20240301 |
-| JobConfiguration_ScheduleTriggerConfig_STATUS                            | v1api20240301 |
-| JobConfiguration_TriggerType                                             | v1api20240301 |
-| JobConfiguration_TriggerType_STATUS                                      | v1api20240301 |
-| JobScale                                                                 | v1api20240301 |
-| JobScaleRule                                                             | v1api20240301 |
-| JobScaleRule_STATUS                                                      | v1api20240301 |
-| JobScale_STATUS                                                          | v1api20240301 |
-| JobTemplate                                                              | v1api20240301 |
-| JobTemplate_STATUS                                                       | v1api20240301 |
-| Job_Properties_ProvisioningState_STATUS                                  | v1api20240301 |
-| Job_Properties_STATUS                                                    | v1api20240301 |
-| Job_Properties_Spec                                                      | v1api20240301 |
-| Job_STATUS                                                               | v1api20240301 |
-| Job_Spec                                                                 | v1api20240301 |
-| JwtClaimChecks                                                           | v1api20240301 |
-| JwtClaimChecks_STATUS                                                    | v1api20240301 |
-| KedaConfiguration_STATUS                                                 | v1api20240301 |
-| LogAnalyticsConfiguration                                                | v1api20240301 |
-| LogAnalyticsConfiguration_STATUS                                         | v1api20240301 |
-| Login                                                                    | v1api20240301 |
-| LoginRoutes                                                              | v1api20240301 |
-| LoginRoutes_STATUS                                                       | v1api20240301 |
-| LoginScopes                                                              | v1api20240301 |
-| LoginScopes_STATUS                                                       | v1api20240301 |
-| Login_STATUS                                                             | v1api20240301 |
-| ManagedEnvironment                                                       | v1api20240301 |
-| ManagedEnvironment_Properties_PeerAuthentication_STATUS                  | v1api20240301 |
-| ManagedEnvironment_Properties_PeerAuthentication_Spec                    | v1api20240301 |
-| ManagedEnvironment_Properties_PeerTrafficConfiguration_Encryption_STATUS | v1api20240301 |
-| ManagedEnvironment_Properties_PeerTrafficConfiguration_Encryption_Spec   | v1api20240301 |
-| ManagedEnvironment_Properties_PeerTrafficConfiguration_STATUS            | v1api20240301 |
-| ManagedEnvironment_Properties_PeerTrafficConfiguration_Spec              | v1api20240301 |
-| ManagedEnvironment_Properties_ProvisioningState_STATUS                   | v1api20240301 |
-| ManagedEnvironment_Properties_STATUS                                     | v1api20240301 |
-| ManagedEnvironment_Properties_Spec                                       | v1api20240301 |
-| ManagedEnvironment_STATUS                                                | v1api20240301 |
-| ManagedEnvironment_Spec                                                  | v1api20240301 |
-| ManagedServiceIdentity                                                   | v1api20240301 |
-| ManagedServiceIdentityType                                               | v1api20240301 |
-| ManagedServiceIdentityType_STATUS                                        | v1api20240301 |
-| ManagedServiceIdentity_STATUS                                            | v1api20240301 |
-| Mtls                                                                     | v1api20240301 |
-| Mtls_STATUS                                                              | v1api20240301 |
-| Nonce                                                                    | v1api20240301 |
-| Nonce_STATUS                                                             | v1api20240301 |
-| OpenIdConnectClientCredential                                            | v1api20240301 |
-| OpenIdConnectClientCredential_Method                                     | v1api20240301 |
-| OpenIdConnectClientCredential_Method_STATUS                              | v1api20240301 |
-| OpenIdConnectClientCredential_STATUS                                     | v1api20240301 |
-| OpenIdConnectConfig                                                      | v1api20240301 |
-| OpenIdConnectConfig_STATUS                                               | v1api20240301 |
-| OpenIdConnectLogin                                                       | v1api20240301 |
-| OpenIdConnectLogin_STATUS                                                | v1api20240301 |
-| OpenIdConnectRegistration                                                | v1api20240301 |
-| OpenIdConnectRegistration_STATUS                                         | v1api20240301 |
-| QueueScaleRule                                                           | v1api20240301 |
-| QueueScaleRule_STATUS                                                    | v1api20240301 |
-| RegistryCredentials                                                      | v1api20240301 |
-| RegistryCredentials_STATUS                                               | v1api20240301 |
-| Scale                                                                    | v1api20240301 |
-| ScaleRule                                                                | v1api20240301 |
-| ScaleRuleAuth                                                            | v1api20240301 |
-| ScaleRuleAuth_STATUS                                                     | v1api20240301 |
-| ScaleRule_STATUS                                                         | v1api20240301 |
-| Scale_STATUS                                                             | v1api20240301 |
-| Secret                                                                   | v1api20240301 |
-| SecretVolumeItem                                                         | v1api20240301 |
-| SecretVolumeItem_STATUS                                                  | v1api20240301 |
-| Secret_STATUS                                                            | v1api20240301 |
-| Service                                                                  | v1api20240301 |
-| ServiceBind                                                              | v1api20240301 |
-| ServiceBind_STATUS                                                       | v1api20240301 |
-| Service_STATUS                                                           | v1api20240301 |
-| SystemData_CreatedByType_STATUS                                          | v1api20240301 |
-| SystemData_LastModifiedByType_STATUS                                     | v1api20240301 |
-| SystemData_STATUS                                                        | v1api20240301 |
-| TcpScaleRule                                                             | v1api20240301 |
-| TcpScaleRule_STATUS                                                      | v1api20240301 |
-| Template                                                                 | v1api20240301 |
-| Template_STATUS                                                          | v1api20240301 |
-| TokenStore                                                               | v1api20240301 |
-| TokenStore_STATUS                                                        | v1api20240301 |
-| TrafficWeight                                                            | v1api20240301 |
-| TrafficWeight_STATUS                                                     | v1api20240301 |
-| Twitter                                                                  | v1api20240301 |
-| TwitterRegistration                                                      | v1api20240301 |
-| TwitterRegistration_STATUS                                               | v1api20240301 |
-| Twitter_STATUS                                                           | v1api20240301 |
-| UserAssignedIdentityDetails                                              | v1api20240301 |
-| UserAssignedIdentity_STATUS                                              | v1api20240301 |
-| VnetConfiguration                                                        | v1api20240301 |
-| VnetConfiguration_STATUS                                                 | v1api20240301 |
-| Volume                                                                   | v1api20240301 |
-| VolumeMount                                                              | v1api20240301 |
-| VolumeMount_STATUS                                                       | v1api20240301 |
-| Volume_STATUS                                                            | v1api20240301 |
-| Volume_StorageType                                                       | v1api20240301 |
-| Volume_StorageType_STATUS                                                | v1api20240301 |
-| WorkloadProfile                                                          | v1api20240301 |
-| WorkloadProfile_STATUS                                                   | v1api20240301 |
+| Type Definitions in package "app"                                        | v1api20240301 | v1api20250101 |
+|--------------------------------------------------------------------------|---------------|---------------|
+| APIVersion                                                               | v1api20240301 | v1api20250101 |
+| AllowedAudiencesValidation                                               | v1api20240301 | v1api20250101 |
+| AllowedAudiencesValidation_STATUS                                        | v1api20240301 | v1api20250101 |
+| AllowedPrincipals                                                        | v1api20240301 | v1api20250101 |
+| AllowedPrincipals_STATUS                                                 | v1api20240301 | v1api20250101 |
+| AppLogsConfiguration                                                     | v1api20240301 | v1api20250101 |
+| AppLogsConfiguration_STATUS                                              | v1api20240301 | v1api20250101 |
+| AppRegistration                                                          | v1api20240301 | v1api20250101 |
+| AppRegistration_STATUS                                                   | v1api20240301 | v1api20250101 |
+| Apple                                                                    | v1api20240301 | v1api20250101 |
+| AppleRegistration                                                        | v1api20240301 | v1api20250101 |
+| AppleRegistration_STATUS                                                 | v1api20240301 | v1api20250101 |
+| Apple_STATUS                                                             | v1api20240301 | v1api20250101 |
+| AuthConfig                                                               | v1api20240301 | v1api20250101 |
+| AuthConfig_STATUS                                                        | v1api20240301 | v1api20250101 |
+| AuthConfig_Spec                                                          | v1api20240301 | v1api20250101 |
+| AuthPlatform                                                             | v1api20240301 | v1api20250101 |
+| AuthPlatform_STATUS                                                      | v1api20240301 | v1api20250101 |
+| AzureActiveDirectory                                                     | v1api20240301 | v1api20250101 |
+| AzureActiveDirectoryLogin                                                | v1api20240301 | v1api20250101 |
+| AzureActiveDirectoryLogin_STATUS                                         | v1api20240301 | v1api20250101 |
+| AzureActiveDirectoryRegistration                                         | v1api20240301 | v1api20250101 |
+| AzureActiveDirectoryRegistration_STATUS                                  | v1api20240301 | v1api20250101 |
+| AzureActiveDirectoryValidation                                           | v1api20240301 | v1api20250101 |
+| AzureActiveDirectoryValidation_STATUS                                    | v1api20240301 | v1api20250101 |
+| AzureActiveDirectory_STATUS                                              | v1api20240301 | v1api20250101 |
+| AzureStaticWebApps                                                       | v1api20240301 | v1api20250101 |
+| AzureStaticWebAppsRegistration                                           | v1api20240301 | v1api20250101 |
+| AzureStaticWebAppsRegistration_STATUS                                    | v1api20240301 | v1api20250101 |
+| AzureStaticWebApps_STATUS                                                | v1api20240301 | v1api20250101 |
+| BaseContainer                                                            | v1api20240301 | v1api20250101 |
+| BaseContainer_STATUS                                                     | v1api20240301 | v1api20250101 |
+| BlobStorageTokenStore                                                    | v1api20240301 | v1api20250101 |
+| BlobStorageTokenStore_STATUS                                             | v1api20240301 | v1api20250101 |
+| CertificateKeyVaultProperties                                            |               | v1api20250101 |
+| CertificateKeyVaultProperties_STATUS                                     |               | v1api20250101 |
+| ClientRegistration                                                       | v1api20240301 | v1api20250101 |
+| ClientRegistration_STATUS                                                | v1api20240301 | v1api20250101 |
+| Configuration                                                            | v1api20240301 | v1api20250101 |
+| Configuration_ActiveRevisionsMode                                        | v1api20240301 | v1api20250101 |
+| Configuration_ActiveRevisionsMode_STATUS                                 | v1api20240301 | v1api20250101 |
+| Configuration_STATUS                                                     | v1api20240301 | v1api20250101 |
+| Container                                                                | v1api20240301 | v1api20250101 |
+| ContainerApp                                                             | v1api20240301 | v1api20250101 |
+| ContainerAppProbe                                                        | v1api20240301 | v1api20250101 |
+| ContainerAppProbe_HttpGet                                                | v1api20240301 | v1api20250101 |
+| ContainerAppProbe_HttpGet_HttpHeaders                                    | v1api20240301 | v1api20250101 |
+| ContainerAppProbe_HttpGet_HttpHeaders_STATUS                             | v1api20240301 | v1api20250101 |
+| ContainerAppProbe_HttpGet_STATUS                                         | v1api20240301 | v1api20250101 |
+| ContainerAppProbe_HttpGet_Scheme                                         | v1api20240301 | v1api20250101 |
+| ContainerAppProbe_HttpGet_Scheme_STATUS                                  | v1api20240301 | v1api20250101 |
+| ContainerAppProbe_STATUS                                                 | v1api20240301 | v1api20250101 |
+| ContainerAppProbe_TcpSocket                                              | v1api20240301 | v1api20250101 |
+| ContainerAppProbe_TcpSocket_STATUS                                       | v1api20240301 | v1api20250101 |
+| ContainerAppProbe_Type                                                   | v1api20240301 | v1api20250101 |
+| ContainerAppProbe_Type_STATUS                                            | v1api20240301 | v1api20250101 |
+| ContainerApp_Properties_ProvisioningState_STATUS                         | v1api20240301 | v1api20250101 |
+| ContainerApp_Properties_RunningStatus_STATUS                             |               | v1api20250101 |
+| ContainerApp_Properties_STATUS                                           | v1api20240301 | v1api20250101 |
+| ContainerApp_Properties_Spec                                             | v1api20240301 | v1api20250101 |
+| ContainerApp_STATUS                                                      | v1api20240301 | v1api20250101 |
+| ContainerApp_Spec                                                        | v1api20240301 | v1api20250101 |
+| ContainerApps_AuthConfig_Properties_STATUS                               | v1api20240301 | v1api20250101 |
+| ContainerApps_AuthConfig_Properties_Spec                                 | v1api20240301 | v1api20250101 |
+| ContainerResources                                                       | v1api20240301 | v1api20250101 |
+| ContainerResources_STATUS                                                | v1api20240301 | v1api20250101 |
+| Container_STATUS                                                         | v1api20240301 | v1api20250101 |
+| CookieExpiration                                                         | v1api20240301 | v1api20250101 |
+| CookieExpiration_Convention                                              | v1api20240301 | v1api20250101 |
+| CookieExpiration_Convention_STATUS                                       | v1api20240301 | v1api20250101 |
+| CookieExpiration_STATUS                                                  | v1api20240301 | v1api20250101 |
+| CorsPolicy                                                               | v1api20240301 | v1api20250101 |
+| CorsPolicy_STATUS                                                        | v1api20240301 | v1api20250101 |
+| CustomDomain                                                             | v1api20240301 | v1api20250101 |
+| CustomDomainConfiguration                                                | v1api20240301 | v1api20250101 |
+| CustomDomainConfiguration_STATUS                                         | v1api20240301 | v1api20250101 |
+| CustomDomain_BindingType                                                 | v1api20240301 | v1api20250101 |
+| CustomDomain_BindingType_STATUS                                          | v1api20240301 | v1api20250101 |
+| CustomDomain_STATUS                                                      | v1api20240301 | v1api20250101 |
+| CustomOpenIdConnectProvider                                              | v1api20240301 | v1api20250101 |
+| CustomOpenIdConnectProvider_STATUS                                       | v1api20240301 | v1api20250101 |
+| CustomScaleRule                                                          | v1api20240301 | v1api20250101 |
+| CustomScaleRule_STATUS                                                   | v1api20240301 | v1api20250101 |
+| Dapr                                                                     | v1api20240301 | v1api20250101 |
+| DaprConfiguration_STATUS                                                 | v1api20240301 | v1api20250101 |
+| Dapr_AppProtocol                                                         | v1api20240301 | v1api20250101 |
+| Dapr_AppProtocol_STATUS                                                  | v1api20240301 | v1api20250101 |
+| Dapr_LogLevel                                                            | v1api20240301 | v1api20250101 |
+| Dapr_LogLevel_STATUS                                                     | v1api20240301 | v1api20250101 |
+| Dapr_STATUS                                                              | v1api20240301 | v1api20250101 |
+| DefaultAuthorizationPolicy                                               | v1api20240301 | v1api20250101 |
+| DefaultAuthorizationPolicy_STATUS                                        | v1api20240301 | v1api20250101 |
+| EncryptionSettings                                                       | v1api20240301 | v1api20250101 |
+| EncryptionSettings_STATUS                                                | v1api20240301 | v1api20250101 |
+| EnvironmentVar                                                           | v1api20240301 | v1api20250101 |
+| EnvironmentVar_STATUS                                                    | v1api20240301 | v1api20250101 |
+| ExtendedLocation                                                         | v1api20240301 | v1api20250101 |
+| ExtendedLocationType                                                     | v1api20240301 | v1api20250101 |
+| ExtendedLocationType_STATUS                                              | v1api20240301 | v1api20250101 |
+| ExtendedLocation_STATUS                                                  | v1api20240301 | v1api20250101 |
+| Facebook                                                                 | v1api20240301 | v1api20250101 |
+| Facebook_STATUS                                                          | v1api20240301 | v1api20250101 |
+| ForwardProxy                                                             | v1api20240301 | v1api20250101 |
+| ForwardProxy_Convention                                                  | v1api20240301 | v1api20250101 |
+| ForwardProxy_Convention_STATUS                                           | v1api20240301 | v1api20250101 |
+| ForwardProxy_STATUS                                                      | v1api20240301 | v1api20250101 |
+| GitHub                                                                   | v1api20240301 | v1api20250101 |
+| GitHub_STATUS                                                            | v1api20240301 | v1api20250101 |
+| GlobalValidation                                                         | v1api20240301 | v1api20250101 |
+| GlobalValidation_STATUS                                                  | v1api20240301 | v1api20250101 |
+| GlobalValidation_UnauthenticatedClientAction                             | v1api20240301 | v1api20250101 |
+| GlobalValidation_UnauthenticatedClientAction_STATUS                      | v1api20240301 | v1api20250101 |
+| Google                                                                   | v1api20240301 | v1api20250101 |
+| Google_STATUS                                                            | v1api20240301 | v1api20250101 |
+| HttpScaleRule                                                            | v1api20240301 | v1api20250101 |
+| HttpScaleRule_STATUS                                                     | v1api20240301 | v1api20250101 |
+| HttpSettings                                                             | v1api20240301 | v1api20250101 |
+| HttpSettingsRoutes                                                       | v1api20240301 | v1api20250101 |
+| HttpSettingsRoutes_STATUS                                                | v1api20240301 | v1api20250101 |
+| HttpSettings_STATUS                                                      | v1api20240301 | v1api20250101 |
+| IdentityProviders                                                        | v1api20240301 | v1api20250101 |
+| IdentityProviders_STATUS                                                 | v1api20240301 | v1api20250101 |
+| IdentitySettings                                                         |               | v1api20250101 |
+| IdentitySettings_Lifecycle                                               |               | v1api20250101 |
+| IdentitySettings_Lifecycle_STATUS                                        |               | v1api20250101 |
+| IdentitySettings_STATUS                                                  |               | v1api20250101 |
+| Ingress                                                                  | v1api20240301 | v1api20250101 |
+| IngressPortMapping                                                       | v1api20240301 | v1api20250101 |
+| IngressPortMapping_STATUS                                                | v1api20240301 | v1api20250101 |
+| Ingress_ClientCertificateMode                                            | v1api20240301 | v1api20250101 |
+| Ingress_ClientCertificateMode_STATUS                                     | v1api20240301 | v1api20250101 |
+| Ingress_STATUS                                                           | v1api20240301 | v1api20250101 |
+| Ingress_StickySessions                                                   | v1api20240301 | v1api20250101 |
+| Ingress_StickySessions_Affinity                                          | v1api20240301 | v1api20250101 |
+| Ingress_StickySessions_Affinity_STATUS                                   | v1api20240301 | v1api20250101 |
+| Ingress_StickySessions_STATUS                                            | v1api20240301 | v1api20250101 |
+| Ingress_Transport                                                        | v1api20240301 | v1api20250101 |
+| Ingress_Transport_STATUS                                                 | v1api20240301 | v1api20250101 |
+| IpSecurityRestrictionRule                                                | v1api20240301 | v1api20250101 |
+| IpSecurityRestrictionRule_Action                                         | v1api20240301 | v1api20250101 |
+| IpSecurityRestrictionRule_Action_STATUS                                  | v1api20240301 | v1api20250101 |
+| IpSecurityRestrictionRule_STATUS                                         | v1api20240301 | v1api20250101 |
+| Job                                                                      | v1api20240301 | v1api20250101 |
+| JobConfiguration                                                         | v1api20240301 | v1api20250101 |
+| JobConfiguration_EventTriggerConfig                                      | v1api20240301 | v1api20250101 |
+| JobConfiguration_EventTriggerConfig_STATUS                               | v1api20240301 | v1api20250101 |
+| JobConfiguration_ManualTriggerConfig                                     | v1api20240301 | v1api20250101 |
+| JobConfiguration_ManualTriggerConfig_STATUS                              | v1api20240301 | v1api20250101 |
+| JobConfiguration_STATUS                                                  | v1api20240301 | v1api20250101 |
+| JobConfiguration_ScheduleTriggerConfig                                   | v1api20240301 | v1api20250101 |
+| JobConfiguration_ScheduleTriggerConfig_STATUS                            | v1api20240301 | v1api20250101 |
+| JobConfiguration_TriggerType                                             | v1api20240301 | v1api20250101 |
+| JobConfiguration_TriggerType_STATUS                                      | v1api20240301 | v1api20250101 |
+| JobScale                                                                 | v1api20240301 | v1api20250101 |
+| JobScaleRule                                                             | v1api20240301 | v1api20250101 |
+| JobScaleRule_STATUS                                                      | v1api20240301 | v1api20250101 |
+| JobScale_STATUS                                                          | v1api20240301 | v1api20250101 |
+| JobTemplate                                                              | v1api20240301 | v1api20250101 |
+| JobTemplate_STATUS                                                       | v1api20240301 | v1api20250101 |
+| Job_Properties_ProvisioningState_STATUS                                  | v1api20240301 | v1api20250101 |
+| Job_Properties_STATUS                                                    | v1api20240301 | v1api20250101 |
+| Job_Properties_Spec                                                      | v1api20240301 | v1api20250101 |
+| Job_STATUS                                                               | v1api20240301 | v1api20250101 |
+| Job_Spec                                                                 | v1api20240301 | v1api20250101 |
+| JwtClaimChecks                                                           | v1api20240301 | v1api20250101 |
+| JwtClaimChecks_STATUS                                                    | v1api20240301 | v1api20250101 |
+| KedaConfiguration_STATUS                                                 | v1api20240301 | v1api20250101 |
+| LogAnalyticsConfiguration                                                | v1api20240301 | v1api20250101 |
+| LogAnalyticsConfiguration_STATUS                                         | v1api20240301 | v1api20250101 |
+| Login                                                                    | v1api20240301 | v1api20250101 |
+| LoginRoutes                                                              | v1api20240301 | v1api20250101 |
+| LoginRoutes_STATUS                                                       | v1api20240301 | v1api20250101 |
+| LoginScopes                                                              | v1api20240301 | v1api20250101 |
+| LoginScopes_STATUS                                                       | v1api20240301 | v1api20250101 |
+| Login_STATUS                                                             | v1api20240301 | v1api20250101 |
+| ManagedEnvironment                                                       | v1api20240301 | v1api20250101 |
+| ManagedEnvironment_Properties_PeerAuthentication_STATUS                  | v1api20240301 | v1api20250101 |
+| ManagedEnvironment_Properties_PeerAuthentication_Spec                    | v1api20240301 | v1api20250101 |
+| ManagedEnvironment_Properties_PeerTrafficConfiguration_Encryption_STATUS | v1api20240301 | v1api20250101 |
+| ManagedEnvironment_Properties_PeerTrafficConfiguration_Encryption_Spec   | v1api20240301 | v1api20250101 |
+| ManagedEnvironment_Properties_PeerTrafficConfiguration_STATUS            | v1api20240301 | v1api20250101 |
+| ManagedEnvironment_Properties_PeerTrafficConfiguration_Spec              | v1api20240301 | v1api20250101 |
+| ManagedEnvironment_Properties_ProvisioningState_STATUS                   | v1api20240301 | v1api20250101 |
+| ManagedEnvironment_Properties_STATUS                                     | v1api20240301 | v1api20250101 |
+| ManagedEnvironment_Properties_Spec                                       | v1api20240301 | v1api20250101 |
+| ManagedEnvironment_STATUS                                                | v1api20240301 | v1api20250101 |
+| ManagedEnvironment_Spec                                                  | v1api20240301 | v1api20250101 |
+| ManagedServiceIdentity                                                   | v1api20240301 | v1api20250101 |
+| ManagedServiceIdentityType                                               | v1api20240301 | v1api20250101 |
+| ManagedServiceIdentityType_STATUS                                        | v1api20240301 | v1api20250101 |
+| ManagedServiceIdentity_STATUS                                            | v1api20240301 | v1api20250101 |
+| Mtls                                                                     | v1api20240301 | v1api20250101 |
+| Mtls_STATUS                                                              | v1api20240301 | v1api20250101 |
+| Nonce                                                                    | v1api20240301 | v1api20250101 |
+| Nonce_STATUS                                                             | v1api20240301 | v1api20250101 |
+| OpenIdConnectClientCredential                                            | v1api20240301 | v1api20250101 |
+| OpenIdConnectClientCredential_Method                                     | v1api20240301 | v1api20250101 |
+| OpenIdConnectClientCredential_Method_STATUS                              | v1api20240301 | v1api20250101 |
+| OpenIdConnectClientCredential_STATUS                                     | v1api20240301 | v1api20250101 |
+| OpenIdConnectConfig                                                      | v1api20240301 | v1api20250101 |
+| OpenIdConnectConfig_STATUS                                               | v1api20240301 | v1api20250101 |
+| OpenIdConnectLogin                                                       | v1api20240301 | v1api20250101 |
+| OpenIdConnectLogin_STATUS                                                | v1api20240301 | v1api20250101 |
+| OpenIdConnectRegistration                                                | v1api20240301 | v1api20250101 |
+| OpenIdConnectRegistration_STATUS                                         | v1api20240301 | v1api20250101 |
+| QueueScaleRule                                                           | v1api20240301 | v1api20250101 |
+| QueueScaleRule_STATUS                                                    | v1api20240301 | v1api20250101 |
+| RegistryCredentials                                                      | v1api20240301 | v1api20250101 |
+| RegistryCredentials_STATUS                                               | v1api20240301 | v1api20250101 |
+| Runtime                                                                  |               | v1api20250101 |
+| Runtime_Java                                                             |               | v1api20250101 |
+| Runtime_Java_STATUS                                                      |               | v1api20250101 |
+| Runtime_STATUS                                                           |               | v1api20250101 |
+| Scale                                                                    | v1api20240301 | v1api20250101 |
+| ScaleRule                                                                | v1api20240301 | v1api20250101 |
+| ScaleRuleAuth                                                            | v1api20240301 | v1api20250101 |
+| ScaleRuleAuth_STATUS                                                     | v1api20240301 | v1api20250101 |
+| ScaleRule_STATUS                                                         | v1api20240301 | v1api20250101 |
+| Scale_STATUS                                                             | v1api20240301 | v1api20250101 |
+| Secret                                                                   | v1api20240301 | v1api20250101 |
+| SecretVolumeItem                                                         | v1api20240301 | v1api20250101 |
+| SecretVolumeItem_STATUS                                                  | v1api20240301 | v1api20250101 |
+| Secret_STATUS                                                            | v1api20240301 | v1api20250101 |
+| Service                                                                  | v1api20240301 | v1api20250101 |
+| ServiceBind                                                              | v1api20240301 | v1api20250101 |
+| ServiceBind_STATUS                                                       | v1api20240301 | v1api20250101 |
+| Service_STATUS                                                           | v1api20240301 | v1api20250101 |
+| SystemData_CreatedByType_STATUS                                          | v1api20240301 | v1api20250101 |
+| SystemData_LastModifiedByType_STATUS                                     | v1api20240301 | v1api20250101 |
+| SystemData_STATUS                                                        | v1api20240301 | v1api20250101 |
+| TcpScaleRule                                                             | v1api20240301 | v1api20250101 |
+| TcpScaleRule_STATUS                                                      | v1api20240301 | v1api20250101 |
+| Template                                                                 | v1api20240301 | v1api20250101 |
+| Template_STATUS                                                          | v1api20240301 | v1api20250101 |
+| TokenStore                                                               | v1api20240301 | v1api20250101 |
+| TokenStore_STATUS                                                        | v1api20240301 | v1api20250101 |
+| TrafficWeight                                                            | v1api20240301 | v1api20250101 |
+| TrafficWeight_STATUS                                                     | v1api20240301 | v1api20250101 |
+| Twitter                                                                  | v1api20240301 | v1api20250101 |
+| TwitterRegistration                                                      | v1api20240301 | v1api20250101 |
+| TwitterRegistration_STATUS                                               | v1api20240301 | v1api20250101 |
+| Twitter_STATUS                                                           | v1api20240301 | v1api20250101 |
+| UserAssignedIdentityDetails                                              | v1api20240301 | v1api20250101 |
+| UserAssignedIdentity_STATUS                                              | v1api20240301 | v1api20250101 |
+| VnetConfiguration                                                        | v1api20240301 | v1api20250101 |
+| VnetConfiguration_STATUS                                                 | v1api20240301 | v1api20250101 |
+| Volume                                                                   | v1api20240301 | v1api20250101 |
+| VolumeMount                                                              | v1api20240301 | v1api20250101 |
+| VolumeMount_STATUS                                                       | v1api20240301 | v1api20250101 |
+| Volume_STATUS                                                            | v1api20240301 | v1api20250101 |
+| Volume_StorageType                                                       | v1api20240301 | v1api20250101 |
+| Volume_StorageType_STATUS                                                | v1api20240301 | v1api20250101 |
+| WorkloadProfile                                                          | v1api20240301 | v1api20250101 |
+| WorkloadProfile_STATUS                                                   | v1api20240301 | v1api20250101 |

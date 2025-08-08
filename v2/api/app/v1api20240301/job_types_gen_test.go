@@ -5,7 +5,8 @@ package v1api20240301
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/app/v1api20240301/storage"
+	v20240301s "github.com/Azure/azure-service-operator/v2/api/app/v1api20240301/storage"
+	v20250101s "github.com/Azure/azure-service-operator/v2/api/app/v1api20250101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForJob(subject Job) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.Job
+	var hub v20250101s.Job
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +79,7 @@ func RunPropertyAssignmentTestForJob(subject Job) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Job
+	var other v20240301s.Job
 	err := copied.AssignProperties_To_Job(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +182,7 @@ func RunPropertyAssignmentTestForJobConfiguration(subject JobConfiguration) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.JobConfiguration
+	var other v20240301s.JobConfiguration
 	err := copied.AssignProperties_To_JobConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -303,7 +304,7 @@ func RunPropertyAssignmentTestForJobConfiguration_EventTriggerConfig(subject Job
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.JobConfiguration_EventTriggerConfig
+	var other v20240301s.JobConfiguration_EventTriggerConfig
 	err := copied.AssignProperties_To_JobConfiguration_EventTriggerConfig(&other)
 	if err != nil {
 		return err.Error()
@@ -421,7 +422,7 @@ func RunPropertyAssignmentTestForJobConfiguration_EventTriggerConfig_STATUS(subj
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.JobConfiguration_EventTriggerConfig_STATUS
+	var other v20240301s.JobConfiguration_EventTriggerConfig_STATUS
 	err := copied.AssignProperties_To_JobConfiguration_EventTriggerConfig_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -539,7 +540,7 @@ func RunPropertyAssignmentTestForJobConfiguration_ManualTriggerConfig(subject Jo
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.JobConfiguration_ManualTriggerConfig
+	var other v20240301s.JobConfiguration_ManualTriggerConfig
 	err := copied.AssignProperties_To_JobConfiguration_ManualTriggerConfig(&other)
 	if err != nil {
 		return err.Error()
@@ -643,7 +644,7 @@ func RunPropertyAssignmentTestForJobConfiguration_ManualTriggerConfig_STATUS(sub
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.JobConfiguration_ManualTriggerConfig_STATUS
+	var other v20240301s.JobConfiguration_ManualTriggerConfig_STATUS
 	err := copied.AssignProperties_To_JobConfiguration_ManualTriggerConfig_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -747,7 +748,7 @@ func RunPropertyAssignmentTestForJobConfiguration_STATUS(subject JobConfiguratio
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.JobConfiguration_STATUS
+	var other v20240301s.JobConfiguration_STATUS
 	err := copied.AssignProperties_To_JobConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -870,7 +871,7 @@ func RunPropertyAssignmentTestForJobConfiguration_ScheduleTriggerConfig(subject 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.JobConfiguration_ScheduleTriggerConfig
+	var other v20240301s.JobConfiguration_ScheduleTriggerConfig
 	err := copied.AssignProperties_To_JobConfiguration_ScheduleTriggerConfig(&other)
 	if err != nil {
 		return err.Error()
@@ -975,7 +976,7 @@ func RunPropertyAssignmentTestForJobConfiguration_ScheduleTriggerConfig_STATUS(s
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.JobConfiguration_ScheduleTriggerConfig_STATUS
+	var other v20240301s.JobConfiguration_ScheduleTriggerConfig_STATUS
 	err := copied.AssignProperties_To_JobConfiguration_ScheduleTriggerConfig_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1080,7 +1081,7 @@ func RunPropertyAssignmentTestForJobOperatorSpec(subject JobOperatorSpec) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.JobOperatorSpec
+	var other v20240301s.JobOperatorSpec
 	err := copied.AssignProperties_To_JobOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -1176,7 +1177,7 @@ func RunPropertyAssignmentTestForJobScale(subject JobScale) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.JobScale
+	var other v20240301s.JobScale
 	err := copied.AssignProperties_To_JobScale(&other)
 	if err != nil {
 		return err.Error()
@@ -1294,7 +1295,7 @@ func RunPropertyAssignmentTestForJobScaleRule(subject JobScaleRule) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.JobScaleRule
+	var other v20240301s.JobScaleRule
 	err := copied.AssignProperties_To_JobScaleRule(&other)
 	if err != nil {
 		return err.Error()
@@ -1411,7 +1412,7 @@ func RunPropertyAssignmentTestForJobScaleRule_STATUS(subject JobScaleRule_STATUS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.JobScaleRule_STATUS
+	var other v20240301s.JobScaleRule_STATUS
 	err := copied.AssignProperties_To_JobScaleRule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1529,7 +1530,7 @@ func RunPropertyAssignmentTestForJobScale_STATUS(subject JobScale_STATUS) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.JobScale_STATUS
+	var other v20240301s.JobScale_STATUS
 	err := copied.AssignProperties_To_JobScale_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1647,7 +1648,7 @@ func RunPropertyAssignmentTestForJobTemplate(subject JobTemplate) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.JobTemplate
+	var other v20240301s.JobTemplate
 	err := copied.AssignProperties_To_JobTemplate(&other)
 	if err != nil {
 		return err.Error()
@@ -1751,7 +1752,7 @@ func RunPropertyAssignmentTestForJobTemplate_STATUS(subject JobTemplate_STATUS) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.JobTemplate_STATUS
+	var other v20240301s.JobTemplate_STATUS
 	err := copied.AssignProperties_To_JobTemplate_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1855,7 +1856,7 @@ func RunPropertyAssignmentTestForJob_STATUS(subject Job_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Job_STATUS
+	var other v20240301s.Job_STATUS
 	err := copied.AssignProperties_To_Job_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1990,7 +1991,7 @@ func RunPropertyAssignmentTestForJob_Spec(subject Job_Spec) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Job_Spec
+	var other v20240301s.Job_Spec
 	err := copied.AssignProperties_To_Job_Spec(&other)
 	if err != nil {
 		return err.Error()

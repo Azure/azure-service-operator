@@ -1,4 +1,4 @@
-version: '3.7'
+version: "3.7"
 
 run: when_changed
 output: prefixed
@@ -15,20 +15,20 @@ vars:
   CONTROLLER_APP: aso-controller
   CONTROLLER_ROOT: v2/
   CONTROLLER_OUTPUT:
-    sh: 'realpath v2/config'
+    sh: "realpath v2/config"
 
   MANGLE_ROOT: v2/tools/mangle-test-json
 
   TEST_RESOURCE_PREFIX: asotest
   TEST_LIVE_RESOURCE_PREFIX: asolivetest
   SCRIPTS_ROOT:
-    sh: 'realpath scripts/v2'
+    sh: "realpath scripts/v2"
 
   HEADER_FILE:
-    sh: 'realpath v2/boilerplate.go.txt'
+    sh: "realpath v2/boilerplate.go.txt"
 
   TEST_OUT:
-    sh: 'realpath reports'
+    sh: "realpath reports"
 
   VERSION:
     # Version tags for the v2 controller must start with "v2", e.g. "v2.0.0-alpha.0".
@@ -47,7 +47,7 @@ vars:
   CROSSPLANE_APP: crossplane-gen
   CROSSPLANE_ROOT: ./hack/crossplane/
   CROSSPLANE_OUTPUT:
-    sh: 'realpath hack/crossplane/config'
+    sh: "realpath hack/crossplane/config"
 
   # how long to let tests against live resources run for
   LIVE_TEST_TIMEOUT: 3h
@@ -108,7 +108,7 @@ tasks:
 
   go-mod-tidy:
     desc: Tidy the go.mod files
-    dir : v2
+    dir: v2
     cmds:
       - task: controller:go-mod-tidy
       - task: asoctl:go-mod-tidy
@@ -119,7 +119,7 @@ tasks:
       - task: doc:build-site
 
   basic-checks:
-    deps: 
+    deps:
       - header-check
       - specifier-check
       - controller:check-crd-size
@@ -153,7 +153,7 @@ tasks:
 
   asoctl:unit-tests:
     desc: Run {{.ASOCTL_APP}} unit tests.
-    dir: '{{.ASOCTL_ROOT}}'
+    dir: "{{.ASOCTL_ROOT}}"
     deps:
       - controller:generate-crds
     cmds:
@@ -161,7 +161,7 @@ tasks:
 
   asoctl:unit-tests-cover:
     desc: Run {{.ASOCTL_APP}} unit tests and output coverage.
-    dir: '{{.ASOCTL_ROOT}}'
+    dir: "{{.ASOCTL_ROOT}}"
     deps:
       - setup
       - controller:generate-crds
@@ -169,8 +169,8 @@ tasks:
       - defer: # want to run even on failure
           task: produce-markdown-summary
           vars:
-            INPUT_FILE: '{{.TEST_OUT}}/asoctl-unit-tests.json'
-            OUTPUT_FILE: '{{.TEST_OUT}}/asoctl-unit-tests.md'
+            INPUT_FILE: "{{.TEST_OUT}}/asoctl-unit-tests.json"
+            OUTPUT_FILE: "{{.TEST_OUT}}/asoctl-unit-tests.md"
       - go test ./... -tags=noexit -race -covermode atomic -coverprofile='{{.TEST_OUT}}/asoctl-coverage.out' -json -coverpkg=./... -run '{{default ".*" .TEST_FILTER}}' > '{{.TEST_OUT}}/asoctl-unit-tests.json'
 
   asoctl:format-code:
@@ -182,19 +182,19 @@ tasks:
 
   asoctl:go-mod-tidy:
     desc: Tidy the go.mod file
-    dir : v2/cmd/asoctl/
+    dir: v2/cmd/asoctl/
     cmds:
       - go mod tidy
-      
+
   asoctl:lint:
     desc: Run {{.ASOCTL_APP}} fast lint checks.
-    dir: '{{.ASOCTL_ROOT}}'
+    dir: "{{.ASOCTL_ROOT}}"
     cmds:
       - golangci-lint run --verbose --fix --timeout 5m ./...
 
   asoctl:build:
     desc: Generate the {{.ASOCTL_APP}} binary.
-    dir: '{{.ASOCTL_ROOT}}'
+    dir: "{{.ASOCTL_ROOT}}"
     label: asoctl:build-{{.GOOS}}-{{.GOARCH}}
     generates:
       - "{{.ARCHIVE}}"
@@ -204,10 +204,10 @@ tasks:
       - if [ "{{.ARCHIVETYPE}}" = ".zip" ]; then zip -j -r {{.ARCHIVE}} {{.EXECUTABLE}}; fi
       - if [ "{{.ARCHIVETYPE}}" = ".gz" ]; then gzip -v -c {{.EXECUTABLE}} > {{.ARCHIVE}} ; fi
     vars:
-      GOOS: '{{default OS .GOOS}}'
+      GOOS: "{{default OS .GOOS}}"
       EXT: '{{if eq .GOOS "windows"}}.exe{{else}}{{end}}'
       ARCHIVETYPE: '{{if eq .GOOS "windows"}}.zip{{else}}.gz{{end}}'
-      GOARCH: '{{default ARCH .GOARCH}}'
+      GOARCH: "{{default ARCH .GOARCH}}"
       EXECUTABLE: ./bin/{{.GOOS}}-{{.GOARCH}}/{{.ASOCTL_APP}}{{.EXT}}
       ARCHIVE: ../../bin/{{.ASOCTL_APP}}-{{.GOOS}}-{{.GOARCH}}{{.ARCHIVETYPE}}
 
@@ -215,21 +215,21 @@ tasks:
     desc: Produce asoctl files required for an ASOv2 release
     dir: "{{.CONTROLLER_ROOT}}"
     deps:
-        # Regenerating the deepcopy files deletes and regenerates them, 
-        # so we have to ensure this runs before we do any asoctl builds
+      # Regenerating the deepcopy files deletes and regenerates them,
+      # so we have to ensure this runs before we do any asoctl builds
       - controller:run-kustomize
     cmds:
       - task: asoctl:build
-        vars: {GOOS: "linux", GOARCH: "amd64"}
+        vars: { GOOS: "linux", GOARCH: "amd64" }
       - task: asoctl:build
-        vars: {GOOS: "linux", GOARCH: "arm64"}
+        vars: { GOOS: "linux", GOARCH: "arm64" }
       - task: asoctl:build
-        vars: {GOOS: "darwin", GOARCH: "amd64"}
+        vars: { GOOS: "darwin", GOARCH: "amd64" }
       - task: asoctl:build
-        vars: {GOOS: "darwin", GOARCH: "arm64"}
+        vars: { GOOS: "darwin", GOARCH: "arm64" }
       - task: asoctl:build
-        vars: {GOOS: "windows", GOARCH: "amd64"}
-  
+        vars: { GOOS: "windows", GOARCH: "amd64" }
+
   ############### Generator targets ###############
 
   generator:quick-checks:
@@ -246,26 +246,26 @@ tasks:
 
   generator:unit-tests:
     desc: Run {{.GENERATOR_APP}} unit tests.
-    dir: '{{.GENERATOR_ROOT}}'
+    dir: "{{.GENERATOR_ROOT}}"
     cmds:
       - go test ./... -tags=noexit -run '{{default ".*" .TEST_FILTER}}'
 
   generator:unit-tests-cover:
     desc: Run {{.GENERATOR_APP}} unit tests and output coverage.
-    dir: '{{.GENERATOR_ROOT}}'
+    dir: "{{.GENERATOR_ROOT}}"
     deps:
       - setup
     cmds:
       - defer: # want to run even on failure
           task: produce-markdown-summary
           vars:
-            INPUT_FILE: '{{.TEST_OUT}}/generator-unit-tests.json'
-            OUTPUT_FILE: '{{.TEST_OUT}}/generator-unit-tests.md'
+            INPUT_FILE: "{{.TEST_OUT}}/generator-unit-tests.json"
+            OUTPUT_FILE: "{{.TEST_OUT}}/generator-unit-tests.md"
       - go test ./... -tags=noexit -race -covermode atomic -coverprofile='{{.TEST_OUT}}/generator-coverage.out' -json -coverpkg=./... -run '{{default ".*" .TEST_FILTER}}' > '{{.TEST_OUT}}/generator-unit-tests.json'
 
   generator:update-golden-tests:
     desc: Update {{.GENERATOR_APP}} golden test outputs.
-    dir: '{{.GENERATOR_ROOT}}'
+    dir: "{{.GENERATOR_ROOT}}"
     cmds:
       - go test ./...
     env:
@@ -280,19 +280,19 @@ tasks:
 
   generator:go-mod-tidy:
     desc: Tidy the go.mod file
-    dir : v2/tools/generator
+    dir: v2/tools/generator
     cmds:
       - go mod tidy
 
   generator:lint:
     desc: Run {{.GENERATOR_APP}} lint checks.
-    dir: '{{.GENERATOR_ROOT}}'
+    dir: "{{.GENERATOR_ROOT}}"
     cmds:
       - golangci-lint run --verbose --fix
 
   generator:build:
     desc: Generate the {{.GENERATOR_APP}} binary.
-    dir: '{{.GENERATOR_ROOT}}'
+    dir: "{{.GENERATOR_ROOT}}"
     cmds:
       - go build {{.LDFLAGS}} -o ../../bin/{{.GENERATOR_APP}} .
 
@@ -327,7 +327,7 @@ tasks:
       - task: cleanup-old-live-azure-resources
       - task: controller:test-integration-kind-ci
       - task: controller:test-multitenant-integration-kind-ci
-      - task: cleanup-old-live-azure-resources  # Run this on both sides of the test pass to do our best to avoid leaking something
+      - task: cleanup-old-live-azure-resources # Run this on both sides of the test pass to do our best to avoid leaking something
 
   controller:ci-live:
     cmds:
@@ -344,13 +344,13 @@ tasks:
 
   controller:go-mod-tidy:
     desc: Tidy the go.mod file
-    dir : v2
+    dir: v2
     cmds:
       - go mod tidy
 
   controller:lint:
     desc: Run lint checks.
-    deps: 
+    deps:
       - controller:generate-crds
     dir: "{{.CONTROLLER_ROOT}}"
     cmds:
@@ -359,7 +359,7 @@ tasks:
 
   controller:verify-samples:
     desc: Verify that a sample exists for each supported resource
-    deps: 
+    deps:
       - controller:generate-crds
     cmds:
       - "{{.SCRIPTS_ROOT}}/check_samples.py v2/"
@@ -380,15 +380,15 @@ tasks:
     desc: Run {{.CONTROLLER_APP}} unit tests and output coverage.
     dir: "{{.CONTROLLER_ROOT}}"
     deps:
-    - setup
-    - controller:generate-crds
-    - controller:bundle-crds # bundle-crds is here because some tests assert on generated CRD shape
+      - setup
+      - controller:generate-crds
+      - controller:bundle-crds # bundle-crds is here because some tests assert on generated CRD shape
     cmds:
       - defer: # want to run even on failure
           task: produce-markdown-summary
           vars:
-            INPUT_FILE: '{{.TEST_OUT}}/controller-unit-tests.json'
-            OUTPUT_FILE: '{{.TEST_OUT}}/controller-unit-tests.md'
+            INPUT_FILE: "{{.TEST_OUT}}/controller-unit-tests.json"
+            OUTPUT_FILE: "{{.TEST_OUT}}/controller-unit-tests.md"
       # -race fails at the moment in gopter - possibly due to our shared generator variable?
       - go test -short -tags=noexit -timeout 10m -covermode atomic -coverprofile='{{.TEST_OUT}}/controller-coverage.out' -json -coverpkg="./..." -run '{{default ".*" .TEST_FILTER}}' ./... > '{{.TEST_OUT}}/controller-unit-tests.json'
 
@@ -468,7 +468,7 @@ tasks:
   controller:build:
     desc: Generate the {{.CONTROLLER_APP}} binary.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: 
+    deps:
       - controller:generate-crds
     sources:
       - "go.mod"
@@ -502,7 +502,7 @@ tasks:
 
   controller:docker-push-local:
     desc: Pushes the controller container image to a local registry
-    deps: 
+    deps:
       - controller:bundle-crds
     dir: "{{.CONTROLLER_ROOT}}"
     run: always
@@ -533,10 +533,10 @@ tasks:
     cmds:
       - 'if [ -z "{{.DOCKER_PUSH_TARGET}}" ]; then echo "Error: DOCKER_PUSH_TARGET must be set"; exit 1; fi'
       - docker buildx create --use
-      - docker buildx build --push 
+      - docker buildx build --push
         --build-arg VERSION_FLAGS={{.VERSION_FLAGS}}
         --build-arg CONTROLLER_APP={{.CONTROLLER_APP}}
-        --platform {{.PLATFORMS}} 
+        --platform {{.PLATFORMS}}
         --tag "{{.DOCKER_PUSH_TARGET}}/{{.CONTROLLER_DOCKER_IMAGE}}" .
     vars:
       PLATFORMS: '{{default "linux/amd64,linux/arm64" .PLATFORMS}}'
@@ -571,7 +571,7 @@ tasks:
   controller:test-integration-envtest:
     desc: Run integration tests with envtest using record/replay.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: 
+    deps:
       - controller:run-kustomize-for-envtest
     cmds:
       # -race fails at the moment in controller-runtime
@@ -582,20 +582,20 @@ tasks:
     vars:
       VERBOSE:
         sh: if [ $TEST_FILTER ];  then echo "-v"; fi
-      TIMEOUT: '{{default "20m" .TIMEOUT}}'  # Should be kept in sync with the -cover variant below
+      TIMEOUT: '{{default "20m" .TIMEOUT}}' # Should be kept in sync with the -cover variant below
 
   # This target is intended for local use only
   controller:test-integration-envtest-record:
     desc: Run integration tests with envtest with a longer timeout suitable for recording the tests.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: 
+    deps:
       - controller:run-kustomize-for-envtest
     cmds:
-       - go test -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./internal/controllers -args -live
+      - go test -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./internal/controllers -args -live
     vars:
       VERBOSE:
         sh: if [ $TEST_FILTER ];  then echo "-v"; fi
-      TIMEOUT: '{{.LIVE_TEST_TIMEOUT}}'
+      TIMEOUT: "{{.LIVE_TEST_TIMEOUT}}"
 
   controller:test-integration-envtest-cover:
     desc: Run integration tests with envtest using record/replay and output coverage.
@@ -607,29 +607,29 @@ tasks:
       - defer: # want to run even on failure
           task: produce-markdown-summary
           vars:
-            INPUT_FILE: '{{.TEST_OUT}}/controller-integration-tests.json'
-            OUTPUT_FILE: '{{.TEST_OUT}}/controller-integration-tests.md'
+            INPUT_FILE: "{{.TEST_OUT}}/controller-integration-tests.json"
+            OUTPUT_FILE: "{{.TEST_OUT}}/controller-integration-tests.md"
       - defer: # want to run even on failure
           task: produce-markdown-summary
           vars:
-            INPUT_FILE: '{{.TEST_OUT}}/controller-integration-genruntime-tests.json'
-            OUTPUT_FILE: '{{.TEST_OUT}}/controller-integration-genruntime-tests.md'
+            INPUT_FILE: "{{.TEST_OUT}}/controller-integration-genruntime-tests.json"
+            OUTPUT_FILE: "{{.TEST_OUT}}/controller-integration-genruntime-tests.md"
       - defer: # want to run even on failure
           task: produce-markdown-summary
           vars:
-            INPUT_FILE: '{{.TEST_OUT}}/controller-integration-genericarmclient-tests.json'
-            OUTPUT_FILE: '{{.TEST_OUT}}/controller-integration-genericarmclient-tests.md'
+            INPUT_FILE: "{{.TEST_OUT}}/controller-integration-genericarmclient-tests.json"
+            OUTPUT_FILE: "{{.TEST_OUT}}/controller-integration-genericarmclient-tests.md"
       # -race fails at the moment in controller-runtime
       - go test -covermode atomic -coverprofile='{{.TEST_OUT}}/coverage-integration-envtest.out' -coverpkg="./..." -json -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' ./internal/controllers > '{{.TEST_OUT}}/controller-integration-tests.json'
       - go test -covermode atomic -coverprofile='{{.TEST_OUT}}/coverage-integration-genruntime-envtest.out' -coverpkg="./..." -json -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' ./pkg/genruntime/test > '{{.TEST_OUT}}/controller-integration-genruntime-tests.json'
       - go test -covermode atomic -coverprofile='{{.TEST_OUT}}/coverage-integration-genericarmclient-envtest.out' -coverpkg="./..." -json -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' ./internal/genericarmclient > '{{.TEST_OUT}}/controller-integration-genericarmclient-tests.json'
     vars:
-      TIMEOUT: '20m'  # Should be kept in sync with the non-cover variant above
+      TIMEOUT: "20m" # Should be kept in sync with the non-cover variant above
 
   controller:test-integration-envtest-live:
     desc: Run integration tests with envtest against live data and output coverage.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps:  
+    deps:
       - controller:run-kustomize-for-envtest
       - cleanup-azure-resources
     cmds:
@@ -641,7 +641,7 @@ tasks:
   controller:test-integration-kind-ci:
     desc: Run live integration tests in kind and deletes the kind cluster afterwards.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps:  
+    deps:
       - controller:kind-create-helm-workload-identity
     cmds:
       # This timeout is purposefully low - if we find that this job is taking a long time we may need to think of other ways
@@ -655,7 +655,7 @@ tasks:
   controller:test-integration-kind:
     desc: Run live integration tests in kind.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: 
+    deps:
       - controller:kind-create-helm-workload-identity
     cmds:
       # This timeout is purposefully low - if we find that this job is taking a long time we may need to think of other ways
@@ -665,8 +665,8 @@ tasks:
   controller:test-multitenant-integration-kind-ci:
     desc: Run live multitenant integration tests in kind.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: 
-       - controller:kind-create-multitenant-cluster-helm
+    deps:
+      - controller:kind-create-multitenant-cluster-helm
     cmds:
       # This timeout is purposefully low - if we find that this job is
       # taking a long time we may need to think of other ways to keep
@@ -681,7 +681,7 @@ tasks:
   controller:test-multitenant-integration-kind:
     desc: Run live multitenant integration tests in kind.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: 
+    deps:
       - controller:kind-create-multitenant-cluster-helm
     cmds:
       # This timeout is purposefully low - if we find that this job is
@@ -692,7 +692,7 @@ tasks:
   controller:test-integration-ci:
     desc: Run integration tests for CI
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: 
+    deps:
       - controller:test-integration-envtest-cover
 
   controller:test-integration-ci-live:
@@ -704,7 +704,7 @@ tasks:
   controller:generate-types:
     desc: Run {{.GENERATOR_APP}} to generate input files for controller-gen for {{.CONTROLLER_APP}}.
     dir: v2
-    deps: 
+    deps:
       - generator:build
     sources:
       - ./bin/{{.GENERATOR_APP}}
@@ -715,7 +715,7 @@ tasks:
 
   controller:generate-crds:
     desc: Run controller-gen to generate {{.CONTROLLER_APP}} CRD files.
-    deps: 
+    deps:
       - controller:generate-types
       - controller:generate-genruntime-deepcopy
     sources:
@@ -754,13 +754,13 @@ tasks:
     cmds:
       - find ./pkg/genruntime -type f -name "zz_generated.*" -delete
       - cd pkg/genruntime && controller-gen {{.OBJECT_OPTIONS}} paths=./...
-      - cd pkg/genruntime && gofmt -l -s -w .  # We do this because controller-gen can generate these files in a way that isn't gofmt'ed which can break things down the line
+      - cd pkg/genruntime && gofmt -l -s -w . # We do this because controller-gen can generate these files in a way that isn't gofmt'ed which can break things down the line
     vars:
       OBJECT_OPTIONS: object:headerFile={{.HEADER_FILE}}
 
   controller:generate-kustomize:
     desc: Run {{.GENERATOR_APP}} to generate the Kustomize file for registering CRDs.
-    deps: 
+    deps:
       - controller:generate-crds
     dir: v2
     sources:
@@ -774,7 +774,7 @@ tasks:
 
   controller:run-kustomize:
     desc: Generates the CRD & configuration bundle.
-    deps: 
+    deps:
       - controller:generate-kustomize
     dir: "v2/"
     cmds:
@@ -787,7 +787,7 @@ tasks:
 
   controller:make-multitenant-files:
     desc: Splits the deployment yaml into cluster and tenant files for multitenant deployment
-    deps: 
+    deps:
       - controller:run-kustomize
     dir: "v2/bin"
     cmds:
@@ -796,7 +796,7 @@ tasks:
 
   controller:run-kustomize-for-envtest:
     desc: Generates the CRDs for use in envtest
-    deps: 
+    deps:
       - controller:generate-kustomize
     dir: "v2/"
     sources:
@@ -842,12 +842,12 @@ tasks:
     dir: "{{.CONTROLLER_ROOT}}"
     cmds:
       - "helm upgrade --install --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
-      --set azureTenantID=$AZURE_TENANT_ID \
-      --set azureClientID={{.AZURE_MI_CLIENT_ID}} \
-      --set useWorkloadIdentityAuth=true \
-      {{.IMAGE_REPOSITORY_CMD}} \
-      --set crdPattern=* \
-      aso2 -n {{.ASO_NAMESPACE}} --create-namespace ./charts/azure-service-operator/"
+        --set azureTenantID=$AZURE_TENANT_ID \
+        --set azureClientID={{.AZURE_MI_CLIENT_ID}} \
+        --set useWorkloadIdentityAuth=true \
+        {{.IMAGE_REPOSITORY_CMD}} \
+        --set crdPattern=* \
+        aso2 -n {{.ASO_NAMESPACE}} --create-namespace ./charts/azure-service-operator/"
       - task: controller:wait-for-operator-ready
     vars:
       IMAGE_REPOSITORY: "{{default .LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE .IMAGE_REPOSITORY}}"
@@ -865,15 +865,15 @@ tasks:
     desc: Generate and install helm chart on cluster using workload identity
     dir: "{{.CONTROLLER_ROOT}}"
     cmds:
-      - "helm upgrade --install --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \ 
-           --set azureTenantID=$AZURE_TENANT_ID \
-           --set azureClientID={{.AZURE_MI_CLIENT_ID}} \
-           --set image.repository={{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}} \
-           --set useWorkloadIdentityAuth=true \
-           --set multitenant.enable=true \
-           --set azureOperatorMode=watchers \
-           --set-string azureTargetNamespaces='{t1-items,t1-more}' \
-           aso2 -n tenant1-system --create-namespace ./charts/azure-service-operator/"
+      - "helm upgrade --install --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
+        --set azureTenantID=$AZURE_TENANT_ID \
+        --set azureClientID={{.AZURE_MI_CLIENT_ID}} \
+        --set image.repository={{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}} \
+        --set useWorkloadIdentityAuth=true \
+        --set multitenant.enable=true \
+        --set azureOperatorMode=watchers \
+        --set-string azureTargetNamespaces='{t1-items,t1-more}' \
+        aso2 -n tenant1-system --create-namespace ./charts/azure-service-operator/"
     vars:
       IMAGE_REPOSITORY: "{{default .LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE .IMAGE_REPOSITORY}}"
       AZURE_MI_CLIENT_ID:
@@ -900,12 +900,12 @@ tasks:
     cmds:
       - "export KIND_CLUSTER_NAME=asov2 && {{.SCRIPTS_ROOT}}/kind-with-registry.sh"
     status:
-      - "kind get clusters | grep \"^asov2$\""
+      - 'kind get clusters | grep "^asov2$"'
 
   controller:kind-create-wi:
     desc: Creates a kind cluster and local Docker registry with OIDC + workload identity enabled. Images in the local registry can be pulled in the kind cluster.
     run: always
-    deps: 
+    deps:
       - az-login
     cmds:
       - echo "Cleaning {{.KIND_WORKLOAD_IDENTITY_PATH}}"
@@ -915,10 +915,10 @@ tasks:
       - "{{.SCRIPTS_ROOT}}/create-kind-wi-storage.sh -d {{.KIND_WORKLOAD_IDENTITY_PATH}} -p {{.TEST_LIVE_RESOURCE_PREFIX}}"
       - echo "Calling kind-with-registry.sh"
       - "export KIND_CLUSTER_NAME=asov2-wi && \
-            export SERVICE_ACCOUNT_ISSUER=$(cat {{.KIND_WORKLOAD_IDENTITY_PATH}}/azure/saissuer.txt) && \
-            {{.SCRIPTS_ROOT}}/kind-with-registry.sh"
+        export SERVICE_ACCOUNT_ISSUER=$(cat {{.KIND_WORKLOAD_IDENTITY_PATH}}/azure/saissuer.txt) && \
+        {{.SCRIPTS_ROOT}}/kind-with-registry.sh"
     status:
-      - "kind get clusters | grep \"^asov2-wi$\""
+      - 'kind get clusters | grep "^asov2-wi$"'
     env:
       SERVICE_ACCOUNT_KEY_FILE:
         sh: "echo ${HOSTROOT:-$PWD}/{{.KIND_WORKLOAD_IDENTITY_PATH}}/sa.pub" # Have to use HOSTROOT here for mounting files when in docker-in-docker as paths are relative to host
@@ -927,7 +927,7 @@ tasks:
 
   controller:create-mi-for-workload-identity:
     desc: Creates a managed identity and federated identity credential and stores their details in the specified path
-    deps: 
+    deps:
       - az-login
     cmds:
       - "{{.SCRIPTS_ROOT}}/make-mi-fic.py -g {{.RESOURCE_GROUP}} -i {{.ISSUER}} -s {{.SUBJECT}} -d ./{{.DIR}}"
@@ -995,7 +995,7 @@ tasks:
 
   controller:scan-image:
     desc: Builds a local image and scans the image using trivy
-    deps: 
+    deps:
       - controller:docker-build
     cmds:
       - "trivy image {{.CONTROLLER_DOCKER_IMAGE}}"
@@ -1003,7 +1003,7 @@ tasks:
 
   controller:install:
     desc: Installs the controller, webhooks, and CRDs into the default kubectl cluster
-    deps: 
+    deps:
       - controller:generate-kustomize
     dir: "{{.CONTROLLER_ROOT}}"
     cmds:
@@ -1013,7 +1013,7 @@ tasks:
 
   controller:bundle-crds:
     desc: Bundles CRDs...
-    deps: 
+    deps:
       - controller:generate-kustomize
     dir: "{{.CONTROLLER_ROOT}}"
     sources:
@@ -1048,7 +1048,7 @@ tasks:
       DIR: "{{.DIR | default .KIND_WORKLOAD_IDENTITY_PATH}}"
     env:
       # Override the AZURE_CLIENT_ID env variable here
-      AZURE_MI_CLIENT_ID:  # TODO: Ideally would override AZURE_CLIENT_ID here but we can't because of https://github.com/go-task/task/issues/1038
+      AZURE_MI_CLIENT_ID: # TODO: Ideally would override AZURE_CLIENT_ID here but we can't because of https://github.com/go-task/task/issues/1038
         sh: "cat {{.DIR}}/azure/miclientid.txt"
 
   controller:deploy-multitenant-testing-secret:
@@ -1057,7 +1057,7 @@ tasks:
       - "{{.SCRIPTS_ROOT}}/deploy-multitenant-testing-secret.sh"
     env:
       # Override the AZURE_CLIENT_ID env variable here
-      AZURE_MI_CLIENT_ID:  # TODO: Ideally would override AZURE_CLIENT_ID here but we can't because of https://github.com/go-task/task/issues/1038
+      AZURE_MI_CLIENT_ID: # TODO: Ideally would override AZURE_CLIENT_ID here but we can't because of https://github.com/go-task/task/issues/1038
         sh: "cat {{.KIND_WORKLOAD_IDENTITY_PATH}}/azure/miclientid.txt"
 
   controller:wait-for-operator-ready:
@@ -1082,7 +1082,7 @@ tasks:
   # TODO: This currently doesn't work because the installation via raw YAML doesn't pass crdpattern.
   controller:kind-create-multitenant-cluster:
     desc: Creates a local kind cluster with ASO installed in multitenant configuration.
-    deps: 
+    deps:
       - controller:make-multitenant-files
     cmds:
       - task: controller:kind-create-wi
@@ -1130,9 +1130,9 @@ tasks:
       - "cmctl check api --wait=2m"
       # Install cluster scope chart (mode == webhooks)
       - "helm upgrade --install --set multitenant.enable=true --set azureOperatorMode=webhooks \
-           --set image.repository={{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}} \
-           --set crdPattern=* \
-           aso2 -n {{.NAMESPACE}} --create-namespace ./charts/azure-service-operator/"
+        --set image.repository={{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}} \
+        --set crdPattern=* \
+        aso2 -n {{.NAMESPACE}} --create-namespace ./charts/azure-service-operator/"
       - task: controller:wait-for-operator-ready
         vars:
           NAMESPACE: "{{.NAMESPACE}}"
@@ -1184,9 +1184,9 @@ tasks:
 
   mangle-test:lint:
     desc: Run mangle-test fast lint checks.
-    dir: '{{.MANGLE_ROOT}}'
+    dir: "{{.MANGLE_ROOT}}"
     cmds:
-      - golangci-lint run --verbose --fix --timeout 5m ./...  
+      - golangci-lint run --verbose --fix --timeout 10m ./...
 
   ############### Crossplane targets ###############
 
@@ -1194,18 +1194,18 @@ tasks:
     cmds:
       - task: basic-checks
 
-# TODO: We currently have no tests
-#  crossplane:test:
-#    desc: Run {{.CROSSPLANE_APP}} unit tests.
-#    dir: "{{.CROSSPLANE_ROOT}}"
-#    cmds:
-#      - go test ./... -tags=noexit -timeout 10m
+  # TODO: We currently have no tests
+  #  crossplane:test:
+  #    desc: Run {{.CROSSPLANE_APP}} unit tests.
+  #    dir: "{{.CROSSPLANE_ROOT}}"
+  #    cmds:
+  #      - go test ./... -tags=noexit -timeout 10m
 
-#  crossplane:update-golden-tests:
-#    desc: Update {{.CROSSPLANE_APP}} golden test outputs.
-#    dir: "{{.CROSSPLANE_ROOT}}"
-#    cmds:
-#      - go test ./pkg/codegen -run ^TestGolden$ -update -timeout 10m
+  #  crossplane:update-golden-tests:
+  #    desc: Update {{.CROSSPLANE_APP}} golden test outputs.
+  #    dir: "{{.CROSSPLANE_ROOT}}"
+  #    cmds:
+  #      - go test ./pkg/codegen -run ^TestGolden$ -update -timeout 10m
 
   # TODO: No non-generated code in this directory at the moment
   # crossplane:lint:
@@ -1216,7 +1216,7 @@ tasks:
 
   crossplane:generate-crds:
     desc: Run controller-gen to generate {{.CROSSPLANE_APP}} CRD files.
-    deps: 
+    deps:
       - crossplane:generate-types
     dir: "{{.CROSSPLANE_ROOT}}"
     sources:
@@ -1239,8 +1239,8 @@ tasks:
   crossplane:generate-types:
     desc: Run {{.GENERATOR_APP}} to generate input files for controller-gen for {{.CROSSPLANE_APP}}.
     dir: "{{.CROSSPLANE_ROOT}}"
-    deps: 
-       - generator:build
+    deps:
+      - generator:build
     sources:
       - ../../v2/bin/{{.GENERATOR_APP}}
       - azure-crossplane.yaml
@@ -1248,7 +1248,7 @@ tasks:
       - ../../v2/bin/{{.GENERATOR_APP}} gen-types azure-crossplane.yaml
 
   crossplane:ci:
-    deps: 
+    deps:
       - basic-checks
       - crossplane:generate-crds
 
@@ -1274,7 +1274,7 @@ tasks:
 
   doc:crd-api:
     desc: Generates API docs for CRDs
-    deps: 
+    deps:
       - controller:generate-crds
     dir: "{{.CONTROLLER_ROOT}}"
     cmds:
@@ -1297,14 +1297,14 @@ tasks:
 
   cleanup-azure-resources:
     desc: Removes any resources created by the integration tests.
-    deps: 
-       - az-login
+    deps:
+      - az-login
     cmds:
       - '{{.SCRIPTS_ROOT}}/delete-old-resourcegroups.sh -p "{{.TEST_RESOURCE_PREFIX}}"'
 
   cleanup-old-live-azure-resources:
     desc: Removes any old resources created by the integration tests (old means older than 3 hours).
-    deps: 
+    deps:
       - az-login
     # This finds all resource groups which match the specified pattern (asolivetest*)
     # and are older than 3 hours (10800 seconds).
@@ -1364,8 +1364,8 @@ tasks:
 
   produce-markdown-summary:
     desc: Builds a test output summary for Github
-    deps: 
-       - build-mangle-test
+    deps:
+      - build-mangle-test
     cmds:
       - cmd: ./v2/tools/mangle-test-json/mangle-test-json "{{.INPUT_FILE}}" > "{{.OUTPUT_FILE}}"
 
@@ -1379,8 +1379,8 @@ tasks:
     desc: Creates a storage account for use in OIDC federation with a random name in resource group "aso-wi-storage"
     dir: "v2/"
     cmds:
-      - '{{.SCRIPTS_ROOT}}/workloadidentitystorage/deploy.sh'
+      - "{{.SCRIPTS_ROOT}}/workloadidentitystorage/deploy.sh"
     env:
       KIND_OIDC_STORAGE_ACCOUNT_RG: aso-wi-storage
       KIND_OIDC_STORAGE_ACCOUNT:
-          sh: echo "asowi$(openssl rand -hex 6)"
+        sh: echo "asowi$(openssl rand -hex 6)"
