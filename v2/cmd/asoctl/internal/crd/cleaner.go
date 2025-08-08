@@ -8,7 +8,6 @@ package crd
 import (
 	"context"
 	"fmt"
-	"regexp"
 	"strings"
 	"time"
 
@@ -96,7 +95,7 @@ func (c *Cleaner) Run(ctx context.Context) error {
 
 	for _, crd := range crds {
 		asoCRDsSeen++
-		newStoredVersions, deprecatedVersions := getDeprecatedStorageVersions(crd)
+		newStoredVersions, deprecatedVersions := crdmanagement.GetDeprecatedStorageVersions(crd)
 
 		// If there is no new version found other than the matched version, we short circuit here, as there is no updated version found in the CRDs
 		if len(newStoredVersions) <= 0 {
@@ -262,43 +261,4 @@ func (c *Cleaner) getObjectsForMigration(ctx context.Context, crd apiextensions.
 	}
 
 	return list, nil
-}
-
-var deprecatedVersionRegexp = regexp.MustCompile(`((v1alpha1api|v1beta)\d{8}(preview)?(storage)?|v1beta1)`) // handcrafted (non-ARM) resources have v1beta1 version
-
-// deprecatedVersionsMap is a map of crd name to a collection of deprecated versions
-var deprecatedVersionsMap = map[string][]string{
-	"trustedaccessrolebindings.containerservice.azure.com": {"v1api20230202previewstorage"},
-}
-
-func isVersionDeprecated(crd apiextensions.CustomResourceDefinition, version string) bool {
-	if deprecatedVersionRegexp.MatchString(version) {
-		return true
-	}
-
-	for _, deprecatedVersion := range deprecatedVersionsMap[crd.Name] {
-		if deprecatedVersion == version {
-			return true
-		}
-	}
-
-	return false
-}
-
-// getDeprecatedStorageVersions returns a new list of storedVersions by removing the deprecated versions
-func getDeprecatedStorageVersions(crd apiextensions.CustomResourceDefinition) ([]string, []string) {
-	storedVersions := crd.Status.StoredVersions
-
-	newStoredVersions := make([]string, 0, len(storedVersions))
-	var removedVersions []string
-	for _, version := range storedVersions {
-		if isVersionDeprecated(crd, version) {
-			removedVersions = append(removedVersions, version)
-			continue
-		}
-
-		newStoredVersions = append(newStoredVersions, version)
-	}
-
-	return newStoredVersions, removedVersions
 }
