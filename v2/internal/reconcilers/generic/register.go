@@ -13,16 +13,23 @@ import (
 
 	"github.com/go-logr/logr"
 	"github.com/rotisserie/eris"
+	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/conversion"
+	"k8s.io/apimachinery/pkg/runtime/schema"
+	"k8s.io/apimachinery/pkg/types"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	ctrl "sigs.k8s.io/controller-runtime"
 	ctrlbuilder "sigs.k8s.io/controller-runtime/pkg/builder"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
+	"sigs.k8s.io/controller-runtime/pkg/handler"
+	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 
 	"github.com/Azure/azure-service-operator/v2/internal/config"
+	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/util/interval"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -94,6 +101,7 @@ func RegisterAll(
 
 	var errs []error
 	for _, obj := range objs {
+		options.LogConstructor(nil).V(Info).Info("Registering", "objectName", obj.Name)
 		// TODO: Consider pulling some of the construction of things out of register (gvk, etc), so that we can pass in just
 		// TODO: the applicable extensions rather than a map of all of them
 		if err := register(mgr, kubeClient, positiveConditions, obj, options); err != nil {
@@ -148,6 +156,8 @@ func register(
 		WithOptions(options.Options)
 	builder.Named(info.Name)
 
+	builder = builder.Watches(&corev1.Namespace{}, handler.EnqueueRequestsFromMapFunc(registerNamespaceWatcher(options, kubeClient, info.Obj, gvk)), ctrlbuilder.WithPredicates(reconcilers.ARMReconcilerAnnotationChangedPredicate()))
+
 	for _, watch := range info.Watches {
 		builder = builder.Watches(watch.Type, watch.MakeEventHandler(kubeClient, options.LogConstructor(nil).WithName(info.Name)))
 	}
@@ -158,4 +168,33 @@ func register(
 	}
 
 	return nil
+}
+
+// This registers a watcher on the namespace for the watched resource
+func registerNamespaceWatcher(options Options, kubeclient kubeclient.Client, object client.Object, gvk schema.GroupVersionKind) func(ctx context.Context, obj client.Object) []reconcile.Request {
+	options.LogConstructor(nil).V(Status).Info("Handler for resource object", "name", object.GetName(), "object.namespace", object.GetNamespace(), "object.kind", gvk.Kind)
+	return func(ctx context.Context, obj client.Object) []reconcile.Request {
+		reconcileRequests := []reconcile.Request{}
+
+		aList := &unstructured.UnstructuredList{}
+		aList.SetGroupVersionKind(gvk)
+		if err := kubeclient.List(ctx, aList, &client.ListOptions{Namespace: obj.GetName()}); err != nil {
+			return []reconcile.Request{}
+		}
+		// list the objects for the current kind
+		options.LogConstructor(nil).V(Verbose).Info("Detected namespace reconcile-policy annotation")
+		for _, el := range aList.Items {
+			if _, ok := el.GetAnnotations()["serviceoperator.azure.com/reconcile-policy"]; ok {
+				// If the annotation is defined for the object, there's no need to reconcile it and we skip the object
+				continue
+			}
+			if _, ok := obj.GetAnnotations()["serviceoperator.azure.com/reconcile-policy"]; ok {
+				reconcileRequests = append(reconcileRequests, reconcile.Request{NamespacedName: types.NamespacedName{
+					Name:      el.GetName(),
+					Namespace: el.GetNamespace(),
+				}})
+			}
+		}
+		return reconcileRequests
+	}
 }

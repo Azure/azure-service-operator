@@ -40,3 +40,18 @@ func TestParseReconcilePolicy(t *testing.T) {
 	g.Expect(err).Should(HaveOccurred())
 	g.Expect(returnedPolicy).Should(Equal(annotations.ReconcilePolicySkip))
 }
+
+func TestHasReconcilePolicyAnnotationChanged(t *testing.T) {
+	old := "detach-on-delete"
+	new := "skip"
+
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	result := HasReconcilePolicyAnnotationChanged(&old, &new)
+	g.Expect(result).Should(Equal(true))
+
+	old = "skip"
+	result = HasReconcilePolicyAnnotationChanged(&old, &new)
+	g.Expect(result).Should(Equal(false))
+}
