@@ -84,7 +84,7 @@ func RegisterAll(
 	// pre-register any indexes we need
 	for _, obj := range objs {
 		for _, indexer := range obj.Indexes {
-			options.LogConstructor(nil).V(Info).Info("Registering indexer for type", "type", fmt.Sprintf("%T", obj.Obj), "key", indexer.Key)
+			mgr.GetLogger().V(Info).Info("Registering indexer for type", "type", fmt.Sprintf("%T", obj.Obj), "key", indexer.Key)
 			err := fieldIndexer.IndexField(context.Background(), obj.Obj, indexer.Key, indexer.Func)
 			if err != nil {
 				return eris.Wrapf(err, "failed to register indexer for %T, Key: %q", obj.Obj, indexer.Key)
@@ -118,7 +118,7 @@ func register(
 	}
 
 	loggerFactory := func(mo genruntime.MetaObject) logr.Logger {
-		result := options.LogConstructor(nil)
+		result := mgr.GetLogger()
 		if options.LoggerFactory != nil {
 			if factoryResult := options.LoggerFactory(mo); factoryResult != (logr.Logger{}) && factoryResult != logr.Discard() {
 				result = factoryResult
@@ -129,7 +129,7 @@ func register(
 	}
 	eventRecorder := mgr.GetEventRecorderFor(info.Name)
 
-	options.LogConstructor(nil).V(Status).Info("Registering", "GVK", gvk)
+	mgr.GetLogger().V(Status).Info("Registering", "GVK", gvk)
 
 	reconciler := &GenericReconciler{
 		Reconciler:                info.Reconciler,
@@ -149,7 +149,7 @@ func register(
 	builder.Named(info.Name)
 
 	for _, watch := range info.Watches {
-		builder = builder.Watches(watch.Type, watch.MakeEventHandler(kubeClient, options.LogConstructor(nil).WithName(info.Name)))
+		builder = builder.Watches(watch.Type, watch.MakeEventHandler(kubeClient, mgr.GetLogger().WithName(info.Name)))
 	}
 
 	err = builder.Complete(reconciler)
