@@ -11,8 +11,9 @@ import (
 
 	. "github.com/onsi/gomega"
 
+	insights20171001 "github.com/Azure/azure-service-operator/v2/api/insights/v1api20171001"
 	insightswebtest20180501preview "github.com/Azure/azure-service-operator/v2/api/insights/v1api20180501preview"
-	insights "github.com/Azure/azure-service-operator/v2/api/insights/v1api20200202"
+	insights20200202 "github.com/Azure/azure-service-operator/v2/api/insights/v1api20200202"
 	insightswebtest20220615 "github.com/Azure/azure-service-operator/v2/api/insights/v1api20220615"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
@@ -20,7 +21,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-func Test_Insights_Component_CRUD(t *testing.T) {
+func Test_Insights_Component_v20200202_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
@@ -54,6 +55,12 @@ func Test_Insights_Component_CRUD(t *testing.T) {
 				Insights_WebTest_20220615_CRUD(tc, rg, component)
 			},
 		},
+		testcommon.Subtest{
+			Name: "Insights PricingPlan 20171001 CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				Insights_PricingPlan_20171001_CRUD(tc, rg, component)
+			},
+		},
 	)
 
 	tc.DeleteResourceAndWait(component)
@@ -62,12 +69,12 @@ func Test_Insights_Component_CRUD(t *testing.T) {
 	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
-		string(insights.APIVersion_Value))
+		string(insights20200202.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }
 
-func Insights_WebTest_20220615_CRUD(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, component *insights.Component) {
+func Insights_WebTest_20220615_CRUD(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, component *insights20200202.Component) {
 	horribleHiddenLink := fmt.Sprintf("hidden-link:%s", to.Value(component.Status.Id))
 
 	horribleTags := map[string]string{
@@ -112,7 +119,6 @@ func Insights_WebTest_20220615_CRUD(tc *testcommon.KubePerTestContext, rg *resou
 	tc.Expect(webtest.Status.Location).To(Equal(tc.AzureRegion))
 	tc.Expect(webtest.Status.Kind).To(Equal(&expectedKind))
 	tc.Expect(webtest.Status.Id).ToNot(BeNil())
-	armId := *webtest.Status.Id
 
 	// Perform a simple patch.
 	old := webtest.DeepCopy()
@@ -120,6 +126,7 @@ func Insights_WebTest_20220615_CRUD(tc *testcommon.KubePerTestContext, rg *resou
 	tc.PatchResourceAndWait(old, webtest)
 	tc.Expect(webtest.Status.Enabled).To(Equal(to.Ptr(false)))
 
+	armId := *webtest.Status.Id
 	tc.DeleteResourceAndWait(webtest)
 
 	// Ensure that the resource was really deleted in Azure
@@ -131,7 +138,37 @@ func Insights_WebTest_20220615_CRUD(tc *testcommon.KubePerTestContext, rg *resou
 	tc.Expect(exists).To(BeFalse())
 }
 
-func Insights_WebTest_20180501preview_CRUD(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, component *insights.Component) {
+func Insights_PricingPlan_20171001_CRUD(
+	tc *testcommon.KubePerTestContext,
+	rg *resources.ResourceGroup,
+	component *insights20200202.Component,
+) {
+	plan := &insights20171001.PricingPlan{
+		ObjectMeta: tc.MakeObjectMeta("plan"),
+		Spec: insights20171001.PricingPlan_Spec{
+			Owner:                          testcommon.AsOwner(component),
+			PlanType:                       to.Ptr("Basic"),
+			StopSendNotificationWhenHitCap: to.Ptr(true),
+		},
+	}
+
+	tc.CreateResourceAndWait(plan)
+
+	tc.Expect(plan.Status.PlanType).NotTo(BeNil())
+	tc.Expect(*plan.Status.PlanType).To(Equal("Basic"))
+
+	// Perform a simple patch.
+	old := plan.DeepCopy()
+	plan.Spec.StopSendNotificationWhenHitCap = to.Ptr(false)
+	tc.PatchResourceAndWait(old, plan)
+
+	tc.Expect(plan.Status.StopSendNotificationWhenHitCap).NotTo(BeNil())
+	tc.Expect(*plan.Status.StopSendNotificationWhenHitCap).To(BeFalse())
+
+	// Pricing plans can't be deleted
+}
+
+func Insights_WebTest_20180501preview_CRUD(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, component *insights20200202.Component) {
 	horribleHiddenLink := fmt.Sprintf("hidden-link:%s", to.Value(component.Status.Id))
 
 	horribleTags := map[string]string{
@@ -230,17 +267,17 @@ func Test_Insights_Component_ExportConfigMap(t *testing.T) {
 	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
-		string(insights.APIVersion_Value))
+		string(insights20200202.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }
 
-func Component_ConfigValuesWrittenToSameConfigMap(tc *testcommon.KubePerTestContext, component *insights.Component) {
+func Component_ConfigValuesWrittenToSameConfigMap(tc *testcommon.KubePerTestContext, component *insights20200202.Component) {
 	old := component.DeepCopy()
 	componentConfigMap := "component-config"
 
-	component.Spec.OperatorSpec = &insights.ComponentOperatorSpec{
-		ConfigMaps: &insights.ComponentOperatorConfigMaps{
+	component.Spec.OperatorSpec = &insights20200202.ComponentOperatorSpec{
+		ConfigMaps: &insights20200202.ComponentOperatorConfigMaps{
 			ConnectionString:   &genruntime.ConfigMapDestination{Name: componentConfigMap, Key: "connectionString"},
 			InstrumentationKey: &genruntime.ConfigMapDestination{Name: componentConfigMap, Key: "instrumentationKey"},
 		},
@@ -253,13 +290,13 @@ func Component_ConfigValuesWrittenToSameConfigMap(tc *testcommon.KubePerTestCont
 		"instrumentationKey", *component.Status.InstrumentationKey)
 }
 
-func Component_ConfigValuesWrittenToDifferentConfigMap(tc *testcommon.KubePerTestContext, component *insights.Component) {
+func Component_ConfigValuesWrittenToDifferentConfigMap(tc *testcommon.KubePerTestContext, component *insights20200202.Component) {
 	old := component.DeepCopy()
 	componentConfigMap1 := "component-config1"
 	componentConfigMap2 := "component-config2"
 
-	component.Spec.OperatorSpec = &insights.ComponentOperatorSpec{
-		ConfigMaps: &insights.ComponentOperatorConfigMaps{
+	component.Spec.OperatorSpec = &insights20200202.ComponentOperatorSpec{
+		ConfigMaps: &insights20200202.ComponentOperatorConfigMaps{
 			ConnectionString:   &genruntime.ConfigMapDestination{Name: componentConfigMap1, Key: "connectionString"},
 			InstrumentationKey: &genruntime.ConfigMapDestination{Name: componentConfigMap2, Key: "instrumentationKey"},
 		},
@@ -270,12 +307,12 @@ func Component_ConfigValuesWrittenToDifferentConfigMap(tc *testcommon.KubePerTes
 	tc.ExpectConfigMapHasKeysAndValues(componentConfigMap2, "instrumentationKey", *component.Status.InstrumentationKey)
 }
 
-func newAppInsightsComponent(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *insights.Component {
+func newAppInsightsComponent(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *insights20200202.Component {
 	// Create a component
-	applicationType := insights.ApplicationInsightsComponentProperties_Application_Type_Other
-	component := &insights.Component{
+	applicationType := insights20200202.ApplicationInsightsComponentProperties_Application_Type_Other
+	component := &insights20200202.Component{
 		ObjectMeta: tc.MakeObjectMeta("component"),
-		Spec: insights.Component_Spec{
+		Spec: insights20200202.Component_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			// According to their documentation you can set anything here, it's ignored.
