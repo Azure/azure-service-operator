@@ -5,7 +5,8 @@ package storage
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220702/storage"
+	v20220702s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220702/storage"
+	v20241101s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20241101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -287,7 +288,7 @@ func RunPropertyAssignmentTestForApiErrorBase_STATUS(subject ApiErrorBase_STATUS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ApiErrorBase_STATUS
+	var other v20220702s.ApiErrorBase_STATUS
 	err := copied.AssignProperties_To_ApiErrorBase_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -392,7 +393,7 @@ func RunPropertyAssignmentTestForApiError_STATUS(subject ApiError_STATUS) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ApiError_STATUS
+	var other v20220702s.ApiError_STATUS
 	err := copied.AssignProperties_To_ApiError_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2079,7 +2080,7 @@ func RunPropertyAssignmentTestForInnerError_STATUS(subject InnerError_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.InnerError_STATUS
+	var other v20220702s.InnerError_STATUS
 	err := copied.AssignProperties_To_InnerError_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2163,6 +2164,48 @@ func InnerError_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForInnerError_STATUS(gens map[string]gopter.Gen) {
 	gens["Errordetail"] = gen.PtrOf(gen.AlphaString())
 	gens["Exceptiontype"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_InstanceViewStatus_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from InstanceViewStatus_STATUS to InstanceViewStatus_STATUS via AssignProperties_To_InstanceViewStatus_STATUS & AssignProperties_From_InstanceViewStatus_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForInstanceViewStatus_STATUS, InstanceViewStatus_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForInstanceViewStatus_STATUS tests if a specific instance of InstanceViewStatus_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForInstanceViewStatus_STATUS(subject InstanceViewStatus_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20241101s.InstanceViewStatus_STATUS
+	err := copied.AssignProperties_To_InstanceViewStatus_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual InstanceViewStatus_STATUS
+	err = actual.AssignProperties_From_InstanceViewStatus_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_InstanceViewStatus_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -5022,7 +5065,7 @@ func RunPropertyAssignmentTestForUserAssignedIdentityDetails(subject UserAssigne
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.UserAssignedIdentityDetails
+	var other v20220702s.UserAssignedIdentityDetails
 	err := copied.AssignProperties_To_UserAssignedIdentityDetails(&other)
 	if err != nil {
 		return err.Error()

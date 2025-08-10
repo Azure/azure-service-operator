@@ -1,0 +1,11 @@
+apiVersion: compute.azure.com/v1api20241101
+kind: AvailabilitySet
+metadata:
+  name: sampleavailabilityset20241101
+  namespace: default
+spec:
+  location: westus2
+  owner:
+    name: aso-sample-rg
+  platformFaultDomainCount: 2
+  platformUpdateDomainCount: 3

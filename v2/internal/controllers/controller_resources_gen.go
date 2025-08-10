@@ -86,6 +86,9 @@ import (
 	compute_v20240302 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20240302"
 	compute_v20240302s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20240302/storage"
 	compute_v20240302w "github.com/Azure/azure-service-operator/v2/api/compute/v1api20240302/webhook"
+	compute_v20241101 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20241101"
+	compute_v20241101s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20241101/storage"
+	compute_v20241101w "github.com/Azure/azure-service-operator/v2/api/compute/v1api20241101/webhook"
 	containerinstance_customizations "github.com/Azure/azure-service-operator/v2/api/containerinstance/customizations"
 	containerinstance_v20211001 "github.com/Azure/azure-service-operator/v2/api/containerinstance/v1api20211001"
 	containerinstance_v20211001s "github.com/Azure/azure-service-operator/v2/api/containerinstance/v1api20211001/storage"
@@ -929,6 +932,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 	})
 	result = append(result, &registration.StorageType{Obj: new(compute_v20240302s.Snapshot)})
+	result = append(result, &registration.StorageType{Obj: new(compute_v20241101s.AvailabilitySet)})
 	result = append(result, &registration.StorageType{
 		Obj: new(containerinstance_v20211001s.ContainerGroup),
 		Indexes: []registration.Index{
@@ -3060,6 +3064,12 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(compute_v20240302s.DiskAccess)},
 		&registration.KnownType{Obj: new(compute_v20240302s.DiskEncryptionSet)},
 		&registration.KnownType{Obj: new(compute_v20240302s.Snapshot)})
+	result = append(result, &registration.KnownType{
+		Obj:       new(compute_v20241101.AvailabilitySet),
+		Defaulter: &compute_v20241101w.AvailabilitySet{},
+		Validator: &compute_v20241101w.AvailabilitySet{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(compute_v20241101s.AvailabilitySet)})
 	result = append(result, &registration.KnownType{
 		Obj:       new(containerinstance_v20211001.ContainerGroup),
 		Defaulter: &containerinstance_v20211001w.ContainerGroup{},
@@ -5267,6 +5277,8 @@ func createScheme() *runtime.Scheme {
 	_ = compute_v20220702s.AddToScheme(scheme)
 	_ = compute_v20240302.AddToScheme(scheme)
 	_ = compute_v20240302s.AddToScheme(scheme)
+	_ = compute_v20241101.AddToScheme(scheme)
+	_ = compute_v20241101s.AddToScheme(scheme)
 	_ = containerinstance_v20211001.AddToScheme(scheme)
 	_ = containerinstance_v20211001s.AddToScheme(scheme)
 	_ = containerregistry_v20210901.AddToScheme(scheme)
@@ -5480,6 +5492,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &cdn_customizations.SecurityPolicyExtension{})
 	result = append(result, &cognitiveservices_customizations.AccountExtension{})
 	result = append(result, &cognitiveservices_customizations.DeploymentExtension{})
+	result = append(result, &compute_customizations.AvailabilitySetExtension{})
 	result = append(result, &compute_customizations.DiskAccessExtension{})
 	result = append(result, &compute_customizations.DiskEncryptionSetExtension{})
 	result = append(result, &compute_customizations.DiskExtension{})
