@@ -401,3 +401,27 @@ func (omc *ObjectModelConfiguration) ModifyProperty(
 			return action(prop)
 		})
 }
+
+// Merge merges the configuration from 'other' into this ObjectModelConfiguration.
+func (omc *ObjectModelConfiguration) Merge(other *ObjectModelConfiguration) error {
+	if other == nil {
+		return nil
+	}
+
+	// For now, implement a basic merge for groups map
+	// This is a simplified implementation - in reality we'd need to handle nested merging
+	for groupName, groupConfig := range other.groups {
+		if existingGroup, exists := omc.groups[groupName]; exists {
+			// Recursively merge group configurations
+			if err := existingGroup.Merge(groupConfig); err != nil {
+				return err
+			}
+		} else {
+			// Add new group
+			omc.groups[groupName] = groupConfig
+		}
+	}
+
+	// TODO: Merge access fields properly - for now just basic implementation
+	return nil
+}

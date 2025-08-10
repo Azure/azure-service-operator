@@ -56,3 +56,29 @@ func (srr *SupportedResourcesReport) FullFragmentPath() string {
 		filepath.Dir(srr.cfg.DestinationGoModuleFile),
 		srr.FragmentPath)
 }
+
+// Merge merges the configuration from 'other' into this SupportedResourcesReport.
+func (srr *SupportedResourcesReport) Merge(other *SupportedResourcesReport) error {
+	if other == nil {
+		return nil
+	}
+
+	// Merge primitive fields
+	if err := mergePrimitiveString(&srr.OutputFolder, other.OutputFolder, "OutputFolder"); err != nil {
+		return err
+	}
+	if err := mergePrimitiveString(&srr.FragmentPath, other.FragmentPath, "FragmentPath"); err != nil {
+		return err
+	}
+	if err := mergePrimitiveString(&srr.ResourceURLTemplate, other.ResourceURLTemplate, "ResourceURLTemplate"); err != nil {
+		return err
+	}
+	if err := mergePrimitiveString(&srr.ResourcePathTemplate, other.ResourcePathTemplate, "ResourcePathTemplate"); err != nil {
+		return err
+	}
+	if err := mergePrimitiveString(&srr.CurrentRelease, other.CurrentRelease, "CurrentRelease"); err != nil {
+		return err
+	}
+
+	return nil
+}

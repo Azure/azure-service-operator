@@ -396,3 +396,72 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 
 	return nil
 }
+
+// Merge merges the configuration from 'other' into this TypeConfiguration.
+func (tc *TypeConfiguration) Merge(other *TypeConfiguration) error {
+	if other == nil {
+		return nil
+	}
+
+	// Merge all configurable properties
+	if err := tc.AzureGeneratedSecrets.Merge(&other.AzureGeneratedSecrets); err != nil {
+		return err
+	}
+	if err := tc.DefaultAzureName.Merge(&other.DefaultAzureName); err != nil {
+		return err
+	}
+	if err := tc.Export.Merge(&other.Export); err != nil {
+		return err
+	}
+	if err := tc.ExportAs.Merge(&other.ExportAs); err != nil {
+		return err
+	}
+	if err := tc.GeneratedConfigs.Merge(&other.GeneratedConfigs); err != nil {
+		return err
+	}
+	if err := tc.Importable.Merge(&other.Importable); err != nil {
+		return err
+	}
+	if err := tc.IsResource.Merge(&other.IsResource); err != nil {
+		return err
+	}
+	if err := tc.ManualConfigs.Merge(&other.ManualConfigs); err != nil {
+		return err
+	}
+	if err := tc.NameInNextVersion.Merge(&other.NameInNextVersion); err != nil {
+		return err
+	}
+	if err := tc.OperatorSpecProperties.Merge(&other.OperatorSpecProperties); err != nil {
+		return err
+	}
+	if err := tc.PayloadType.Merge(&other.PayloadType); err != nil {
+		return err
+	}
+	if err := tc.RenameTo.Merge(&other.RenameTo); err != nil {
+		return err
+	}
+	if err := tc.ResourceEmbeddedInParent.Merge(&other.ResourceEmbeddedInParent); err != nil {
+		return err
+	}
+	if err := tc.SupportedFrom.Merge(&other.SupportedFrom); err != nil {
+		return err
+	}
+	if err := tc.StripDocumentation.Merge(&other.StripDocumentation); err != nil {
+		return err
+	}
+
+	// Merge properties map
+	for propName, propConfig := range other.properties {
+		if existingProp, exists := tc.properties[propName]; exists {
+			// Recursively merge property configurations
+			if err := existingProp.Merge(propConfig); err != nil {
+				return err
+			}
+		} else {
+			// Add new property
+			tc.properties[propName] = propConfig
+		}
+	}
+
+	return nil
+}

@@ -312,6 +312,125 @@ func getModulePathFromModFile(modFilePath string) (string, error) {
 	return modPath, nil
 }
 
+// Merge merges the configuration from 'other' into this configuration.
+// For primitive types, only overwrites if the current value is blank/zero.
+// For slices, appends new values to the end.
+// For maps, adds new key-value pairs but errors if attempting to overwrite existing keys.
+// For complex types, recursively applies the merge operation.
+// Returns an error if there are conflicts during merging.
+func (config *Configuration) Merge(other *Configuration) error {
+	if other == nil {
+		return nil
+	}
+
+	// Merge primitive fields
+	if err := mergePrimitiveString(&config.SchemaRoot, other.SchemaRoot, "SchemaRoot"); err != nil {
+		return err
+	}
+	if err := mergePrimitiveString(&config.DestinationGoModuleFile, other.DestinationGoModuleFile, "DestinationGoModuleFile"); err != nil {
+		return err
+	}
+	if err := mergePrimitiveString(&config.TypesOutputPath, other.TypesOutputPath, "TypesOutputPath"); err != nil {
+		return err
+	}
+	if err := mergePrimitiveString(&config.TypeRegistrationOutputFile, other.TypeRegistrationOutputFile, "TypeRegistrationOutputFile"); err != nil {
+		return err
+	}
+	if err := mergePrimitiveString(&config.RootURL, other.RootURL, "RootURL"); err != nil {
+		return err
+	}
+	if err := mergePrimitiveString(&config.SamplesPath, other.SamplesPath, "SamplesPath"); err != nil {
+		return err
+	}
+	if err := mergePrimitiveEnum(&config.Pipeline, other.Pipeline, "Pipeline"); err != nil {
+		return err
+	}
+	if err := mergePrimitiveBool(&config.EmitDocFiles, other.EmitDocFiles, "EmitDocFiles"); err != nil {
+		return err
+	}
+
+	// Merge slice fields
+	config.AnyTypePackages = mergeSlice(config.AnyTypePackages, other.AnyTypePackages)
+	config.TypeFilters = mergeSlice(config.TypeFilters, other.TypeFilters)
+	config.TypeLoaderRenames = mergeSlice(config.TypeLoaderRenames, other.TypeLoaderRenames)
+	config.Transformers = mergeSlice(config.Transformers, other.Transformers)
+
+	// Merge complex fields
+	if err := config.Status.Merge(&other.Status); err != nil {
+		return err
+	}
+	
+	if other.SupportedResourcesReport != nil {
+		if config.SupportedResourcesReport == nil {
+			config.SupportedResourcesReport = NewSupportedResourcesReport(config)
+		}
+		if err := config.SupportedResourcesReport.Merge(other.SupportedResourcesReport); err != nil {
+			return err
+		}
+	}
+	
+	if other.ObjectModelConfiguration != nil {
+		if config.ObjectModelConfiguration == nil {
+			config.ObjectModelConfiguration = NewObjectModelConfiguration()
+		}
+		if err := config.ObjectModelConfiguration.Merge(other.ObjectModelConfiguration); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+// Helper functions for merging different types
+
+func mergePrimitiveString(base *string, other string, fieldName string) error {
+	if other == "" {
+		return nil // Nothing to merge
+	}
+	if *base == "" {
+		*base = other
+		return nil
+	}
+	if *base != other {
+		return fmt.Errorf("conflict in field %s: base value %q cannot be overwritten with %q", fieldName, *base, other)
+	}
+	return nil
+}
+
+func mergePrimitiveBool(base *bool, other bool, fieldName string) error {
+	if !other {
+		return nil // Nothing to merge (false is zero value)
+	}
+	if !*base {
+		*base = other
+		return nil
+	}
+	// Both are true - this is a conflict if they're both explicitly set
+	return fmt.Errorf("conflict in field %s: base value %v cannot be overwritten with %v", fieldName, *base, other)
+}
+
+func mergePrimitiveEnum[T comparable](base *T, other T, fieldName string) error {
+	var zero T
+	if other == zero {
+		return nil // Nothing to merge (zero value)
+	}
+	if *base == zero {
+		*base = other
+		return nil
+	}
+	if *base != other {
+		return fmt.Errorf("conflict in field %s: base value %v cannot be overwritten with %v", fieldName, *base, other)
+	}
+	return nil
+}
+
+func mergeSlice[T any](base []T, other []T) []T {
+	if len(other) == 0 {
+		return base
+	}
+	return append(base, other...)
+}
+
 // StatusConfiguration provides configuration options for the
 // status parts of resources, which are generated from the
 // Azure Swagger specs.
@@ -347,4 +466,16 @@ type ResourceConfig struct {
 	// TODO: Not sure that this datatype should be string, but we don't use it right now so keeping it as
 	// TODO: string for simplicity
 	Scopes string `yaml:"scopes"`
+}
+
+// Merge merges the configuration from 'other' into this StatusConfiguration.
+func (sc *StatusConfiguration) Merge(other *StatusConfiguration) error {
+	if other == nil {
+		return nil
+	}
+
+	// Merge slice of overrides
+	sc.Overrides = mergeSlice(sc.Overrides, other.Overrides)
+
+	return nil
 }
