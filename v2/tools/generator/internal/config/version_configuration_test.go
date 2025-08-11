@@ -103,8 +103,8 @@ func TestVersionConfiguration_Merge_WhenNoConflicts_MergesSuccessfully(t *testin
 	g.Expect(err).To(Succeed())
 	
 	// Verify both types are present
-	g.Expect(base.types).To(HaveKey("Person"))
-	g.Expect(base.types).To(HaveKey("Company"))
+	g.Expect(base.types).To(HaveKey("person"))
+	g.Expect(base.types).To(HaveKey("company"))
 }
 
 func TestVersionConfiguration_Merge_WhenTypeConflicts_ReturnsError(t *testing.T) {
