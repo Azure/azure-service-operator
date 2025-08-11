@@ -176,3 +176,60 @@ func TestTypeConfiguration_VerifySupportedFromConsumed_WhenNotConsumed_ReturnsEx
 	g.Expect(err).NotTo(BeNil())
 	g.Expect(err.Error()).To(ContainSubstring(typeConfig.name))
 }
+
+func TestTypeConfiguration_Merge_WhenNil_ReturnsSuccess(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	base := NewTypeConfiguration("Person")
+	err := base.Merge(nil)
+	g.Expect(err).To(Succeed())
+}
+
+func TestTypeConfiguration_Merge_WhenEmpty_ReturnsSuccess(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	base := NewTypeConfiguration("Person")
+	other := NewTypeConfiguration("Person")
+	
+	err := base.Merge(other)
+	g.Expect(err).To(Succeed())
+}
+
+func TestTypeConfiguration_Merge_WhenNoConflicts_MergesSuccessfully(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	base := NewTypeConfiguration("Person")
+	base.SupportedFrom.Set("beta.0")
+	
+	other := NewTypeConfiguration("Person")
+	other.ExportAs.Set("PersonAlias")
+	
+	err := base.Merge(other)
+	g.Expect(err).To(Succeed())
+	
+	// Verify both values are present
+	from, ok := base.SupportedFrom.Lookup()
+	g.Expect(ok).To(BeTrue())
+	g.Expect(from).To(Equal("beta.0"))
+	
+	exportAs, ok := base.ExportAs.Lookup()
+	g.Expect(ok).To(BeTrue())
+	g.Expect(exportAs).To(Equal("PersonAlias"))
+}
+
+func TestTypeConfiguration_Merge_WhenConflicts_ReturnsError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	base := NewTypeConfiguration("Person")
+	base.SupportedFrom.Set("beta.0")
+	
+	other := NewTypeConfiguration("Person")
+	other.SupportedFrom.Set("beta.1")
+	
+	err := base.Merge(other)
+	g.Expect(err).To(MatchError(ContainSubstring("conflict")))
+}

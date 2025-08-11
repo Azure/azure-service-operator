@@ -68,3 +68,59 @@ func TestVersionConfiguration_AddTypeAlias_WhenTypeClashes_ReturnsError(t *testi
 
 	g.Expect(vc.addTypeAlias("Person", "Party")).NotTo(Succeed())
 }
+
+func TestVersionConfiguration_Merge_WhenNil_ReturnsSuccess(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	base := NewVersionConfiguration("v1")
+	err := base.Merge(nil)
+	g.Expect(err).To(Succeed())
+}
+
+func TestVersionConfiguration_Merge_WhenEmpty_ReturnsSuccess(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	base := NewVersionConfiguration("v1")
+	other := NewVersionConfiguration("v1")
+	
+	err := base.Merge(other)
+	g.Expect(err).To(Succeed())
+}
+
+func TestVersionConfiguration_Merge_WhenNoConflicts_MergesSuccessfully(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	base := NewVersionConfiguration("v1")
+	base.addType("Person", NewTypeConfiguration("Person"))
+	
+	other := NewVersionConfiguration("v1")
+	other.addType("Company", NewTypeConfiguration("Company"))
+	
+	err := base.Merge(other)
+	g.Expect(err).To(Succeed())
+	
+	// Verify both types are present
+	g.Expect(base.types).To(HaveKey("Person"))
+	g.Expect(base.types).To(HaveKey("Company"))
+}
+
+func TestVersionConfiguration_Merge_WhenTypeConflicts_ReturnsError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	base := NewVersionConfiguration("v1")
+	personConfig := NewTypeConfiguration("Person")
+	personConfig.SupportedFrom.Set("beta.0")
+	base.addType("Person", personConfig)
+	
+	other := NewVersionConfiguration("v1")
+	conflictingPersonConfig := NewTypeConfiguration("Person")
+	conflictingPersonConfig.SupportedFrom.Set("beta.1")
+	other.addType("Person", conflictingPersonConfig)
+	
+	err := base.Merge(other)
+	g.Expect(err).To(MatchError(ContainSubstring("conflict")))
+}

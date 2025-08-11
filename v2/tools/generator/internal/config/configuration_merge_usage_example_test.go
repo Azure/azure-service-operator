@@ -6,7 +6,6 @@
 package config
 
 import (
-	"fmt"
 	"testing"
 
 	. "github.com/onsi/gomega"
@@ -57,12 +56,12 @@ func TestConfiguration_Merge_UsageExample(t *testing.T) {
 	g.Expect(base.SupportedResourcesReport.OutputFolder).To(Equal("reports"))
 	g.Expect(base.SupportedResourcesReport.CurrentRelease).To(Equal("v2.1.0"))
 
-	fmt.Printf("Merge successful! Final configuration:\n")
-	fmt.Printf("  SchemaRoot: %s\n", base.SchemaRoot)
-	fmt.Printf("  TypesOutputPath: %s\n", base.TypesOutputPath)
-	fmt.Printf("  SamplesPath: %s\n", base.SamplesPath)
-	fmt.Printf("  AnyTypePackages: %v\n", base.AnyTypePackages)
-	fmt.Printf("  ReportsOutputFolder: %s\n", base.SupportedResourcesReport.OutputFolder)
+	// fmt.Printf("Merge successful! Final configuration:\n")
+	// fmt.Printf("  SchemaRoot: %s\n", base.SchemaRoot)
+	// fmt.Printf("  TypesOutputPath: %s\n", base.TypesOutputPath)
+	// fmt.Printf("  SamplesPath: %s\n", base.SamplesPath)
+	// fmt.Printf("  AnyTypePackages: %v\n", base.AnyTypePackages)
+	// fmt.Printf("  ReportsOutputFolder: %s\n", base.SupportedResourcesReport.OutputFolder)
 }
 
 // TestConfiguration_Merge_ConflictExample demonstrates conflict detection
@@ -86,5 +85,5 @@ func TestConfiguration_Merge_ConflictExample(t *testing.T) {
 	g.Expect(err.Error()).To(ContainSubstring("base/schemas/"))
 	g.Expect(err.Error()).To(ContainSubstring("other/schemas/"))
 
-	fmt.Printf("Conflict detected as expected: %s\n", err.Error())
+	// fmt.Printf("Conflict detected as expected: %s\n", err.Error())
 }

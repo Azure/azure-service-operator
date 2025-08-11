@@ -86,13 +86,7 @@ func (c *configurable[T]) Merge(other *configurable[T]) error {
 	switch v := any(c.value).(type) {
 	case *string:
 		otherVal := any(other.value).(*string)
-		if *otherVal == "" {
-			return nil // Nothing to merge (empty string)
-		}
-		if *v == "" {
-			*v = *otherVal
-			return nil
-		}
+		// Both values are configured (non-nil), check if they conflict
 		if *v != *otherVal {
 			return eris.Errorf("conflict in %s for %s: base value %q cannot be overwritten with %q", c.tag, c.scope, *v, *otherVal)
 		}
@@ -100,15 +94,11 @@ func (c *configurable[T]) Merge(other *configurable[T]) error {
 
 	case *bool:
 		otherVal := any(other.value).(*bool)
-		if !*otherVal {
-			return nil // Nothing to merge (false is zero value)
+		// Both values are configured (non-nil), check if they conflict
+		if *v != *otherVal {
+			return eris.Errorf("conflict in %s for %s: base value %v cannot be overwritten with %v", c.tag, c.scope, *v, *otherVal)
 		}
-		if !*v {
-			*v = *otherVal
-			return nil
-		}
-		// Both are true - this is a conflict
-		return eris.Errorf("conflict in %s for %s: base value %v cannot be overwritten with %v", c.tag, c.scope, *v, *otherVal)
+		return nil
 
 	case *[]string:
 		otherVal := any(other.value).(*[]string)
@@ -144,24 +134,12 @@ func (c *configurable[T]) Merge(other *configurable[T]) error {
 
 	default:
 		// For enum types (PayloadType, ImportConfigMapMode, ReferenceType) and other types
-		// Check if values are equal
+		// Both values are configured (non-nil), check if they are the same
 		if any(*c.value) == any(*other.value) {
 			return nil // Same value, no conflict
 		}
 
-		// Check if the other value is the zero value
-		var zero T
-		if any(*other.value) == any(zero) {
-			return nil // Nothing to merge (zero value)
-		}
-
-		// Check if current value is zero value
-		if any(*c.value) == any(zero) {
-			*c.value = *other.value
-			return nil
-		}
-
-		// Both have non-zero values that differ - conflict
+		// Both have configured values that differ - conflict
 		return eris.Errorf("conflict in %s for %s: base value %v cannot be overwritten with %v", c.tag, c.scope, *c.value, *other.value)
 	}
 }

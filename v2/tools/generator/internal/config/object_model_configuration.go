@@ -408,8 +408,7 @@ func (omc *ObjectModelConfiguration) Merge(other *ObjectModelConfiguration) erro
 		return nil
 	}
 
-	// For now, implement a basic merge for groups map
-	// This is a simplified implementation - in reality we'd need to handle nested merging
+	// Merge groups map (this is the only field populated from configuration files)
 	for groupName, groupConfig := range other.groups {
 		if existingGroup, exists := omc.groups[groupName]; exists {
 			// Recursively merge group configurations
@@ -422,6 +421,5 @@ func (omc *ObjectModelConfiguration) Merge(other *ObjectModelConfiguration) erro
 		}
 	}
 
-	// TODO: Merge access fields properly - for now just basic implementation
 	return nil
 }
