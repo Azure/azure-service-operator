@@ -309,7 +309,7 @@ RATE_LIMIT_BUCKET_SIZE is the size of the bucket. This value only has an effect 
 
 ### DEFAULT_RECONCILE_POLICY
 
-DEFAULT_RECONCILE_POLICY specify which reconcile strategy to be used by the operator. If not specified, it is set to 'manage'.
+DEFAULT_RECONCILE_POLICY specifies the reconcile strategy to be used by the operator. If not specified, it is set to 'manage'.
 
 **Format:** `string`
 
