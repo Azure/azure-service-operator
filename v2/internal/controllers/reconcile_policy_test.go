@@ -10,6 +10,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
+	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
@@ -75,14 +76,88 @@ func Test_ReconcilePolicy_UnknownPolicyIsIgnored(t *testing.T) {
 	tc.Expect(rg.Status.Tags).To(HaveKeyWithValue("tag1", "value1"))
 }
 
-func Test_ReconcilePolicy_DetachOnDelete_SkipsDelete(t *testing.T) {
+func Test_ReconcilePolicy_SkipsDelete(t *testing.T) {
 	t.Parallel()
-	testDeleteSkipped(t, "detach-on-delete")
+
+	testCases := []struct {
+		name        string
+		policy      string
+		onNamespace bool
+	}{
+		{
+			name:        "DetachOnDelete_OnResource",
+			policy:      "detach-on-delete",
+			onNamespace: false,
+		},
+		{
+			name:        "Skip_OnResource",
+			policy:      "skip",
+			onNamespace: false,
+		},
+		{
+			name:        "DetachOnDelete_OnNamespace",
+			policy:      "detach-on-delete",
+			onNamespace: true,
+		},
+		{
+			name:        "Skip_OnNamespace",
+			policy:      "skip",
+			onNamespace: true,
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			t.Parallel()
+			testDeleteSkipped(
+				t,
+				deleteSkippedOptions{
+					policy:      tc.policy,
+					onNamespace: tc.onNamespace,
+				})
+		})
+	}
 }
 
-func Test_ReconcilePolicy_Skip_SkipsDelete(t *testing.T) {
+func Test_ReconcilePolicy_SkipReconcileAddedToNamespace_ReconcileIsSkipped(t *testing.T) {
 	t.Parallel()
-	testDeleteSkipped(t, "skip")
+
+	tc := globalTestContext.ForTest(t)
+
+	// Create a resource group
+	rg := tc.CreateTestResourceGroupAndWait()
+
+	// check properties
+	tc.Expect(rg.Status.Location).To(Equal(tc.AzureRegion))
+	tc.Expect(rg.Status.Properties.ProvisioningState).To(Equal(to.Ptr("Succeeded")))
+	tc.Expect(rg.Status.Id).ToNot(BeNil())
+
+	// Update the namespace to skip reconcile
+	ns := &corev1.Namespace{}
+	tc.GetResource(client.ObjectKey{Name: tc.Namespace}, ns)
+	oldNS := ns.DeepCopy()
+	ns.Annotations = make(map[string]string)
+	ns.Annotations["serviceoperator.azure.com/reconcile-policy"] = "skip"
+	tc.Patch(oldNS, ns)
+
+	// Update the tags
+	old := rg.DeepCopy()
+	rg.Spec.Tags["tag1"] = "value1"
+	tc.PatchResourceAndWait(old, rg)
+	tc.Expect(rg.Status.Tags).ToNot(HaveKey("tag1"))
+
+	// Stop skipping reconcile
+	oldNS = ns.DeepCopy()
+	delete(ns.Annotations, "serviceoperator.azure.com/reconcile-policy")
+	tc.Patch(oldNS, ns)
+
+	// ensure the tags get updated
+	objectKey := client.ObjectKeyFromObject(rg)
+	tc.Eventually(func() map[string]string {
+		newRG := &resources.ResourceGroup{}
+		tc.GetResource(objectKey, newRG)
+		return newRG.Status.Tags
+	}).Should(HaveKeyWithValue("tag1", "value1"))
 }
 
 func Test_ReconcilePolicy_SkippedParentDeleted_ChildIssuesDeleteToAzure(t *testing.T) {
@@ -198,7 +273,12 @@ func Test_ReconcilePolicySkip_CreatesSecretAndConfigMap(t *testing.T) {
 	tc.Patch(old, acct)
 }
 
-func testDeleteSkipped(t *testing.T, policy string) {
+type deleteSkippedOptions struct {
+	policy      string
+	onNamespace bool
+}
+
+func testDeleteSkipped(t *testing.T, opts deleteSkippedOptions) {
 	tc := globalTestContext.ForTest(t)
 
 	// Create a resource group
@@ -211,22 +291,32 @@ func testDeleteSkipped(t *testing.T, policy string) {
 	tc.Expect(rg.Status.Id).ToNot(BeNil())
 	armId := *rg.Status.Id
 
-	if policy == "skip" {
-		// This is a hack so that we can tell when reconcile has happened to avoid a race in the recording.
-		// It's only required in the skip case because for detach-on-delete we don't reconcile at all
-		// See HasReconcilePolicyAnnotationChanged
-		old := rg.DeepCopy()
-		rg.Status.Conditions[0].ObservedGeneration = -1
-		tc.PatchStatus(old, rg)
-	}
+	if !opts.onNamespace {
+		if opts.policy == "skip" {
+			// This is a hack so that we can tell when reconcile has happened to avoid a race in the recording.
+			// It's only required in the skip case because for detach-on-delete we don't reconcile at all
+			// See HasReconcilePolicyAnnotationChanged
+			old := rg.DeepCopy()
+			rg.Status.Conditions[0].ObservedGeneration = -1
+			tc.PatchStatus(old, rg)
+		}
 
-	// Update to skip reconcile
-	old := rg.DeepCopy()
-	rg.Annotations["serviceoperator.azure.com/reconcile-policy"] = policy
-	tc.Patch(old, rg)
-	// TODO: There may still be a race here where delete in the operator code gets the old cached value without the policy in the detach-on-delete case,
-	// TODO: since there is no reconcile after the annotation patch (see HasReconcilePolicyAnnotationChanged), so this eventually finishes quickly.
-	tc.Eventually(rg).Should(tc.Match.BeProvisioned(-1))
+		// Update to skip reconcile
+		old := rg.DeepCopy()
+		rg.Annotations["serviceoperator.azure.com/reconcile-policy"] = opts.policy
+		tc.Patch(old, rg)
+		// TODO: There may still be a race here where delete in the operator code gets the old cached value without the policy in the detach-on-delete case,
+		// TODO: since there is no reconcile after the annotation patch (see HasReconcilePolicyAnnotationChanged), so this eventually finishes quickly.
+		tc.Eventually(rg).Should(tc.Match.BeProvisioned(-1))
+	} else {
+		// Update the namespace to skip reconcile
+		ns := &corev1.Namespace{}
+		tc.GetResource(client.ObjectKey{Name: tc.Namespace}, ns)
+		oldNS := ns.DeepCopy()
+		ns.Annotations = make(map[string]string)
+		ns.Annotations["serviceoperator.azure.com/reconcile-policy"] = opts.policy
+		tc.Patch(oldNS, ns)
+	}
 
 	tc.DeleteResourceAndWait(rg)
 
@@ -247,6 +337,16 @@ func testDeleteSkipped(t *testing.T, policy string) {
 		Spec: rg.Spec,
 	}
 	tc.CreateResourceAndWait(newRG)
+
+	if opts.onNamespace {
+		// Remove skip reconcile annotation from the namespace
+		ns := &corev1.Namespace{}
+		tc.GetResource(client.ObjectKey{Name: tc.Namespace}, ns)
+		oldNS := ns.DeepCopy()
+		delete(ns.Annotations, "serviceoperator.azure.com/reconcile-policy")
+		tc.Patch(oldNS, ns)
+	}
+
 	// Delete it
 	tc.DeleteResourceAndWait(newRG)
 
