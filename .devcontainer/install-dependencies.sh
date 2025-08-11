@@ -223,13 +223,13 @@ fi
 go-install gofumpt mvdan.cc/gofumpt@latest
 
 # Install golangci-lint
-#doc# | golangci-lint | 2.1.5 | https://github.com/golangci/golangci-lint |
+#doc# | golangci-lint | 2.3.1 | https://github.com/golangci/golangci-lint |
 write-verbose "Checking for $TOOL_DEST/golangci-lint"
 if should-install "$TOOL_DEST/golangci-lint"; then
     write-info "Installing golangci-lint"
     # golangci-lint is provided by base image if in devcontainer
     # this command copied from there
-    curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b "$TOOL_DEST" v2.1.5 2>&1
+    curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b "$TOOL_DEST" v2.3.1 2>&1
 fi
 
 # Install Task
