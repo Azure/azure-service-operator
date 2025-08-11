@@ -202,4 +202,4 @@ TBD
 
 [Installing Google config connector doesn't support Helm](https://cloud.google.com/config-connector/docs/how-to/install-other-kubernetes)
 
-[Crossplane supports Helm but only for the core, providers and their CRDs are installed another way](https://docs.crossplane.io/v1.11/getting-started/provider-aws/)
+[Crossplane supports Helm but only for the core, providers and their CRDs are installed another way](https://docs.crossplane.io/v1.20/getting-started/provider-aws/)
