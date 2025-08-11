@@ -83,7 +83,7 @@ After making any changes, re-run `task generator:quick-checks`.
 ### 6. Write an Integration Test
 
 1.  Navigate to `v2/internal/controllers/`.
-2.  Find a test for a similar resource and copy it to a new file. The file should be named `<group>_<kind>_crud_test.go`.
+2.  Find a test for a similar resource and copy it to a new file. The file should be named `<group>_<kind>_v<version>_crud_test.go`.
 3.  Modify the test to create, verify, and delete your new resource. Ensure you are testing a representative set of properties.
 4.  Delete any existing recording file for your new test from the `recordings` sub-directory.
 5.  Run the test to record the interaction with Azure:
@@ -91,26 +91,48 @@ After making any changes, re-run `task generator:quick-checks`.
     TEST_FILTER=Test_<Group>_<Kind>_CRUD task controller:test-integration-envtest
     ```
     Replace `<Group>` and `<Kind>` with the appropriate values.
+    If you're missing the AZURE_TENANT_ID and AZURE_SUBSCRIPTION_ID environment variables, you can't make the recordings yourself; instead, pause and ask for someone to create these recordings for you.
+
+
+Tips
+
+* Prefer creating all resources at the same time using `CreateResourcesAndWait()` instead of creating them in sequence. This is to flush out any dependency issues. 
 
 ### 7. Create a Sample
 
 1.  Create a new sample YAML file in `v2/samples/<group>/<version>/`.
-2.  The sample should demonstrate a simple, working configuration of the resource.
+2.  The sample should demonstrate a simple, working configuration of the resource and all relevant dependencies. 
+    * Be sure to include any other resources that are required.
+    * Resources from other groups should be nested in a `refs` folder (see existing tests for how this pattern works).
 3.  Run the samples test to record the new sample's creation and deletion:
     ```bash
     TEST_FILTER=Test_Samples_CreationAndDeletion task controller:test-integration-envtest
     ```
+    Again, if you're missing the AZURE_TENANT_ID and AZURE_SUBSCRIPTION_ID environment variables, you can't make the recordings yourself; instead, pause and ask for someone to create these recordings for you.
 
 ### 8. Final Verification
 
-Run all local checks to ensure your changes haven't introduced any regressions.
+Run local checks to ensure your changes haven't introduced any regressions. The full verification process takes too long to run it in a single go; instead, run each of these in turn.  If any step fails, fix the issues and **start again from the beginning of the list.**
 
-```bash
-task ci
-```
+1.  **Format Code:** 
+    ```bash
+    task format-code
+    ```
 
-This command takes a long time but is the best way to ensure your pull request will pass CI. Once it completes successfully, your task is done.
+2.  **Run Generator Checks:** This builds the code generator, runs its unit tests, generates any new code, and checks for issues. 
+    ```bash
+    task generator:quick-checks
+    ```
+    
+3.  **Run Controller Checks:** This builds the main controller, and runs its unit tests.
+    ```bash
+    task controller:quick-checks
+    ```
 
+4. **Run asoctl Checks:** This builds `asoctl` and runs its unit tests
+    ```bash
+    task asoctl:quick-checks
+    ```
 
 ## Reference Documentation
 

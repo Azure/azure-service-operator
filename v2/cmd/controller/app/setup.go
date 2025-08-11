@@ -81,22 +81,21 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs *Fla
 		os.Exit(1)
 	}
 
-	var cacheFunc cache.NewCacheFunc
+	cacheOpts := cache.Options{
+		// This will make sure that if we try to read an object that is not cached, we will fail rather than start a new informer
+		ReaderFailOnMissingInformer: true,
+	}
 	if cfg.TargetNamespaces != nil && cfg.OperatorMode.IncludesWatchers() {
-		cacheFunc = func(config *rest.Config, opts cache.Options) (cache.Cache, error) {
-			opts.DefaultNamespaces = make(map[string]cache.Config, len(cfg.TargetNamespaces))
-			for _, ns := range cfg.TargetNamespaces {
-				opts.DefaultNamespaces[ns] = cache.Config{}
-			}
-
-			return cache.New(config, opts)
+		cacheOpts.DefaultNamespaces = make(map[string]cache.Config, len(cfg.TargetNamespaces))
+		for _, ns := range cfg.TargetNamespaces {
+			cacheOpts.DefaultNamespaces[ns] = cache.Config{}
 		}
 	}
 
 	k8sConfig := ctrl.GetConfigOrDie()
 	ctrlOptions := ctrl.Options{
 		Scheme:           scheme,
-		NewCache:         cacheFunc,
+		Cache:            cacheOpts,
 		LeaderElection:   flgs.EnableLeaderElection,
 		LeaderElectionID: "controllers-leader-election-azinfra-generated",
 		// Manually set lease duration (to default) so that we can use it for our leader elector too.

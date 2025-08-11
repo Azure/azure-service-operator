@@ -7,6 +7,7 @@ import (
 	"fmt"
 	v20220615s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20220615/storage"
 	v20221001s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20221001/storage"
+	v20230311s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230311/storage"
 	v20230601s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230601/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -936,8 +937,13 @@ func (rule *ScheduledQueryRule_STATUS) AssignProperties_From_ScheduledQueryRule_
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData_STATUSStash from SystemData")
 		}
+		var systemDataSTATUSStashLocal v20230311s.SystemData_STATUS
+		err = systemDataSTATUSStash.AssignProperties_To_SystemData_STATUS(&systemDataSTATUSStashLocal)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData_STATUSStash")
+		}
 		var systemDataSTATUSPivot v20230601s.SystemData_STATUS
-		err = systemDataSTATUSStash.AssignProperties_To_SystemData_STATUS(&systemDataSTATUSPivot)
+		err = systemDataSTATUSStashLocal.AssignProperties_To_SystemData_STATUS(&systemDataSTATUSPivot)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData_STATUSPivot from SystemData_STATUSStash")
 		}
@@ -1123,13 +1129,18 @@ func (rule *ScheduledQueryRule_STATUS) AssignProperties_To_ScheduledQueryRule_ST
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData_STATUSPivot from SystemData")
 		}
-		var systemDataSTATUSStash v20221001s.SystemData_STATUS
+		var systemDataSTATUSStash v20230311s.SystemData_STATUS
 		err = systemDataSTATUSStash.AssignProperties_From_SystemData_STATUS(&systemDataSTATUSPivot)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData_STATUSStash from SystemData_STATUSPivot")
 		}
+		var systemDataSTATUSStashLocal v20221001s.SystemData_STATUS
+		err = systemDataSTATUSStashLocal.AssignProperties_From_SystemData_STATUS(&systemDataSTATUSStash)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData_STATUSStash")
+		}
 		var systemDatum v20220615s.SystemData_STATUS
-		err = systemDatum.AssignProperties_From_SystemData_STATUS(&systemDataSTATUSStash)
+		err = systemDatum.AssignProperties_From_SystemData_STATUS(&systemDataSTATUSStashLocal)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData from SystemData_STATUSStash")
 		}

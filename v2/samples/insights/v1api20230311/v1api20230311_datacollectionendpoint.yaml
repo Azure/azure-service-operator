@@ -1,0 +1,11 @@
+apiVersion: insights.azure.com/v1api20230311
+kind: DataCollectionEndpoint
+metadata:
+  name: aso-sample-datacollectionendpoint
+  namespace: default
+spec:
+  description: "Sample data collection endpoint for monitoring"
+  kind: Linux
+  location: westus2
+  owner:
+    name: aso-sample-rg
