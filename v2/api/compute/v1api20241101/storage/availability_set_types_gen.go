@@ -193,7 +193,6 @@ type AvailabilitySet_Spec struct {
 	ScheduledEventsPolicy     *ScheduledEventsPolicy             `json:"scheduledEventsPolicy,omitempty"`
 	Sku                       *Sku                               `json:"sku,omitempty"`
 	Tags                      map[string]string                  `json:"tags,omitempty"`
-	VirtualMachines           []SubResource                      `json:"virtualMachines,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &AvailabilitySet_Spec{}

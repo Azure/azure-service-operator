@@ -54,9 +54,6 @@ type AvailabilitySetProperties struct {
 	// ScheduledEventsPolicy: Specifies Redeploy, Reboot and ScheduledEventsAdditionalPublishingTargets Scheduled Event related
 	// configurations for the availability set.
 	ScheduledEventsPolicy *ScheduledEventsPolicy `json:"scheduledEventsPolicy,omitempty"`
-
-	// VirtualMachines: A list of references to all virtual machines in the availability set.
-	VirtualMachines []SubResource `json:"virtualMachines,omitempty"`
 }
 
 // Describes a virtual machine scale set sku. NOTE: If the new VM SKU is not supported on the hardware the scale set is

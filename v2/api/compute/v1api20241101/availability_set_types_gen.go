@@ -291,9 +291,6 @@ type AvailabilitySet_Spec struct {
 
 	// Tags: Resource tags
 	Tags map[string]string `json:"tags,omitempty"`
-
-	// VirtualMachines: A list of references to all virtual machines in the availability set.
-	VirtualMachines []SubResource `json:"virtualMachines,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &AvailabilitySet_Spec{}
@@ -318,8 +315,7 @@ func (availabilitySet *AvailabilitySet_Spec) ConvertToARM(resolved genruntime.Co
 	if availabilitySet.PlatformFaultDomainCount != nil ||
 		availabilitySet.PlatformUpdateDomainCount != nil ||
 		availabilitySet.ProximityPlacementGroup != nil ||
-		availabilitySet.ScheduledEventsPolicy != nil ||
-		availabilitySet.VirtualMachines != nil {
+		availabilitySet.ScheduledEventsPolicy != nil {
 		result.Properties = &arm.AvailabilitySetProperties{}
 	}
 	if availabilitySet.PlatformFaultDomainCount != nil {
@@ -345,13 +341,6 @@ func (availabilitySet *AvailabilitySet_Spec) ConvertToARM(resolved genruntime.Co
 		}
 		scheduledEventsPolicy := *scheduledEventsPolicy_ARM.(*arm.ScheduledEventsPolicy)
 		result.Properties.ScheduledEventsPolicy = &scheduledEventsPolicy
-	}
-	for _, item := range availabilitySet.VirtualMachines {
-		item_ARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.Properties.VirtualMachines = append(result.Properties.VirtualMachines, *item_ARM.(*arm.SubResource))
 	}
 
 	// Set property "Sku":
@@ -465,19 +454,6 @@ func (availabilitySet *AvailabilitySet_Spec) PopulateFromARM(owner genruntime.Ar
 		availabilitySet.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			availabilitySet.Tags[key] = value
-		}
-	}
-
-	// Set property "VirtualMachines":
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		for _, item := range typedInput.Properties.VirtualMachines {
-			var item1 SubResource
-			err := item1.PopulateFromARM(owner, item)
-			if err != nil {
-				return err
-			}
-			availabilitySet.VirtualMachines = append(availabilitySet.VirtualMachines, item1)
 		}
 	}
 
@@ -609,24 +585,6 @@ func (availabilitySet *AvailabilitySet_Spec) AssignProperties_From_AvailabilityS
 	// Tags
 	availabilitySet.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
-	// VirtualMachines
-	if source.VirtualMachines != nil {
-		virtualMachineList := make([]SubResource, len(source.VirtualMachines))
-		for virtualMachineIndex, virtualMachineItem := range source.VirtualMachines {
-			// Shadow the loop variable to avoid aliasing
-			virtualMachineItem := virtualMachineItem
-			var virtualMachine SubResource
-			err := virtualMachine.AssignProperties_From_SubResource(&virtualMachineItem)
-			if err != nil {
-				return eris.Wrap(err, "calling AssignProperties_From_SubResource() to populate field VirtualMachines")
-			}
-			virtualMachineList[virtualMachineIndex] = virtualMachine
-		}
-		availabilitySet.VirtualMachines = virtualMachineList
-	} else {
-		availabilitySet.VirtualMachines = nil
-	}
-
 	// No error
 	return nil
 }
@@ -710,24 +668,6 @@ func (availabilitySet *AvailabilitySet_Spec) AssignProperties_To_AvailabilitySet
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(availabilitySet.Tags)
 
-	// VirtualMachines
-	if availabilitySet.VirtualMachines != nil {
-		virtualMachineList := make([]storage.SubResource, len(availabilitySet.VirtualMachines))
-		for virtualMachineIndex, virtualMachineItem := range availabilitySet.VirtualMachines {
-			// Shadow the loop variable to avoid aliasing
-			virtualMachineItem := virtualMachineItem
-			var virtualMachine storage.SubResource
-			err := virtualMachineItem.AssignProperties_To_SubResource(&virtualMachine)
-			if err != nil {
-				return eris.Wrap(err, "calling AssignProperties_To_SubResource() to populate field VirtualMachines")
-			}
-			virtualMachineList[virtualMachineIndex] = virtualMachine
-		}
-		destination.VirtualMachines = virtualMachineList
-	} else {
-		destination.VirtualMachines = nil
-	}
-
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		destination.PropertyBag = propertyBag
@@ -789,24 +729,6 @@ func (availabilitySet *AvailabilitySet_Spec) Initialize_From_AvailabilitySet_STA
 
 	// Tags
 	availabilitySet.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// VirtualMachines
-	if source.VirtualMachines != nil {
-		virtualMachineList := make([]SubResource, len(source.VirtualMachines))
-		for virtualMachineIndex, virtualMachineItem := range source.VirtualMachines {
-			// Shadow the loop variable to avoid aliasing
-			virtualMachineItem := virtualMachineItem
-			var virtualMachine SubResource
-			err := virtualMachine.Initialize_From_SubResource_STATUS(&virtualMachineItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field VirtualMachines")
-			}
-			virtualMachineList[virtualMachineIndex] = virtualMachine
-		}
-		availabilitySet.VirtualMachines = virtualMachineList
-	} else {
-		availabilitySet.VirtualMachines = nil
-	}
 
 	// No error
 	return nil

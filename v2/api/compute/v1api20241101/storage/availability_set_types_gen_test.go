@@ -304,7 +304,6 @@ func AddRelatedPropertyGeneratorsForAvailabilitySet_Spec(gens map[string]gopter.
 	gens["ProximityPlacementGroup"] = gen.PtrOf(SubResourceGenerator())
 	gens["ScheduledEventsPolicy"] = gen.PtrOf(ScheduledEventsPolicyGenerator())
 	gens["Sku"] = gen.PtrOf(SkuGenerator())
-	gens["VirtualMachines"] = gen.SliceOf(SubResourceGenerator())
 }
 
 func Test_DefaultVirtualMachineScaleSetInfo_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

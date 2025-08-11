@@ -92,7 +92,6 @@ func AddIndependentPropertyGeneratorsForAvailabilitySetProperties(gens map[strin
 func AddRelatedPropertyGeneratorsForAvailabilitySetProperties(gens map[string]gopter.Gen) {
 	gens["ProximityPlacementGroup"] = gen.PtrOf(SubResourceGenerator())
 	gens["ScheduledEventsPolicy"] = gen.PtrOf(ScheduledEventsPolicyGenerator())
-	gens["VirtualMachines"] = gen.SliceOf(SubResourceGenerator())
 }
 
 func Test_AvailabilitySet_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
