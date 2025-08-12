@@ -14,7 +14,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
 
-func Test_Compute_AvailabilitySet_CRUD(t *testing.T) {
+func Test_Compute_AvailabilitySet_v20241101_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
@@ -41,13 +41,14 @@ func Test_Compute_AvailabilitySet_CRUD(t *testing.T) {
 	tc.Expect(availabilitySet.Status.Id).ToNot(BeNil())
 	armId := *availabilitySet.Status.Id
 
-	// Perform a simple patch - update fault domain count
+	// Perform a simple patch - update tags
 	old := availabilitySet.DeepCopy()
-	newFaultDomainCount := 3
-	availabilitySet.Spec.PlatformFaultDomainCount = &newFaultDomainCount
+	newTags := map[string]string{"env": "test"}
+	availabilitySet.Spec.Tags = newTags
 	tc.PatchResourceAndWait(old, availabilitySet)
-	tc.Expect(*availabilitySet.Status.PlatformFaultDomainCount).To(Equal(newFaultDomainCount))
+	tc.Expect(availabilitySet.Status.Tags).To(Equal(newTags))
 
+	// Now check we can delete it
 	tc.DeleteResourceAndWait(availabilitySet)
 
 	// Ensure that the resource was really deleted in Azure
