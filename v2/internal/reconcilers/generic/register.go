@@ -26,6 +26,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
 	"sigs.k8s.io/controller-runtime/pkg/handler"
+	"sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 
 	"github.com/Azure/azure-service-operator/v2/internal/config"
@@ -91,7 +92,7 @@ func RegisterAll(
 	// pre-register any indexes we need
 	for _, obj := range objs {
 		for _, indexer := range obj.Indexes {
-			options.LogConstructor(nil).V(Info).Info("Registering indexer for type", "type", fmt.Sprintf("%T", obj.Obj), "key", indexer.Key)
+			mgr.GetLogger().V(Info).Info("Registering indexer for type", "type", fmt.Sprintf("%T", obj.Obj), "key", indexer.Key)
 			err := fieldIndexer.IndexField(context.Background(), obj.Obj, indexer.Key, indexer.Func)
 			if err != nil {
 				return eris.Wrapf(err, "failed to register indexer for %T, Key: %q", obj.Obj, indexer.Key)
@@ -101,7 +102,6 @@ func RegisterAll(
 
 	var errs []error
 	for _, obj := range objs {
-		options.LogConstructor(nil).V(Info).Info("Registering", "objectName", obj.Name)
 		// TODO: Consider pulling some of the construction of things out of register (gvk, etc), so that we can pass in just
 		// TODO: the applicable extensions rather than a map of all of them
 		if err := register(mgr, kubeClient, positiveConditions, obj, options); err != nil {
@@ -126,7 +126,7 @@ func register(
 	}
 
 	loggerFactory := func(mo genruntime.MetaObject) logr.Logger {
-		result := options.LogConstructor(nil)
+		result := mgr.GetLogger()
 		if options.LoggerFactory != nil {
 			if factoryResult := options.LoggerFactory(mo); factoryResult != (logr.Logger{}) && factoryResult != logr.Discard() {
 				result = factoryResult
@@ -137,7 +137,7 @@ func register(
 	}
 	eventRecorder := mgr.GetEventRecorderFor(info.Name)
 
-	options.LogConstructor(nil).V(Status).Info("Registering", "GVK", gvk)
+	mgr.GetLogger().V(Status).Info("Registering", "GVK", gvk)
 
 	reconciler := &GenericReconciler{
 		Reconciler:                info.Reconciler,
@@ -156,10 +156,15 @@ func register(
 		WithOptions(options.Options)
 	builder.Named(info.Name)
 
-	builder = builder.Watches(&corev1.Namespace{}, handler.EnqueueRequestsFromMapFunc(registerNamespaceWatcher(options, kubeClient, info.Obj, gvk)), ctrlbuilder.WithPredicates(reconcilers.ARMReconcilerAnnotationChangedPredicate()))
+	// All resources watch namespace for the reconcile-policy annotation
+	builder = builder.Watches(
+		&corev1.Namespace{},
+		handler.EnqueueRequestsFromMapFunc(registerNamespaceWatcher(kubeClient, gvk)),
+		ctrlbuilder.WithPredicates(reconcilers.ARMReconcilerAnnotationChangedPredicate()),
+	)
 
 	for _, watch := range info.Watches {
-		builder = builder.Watches(watch.Type, watch.MakeEventHandler(kubeClient, options.LogConstructor(nil).WithName(info.Name)))
+		builder = builder.Watches(watch.Type, watch.MakeEventHandler(kubeClient, mgr.GetLogger().WithName(info.Name)))
 	}
 
 	err = builder.Complete(reconciler)
@@ -171,10 +176,10 @@ func register(
 }
 
 // This registers a watcher on the namespace for the watched resource
-func registerNamespaceWatcher(options Options, kubeclient kubeclient.Client, object client.Object, gvk schema.GroupVersionKind) func(ctx context.Context, obj client.Object) []reconcile.Request {
-	options.LogConstructor(nil).V(Status).Info("Handler for resource object", "name", object.GetName(), "object.namespace", object.GetNamespace(), "object.kind", gvk.Kind)
+func registerNamespaceWatcher(kubeclient kubeclient.Client, gvk schema.GroupVersionKind) func(ctx context.Context, obj client.Object) []reconcile.Request {
 	return func(ctx context.Context, obj client.Object) []reconcile.Request {
 		reconcileRequests := []reconcile.Request{}
+		log := log.FromContext(ctx)
 
 		aList := &unstructured.UnstructuredList{}
 		aList.SetGroupVersionKind(gvk)
@@ -182,7 +187,8 @@ func registerNamespaceWatcher(options Options, kubeclient kubeclient.Client, obj
 			return []reconcile.Request{}
 		}
 		// list the objects for the current kind
-		options.LogConstructor(nil).V(Verbose).Info("Detected namespace reconcile-policy annotation")
+
+		log.V(Verbose).Info("Detected namespace reconcile-policy annotation", "namespace", obj.GetName())
 		for _, el := range aList.Items {
 			if _, ok := el.GetAnnotations()["serviceoperator.azure.com/reconcile-policy"]; ok {
 				// If the annotation is defined for the object, there's no need to reconcile it and we skip the object
