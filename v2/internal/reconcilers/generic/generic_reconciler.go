@@ -12,7 +12,6 @@ import (
 	"time"
 
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
-	"github.com/Azure/azure-service-operator/v2/internal/version"
 
 	"github.com/go-logr/logr"
 	"github.com/rotisserie/eris"
@@ -31,6 +30,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/util/interval"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
+	"github.com/Azure/azure-service-operator/v2/internal/version"
 	"github.com/Azure/azure-service-operator/v2/pkg/common/annotations"
 	"github.com/Azure/azure-service-operator/v2/pkg/common/labels"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"

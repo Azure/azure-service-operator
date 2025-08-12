@@ -10,8 +10,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/go-logr/logr"
 	. "github.com/onsi/gomega"
+
+	"github.com/go-logr/logr"
 	apiextensions "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -29,18 +30,17 @@ import (
 
 // This test requires that the task target `bundle-crds` has been run
 func TestReconcileCRDs(t *testing.T) {
-	tests := []struct {
-		name             string
+	t.Parallel()
+
+	tests := map[string]struct {
 		instances        []*unstructured.Unstructured
 		expectDeprecated bool
 	}{
-		{
-			name:             "NoInstancesExist_Migrated",
+		"NoInstancesExist_Migrated": {
 			instances:        nil,
 			expectDeprecated: true,
 		},
-		{
-			name: "InstancesExistWithoutLatestVersion_NotMigrated",
+		"InstancesExistWithoutLatestVersion_NotMigrated": {
 			instances: []*unstructured.Unstructured{
 				{
 					Object: map[string]interface{}{
@@ -55,8 +55,7 @@ func TestReconcileCRDs(t *testing.T) {
 			},
 			expectDeprecated: false,
 		},
-		{
-			name: "InstancesExistWithLatestVersion_Migrated",
+		"InstancesExistWithLatestVersion_Migrated": {
 			instances: []*unstructured.Unstructured{
 				{
 					Object: map[string]interface{}{
@@ -74,8 +73,7 @@ func TestReconcileCRDs(t *testing.T) {
 			},
 			expectDeprecated: true,
 		},
-		{
-			name: "InstancesExistWithOlderVersion_NotMigrated",
+		"InstancesExistWithOlderVersion_NotMigrated": {
 			instances: []*unstructured.Unstructured{
 				{
 					Object: map[string]interface{}{
@@ -95,8 +93,8 @@ func TestReconcileCRDs(t *testing.T) {
 		},
 	}
 
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
+	for name, tt := range tests {
+		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
 
