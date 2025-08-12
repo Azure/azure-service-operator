@@ -1,0 +1,45 @@
+apiVersion: insights.azure.com/v1api20230601
+kind: Workbook
+metadata:
+  name: sample-workbook
+  namespace: default
+spec:
+  azureName: "c0de8e62-4b3a-4a1b-9b1a-1234567890ab"
+  location: westus
+  owner:
+    name: aso-sample-rg
+  category: "workbook"
+  kind: "shared"
+  displayName: "Sample ASO Workbook"
+  description: "A sample Azure Monitor Workbook created using Azure Service Operator"
+  serializedData: |
+    {
+      "version": "Notebook/1.0",
+      "items": [
+        {
+          "type": 1,
+          "content": {
+            "json": "## Hello from Azure Service Operator\n\nThis is a sample workbook created using ASO (Azure Service Operator).\n\n"
+          },
+          "name": "text - 0"
+        },
+        {
+          "type": 3,
+          "content": {
+            "version": "KqlItem/1.0",
+            "query": "// Sample query - count of resources by type\nresources\n| summarize count() by type\n| order by count_ desc",
+            "size": 0,
+            "title": "Resources by Type",
+            "queryType": 1,
+            "resourceType": "microsoft.resourcegraph/resources"
+          },
+          "name": "query - 1"
+        }
+      ],
+      "isLocked": false,
+      "fallbackResourceIds": []
+    }
+  version: "Notebook/1.0"
+  tags:
+    purpose: "sample"
+    source: "azure-service-operator"
