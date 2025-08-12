@@ -5,6 +5,7 @@ package storage
 
 import (
 	"encoding/json"
+	storage "github.com/Azure/azure-service-operator/v2/api/cache/v1api20241101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,91 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_RedisPatchSchedule_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RedisPatchSchedule to hub returns original",
+		prop.ForAll(RunResourceConversionTestForRedisPatchSchedule, RedisPatchScheduleGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForRedisPatchSchedule tests if a specific instance of RedisPatchSchedule round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForRedisPatchSchedule(subject RedisPatchSchedule) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub storage.RedisPatchSchedule
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual RedisPatchSchedule
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_RedisPatchSchedule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RedisPatchSchedule to RedisPatchSchedule via AssignProperties_To_RedisPatchSchedule & AssignProperties_From_RedisPatchSchedule returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRedisPatchSchedule, RedisPatchScheduleGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRedisPatchSchedule tests if a specific instance of RedisPatchSchedule can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForRedisPatchSchedule(subject RedisPatchSchedule) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.RedisPatchSchedule
+	err := copied.AssignProperties_To_RedisPatchSchedule(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RedisPatchSchedule
+	err = actual.AssignProperties_From_RedisPatchSchedule(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_RedisPatchSchedule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -78,6 +164,48 @@ func AddRelatedPropertyGeneratorsForRedisPatchSchedule(gens map[string]gopter.Ge
 	gens["Status"] = RedisPatchSchedule_STATUSGenerator()
 }
 
+func Test_RedisPatchScheduleOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RedisPatchScheduleOperatorSpec to RedisPatchScheduleOperatorSpec via AssignProperties_To_RedisPatchScheduleOperatorSpec & AssignProperties_From_RedisPatchScheduleOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRedisPatchScheduleOperatorSpec, RedisPatchScheduleOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRedisPatchScheduleOperatorSpec tests if a specific instance of RedisPatchScheduleOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForRedisPatchScheduleOperatorSpec(subject RedisPatchScheduleOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.RedisPatchScheduleOperatorSpec
+	err := copied.AssignProperties_To_RedisPatchScheduleOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RedisPatchScheduleOperatorSpec
+	err = actual.AssignProperties_From_RedisPatchScheduleOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_RedisPatchScheduleOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -131,6 +259,48 @@ func RedisPatchScheduleOperatorSpecGenerator() gopter.Gen {
 	redisPatchScheduleOperatorSpecGenerator = gen.Struct(reflect.TypeOf(RedisPatchScheduleOperatorSpec{}), generators)
 
 	return redisPatchScheduleOperatorSpecGenerator
+}
+
+func Test_RedisPatchSchedule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RedisPatchSchedule_STATUS to RedisPatchSchedule_STATUS via AssignProperties_To_RedisPatchSchedule_STATUS & AssignProperties_From_RedisPatchSchedule_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRedisPatchSchedule_STATUS, RedisPatchSchedule_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRedisPatchSchedule_STATUS tests if a specific instance of RedisPatchSchedule_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForRedisPatchSchedule_STATUS(subject RedisPatchSchedule_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.RedisPatchSchedule_STATUS
+	err := copied.AssignProperties_To_RedisPatchSchedule_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RedisPatchSchedule_STATUS
+	err = actual.AssignProperties_From_RedisPatchSchedule_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_RedisPatchSchedule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -211,6 +381,48 @@ func AddRelatedPropertyGeneratorsForRedisPatchSchedule_STATUS(gens map[string]go
 	gens["ScheduleEntries"] = gen.SliceOf(ScheduleEntry_STATUSGenerator())
 }
 
+func Test_RedisPatchSchedule_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RedisPatchSchedule_Spec to RedisPatchSchedule_Spec via AssignProperties_To_RedisPatchSchedule_Spec & AssignProperties_From_RedisPatchSchedule_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRedisPatchSchedule_Spec, RedisPatchSchedule_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRedisPatchSchedule_Spec tests if a specific instance of RedisPatchSchedule_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForRedisPatchSchedule_Spec(subject RedisPatchSchedule_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.RedisPatchSchedule_Spec
+	err := copied.AssignProperties_To_RedisPatchSchedule_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RedisPatchSchedule_Spec
+	err = actual.AssignProperties_From_RedisPatchSchedule_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_RedisPatchSchedule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -287,6 +499,48 @@ func AddRelatedPropertyGeneratorsForRedisPatchSchedule_Spec(gens map[string]gopt
 	gens["ScheduleEntries"] = gen.SliceOf(ScheduleEntryGenerator())
 }
 
+func Test_ScheduleEntry_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ScheduleEntry to ScheduleEntry via AssignProperties_To_ScheduleEntry & AssignProperties_From_ScheduleEntry returns original",
+		prop.ForAll(RunPropertyAssignmentTestForScheduleEntry, ScheduleEntryGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForScheduleEntry tests if a specific instance of ScheduleEntry can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForScheduleEntry(subject ScheduleEntry) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ScheduleEntry
+	err := copied.AssignProperties_To_ScheduleEntry(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ScheduleEntry
+	err = actual.AssignProperties_From_ScheduleEntry(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ScheduleEntry_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -347,6 +601,48 @@ func AddIndependentPropertyGeneratorsForScheduleEntry(gens map[string]gopter.Gen
 	gens["DayOfWeek"] = gen.PtrOf(gen.AlphaString())
 	gens["MaintenanceWindow"] = gen.PtrOf(gen.AlphaString())
 	gens["StartHourUtc"] = gen.PtrOf(gen.Int())
+}
+
+func Test_ScheduleEntry_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ScheduleEntry_STATUS to ScheduleEntry_STATUS via AssignProperties_To_ScheduleEntry_STATUS & AssignProperties_From_ScheduleEntry_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForScheduleEntry_STATUS, ScheduleEntry_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForScheduleEntry_STATUS tests if a specific instance of ScheduleEntry_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForScheduleEntry_STATUS(subject ScheduleEntry_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ScheduleEntry_STATUS
+	err := copied.AssignProperties_To_ScheduleEntry_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ScheduleEntry_STATUS
+	err = actual.AssignProperties_From_ScheduleEntry_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_ScheduleEntry_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
