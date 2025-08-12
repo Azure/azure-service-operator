@@ -182,3 +182,72 @@ func TestGroupConfiguration_VerifyPayloadTypeConsumed_WhenNotConsumed_ReturnsExp
 	g.Expect(err).NotTo(BeNil())
 	g.Expect(err.Error()).To(ContainSubstring(groupConfig.name))
 }
+
+func TestGroupConfiguration_Merge_WhenNil_ReturnsSuccess(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	base := NewGroupConfiguration("Network")
+	err := base.Merge(nil)
+	g.Expect(err).To(Succeed())
+}
+
+func TestGroupConfiguration_Merge_WhenEmpty_ReturnsSuccess(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	base := NewGroupConfiguration("Network")
+	other := NewGroupConfiguration("Network")
+	
+	err := base.Merge(other)
+	g.Expect(err).To(Succeed())
+}
+
+func TestGroupConfiguration_Merge_WhenNoConflicts_MergesSuccessfully(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	base := NewGroupConfiguration("Network")
+	base.PayloadType.Set(ExplicitProperties)
+	baseVersion := NewVersionConfiguration("v1api20210101")
+	base.addVersion("v1api20210101", baseVersion)
+	
+	other := NewGroupConfiguration("Network")
+	otherVersion := NewVersionConfiguration("v1api20210515")
+	other.addVersion("v1api20210515", otherVersion)
+	
+	err := base.Merge(other)
+	g.Expect(err).To(Succeed())
+	
+	// Should have both versions
+	g.Expect(base.versions).To(HaveKey("v1api20210101"))
+	g.Expect(base.versions).To(HaveKey("v1api20210515"))
+	
+	// PayloadType should be preserved
+	val, ok := base.PayloadType.read()
+	g.Expect(ok).To(BeTrue())
+	g.Expect(val).To(Equal(ExplicitProperties))
+}
+
+func TestGroupConfiguration_Merge_WhenVersionConflicts_MergesVersions(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	base := NewGroupConfiguration("Network")
+	baseVersion := NewVersionConfiguration("v1api20210101")
+	base.addVersion("v1api20210101", baseVersion)
+	
+	other := NewGroupConfiguration("Network")
+	otherVersion := NewVersionConfiguration("v1api20210101")
+	otherTypeConfig := NewTypeConfiguration("VirtualNetwork")
+	otherVersion.addType("VirtualNetwork", otherTypeConfig)
+	other.addVersion("v1api20210101", otherVersion)
+	
+	err := base.Merge(other)
+	g.Expect(err).To(Succeed())
+	
+	// Should have merged the version configurations
+	mergedVersion := base.versions["v1api20210101"]
+	g.Expect(mergedVersion).NotTo(BeNil())
+	g.Expect(mergedVersion.types).To(HaveKey("virtualnetwork")) // lowercase key
+}

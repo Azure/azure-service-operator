@@ -637,3 +637,69 @@ func TestObjectModelConfiguration_VerifyPayloadTypeConsumed_WhenUnconsumed_Retur
 	err := omc.PayloadType.VerifyConsumed()
 	g.Expect(err).NotTo(Succeed())
 }
+
+func TestObjectModelConfiguration_Merge_WhenNil_ReturnsSuccess(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	base := NewObjectModelConfiguration()
+	err := base.Merge(nil)
+	g.Expect(err).To(Succeed())
+}
+
+func TestObjectModelConfiguration_Merge_WhenEmpty_ReturnsSuccess(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	base := NewObjectModelConfiguration()
+	other := NewObjectModelConfiguration()
+	
+	err := base.Merge(other)
+	g.Expect(err).To(Succeed())
+}
+
+func TestObjectModelConfiguration_Merge_WhenNoConflicts_MergesSuccessfully(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	base := NewObjectModelConfiguration()
+	baseGroup := NewGroupConfiguration("Network")
+	base.addGroup("Network", baseGroup)
+	
+	other := NewObjectModelConfiguration()
+	otherGroup := NewGroupConfiguration("Compute")
+	other.addGroup("Compute", otherGroup)
+	
+	err := base.Merge(other)
+	g.Expect(err).To(Succeed())
+	
+	// Should have both groups (stored with lowercase keys)
+	g.Expect(base.groups).To(HaveKey("network"))
+	g.Expect(base.groups).To(HaveKey("compute"))
+}
+
+func TestObjectModelConfiguration_Merge_WhenGroupConflicts_MergesGroups(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	base := NewObjectModelConfiguration()
+	baseGroup := NewGroupConfiguration("Network")
+	baseVersion := NewVersionConfiguration("v1api20210101")
+	baseGroup.addVersion("v1api20210101", baseVersion)
+	base.addGroup("Network", baseGroup)
+	
+	other := NewObjectModelConfiguration()
+	otherGroup := NewGroupConfiguration("Network")
+	otherVersion := NewVersionConfiguration("v1api20210515")
+	otherGroup.addVersion("v1api20210515", otherVersion)
+	other.addGroup("Network", otherGroup)
+	
+	err := base.Merge(other)
+	g.Expect(err).To(Succeed())
+	
+	// Should have merged the group configurations (stored with lowercase key)
+	mergedGroup := base.groups["network"] // lowercase key
+	g.Expect(mergedGroup).NotTo(BeNil())
+	g.Expect(mergedGroup.versions).To(HaveKey("v1api20210101"))
+	g.Expect(mergedGroup.versions).To(HaveKey("v1api20210515"))
+}
