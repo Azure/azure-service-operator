@@ -17,30 +17,30 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>dbformariadb.azure.com/v1api20180601 | Azure Service Operator</title>
-<meta name="description" content="APIVersion Value Description “2018-06-01” Configuration Generator information: - Generated from: /mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/mariadb.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforMariaDB/​servers/​{serverName}/​configurations/​{configurationName}
-Used by: ConfigurationList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Configuration_SpecOptional status Configuration_STATUSOptional Configuration_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ConfigurationOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a dbformariadb.azure.com/Server resource genruntime.KnownResourceReferenceRequired source Source of the configuration. stringOptional value Value of the configuration. stringOptional Configuration_STATUS Property Description Type allowedValues Allowed values of the configuration. stringOptional conditions The observed state of the resource conditions.Condition[]Optional dataType Data type of the configuration. stringOptional defaultValue Default value of the configuration. stringOptional description Description of the configuration. stringOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional name The name of the resource stringOptional source Source of the configuration. stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional value Value of the configuration. stringOptional ConfigurationList Generator information: - Generated from: /mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/mariadb.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforMariaDB/​servers/​{serverName}/​configurations/​{configurationName}">
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/dbformariadb/v1api20180601/">
+<title>insights.azure.com/v1api20230601 | Azure Service Operator</title>
+<meta name="description" content="APIVersion Value Description “2023-06-01” Workbook Generator information: - Generated from: /applicationinsights/resource-manager/Microsoft.Insights/stable/2023-06-01/workbooks_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​workbooks/​{resourceName}
+Used by: WorkbookList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Workbook_SpecOptional status Workbook_STATUSOptional Workbook_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional category Workbook category, as defined by the user at creation time. stringRequired description The description of the workbook. stringOptional displayName The user-defined name (display name) of the workbook. stringRequired identity Identity used for BYOS ManagedServiceIdentityOptional kind The kind of workbook. Only valid value is shared. Workbook_Kind_SpecOptional location The geo-location where the resource lives stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure WorkbookOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired properties_tags Being deprecated, please use the other tags field string[]Optional serializedData Configuration of this particular workbook. Configuration data is a string containing valid JSON stringRequired sourceReference ResourceId for a source resource. genruntime.ResourceReferenceOptional storageUriReference The resourceId to the storage account when bring your own storage is used genruntime.ResourceReferenceOptional tags Resource tags. map[string]stringOptional version Workbook schema version format, like ‘Notebook/1.0’, which should match the workbook in serializedData stringOptional Workbook_STATUS Property Description Type category Workbook category, as defined by the user at creation time. stringOptional conditions The observed state of the resource conditions.Condition[]Optional description The description of the workbook. stringOptional displayName The user-defined name (display name) of the workbook. stringOptional etag Resource etag stringOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional identity Identity used for BYOS ManagedServiceIdentity_STATUSOptional kind The kind of workbook. Only valid value is shared. Workbook_Kind_STATUSOptional location The geo-location where the resource lives stringOptional name The name of the resource stringOptional properties_tags Being deprecated, please use the other tags field string[]Optional revision The unique revision id for this workbook definition stringOptional serializedData Configuration of this particular workbook. Configuration data is a string containing valid JSON stringOptional sourceId ResourceId for a source resource. stringOptional storageUri The resourceId to the storage account when bring your own storage is used stringOptional systemData Metadata pertaining to creation and last modification of the resource. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional timeModified Date and time in UTC of the last modification that was made to this workbook definition. stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional userId Unique user id of the specific user that owns this workbook. stringOptional version Workbook schema version format, like ‘Notebook/1.0’, which should match the workbook in serializedData stringOptional WorkbookList Generator information: - Generated from: /applicationinsights/resource-manager/Microsoft.Insights/stable/2023-06-01/workbooks_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​workbooks/​{resourceName}">
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/insights/v1api20230601/">
   <meta property="og:site_name" content="Azure Service Operator">
-  <meta property="og:title" content="dbformariadb.azure.com/v1api20180601">
-  <meta property="og:description" content="APIVersion Value Description “2018-06-01” Configuration Generator information: - Generated from: /mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/mariadb.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforMariaDB/​servers/​{serverName}/​configurations/​{configurationName}
-Used by: ConfigurationList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Configuration_SpecOptional status Configuration_STATUSOptional Configuration_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ConfigurationOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a dbformariadb.azure.com/Server resource genruntime.KnownResourceReferenceRequired source Source of the configuration. stringOptional value Value of the configuration. stringOptional Configuration_STATUS Property Description Type allowedValues Allowed values of the configuration. stringOptional conditions The observed state of the resource conditions.Condition[]Optional dataType Data type of the configuration. stringOptional defaultValue Default value of the configuration. stringOptional description Description of the configuration. stringOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional name The name of the resource stringOptional source Source of the configuration. stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional value Value of the configuration. stringOptional ConfigurationList Generator information: - Generated from: /mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/mariadb.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforMariaDB/​servers/​{serverName}/​configurations/​{configurationName}">
+  <meta property="og:title" content="insights.azure.com/v1api20230601">
+  <meta property="og:description" content="APIVersion Value Description “2023-06-01” Workbook Generator information: - Generated from: /applicationinsights/resource-manager/Microsoft.Insights/stable/2023-06-01/workbooks_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​workbooks/​{resourceName}
+Used by: WorkbookList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Workbook_SpecOptional status Workbook_STATUSOptional Workbook_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional category Workbook category, as defined by the user at creation time. stringRequired description The description of the workbook. stringOptional displayName The user-defined name (display name) of the workbook. stringRequired identity Identity used for BYOS ManagedServiceIdentityOptional kind The kind of workbook. Only valid value is shared. Workbook_Kind_SpecOptional location The geo-location where the resource lives stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure WorkbookOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired properties_tags Being deprecated, please use the other tags field string[]Optional serializedData Configuration of this particular workbook. Configuration data is a string containing valid JSON stringRequired sourceReference ResourceId for a source resource. genruntime.ResourceReferenceOptional storageUriReference The resourceId to the storage account when bring your own storage is used genruntime.ResourceReferenceOptional tags Resource tags. map[string]stringOptional version Workbook schema version format, like ‘Notebook/1.0’, which should match the workbook in serializedData stringOptional Workbook_STATUS Property Description Type category Workbook category, as defined by the user at creation time. stringOptional conditions The observed state of the resource conditions.Condition[]Optional description The description of the workbook. stringOptional displayName The user-defined name (display name) of the workbook. stringOptional etag Resource etag stringOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional identity Identity used for BYOS ManagedServiceIdentity_STATUSOptional kind The kind of workbook. Only valid value is shared. Workbook_Kind_STATUSOptional location The geo-location where the resource lives stringOptional name The name of the resource stringOptional properties_tags Being deprecated, please use the other tags field string[]Optional revision The unique revision id for this workbook definition stringOptional serializedData Configuration of this particular workbook. Configuration data is a string containing valid JSON stringOptional sourceId ResourceId for a source resource. stringOptional storageUri The resourceId to the storage account when bring your own storage is used stringOptional systemData Metadata pertaining to creation and last modification of the resource. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional timeModified Date and time in UTC of the last modification that was made to this workbook definition. stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional userId Unique user id of the specific user that owns this workbook. stringOptional version Workbook schema version format, like ‘Notebook/1.0’, which should match the workbook in serializedData stringOptional WorkbookList Generator information: - Generated from: /applicationinsights/resource-manager/Microsoft.Insights/stable/2023-06-01/workbooks_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​workbooks/​{resourceName}">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="reference">
 
-  <meta itemprop="name" content="dbformariadb.azure.com/v1api20180601">
-  <meta itemprop="description" content="APIVersion Value Description “2018-06-01” Configuration Generator information: - Generated from: /mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/mariadb.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforMariaDB/​servers/​{serverName}/​configurations/​{configurationName}
-Used by: ConfigurationList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Configuration_SpecOptional status Configuration_STATUSOptional Configuration_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ConfigurationOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a dbformariadb.azure.com/Server resource genruntime.KnownResourceReferenceRequired source Source of the configuration. stringOptional value Value of the configuration. stringOptional Configuration_STATUS Property Description Type allowedValues Allowed values of the configuration. stringOptional conditions The observed state of the resource conditions.Condition[]Optional dataType Data type of the configuration. stringOptional defaultValue Default value of the configuration. stringOptional description Description of the configuration. stringOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional name The name of the resource stringOptional source Source of the configuration. stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional value Value of the configuration. stringOptional ConfigurationList Generator information: - Generated from: /mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/mariadb.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforMariaDB/​servers/​{serverName}/​configurations/​{configurationName}">
-  <meta itemprop="wordCount" content="2814">
+  <meta itemprop="name" content="insights.azure.com/v1api20230601">
+  <meta itemprop="description" content="APIVersion Value Description “2023-06-01” Workbook Generator information: - Generated from: /applicationinsights/resource-manager/Microsoft.Insights/stable/2023-06-01/workbooks_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​workbooks/​{resourceName}
+Used by: WorkbookList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Workbook_SpecOptional status Workbook_STATUSOptional Workbook_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional category Workbook category, as defined by the user at creation time. stringRequired description The description of the workbook. stringOptional displayName The user-defined name (display name) of the workbook. stringRequired identity Identity used for BYOS ManagedServiceIdentityOptional kind The kind of workbook. Only valid value is shared. Workbook_Kind_SpecOptional location The geo-location where the resource lives stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure WorkbookOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired properties_tags Being deprecated, please use the other tags field string[]Optional serializedData Configuration of this particular workbook. Configuration data is a string containing valid JSON stringRequired sourceReference ResourceId for a source resource. genruntime.ResourceReferenceOptional storageUriReference The resourceId to the storage account when bring your own storage is used genruntime.ResourceReferenceOptional tags Resource tags. map[string]stringOptional version Workbook schema version format, like ‘Notebook/1.0’, which should match the workbook in serializedData stringOptional Workbook_STATUS Property Description Type category Workbook category, as defined by the user at creation time. stringOptional conditions The observed state of the resource conditions.Condition[]Optional description The description of the workbook. stringOptional displayName The user-defined name (display name) of the workbook. stringOptional etag Resource etag stringOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional identity Identity used for BYOS ManagedServiceIdentity_STATUSOptional kind The kind of workbook. Only valid value is shared. Workbook_Kind_STATUSOptional location The geo-location where the resource lives stringOptional name The name of the resource stringOptional properties_tags Being deprecated, please use the other tags field string[]Optional revision The unique revision id for this workbook definition stringOptional serializedData Configuration of this particular workbook. Configuration data is a string containing valid JSON stringOptional sourceId ResourceId for a source resource. stringOptional storageUri The resourceId to the storage account when bring your own storage is used stringOptional systemData Metadata pertaining to creation and last modification of the resource. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional timeModified Date and time in UTC of the last modification that was made to this workbook definition. stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional userId Unique user id of the specific user that owns this workbook. stringOptional version Workbook schema version format, like ‘Notebook/1.0’, which should match the workbook in serializedData stringOptional WorkbookList Generator information: - Generated from: /applicationinsights/resource-manager/Microsoft.Insights/stable/2023-06-01/workbooks_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​workbooks/​{resourceName}">
+  <meta itemprop="wordCount" content="1296">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="dbformariadb.azure.com/v1api20180601">
-  <meta name="twitter:description" content="APIVersion Value Description “2018-06-01” Configuration Generator information: - Generated from: /mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/mariadb.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforMariaDB/​servers/​{serverName}/​configurations/​{configurationName}
-Used by: ConfigurationList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Configuration_SpecOptional status Configuration_STATUSOptional Configuration_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ConfigurationOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a dbformariadb.azure.com/Server resource genruntime.KnownResourceReferenceRequired source Source of the configuration. stringOptional value Value of the configuration. stringOptional Configuration_STATUS Property Description Type allowedValues Allowed values of the configuration. stringOptional conditions The observed state of the resource conditions.Condition[]Optional dataType Data type of the configuration. stringOptional defaultValue Default value of the configuration. stringOptional description Description of the configuration. stringOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional name The name of the resource stringOptional source Source of the configuration. stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional value Value of the configuration. stringOptional ConfigurationList Generator information: - Generated from: /mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/mariadb.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforMariaDB/​servers/​{serverName}/​configurations/​{configurationName}">
+  <meta name="twitter:title" content="insights.azure.com/v1api20230601">
+  <meta name="twitter:description" content="APIVersion Value Description “2023-06-01” Workbook Generator information: - Generated from: /applicationinsights/resource-manager/Microsoft.Insights/stable/2023-06-01/workbooks_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​workbooks/​{resourceName}
+Used by: WorkbookList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Workbook_SpecOptional status Workbook_STATUSOptional Workbook_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional category Workbook category, as defined by the user at creation time. stringRequired description The description of the workbook. stringOptional displayName The user-defined name (display name) of the workbook. stringRequired identity Identity used for BYOS ManagedServiceIdentityOptional kind The kind of workbook. Only valid value is shared. Workbook_Kind_SpecOptional location The geo-location where the resource lives stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure WorkbookOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired properties_tags Being deprecated, please use the other tags field string[]Optional serializedData Configuration of this particular workbook. Configuration data is a string containing valid JSON stringRequired sourceReference ResourceId for a source resource. genruntime.ResourceReferenceOptional storageUriReference The resourceId to the storage account when bring your own storage is used genruntime.ResourceReferenceOptional tags Resource tags. map[string]stringOptional version Workbook schema version format, like ‘Notebook/1.0’, which should match the workbook in serializedData stringOptional Workbook_STATUS Property Description Type category Workbook category, as defined by the user at creation time. stringOptional conditions The observed state of the resource conditions.Condition[]Optional description The description of the workbook. stringOptional displayName The user-defined name (display name) of the workbook. stringOptional etag Resource etag stringOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional identity Identity used for BYOS ManagedServiceIdentity_STATUSOptional kind The kind of workbook. Only valid value is shared. Workbook_Kind_STATUSOptional location The geo-location where the resource lives stringOptional name The name of the resource stringOptional properties_tags Being deprecated, please use the other tags field string[]Optional revision The unique revision id for this workbook definition stringOptional serializedData Configuration of this particular workbook. Configuration data is a string containing valid JSON stringOptional sourceId ResourceId for a source resource. stringOptional storageUri The resourceId to the storage account when bring your own storage is used stringOptional systemData Metadata pertaining to creation and last modification of the resource. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional timeModified Date and time in UTC of the last modification that was made to this workbook definition. stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional userId Unique user id of the specific user that owns this workbook. stringOptional version Workbook schema version format, like ‘Notebook/1.0’, which should match the workbook in serializedData stringOptional WorkbookList Generator information: - Generated from: /applicationinsights/resource-manager/Microsoft.Insights/stable/2023-06-01/workbooks_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​workbooks/​{resourceName}">
 <link rel="preload" href="/azure-service-operator/scss/main.min.658f268d817cb14ad8f9bedca5f47d64fd9b6517c46fe050a6cf474d0af6804a.css" as="style" integrity="sha256-ZY8mjYF8sUrY&#43;b7cpfR9ZP2bZRfEb&#43;BQps9HTQr2gEo=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.658f268d817cb14ad8f9bedca5f47d64fd9b6517c46fe050a6cf474d0af6804a.css" rel="stylesheet" integrity="sha256-ZY8mjYF8sUrY&#43;b7cpfR9ZP2bZRfEb&#43;BQps9HTQr2gEo=" crossorigin="anonymous">
 <script
@@ -388,11 +388,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Configuration_S
   <a href="/azure-service-operator/reference/dataprotection/v1api20231101/" title="dataprotection.azure.com/v1api20231101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedataprotectionv1api20231101"><span class="">v1api20231101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreferencedbformariadb-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbformariadb-li">
   <a href="/azure-service-operator/reference/dbformariadb/" title="DBforMariaDB Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbformariadb"><span class="">DBforMariaDB</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorreferencedbformariadbv1api20180601-li">
-  <a href="/azure-service-operator/reference/dbformariadb/v1api20180601/" title="dbformariadb.azure.com/v1api20180601" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformariadbv1api20180601"><span class="td-sidebar-nav-active-item">v1api20180601</span></a>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformariadbv1api20180601-li">
+  <a href="/azure-service-operator/reference/dbformariadb/v1api20180601/" title="dbformariadb.azure.com/v1api20180601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformariadbv1api20180601"><span class="">v1api20180601</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbformysql-li">
@@ -477,32 +477,32 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Configuration_S
   <a href="/azure-service-operator/reference/network.frontdoor/v1api20220501/" title="network.frontdoor.azure.com/v1api20220501" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkfrontdoorv1api20220501"><span class="">v1api20220501</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceinsights-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreferenceinsights-li">
   <a href="/azure-service-operator/reference/insights/" title="Insights Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceinsights"><span class="">Insights</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20171001-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferenceinsightsv1api20171001-li">
   <a href="/azure-service-operator/reference/insights/v1api20171001/" title="insights.azure.com/v1api20171001" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20171001"><span class="">v1api20171001</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20180301-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferenceinsightsv1api20180301-li">
   <a href="/azure-service-operator/reference/insights/v1api20180301/" title="insights.azure.com/v1api20180301" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20180301"><span class="">v1api20180301</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20180501preview-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferenceinsightsv1api20180501preview-li">
   <a href="/azure-service-operator/reference/insights/v1api20180501preview/" title="insights.azure.com/v1api20180501preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20180501preview"><span class="">v1api20180501preview</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20200202-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferenceinsightsv1api20200202-li">
   <a href="/azure-service-operator/reference/insights/v1api20200202/" title="insights.azure.com/v1api20200202" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20200202"><span class="">v1api20200202</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20201001-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferenceinsightsv1api20201001-li">
   <a href="/azure-service-operator/reference/insights/v1api20201001/" title="insights.azure.com/v1api20201001" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20201001"><span class="">v1api20201001</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20210501preview-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferenceinsightsv1api20210501preview-li">
   <a href="/azure-service-operator/reference/insights/v1api20210501preview/" title="insights.azure.com/v1api20210501preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20210501preview"><span class="">v1api20210501preview</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20220615-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferenceinsightsv1api20220615-li">
   <a href="/azure-service-operator/reference/insights/v1api20220615/" title="insights.azure.com/v1api20220615" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20220615"><span class="">v1api20220615</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20221001-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferenceinsightsv1api20221001-li">
   <a href="/azure-service-operator/reference/insights/v1api20221001/" title="insights.azure.com/v1api20221001" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20221001"><span class="">v1api20221001</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20230101-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferenceinsightsv1api20230101-li">
   <a href="/azure-service-operator/reference/insights/v1api20230101/" title="insights.azure.com/v1api20230101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20230101"><span class="">v1api20230101</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20230311-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferenceinsightsv1api20230311-li">
   <a href="/azure-service-operator/reference/insights/v1api20230311/" title="insights.azure.com/v1api20230311" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20230311"><span class="">v1api20230311</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20230601-li">
-  <a href="/azure-service-operator/reference/insights/v1api20230601/" title="insights.azure.com/v1api20230601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20230601"><span class="">v1api20230601</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20240101preview-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorreferenceinsightsv1api20230601-li">
+  <a href="/azure-service-operator/reference/insights/v1api20230601/" title="insights.azure.com/v1api20230601" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20230601"><span class="td-sidebar-nav-active-item">v1api20230601</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferenceinsightsv1api20240101preview-li">
   <a href="/azure-service-operator/reference/insights/v1api20240101preview/" title="insights.azure.com/v1api20240101preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20240101preview"><span class="">v1api20240101preview</span></a>
 </li>
   </ul>
@@ -835,72 +835,27 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Configuration_S
         <nav id="TableOfContents">
   <ul>
     <li><a href="#APIVersion">APIVersion</a></li>
-    <li><a href="#Configuration">Configuration</a>
+    <li><a href="#Workbook">Workbook</a>
       <ul>
-        <li><a href="#Configuration_Spec">Configuration_Spec</a></li>
-        <li><a href="#Configuration_STATUS">Configuration_STATUS</a></li>
+        <li><a href="#Workbook_Spec">Workbook_Spec</a></li>
+        <li><a href="#Workbook_STATUS">Workbook_STATUS</a></li>
       </ul>
     </li>
-    <li><a href="#ConfigurationList">ConfigurationList</a></li>
-    <li><a href="#Database">Database</a>
-      <ul>
-        <li><a href="#Database_Spec">Database_Spec</a></li>
-        <li><a href="#Database_STATUS">Database_STATUS</a></li>
-      </ul>
-    </li>
-    <li><a href="#DatabaseList">DatabaseList</a></li>
-    <li><a href="#Server">Server</a>
-      <ul>
-        <li><a href="#Server_Spec">Server_Spec</a></li>
-        <li><a href="#Server_STATUS">Server_STATUS</a></li>
-      </ul>
-    </li>
-    <li><a href="#ServerList">ServerList</a></li>
-    <li><a href="#Configuration_Spec">Configuration_Spec</a></li>
-    <li><a href="#Configuration_STATUS">Configuration_STATUS</a></li>
-    <li><a href="#Database_Spec">Database_Spec</a></li>
-    <li><a href="#Database_STATUS">Database_STATUS</a></li>
-    <li><a href="#Server_Spec">Server_Spec</a></li>
-    <li><a href="#Server_STATUS">Server_STATUS</a></li>
-    <li><a href="#ConfigurationOperatorSpec">ConfigurationOperatorSpec</a></li>
-    <li><a href="#DatabaseOperatorSpec">DatabaseOperatorSpec</a></li>
-    <li><a href="#MinimalTlsVersion_STATUS">MinimalTlsVersion_STATUS</a></li>
-    <li><a href="#PublicNetworkAccess_STATUS">PublicNetworkAccess_STATUS</a></li>
-    <li><a href="#ServerOperatorSpec">ServerOperatorSpec</a></li>
-    <li><a href="#ServerPrivateEndpointConnection_STATUS">ServerPrivateEndpointConnection_STATUS</a></li>
-    <li><a href="#ServerProperties_UserVisibleState_STATUS">ServerProperties_UserVisibleState_STATUS</a></li>
-    <li><a href="#ServerPropertiesForCreate">ServerPropertiesForCreate</a></li>
-    <li><a href="#ServerVersion_STATUS">ServerVersion_STATUS</a></li>
-    <li><a href="#Sku">Sku</a></li>
-    <li><a href="#Sku_STATUS">Sku_STATUS</a></li>
-    <li><a href="#SslEnforcement_STATUS">SslEnforcement_STATUS</a></li>
-    <li><a href="#StorageProfile_STATUS">StorageProfile_STATUS</a></li>
-    <li><a href="#ServerOperatorSecrets">ServerOperatorSecrets</a></li>
-    <li><a href="#ServerPrivateEndpointConnectionProperties_STATUS">ServerPrivateEndpointConnectionProperties_STATUS</a></li>
-    <li><a href="#ServerPropertiesForDefaultCreate">ServerPropertiesForDefaultCreate</a></li>
-    <li><a href="#ServerPropertiesForGeoRestore">ServerPropertiesForGeoRestore</a></li>
-    <li><a href="#ServerPropertiesForReplica">ServerPropertiesForReplica</a></li>
-    <li><a href="#ServerPropertiesForRestore">ServerPropertiesForRestore</a></li>
-    <li><a href="#Sku_Tier">Sku_Tier</a></li>
-    <li><a href="#Sku_Tier_STATUS">Sku_Tier_STATUS</a></li>
-    <li><a href="#StorageProfile_GeoRedundantBackup_STATUS">StorageProfile_GeoRedundantBackup_STATUS</a></li>
-    <li><a href="#StorageProfile_StorageAutogrow_STATUS">StorageProfile_StorageAutogrow_STATUS</a></li>
-    <li><a href="#MinimalTlsVersion">MinimalTlsVersion</a></li>
-    <li><a href="#PrivateEndpointProperty_STATUS">PrivateEndpointProperty_STATUS</a></li>
-    <li><a href="#PublicNetworkAccess">PublicNetworkAccess</a></li>
-    <li><a href="#ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS">ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS</a></li>
-    <li><a href="#ServerPrivateLinkServiceConnectionStateProperty_STATUS">ServerPrivateLinkServiceConnectionStateProperty_STATUS</a></li>
-    <li><a href="#ServerPropertiesForDefaultCreate_CreateMode">ServerPropertiesForDefaultCreate_CreateMode</a></li>
-    <li><a href="#ServerPropertiesForGeoRestore_CreateMode">ServerPropertiesForGeoRestore_CreateMode</a></li>
-    <li><a href="#ServerPropertiesForReplica_CreateMode">ServerPropertiesForReplica_CreateMode</a></li>
-    <li><a href="#ServerPropertiesForRestore_CreateMode">ServerPropertiesForRestore_CreateMode</a></li>
-    <li><a href="#ServerVersion">ServerVersion</a></li>
-    <li><a href="#SslEnforcement">SslEnforcement</a></li>
-    <li><a href="#StorageProfile">StorageProfile</a></li>
-    <li><a href="#ServerPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS">ServerPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS</a></li>
-    <li><a href="#ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS">ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS</a></li>
-    <li><a href="#StorageProfile_GeoRedundantBackup">StorageProfile_GeoRedundantBackup</a></li>
-    <li><a href="#StorageProfile_StorageAutogrow">StorageProfile_StorageAutogrow</a></li>
+    <li><a href="#WorkbookList">WorkbookList</a></li>
+    <li><a href="#Workbook_Spec">Workbook_Spec</a></li>
+    <li><a href="#Workbook_STATUS">Workbook_STATUS</a></li>
+    <li><a href="#ManagedServiceIdentity">ManagedServiceIdentity</a></li>
+    <li><a href="#ManagedServiceIdentity_STATUS">ManagedServiceIdentity_STATUS</a></li>
+    <li><a href="#SystemData_STATUS">SystemData_STATUS</a></li>
+    <li><a href="#Workbook_Kind_Spec">Workbook_Kind_Spec</a></li>
+    <li><a href="#Workbook_Kind_STATUS">Workbook_Kind_STATUS</a></li>
+    <li><a href="#WorkbookOperatorSpec">WorkbookOperatorSpec</a></li>
+    <li><a href="#ManagedServiceIdentityType">ManagedServiceIdentityType</a></li>
+    <li><a href="#ManagedServiceIdentityType_STATUS">ManagedServiceIdentityType_STATUS</a></li>
+    <li><a href="#SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS</a></li>
+    <li><a href="#SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS</a></li>
+    <li><a href="#UserAssignedIdentity_STATUS">UserAssignedIdentity_STATUS</a></li>
+    <li><a href="#UserAssignedIdentityDetails">UserAssignedIdentityDetails</a></li>
   </ul>
 </nav>
       </div>
@@ -917,13 +872,13 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Configuration_S
   <li class="breadcrumb-item">
     <a href="/azure-service-operator/reference/">Supported Resources</a></li>
   <li class="breadcrumb-item">
-    <a href="/azure-service-operator/reference/dbformariadb/">DBforMariaDB</a></li>
+    <a href="/azure-service-operator/reference/insights/">Insights</a></li>
   <li class="breadcrumb-item active" aria-current="page">
-    v1api20180601</li>
+    v1api20230601</li>
   </ol>
 </nav>
 <div class="td-content">
-	<h1>dbformariadb.azure.com/v1api20180601</h1>
+	<h1>insights.azure.com/v1api20230601</h1>
 	
 	<header class="article-meta">
 		
@@ -939,14 +894,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Configuration_S
   </thead>
   <tbody>
       <tr>
-          <td>&ldquo;2018-06-01&rdquo;</td>
+          <td>&ldquo;2023-06-01&rdquo;</td>
           <td></td>
       </tr>
   </tbody>
 </table>
-<h2 id="Configuration">Configuration</h2>
-<p>Generator information: - Generated from: /mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/mariadb.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforMariaDB/​servers/​{serverName}/​configurations/​{configurationName}</p>
-<p>Used by: <a href="#ConfigurationList">ConfigurationList</a>.</p>
+<h2 id="Workbook">Workbook</h2>
+<p>Generator information: - Generated from: /applicationinsights/resource-manager/Microsoft.Insights/stable/2023-06-01/workbooks_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​workbooks/​{resourceName}</p>
+<p>Used by: <a href="#WorkbookList">WorkbookList</a>.</p>
 <table>
   <thead>
       <tr>
@@ -969,16 +924,16 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Configuration_S
       <tr>
           <td>spec</td>
           <td></td>
-          <td><a href="#Configuration_Spec">Configuration_Spec</a><br/><small>Optional</small></td>
+          <td><a href="#Workbook_Spec">Workbook_Spec</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>status</td>
           <td></td>
-          <td><a href="#Configuration_STATUS">Configuration_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#Workbook_STATUS">Workbook_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
-<h3 id="Configuration_Spec">Configuration_Spec</h3>
+<h3 id="Workbook_Spec">Workbook_Spec</h3>
 <table>
   <thead>
       <tr>
@@ -994,316 +949,39 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Configuration_S
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>operatorSpec</td>
-          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td><a href="#ConfigurationOperatorSpec">ConfigurationOperatorSpec</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>owner</td>
-          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a dbformariadb.azure.com/Server resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>source</td>
-          <td>Source of the configuration.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>value</td>
-          <td>Value of the configuration.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h3 id="Configuration_STATUS">Configuration_STATUS</h3>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>allowedValues</td>
-          <td>Allowed values of the configuration.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>conditions</td>
-          <td>The observed state of the resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>dataType</td>
-          <td>Data type of the configuration.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>defaultValue</td>
-          <td>Default value of the configuration.</td>
-          <td>string<br/><small>Optional</small></td>
+          <td>category</td>
+          <td>Workbook category, as defined by the user at creation time.</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
           <td>description</td>
-          <td>Description of the configuration.</td>
+          <td>The description of the workbook.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>id</td>
-          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
-          <td>string<br/><small>Optional</small></td>
+          <td>displayName</td>
+          <td>The user-defined name (display name) of the workbook.</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td>name</td>
-          <td>The name of the resource</td>
-          <td>string<br/><small>Optional</small></td>
+          <td>identity</td>
+          <td>Identity used for BYOS</td>
+          <td><a href="#ManagedServiceIdentity">ManagedServiceIdentity</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>source</td>
-          <td>Source of the configuration.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>type</td>
-          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>value</td>
-          <td>Value of the configuration.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ConfigurationList">ConfigurationList</h2>
-<p>Generator information: - Generated from: /mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/mariadb.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforMariaDB/​servers/​{serverName}/​configurations/​{configurationName}</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta">metav1.ListMeta</a></td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>items</td>
-          <td></td>
-          <td><a href="#Configuration">Configuration[]</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Database">Database</h2>
-<p>Generator information: - Generated from: /mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/mariadb.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforMariaDB/​servers/​{serverName}/​databases/​{databaseName}</p>
-<p>Used by: <a href="#DatabaseList">DatabaseList</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta">metav1.ObjectMeta</a></td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>spec</td>
-          <td></td>
-          <td><a href="#Database_Spec">Database_Spec</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>status</td>
-          <td></td>
-          <td><a href="#Database_STATUS">Database_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h3 id="Database_Spec">Database_Spec</h3>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>azureName</td>
-          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>charset</td>
-          <td>The charset of the database.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>collation</td>
-          <td>The collation of the database.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>operatorSpec</td>
-          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td><a href="#DatabaseOperatorSpec">DatabaseOperatorSpec</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>owner</td>
-          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a dbformariadb.azure.com/Server resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
-      </tr>
-  </tbody>
-</table>
-<h3 id="Database_STATUS">Database_STATUS</h3>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>charset</td>
-          <td>The charset of the database.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>collation</td>
-          <td>The collation of the database.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>conditions</td>
-          <td>The observed state of the resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>id</td>
-          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>name</td>
-          <td>The name of the resource</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>type</td>
-          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="DatabaseList">DatabaseList</h2>
-<p>Generator information: - Generated from: /mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/mariadb.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforMariaDB/​servers/​{serverName}/​databases/​{databaseName}</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta">metav1.ListMeta</a></td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>items</td>
-          <td></td>
-          <td><a href="#Database">Database[]</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Server">Server</h2>
-<p>Generator information: - Generated from: /mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/mariadb.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforMariaDB/​servers/​{serverName}</p>
-<p>Used by: <a href="#ServerList">ServerList</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta">metav1.ObjectMeta</a></td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>spec</td>
-          <td></td>
-          <td><a href="#Server_Spec">Server_Spec</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>status</td>
-          <td></td>
-          <td><a href="#Server_STATUS">Server_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h3 id="Server_Spec">Server_Spec</h3>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>azureName</td>
-          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
-          <td>string<br/><small>Optional</small></td>
+          <td>kind</td>
+          <td>The kind of workbook. Only valid value is shared.</td>
+          <td><a href="#Workbook_Kind_Spec">Workbook_Kind_Spec</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>location</td>
-          <td>The location the resource resides in.</td>
+          <td>The geo-location where the resource lives</td>
           <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
           <td>operatorSpec</td>
           <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td><a href="#ServerOperatorSpec">ServerOperatorSpec</a><br/><small>Optional</small></td>
+          <td><a href="#WorkbookOperatorSpec">WorkbookOperatorSpec</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>owner</td>
@@ -1311,23 +989,38 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Configuration_S
           <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td>properties</td>
-          <td>Properties of the server.</td>
-          <td><a href="#ServerPropertiesForCreate">ServerPropertiesForCreate</a><br/><small>Required</small></td>
+          <td>properties_tags</td>
+          <td>Being deprecated, please use the other tags field</td>
+          <td>string[]<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>sku</td>
-          <td>The SKU (pricing tier) of the server.</td>
-          <td><a href="#Sku">Sku</a><br/><small>Optional</small></td>
+          <td>serializedData</td>
+          <td>Configuration of this particular workbook. Configuration data is a string containing valid JSON</td>
+          <td>string<br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>sourceReference</td>
+          <td>ResourceId for a source resource.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>storageUriReference</td>
+          <td>The resourceId to the storage account when bring your own storage is used</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>tags</td>
-          <td>Application-specific metadata in the form of key-value pairs.</td>
+          <td>Resource tags.</td>
           <td>map[string]string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>version</td>
+          <td>Workbook schema version format, like &lsquo;Notebook/1.0&rsquo;, which should match the workbook in serializedData</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
-<h3 id="Server_STATUS">Server_STATUS</h3>
+<h3 id="Workbook_STATUS">Workbook_STATUS</h3>
 <table>
   <thead>
       <tr>
@@ -1338,8 +1031,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Configuration_S
   </thead>
   <tbody>
       <tr>
-          <td>administratorLogin</td>
-          <td>The administrator&rsquo;s login name of a server. Can only be specified when the server is being created (and is required for creation).</td>
+          <td>category</td>
+          <td>Workbook category, as defined by the user at creation time.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1348,13 +1041,18 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Configuration_S
           <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>earliestRestoreDate</td>
-          <td>Earliest restore point creation time (ISO8601 format)</td>
+          <td>description</td>
+          <td>The description of the workbook.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>fullyQualifiedDomainName</td>
-          <td>The fully qualified domain name of a server.</td>
+          <td>displayName</td>
+          <td>The user-defined name (display name) of the workbook.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>etag</td>
+          <td>Resource etag</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1363,19 +1061,19 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Configuration_S
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
+          <td>identity</td>
+          <td>Identity used for BYOS</td>
+          <td><a href="#ManagedServiceIdentity_STATUS">ManagedServiceIdentity_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>kind</td>
+          <td>The kind of workbook. Only valid value is shared.</td>
+          <td><a href="#Workbook_Kind_STATUS">Workbook_Kind_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
           <td>location</td>
           <td>The geo-location where the resource lives</td>
           <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>masterServerId</td>
-          <td>The master server id of a replica server.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>minimalTlsVersion</td>
-          <td>Enforce a minimal Tls version for the server.</td>
-          <td><a href="#MinimalTlsVersion_STATUS">MinimalTlsVersion_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>name</td>
@@ -1383,39 +1081,34 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Configuration_S
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>privateEndpointConnections</td>
-          <td>List of private endpoint connections on a server</td>
-          <td><a href="#ServerPrivateEndpointConnection_STATUS">ServerPrivateEndpointConnection_STATUS[]</a><br/><small>Optional</small></td>
+          <td>properties_tags</td>
+          <td>Being deprecated, please use the other tags field</td>
+          <td>string[]<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>publicNetworkAccess</td>
-          <td>Whether or not public network access is allowed for this server. Value is optional but if passed in, must be <code>Enabled</code> or <code>Disabled</code></td>
-          <td><a href="#PublicNetworkAccess_STATUS">PublicNetworkAccess_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>replicaCapacity</td>
-          <td>The maximum number of replicas that a master server can have.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>replicationRole</td>
-          <td>The replication role of the server.</td>
+          <td>revision</td>
+          <td>The unique revision id for this workbook definition</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>sku</td>
-          <td>The SKU (pricing tier) of the server.</td>
-          <td><a href="#Sku_STATUS">Sku_STATUS</a><br/><small>Optional</small></td>
+          <td>serializedData</td>
+          <td>Configuration of this particular workbook. Configuration data is a string containing valid JSON</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>sslEnforcement</td>
-          <td>Enable ssl enforcement or not when connect to server.</td>
-          <td><a href="#SslEnforcement_STATUS">SslEnforcement_STATUS</a><br/><small>Optional</small></td>
+          <td>sourceId</td>
+          <td>ResourceId for a source resource.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>storageProfile</td>
-          <td>Storage profile of a server.</td>
-          <td><a href="#StorageProfile_STATUS">StorageProfile_STATUS</a><br/><small>Optional</small></td>
+          <td>storageUri</td>
+          <td>The resourceId to the storage account when bring your own storage is used</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>systemData</td>
+          <td>Metadata pertaining to creation and last modification of the resource.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>tags</td>
@@ -1423,24 +1116,29 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Configuration_S
           <td>map[string]string<br/><small>Optional</small></td>
       </tr>
       <tr>
+          <td>timeModified</td>
+          <td>Date and time in UTC of the last modification that was made to this workbook definition.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
           <td>type</td>
           <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>userVisibleState</td>
-          <td>A state of a server that is visible to user.</td>
-          <td><a href="#ServerProperties_UserVisibleState_STATUS">ServerProperties_UserVisibleState_STATUS</a><br/><small>Optional</small></td>
+          <td>userId</td>
+          <td>Unique user id of the specific user that owns this workbook.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>version</td>
-          <td>Server version.</td>
-          <td><a href="#ServerVersion_STATUS">ServerVersion_STATUS</a><br/><small>Optional</small></td>
+          <td>Workbook schema version format, like &lsquo;Notebook/1.0&rsquo;, which should match the workbook in serializedData</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
-<h2 id="ServerList">ServerList</h2>
-<p>Generator information: - Generated from: /mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/mariadb.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DBforMariaDB/​servers/​{serverName}</p>
+<h2 id="WorkbookList">WorkbookList</h2>
+<p>Generator information: - Generated from: /applicationinsights/resource-manager/Microsoft.Insights/stable/2023-06-01/workbooks_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​workbooks/​{resourceName}</p>
 <table>
   <thead>
       <tr>
@@ -1463,12 +1161,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Configuration_S
       <tr>
           <td>items</td>
           <td></td>
-          <td><a href="#Server">Server[]</a><br/><small>Optional</small></td>
+          <td><a href="#Workbook">Workbook[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
-<h2 id="Configuration_Spec">Configuration_Spec</h2>
-<p>Used by: <a href="#Configuration">Configuration</a>.</p>
+<h2 id="Workbook_Spec">Workbook_Spec</h2>
+<p>Used by: <a href="#Workbook">Workbook</a>.</p>
 <table>
   <thead>
       <tr>
@@ -1484,196 +1182,39 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Configuration_S
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>operatorSpec</td>
-          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td><a href="#ConfigurationOperatorSpec">ConfigurationOperatorSpec</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>owner</td>
-          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a dbformariadb.azure.com/Server resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>source</td>
-          <td>Source of the configuration.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>value</td>
-          <td>Value of the configuration.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Configuration_STATUS">Configuration_STATUS</h2>
-<p>Used by: <a href="#Configuration">Configuration</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>allowedValues</td>
-          <td>Allowed values of the configuration.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>conditions</td>
-          <td>The observed state of the resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>dataType</td>
-          <td>Data type of the configuration.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>defaultValue</td>
-          <td>Default value of the configuration.</td>
-          <td>string<br/><small>Optional</small></td>
+          <td>category</td>
+          <td>Workbook category, as defined by the user at creation time.</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
           <td>description</td>
-          <td>Description of the configuration.</td>
+          <td>The description of the workbook.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>id</td>
-          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
-          <td>string<br/><small>Optional</small></td>
+          <td>displayName</td>
+          <td>The user-defined name (display name) of the workbook.</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
-          <td>name</td>
-          <td>The name of the resource</td>
-          <td>string<br/><small>Optional</small></td>
+          <td>identity</td>
+          <td>Identity used for BYOS</td>
+          <td><a href="#ManagedServiceIdentity">ManagedServiceIdentity</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>source</td>
-          <td>Source of the configuration.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>type</td>
-          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>value</td>
-          <td>Value of the configuration.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Database_Spec">Database_Spec</h2>
-<p>Used by: <a href="#Database">Database</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>azureName</td>
-          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>charset</td>
-          <td>The charset of the database.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>collation</td>
-          <td>The collation of the database.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>operatorSpec</td>
-          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td><a href="#DatabaseOperatorSpec">DatabaseOperatorSpec</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>owner</td>
-          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a dbformariadb.azure.com/Server resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Database_STATUS">Database_STATUS</h2>
-<p>Used by: <a href="#Database">Database</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>charset</td>
-          <td>The charset of the database.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>collation</td>
-          <td>The collation of the database.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>conditions</td>
-          <td>The observed state of the resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>id</td>
-          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>name</td>
-          <td>The name of the resource</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>type</td>
-          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Server_Spec">Server_Spec</h2>
-<p>Used by: <a href="#Server">Server</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>azureName</td>
-          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
-          <td>string<br/><small>Optional</small></td>
+          <td>kind</td>
+          <td>The kind of workbook. Only valid value is shared.</td>
+          <td><a href="#Workbook_Kind_Spec">Workbook_Kind_Spec</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>location</td>
-          <td>The location the resource resides in.</td>
+          <td>The geo-location where the resource lives</td>
           <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
           <td>operatorSpec</td>
           <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td><a href="#ServerOperatorSpec">ServerOperatorSpec</a><br/><small>Optional</small></td>
+          <td><a href="#WorkbookOperatorSpec">WorkbookOperatorSpec</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>owner</td>
@@ -1681,25 +1222,40 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Configuration_S
           <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td>properties</td>
-          <td>Properties of the server.</td>
-          <td><a href="#ServerPropertiesForCreate">ServerPropertiesForCreate</a><br/><small>Required</small></td>
+          <td>properties_tags</td>
+          <td>Being deprecated, please use the other tags field</td>
+          <td>string[]<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>sku</td>
-          <td>The SKU (pricing tier) of the server.</td>
-          <td><a href="#Sku">Sku</a><br/><small>Optional</small></td>
+          <td>serializedData</td>
+          <td>Configuration of this particular workbook. Configuration data is a string containing valid JSON</td>
+          <td>string<br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>sourceReference</td>
+          <td>ResourceId for a source resource.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>storageUriReference</td>
+          <td>The resourceId to the storage account when bring your own storage is used</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>tags</td>
-          <td>Application-specific metadata in the form of key-value pairs.</td>
+          <td>Resource tags.</td>
           <td>map[string]string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>version</td>
+          <td>Workbook schema version format, like &lsquo;Notebook/1.0&rsquo;, which should match the workbook in serializedData</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
-<h2 id="Server_STATUS">Server_STATUS</h2>
-<p>Represents a server.</p>
-<p>Used by: <a href="#Server">Server</a>.</p>
+<h2 id="Workbook_STATUS">Workbook_STATUS</h2>
+<p>A workbook definition.</p>
+<p>Used by: <a href="#Workbook">Workbook</a>.</p>
 <table>
   <thead>
       <tr>
@@ -1710,8 +1266,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Configuration_S
   </thead>
   <tbody>
       <tr>
-          <td>administratorLogin</td>
-          <td>The administrator&rsquo;s login name of a server. Can only be specified when the server is being created (and is required for creation).</td>
+          <td>category</td>
+          <td>Workbook category, as defined by the user at creation time.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1720,13 +1276,18 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Configuration_S
           <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>earliestRestoreDate</td>
-          <td>Earliest restore point creation time (ISO8601 format)</td>
+          <td>description</td>
+          <td>The description of the workbook.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>fullyQualifiedDomainName</td>
-          <td>The fully qualified domain name of a server.</td>
+          <td>displayName</td>
+          <td>The user-defined name (display name) of the workbook.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>etag</td>
+          <td>Resource etag</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1735,19 +1296,19 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Configuration_S
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
+          <td>identity</td>
+          <td>Identity used for BYOS</td>
+          <td><a href="#ManagedServiceIdentity_STATUS">ManagedServiceIdentity_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>kind</td>
+          <td>The kind of workbook. Only valid value is shared.</td>
+          <td><a href="#Workbook_Kind_STATUS">Workbook_Kind_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
           <td>location</td>
           <td>The geo-location where the resource lives</td>
           <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>masterServerId</td>
-          <td>The master server id of a replica server.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>minimalTlsVersion</td>
-          <td>Enforce a minimal Tls version for the server.</td>
-          <td><a href="#MinimalTlsVersion_STATUS">MinimalTlsVersion_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>name</td>
@@ -1755,39 +1316,34 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Configuration_S
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>privateEndpointConnections</td>
-          <td>List of private endpoint connections on a server</td>
-          <td><a href="#ServerPrivateEndpointConnection_STATUS">ServerPrivateEndpointConnection_STATUS[]</a><br/><small>Optional</small></td>
+          <td>properties_tags</td>
+          <td>Being deprecated, please use the other tags field</td>
+          <td>string[]<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>publicNetworkAccess</td>
-          <td>Whether or not public network access is allowed for this server. Value is optional but if passed in, must be <code>Enabled</code> or <code>Disabled</code></td>
-          <td><a href="#PublicNetworkAccess_STATUS">PublicNetworkAccess_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>replicaCapacity</td>
-          <td>The maximum number of replicas that a master server can have.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>replicationRole</td>
-          <td>The replication role of the server.</td>
+          <td>revision</td>
+          <td>The unique revision id for this workbook definition</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>sku</td>
-          <td>The SKU (pricing tier) of the server.</td>
-          <td><a href="#Sku_STATUS">Sku_STATUS</a><br/><small>Optional</small></td>
+          <td>serializedData</td>
+          <td>Configuration of this particular workbook. Configuration data is a string containing valid JSON</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>sslEnforcement</td>
-          <td>Enable ssl enforcement or not when connect to server.</td>
-          <td><a href="#SslEnforcement_STATUS">SslEnforcement_STATUS</a><br/><small>Optional</small></td>
+          <td>sourceId</td>
+          <td>ResourceId for a source resource.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>storageProfile</td>
-          <td>Storage profile of a server.</td>
-          <td><a href="#StorageProfile_STATUS">StorageProfile_STATUS</a><br/><small>Optional</small></td>
+          <td>storageUri</td>
+          <td>The resourceId to the storage account when bring your own storage is used</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>systemData</td>
+          <td>Metadata pertaining to creation and last modification of the resource.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>tags</td>
@@ -1795,25 +1351,164 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Configuration_S
           <td>map[string]string<br/><small>Optional</small></td>
       </tr>
       <tr>
+          <td>timeModified</td>
+          <td>Date and time in UTC of the last modification that was made to this workbook definition.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
           <td>type</td>
           <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>userVisibleState</td>
-          <td>A state of a server that is visible to user.</td>
-          <td><a href="#ServerProperties_UserVisibleState_STATUS">ServerProperties_UserVisibleState_STATUS</a><br/><small>Optional</small></td>
+          <td>userId</td>
+          <td>Unique user id of the specific user that owns this workbook.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>version</td>
-          <td>Server version.</td>
-          <td><a href="#ServerVersion_STATUS">ServerVersion_STATUS</a><br/><small>Optional</small></td>
+          <td>Workbook schema version format, like &lsquo;Notebook/1.0&rsquo;, which should match the workbook in serializedData</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
-<h2 id="ConfigurationOperatorSpec">ConfigurationOperatorSpec</h2>
+<h2 id="ManagedServiceIdentity">ManagedServiceIdentity</h2>
+<p>Managed service identity (system assigned and/or user assigned identities)</p>
+<p>Used by: <a href="#Workbook_Spec">Workbook_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>type</td>
+          <td>Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).</td>
+          <td><a href="#ManagedServiceIdentityType">ManagedServiceIdentityType</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>userAssignedIdentities</td>
+          <td></td>
+          <td><a href="#UserAssignedIdentityDetails">UserAssignedIdentityDetails[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="ManagedServiceIdentity_STATUS">ManagedServiceIdentity_STATUS</h2>
+<p>Managed service identity (system assigned and/or user assigned identities)</p>
+<p>Used by: <a href="#Workbook_STATUS">Workbook_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>principalId</td>
+          <td>The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>tenantId</td>
+          <td>The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>type</td>
+          <td>Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).</td>
+          <td><a href="#ManagedServiceIdentityType_STATUS">ManagedServiceIdentityType_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>userAssignedIdentities</td>
+          <td></td>
+          <td><a href="#UserAssignedIdentity_STATUS">map[string]UserAssignedIdentity_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SystemData_STATUS">SystemData_STATUS</h2>
+<p>Metadata pertaining to creation and last modification of the resource.</p>
+<p>Used by: <a href="#Workbook_STATUS">Workbook_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>createdAt</td>
+          <td>The timestamp of resource creation (UTC).</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>createdBy</td>
+          <td>The identity that created the resource.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>createdByType</td>
+          <td>The type of identity that created the resource.</td>
+          <td><a href="#SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>lastModifiedAt</td>
+          <td>The timestamp of resource last modification (UTC)</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>lastModifiedBy</td>
+          <td>The identity that last modified the resource.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>lastModifiedByType</td>
+          <td>The type of identity that last modified the resource.</td>
+          <td><a href="#SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="Workbook_Kind_Spec">Workbook_Kind_Spec</h2>
+<p>Used by: <a href="#Workbook_Spec">Workbook_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;shared&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="Workbook_Kind_STATUS">Workbook_Kind_STATUS</h2>
+<p>Used by: <a href="#Workbook_STATUS">Workbook_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;shared&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="WorkbookOperatorSpec">WorkbookOperatorSpec</h2>
 <p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
-<p>Used by: <a href="#Configuration_Spec">Configuration_Spec</a>.</p>
+<p>Used by: <a href="#Workbook_Spec">Workbook_Spec</a>.</p>
 <table>
   <thead>
       <tr>
@@ -1835,951 +1530,9 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Configuration_S
       </tr>
   </tbody>
 </table>
-<h2 id="DatabaseOperatorSpec">DatabaseOperatorSpec</h2>
-<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
-<p>Used by: <a href="#Database_Spec">Database_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>configMapExpressions</td>
-          <td>configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>secretExpressions</td>
-          <td>configures where to place operator written dynamic secrets (created with CEL expressions).</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="MinimalTlsVersion_STATUS">MinimalTlsVersion_STATUS</h2>
-<p>Enforce a minimal Tls version for the server.</p>
-<p>Used by: <a href="#Server_STATUS">Server_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;TLS1_0&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;TLS1_1&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;TLS1_2&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;TLSEnforcementDisabled&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="PublicNetworkAccess_STATUS">PublicNetworkAccess_STATUS</h2>
-<p>Whether or not public network access is allowed for this server. Value is optional but if passed in, must be <code>Enabled</code> or <code>Disabled</code></p>
-<p>Used by: <a href="#Server_STATUS">Server_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Disabled&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Enabled&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ServerOperatorSpec">ServerOperatorSpec</h2>
-<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
-<p>Used by: <a href="#Server_Spec">Server_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>configMapExpressions</td>
-          <td>configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>secretExpressions</td>
-          <td>configures where to place operator written dynamic secrets (created with CEL expressions).</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>secrets</td>
-          <td>configures where to place Azure generated secrets.</td>
-          <td><a href="#ServerOperatorSecrets">ServerOperatorSecrets</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ServerPrivateEndpointConnection_STATUS">ServerPrivateEndpointConnection_STATUS</h2>
-<p>A private endpoint connection under a server</p>
-<p>Used by: <a href="#Server_STATUS">Server_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>id</td>
-          <td>Resource Id of the private endpoint connection.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>properties</td>
-          <td>Private endpoint connection properties</td>
-          <td><a href="#ServerPrivateEndpointConnectionProperties_STATUS">ServerPrivateEndpointConnectionProperties_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ServerProperties_UserVisibleState_STATUS">ServerProperties_UserVisibleState_STATUS</h2>
-<p>Used by: <a href="#Server_STATUS">Server_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Disabled&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Dropping&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Ready&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ServerPropertiesForCreate">ServerPropertiesForCreate</h2>
-<p>Used by: <a href="#Server_Spec">Server_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>default</td>
-          <td>Mutually exclusive with all other properties</td>
-          <td><a href="#ServerPropertiesForDefaultCreate">ServerPropertiesForDefaultCreate</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>geoRestore</td>
-          <td>Mutually exclusive with all other properties</td>
-          <td><a href="#ServerPropertiesForGeoRestore">ServerPropertiesForGeoRestore</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>pointInTimeRestore</td>
-          <td>Mutually exclusive with all other properties</td>
-          <td><a href="#ServerPropertiesForRestore">ServerPropertiesForRestore</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>replica</td>
-          <td>Mutually exclusive with all other properties</td>
-          <td><a href="#ServerPropertiesForReplica">ServerPropertiesForReplica</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ServerVersion_STATUS">ServerVersion_STATUS</h2>
-<p>The version of a server.</p>
-<p>Used by: <a href="#Server_STATUS">Server_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;10.2&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;10.3&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Sku">Sku</h2>
-<p>Billing information related properties of a server.</p>
-<p>Used by: <a href="#Server_Spec">Server_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>capacity</td>
-          <td>The scale up/out capacity, representing server&rsquo;s compute units.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>family</td>
-          <td>The family of hardware.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>name</td>
-          <td>The name of the sku, typically, tier + family + cores, e.g. B_Gen4_1, GP_Gen5_8.</td>
-          <td>string<br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>size</td>
-          <td>The size code, to be interpreted by resource as appropriate.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>tier</td>
-          <td>The tier of the particular SKU, e.g. Basic.</td>
-          <td><a href="#Sku_Tier">Sku_Tier</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Sku_STATUS">Sku_STATUS</h2>
-<p>Billing information related properties of a server.</p>
-<p>Used by: <a href="#Server_STATUS">Server_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>capacity</td>
-          <td>The scale up/out capacity, representing server&rsquo;s compute units.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>family</td>
-          <td>The family of hardware.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>name</td>
-          <td>The name of the sku, typically, tier + family + cores, e.g. B_Gen4_1, GP_Gen5_8.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>size</td>
-          <td>The size code, to be interpreted by resource as appropriate.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>tier</td>
-          <td>The tier of the particular SKU, e.g. Basic.</td>
-          <td><a href="#Sku_Tier_STATUS">Sku_Tier_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="SslEnforcement_STATUS">SslEnforcement_STATUS</h2>
-<p>Enable ssl enforcement or not when connect to server.</p>
-<p>Used by: <a href="#Server_STATUS">Server_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Disabled&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Enabled&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="StorageProfile_STATUS">StorageProfile_STATUS</h2>
-<p>Storage Profile properties of a server</p>
-<p>Used by: <a href="#Server_STATUS">Server_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>backupRetentionDays</td>
-          <td>Backup retention days for the server.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>geoRedundantBackup</td>
-          <td>Enable Geo-redundant or not for server backup.</td>
-          <td><a href="#StorageProfile_GeoRedundantBackup_STATUS">StorageProfile_GeoRedundantBackup_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>storageAutogrow</td>
-          <td>Enable Storage Auto Grow.</td>
-          <td><a href="#StorageProfile_StorageAutogrow_STATUS">StorageProfile_StorageAutogrow_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>storageMB</td>
-          <td>Max storage allowed for a server.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ServerOperatorSecrets">ServerOperatorSecrets</h2>
-<p>Used by: <a href="#ServerOperatorSpec">ServerOperatorSpec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>fullyQualifiedDomainName</td>
-          <td>indicates where the FullyQualifiedDomainName secret should be placed. If omitted, the secret will not be retrieved from Azure.</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">genruntime.SecretDestination</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ServerPrivateEndpointConnectionProperties_STATUS">ServerPrivateEndpointConnectionProperties_STATUS</h2>
-<p>Properties of a private endpoint connection.</p>
-<p>Used by: <a href="#ServerPrivateEndpointConnection_STATUS">ServerPrivateEndpointConnection_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>privateEndpoint</td>
-          <td>Private endpoint which the connection belongs to.</td>
-          <td><a href="#PrivateEndpointProperty_STATUS">PrivateEndpointProperty_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>privateLinkServiceConnectionState</td>
-          <td>Connection state of the private endpoint connection.</td>
-          <td><a href="#ServerPrivateLinkServiceConnectionStateProperty_STATUS">ServerPrivateLinkServiceConnectionStateProperty_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>provisioningState</td>
-          <td>State of the private endpoint connection.</td>
-          <td><a href="#ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS">ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ServerPropertiesForDefaultCreate">ServerPropertiesForDefaultCreate</h2>
-<p>Used by: <a href="#ServerPropertiesForCreate">ServerPropertiesForCreate</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>administratorLogin</td>
-          <td>The administrator&rsquo;s login name of a server. Can only be specified when the server is being created (and is required for creation).</td>
-          <td>string<br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>administratorLoginPassword</td>
-          <td>The password of the administrator login.</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference">genruntime.SecretReference</a><br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>createMode</td>
-          <td>The mode to create a new server.</td>
-          <td><a href="#ServerPropertiesForDefaultCreate_CreateMode">ServerPropertiesForDefaultCreate_CreateMode</a><br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>minimalTlsVersion</td>
-          <td>Enforce a minimal Tls version for the server.</td>
-          <td><a href="#MinimalTlsVersion">MinimalTlsVersion</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>publicNetworkAccess</td>
-          <td>Whether or not public network access is allowed for this server. Value is optional but if passed in, must be <code>Enabled</code> or <code>Disabled</code></td>
-          <td><a href="#PublicNetworkAccess">PublicNetworkAccess</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>sslEnforcement</td>
-          <td>Enable ssl enforcement or not when connect to server.</td>
-          <td><a href="#SslEnforcement">SslEnforcement</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>storageProfile</td>
-          <td>Storage profile of a server.</td>
-          <td><a href="#StorageProfile">StorageProfile</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>version</td>
-          <td>Server version.</td>
-          <td><a href="#ServerVersion">ServerVersion</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ServerPropertiesForGeoRestore">ServerPropertiesForGeoRestore</h2>
-<p>Used by: <a href="#ServerPropertiesForCreate">ServerPropertiesForCreate</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>createMode</td>
-          <td>The mode to create a new server.</td>
-          <td><a href="#ServerPropertiesForGeoRestore_CreateMode">ServerPropertiesForGeoRestore_CreateMode</a><br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>minimalTlsVersion</td>
-          <td>Enforce a minimal Tls version for the server.</td>
-          <td><a href="#MinimalTlsVersion">MinimalTlsVersion</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>publicNetworkAccess</td>
-          <td>Whether or not public network access is allowed for this server. Value is optional but if passed in, must be <code>Enabled</code> or <code>Disabled</code></td>
-          <td><a href="#PublicNetworkAccess">PublicNetworkAccess</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>sourceServerId</td>
-          <td>The source server id to restore from.</td>
-          <td>string<br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>sslEnforcement</td>
-          <td>Enable ssl enforcement or not when connect to server.</td>
-          <td><a href="#SslEnforcement">SslEnforcement</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>storageProfile</td>
-          <td>Storage profile of a server.</td>
-          <td><a href="#StorageProfile">StorageProfile</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>version</td>
-          <td>Server version.</td>
-          <td><a href="#ServerVersion">ServerVersion</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ServerPropertiesForReplica">ServerPropertiesForReplica</h2>
-<p>Used by: <a href="#ServerPropertiesForCreate">ServerPropertiesForCreate</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>createMode</td>
-          <td>The mode to create a new server.</td>
-          <td><a href="#ServerPropertiesForReplica_CreateMode">ServerPropertiesForReplica_CreateMode</a><br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>minimalTlsVersion</td>
-          <td>Enforce a minimal Tls version for the server.</td>
-          <td><a href="#MinimalTlsVersion">MinimalTlsVersion</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>publicNetworkAccess</td>
-          <td>Whether or not public network access is allowed for this server. Value is optional but if passed in, must be <code>Enabled</code> or <code>Disabled</code></td>
-          <td><a href="#PublicNetworkAccess">PublicNetworkAccess</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>sourceServerId</td>
-          <td>The master server id to create replica from.</td>
-          <td>string<br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>sslEnforcement</td>
-          <td>Enable ssl enforcement or not when connect to server.</td>
-          <td><a href="#SslEnforcement">SslEnforcement</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>storageProfile</td>
-          <td>Storage profile of a server.</td>
-          <td><a href="#StorageProfile">StorageProfile</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>version</td>
-          <td>Server version.</td>
-          <td><a href="#ServerVersion">ServerVersion</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ServerPropertiesForRestore">ServerPropertiesForRestore</h2>
-<p>Used by: <a href="#ServerPropertiesForCreate">ServerPropertiesForCreate</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>createMode</td>
-          <td>The mode to create a new server.</td>
-          <td><a href="#ServerPropertiesForRestore_CreateMode">ServerPropertiesForRestore_CreateMode</a><br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>minimalTlsVersion</td>
-          <td>Enforce a minimal Tls version for the server.</td>
-          <td><a href="#MinimalTlsVersion">MinimalTlsVersion</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>publicNetworkAccess</td>
-          <td>Whether or not public network access is allowed for this server. Value is optional but if passed in, must be <code>Enabled</code> or <code>Disabled</code></td>
-          <td><a href="#PublicNetworkAccess">PublicNetworkAccess</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>restorePointInTime</td>
-          <td>Restore point creation time (ISO8601 format), specifying the time to restore from.</td>
-          <td>string<br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>sourceServerId</td>
-          <td>The source server id to restore from.</td>
-          <td>string<br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>sslEnforcement</td>
-          <td>Enable ssl enforcement or not when connect to server.</td>
-          <td><a href="#SslEnforcement">SslEnforcement</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>storageProfile</td>
-          <td>Storage profile of a server.</td>
-          <td><a href="#StorageProfile">StorageProfile</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>version</td>
-          <td>Server version.</td>
-          <td><a href="#ServerVersion">ServerVersion</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Sku_Tier">Sku_Tier</h2>
-<p>Used by: <a href="#Sku">Sku</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Basic&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;GeneralPurpose&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;MemoryOptimized&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Sku_Tier_STATUS">Sku_Tier_STATUS</h2>
-<p>Used by: <a href="#Sku_STATUS">Sku_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Basic&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;GeneralPurpose&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;MemoryOptimized&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="StorageProfile_GeoRedundantBackup_STATUS">StorageProfile_GeoRedundantBackup_STATUS</h2>
-<p>Used by: <a href="#StorageProfile_STATUS">StorageProfile_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Disabled&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Enabled&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="StorageProfile_StorageAutogrow_STATUS">StorageProfile_StorageAutogrow_STATUS</h2>
-<p>Used by: <a href="#StorageProfile_STATUS">StorageProfile_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Disabled&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Enabled&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="MinimalTlsVersion">MinimalTlsVersion</h2>
-<p>Enforce a minimal Tls version for the server.</p>
-<p>Used by: <a href="#ServerPropertiesForDefaultCreate">ServerPropertiesForDefaultCreate</a>, <a href="#ServerPropertiesForGeoRestore">ServerPropertiesForGeoRestore</a>, <a href="#ServerPropertiesForReplica">ServerPropertiesForReplica</a>, and <a href="#ServerPropertiesForRestore">ServerPropertiesForRestore</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;TLS1_0&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;TLS1_1&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;TLS1_2&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;TLSEnforcementDisabled&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="PrivateEndpointProperty_STATUS">PrivateEndpointProperty_STATUS</h2>
-<p>Used by: <a href="#ServerPrivateEndpointConnectionProperties_STATUS">ServerPrivateEndpointConnectionProperties_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>id</td>
-          <td>Resource id of the private endpoint.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="PublicNetworkAccess">PublicNetworkAccess</h2>
-<p>Whether or not public network access is allowed for this server. Value is optional but if passed in, must be <code>Enabled</code> or <code>Disabled</code></p>
-<p>Used by: <a href="#ServerPropertiesForDefaultCreate">ServerPropertiesForDefaultCreate</a>, <a href="#ServerPropertiesForGeoRestore">ServerPropertiesForGeoRestore</a>, <a href="#ServerPropertiesForReplica">ServerPropertiesForReplica</a>, and <a href="#ServerPropertiesForRestore">ServerPropertiesForRestore</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Disabled&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Enabled&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS">ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS</h2>
-<p>Used by: <a href="#ServerPrivateEndpointConnectionProperties_STATUS">ServerPrivateEndpointConnectionProperties_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Approving&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Dropping&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Failed&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Ready&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Rejecting&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ServerPrivateLinkServiceConnectionStateProperty_STATUS">ServerPrivateLinkServiceConnectionStateProperty_STATUS</h2>
-<p>Used by: <a href="#ServerPrivateEndpointConnectionProperties_STATUS">ServerPrivateEndpointConnectionProperties_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>actionsRequired</td>
-          <td>The actions required for private link service connection.</td>
-          <td><a href="#ServerPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS">ServerPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>description</td>
-          <td>The private link service connection description.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>status</td>
-          <td>The private link service connection status.</td>
-          <td><a href="#ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS">ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ServerPropertiesForDefaultCreate_CreateMode">ServerPropertiesForDefaultCreate_CreateMode</h2>
-<p>Used by: <a href="#ServerPropertiesForDefaultCreate">ServerPropertiesForDefaultCreate</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Default&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ServerPropertiesForGeoRestore_CreateMode">ServerPropertiesForGeoRestore_CreateMode</h2>
-<p>Used by: <a href="#ServerPropertiesForGeoRestore">ServerPropertiesForGeoRestore</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;GeoRestore&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ServerPropertiesForReplica_CreateMode">ServerPropertiesForReplica_CreateMode</h2>
-<p>Used by: <a href="#ServerPropertiesForReplica">ServerPropertiesForReplica</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Replica&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ServerPropertiesForRestore_CreateMode">ServerPropertiesForRestore_CreateMode</h2>
-<p>Used by: <a href="#ServerPropertiesForRestore">ServerPropertiesForRestore</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;PointInTimeRestore&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ServerVersion">ServerVersion</h2>
-<p>The version of a server.</p>
-<p>Used by: <a href="#ServerPropertiesForDefaultCreate">ServerPropertiesForDefaultCreate</a>, <a href="#ServerPropertiesForGeoRestore">ServerPropertiesForGeoRestore</a>, <a href="#ServerPropertiesForReplica">ServerPropertiesForReplica</a>, and <a href="#ServerPropertiesForRestore">ServerPropertiesForRestore</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;10.2&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;10.3&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="SslEnforcement">SslEnforcement</h2>
-<p>Enable ssl enforcement or not when connect to server.</p>
-<p>Used by: <a href="#ServerPropertiesForDefaultCreate">ServerPropertiesForDefaultCreate</a>, <a href="#ServerPropertiesForGeoRestore">ServerPropertiesForGeoRestore</a>, <a href="#ServerPropertiesForReplica">ServerPropertiesForReplica</a>, and <a href="#ServerPropertiesForRestore">ServerPropertiesForRestore</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Disabled&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Enabled&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="StorageProfile">StorageProfile</h2>
-<p>Storage Profile properties of a server</p>
-<p>Used by: <a href="#ServerPropertiesForDefaultCreate">ServerPropertiesForDefaultCreate</a>, <a href="#ServerPropertiesForGeoRestore">ServerPropertiesForGeoRestore</a>, <a href="#ServerPropertiesForReplica">ServerPropertiesForReplica</a>, and <a href="#ServerPropertiesForRestore">ServerPropertiesForRestore</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>backupRetentionDays</td>
-          <td>Backup retention days for the server.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>geoRedundantBackup</td>
-          <td>Enable Geo-redundant or not for server backup.</td>
-          <td><a href="#StorageProfile_GeoRedundantBackup">StorageProfile_GeoRedundantBackup</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>storageAutogrow</td>
-          <td>Enable Storage Auto Grow.</td>
-          <td><a href="#StorageProfile_StorageAutogrow">StorageProfile_StorageAutogrow</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>storageMB</td>
-          <td>Max storage allowed for a server.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ServerPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS">ServerPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS</h2>
-<p>Used by: <a href="#ServerPrivateLinkServiceConnectionStateProperty_STATUS">ServerPrivateLinkServiceConnectionStateProperty_STATUS</a>.</p>
+<h2 id="ManagedServiceIdentityType">ManagedServiceIdentityType</h2>
+<p>Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).</p>
+<p>Used by: <a href="#ManagedServiceIdentity">ManagedServiceIdentity</a>.</p>
 <table>
   <thead>
       <tr>
@@ -2792,10 +1545,23 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Configuration_S
           <td>&ldquo;None&rdquo;</td>
           <td></td>
       </tr>
+      <tr>
+          <td>&ldquo;SystemAssigned&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;SystemAssigned,UserAssigned&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;UserAssigned&rdquo;</td>
+          <td></td>
+      </tr>
   </tbody>
 </table>
-<h2 id="ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS">ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS</h2>
-<p>Used by: <a href="#ServerPrivateLinkServiceConnectionStateProperty_STATUS">ServerPrivateLinkServiceConnectionStateProperty_STATUS</a>.</p>
+<h2 id="ManagedServiceIdentityType_STATUS">ManagedServiceIdentityType_STATUS</h2>
+<p>Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).</p>
+<p>Used by: <a href="#ManagedServiceIdentity_STATUS">ManagedServiceIdentity_STATUS</a>.</p>
 <table>
   <thead>
       <tr>
@@ -2805,25 +1571,25 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Configuration_S
   </thead>
   <tbody>
       <tr>
-          <td>&ldquo;Approved&rdquo;</td>
+          <td>&ldquo;None&rdquo;</td>
           <td></td>
       </tr>
       <tr>
-          <td>&ldquo;Disconnected&rdquo;</td>
+          <td>&ldquo;SystemAssigned&rdquo;</td>
           <td></td>
       </tr>
       <tr>
-          <td>&ldquo;Pending&rdquo;</td>
+          <td>&ldquo;SystemAssigned,UserAssigned&rdquo;</td>
           <td></td>
       </tr>
       <tr>
-          <td>&ldquo;Rejected&rdquo;</td>
+          <td>&ldquo;UserAssigned&rdquo;</td>
           <td></td>
       </tr>
   </tbody>
 </table>
-<h2 id="StorageProfile_GeoRedundantBackup">StorageProfile_GeoRedundantBackup</h2>
-<p>Used by: <a href="#StorageProfile">StorageProfile</a>.</p>
+<h2 id="SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS</h2>
+<p>Used by: <a href="#SystemData_STATUS">SystemData_STATUS</a>.</p>
 <table>
   <thead>
       <tr>
@@ -2833,17 +1599,25 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Configuration_S
   </thead>
   <tbody>
       <tr>
-          <td>&ldquo;Disabled&rdquo;</td>
+          <td>&ldquo;Application&rdquo;</td>
           <td></td>
       </tr>
       <tr>
-          <td>&ldquo;Enabled&rdquo;</td>
+          <td>&ldquo;Key&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;ManagedIdentity&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;User&rdquo;</td>
           <td></td>
       </tr>
   </tbody>
 </table>
-<h2 id="StorageProfile_StorageAutogrow">StorageProfile_StorageAutogrow</h2>
-<p>Used by: <a href="#StorageProfile">StorageProfile</a>.</p>
+<h2 id="SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS</h2>
+<p>Used by: <a href="#SystemData_STATUS">SystemData_STATUS</a>.</p>
 <table>
   <thead>
       <tr>
@@ -2853,12 +1627,63 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Configuration_S
   </thead>
   <tbody>
       <tr>
-          <td>&ldquo;Disabled&rdquo;</td>
+          <td>&ldquo;Application&rdquo;</td>
           <td></td>
       </tr>
       <tr>
-          <td>&ldquo;Enabled&rdquo;</td>
+          <td>&ldquo;Key&rdquo;</td>
           <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;ManagedIdentity&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;User&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="UserAssignedIdentity_STATUS">UserAssignedIdentity_STATUS</h2>
+<p>User assigned identity properties</p>
+<p>Used by: <a href="#ManagedServiceIdentity_STATUS">ManagedServiceIdentity_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>clientId</td>
+          <td>The client ID of the assigned identity.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>principalId</td>
+          <td>The principal ID of the assigned identity.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="UserAssignedIdentityDetails">UserAssignedIdentityDetails</h2>
+<p>Information about the user assigned identity for the resource</p>
+<p>Used by: <a href="#ManagedServiceIdentity">ManagedServiceIdentity</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>reference</td>
+          <td></td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
