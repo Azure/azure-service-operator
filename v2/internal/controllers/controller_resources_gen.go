@@ -56,6 +56,9 @@ import (
 	cache_v20230801 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230801"
 	cache_v20230801s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230801/storage"
 	cache_v20230801w "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230801/webhook"
+	cache_v20241101 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20241101"
+	cache_v20241101s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20241101/storage"
+	cache_v20241101w "github.com/Azure/azure-service-operator/v2/api/cache/v1api20241101/webhook"
 	cache_v20250401 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20250401"
 	cache_v20250401s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20250401/storage"
 	cache_v20250401w "github.com/Azure/azure-service-operator/v2/api/cache/v1api20250401/webhook"
@@ -692,10 +695,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 	})
 	result = append(result, &registration.StorageType{Obj: new(authorization_v20220401s.RoleDefinition)})
 	result = append(result, &registration.StorageType{Obj: new(batch_v20210101s.BatchAccount)})
-	result = append(result, &registration.StorageType{Obj: new(cache_v20230801s.Redis)})
-	result = append(result, &registration.StorageType{Obj: new(cache_v20230801s.RedisFirewallRule)})
-	result = append(result, &registration.StorageType{Obj: new(cache_v20230801s.RedisLinkedServer)})
-	result = append(result, &registration.StorageType{Obj: new(cache_v20230801s.RedisPatchSchedule)})
+	result = append(result, &registration.StorageType{Obj: new(cache_v20241101s.Redis)})
+	result = append(result, &registration.StorageType{Obj: new(cache_v20241101s.RedisAccessPolicy)})
+	result = append(result, &registration.StorageType{Obj: new(cache_v20241101s.RedisAccessPolicyAssignment)})
+	result = append(result, &registration.StorageType{Obj: new(cache_v20241101s.RedisFirewallRule)})
+	result = append(result, &registration.StorageType{Obj: new(cache_v20241101s.RedisLinkedServer)})
+	result = append(result, &registration.StorageType{Obj: new(cache_v20241101s.RedisPatchSchedule)})
 	result = append(result, &registration.StorageType{Obj: new(cache_v20250401s.RedisEnterprise)})
 	result = append(result, &registration.StorageType{Obj: new(cache_v20250401s.RedisEnterpriseDatabase)})
 	result = append(result, &registration.StorageType{Obj: new(cdn_v20210601s.ProfilesEndpoint)})
@@ -2921,6 +2926,46 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(cache_v20230801s.RedisFirewallRule)},
 		&registration.KnownType{Obj: new(cache_v20230801s.RedisLinkedServer)},
 		&registration.KnownType{Obj: new(cache_v20230801s.RedisPatchSchedule)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(cache_v20241101.Redis),
+			Defaulter: &cache_v20241101w.Redis{},
+			Validator: &cache_v20241101w.Redis{},
+		},
+		&registration.KnownType{
+			Obj:       new(cache_v20241101.RedisAccessPolicy),
+			Defaulter: &cache_v20241101w.RedisAccessPolicy{},
+			Validator: &cache_v20241101w.RedisAccessPolicy{},
+		},
+		&registration.KnownType{
+			Obj:       new(cache_v20241101.RedisAccessPolicyAssignment),
+			Defaulter: &cache_v20241101w.RedisAccessPolicyAssignment{},
+			Validator: &cache_v20241101w.RedisAccessPolicyAssignment{},
+		},
+		&registration.KnownType{
+			Obj:       new(cache_v20241101.RedisFirewallRule),
+			Defaulter: &cache_v20241101w.RedisFirewallRule{},
+			Validator: &cache_v20241101w.RedisFirewallRule{},
+		},
+		&registration.KnownType{
+			Obj:       new(cache_v20241101.RedisLinkedServer),
+			Defaulter: &cache_v20241101w.RedisLinkedServer{},
+			Validator: &cache_v20241101w.RedisLinkedServer{},
+		},
+		&registration.KnownType{
+			Obj:       new(cache_v20241101.RedisPatchSchedule),
+			Defaulter: &cache_v20241101w.RedisPatchSchedule{},
+			Validator: &cache_v20241101w.RedisPatchSchedule{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(cache_v20241101s.Redis)},
+		&registration.KnownType{Obj: new(cache_v20241101s.RedisAccessPolicy)},
+		&registration.KnownType{Obj: new(cache_v20241101s.RedisAccessPolicyAssignment)},
+		&registration.KnownType{Obj: new(cache_v20241101s.RedisFirewallRule)},
+		&registration.KnownType{Obj: new(cache_v20241101s.RedisLinkedServer)},
+		&registration.KnownType{Obj: new(cache_v20241101s.RedisPatchSchedule)})
 	result = append(result, &registration.KnownType{
 		Obj:       new(cache_v20250401.RedisEnterprise),
 		Defaulter: &cache_v20250401w.RedisEnterprise{},
@@ -5368,6 +5413,8 @@ func createScheme() *runtime.Scheme {
 	_ = cache_v20230701s.AddToScheme(scheme)
 	_ = cache_v20230801.AddToScheme(scheme)
 	_ = cache_v20230801s.AddToScheme(scheme)
+	_ = cache_v20241101.AddToScheme(scheme)
+	_ = cache_v20241101s.AddToScheme(scheme)
 	_ = cache_v20250401.AddToScheme(scheme)
 	_ = cache_v20250401s.AddToScheme(scheme)
 	_ = cdn_v20210601.AddToScheme(scheme)
@@ -5588,6 +5635,8 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &authorization_customizations.RoleAssignmentExtension{})
 	result = append(result, &authorization_customizations.RoleDefinitionExtension{})
 	result = append(result, &batch_customizations.BatchAccountExtension{})
+	result = append(result, &cache_customizations.RedisAccessPolicyAssignmentExtension{})
+	result = append(result, &cache_customizations.RedisAccessPolicyExtension{})
 	result = append(result, &cache_customizations.RedisEnterpriseDatabaseExtension{})
 	result = append(result, &cache_customizations.RedisEnterpriseExtension{})
 	result = append(result, &cache_customizations.RedisExtension{})

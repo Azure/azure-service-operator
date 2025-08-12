@@ -1505,6 +1505,37 @@ objectModelConfiguration:
       Redis_PatchSchedule:
         $exportAs: RedisPatchSchedule
         $supportedFrom: v2.10.0
+    2024-11-01:
+      Redis:
+        $export: true
+        $supportedFrom: v2.15.0
+        $azureGeneratedSecrets:
+          - PrimaryKey
+          - SecondaryKey
+          - HostName
+          - Port
+          - SSLPort
+      RedisCreateProperties:
+        SubnetId:
+          $referenceType: arm
+      Redis_AccessPolicy:
+        $exportAs: RedisAccessPolicy
+        $supportedFrom: v2.15.0
+      Redis_AccessPolicyAssignment:
+        $exportAs: RedisAccessPolicyAssignment
+        $supportedFrom: v2.15.0
+      Redis_FirewallRule:
+        $exportAs: RedisFirewallRule
+        $supportedFrom: v2.15.0
+      Redis_LinkedServer:
+        $exportAs: RedisLinkedServer
+        $supportedFrom: v2.15.0
+      RedisLinkedServerCreateProperties:
+        LinkedRedisCacheId:
+          $referenceType: arm
+      Redis_PatchSchedule:
+        $exportAs: RedisPatchSchedule
+        $supportedFrom: v2.15.0
     2025-04-01:
       RedisEnterprise:
         $exportAs: RedisEnterprise
