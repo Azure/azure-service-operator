@@ -30,11 +30,23 @@ func NewRedactor(azureIDs creds.AzureIDs) *Redactor {
 	}
 
 	// Add AzureIDs redaction as default
-	redactor.AddLiteralRedaction(azureIDs.TenantID, nilGUID)
-	redactor.AddLiteralRedaction(azureIDs.SubscriptionID, nilGUID)
+	if azureIDs.TenantID != "" {
+		redactor.AddLiteralRedaction(azureIDs.TenantID, nilGUID)
+	}
+
+	if azureIDs.SubscriptionID != "" {
+		redactor.AddLiteralRedaction(azureIDs.SubscriptionID, nilGUID)
+	}
+
 	if azureIDs.BillingInvoiceID != "" {
 		redactor.AddLiteralRedaction(azureIDs.BillingInvoiceID, creds.DummyBillingID)
 	}
+
+	// Also redact OpenAI keys
+	redactor.AddRegexRedaction(
+		`"(?<key>key\d)":"[A-Za-z0-9]*"`,
+		`"$key":"{KEY}"`,
+	)
 
 	return redactor
 }
