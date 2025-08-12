@@ -649,6 +649,12 @@ typeTransformers:
     because: This property should be marked required in Swagger
 
   - group: insights
+    name: Workbook_Spec
+    property: Etag
+    remove: true
+    because: This property should be marked readonly in Swagger
+
+  - group: insights
     name: DataCollectionEndpointSpec
     property: ImmutableId
     remove: true
@@ -2947,6 +2953,15 @@ objectModelConfiguration:
         EventHubAuthorizationRuleId:
           $referenceType: arm
         StorageAccountId:
+          $referenceType: arm
+    2023-06-01:
+      Workbook:
+        $exportAs: Workbook
+        $supportedFrom: v2.15.0
+      WorkbookProperties:
+        SourceId:
+          $referenceType: arm
+        StorageUri:
           $referenceType: arm
     2022-10-01:
       Autoscalesetting:

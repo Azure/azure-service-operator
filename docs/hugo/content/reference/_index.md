@@ -561,6 +561,7 @@ Development of these new resources is complete and they will be available in the
 | DataCollectionEndpoint        | 2023-03-11  | v1api20230311 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/insights/v1api20230311/v1api20230311_datacollectionendpoint.yaml)        |
 | DataCollectionRuleAssociation | 2023-03-11  | v1api20230311 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/insights/v1api20230311/v1api20230311_datacollectionruleassociation.yaml) |
 | PricingPlan                   | 2017-10-01  | v1api20171001 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/insights/v1api/v1api20171001_pricingplan.yaml)                           |
+| Workbook                      | 2023-06-01  | v1api20230601 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/insights/v1api20230601/v1api20230601_workbook.yaml)                      |
 
 ### Latest Released Versions
 
