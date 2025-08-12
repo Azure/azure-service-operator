@@ -338,6 +338,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/contributing/upgrade-resource-version/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/insights/v1api20171001/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/insights/v1api20180301/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/network/v1api20180501/</loc>
@@ -363,6 +365,8 @@
     <loc>https://azure.github.io/azure-service-operator/reference/authorization/v1api20200801preview/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/compute/v1api20200930/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/insights/v1api20201001/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/network/v1api20201101/</loc>
   </url><url>
@@ -465,6 +469,8 @@
     <loc>https://azure.github.io/azure-service-operator/reference/containerservice/v1api20230201/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/alertsmanagement/v1api20230301/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/insights/v1api20230311/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/containerservice/v1api20230315preview/</loc>
   </url><url>
