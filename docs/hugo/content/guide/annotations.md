@@ -77,4 +77,3 @@ do not have this label.
 ### `serviceoperator.azure.com/last-reconciled-version`
 
 This label contains the version of ASO that last reconciled this resource.
-
