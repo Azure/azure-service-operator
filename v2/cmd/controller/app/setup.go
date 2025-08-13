@@ -47,6 +47,7 @@ import (
 	armreconciler "github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
 	entrareconciler "github.com/Azure/azure-service-operator/v2/internal/reconcilers/entra"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/generic"
+	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/migration/crd"
 	asocel "github.com/Azure/azure-service-operator/v2/internal/util/cel"
 	"github.com/Azure/azure-service-operator/v2/internal/util/interval"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
@@ -94,8 +95,15 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs *Fla
 
 	k8sConfig := ctrl.GetConfigOrDie()
 	ctrlOptions := ctrl.Options{
-		Scheme:           scheme,
-		Cache:            cacheOpts,
+		Scheme: scheme,
+		Cache:  cacheOpts,
+		Client: client.Options{
+			Cache: &client.CacheOptions{
+				DisableFor: []client.Object{
+					&apiextensions.CustomResourceDefinition{},
+				},
+			},
+		},
 		LeaderElection:   flgs.EnableLeaderElection,
 		LeaderElectionID: "controllers-leader-election-azinfra-generated",
 		// Manually set lease duration (to default) so that we can use it for our leader elector too.
@@ -190,7 +198,7 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs *Fla
 
 	if cfg.OperatorMode.IncludesWatchers() {
 		//nolint:contextcheck
-		err = initializeWatchers(readyResources, cfg, mgr, clients)
+		err = initializeWatchers(readyResources, cfg, mgr, clients, flgs)
 		if err != nil {
 			setupLog.Error(err, "failed to initialize watchers")
 			os.Exit(1)
@@ -445,7 +453,13 @@ func initializeClients(cfg config.Values, mgr ctrl.Manager) (*clients, error) {
 	}, nil
 }
 
-func initializeWatchers(readyResources map[string]apiextensions.CustomResourceDefinition, cfg config.Values, mgr ctrl.Manager, clients *clients) error {
+func initializeWatchers(
+	readyResources map[string]apiextensions.CustomResourceDefinition,
+	cfg config.Values,
+	mgr ctrl.Manager,
+	clients *clients,
+	flgs *Flags,
+) error {
 	clients.log.V(Status).Info("Configuration details", "config", cfg.String())
 
 	clientsProvider := &controllers.ClientsProvider{
@@ -480,6 +494,19 @@ func initializeWatchers(readyResources map[string]apiextensions.CustomResourceDe
 		clients.options)
 	if err != nil {
 		return eris.Wrap(err, "failed to register gvks")
+	}
+
+	// Register other controllers
+	if flgs.CRDManagementMode == "auto" {
+		deprecatedVersions := crdmanagement.GetAllDeprecatedStorageVersions(readyResources)
+		for crdName, versions := range deprecatedVersions {
+			clients.log.V(Status).Info("Will migrate storedVersions", "crdName", crdName, "versions", versions)
+		}
+		// Register the CRD migration reconciler
+		err = crd.NewReconciler(clients.kubeClient, mgr.GetCache(), deprecatedVersions, crd.Options{}).SetupWithManager(mgr)
+		if err != nil {
+			return eris.Wrap(err, "failed to register CRD migration reconciler")
+		}
 	}
 
 	return nil
@@ -531,7 +558,12 @@ func newCRDManager(
 ) (*crdmanagement.Manager, error) {
 	crdScheme := runtime.NewScheme()
 	_ = apiextensions.AddToScheme(crdScheme)
-	crdClient, err := client.New(k8sConfig, client.Options{Scheme: crdScheme})
+	crdClient, err := client.New(
+		k8sConfig,
+		client.Options{
+			Scheme: crdScheme,
+			// nil cache means we don't use the cache (reading direct from API server)
+		})
 	if err != nil {
 		return nil, eris.Wrap(err, "unable to create CRD client")
 	}

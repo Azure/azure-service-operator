@@ -52,3 +52,15 @@ func GetDeprecatedStorageVersions(crd apiextensions.CustomResourceDefinition) ([
 
 	return newStoredVersions, removedVersions
 }
+
+// GetDeprecatedStorageVersions returns a map of CRD names to their deprecated storage versions.
+func GetAllDeprecatedStorageVersions(crds map[string]apiextensions.CustomResourceDefinition) map[string][]string {
+	result := make(map[string][]string)
+	for _, crd := range crds {
+		_, deprecatedVersions := GetDeprecatedStorageVersions(crd)
+		if len(deprecatedVersions) > 0 {
+			result[crd.Name] = deprecatedVersions
+		}
+	}
+	return result
+}

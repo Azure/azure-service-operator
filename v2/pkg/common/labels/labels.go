@@ -14,9 +14,10 @@ import (
 )
 
 const (
-	OwnerNameLabel      = "serviceoperator.azure.com/owner-name"
-	OwnerGroupKindLabel = "serviceoperator.azure.com/owner-group-kind"
-	OwnerUIDLabel       = "serviceoperator.azure.com/owner-uid"
+	OwnerNameLabel             = "serviceoperator.azure.com/owner-name"
+	OwnerGroupKindLabel        = "serviceoperator.azure.com/owner-group-kind"
+	OwnerUIDLabel              = "serviceoperator.azure.com/owner-uid"
+	LastReconciledVersionLabel = "serviceoperator.azure.com/last-reconciled-version"
 )
 
 // SetOwnerNameLabel sets the owner name label on the given object, or truncates it to 63 characters if it exceeds the character limit.

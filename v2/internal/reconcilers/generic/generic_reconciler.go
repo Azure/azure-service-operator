@@ -30,7 +30,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/util/interval"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
+	"github.com/Azure/azure-service-operator/v2/internal/version"
 	"github.com/Azure/azure-service-operator/v2/pkg/common/annotations"
+	"github.com/Azure/azure-service-operator/v2/pkg/common/labels"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
@@ -235,6 +237,7 @@ func (gr *GenericReconciler) createOrUpdate(ctx context.Context, log logr.Logger
 		return ctrl.Result{}, err
 	}
 
+	genruntime.AddLabel(metaObj, labels.LastReconciledVersionLabel, version.BuildVersion)
 	reconcilePolicy := gr.mergeReconcilePolicy(ctx, log, metaObj)
 	if !reconcilePolicy.AllowsModify() {
 		return ctrl.Result{}, gr.handleSkipReconcile(ctx, log, metaObj)
