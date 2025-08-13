@@ -73,3 +73,8 @@ If the owning group-kind is longer than 63 characters it will be truncated to 63
 This label contains the UID of the resource that owns this resource.
 It is written on every resource reconciled by ASO that has an owner. Resources without owners, such as `ResourceGroup`,
 do not have this label.
+
+### `serviceoperator.azure.com/last-reconciled-version`
+
+This label contains the version of ASO that last reconciled this resource.
+
