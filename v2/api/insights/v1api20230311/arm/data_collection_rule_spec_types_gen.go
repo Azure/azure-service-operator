@@ -84,13 +84,6 @@ type DataCollectionRuleSpec struct {
 	StreamDeclarations map[string]StreamDeclaration `json:"streamDeclarations,omitempty"`
 }
 
-// Managed service identity (system assigned and/or user assigned identities)
-type ManagedServiceIdentity struct {
-	// Type: Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).
-	Type                   *ManagedServiceIdentityType            `json:"type,omitempty"`
-	UserAssignedIdentities map[string]UserAssignedIdentityDetails `json:"userAssignedIdentities,omitempty"`
-}
-
 // An agent setting
 type AgentSettingsSpec struct {
 	// Logs: All the settings that are applicable to the logs agent (AMA)
@@ -185,25 +178,6 @@ type DestinationsSpec struct {
 	StorageTablesDirect []StorageTableDestination `json:"storageTablesDirect,omitempty"`
 }
 
-// Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).
-// +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned,UserAssigned","UserAssigned"}
-type ManagedServiceIdentityType string
-
-const (
-	ManagedServiceIdentityType_None                       = ManagedServiceIdentityType("None")
-	ManagedServiceIdentityType_SystemAssigned             = ManagedServiceIdentityType("SystemAssigned")
-	ManagedServiceIdentityType_SystemAssignedUserAssigned = ManagedServiceIdentityType("SystemAssigned,UserAssigned")
-	ManagedServiceIdentityType_UserAssigned               = ManagedServiceIdentityType("UserAssigned")
-)
-
-// Mapping from string to ManagedServiceIdentityType
-var managedServiceIdentityType_Values = map[string]ManagedServiceIdentityType{
-	"none":                        ManagedServiceIdentityType_None,
-	"systemassigned":              ManagedServiceIdentityType_SystemAssigned,
-	"systemassigned,userassigned": ManagedServiceIdentityType_SystemAssignedUserAssigned,
-	"userassigned":                ManagedServiceIdentityType_UserAssigned,
-}
-
 // This section defines all the references that may be used in other sections of the DCR
 type ReferencesSpec struct {
 	// EnrichmentData: All the enrichment data sources referenced in data flows
@@ -214,10 +188,6 @@ type ReferencesSpec struct {
 type StreamDeclaration struct {
 	// Columns: List of columns used by data in this stream.
 	Columns []ColumnDefinition `json:"columns,omitempty"`
-}
-
-// Information about the user assigned identity for the resource
-type UserAssignedIdentityDetails struct {
 }
 
 // Azure Data Explorer (Adx) destination.

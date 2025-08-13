@@ -11,9 +11,9 @@ ComponentExtension: Object (0 properties)
 
 DataCollectionEndpointExtension: Object (0 properties)
 
-DataCollectionRuleExtension: Object (0 properties)
-
 DataCollectionRuleAssociationExtension: Object (0 properties)
+
+DataCollectionRuleExtension: Object (0 properties)
 
 DiagnosticSettingExtension: Object (0 properties)
 

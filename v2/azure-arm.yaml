@@ -3006,31 +3006,6 @@ objectModelConfiguration:
         ResourceId:
           $referenceType: arm
     2023-03-11:
-      DataCollectionEndpoint:
-        $exportAs: DataCollectionEndpoint
-        $supportedFrom: v2.15.0
-      DataCollectionRuleAssociation:
-        $exportAs: DataCollectionRuleAssociation
-        $supportedFrom: v2.15.0
-      DataCollectionRuleAssociationSpec:
-        DataCollectionEndpointId: 
-          $referenceType: arm
-        DataCollectionRuleId: 
-          $referenceType: arm
-    2024-01-01-preview:
-      ScheduledQueryRule:
-        $export: true
-        $supportedFrom: v2.12.0
-      Actions:
-        ActionGroups:
-          $referenceType: arm
-      Condition:
-        ResourceIdColumn:
-          $referenceType: arm
-      ScheduledQueryRuleProperties:
-        Scopes:
-          $referenceType: arm
-    2023-03-11:
       DataCollectionRule:
         $export: true
         $supportedFrom: v2.15.0
@@ -3060,6 +3035,30 @@ objectModelConfiguration:
           $referenceType: arm
       EventHubDestination:
         EventHubResourceId:
+          $referenceType: arm
+      DataCollectionEndpoint:
+        $exportAs: DataCollectionEndpoint
+        $supportedFrom: v2.15.0
+      DataCollectionRuleAssociation:
+        $exportAs: DataCollectionRuleAssociation
+        $supportedFrom: v2.15.0
+      DataCollectionRuleAssociationSpec:
+        DataCollectionEndpointId: 
+          $referenceType: arm
+        DataCollectionRuleId: 
+          $referenceType: arm
+    2024-01-01-preview:
+      ScheduledQueryRule:
+        $export: true
+        $supportedFrom: v2.12.0
+      Actions:
+        ActionGroups:
+          $referenceType: arm
+      Condition:
+        ResourceIdColumn:
+          $referenceType: arm
+      ScheduledQueryRuleProperties:
+        Scopes:
           $referenceType: arm
 
   keyvault:

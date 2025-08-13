@@ -167,12 +167,6 @@ type DataCollectionRuleList struct {
 	Items           []DataCollectionRule `json:"items"`
 }
 
-// Storage version of v1api20230311.APIVersion
-// +kubebuilder:validation:Enum={"2023-03-11"}
-type APIVersion string
-
-const APIVersion_Value = APIVersion("2023-03-11")
-
 // Storage version of v1api20230311.DataCollectionRule_Spec
 type DataCollectionRule_Spec struct {
 	AgentSettings *AgentSettingsSpec `json:"agentSettings,omitempty"`
@@ -390,33 +384,6 @@ type EndpointsSpec_STATUS struct {
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20230311.ManagedServiceIdentity
-// Managed service identity (system assigned and/or user assigned identities)
-type ManagedServiceIdentity struct {
-	PropertyBag            genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	Type                   *string                       `json:"type,omitempty"`
-	UserAssignedIdentities []UserAssignedIdentityDetails `json:"userAssignedIdentities,omitempty"`
-}
-
-// Storage version of v1api20230311.ManagedServiceIdentity_STATUS
-// Managed service identity (system assigned and/or user assigned identities)
-type ManagedServiceIdentity_STATUS struct {
-	PrincipalId            *string                                `json:"principalId,omitempty"`
-	PropertyBag            genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
-	TenantId               *string                                `json:"tenantId,omitempty"`
-	Type                   *string                                `json:"type,omitempty"`
-	UserAssignedIdentities map[string]UserAssignedIdentity_STATUS `json:"userAssignedIdentities,omitempty"`
-}
-
-// Storage version of v1api20230311.Metadata_STATUS
-// Metadata about the resource
-type Metadata_STATUS struct {
-	PropertyBag              genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	ProvisionedBy            *string                `json:"provisionedBy,omitempty"`
-	ProvisionedByImmutableId *string                `json:"provisionedByImmutableId,omitempty"`
-	ProvisionedByResourceId  *string                `json:"provisionedByResourceId,omitempty"`
-}
-
 // Storage version of v1api20230311.ReferencesSpec
 // This section defines all the references that may be used in other sections of the DCR
 type ReferencesSpec struct {
@@ -443,18 +410,6 @@ type StreamDeclaration struct {
 type StreamDeclaration_STATUS struct {
 	Columns     []ColumnDefinition_STATUS `json:"columns,omitempty"`
 	PropertyBag genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v1api20230311.SystemData_STATUS
-// Metadata pertaining to creation and last modification of the resource.
-type SystemData_STATUS struct {
-	CreatedAt          *string                `json:"createdAt,omitempty"`
-	CreatedBy          *string                `json:"createdBy,omitempty"`
-	CreatedByType      *string                `json:"createdByType,omitempty"`
-	LastModifiedAt     *string                `json:"lastModifiedAt,omitempty"`
-	LastModifiedBy     *string                `json:"lastModifiedBy,omitempty"`
-	LastModifiedByType *string                `json:"lastModifiedByType,omitempty"`
-	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1api20230311.AdxDestination
@@ -827,21 +782,6 @@ type SyslogDataSource_STATUS struct {
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Streams       []string               `json:"streams,omitempty"`
 	TransformKql  *string                `json:"transformKql,omitempty"`
-}
-
-// Storage version of v1api20230311.UserAssignedIdentity_STATUS
-// User assigned identity properties
-type UserAssignedIdentity_STATUS struct {
-	ClientId    *string                `json:"clientId,omitempty"`
-	PrincipalId *string                `json:"principalId,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v1api20230311.UserAssignedIdentityDetails
-// Information about the user assigned identity for the resource
-type UserAssignedIdentityDetails struct {
-	PropertyBag genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
-	Reference   genruntime.ResourceReference `armReference:"Reference" json:"reference,omitempty"`
 }
 
 // Storage version of v1api20230311.WindowsEventLogDataSource
