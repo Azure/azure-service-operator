@@ -35,7 +35,7 @@ manage: The operator performs all actions as normal. This is the default if no a
   <meta itemprop="description" content="Annotations Annotations written by the user Note that unless otherwise specified, allowed values are case sensitive and should be provided in lower case.
 serviceoperator.azure.com/reconcile-policy Specifies the reconcile policy to use. Allowed values are:
 manage: The operator performs all actions as normal. This is the default if no annotation is specified. skip: All modification actions on the backing Azure resource are skipped. GETs are still issued to ensure that the resource exists. If the resource doesn’t exist, the Ready condition will show a Warning state with the details of the missing resource until the resource is created. If the resource is deleted in Kubernetes, it is not deleted in Azure. In REST API terminology, PUT and DELETE are skipped while GET is allowed. detach-on-delete: Modifications are pushed to the backing Azure resource, but if the resource is deleted in Kubernetes, it is not deleted in Azure. In REST API terminology, PUT and GET are allowed while DELETE is skipped. Unknown values default to manage.">
-  <meta itemprop="wordCount" content="441">
+  <meta itemprop="wordCount" content="454">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Annotations and Labels used by the operator">
   <meta name="twitter:description" content="Annotations Annotations written by the user Note that unless otherwise specified, allowed values are case sensitive and should be provided in lower case.
@@ -849,6 +849,7 @@ manage: The operator performs all actions as normal. This is the default if no a
         <li><a href="#serviceoperatorazurecomowner-name"><code>serviceoperator.azure.com/owner-name</code></a></li>
         <li><a href="#serviceoperatorazurecomowner-group-kind"><code>serviceoperator.azure.com/owner-group-kind</code></a></li>
         <li><a href="#serviceoperatorazurecomowner-uid"><code>serviceoperator.azure.com/owner-uid</code></a></li>
+        <li><a href="#serviceoperatorazurecomlast-reconciled-version"><code>serviceoperator.azure.com/last-reconciled-version</code></a></li>
       </ul>
     </li>
   </ul>
@@ -940,6 +941,8 @@ do not have this label.</p>
 <p>This label contains the UID of the resource that owns this resource.
 It is written on every resource reconciled by ASO that has an owner. Resources without owners, such as <code>ResourceGroup</code>,
 do not have this label.</p>
+<h3 id="serviceoperatorazurecomlast-reconciled-version"><code>serviceoperator.azure.com/last-reconciled-version</code></h3>
+<p>This label contains the version of ASO that last reconciled this resource.</p>
 
 	
 </div>
