@@ -47,6 +47,7 @@ import (
 	armreconciler "github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
 	entrareconciler "github.com/Azure/azure-service-operator/v2/internal/reconcilers/entra"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/generic"
+	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/migration/crd"
 	asocel "github.com/Azure/azure-service-operator/v2/internal/util/cel"
 	"github.com/Azure/azure-service-operator/v2/internal/util/interval"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
@@ -81,22 +82,28 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs *Fla
 		os.Exit(1)
 	}
 
-	var cacheFunc cache.NewCacheFunc
+	cacheOpts := cache.Options{
+		// This will make sure that if we try to read an object that is not cached, we will fail rather than start a new informer
+		ReaderFailOnMissingInformer: true,
+	}
 	if cfg.TargetNamespaces != nil && cfg.OperatorMode.IncludesWatchers() {
-		cacheFunc = func(config *rest.Config, opts cache.Options) (cache.Cache, error) {
-			opts.DefaultNamespaces = make(map[string]cache.Config, len(cfg.TargetNamespaces))
-			for _, ns := range cfg.TargetNamespaces {
-				opts.DefaultNamespaces[ns] = cache.Config{}
-			}
-
-			return cache.New(config, opts)
+		cacheOpts.DefaultNamespaces = make(map[string]cache.Config, len(cfg.TargetNamespaces))
+		for _, ns := range cfg.TargetNamespaces {
+			cacheOpts.DefaultNamespaces[ns] = cache.Config{}
 		}
 	}
 
 	k8sConfig := ctrl.GetConfigOrDie()
 	ctrlOptions := ctrl.Options{
-		Scheme:           scheme,
-		NewCache:         cacheFunc,
+		Scheme: scheme,
+		Cache:  cacheOpts,
+		Client: client.Options{
+			Cache: &client.CacheOptions{
+				DisableFor: []client.Object{
+					&apiextensions.CustomResourceDefinition{},
+				},
+			},
+		},
 		LeaderElection:   flgs.EnableLeaderElection,
 		LeaderElectionID: "controllers-leader-election-azinfra-generated",
 		// Manually set lease duration (to default) so that we can use it for our leader elector too.
@@ -191,7 +198,7 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs *Fla
 
 	if cfg.OperatorMode.IncludesWatchers() {
 		//nolint:contextcheck
-		err = initializeWatchers(readyResources, cfg, mgr, clients)
+		err = initializeWatchers(readyResources, cfg, mgr, clients, flgs)
 		if err != nil {
 			setupLog.Error(err, "failed to initialize watchers")
 			os.Exit(1)
@@ -432,7 +439,7 @@ func initializeClients(cfg config.Values, mgr ctrl.Manager) (*clients, error) {
 	// Register the evaluator for use by webhooks
 	asocel.RegisterEvaluator(expressionEvaluator)
 
-	options := makeControllerOptions(log, cfg)
+	options := makeControllerOptions(cfg)
 
 	return &clients{
 		positiveConditions:     positiveConditions,
@@ -446,7 +453,13 @@ func initializeClients(cfg config.Values, mgr ctrl.Manager) (*clients, error) {
 	}, nil
 }
 
-func initializeWatchers(readyResources map[string]apiextensions.CustomResourceDefinition, cfg config.Values, mgr ctrl.Manager, clients *clients) error {
+func initializeWatchers(
+	readyResources map[string]apiextensions.CustomResourceDefinition,
+	cfg config.Values,
+	mgr ctrl.Manager,
+	clients *clients,
+	flgs *Flags,
+) error {
 	clients.log.V(Status).Info("Configuration details", "config", cfg.String())
 
 	clientsProvider := &controllers.ClientsProvider{
@@ -483,10 +496,23 @@ func initializeWatchers(readyResources map[string]apiextensions.CustomResourceDe
 		return eris.Wrap(err, "failed to register gvks")
 	}
 
+	// Register other controllers
+	if flgs.CRDManagementMode == "auto" {
+		deprecatedVersions := crdmanagement.GetAllDeprecatedStorageVersions(readyResources)
+		for crdName, versions := range deprecatedVersions {
+			clients.log.V(Status).Info("Will migrate storedVersions", "crdName", crdName, "versions", versions)
+		}
+		// Register the CRD migration reconciler
+		err = crd.NewReconciler(clients.kubeClient, mgr.GetCache(), deprecatedVersions, crd.Options{}).SetupWithManager(mgr)
+		if err != nil {
+			return eris.Wrap(err, "failed to register CRD migration reconciler")
+		}
+	}
+
 	return nil
 }
 
-func makeControllerOptions(log logr.Logger, cfg config.Values) generic.Options {
+func makeControllerOptions(cfg config.Values) generic.Options {
 	var additionalRateLimiters []workqueue.TypedRateLimiter[reconcile.Request]
 	if cfg.RateLimit.Mode == config.RateLimitModeBucket {
 		additionalRateLimiters = append(
@@ -507,14 +533,6 @@ func makeControllerOptions(log logr.Logger, cfg config.Values) generic.Options {
 		Config: cfg,
 		Options: controller.Options{
 			MaxConcurrentReconciles: cfg.MaxConcurrentReconciles,
-			LogConstructor: func(req *reconcile.Request) logr.Logger {
-				// refer to https://github.com/kubernetes-sigs/controller-runtime/pull/1827/files
-				if req == nil {
-					return log
-				}
-				// TODO: do we need GVK here too?
-				return log.WithValues("namespace", req.Namespace, "name", req.Name)
-			},
 			// These rate limits are used for happy-path backoffs (for example polling async operation IDs for PUT/DELETE)
 			RateLimiter: generic.NewRateLimiter(1*time.Second, 1*time.Minute, additionalRateLimiters...),
 		},
@@ -540,7 +558,12 @@ func newCRDManager(
 ) (*crdmanagement.Manager, error) {
 	crdScheme := runtime.NewScheme()
 	_ = apiextensions.AddToScheme(crdScheme)
-	crdClient, err := client.New(k8sConfig, client.Options{Scheme: crdScheme})
+	crdClient, err := client.New(
+		k8sConfig,
+		client.Options{
+			Scheme: crdScheme,
+			// nil cache means we don't use the cache (reading direct from API server)
+		})
 	if err != nil {
 		return nil, eris.Wrap(err, "unable to create CRD client")
 	}

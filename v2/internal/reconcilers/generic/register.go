@@ -13,16 +13,24 @@ import (
 
 	"github.com/go-logr/logr"
 	"github.com/rotisserie/eris"
+	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/conversion"
+	"k8s.io/apimachinery/pkg/runtime/schema"
+	"k8s.io/apimachinery/pkg/types"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	ctrl "sigs.k8s.io/controller-runtime"
 	ctrlbuilder "sigs.k8s.io/controller-runtime/pkg/builder"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
+	"sigs.k8s.io/controller-runtime/pkg/handler"
+	"sigs.k8s.io/controller-runtime/pkg/log"
+	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 
 	"github.com/Azure/azure-service-operator/v2/internal/config"
+	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/util/interval"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -84,7 +92,7 @@ func RegisterAll(
 	// pre-register any indexes we need
 	for _, obj := range objs {
 		for _, indexer := range obj.Indexes {
-			options.LogConstructor(nil).V(Info).Info("Registering indexer for type", "type", fmt.Sprintf("%T", obj.Obj), "key", indexer.Key)
+			mgr.GetLogger().V(Info).Info("Registering indexer for type", "type", fmt.Sprintf("%T", obj.Obj), "key", indexer.Key)
 			err := fieldIndexer.IndexField(context.Background(), obj.Obj, indexer.Key, indexer.Func)
 			if err != nil {
 				return eris.Wrapf(err, "failed to register indexer for %T, Key: %q", obj.Obj, indexer.Key)
@@ -118,7 +126,7 @@ func register(
 	}
 
 	loggerFactory := func(mo genruntime.MetaObject) logr.Logger {
-		result := options.LogConstructor(nil)
+		result := mgr.GetLogger()
 		if options.LoggerFactory != nil {
 			if factoryResult := options.LoggerFactory(mo); factoryResult != (logr.Logger{}) && factoryResult != logr.Discard() {
 				result = factoryResult
@@ -129,7 +137,7 @@ func register(
 	}
 	eventRecorder := mgr.GetEventRecorderFor(info.Name)
 
-	options.LogConstructor(nil).V(Status).Info("Registering", "GVK", gvk)
+	mgr.GetLogger().V(Status).Info("Registering", "GVK", gvk)
 
 	reconciler := &GenericReconciler{
 		Reconciler:                info.Reconciler,
@@ -148,8 +156,15 @@ func register(
 		WithOptions(options.Options)
 	builder.Named(info.Name)
 
+	// All resources watch namespace for the reconcile-policy annotation
+	builder = builder.Watches(
+		&corev1.Namespace{},
+		handler.EnqueueRequestsFromMapFunc(registerNamespaceWatcher(kubeClient, gvk)),
+		ctrlbuilder.WithPredicates(reconcilers.ARMReconcilerAnnotationChangedPredicate()),
+	)
+
 	for _, watch := range info.Watches {
-		builder = builder.Watches(watch.Type, watch.MakeEventHandler(kubeClient, options.LogConstructor(nil).WithName(info.Name)))
+		builder = builder.Watches(watch.Type, watch.MakeEventHandler(kubeClient, mgr.GetLogger().WithName(info.Name)))
 	}
 
 	err = builder.Complete(reconciler)
@@ -158,4 +173,34 @@ func register(
 	}
 
 	return nil
+}
+
+// This registers a watcher on the namespace for the watched resource
+func registerNamespaceWatcher(kubeclient kubeclient.Client, gvk schema.GroupVersionKind) func(ctx context.Context, obj client.Object) []reconcile.Request {
+	return func(ctx context.Context, obj client.Object) []reconcile.Request {
+		reconcileRequests := []reconcile.Request{}
+		log := log.FromContext(ctx)
+
+		aList := &unstructured.UnstructuredList{}
+		aList.SetGroupVersionKind(gvk)
+		if err := kubeclient.List(ctx, aList, &client.ListOptions{Namespace: obj.GetName()}); err != nil {
+			return []reconcile.Request{}
+		}
+		// list the objects for the current kind
+
+		log.V(Verbose).Info("Detected namespace reconcile-policy annotation", "namespace", obj.GetName())
+		for _, el := range aList.Items {
+			if _, ok := el.GetAnnotations()["serviceoperator.azure.com/reconcile-policy"]; ok {
+				// If the annotation is defined for the object, there's no need to reconcile it and we skip the object
+				continue
+			}
+			if _, ok := obj.GetAnnotations()["serviceoperator.azure.com/reconcile-policy"]; ok {
+				reconcileRequests = append(reconcileRequests, reconcile.Request{NamespacedName: types.NamespacedName{
+					Name:      el.GetName(),
+					Namespace: el.GetNamespace(),
+				}})
+			}
+		}
+		return reconcileRequests
+	}
 }

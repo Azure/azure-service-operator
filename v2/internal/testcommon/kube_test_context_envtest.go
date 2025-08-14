@@ -33,7 +33,6 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/controller"
 	"sigs.k8s.io/controller-runtime/pkg/envtest"
 	"sigs.k8s.io/controller-runtime/pkg/metrics/server"
-	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 	"sigs.k8s.io/controller-runtime/pkg/webhook"
 
 	"github.com/Azure/azure-service-operator/v2/internal/config"
@@ -113,15 +112,14 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 		}
 	}
 
-	var cacheFunc cache.NewCacheFunc
+	cacheOpts := cache.Options{
+		// This will make sure that if we try to read an object that is not cached, we will fail rather than start a new informer
+		ReaderFailOnMissingInformer: true,
+	}
 	if cfg.TargetNamespaces != nil && cfg.OperatorMode.IncludesWatchers() {
-		cacheFunc = func(config *rest.Config, opts cache.Options) (cache.Cache, error) {
-			opts.DefaultNamespaces = make(map[string]cache.Config, len(cfg.TargetNamespaces))
-			for _, ns := range cfg.TargetNamespaces {
-				opts.DefaultNamespaces[ns] = cache.Config{}
-			}
-
-			return cache.New(config, opts)
+		cacheOpts.DefaultNamespaces = make(map[string]cache.Config, len(cfg.TargetNamespaces))
+		for _, ns := range cfg.TargetNamespaces {
+			cacheOpts.DefaultNamespaces[ns] = cache.Config{}
 		}
 	}
 
@@ -150,7 +148,7 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 			options.Cache = &client.CacheOptions{}
 			return NewTestClient(config, options)
 		},
-		NewCache: cacheFunc,
+		Cache: cacheOpts,
 		Metrics: server.Options{
 			BindAddress: "0", // disable serving metrics, or else we get conflicts listening on same port 8080
 		},
@@ -234,10 +232,6 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 
 			// Use appropriate backoff for mode.
 			RateLimiter: generic.NewRateLimiter(minBackoff, maxBackoff),
-
-			LogConstructor: func(request *reconcile.Request) logr.Logger {
-				return ctrl.Log
-			},
 		},
 		// Specified here because usually controller-runtime logging would detect panics and log them for us
 		// but in the case of envtest we disable those logs because they're too verbose.
