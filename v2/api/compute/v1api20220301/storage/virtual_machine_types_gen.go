@@ -4,7 +4,8 @@
 package storage
 
 import (
-	storage "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220702/storage"
+	v20220702s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220702/storage"
+	v20241101s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20241101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -705,6 +706,86 @@ type InstanceViewStatus_STATUS struct {
 	Time          *string                `json:"time,omitempty"`
 }
 
+// AssignProperties_From_InstanceViewStatus_STATUS populates our InstanceViewStatus_STATUS from the provided source InstanceViewStatus_STATUS
+func (status *InstanceViewStatus_STATUS) AssignProperties_From_InstanceViewStatus_STATUS(source *v20241101s.InstanceViewStatus_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Code
+	status.Code = genruntime.ClonePointerToString(source.Code)
+
+	// DisplayStatus
+	status.DisplayStatus = genruntime.ClonePointerToString(source.DisplayStatus)
+
+	// Level
+	status.Level = genruntime.ClonePointerToString(source.Level)
+
+	// Message
+	status.Message = genruntime.ClonePointerToString(source.Message)
+
+	// Time
+	status.Time = genruntime.ClonePointerToString(source.Time)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		status.PropertyBag = propertyBag
+	} else {
+		status.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForInstanceViewStatus_STATUS interface (if implemented) to customize the conversion
+	var statusAsAny any = status
+	if augmentedStatus, ok := statusAsAny.(augmentConversionForInstanceViewStatus_STATUS); ok {
+		err := augmentedStatus.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_InstanceViewStatus_STATUS populates the provided destination InstanceViewStatus_STATUS from our InstanceViewStatus_STATUS
+func (status *InstanceViewStatus_STATUS) AssignProperties_To_InstanceViewStatus_STATUS(destination *v20241101s.InstanceViewStatus_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(status.PropertyBag)
+
+	// Code
+	destination.Code = genruntime.ClonePointerToString(status.Code)
+
+	// DisplayStatus
+	destination.DisplayStatus = genruntime.ClonePointerToString(status.DisplayStatus)
+
+	// Level
+	destination.Level = genruntime.ClonePointerToString(status.Level)
+
+	// Message
+	destination.Message = genruntime.ClonePointerToString(status.Message)
+
+	// Time
+	destination.Time = genruntime.ClonePointerToString(status.Time)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForInstanceViewStatus_STATUS interface (if implemented) to customize the conversion
+	var statusAsAny any = status
+	if augmentedStatus, ok := statusAsAny.(augmentConversionForInstanceViewStatus_STATUS); ok {
+		err := augmentedStatus.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20220301.LinuxConfiguration
 // Specifies the Linux operating system settings on the virtual machine.
 // For a list of supported Linux
@@ -848,7 +929,7 @@ type UserAssignedIdentityDetails struct {
 }
 
 // AssignProperties_From_UserAssignedIdentityDetails populates our UserAssignedIdentityDetails from the provided source UserAssignedIdentityDetails
-func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedIdentityDetails(source *storage.UserAssignedIdentityDetails) error {
+func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedIdentityDetails(source *v20220702s.UserAssignedIdentityDetails) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -876,7 +957,7 @@ func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedId
 }
 
 // AssignProperties_To_UserAssignedIdentityDetails populates the provided destination UserAssignedIdentityDetails from our UserAssignedIdentityDetails
-func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIdentityDetails(destination *storage.UserAssignedIdentityDetails) error {
+func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIdentityDetails(destination *v20220702s.UserAssignedIdentityDetails) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(details.PropertyBag)
 
@@ -1073,9 +1154,14 @@ type AdditionalUnattendContent_STATUS struct {
 	SettingName   *string                `json:"settingName,omitempty"`
 }
 
+type augmentConversionForInstanceViewStatus_STATUS interface {
+	AssignPropertiesFrom(src *v20241101s.InstanceViewStatus_STATUS) error
+	AssignPropertiesTo(dst *v20241101s.InstanceViewStatus_STATUS) error
+}
+
 type augmentConversionForUserAssignedIdentityDetails interface {
-	AssignPropertiesFrom(src *storage.UserAssignedIdentityDetails) error
-	AssignPropertiesTo(dst *storage.UserAssignedIdentityDetails) error
+	AssignPropertiesFrom(src *v20220702s.UserAssignedIdentityDetails) error
+	AssignPropertiesTo(dst *v20220702s.UserAssignedIdentityDetails) error
 }
 
 // Storage version of v1api20220301.AvailablePatchSummary_STATUS
@@ -1328,7 +1414,7 @@ type ApiError_STATUS struct {
 }
 
 // AssignProperties_From_ApiError_STATUS populates our ApiError_STATUS from the provided source ApiError_STATUS
-func (error *ApiError_STATUS) AssignProperties_From_ApiError_STATUS(source *storage.ApiError_STATUS) error {
+func (error *ApiError_STATUS) AssignProperties_From_ApiError_STATUS(source *v20220702s.ApiError_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1392,7 +1478,7 @@ func (error *ApiError_STATUS) AssignProperties_From_ApiError_STATUS(source *stor
 }
 
 // AssignProperties_To_ApiError_STATUS populates the provided destination ApiError_STATUS from our ApiError_STATUS
-func (error *ApiError_STATUS) AssignProperties_To_ApiError_STATUS(destination *storage.ApiError_STATUS) error {
+func (error *ApiError_STATUS) AssignProperties_To_ApiError_STATUS(destination *v20220702s.ApiError_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(error.PropertyBag)
 
@@ -1401,11 +1487,11 @@ func (error *ApiError_STATUS) AssignProperties_To_ApiError_STATUS(destination *s
 
 	// Details
 	if error.Details != nil {
-		detailList := make([]storage.ApiErrorBase_STATUS, len(error.Details))
+		detailList := make([]v20220702s.ApiErrorBase_STATUS, len(error.Details))
 		for detailIndex, detailItem := range error.Details {
 			// Shadow the loop variable to avoid aliasing
 			detailItem := detailItem
-			var detail storage.ApiErrorBase_STATUS
+			var detail v20220702s.ApiErrorBase_STATUS
 			err := detailItem.AssignProperties_To_ApiErrorBase_STATUS(&detail)
 			if err != nil {
 				return eris.Wrap(err, "calling AssignProperties_To_ApiErrorBase_STATUS() to populate field Details")
@@ -1419,7 +1505,7 @@ func (error *ApiError_STATUS) AssignProperties_To_ApiError_STATUS(destination *s
 
 	// Innererror
 	if error.Innererror != nil {
-		var innererror storage.InnerError_STATUS
+		var innererror v20220702s.InnerError_STATUS
 		err := error.Innererror.AssignProperties_To_InnerError_STATUS(&innererror)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_InnerError_STATUS() to populate field Innererror")
@@ -1589,7 +1675,7 @@ type ApiErrorBase_STATUS struct {
 }
 
 // AssignProperties_From_ApiErrorBase_STATUS populates our ApiErrorBase_STATUS from the provided source ApiErrorBase_STATUS
-func (base *ApiErrorBase_STATUS) AssignProperties_From_ApiErrorBase_STATUS(source *storage.ApiErrorBase_STATUS) error {
+func (base *ApiErrorBase_STATUS) AssignProperties_From_ApiErrorBase_STATUS(source *v20220702s.ApiErrorBase_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1623,7 +1709,7 @@ func (base *ApiErrorBase_STATUS) AssignProperties_From_ApiErrorBase_STATUS(sourc
 }
 
 // AssignProperties_To_ApiErrorBase_STATUS populates the provided destination ApiErrorBase_STATUS from our ApiErrorBase_STATUS
-func (base *ApiErrorBase_STATUS) AssignProperties_To_ApiErrorBase_STATUS(destination *storage.ApiErrorBase_STATUS) error {
+func (base *ApiErrorBase_STATUS) AssignProperties_To_ApiErrorBase_STATUS(destination *v20220702s.ApiErrorBase_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(base.PropertyBag)
 
@@ -1657,8 +1743,8 @@ func (base *ApiErrorBase_STATUS) AssignProperties_To_ApiErrorBase_STATUS(destina
 }
 
 type augmentConversionForApiError_STATUS interface {
-	AssignPropertiesFrom(src *storage.ApiError_STATUS) error
-	AssignPropertiesTo(dst *storage.ApiError_STATUS) error
+	AssignPropertiesFrom(src *v20220702s.ApiError_STATUS) error
+	AssignPropertiesTo(dst *v20220702s.ApiError_STATUS) error
 }
 
 // Storage version of v1api20220301.InnerError_STATUS
@@ -1670,7 +1756,7 @@ type InnerError_STATUS struct {
 }
 
 // AssignProperties_From_InnerError_STATUS populates our InnerError_STATUS from the provided source InnerError_STATUS
-func (error *InnerError_STATUS) AssignProperties_From_InnerError_STATUS(source *storage.InnerError_STATUS) error {
+func (error *InnerError_STATUS) AssignProperties_From_InnerError_STATUS(source *v20220702s.InnerError_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1701,7 +1787,7 @@ func (error *InnerError_STATUS) AssignProperties_From_InnerError_STATUS(source *
 }
 
 // AssignProperties_To_InnerError_STATUS populates the provided destination InnerError_STATUS from our InnerError_STATUS
-func (error *InnerError_STATUS) AssignProperties_To_InnerError_STATUS(destination *storage.InnerError_STATUS) error {
+func (error *InnerError_STATUS) AssignProperties_To_InnerError_STATUS(destination *v20220702s.InnerError_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(error.PropertyBag)
 
@@ -1778,13 +1864,13 @@ type VirtualMachinePublicIPAddressDnsSettingsConfiguration_STATUS struct {
 }
 
 type augmentConversionForApiErrorBase_STATUS interface {
-	AssignPropertiesFrom(src *storage.ApiErrorBase_STATUS) error
-	AssignPropertiesTo(dst *storage.ApiErrorBase_STATUS) error
+	AssignPropertiesFrom(src *v20220702s.ApiErrorBase_STATUS) error
+	AssignPropertiesTo(dst *v20220702s.ApiErrorBase_STATUS) error
 }
 
 type augmentConversionForInnerError_STATUS interface {
-	AssignPropertiesFrom(src *storage.InnerError_STATUS) error
-	AssignPropertiesTo(dst *storage.InnerError_STATUS) error
+	AssignPropertiesFrom(src *v20220702s.InnerError_STATUS) error
+	AssignPropertiesTo(dst *v20220702s.InnerError_STATUS) error
 }
 
 func init() {
