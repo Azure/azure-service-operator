@@ -208,3 +208,30 @@ func (gc *GroupConfiguration) UnmarshalYAML(value *yaml.Node) error {
 
 	return nil
 }
+
+// Merge merges the configuration from 'other' into this GroupConfiguration.
+func (gc *GroupConfiguration) Merge(other *GroupConfiguration) error {
+	if other == nil {
+		return nil
+	}
+
+	// Merge configurable properties
+	if err := gc.PayloadType.Merge(&other.PayloadType); err != nil {
+		return err
+	}
+
+	// Merge versions map
+	for versionName, versionConfig := range other.versions {
+		if existingVersion, exists := gc.versions[versionName]; exists {
+			// Recursively merge version configurations
+			if err := existingVersion.Merge(versionConfig); err != nil {
+				return err
+			}
+		} else {
+			// Add new version
+			gc.versions[versionName] = versionConfig
+		}
+	}
+
+	return nil
+}
