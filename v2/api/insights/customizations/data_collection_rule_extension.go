@@ -16,7 +16,7 @@ import (
 var _ extensions.ErrorClassifier = &DataCollectionRuleExtension{}
 
 // ClassifyError evaluates the provided error, returning whether it is fatal or can be retried.
-// A badrequest (400) is normally fatal, but ScheduledQueryRule resources may return 400 whilst
+// A badrequest (400) is normally fatal, but DataCollectionRule resources may return 400 whilst
 // a dependency is being created, so we override for that case.
 // cloudError is the error returned from ARM.
 // apiVersion is the ARM API version used for the request.
