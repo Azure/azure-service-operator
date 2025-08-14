@@ -5,7 +5,8 @@ package storage
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230801/storage"
+	v20230801s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230801/storage"
+	v20241101s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20241101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForRedisLinkedServer(subject RedisLinkedServer) st
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.RedisLinkedServer
+	var hub v20241101s.RedisLinkedServer
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +79,7 @@ func RunPropertyAssignmentTestForRedisLinkedServer(subject RedisLinkedServer) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RedisLinkedServer
+	var other v20230801s.RedisLinkedServer
 	err := copied.AssignProperties_To_RedisLinkedServer(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +182,7 @@ func RunPropertyAssignmentTestForRedisLinkedServerOperatorSpec(subject RedisLink
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RedisLinkedServerOperatorSpec
+	var other v20230801s.RedisLinkedServerOperatorSpec
 	err := copied.AssignProperties_To_RedisLinkedServerOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -278,7 +279,7 @@ func RunPropertyAssignmentTestForRedisLinkedServer_Spec(subject RedisLinkedServe
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RedisLinkedServer_Spec
+	var other v20230801s.RedisLinkedServer_Spec
 	err := copied.AssignProperties_To_RedisLinkedServer_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -398,7 +399,7 @@ func RunPropertyAssignmentTestForRedis_LinkedServer_STATUS(subject Redis_LinkedS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Redis_LinkedServer_STATUS
+	var other v20230801s.Redis_LinkedServer_STATUS
 	err := copied.AssignProperties_To_Redis_LinkedServer_STATUS(&other)
 	if err != nil {
 		return err.Error()

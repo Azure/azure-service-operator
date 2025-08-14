@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230801/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &RedisLinkedServer{}
 
 // ConvertFrom populates our RedisLinkedServer from the provided hub RedisLinkedServer
 func (server *RedisLinkedServer) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.RedisLinkedServer)
-	if !ok {
-		return fmt.Errorf("expected cache/v1api20230801/storage/RedisLinkedServer but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.RedisLinkedServer
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return server.AssignProperties_From_RedisLinkedServer(source)
+	err = server.AssignProperties_From_RedisLinkedServer(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to server")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub RedisLinkedServer from our RedisLinkedServer
 func (server *RedisLinkedServer) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.RedisLinkedServer)
-	if !ok {
-		return fmt.Errorf("expected cache/v1api20230801/storage/RedisLinkedServer but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.RedisLinkedServer
+	err := server.AssignProperties_To_RedisLinkedServer(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from server")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return server.AssignProperties_To_RedisLinkedServer(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &RedisLinkedServer{}
