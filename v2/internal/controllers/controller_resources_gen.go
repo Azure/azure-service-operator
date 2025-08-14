@@ -1281,6 +1281,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(insights_v20221001s.AutoscaleSetting)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20230101s.ActionGroup)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20230311s.DataCollectionEndpoint)})
+	result = append(result, &registration.StorageType{Obj: new(insights_v20230311s.DataCollectionRule)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20230311s.DataCollectionRuleAssociation)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20230601s.Workbook)})
 	result = append(result, &registration.StorageType{
@@ -3956,16 +3957,28 @@ func getKnownTypes() []*registration.KnownType {
 		Validator: &insights_v20230101w.ActionGroup{},
 	})
 	result = append(result, &registration.KnownType{Obj: new(insights_v20230101s.ActionGroup)})
-	result = append(result, &registration.KnownType{
-		Obj:       new(insights_v20230311.DataCollectionEndpoint),
-		Defaulter: &insights_v20230311w.DataCollectionEndpoint{},
-		Validator: &insights_v20230311w.DataCollectionEndpoint{},
-	}, &registration.KnownType{
-		Obj:       new(insights_v20230311.DataCollectionRuleAssociation),
-		Defaulter: &insights_v20230311w.DataCollectionRuleAssociation{},
-		Validator: &insights_v20230311w.DataCollectionRuleAssociation{},
-	})
-	result = append(result, &registration.KnownType{Obj: new(insights_v20230311s.DataCollectionEndpoint)}, &registration.KnownType{Obj: new(insights_v20230311s.DataCollectionRuleAssociation)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(insights_v20230311.DataCollectionEndpoint),
+			Defaulter: &insights_v20230311w.DataCollectionEndpoint{},
+			Validator: &insights_v20230311w.DataCollectionEndpoint{},
+		},
+		&registration.KnownType{
+			Obj:       new(insights_v20230311.DataCollectionRule),
+			Defaulter: &insights_v20230311w.DataCollectionRule{},
+			Validator: &insights_v20230311w.DataCollectionRule{},
+		},
+		&registration.KnownType{
+			Obj:       new(insights_v20230311.DataCollectionRuleAssociation),
+			Defaulter: &insights_v20230311w.DataCollectionRuleAssociation{},
+			Validator: &insights_v20230311w.DataCollectionRuleAssociation{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(insights_v20230311s.DataCollectionEndpoint)},
+		&registration.KnownType{Obj: new(insights_v20230311s.DataCollectionRule)},
+		&registration.KnownType{Obj: new(insights_v20230311s.DataCollectionRuleAssociation)})
 	result = append(result, &registration.KnownType{
 		Obj:       new(insights_v20230601.Workbook),
 		Defaulter: &insights_v20230601w.Workbook{},
@@ -5563,6 +5576,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &insights_customizations.ComponentExtension{})
 	result = append(result, &insights_customizations.DataCollectionEndpointExtension{})
 	result = append(result, &insights_customizations.DataCollectionRuleAssociationExtension{})
+	result = append(result, &insights_customizations.DataCollectionRuleExtension{})
 	result = append(result, &insights_customizations.DiagnosticSettingExtension{})
 	result = append(result, &insights_customizations.MetricAlertExtension{})
 	result = append(result, &insights_customizations.PricingPlanExtension{})
