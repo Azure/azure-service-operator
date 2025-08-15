@@ -81,8 +81,7 @@ func TestTypeConfiguration_WhenExportDeprecated_ReturnsError(t *testing.T) {
 
 	var typeConfig TypeConfiguration
 	err := yaml.Unmarshal(yamlBytes, &typeConfig)
-	g.Expect(err).NotTo(Succeed())
-	g.Expect(err.Error()).To(ContainSubstring("$export is deprecated, use $exportAs instead"))
+	g.Expect(err).To(MatchError(ContainSubstring("$export is deprecated, use $exportAs instead")))
 }
 
 /*

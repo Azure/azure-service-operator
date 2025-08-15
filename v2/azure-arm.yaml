@@ -874,7 +874,6 @@ status:
 # $exportAs: <string>
 #     Requests that this resource type be exported with the specified
 #     identifier, allowing poorly named types to be renamed.
-#     Automatically exports the resource type.
 #     Only valid for resource types.
 #
 # $importable: <bool>
@@ -3753,7 +3752,7 @@ objectModelConfiguration:
         $exportAs: DnsResolversOutboundEndpoint
         $supportedFrom: v2.2.0
       DnsForwardingRuleSet:
-        $exportAs: DnsForwardingRuleSet
+        $exportAs: DnsForwardingRuleset
         $supportedFrom: v2.2.0
       DnsForwardingRuleSets_ForwardingRule:
         $exportAs: DnsForwardingRuleSetsForwardingRule
