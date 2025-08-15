@@ -1,0 +1,7 @@
+---
+$nameInNextVersion: Party
+FullName:
+  $nameInNextVersion: CompleteName
+FullName:
+  $export: true
+---

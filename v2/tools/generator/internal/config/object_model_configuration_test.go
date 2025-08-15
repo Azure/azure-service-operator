@@ -43,6 +43,19 @@ func TestObjectModelConfiguration_WhenYAMLBadlyFormed_ReturnsError(t *testing.T)
 	g.Expect(err).NotTo(Succeed())
 }
 
+func TestObjectModelConfiguration_WhenYAMLHasDuplicateGroups_ReturnsError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	yamlBytes := loadTestData(t)
+
+	var model ObjectModelConfiguration
+	err := yaml.Unmarshal(yamlBytes, &model)
+	g.Expect(err).NotTo(Succeed())
+	g.Expect(err.Error()).To(ContainSubstring("duplicate group"))
+	g.Expect(err.Error()).To(ContainSubstring("microsoft.person"))
+}
+
 /*
  * Type Rename Tests
  */

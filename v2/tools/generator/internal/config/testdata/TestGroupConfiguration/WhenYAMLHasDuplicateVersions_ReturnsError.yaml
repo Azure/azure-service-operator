@@ -1,0 +1,8 @@
+---
+v20200101:
+  Person:
+    $nameInNextVersion: Party
+v20200101:
+  Address:
+    $nameInNextVersion: Location
+---

@@ -123,6 +123,7 @@ func (vc *VersionConfiguration) UnmarshalYAML(value *yaml.Node) error {
 	}
 
 	vc.types = make(map[string]*TypeConfiguration)
+	seenTypes := make(map[string]bool)
 	var lastID string
 
 	for i, c := range value.Content {
@@ -134,6 +135,14 @@ func (vc *VersionConfiguration) UnmarshalYAML(value *yaml.Node) error {
 
 		// Handle nested kind metadata
 		if c.Kind == yaml.MappingNode {
+			// Check for duplicate type keys
+			typeKey := strings.ToLower(lastID)
+			if seenTypes[typeKey] {
+				return eris.Errorf(
+					"duplicate type %q found in version configuration (line %d col %d)", lastID, c.Line, c.Column)
+			}
+			seenTypes[typeKey] = true
+
 			tc := NewTypeConfiguration(lastID)
 			err := c.Decode(&tc)
 			if err != nil {
