@@ -330,17 +330,17 @@ objectModelConfiguration:
   sql:
     2020-11-01-preview:
       Server:
-        $export: true
+        $exportAs: Server
         $supportedFrom: "-"
       Servers_Database:
-        $export: true
+        $exportAs: Servers_Database
         $supportedFrom: "-"
     2021-11-01:
       Server:
-        $export: true
+        $exportAs: Server
         $supportedFrom: "-"
   cache:
     2020-06-01:
       Redis:
-        $export: true
+        $exportAs: Redis
         $supportedFrom: "-"
