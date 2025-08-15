@@ -220,16 +220,9 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			continue
 		}
 
-		// $export: <bool>
+		// $export: <bool> - DEPRECATED
 		if strings.EqualFold(lastID, exportTag) && c.Kind == yaml.ScalarNode {
-			var export bool
-			err := c.Decode(&export)
-			if err != nil {
-				return eris.Wrapf(err, "decoding %s", exportTag)
-			}
-
-			tc.Export.Set(export)
-			continue
+			return eris.Errorf("$export is deprecated, use $exportAs instead (line %d, column %d)", c.Line, c.Column)
 		}
 
 		// $exportAs: <string>

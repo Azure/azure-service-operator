@@ -29,8 +29,8 @@ func TestTypeConfiguration_WhenYAMLWellFormed_ReturnsExpectedResult(t *testing.T
 	g.Expect(ok).To(BeTrue())
 
 	export, ok := typeConfig.Export.read()
-	g.Expect(export).To(BeTrue())
-	g.Expect(ok).To(BeTrue())
+	g.Expect(export).To(BeFalse())  // Should be false since we only set $exportAs
+	g.Expect(ok).To(BeFalse())     // Should not be configured since $export is deprecated
 
 	exportAs, ok := typeConfig.ExportAs.read()
 	g.Expect(exportAs).To(Equal("Demo"))
@@ -75,6 +75,18 @@ func TestTypeConfiguration_WhenAzureSecretsBadlyFormed_ReturnsError(t *testing.T
 	err := yaml.Unmarshal(yamlBytes, &typeConfig)
 	g.Expect(err).NotTo(Succeed())
 	g.Expect(err.Error()).To((ContainSubstring(azureGeneratedSecretsTag)))
+}
+
+func TestTypeConfiguration_WhenExportDeprecated_ReturnsError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	yamlBytes := loadTestData(t)
+
+	var typeConfig TypeConfiguration
+	err := yaml.Unmarshal(yamlBytes, &typeConfig)
+	g.Expect(err).NotTo(Succeed())
+	g.Expect(err.Error()).To(ContainSubstring("$export is deprecated, use $exportAs instead"))
 }
 
 /*
