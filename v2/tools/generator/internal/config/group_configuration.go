@@ -161,6 +161,7 @@ func (gc *GroupConfiguration) UnmarshalYAML(value *yaml.Node) error {
 	}
 
 	gc.versions = make(map[string]*VersionConfiguration)
+	seenVersions := make(map[string]bool)
 	var lastID string
 
 	for i, c := range value.Content {
@@ -172,6 +173,14 @@ func (gc *GroupConfiguration) UnmarshalYAML(value *yaml.Node) error {
 
 		// Handle nested version metadata
 		if c.Kind == yaml.MappingNode {
+			// Check for duplicate version keys
+			versionKey := strings.ToLower(lastID)
+			if seenVersions[versionKey] {
+				return eris.Errorf(
+					"duplicate version %q found in group configuration (line %d col %d)", lastID, c.Line, c.Column)
+			}
+			seenVersions[versionKey] = true
+
 			v := NewVersionConfiguration(lastID)
 			err := c.Decode(&v)
 			if err != nil {

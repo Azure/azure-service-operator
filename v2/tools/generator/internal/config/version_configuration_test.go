@@ -36,6 +36,19 @@ func TestVersionConfiguration_WhenYAMLBadlyFormed_ReturnsError(t *testing.T) {
 	g.Expect(err).NotTo(Succeed())
 }
 
+func TestVersionConfiguration_WhenYAMLHasDuplicateTypes_ReturnsError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	yamlBytes := loadTestData(t)
+
+	var versionConfig VersionConfiguration
+	err := yaml.Unmarshal(yamlBytes, &versionConfig)
+	g.Expect(err).NotTo(Succeed())
+	g.Expect(err.Error()).To(ContainSubstring("duplicate type"))
+	g.Expect(err.Error()).To(ContainSubstring("Person"))
+}
+
 func TestVersionConfiguration_AddTypeAlias_WhenTypeKnown_AddsAlias(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)

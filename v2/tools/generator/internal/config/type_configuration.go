@@ -156,6 +156,8 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 	}
 
 	tc.properties = make(map[string]*PropertyConfiguration)
+	seenProperties := make(map[string]bool)
+	seenConfigTags := make(map[string]bool)
 	var lastID string
 
 	for i, c := range value.Content {
@@ -166,6 +168,14 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 		}
 
 		if strings.EqualFold(lastID, generatedConfigsTag) && c.Kind == yaml.MappingNode {
+			// Check for duplicate config tag
+			tagKey := strings.ToLower(lastID)
+			if seenConfigTags[tagKey] {
+				return eris.Errorf(
+					"duplicate configuration tag %q found in type configuration (line %d col %d)", lastID, c.Line, c.Column)
+			}
+			seenConfigTags[tagKey] = true
+
 			azureGeneratedConfigs := make(map[string]string)
 
 			idx := 0
@@ -204,6 +214,14 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 
 		// Handle nested property metadata
 		if c.Kind == yaml.MappingNode {
+			// Check for duplicate property keys  
+			propertyKey := strings.ToLower(lastID)
+			if seenProperties[propertyKey] {
+				return eris.Errorf(
+					"duplicate property %q found in type configuration (line %d col %d)", lastID, c.Line, c.Column)
+			}
+			seenProperties[propertyKey] = true
+
 			p := NewPropertyConfiguration(lastID)
 			err := c.Decode(p)
 			if err != nil {
@@ -216,12 +234,28 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 
 		// $nameInNextVersion: <string>
 		if strings.EqualFold(lastID, nameInNextVersionTag) && c.Kind == yaml.ScalarNode {
+			// Check for duplicate config tag
+			tagKey := strings.ToLower(lastID)
+			if seenConfigTags[tagKey] {
+				return eris.Errorf(
+					"duplicate configuration tag %q found in type configuration (line %d col %d)", lastID, c.Line, c.Column)
+			}
+			seenConfigTags[tagKey] = true
+
 			tc.NameInNextVersion.Set(c.Value)
 			continue
 		}
 
 		// $export: <bool>
 		if strings.EqualFold(lastID, exportTag) && c.Kind == yaml.ScalarNode {
+			// Check for duplicate config tag
+			tagKey := strings.ToLower(lastID)
+			if seenConfigTags[tagKey] {
+				return eris.Errorf(
+					"duplicate configuration tag %q found in type configuration (line %d col %d)", lastID, c.Line, c.Column)
+			}
+			seenConfigTags[tagKey] = true
+
 			var export bool
 			err := c.Decode(&export)
 			if err != nil {
@@ -234,6 +268,14 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 
 		// $exportAs: <string>
 		if strings.EqualFold(lastID, exportAsTag) && c.Kind == yaml.ScalarNode {
+			// Check for duplicate config tag
+			tagKey := strings.ToLower(lastID)
+			if seenConfigTags[tagKey] {
+				return eris.Errorf(
+					"duplicate configuration tag %q found in type configuration (line %d col %d)", lastID, c.Line, c.Column)
+			}
+			seenConfigTags[tagKey] = true
+
 			tc.ExportAs.Set(c.Value)
 			continue
 		}
@@ -242,6 +284,14 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 		// - secret1
 		// - secret2
 		if strings.EqualFold(lastID, azureGeneratedSecretsTag) && c.Kind == yaml.SequenceNode {
+			// Check for duplicate config tag
+			tagKey := strings.ToLower(lastID)
+			if seenConfigTags[tagKey] {
+				return eris.Errorf(
+					"duplicate configuration tag %q found in type configuration (line %d col %d)", lastID, c.Line, c.Column)
+			}
+			seenConfigTags[tagKey] = true
+
 			var azureGeneratedSecrets []string
 			for _, content := range c.Content {
 				if content.Kind == yaml.ScalarNode {
@@ -263,6 +313,14 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 		// - config1
 		// - config2
 		if strings.EqualFold(lastID, manualConfigsTag) && c.Kind == yaml.SequenceNode {
+			// Check for duplicate config tag
+			tagKey := strings.ToLower(lastID)
+			if seenConfigTags[tagKey] {
+				return eris.Errorf(
+					"duplicate configuration tag %q found in type configuration (line %d col %d)", lastID, c.Line, c.Column)
+			}
+			seenConfigTags[tagKey] = true
+
 			manualAzureGeneratedConfigs := make([]string, 0, len(c.Content))
 			for _, content := range c.Content {
 				if content.Kind == yaml.ScalarNode {
@@ -282,6 +340,14 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 
 		// $stripDocumentation
 		if strings.EqualFold(lastID, stripDocumentationTag) && c.Kind == yaml.ScalarNode {
+			// Check for duplicate config tag
+			tagKey := strings.ToLower(lastID)
+			if seenConfigTags[tagKey] {
+				return eris.Errorf(
+					"duplicate configuration tag %q found in type configuration (line %d col %d)", lastID, c.Line, c.Column)
+			}
+			seenConfigTags[tagKey] = true
+
 			var stripDocs bool
 			err := c.Decode(&stripDocs)
 			if err != nil {
@@ -294,12 +360,28 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 
 		// $supportedFrom
 		if strings.EqualFold(lastID, supportedFromTag) && c.Kind == yaml.ScalarNode {
+			// Check for duplicate config tag
+			tagKey := strings.ToLower(lastID)
+			if seenConfigTags[tagKey] {
+				return eris.Errorf(
+					"duplicate configuration tag %q found in type configuration (line %d col %d)", lastID, c.Line, c.Column)
+			}
+			seenConfigTags[tagKey] = true
+
 			tc.SupportedFrom.Set(c.Value)
 			continue
 		}
 
 		// $renameTo: <string>
 		if strings.EqualFold(lastID, renameTo) && c.Kind == yaml.ScalarNode {
+			// Check for duplicate config tag
+			tagKey := strings.ToLower(lastID)
+			if seenConfigTags[tagKey] {
+				return eris.Errorf(
+					"duplicate configuration tag %q found in type configuration (line %d col %d)", lastID, c.Line, c.Column)
+			}
+			seenConfigTags[tagKey] = true
+
 			var renameTo string
 			err := c.Decode(&renameTo)
 			if err != nil {
@@ -312,6 +394,14 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 
 		// $resourceEmbeddedInParent: <string>
 		if strings.EqualFold(lastID, resourceEmbeddedInParentTag) && c.Kind == yaml.ScalarNode {
+			// Check for duplicate config tag
+			tagKey := strings.ToLower(lastID)
+			if seenConfigTags[tagKey] {
+				return eris.Errorf(
+					"duplicate configuration tag %q found in type configuration (line %d col %d)", lastID, c.Line, c.Column)
+			}
+			seenConfigTags[tagKey] = true
+
 			var resourceEmbeddedInParent string
 			err := c.Decode(&resourceEmbeddedInParent)
 			if err != nil {
@@ -324,6 +414,14 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 
 		// $isResource: <bool>
 		if strings.EqualFold(lastID, isResourceTag) && c.Kind == yaml.ScalarNode {
+			// Check for duplicate config tag
+			tagKey := strings.ToLower(lastID)
+			if seenConfigTags[tagKey] {
+				return eris.Errorf(
+					"duplicate configuration tag %q found in type configuration (line %d col %d)", lastID, c.Line, c.Column)
+			}
+			seenConfigTags[tagKey] = true
+
 			var isResource bool
 			err := c.Decode(&isResource)
 			if err != nil {
@@ -336,6 +434,14 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 
 		// $importable: <bool>
 		if strings.EqualFold(lastID, importableTag) && c.Kind == yaml.ScalarNode {
+			// Check for duplicate config tag
+			tagKey := strings.ToLower(lastID)
+			if seenConfigTags[tagKey] {
+				return eris.Errorf(
+					"duplicate configuration tag %q found in type configuration (line %d col %d)", lastID, c.Line, c.Column)
+			}
+			seenConfigTags[tagKey] = true
+
 			var importable bool
 			err := c.Decode(&importable)
 			if err != nil {
@@ -348,6 +454,14 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 
 		// $defaultAzureName: <bool>
 		if strings.EqualFold(lastID, defaultAzureNameTag) && c.Kind == yaml.ScalarNode {
+			// Check for duplicate config tag
+			tagKey := strings.ToLower(lastID)
+			if seenConfigTags[tagKey] {
+				return eris.Errorf(
+					"duplicate configuration tag %q found in type configuration (line %d col %d)", lastID, c.Line, c.Column)
+			}
+			seenConfigTags[tagKey] = true
+
 			var defaultAzureName bool
 			err := c.Decode(&defaultAzureName)
 			if err != nil {
@@ -365,6 +479,14 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 		//   - Line 1
 		//   - Line 2
 		if strings.EqualFold(lastID, operatorSpecPropertiesTag) && c.Kind == yaml.SequenceNode {
+			// Check for duplicate config tag
+			tagKey := strings.ToLower(lastID)
+			if seenConfigTags[tagKey] {
+				return eris.Errorf(
+					"duplicate configuration tag %q found in type configuration (line %d col %d)", lastID, c.Line, c.Column)
+			}
+			seenConfigTags[tagKey] = true
+
 			properties := make([]OperatorSpecPropertyConfiguration, 0, len(c.Content))
 			for _, content := range c.Content {
 				if content.Kind == yaml.MappingNode {

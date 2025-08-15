@@ -46,6 +46,18 @@ func TestGroupConfiguration_WhenYAMLBadlyFormed_ReturnsError(t *testing.T) {
 	g.Expect(err).NotTo(Succeed())
 }
 
+func TestGroupConfiguration_WhenYAMLHasDuplicateVersions_ReturnsError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	yamlBytes := loadTestData(t)
+
+	var group GroupConfiguration
+	err := yaml.Unmarshal(yamlBytes, &group)
+	g.Expect(err).NotTo(Succeed())
+	g.Expect(err.Error()).To(ContainSubstring("duplicate version"))
+	g.Expect(err.Error()).To(ContainSubstring("v20200101"))
+}
+
 func TestGroupConfiguration_FindVersion_GivenTypeName_ReturnsExpectedVersion(t *testing.T) {
 	t.Parallel()
 
