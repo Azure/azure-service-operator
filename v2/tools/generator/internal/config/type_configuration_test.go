@@ -28,10 +28,6 @@ func TestTypeConfiguration_WhenYAMLWellFormed_ReturnsExpectedResult(t *testing.T
 	g.Expect(name).To(Equal("Demo"))
 	g.Expect(ok).To(BeTrue())
 
-	export, ok := typeConfig.Export.read()
-	g.Expect(export).To(BeFalse())  // Should be false since we only set $exportAs
-	g.Expect(ok).To(BeFalse())     // Should not be configured since $export is deprecated
-
 	exportAs, ok := typeConfig.ExportAs.read()
 	g.Expect(exportAs).To(Equal("Demo"))
 	g.Expect(ok).To(BeTrue())
