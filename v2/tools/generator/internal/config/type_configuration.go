@@ -214,7 +214,7 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 
 		// Handle nested property metadata
 		if c.Kind == yaml.MappingNode {
-			// Check for duplicate property keys  
+			// Check for duplicate property keys
 			propertyKey := strings.ToLower(lastID)
 			if seenProperties[propertyKey] {
 				return eris.Errorf(
