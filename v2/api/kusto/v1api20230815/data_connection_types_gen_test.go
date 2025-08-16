@@ -5,7 +5,8 @@ package v1api20230815
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/kusto/v1api20230815/storage"
+	v20230815s "github.com/Azure/azure-service-operator/v2/api/kusto/v1api20230815/storage"
+	v20240413s "github.com/Azure/azure-service-operator/v2/api/kusto/v1api20240413/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +36,7 @@ func RunPropertyAssignmentTestForCosmosDbDataConnection(subject CosmosDbDataConn
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CosmosDbDataConnection
+	var other v20230815s.CosmosDbDataConnection
 	err := copied.AssignProperties_To_CosmosDbDataConnection(&other)
 	if err != nil {
 		return err.Error()
@@ -144,7 +145,7 @@ func RunPropertyAssignmentTestForCosmosDbDataConnection_STATUS(subject CosmosDbD
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CosmosDbDataConnection_STATUS
+	var other v20230815s.CosmosDbDataConnection_STATUS
 	err := copied.AssignProperties_To_CosmosDbDataConnection_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -267,7 +268,7 @@ func RunResourceConversionTestForDataConnection(subject DataConnection) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.DataConnection
+	var hub v20240413s.DataConnection
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -309,7 +310,7 @@ func RunPropertyAssignmentTestForDataConnection(subject DataConnection) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DataConnection
+	var other v20230815s.DataConnection
 	err := copied.AssignProperties_To_DataConnection(&other)
 	if err != nil {
 		return err.Error()
@@ -412,7 +413,7 @@ func RunPropertyAssignmentTestForDataConnectionOperatorSpec(subject DataConnecti
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DataConnectionOperatorSpec
+	var other v20230815s.DataConnectionOperatorSpec
 	err := copied.AssignProperties_To_DataConnectionOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -509,7 +510,7 @@ func RunPropertyAssignmentTestForDataConnection_STATUS(subject DataConnection_ST
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DataConnection_STATUS
+	var other v20230815s.DataConnection_STATUS
 	err := copied.AssignProperties_To_DataConnection_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -635,7 +636,7 @@ func RunPropertyAssignmentTestForDataConnection_Spec(subject DataConnection_Spec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DataConnection_Spec
+	var other v20230815s.DataConnection_Spec
 	err := copied.AssignProperties_To_DataConnection_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -764,7 +765,7 @@ func RunPropertyAssignmentTestForEventGridDataConnection(subject EventGridDataCo
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.EventGridDataConnection
+	var other v20230815s.EventGridDataConnection
 	err := copied.AssignProperties_To_EventGridDataConnection(&other)
 	if err != nil {
 		return err.Error()
@@ -891,7 +892,7 @@ func RunPropertyAssignmentTestForEventGridDataConnection_STATUS(subject EventGri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.EventGridDataConnection_STATUS
+	var other v20230815s.EventGridDataConnection_STATUS
 	err := copied.AssignProperties_To_EventGridDataConnection_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1033,7 +1034,7 @@ func RunPropertyAssignmentTestForEventHubDataConnection(subject EventHubDataConn
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.EventHubDataConnection
+	var other v20230815s.EventHubDataConnection
 	err := copied.AssignProperties_To_EventHubDataConnection(&other)
 	if err != nil {
 		return err.Error()
@@ -1161,7 +1162,7 @@ func RunPropertyAssignmentTestForEventHubDataConnection_STATUS(subject EventHubD
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.EventHubDataConnection_STATUS
+	var other v20230815s.EventHubDataConnection_STATUS
 	err := copied.AssignProperties_To_EventHubDataConnection_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1302,7 +1303,7 @@ func RunPropertyAssignmentTestForIotHubDataConnection(subject IotHubDataConnecti
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.IotHubDataConnection
+	var other v20230815s.IotHubDataConnection
 	err := copied.AssignProperties_To_IotHubDataConnection(&other)
 	if err != nil {
 		return err.Error()
@@ -1430,7 +1431,7 @@ func RunPropertyAssignmentTestForIotHubDataConnection_STATUS(subject IotHubDataC
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.IotHubDataConnection_STATUS
+	var other v20230815s.IotHubDataConnection_STATUS
 	err := copied.AssignProperties_To_IotHubDataConnection_STATUS(&other)
 	if err != nil {
 		return err.Error()

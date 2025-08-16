@@ -5,6 +5,7 @@ package storage
 
 import (
 	"encoding/json"
+	storage "github.com/Azure/azure-service-operator/v2/api/kusto/v1api20240413/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,48 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_CosmosDbDataConnection_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from CosmosDbDataConnection to CosmosDbDataConnection via AssignProperties_To_CosmosDbDataConnection & AssignProperties_From_CosmosDbDataConnection returns original",
+		prop.ForAll(RunPropertyAssignmentTestForCosmosDbDataConnection, CosmosDbDataConnectionGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForCosmosDbDataConnection tests if a specific instance of CosmosDbDataConnection can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForCosmosDbDataConnection(subject CosmosDbDataConnection) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.CosmosDbDataConnection
+	err := copied.AssignProperties_To_CosmosDbDataConnection(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual CosmosDbDataConnection
+	err = actual.AssignProperties_From_CosmosDbDataConnection(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_CosmosDbDataConnection_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -82,6 +125,48 @@ func AddIndependentPropertyGeneratorsForCosmosDbDataConnection(gens map[string]g
 	gens["MappingRuleName"] = gen.PtrOf(gen.AlphaString())
 	gens["RetrievalStartDate"] = gen.PtrOf(gen.AlphaString())
 	gens["TableName"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_CosmosDbDataConnection_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from CosmosDbDataConnection_STATUS to CosmosDbDataConnection_STATUS via AssignProperties_To_CosmosDbDataConnection_STATUS & AssignProperties_From_CosmosDbDataConnection_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForCosmosDbDataConnection_STATUS, CosmosDbDataConnection_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForCosmosDbDataConnection_STATUS tests if a specific instance of CosmosDbDataConnection_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForCosmosDbDataConnection_STATUS(subject CosmosDbDataConnection_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.CosmosDbDataConnection_STATUS
+	err := copied.AssignProperties_To_CosmosDbDataConnection_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual CosmosDbDataConnection_STATUS
+	err = actual.AssignProperties_From_CosmosDbDataConnection_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_CosmosDbDataConnection_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -157,6 +242,91 @@ func AddIndependentPropertyGeneratorsForCosmosDbDataConnection_STATUS(gens map[s
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_DataConnection_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from DataConnection to hub returns original",
+		prop.ForAll(RunResourceConversionTestForDataConnection, DataConnectionGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForDataConnection tests if a specific instance of DataConnection round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForDataConnection(subject DataConnection) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub storage.DataConnection
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual DataConnection
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_DataConnection_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from DataConnection to DataConnection via AssignProperties_To_DataConnection & AssignProperties_From_DataConnection returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDataConnection, DataConnectionGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDataConnection tests if a specific instance of DataConnection can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForDataConnection(subject DataConnection) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.DataConnection
+	err := copied.AssignProperties_To_DataConnection(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual DataConnection
+	err = actual.AssignProperties_From_DataConnection(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_DataConnection_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -218,6 +388,48 @@ func AddRelatedPropertyGeneratorsForDataConnection(gens map[string]gopter.Gen) {
 	gens["Status"] = DataConnection_STATUSGenerator()
 }
 
+func Test_DataConnectionOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from DataConnectionOperatorSpec to DataConnectionOperatorSpec via AssignProperties_To_DataConnectionOperatorSpec & AssignProperties_From_DataConnectionOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDataConnectionOperatorSpec, DataConnectionOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDataConnectionOperatorSpec tests if a specific instance of DataConnectionOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForDataConnectionOperatorSpec(subject DataConnectionOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.DataConnectionOperatorSpec
+	err := copied.AssignProperties_To_DataConnectionOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual DataConnectionOperatorSpec
+	err = actual.AssignProperties_From_DataConnectionOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_DataConnectionOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -271,6 +483,48 @@ func DataConnectionOperatorSpecGenerator() gopter.Gen {
 	dataConnectionOperatorSpecGenerator = gen.Struct(reflect.TypeOf(DataConnectionOperatorSpec{}), generators)
 
 	return dataConnectionOperatorSpecGenerator
+}
+
+func Test_DataConnection_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from DataConnection_STATUS to DataConnection_STATUS via AssignProperties_To_DataConnection_STATUS & AssignProperties_From_DataConnection_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDataConnection_STATUS, DataConnection_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDataConnection_STATUS tests if a specific instance of DataConnection_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForDataConnection_STATUS(subject DataConnection_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.DataConnection_STATUS
+	err := copied.AssignProperties_To_DataConnection_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual DataConnection_STATUS
+	err = actual.AssignProperties_From_DataConnection_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_DataConnection_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -355,6 +609,48 @@ func AddRelatedPropertyGeneratorsForDataConnection_STATUS(gens map[string]gopter
 	gens["IotHub"] = IotHubDataConnection_STATUSGenerator().Map(func(it IotHubDataConnection_STATUS) *IotHubDataConnection_STATUS {
 		return &it
 	}) // generate one case for OneOf type
+}
+
+func Test_DataConnection_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from DataConnection_Spec to DataConnection_Spec via AssignProperties_To_DataConnection_Spec & AssignProperties_From_DataConnection_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDataConnection_Spec, DataConnection_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDataConnection_Spec tests if a specific instance of DataConnection_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForDataConnection_Spec(subject DataConnection_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.DataConnection_Spec
+	err := copied.AssignProperties_To_DataConnection_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual DataConnection_Spec
+	err = actual.AssignProperties_From_DataConnection_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_DataConnection_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -445,6 +741,48 @@ func AddRelatedPropertyGeneratorsForDataConnection_Spec(gens map[string]gopter.G
 	}) // generate one case for OneOf type
 }
 
+func Test_EventGridDataConnection_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from EventGridDataConnection to EventGridDataConnection via AssignProperties_To_EventGridDataConnection & AssignProperties_From_EventGridDataConnection returns original",
+		prop.ForAll(RunPropertyAssignmentTestForEventGridDataConnection, EventGridDataConnectionGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForEventGridDataConnection tests if a specific instance of EventGridDataConnection can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForEventGridDataConnection(subject EventGridDataConnection) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.EventGridDataConnection
+	err := copied.AssignProperties_To_EventGridDataConnection(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual EventGridDataConnection
+	err = actual.AssignProperties_From_EventGridDataConnection(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_EventGridDataConnection_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -512,6 +850,48 @@ func AddIndependentPropertyGeneratorsForEventGridDataConnection(gens map[string]
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["MappingRuleName"] = gen.PtrOf(gen.AlphaString())
 	gens["TableName"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_EventGridDataConnection_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from EventGridDataConnection_STATUS to EventGridDataConnection_STATUS via AssignProperties_To_EventGridDataConnection_STATUS & AssignProperties_From_EventGridDataConnection_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForEventGridDataConnection_STATUS, EventGridDataConnection_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForEventGridDataConnection_STATUS tests if a specific instance of EventGridDataConnection_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForEventGridDataConnection_STATUS(subject EventGridDataConnection_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.EventGridDataConnection_STATUS
+	err := copied.AssignProperties_To_EventGridDataConnection_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual EventGridDataConnection_STATUS
+	err = actual.AssignProperties_From_EventGridDataConnection_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_EventGridDataConnection_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -591,6 +971,48 @@ func AddIndependentPropertyGeneratorsForEventGridDataConnection_STATUS(gens map[
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_EventHubDataConnection_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from EventHubDataConnection to EventHubDataConnection via AssignProperties_To_EventHubDataConnection & AssignProperties_From_EventHubDataConnection returns original",
+		prop.ForAll(RunPropertyAssignmentTestForEventHubDataConnection, EventHubDataConnectionGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForEventHubDataConnection tests if a specific instance of EventHubDataConnection can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForEventHubDataConnection(subject EventHubDataConnection) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.EventHubDataConnection
+	err := copied.AssignProperties_To_EventHubDataConnection(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual EventHubDataConnection
+	err = actual.AssignProperties_From_EventHubDataConnection(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_EventHubDataConnection_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -659,6 +1081,48 @@ func AddIndependentPropertyGeneratorsForEventHubDataConnection(gens map[string]g
 	gens["MappingRuleName"] = gen.PtrOf(gen.AlphaString())
 	gens["RetrievalStartDate"] = gen.PtrOf(gen.AlphaString())
 	gens["TableName"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_EventHubDataConnection_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from EventHubDataConnection_STATUS to EventHubDataConnection_STATUS via AssignProperties_To_EventHubDataConnection_STATUS & AssignProperties_From_EventHubDataConnection_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForEventHubDataConnection_STATUS, EventHubDataConnection_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForEventHubDataConnection_STATUS tests if a specific instance of EventHubDataConnection_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForEventHubDataConnection_STATUS(subject EventHubDataConnection_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.EventHubDataConnection_STATUS
+	err := copied.AssignProperties_To_EventHubDataConnection_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual EventHubDataConnection_STATUS
+	err = actual.AssignProperties_From_EventHubDataConnection_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_EventHubDataConnection_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -737,6 +1201,48 @@ func AddIndependentPropertyGeneratorsForEventHubDataConnection_STATUS(gens map[s
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_IotHubDataConnection_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from IotHubDataConnection to IotHubDataConnection via AssignProperties_To_IotHubDataConnection & AssignProperties_From_IotHubDataConnection returns original",
+		prop.ForAll(RunPropertyAssignmentTestForIotHubDataConnection, IotHubDataConnectionGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForIotHubDataConnection tests if a specific instance of IotHubDataConnection can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForIotHubDataConnection(subject IotHubDataConnection) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.IotHubDataConnection
+	err := copied.AssignProperties_To_IotHubDataConnection(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual IotHubDataConnection
+	err = actual.AssignProperties_From_IotHubDataConnection(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_IotHubDataConnection_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -805,6 +1311,48 @@ func AddIndependentPropertyGeneratorsForIotHubDataConnection(gens map[string]gop
 	gens["RetrievalStartDate"] = gen.PtrOf(gen.AlphaString())
 	gens["SharedAccessPolicyName"] = gen.PtrOf(gen.AlphaString())
 	gens["TableName"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_IotHubDataConnection_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from IotHubDataConnection_STATUS to IotHubDataConnection_STATUS via AssignProperties_To_IotHubDataConnection_STATUS & AssignProperties_From_IotHubDataConnection_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForIotHubDataConnection_STATUS, IotHubDataConnection_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForIotHubDataConnection_STATUS tests if a specific instance of IotHubDataConnection_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForIotHubDataConnection_STATUS(subject IotHubDataConnection_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.IotHubDataConnection_STATUS
+	err := copied.AssignProperties_To_IotHubDataConnection_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual IotHubDataConnection_STATUS
+	err = actual.AssignProperties_From_IotHubDataConnection_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_IotHubDataConnection_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

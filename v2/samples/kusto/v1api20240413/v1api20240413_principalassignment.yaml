@@ -1,0 +1,12 @@
+apiVersion: kusto.azure.com/v1api20240413
+kind: PrincipalAssignment
+metadata:
+  name: aso-sample-principalassignment
+  namespace: default
+spec:
+  owner:
+    name: aso-sample-database
+  principalId: "james.judd@aveva.com"
+  principalType: "User"
+  role: "Viewer"
+  tenantId: "d1fe8e44-4d35-4dad-8ea9-d9d9cb9a988c"
