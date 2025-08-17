@@ -54,8 +54,8 @@ func TestGroupConfiguration_WhenYAMLHasDuplicateVersions_ReturnsError(t *testing
 	var group GroupConfiguration
 	err := yaml.Unmarshal(yamlBytes, &group)
 	g.Expect(err).NotTo(Succeed())
-	g.Expect(err.Error()).To(ContainSubstring("duplicate version"))
-	g.Expect(err.Error()).To(ContainSubstring("v20200101"))
+	g.Expect(err).To(MatchError(ContainSubstring("duplicate version")))
+	g.Expect(err).To(MatchError(ContainSubstring("v20200101")))
 }
 
 func TestGroupConfiguration_FindVersion_GivenTypeName_ReturnsExpectedVersion(t *testing.T) {

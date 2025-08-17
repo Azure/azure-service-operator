@@ -45,8 +45,8 @@ func TestVersionConfiguration_WhenYAMLHasDuplicateTypes_ReturnsError(t *testing.
 	var versionConfig VersionConfiguration
 	err := yaml.Unmarshal(yamlBytes, &versionConfig)
 	g.Expect(err).NotTo(Succeed())
-	g.Expect(err.Error()).To(ContainSubstring("duplicate type"))
-	g.Expect(err.Error()).To(ContainSubstring("Person"))
+	g.Expect(err).To(MatchError(ContainSubstring("duplicate type")))
+	g.Expect(err).To(MatchError(ContainSubstring("Person")))
 }
 
 func TestVersionConfiguration_AddTypeAlias_WhenTypeKnown_AddsAlias(t *testing.T) {

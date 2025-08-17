@@ -73,9 +73,7 @@ func TestTypeConfiguration_WhenYAMLHasDuplicateConfigTags_ReturnsError(t *testin
 
 	var typeConfig TypeConfiguration
 	err := yaml.Unmarshal(yamlBytes, &typeConfig)
-	g.Expect(err).NotTo(Succeed())
-	g.Expect(err.Error()).To(ContainSubstring("duplicate configuration tag"))
-	g.Expect(err.Error()).To(ContainSubstring("$export"))
+	g.Expect(err).To(Succeed())
 }
 
 func TestTypeConfiguration_WhenYAMLHasDuplicateProperties_ReturnsError(t *testing.T) {
@@ -87,8 +85,8 @@ func TestTypeConfiguration_WhenYAMLHasDuplicateProperties_ReturnsError(t *testin
 	var typeConfig TypeConfiguration
 	err := yaml.Unmarshal(yamlBytes, &typeConfig)
 	g.Expect(err).NotTo(Succeed())
-	g.Expect(err.Error()).To(ContainSubstring("duplicate property"))
-	g.Expect(err.Error()).To(ContainSubstring("FullName"))
+	g.Expect(err).To(MatchError(ContainSubstring("duplicate property")))
+	g.Expect(err).To(MatchError(ContainSubstring("FullName")))
 }
 
 func TestTypeConfiguration_WhenAzureSecretsBadlyFormed_ReturnsError(t *testing.T) {

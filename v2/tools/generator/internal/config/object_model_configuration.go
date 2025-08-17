@@ -292,7 +292,7 @@ func (omc *ObjectModelConfiguration) UnmarshalYAML(value *yaml.Node) error {
 		return eris.New("expected mapping")
 	}
 
-	seenGroups := make(map[string]bool)
+	seenGroups := make(map[string]bool) // Case-sensitive tracking
 	var lastID string
 	for i, c := range value.Content {
 		// Grab identifiers and loop to handle the associated value
@@ -303,13 +303,12 @@ func (omc *ObjectModelConfiguration) UnmarshalYAML(value *yaml.Node) error {
 
 		// Handle nested name metadata
 		if c.Kind == yaml.MappingNode && lastID != "" {
-			// Check for duplicate group keys
-			groupKey := strings.ToLower(lastID)
-			if seenGroups[groupKey] {
+			// Check for duplicate group keys (case-sensitive)
+			if seenGroups[lastID] {
 				return eris.Errorf(
 					"duplicate group %q found in object model configuration (line %d col %d)", lastID, c.Line, c.Column)
 			}
-			seenGroups[groupKey] = true
+			seenGroups[lastID] = true
 
 			g := NewGroupConfiguration(lastID)
 			err := c.Decode(&g)

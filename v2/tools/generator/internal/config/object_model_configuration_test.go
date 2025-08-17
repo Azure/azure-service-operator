@@ -52,8 +52,8 @@ func TestObjectModelConfiguration_WhenYAMLHasDuplicateGroups_ReturnsError(t *tes
 	var model ObjectModelConfiguration
 	err := yaml.Unmarshal(yamlBytes, &model)
 	g.Expect(err).NotTo(Succeed())
-	g.Expect(err.Error()).To(ContainSubstring("duplicate group"))
-	g.Expect(err.Error()).To(ContainSubstring("microsoft.person"))
+	g.Expect(err).To(MatchError(ContainSubstring("duplicate group")))
+	g.Expect(err).To(MatchError(ContainSubstring("microsoft.person")))
 }
 
 /*
