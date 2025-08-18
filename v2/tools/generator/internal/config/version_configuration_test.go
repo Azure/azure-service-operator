@@ -41,9 +41,7 @@ func TestVersionConfiguration_AddTypeAlias_WhenTypeKnown_AddsAlias(t *testing.T)
 	g := NewGomegaWithT(t)
 
 	vc := NewVersionConfiguration("1")
-	err := vc.addType("Person", NewTypeConfiguration("Person"))
-	g.Expect(err).To(Succeed())
-
+	g.Expect(vc.addType("Person", NewTypeConfiguration("Person"))).To(Succeed())
 	g.Expect(vc.addTypeAlias("Person", "Party")).To(Succeed())
 
 	party := vc.findType("Party")
@@ -64,10 +62,8 @@ func TestVersionConfiguration_AddTypeAlias_WhenTypeClashes_ReturnsError(t *testi
 	g := NewGomegaWithT(t)
 
 	vc := NewVersionConfiguration("1")
-	err := vc.addType("Person", NewTypeConfiguration("Person"))
-	g.Expect(err).To(Succeed())
-	err = vc.addType("Party", NewTypeConfiguration("Party"))
-	g.Expect(err).To(Succeed())
+	g.Expect(vc.addType("Person", NewTypeConfiguration("Person"))).To(Succeed())
+	g.Expect(vc.addType("Party", NewTypeConfiguration("Party"))).To(Succeed())
 
 	g.Expect(vc.addTypeAlias("Person", "Party")).NotTo(Succeed())
 }
