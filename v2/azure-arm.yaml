@@ -329,6 +329,12 @@ typeTransformers:
     remove: true
     because: We don't want Protected settings on status
 
+  - group: compute
+    name: AvailabilitySetProperties
+    property: VirtualMachines
+    remove: true
+    because: VirtualMachines is a list of VMs created in the AvailabilitySet and should only be on status, not spec
+
   # 
   # In the group 'dataprotection',
   # from the type 'BackupVault_Spec',
@@ -1891,6 +1897,13 @@ objectModelConfiguration:
       # TODO: Confirm that these guys are really ARM IDs
       DiskSecurityProfile:
         SecureVMDiskEncryptionSetId:
+          $referenceType: arm
+    2024-11-01:
+      AvailabilitySet:
+        $exportAs: AvailabilitySet
+        $supportedFrom: v2.15.0
+      SubResource:
+        Id:
           $referenceType: arm
   containerinstance:
     2021-10-01:
