@@ -66,8 +66,11 @@ Cluster: Resource
 │   │           ├── "PYTHON"
 │   │           └── "R"
 │   ├── Location: *string
-│   ├── OperatorSpec: *Object (2 properties)
+│   ├── OperatorSpec: *Object (3 properties)
 │   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── ConfigMaps: *Object (2 properties)
+│   │   │   ├── ClusterPrincipalId: *genruntime.ConfigMapDestination
+│   │   │   └── ClusterTenantId: *genruntime.ConfigMapDestination
 │   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OptimizedAutoscale: *Object (4 properties)
 │   │   ├── IsEnabled: *bool
@@ -709,7 +712,7 @@ Database: Resource
 
 PrincipalAssignment: Resource
 ├── Owner: Database
-├── Spec: Object (7 properties)
+├── Spec: Object (9 properties)
 │   ├── AzureName: Validated<string> (1 rule)
 │   │   └── Rule 0: Pattern: "^.*$"
 │   ├── OperatorSpec: *Object (2 properties)
@@ -717,6 +720,7 @@ PrincipalAssignment: Resource
 │   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PrincipalId: *string
+│   ├── PrincipalIdFromConfig: *genruntime.ConfigMapReference
 │   ├── PrincipalType: *Enum (3 values)
 │   │   ├── "App"
 │   │   ├── "Group"
@@ -728,7 +732,8 @@ PrincipalAssignment: Resource
 │   │   ├── "UnrestrictedViewer"
 │   │   ├── "User"
 │   │   └── "Viewer"
-│   └── TenantId: *string
+│   ├── TenantId: *string
+│   └── TenantIdFromConfig: *genruntime.ConfigMapReference
 └── Status: Object (12 properties)
     ├── AadObjectId: *string
     ├── Conditions: conditions.Condition[]

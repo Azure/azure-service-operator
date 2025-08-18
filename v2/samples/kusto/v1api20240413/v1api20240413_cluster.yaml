@@ -11,3 +11,13 @@ spec:
     capacity: 2
     name: Standard_D13_v2
     tier: Standard
+  identity:
+    type: SystemAssigned
+  operatorSpec:
+    configMaps:
+      clusterPrincipalId:
+        name: kusto-outputs
+        key: clusterPrincipalId
+      clusterTenantId:
+        name: kusto-outputs
+        key: clusterTenantId

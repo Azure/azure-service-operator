@@ -44,8 +44,12 @@ Cluster: Resource
 │   │       ├── LanguageExtensionName: *string
 │   │       └── PropertyBag: genruntime.PropertyBag
 │   ├── Location: *string
-│   ├── OperatorSpec: *Object (3 properties)
+│   ├── OperatorSpec: *Object (4 properties)
 │   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── ConfigMaps: *Object (3 properties)
+│   │   │   ├── ClusterPrincipalId: *genruntime.ConfigMapDestination
+│   │   │   ├── ClusterTenantId: *genruntime.ConfigMapDestination
+│   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OptimizedAutoscale: *Object (5 properties)
@@ -362,7 +366,7 @@ Database: Resource
 
 PrincipalAssignment: Resource
 ├── Owner: kusto/v1api20240413.Database
-├── Spec: Object (9 properties)
+├── Spec: Object (11 properties)
 │   ├── AzureName: string
 │   ├── OperatorSpec: *Object (3 properties)
 │   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
@@ -371,10 +375,12 @@ PrincipalAssignment: Resource
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PrincipalId: *string
+│   ├── PrincipalIdFromConfig: *genruntime.ConfigMapReference
 │   ├── PrincipalType: *string
 │   ├── PropertyBag: genruntime.PropertyBag
 │   ├── Role: *string
-│   └── TenantId: *string
+│   ├── TenantId: *string
+│   └── TenantIdFromConfig: *genruntime.ConfigMapReference
 └── Status: Object (13 properties)
     ├── AadObjectId: *string
     ├── Conditions: conditions.Condition[]

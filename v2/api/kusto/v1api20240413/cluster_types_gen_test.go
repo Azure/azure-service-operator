@@ -937,6 +937,103 @@ func AddRelatedPropertyGeneratorsForCluster(gens map[string]gopter.Gen) {
 	gens["Status"] = Cluster_STATUSGenerator()
 }
 
+func Test_ClusterOperatorConfigMaps_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ClusterOperatorConfigMaps to ClusterOperatorConfigMaps via AssignProperties_To_ClusterOperatorConfigMaps & AssignProperties_From_ClusterOperatorConfigMaps returns original",
+		prop.ForAll(RunPropertyAssignmentTestForClusterOperatorConfigMaps, ClusterOperatorConfigMapsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForClusterOperatorConfigMaps tests if a specific instance of ClusterOperatorConfigMaps can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForClusterOperatorConfigMaps(subject ClusterOperatorConfigMaps) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ClusterOperatorConfigMaps
+	err := copied.AssignProperties_To_ClusterOperatorConfigMaps(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ClusterOperatorConfigMaps
+	err = actual.AssignProperties_From_ClusterOperatorConfigMaps(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ClusterOperatorConfigMaps_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ClusterOperatorConfigMaps via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForClusterOperatorConfigMaps, ClusterOperatorConfigMapsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForClusterOperatorConfigMaps runs a test to see if a specific instance of ClusterOperatorConfigMaps round trips to JSON and back losslessly
+func RunJSONSerializationTestForClusterOperatorConfigMaps(subject ClusterOperatorConfigMaps) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ClusterOperatorConfigMaps
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ClusterOperatorConfigMaps instances for property testing - lazily instantiated by
+// ClusterOperatorConfigMapsGenerator()
+var clusterOperatorConfigMapsGenerator gopter.Gen
+
+// ClusterOperatorConfigMapsGenerator returns a generator of ClusterOperatorConfigMaps instances for property testing.
+func ClusterOperatorConfigMapsGenerator() gopter.Gen {
+	if clusterOperatorConfigMapsGenerator != nil {
+		return clusterOperatorConfigMapsGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	clusterOperatorConfigMapsGenerator = gen.Struct(reflect.TypeOf(ClusterOperatorConfigMaps{}), generators)
+
+	return clusterOperatorConfigMapsGenerator
+}
+
 func Test_ClusterOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1029,9 +1126,15 @@ func ClusterOperatorSpecGenerator() gopter.Gen {
 	}
 
 	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForClusterOperatorSpec(generators)
 	clusterOperatorSpecGenerator = gen.Struct(reflect.TypeOf(ClusterOperatorSpec{}), generators)
 
 	return clusterOperatorSpecGenerator
+}
+
+// AddRelatedPropertyGeneratorsForClusterOperatorSpec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForClusterOperatorSpec(gens map[string]gopter.Gen) {
+	gens["ConfigMaps"] = gen.PtrOf(ClusterOperatorConfigMapsGenerator())
 }
 
 func Test_Cluster_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

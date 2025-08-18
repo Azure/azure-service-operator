@@ -4,17 +4,21 @@
 package v1api20240413
 
 import (
+	"context"
 	"fmt"
 	arm "github.com/Azure/azure-service-operator/v2/api/kusto/v1api20240413/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/kusto/v1api20240413/storage"
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/go-logr/logr"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
 
@@ -98,6 +102,32 @@ func (cluster *Cluster) InitializeSpec(status genruntime.ConvertibleStatus) erro
 	}
 
 	return fmt.Errorf("expected Status of type Cluster_STATUS but received %T instead", status)
+}
+
+var _ genruntime.KubernetesConfigExporter = &Cluster{}
+
+// ExportKubernetesConfigMaps defines a resource which can create ConfigMaps in Kubernetes.
+func (cluster *Cluster) ExportKubernetesConfigMaps(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
+	collector := configmaps.NewCollector(cluster.Namespace)
+	if cluster.Spec.OperatorSpec != nil && cluster.Spec.OperatorSpec.ConfigMaps != nil {
+		if cluster.Status.Identity != nil {
+			if cluster.Status.Identity.PrincipalId != nil {
+				collector.AddValue(cluster.Spec.OperatorSpec.ConfigMaps.ClusterPrincipalId, *cluster.Status.Identity.PrincipalId)
+			}
+		}
+	}
+	if cluster.Spec.OperatorSpec != nil && cluster.Spec.OperatorSpec.ConfigMaps != nil {
+		if cluster.Status.Identity != nil {
+			if cluster.Status.Identity.TenantId != nil {
+				collector.AddValue(cluster.Spec.OperatorSpec.ConfigMaps.ClusterTenantId, *cluster.Status.Identity.TenantId)
+			}
+		}
+	}
+	result, err := collector.Values()
+	if err != nil {
+		return nil, err
+	}
+	return configmaps.SliceToClientObjectSlice(result), nil
 }
 
 var _ genruntime.KubernetesResource = &Cluster{}
@@ -3524,6 +3554,9 @@ type ClusterOperatorSpec struct {
 	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
 
+	// ConfigMaps: configures where to place operator written ConfigMaps.
+	ConfigMaps *ClusterOperatorConfigMaps `json:"configMaps,omitempty"`
+
 	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
 	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
@@ -3547,6 +3580,18 @@ func (operator *ClusterOperatorSpec) AssignProperties_From_ClusterOperatorSpec(s
 		operator.ConfigMapExpressions = configMapExpressionList
 	} else {
 		operator.ConfigMapExpressions = nil
+	}
+
+	// ConfigMaps
+	if source.ConfigMaps != nil {
+		var configMap ClusterOperatorConfigMaps
+		err := configMap.AssignProperties_From_ClusterOperatorConfigMaps(source.ConfigMaps)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ClusterOperatorConfigMaps() to populate field ConfigMaps")
+		}
+		operator.ConfigMaps = &configMap
+	} else {
+		operator.ConfigMaps = nil
 	}
 
 	// SecretExpressions
@@ -3592,6 +3637,18 @@ func (operator *ClusterOperatorSpec) AssignProperties_To_ClusterOperatorSpec(des
 		destination.ConfigMapExpressions = configMapExpressionList
 	} else {
 		destination.ConfigMapExpressions = nil
+	}
+
+	// ConfigMaps
+	if operator.ConfigMaps != nil {
+		var configMap storage.ClusterOperatorConfigMaps
+		err := operator.ConfigMaps.AssignProperties_To_ClusterOperatorConfigMaps(&configMap)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ClusterOperatorConfigMaps() to populate field ConfigMaps")
+		}
+		destination.ConfigMaps = &configMap
+	} else {
+		destination.ConfigMaps = nil
 	}
 
 	// SecretExpressions
@@ -6126,6 +6183,71 @@ const (
 var calloutPolicy_OutboundAccess_STATUS_Values = map[string]CalloutPolicy_OutboundAccess_STATUS{
 	"allow": CalloutPolicy_OutboundAccess_STATUS_Allow,
 	"deny":  CalloutPolicy_OutboundAccess_STATUS_Deny,
+}
+
+type ClusterOperatorConfigMaps struct {
+	// ClusterPrincipalId: indicates where the clusterPrincipalId config map should be placed. If omitted, no config map will
+	// be created.
+	ClusterPrincipalId *genruntime.ConfigMapDestination `json:"clusterPrincipalId,omitempty"`
+
+	// ClusterTenantId: indicates where the clusterTenantId config map should be placed. If omitted, no config map will be
+	// created.
+	ClusterTenantId *genruntime.ConfigMapDestination `json:"clusterTenantId,omitempty"`
+}
+
+// AssignProperties_From_ClusterOperatorConfigMaps populates our ClusterOperatorConfigMaps from the provided source ClusterOperatorConfigMaps
+func (maps *ClusterOperatorConfigMaps) AssignProperties_From_ClusterOperatorConfigMaps(source *storage.ClusterOperatorConfigMaps) error {
+
+	// ClusterPrincipalId
+	if source.ClusterPrincipalId != nil {
+		clusterPrincipalId := source.ClusterPrincipalId.Copy()
+		maps.ClusterPrincipalId = &clusterPrincipalId
+	} else {
+		maps.ClusterPrincipalId = nil
+	}
+
+	// ClusterTenantId
+	if source.ClusterTenantId != nil {
+		clusterTenantId := source.ClusterTenantId.Copy()
+		maps.ClusterTenantId = &clusterTenantId
+	} else {
+		maps.ClusterTenantId = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ClusterOperatorConfigMaps populates the provided destination ClusterOperatorConfigMaps from our ClusterOperatorConfigMaps
+func (maps *ClusterOperatorConfigMaps) AssignProperties_To_ClusterOperatorConfigMaps(destination *storage.ClusterOperatorConfigMaps) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ClusterPrincipalId
+	if maps.ClusterPrincipalId != nil {
+		clusterPrincipalId := maps.ClusterPrincipalId.Copy()
+		destination.ClusterPrincipalId = &clusterPrincipalId
+	} else {
+		destination.ClusterPrincipalId = nil
+	}
+
+	// ClusterTenantId
+	if maps.ClusterTenantId != nil {
+		clusterTenantId := maps.ClusterTenantId.Copy()
+		destination.ClusterTenantId = &clusterTenantId
+	} else {
+		destination.ClusterTenantId = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}

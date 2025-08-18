@@ -178,12 +178,14 @@ type PrincipalAssignment_Spec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a kusto.azure.com/Database resource
-	Owner         *genruntime.KnownResourceReference `group:"kusto.azure.com" json:"owner,omitempty" kind:"Database"`
-	PrincipalId   *string                            `json:"principalId,omitempty"`
-	PrincipalType *string                            `json:"principalType,omitempty"`
-	PropertyBag   genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Role          *string                            `json:"role,omitempty"`
-	TenantId      *string                            `json:"tenantId,omitempty"`
+	Owner                 *genruntime.KnownResourceReference `group:"kusto.azure.com" json:"owner,omitempty" kind:"Database"`
+	PrincipalId           *string                            `json:"principalId,omitempty" optionalConfigMapPair:"PrincipalId"`
+	PrincipalIdFromConfig *genruntime.ConfigMapReference     `json:"principalIdFromConfig,omitempty" optionalConfigMapPair:"PrincipalId"`
+	PrincipalType         *string                            `json:"principalType,omitempty"`
+	PropertyBag           genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	Role                  *string                            `json:"role,omitempty"`
+	TenantId              *string                            `json:"tenantId,omitempty" optionalConfigMapPair:"TenantId"`
+	TenantIdFromConfig    *genruntime.ConfigMapReference     `json:"tenantIdFromConfig,omitempty" optionalConfigMapPair:"TenantId"`
 }
 
 var _ genruntime.ConvertibleSpec = &PrincipalAssignment_Spec{}

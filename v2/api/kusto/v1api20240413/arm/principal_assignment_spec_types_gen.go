@@ -33,7 +33,7 @@ func (assignment *PrincipalAssignment_Spec) GetType() string {
 type DatabasePrincipalProperties struct {
 	// PrincipalId: The principal ID assigned to the database principal. It can be a user email, application ID, or security
 	// group name.
-	PrincipalId *string `json:"principalId,omitempty"`
+	PrincipalId *string `json:"principalId,omitempty" optionalConfigMapPair:"PrincipalId"`
 
 	// PrincipalType: Principal type.
 	PrincipalType *DatabasePrincipalProperties_PrincipalType `json:"principalType,omitempty"`
@@ -42,7 +42,7 @@ type DatabasePrincipalProperties struct {
 	Role *DatabasePrincipalProperties_Role `json:"role,omitempty"`
 
 	// TenantId: The tenant id of the principal
-	TenantId *string `json:"tenantId,omitempty"`
+	TenantId *string `json:"tenantId,omitempty" optionalConfigMapPair:"TenantId"`
 }
 
 // +kubebuilder:validation:Enum={"App","Group","User"}

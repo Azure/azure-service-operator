@@ -4,14 +4,18 @@
 package storage
 
 import (
+	"context"
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/go-logr/logr"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 // +kubebuilder:rbac:groups=kusto.azure.com,resources=clusters,verbs=get;list;watch;create;update;patch;delete
@@ -66,6 +70,32 @@ func (cluster *Cluster) SecretDestinationExpressions() []*core.DestinationExpres
 		return nil
 	}
 	return cluster.Spec.OperatorSpec.SecretExpressions
+}
+
+var _ genruntime.KubernetesConfigExporter = &Cluster{}
+
+// ExportKubernetesConfigMaps defines a resource which can create ConfigMaps in Kubernetes.
+func (cluster *Cluster) ExportKubernetesConfigMaps(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
+	collector := configmaps.NewCollector(cluster.Namespace)
+	if cluster.Spec.OperatorSpec != nil && cluster.Spec.OperatorSpec.ConfigMaps != nil {
+		if cluster.Status.Identity != nil {
+			if cluster.Status.Identity.PrincipalId != nil {
+				collector.AddValue(cluster.Spec.OperatorSpec.ConfigMaps.ClusterPrincipalId, *cluster.Status.Identity.PrincipalId)
+			}
+		}
+	}
+	if cluster.Spec.OperatorSpec != nil && cluster.Spec.OperatorSpec.ConfigMaps != nil {
+		if cluster.Status.Identity != nil {
+			if cluster.Status.Identity.TenantId != nil {
+				collector.AddValue(cluster.Spec.OperatorSpec.ConfigMaps.ClusterTenantId, *cluster.Status.Identity.TenantId)
+			}
+		}
+	}
+	result, err := collector.Values()
+	if err != nil {
+		return nil, err
+	}
+	return configmaps.SliceToClientObjectSlice(result), nil
 }
 
 var _ genruntime.KubernetesResource = &Cluster{}
@@ -351,6 +381,7 @@ type CalloutPolicy_STATUS struct {
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type ClusterOperatorSpec struct {
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	ConfigMaps           *ClusterOperatorConfigMaps    `json:"configMaps,omitempty"`
 	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
@@ -498,6 +529,13 @@ type VirtualNetworkConfiguration_STATUS struct {
 	PropertyBag              genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	State                    *string                `json:"state,omitempty"`
 	SubnetId                 *string                `json:"subnetId,omitempty"`
+}
+
+// Storage version of v1api20240413.ClusterOperatorConfigMaps
+type ClusterOperatorConfigMaps struct {
+	ClusterPrincipalId *genruntime.ConfigMapDestination `json:"clusterPrincipalId,omitempty"`
+	ClusterTenantId    *genruntime.ConfigMapDestination `json:"clusterTenantId,omitempty"`
+	PropertyBag        genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1api20240413.Identity_UserAssignedIdentities_STATUS

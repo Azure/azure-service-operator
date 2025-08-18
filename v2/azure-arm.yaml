@@ -3114,6 +3114,9 @@ objectModelConfiguration:
       Cluster:
         $export: true
         $supportedFrom: v2.15.0
+        $generatedConfigs:
+          clusterPrincipalId: $.Status.Identity.PrincipalId
+          clusterTenantId:    $.Status.Identity.TenantId
       VirtualNetworkConfiguration:
         DataManagementPublicIpId:
           $referenceType: arm
@@ -3175,6 +3178,11 @@ objectModelConfiguration:
       Clusters_Databases_PrincipalAssignment:
         $exportAs: PrincipalAssignment
         $supportedFrom: v2.15.0
+      DatabasePrincipalProperties:
+        PrincipalId:
+          $importConfigMapMode: optional
+        TenantId:
+          $importConfigMapMode: optional
     2023-08-15:
       Cluster:
         $export: true

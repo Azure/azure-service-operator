@@ -262,10 +262,13 @@ type PrincipalAssignment_Spec struct {
 	// reference to a kusto.azure.com/Database resource
 	Owner *genruntime.KnownResourceReference `group:"kusto.azure.com" json:"owner,omitempty" kind:"Database"`
 
-	// +kubebuilder:validation:Required
 	// PrincipalId: The principal ID assigned to the database principal. It can be a user email, application ID, or security
 	// group name.
-	PrincipalId *string `json:"principalId,omitempty"`
+	PrincipalId *string `json:"principalId,omitempty" optionalConfigMapPair:"PrincipalId"`
+
+	// PrincipalIdFromConfig: The principal ID assigned to the database principal. It can be a user email, application ID, or
+	// security group name.
+	PrincipalIdFromConfig *genruntime.ConfigMapReference `json:"principalIdFromConfig,omitempty" optionalConfigMapPair:"PrincipalId"`
 
 	// +kubebuilder:validation:Required
 	// PrincipalType: Principal type.
@@ -276,7 +279,10 @@ type PrincipalAssignment_Spec struct {
 	Role *DatabasePrincipalProperties_Role `json:"role,omitempty"`
 
 	// TenantId: The tenant id of the principal
-	TenantId *string `json:"tenantId,omitempty"`
+	TenantId *string `json:"tenantId,omitempty" optionalConfigMapPair:"TenantId"`
+
+	// TenantIdFromConfig: The tenant id of the principal
+	TenantIdFromConfig *genruntime.ConfigMapReference `json:"tenantIdFromConfig,omitempty" optionalConfigMapPair:"TenantId"`
 }
 
 var _ genruntime.ARMTransformer = &PrincipalAssignment_Spec{}
@@ -293,13 +299,23 @@ func (assignment *PrincipalAssignment_Spec) ConvertToARM(resolved genruntime.Con
 
 	// Set property "Properties":
 	if assignment.PrincipalId != nil ||
+		assignment.PrincipalIdFromConfig != nil ||
 		assignment.PrincipalType != nil ||
 		assignment.Role != nil ||
-		assignment.TenantId != nil {
+		assignment.TenantId != nil ||
+		assignment.TenantIdFromConfig != nil {
 		result.Properties = &arm.DatabasePrincipalProperties{}
 	}
 	if assignment.PrincipalId != nil {
 		principalId := *assignment.PrincipalId
+		result.Properties.PrincipalId = &principalId
+	}
+	if assignment.PrincipalIdFromConfig != nil {
+		principalIdValue, err := resolved.ResolvedConfigMaps.Lookup(*assignment.PrincipalIdFromConfig)
+		if err != nil {
+			return nil, eris.Wrap(err, "looking up configmap for property PrincipalId")
+		}
+		principalId := principalIdValue
 		result.Properties.PrincipalId = &principalId
 	}
 	if assignment.PrincipalType != nil {
@@ -316,6 +332,14 @@ func (assignment *PrincipalAssignment_Spec) ConvertToARM(resolved genruntime.Con
 	}
 	if assignment.TenantId != nil {
 		tenantId := *assignment.TenantId
+		result.Properties.TenantId = &tenantId
+	}
+	if assignment.TenantIdFromConfig != nil {
+		tenantIdValue, err := resolved.ResolvedConfigMaps.Lookup(*assignment.TenantIdFromConfig)
+		if err != nil {
+			return nil, eris.Wrap(err, "looking up configmap for property TenantId")
+		}
+		tenantId := tenantIdValue
 		result.Properties.TenantId = &tenantId
 	}
 	return result, nil
@@ -353,6 +377,8 @@ func (assignment *PrincipalAssignment_Spec) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
+	// no assignment for property "PrincipalIdFromConfig"
+
 	// Set property "PrincipalType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -383,6 +409,8 @@ func (assignment *PrincipalAssignment_Spec) PopulateFromARM(owner genruntime.Arb
 			assignment.TenantId = &tenantId
 		}
 	}
+
+	// no assignment for property "TenantIdFromConfig"
 
 	// No error
 	return nil
@@ -467,6 +495,14 @@ func (assignment *PrincipalAssignment_Spec) AssignProperties_From_PrincipalAssig
 	// PrincipalId
 	assignment.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
 
+	// PrincipalIdFromConfig
+	if source.PrincipalIdFromConfig != nil {
+		principalIdFromConfig := source.PrincipalIdFromConfig.Copy()
+		assignment.PrincipalIdFromConfig = &principalIdFromConfig
+	} else {
+		assignment.PrincipalIdFromConfig = nil
+	}
+
 	// PrincipalType
 	if source.PrincipalType != nil {
 		principalType := *source.PrincipalType
@@ -487,6 +523,14 @@ func (assignment *PrincipalAssignment_Spec) AssignProperties_From_PrincipalAssig
 
 	// TenantId
 	assignment.TenantId = genruntime.ClonePointerToString(source.TenantId)
+
+	// TenantIdFromConfig
+	if source.TenantIdFromConfig != nil {
+		tenantIdFromConfig := source.TenantIdFromConfig.Copy()
+		assignment.TenantIdFromConfig = &tenantIdFromConfig
+	} else {
+		assignment.TenantIdFromConfig = nil
+	}
 
 	// No error
 	return nil
@@ -526,6 +570,14 @@ func (assignment *PrincipalAssignment_Spec) AssignProperties_To_PrincipalAssignm
 	// PrincipalId
 	destination.PrincipalId = genruntime.ClonePointerToString(assignment.PrincipalId)
 
+	// PrincipalIdFromConfig
+	if assignment.PrincipalIdFromConfig != nil {
+		principalIdFromConfig := assignment.PrincipalIdFromConfig.Copy()
+		destination.PrincipalIdFromConfig = &principalIdFromConfig
+	} else {
+		destination.PrincipalIdFromConfig = nil
+	}
+
 	// PrincipalType
 	if assignment.PrincipalType != nil {
 		principalType := string(*assignment.PrincipalType)
@@ -544,6 +596,14 @@ func (assignment *PrincipalAssignment_Spec) AssignProperties_To_PrincipalAssignm
 
 	// TenantId
 	destination.TenantId = genruntime.ClonePointerToString(assignment.TenantId)
+
+	// TenantIdFromConfig
+	if assignment.TenantIdFromConfig != nil {
+		tenantIdFromConfig := assignment.TenantIdFromConfig.Copy()
+		destination.TenantIdFromConfig = &tenantIdFromConfig
+	} else {
+		destination.TenantIdFromConfig = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

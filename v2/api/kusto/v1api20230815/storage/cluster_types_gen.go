@@ -1839,6 +1839,13 @@ func (operator *ClusterOperatorSpec) AssignProperties_From_ClusterOperatorSpec(s
 		operator.ConfigMapExpressions = nil
 	}
 
+	// ConfigMaps
+	if source.ConfigMaps != nil {
+		propertyBag.Add("ConfigMaps", *source.ConfigMaps)
+	} else {
+		propertyBag.Remove("ConfigMaps")
+	}
+
 	// SecretExpressions
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
@@ -1898,6 +1905,19 @@ func (operator *ClusterOperatorSpec) AssignProperties_To_ClusterOperatorSpec(des
 		destination.ConfigMapExpressions = configMapExpressionList
 	} else {
 		destination.ConfigMapExpressions = nil
+	}
+
+	// ConfigMaps
+	if propertyBag.Contains("ConfigMaps") {
+		var configMap storage.ClusterOperatorConfigMaps
+		err := propertyBag.Pull("ConfigMaps", &configMap)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'ConfigMaps' from propertyBag")
+		}
+
+		destination.ConfigMaps = &configMap
+	} else {
+		destination.ConfigMaps = nil
 	}
 
 	// SecretExpressions
