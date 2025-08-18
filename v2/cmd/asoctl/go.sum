@@ -253,6 +253,8 @@ github.com/microsoftgraph/msgraph-sdk-go v1.78.0 h1:oBvzsU9ImDpSl7Lt2ZQKESemH8IV
 github.com/microsoftgraph/msgraph-sdk-go v1.78.0/go.mod h1:5ncg4aauxM5XKHo/xvAq7Cjl6+Dqu6lOtoihSGKtDt4=
 github.com/microsoftgraph/msgraph-sdk-go v1.82.0 h1:A+MxDbY3TFAjrUdbUH6YJmxSwApuykVToXWLO+L+sGw=
 github.com/microsoftgraph/msgraph-sdk-go v1.82.0/go.mod h1:vZjQkQLX2vma7uMxvFHjSmy1edTOMkkWn6DhzVR55m8=
+github.com/microsoftgraph/msgraph-sdk-go v1.83.0 h1:1EJOxK8gjFvin9Ksnh2cHVhQvaxpPYWEEkFi3Z5wI50=
+github.com/microsoftgraph/msgraph-sdk-go v1.83.0/go.mod h1:vZjQkQLX2vma7uMxvFHjSmy1edTOMkkWn6DhzVR55m8=
 github.com/microsoftgraph/msgraph-sdk-go-core v1.3.2 h1:5jCUSosTKaINzPPQXsz7wsHWwknyBmJSu8+ZWxx3kdQ=
 github.com/microsoftgraph/msgraph-sdk-go-core v1.3.2/go.mod h1:iD75MK3LX8EuwjDYCmh0hkojKXK6VKME33u4daCo3cE=
 github.com/moby/spdystream v0.5.0 h1:7r0J1Si3QO/kjRitvSLVVFUjxMEb/YLj6S9FF62JBCU=
