@@ -19,6 +19,11 @@ When the test passes, you'll find a new recording file in the `recordings` folde
 
 Once you're finished, include the recording file in your PR. This is important because it allows other developers to run the test without needing to make real API calls to Azure.
 
+{{% alert title="Test Redaction" color="warning" %}}
+All test recordings are automatically redacted of sensitive content - this includes passwords, authentication headers & keys, API tokens, subscription & tenant IDs, SSH keys, and so on. See [`redact.go`](https://github.com/Azure/azure-service-operator/blob/main/v2/internal/testcommon/vcr/redact.go) for all the details. 
+{{% /alert %}}
+
+
 See [the code generator test README]({{< relref "testing" >}}/#running-envtest-integration-tests) for more information on how to run tests and record their HTTP interactions to allow replay.
 
 ## Consider removing old tests
