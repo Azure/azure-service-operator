@@ -693,7 +693,7 @@ tasks:
     desc: Run integration tests for CI
     dir: "{{.CONTROLLER_ROOT}}"
     deps: 
-      - controller:test-integration-envtest-cover
+      - controller:test-integration-envtest
 
   controller:test-integration-ci-live:
     desc: Run integration tests for CI in live mode
