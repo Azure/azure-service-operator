@@ -114,7 +114,7 @@ require (
 	github.com/microsoft/kiota-serialization-json-go v1.1.2 // indirect
 	github.com/microsoft/kiota-serialization-multipart-go v1.1.2 // indirect
 	github.com/microsoft/kiota-serialization-text-go v1.1.2 // indirect
-	github.com/microsoftgraph/msgraph-sdk-go v1.82.0 // indirect
+	github.com/microsoftgraph/msgraph-sdk-go v1.83.0 // indirect
 	github.com/microsoftgraph/msgraph-sdk-go-core v1.3.2 // indirect
 	github.com/moby/spdystream v0.5.0 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
