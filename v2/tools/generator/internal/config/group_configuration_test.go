@@ -48,6 +48,7 @@ func TestGroupConfiguration_WhenYAMLBadlyFormed_ReturnsError(t *testing.T) {
 
 func TestGroupConfiguration_FindVersion_GivenTypeName_ReturnsExpectedVersion(t *testing.T) {
 	t.Parallel()
+	g := NewGomegaWithT(t)
 
 	ver := "2021-01-01"
 	refTest := test.MakeLocalPackageReference("demo", ver)
@@ -57,10 +58,7 @@ func TestGroupConfiguration_FindVersion_GivenTypeName_ReturnsExpectedVersion(t *
 
 	groupConfiguration := NewGroupConfiguration("demo")
 	versionConfig := NewVersionConfiguration("2021-01-01")
-	err := groupConfiguration.addVersion(versionConfig.name, versionConfig)
-	if err != nil {
-		t.Fatalf("Failed to add version: %s", err)
-	}
+	g.Expect(groupConfiguration.addVersion(versionConfig.name, versionConfig)).To(Succeed())
 
 	cases := []struct {
 		name          string
@@ -115,16 +113,13 @@ func TestGroupConfiguration_WhenVersionConfigurationNotConsumed_ReturnsErrorWith
 	typeConfig.SupportedFrom.Set("vNext")
 
 	versionConfig := NewVersionConfiguration("2022-01-01")
-	err := versionConfig.addType(typeConfig.name, typeConfig)
-	g.Expect(err).To(Succeed())
+	g.Expect(versionConfig.addType(typeConfig.name, typeConfig)).To(Succeed())
 
 	groupConfig := NewGroupConfiguration("demo")
-	err = groupConfig.addVersion(versionConfig.name, versionConfig)
-	g.Expect(err).To(Succeed())
+	g.Expect(groupConfig.addVersion(versionConfig.name, versionConfig)).To(Succeed())
 
 	omConfig := NewObjectModelConfiguration()
-	err = omConfig.addGroup(groupConfig.name, groupConfig)
-	g.Expect(err).To(Succeed())
+	g.Expect(omConfig.addGroup(groupConfig.name, groupConfig)).To(Succeed())
 
 	// Lookup $supportedFrom for our type - version is from 2021 but our config has 2022, so it won't be found
 	tn := astmodel.MakeInternalTypeName(
@@ -134,7 +129,7 @@ func TestGroupConfiguration_WhenVersionConfigurationNotConsumed_ReturnsErrorWith
 	_, ok := omConfig.SupportedFrom.Lookup(tn)
 	g.Expect(ok).To(BeFalse())
 
-	err = omConfig.SupportedFrom.VerifyConsumed()
+	err := omConfig.SupportedFrom.VerifyConsumed()
 	g.Expect(err).NotTo(BeNil())                                   // We expect an error, config hasn't been used
 	g.Expect(err.Error()).To(ContainSubstring("did you mean"))     // We want to receive a tip
 	g.Expect(err.Error()).To(ContainSubstring(versionConfig.name)) // and we want the correct version to be suggested

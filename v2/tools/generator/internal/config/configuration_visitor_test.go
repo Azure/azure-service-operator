@@ -19,7 +19,7 @@ func TestConfigurationVisitor_WhenVisitingASpecificVersion_VisitsExpectedVersion
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	omc := createTestObjectModelConfigurationForVisitor()
+	omc := createTestObjectModelConfigurationForVisitor(g)
 	seen := set.Make[string]()
 	visitor := newSingleVersionConfigurationVisitor(
 		test.Pkg2022,
@@ -37,7 +37,7 @@ func TestConfigurationVisitor_WhenVisitingEveryType_VisitsExpectedTypes(t *testi
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	omc := createTestObjectModelConfigurationForVisitor()
+	omc := createTestObjectModelConfigurationForVisitor(g)
 	seen := set.Make[string]()
 	visitor := newEveryTypeConfigurationVisitor(
 		func(configuration *TypeConfiguration) error {
@@ -55,7 +55,7 @@ func TestConfigurationVisitor_WhenVisitingASpecificType_VisitsExpectedType(t *te
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	omc := createTestObjectModelConfigurationForVisitor()
+	omc := createTestObjectModelConfigurationForVisitor(g)
 	seen := set.Make[string]()
 	name := astmodel.MakeInternalTypeName(test.Pkg2022, "Person")
 	visitor := newSingleTypeConfigurationVisitor(
@@ -74,7 +74,7 @@ func TestConfigurationVisitor_WhenVisitingEveryProperty_VisitsExpectedProperties
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	omc := createTestObjectModelConfigurationForVisitor()
+	omc := createTestObjectModelConfigurationForVisitor(g)
 	seen := set.Make[string]()
 	visitor := newEveryPropertyConfigurationVisitor(
 		func(configuration *PropertyConfiguration) error {
@@ -95,7 +95,7 @@ func TestConfigurationVisitor_WhenVisitingASpecificProperty_VisitsExpectedProper
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	omc := createTestObjectModelConfigurationForVisitor()
+	omc := createTestObjectModelConfigurationForVisitor(g)
 	seen := set.Make[string]()
 	name := astmodel.MakeInternalTypeName(test.Pkg2022, "Person")
 	visitor := newSinglePropertyConfigurationVisitor(
@@ -115,7 +115,7 @@ func TestConfigurationVisitor_WhenVisitingAllGroups_VisitsExpectedGroups(t *test
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	omc := createTestObjectModelConfigurationForVisitor()
+	omc := createTestObjectModelConfigurationForVisitor(g)
 	seen := set.Make[string]()
 	visitor := newEveryGroupConfigurationVisitor(
 		func(configuration *GroupConfiguration) error {
@@ -133,7 +133,7 @@ func TestConfigurationVisitor_WhenVisitingAllVersions_VisitsExpectedVersions(t *
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	omc := createTestObjectModelConfigurationForVisitor()
+	omc := createTestObjectModelConfigurationForVisitor(g)
 	seen := set.Make[string]()
 	visitor := newEveryVersionConfigurationVisitor(
 		func(configuration *VersionConfiguration) error {
@@ -149,83 +149,44 @@ func TestConfigurationVisitor_WhenVisitingAllVersions_VisitsExpectedVersions(t *
 	g.Expect(seen).To(HaveKey("v2"))
 }
 
-func createTestObjectModelConfigurationForVisitor() *ObjectModelConfiguration {
+func createTestObjectModelConfigurationForVisitor(g *WithT) *ObjectModelConfiguration {
 	lastName := NewPropertyConfiguration("LastName")
 	firstName := NewPropertyConfiguration("FirstName")
 
 	person2020 := NewTypeConfiguration("SimplePerson")
-	err := person2020.addProperty(lastName.name, lastName)
-	if err != nil {
-		panic(err)
-	}
-	err = person2020.addProperty(firstName.name, firstName)
-	if err != nil {
-		panic(err)
-	}
+	g.Expect(person2020.addProperty(lastName.name, lastName)).To(Succeed())
+	g.Expect(person2020.addProperty(firstName.name, firstName)).To(Succeed())
 
 	version2020 := NewVersionConfiguration(test.Pkg2020.Version())
-	err = version2020.addType(person2020.name, person2020)
-	if err != nil {
-		panic(err)
-	}
+	g.Expect(version2020.addType(person2020.name, person2020)).To(Succeed())
 
 	fullName := NewPropertyConfiguration("FullName")
 	knownAs := NewPropertyConfiguration("KnownAs")
 	familyName := NewPropertyConfiguration("FamilyName")
 
 	person2022 := NewTypeConfiguration("Person")
-	err = person2022.addProperty(fullName.name, fullName)
-	if err != nil {
-		panic(err)
-	}
-	err = person2022.addProperty(knownAs.name, knownAs)
-	if err != nil {
-		panic(err)
-	}
-	err = person2022.addProperty(familyName.name, familyName)
-	if err != nil {
-		panic(err)
-	}
+	g.Expect(person2022.addProperty(fullName.name, fullName)).To(Succeed())
+	g.Expect(person2022.addProperty(knownAs.name, knownAs)).To(Succeed())
+	g.Expect(person2022.addProperty(familyName.name, familyName)).To(Succeed())
 
 	version2022 := NewVersionConfiguration(test.Pkg2022.Version())
-	err = version2022.addType(person2022.name, person2022)
-	if err != nil {
-		panic(err)
-	}
+	g.Expect(version2022.addType(person2022.name, person2022)).To(Succeed())
 
 	group := NewGroupConfiguration(test.Group)
-	err = group.addVersion(version2020.name, version2020)
-	if err != nil {
-		panic(err)
-	}
-	err = group.addVersion(version2022.name, version2022)
-	if err != nil {
-		panic(err)
-	}
+	g.Expect(group.addVersion(version2020.name, version2020)).To(Succeed())
+	g.Expect(group.addVersion(version2022.name, version2022)).To(Succeed())
 
 	group2 := NewGroupConfiguration("OtherGroup")
-	err = group2.addVersion(
+	g.Expect(group2.addVersion(
 		"v1",
-		NewVersionConfiguration("v1"))
-	if err != nil {
-		panic(err)
-	}
-	err = group2.addVersion(
+		NewVersionConfiguration("v1"))).To(Succeed())
+	g.Expect(group2.addVersion(
 		"v2",
-		NewVersionConfiguration("v2"))
-	if err != nil {
-		panic(err)
-	}
+		NewVersionConfiguration("v2"))).To(Succeed())
 
 	modelConfig := NewObjectModelConfiguration()
-	err = modelConfig.addGroup(group.name, group)
-	if err != nil {
-		panic(err)
-	}
-	err = modelConfig.addGroup(group2.name, group2)
-	if err != nil {
-		panic(err)
-	}
+	g.Expect(modelConfig.addGroup(group.name, group)).To(Succeed())
+	g.Expect(modelConfig.addGroup(group2.name, group2)).To(Succeed())
 
 	return modelConfig
 }

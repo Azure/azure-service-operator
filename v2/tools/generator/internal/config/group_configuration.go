@@ -77,6 +77,7 @@ func (gc *GroupConfiguration) addVersion(name string, version *VersionConfigurat
 
 	gc.versions[primaryKey] = version
 	gc.versions[strings.ToLower(local.Version())] = version
+
 	return nil
 }
 

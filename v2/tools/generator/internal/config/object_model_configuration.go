@@ -318,6 +318,7 @@ func (omc *ObjectModelConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			if err != nil {
 				return eris.Wrapf(err, "adding group %q", lastID)
 			}
+
 			continue
 		}
 
