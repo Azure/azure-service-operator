@@ -39,9 +39,14 @@ func NewVersionConfiguration(name string) *VersionConfiguration {
 }
 
 // addType includes configuration for the specified type as a part of this version configuration
-func (vc *VersionConfiguration) addType(name string, tc *TypeConfiguration) {
+func (vc *VersionConfiguration) addType(name string, tc *TypeConfiguration) error {
 	// Indexed by lowercase name of the type to allow case-insensitive lookups
-	vc.types[strings.ToLower(name)] = tc
+	key := strings.ToLower(name)
+	if _, exists := vc.types[key]; exists {
+		return eris.Errorf("duplicate type configuration: %q already exists", name)
+	}
+	vc.types[key] = tc
+	return nil
 }
 
 // visitType invokes the provided visitor on the specified type if present.
@@ -111,7 +116,8 @@ func (vc *VersionConfiguration) addTypeAlias(name string, alias string) error {
 	}
 
 	// Add the alias as another route to the existing configuration
-	vc.addType(alias, tc)
+	// We skip the duplicate check here since we've already verified above that it's safe
+	vc.types[strings.ToLower(alias)] = tc
 	return nil
 }
 
@@ -140,7 +146,10 @@ func (vc *VersionConfiguration) UnmarshalYAML(value *yaml.Node) error {
 				return eris.Wrapf(err, "decoding yaml for %q", lastID)
 			}
 
-			vc.addType(lastID, tc)
+			err = vc.addType(lastID, tc)
+			if err != nil {
+				return eris.Wrapf(err, "adding type %q", lastID)
+			}
 			continue
 		}
 

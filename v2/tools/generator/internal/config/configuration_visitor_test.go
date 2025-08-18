@@ -154,39 +154,78 @@ func createTestObjectModelConfigurationForVisitor() *ObjectModelConfiguration {
 	firstName := NewPropertyConfiguration("FirstName")
 
 	person2020 := NewTypeConfiguration("SimplePerson")
-	person2020.addProperty(lastName.name, lastName)
-	person2020.addProperty(firstName.name, firstName)
+	err := person2020.addProperty(lastName.name, lastName)
+	if err != nil {
+		panic(err)
+	}
+	err = person2020.addProperty(firstName.name, firstName)
+	if err != nil {
+		panic(err)
+	}
 
 	version2020 := NewVersionConfiguration(test.Pkg2020.Version())
-	version2020.addType(person2020.name, person2020)
+	err = version2020.addType(person2020.name, person2020)
+	if err != nil {
+		panic(err)
+	}
 
 	fullName := NewPropertyConfiguration("FullName")
 	knownAs := NewPropertyConfiguration("KnownAs")
 	familyName := NewPropertyConfiguration("FamilyName")
 
 	person2022 := NewTypeConfiguration("Person")
-	person2022.addProperty(fullName.name, fullName)
-	person2022.addProperty(knownAs.name, knownAs)
-	person2022.addProperty(familyName.name, familyName)
+	err = person2022.addProperty(fullName.name, fullName)
+	if err != nil {
+		panic(err)
+	}
+	err = person2022.addProperty(knownAs.name, knownAs)
+	if err != nil {
+		panic(err)
+	}
+	err = person2022.addProperty(familyName.name, familyName)
+	if err != nil {
+		panic(err)
+	}
 
 	version2022 := NewVersionConfiguration(test.Pkg2022.Version())
-	version2022.addType(person2022.name, person2022)
+	err = version2022.addType(person2022.name, person2022)
+	if err != nil {
+		panic(err)
+	}
 
 	group := NewGroupConfiguration(test.Group)
-	group.addVersion(version2020.name, version2020)
-	group.addVersion(version2022.name, version2022)
+	err = group.addVersion(version2020.name, version2020)
+	if err != nil {
+		panic(err)
+	}
+	err = group.addVersion(version2022.name, version2022)
+	if err != nil {
+		panic(err)
+	}
 
 	group2 := NewGroupConfiguration("OtherGroup")
-	group2.addVersion(
+	err = group2.addVersion(
 		"v1",
 		NewVersionConfiguration("v1"))
-	group2.addVersion(
+	if err != nil {
+		panic(err)
+	}
+	err = group2.addVersion(
 		"v2",
 		NewVersionConfiguration("v2"))
+	if err != nil {
+		panic(err)
+	}
 
 	modelConfig := NewObjectModelConfiguration()
-	modelConfig.addGroup(group.name, group)
-	modelConfig.addGroup(group2.name, group2)
+	err = modelConfig.addGroup(group.name, group)
+	if err != nil {
+		panic(err)
+	}
+	err = modelConfig.addGroup(group2.name, group2)
+	if err != nil {
+		panic(err)
+	}
 
 	return modelConfig
 }
