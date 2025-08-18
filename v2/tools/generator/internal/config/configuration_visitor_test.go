@@ -19,7 +19,7 @@ func TestConfigurationVisitor_WhenVisitingASpecificVersion_VisitsExpectedVersion
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	omc := createTestObjectModelConfigurationForVisitor(g)
+	omc := createTestObjectModelConfigurationForVisitor(t)
 	seen := set.Make[string]()
 	visitor := newSingleVersionConfigurationVisitor(
 		test.Pkg2022,
@@ -37,7 +37,7 @@ func TestConfigurationVisitor_WhenVisitingEveryType_VisitsExpectedTypes(t *testi
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	omc := createTestObjectModelConfigurationForVisitor(g)
+	omc := createTestObjectModelConfigurationForVisitor(t)
 	seen := set.Make[string]()
 	visitor := newEveryTypeConfigurationVisitor(
 		func(configuration *TypeConfiguration) error {
@@ -55,7 +55,7 @@ func TestConfigurationVisitor_WhenVisitingASpecificType_VisitsExpectedType(t *te
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	omc := createTestObjectModelConfigurationForVisitor(g)
+	omc := createTestObjectModelConfigurationForVisitor(t)
 	seen := set.Make[string]()
 	name := astmodel.MakeInternalTypeName(test.Pkg2022, "Person")
 	visitor := newSingleTypeConfigurationVisitor(
@@ -74,7 +74,7 @@ func TestConfigurationVisitor_WhenVisitingEveryProperty_VisitsExpectedProperties
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	omc := createTestObjectModelConfigurationForVisitor(g)
+	omc := createTestObjectModelConfigurationForVisitor(t)
 	seen := set.Make[string]()
 	visitor := newEveryPropertyConfigurationVisitor(
 		func(configuration *PropertyConfiguration) error {
@@ -95,7 +95,7 @@ func TestConfigurationVisitor_WhenVisitingASpecificProperty_VisitsExpectedProper
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	omc := createTestObjectModelConfigurationForVisitor(g)
+	omc := createTestObjectModelConfigurationForVisitor(t)
 	seen := set.Make[string]()
 	name := astmodel.MakeInternalTypeName(test.Pkg2022, "Person")
 	visitor := newSinglePropertyConfigurationVisitor(
@@ -115,7 +115,7 @@ func TestConfigurationVisitor_WhenVisitingAllGroups_VisitsExpectedGroups(t *test
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	omc := createTestObjectModelConfigurationForVisitor(g)
+	omc := createTestObjectModelConfigurationForVisitor(t)
 	seen := set.Make[string]()
 	visitor := newEveryGroupConfigurationVisitor(
 		func(configuration *GroupConfiguration) error {
@@ -133,7 +133,7 @@ func TestConfigurationVisitor_WhenVisitingAllVersions_VisitsExpectedVersions(t *
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	omc := createTestObjectModelConfigurationForVisitor(g)
+	omc := createTestObjectModelConfigurationForVisitor(t)
 	seen := set.Make[string]()
 	visitor := newEveryVersionConfigurationVisitor(
 		func(configuration *VersionConfiguration) error {
@@ -149,7 +149,9 @@ func TestConfigurationVisitor_WhenVisitingAllVersions_VisitsExpectedVersions(t *
 	g.Expect(seen).To(HaveKey("v2"))
 }
 
-func createTestObjectModelConfigurationForVisitor(g *WithT) *ObjectModelConfiguration {
+func createTestObjectModelConfigurationForVisitor(t *testing.T) *ObjectModelConfiguration {
+	g := NewGomegaWithT(t)
+
 	lastName := NewPropertyConfiguration("LastName")
 	firstName := NewPropertyConfiguration("FirstName")
 
