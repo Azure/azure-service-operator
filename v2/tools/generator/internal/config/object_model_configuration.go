@@ -243,7 +243,7 @@ func (omc *ObjectModelConfiguration) addGroup(name string, group *GroupConfigura
 	if _, exists := omc.groups[key]; exists {
 		return eris.Errorf("duplicate group configuration: %q already exists", name)
 	}
-	
+
 	omc.groups[key] = group
 	return nil
 }

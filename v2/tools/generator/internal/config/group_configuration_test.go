@@ -59,7 +59,7 @@ func TestGroupConfiguration_FindVersion_GivenTypeName_ReturnsExpectedVersion(t *
 	versionConfig := NewVersionConfiguration("2021-01-01")
 	err := groupConfiguration.addVersion(versionConfig.name, versionConfig)
 	if err != nil {
-		t.Fatalf("Failed to add version: %v", err)
+		t.Fatalf("Failed to add version: %s", err)
 	}
 
 	cases := []struct {
