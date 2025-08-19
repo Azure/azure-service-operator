@@ -18,7 +18,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-func Test_Insights_DiagnosticSetting_CRUD(t *testing.T) {
+func Test_Insights_DiagnosticSetting_v20210501preview_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
