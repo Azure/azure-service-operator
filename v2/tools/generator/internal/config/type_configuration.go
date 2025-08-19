@@ -94,9 +94,14 @@ func NewTypeConfiguration(name string) *TypeConfiguration {
 }
 
 // Add includes configuration for the specified property as a part of this type configuration
-func (tc *TypeConfiguration) addProperty(name string, property *PropertyConfiguration) {
+func (tc *TypeConfiguration) addProperty(name string, property *PropertyConfiguration) error {
 	// Indexed by lowercase name of the property to allow case-insensitive lookups
-	tc.properties[strings.ToLower(name)] = property
+	key := strings.ToLower(name)
+	if _, exists := tc.properties[key]; exists {
+		return eris.Errorf("duplicate property configuration: %q already exists", name)
+	}
+	tc.properties[key] = property
+	return nil
 }
 
 // visitProperty invokes the provided visitor on the specified property if present.
@@ -210,7 +215,10 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 				return eris.Wrapf(err, "decoding yaml for %q", lastID)
 			}
 
-			tc.addProperty(lastID, p)
+			err = tc.addProperty(lastID, p)
+			if err != nil {
+				return eris.Wrapf(err, "adding property %q", lastID)
+			}
 			continue
 		}
 

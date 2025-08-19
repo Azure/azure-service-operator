@@ -63,14 +63,22 @@ func NewGroupConfiguration(name string) *GroupConfiguration {
 // In addition to indexing by the name of the version, we also index by the local-package-name and storage-package-name
 // of the version, so we can do lookups via TypeName. All indexing is lower-case to allow case-insensitive lookups (this
 // makes our configuration more forgiving).
-func (gc *GroupConfiguration) addVersion(name string, version *VersionConfiguration) {
+func (gc *GroupConfiguration) addVersion(name string, version *VersionConfiguration) error {
+	// Check for duplicate on the primary name key before adding
+	primaryKey := strings.ToLower(name)
+	if _, exists := gc.versions[primaryKey]; exists {
+		return eris.Errorf("duplicate version configuration: %q already exists", name)
+	}
+
 	// Convert version.name into a package version
 	// We do this by constructing a local package reference because this avoids replicating the logic here and risking
 	// inconsistency if things are changed in the future.
 	local := astmodel.MakeLocalPackageReference("prefix", "group", astmodel.GeneratorVersion, name)
 
-	gc.versions[strings.ToLower(name)] = version
+	gc.versions[primaryKey] = version
 	gc.versions[strings.ToLower(local.Version())] = version
+
+	return nil
 }
 
 // visitVersion invokes the provided visitor on the specified version if present.
@@ -178,7 +186,10 @@ func (gc *GroupConfiguration) UnmarshalYAML(value *yaml.Node) error {
 				return eris.Wrapf(err, "decoding yaml for %q", lastID)
 			}
 
-			gc.addVersion(lastID, v)
+			err = gc.addVersion(lastID, v)
+			if err != nil {
+				return eris.Wrapf(err, "adding version %q", lastID)
+			}
 			continue
 		}
 

@@ -637,3 +637,47 @@ func TestObjectModelConfiguration_VerifyPayloadTypeConsumed_WhenUnconsumed_Retur
 	err := omc.PayloadType.VerifyConsumed()
 	g.Expect(err).NotTo(Succeed())
 }
+
+/*
+ * Duplicate Key Detection Tests
+ */
+
+func TestObjectModelConfiguration_UnmarshalYAML_WhenDuplicateGroups_ReturnsError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	yamlContent := `
+cache:
+  2021-01-01:
+    SomeType: {}
+cache:
+  2022-01-01:
+    OtherType: {}
+`
+
+	var omc ObjectModelConfiguration
+	err := yaml.Unmarshal([]byte(yamlContent), &omc)
+	g.Expect(err).NotTo(Succeed())
+	g.Expect(err.Error()).To(ContainSubstring("duplicate group configuration"))
+	g.Expect(err.Error()).To(ContainSubstring("cache"))
+}
+
+func TestObjectModelConfiguration_UnmarshalYAML_WhenDuplicateGroupsCaseInsensitive_ReturnsError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	yamlContent := `
+cache:
+  2021-01-01:
+    SomeType: {}
+CACHE:
+  2022-01-01:
+    OtherType: {}
+`
+
+	var omc ObjectModelConfiguration
+	err := yaml.Unmarshal([]byte(yamlContent), &omc)
+	g.Expect(err).NotTo(Succeed())
+	g.Expect(err.Error()).To(ContainSubstring("duplicate group configuration"))
+	g.Expect(err.Error()).To(ContainSubstring("CACHE"))
+}
