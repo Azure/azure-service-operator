@@ -116,3 +116,60 @@ func TestPropertyConfiguration_IsSecret_WhenNotSpecified_ReturnsExpectedResult(t
 	g.Expect(isSecret).To(BeFalse())
 	g.Expect(ok).To(BeFalse())
 }
+
+func TestPropertyConfiguration_Merge_WhenNil_ReturnsSuccess(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	base := NewPropertyConfiguration("Property")
+	err := base.Merge(nil)
+	g.Expect(err).To(Succeed())
+}
+
+func TestPropertyConfiguration_Merge_WhenEmpty_ReturnsSuccess(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	base := NewPropertyConfiguration("Property")
+	other := NewPropertyConfiguration("Property")
+	
+	err := base.Merge(other)
+	g.Expect(err).To(Succeed())
+}
+
+func TestPropertyConfiguration_Merge_WhenNoConflicts_MergesSuccessfully(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	base := NewPropertyConfiguration("Property")
+	base.Description.Set("Base description")
+	
+	other := NewPropertyConfiguration("Property")
+	other.ImportConfigMapMode.Set(ImportConfigMapMode(ImportConfigMapModeOptional))
+	
+	err := base.Merge(other)
+	g.Expect(err).To(Succeed())
+	
+	// Verify both values are present
+	desc, ok := base.Description.Lookup()
+	g.Expect(ok).To(BeTrue())
+	g.Expect(desc).To(Equal("Base description"))
+	
+	mode, ok := base.ImportConfigMapMode.Lookup()
+	g.Expect(ok).To(BeTrue())
+	g.Expect(mode).To(Equal(ImportConfigMapMode(ImportConfigMapModeOptional)))
+}
+
+func TestPropertyConfiguration_Merge_WhenConflicts_ReturnsError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	base := NewPropertyConfiguration("Property")
+	base.Description.Set("Base description")
+	
+	other := NewPropertyConfiguration("Property")
+	other.Description.Set("Other description")
+	
+	err := base.Merge(other)
+	g.Expect(err).To(MatchError(ContainSubstring("conflict")))
+}

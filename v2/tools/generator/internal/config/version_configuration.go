@@ -152,3 +152,25 @@ func (vc *VersionConfiguration) UnmarshalYAML(value *yaml.Node) error {
 
 	return nil
 }
+
+// Merge merges the configuration from 'other' into this VersionConfiguration.
+func (vc *VersionConfiguration) Merge(other *VersionConfiguration) error {
+	if other == nil {
+		return nil
+	}
+
+	// Merge types map
+	for typeName, typeConfig := range other.types {
+		if existingType, exists := vc.types[typeName]; exists {
+			// Recursively merge type configurations
+			if err := existingType.Merge(typeConfig); err != nil {
+				return err
+			}
+		} else {
+			// Add new type
+			vc.types[typeName] = typeConfig
+		}
+	}
+
+	return nil
+}

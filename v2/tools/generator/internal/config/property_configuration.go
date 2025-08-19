@@ -197,3 +197,38 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 
 	return nil
 }
+
+// Merge merges the configuration from 'other' into this PropertyConfiguration.
+func (pc *PropertyConfiguration) Merge(other *PropertyConfiguration) error {
+	if other == nil {
+		return nil
+	}
+
+	// Merge all configurable properties
+	if err := pc.Description.Merge(&other.Description); err != nil {
+		return err
+	}
+	if err := pc.ImportConfigMapMode.Merge(&other.ImportConfigMapMode); err != nil {
+		return err
+	}
+	if err := pc.IsSecret.Merge(&other.IsSecret); err != nil {
+		return err
+	}
+	if err := pc.NameInNextVersion.Merge(&other.NameInNextVersion); err != nil {
+		return err
+	}
+	if err := pc.PayloadType.Merge(&other.PayloadType); err != nil {
+		return err
+	}
+	if err := pc.ReferenceType.Merge(&other.ReferenceType); err != nil {
+		return err
+	}
+	if err := pc.RenameTo.Merge(&other.RenameTo); err != nil {
+		return err
+	}
+	if err := pc.ResourceLifecycleOwnedByParent.Merge(&other.ResourceLifecycleOwnedByParent); err != nil {
+		return err
+	}
+
+	return nil
+}
