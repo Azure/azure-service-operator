@@ -32,7 +32,7 @@ These handwritten tests should validate that the controller can create, update, 
   <meta itemprop="name" content="Write a test for the resource">
   <meta itemprop="description" content="Every new resource should have a handwritten test as there is always the possibility of a resource behaving in a subtly different way than expected. This also applies to new versions of existing resources.
 These handwritten tests should validate that the controller can create, update, and delete the resource. Often, they also validate that related resources can be created at the same time. All these tests live in the v2/internal/controllers. There’s a readme in that folder that describes the test structure and naming conventions.">
-  <meta itemprop="wordCount" content="610">
+  <meta itemprop="wordCount" content="646">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Write a test for the resource">
   <meta name="twitter:description" content="Every new resource should have a handwritten test as there is always the possibility of a resource behaving in a subtly different way than expected. This also applies to new versions of existing resources.
@@ -873,6 +873,15 @@ All these tests live in the <a href="https://github.com/Azure/azure-service-oper
 <h2 id="record-the-test-passing">Record the test passing</h2>
 <p>When the test passes, you&rsquo;ll find a new recording file in the <code>recordings</code> folder. When you modify your test, you&rsquo;ll need to delete the recording file so that the test runs against the real Azure API.</p>
 <p>Once you&rsquo;re finished, include the recording file in your PR. This is important because it allows other developers to run the test without needing to make real API calls to Azure.</p>
+
+
+<div class="alert alert-warning" role="alert">
+<h4 class="alert-heading">Test Redaction</h4>
+
+    All test recordings are automatically redacted of sensitive content - this includes passwords, authentication headers &amp; keys, API tokens, subscription &amp; tenant IDs, SSH keys, and so on. See <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/internal/testcommon/vcr/redact.go"><code>redact.go</code></a> for all the details.
+
+</div>
+
 <p>See <a href="/azure-service-operator/contributing/testing//#running-envtest-integration-tests">the code generator test README</a> for more information on how to run tests and record their HTTP interactions to allow replay.</p>
 <h2 id="consider-removing-old-tests">Consider removing old tests</h2>
 <p>Each of these integration tests can take up to a few minutes to run from recordings, and we&rsquo;re starting to see issues due to the large number of resources we&rsquo;re testing.</p>
