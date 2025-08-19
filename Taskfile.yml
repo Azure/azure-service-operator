@@ -190,7 +190,7 @@ tasks:
     desc: Run {{.ASOCTL_APP}} fast lint checks.
     dir: '{{.ASOCTL_ROOT}}'
     cmds:
-      - golangci-lint run --verbose --fix --timeout 5m ./...
+      - golangci-lint run --verbose --fix --timeout 10m ./...
 
   asoctl:build:
     desc: Generate the {{.ASOCTL_APP}} binary.
@@ -582,7 +582,7 @@ tasks:
     vars:
       VERBOSE:
         sh: if [ $TEST_FILTER ];  then echo "-v"; fi
-      TIMEOUT: '{{default "20m" .TIMEOUT}}'  # Should be kept in sync with the -cover variant below
+      TIMEOUT: '{{default "25m" .TIMEOUT}}'  # Should be kept in sync with the -cover variant below
 
   # This target is intended for local use only
   controller:test-integration-envtest-record:
@@ -624,7 +624,7 @@ tasks:
       - go test -covermode atomic -coverprofile='{{.TEST_OUT}}/coverage-integration-genruntime-envtest.out' -coverpkg="./..." -json -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' ./pkg/genruntime/test > '{{.TEST_OUT}}/controller-integration-genruntime-tests.json'
       - go test -covermode atomic -coverprofile='{{.TEST_OUT}}/coverage-integration-genericarmclient-envtest.out' -coverpkg="./..." -json -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' ./internal/genericarmclient > '{{.TEST_OUT}}/controller-integration-genericarmclient-tests.json'
     vars:
-      TIMEOUT: '20m'  # Should be kept in sync with the non-cover variant above
+      TIMEOUT: '25m'  # Should be kept in sync with the non-cover variant above
 
   controller:test-integration-envtest-live:
     desc: Run integration tests with envtest against live data and output coverage.
@@ -693,7 +693,7 @@ tasks:
     desc: Run integration tests for CI
     dir: "{{.CONTROLLER_ROOT}}"
     deps: 
-      - controller:test-integration-envtest-cover
+      - controller:test-integration-envtest
 
   controller:test-integration-ci-live:
     desc: Run integration tests for CI in live mode

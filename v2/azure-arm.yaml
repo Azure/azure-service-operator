@@ -1236,6 +1236,74 @@ objectModelConfiguration:
         SubnetResourceId:
           $referenceType: arm
   app:
+    2025-01-01:
+      ContainerApp:
+        $export: true
+        $supportedFrom: v2.15.0
+        $generatedConfigs:
+          EventStreamEndpoint: $.Status.EventStreamEndpoint
+          Fqdn: $.Status.LatestRevisionFqdn
+      ContainerApps_AuthConfig:
+        $exportAs: AuthConfig
+        $supportedFrom: v2.15.0
+      RegistryCredentials:
+        passwordSecretRef:
+          $isSecret: false
+        Identity:
+          $referenceType: arm
+      ServiceBind:
+        ServiceId:
+          $referenceType: arm
+      Secret:
+        Identity:
+          $referenceType: arm
+      ContainerApp_Spec:
+        ManagedBy:
+          $referenceType: arm
+      ContainerApp_Properties_Spec:
+        EnvironmentId:
+          $referenceType: arm
+        ManagedEnvironmentId:
+          $referenceType: arm
+      CustomDomain:
+        CertificateId:
+          $referenceType: arm
+      OpenIdConnectConfig:
+        TokenEndpoint:
+          $isSecret: false
+      ManagedEnvironment:
+        $export: true
+        $supportedFrom: v2.15.0
+      VnetConfiguration:
+        InfrastructureSubnetId:
+          $referenceType: arm
+      Job:
+        $export: true
+        $supportedFrom: v2.15.0
+      Job_Properties_Spec:
+        EnvironmentId:
+          $referenceType: arm
+      IdentitySettings:
+        Identity:
+          $referenceType: arm
+      HttpScaleRule:
+        Identity:
+          $referenceType: arm
+      TcpScaleRule:
+        Identity:
+          $referenceType: arm
+      CustomScaleRule:
+        Identity:
+          $referenceType: arm
+      JobScaleRule:
+        Identity:
+          $referenceType: arm
+      QueueScaleRule:
+        Identity:
+          $referenceType: arm
+      CertificateKeyVaultProperties:
+        Identity:
+          $referenceType: arm
     2024-03-01:
       ContainerApp:
         $export: true

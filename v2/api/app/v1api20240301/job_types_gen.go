@@ -50,22 +50,36 @@ var _ conversion.Convertible = &Job{}
 
 // ConvertFrom populates our Job from the provided hub Job
 func (job *Job) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.Job)
-	if !ok {
-		return fmt.Errorf("expected app/v1api20240301/storage/Job but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.Job
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return job.AssignProperties_From_Job(source)
+	err = job.AssignProperties_From_Job(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to job")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Job from our Job
 func (job *Job) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.Job)
-	if !ok {
-		return fmt.Errorf("expected app/v1api20240301/storage/Job but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.Job
+	err := job.AssignProperties_To_Job(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from job")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return job.AssignProperties_To_Job(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &Job{}
@@ -86,17 +100,6 @@ func (job *Job) SecretDestinationExpressions() []*core.DestinationExpression {
 		return nil
 	}
 	return job.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &Job{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (job *Job) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Job_STATUS); ok {
-		return job.Spec.Initialize_From_Job_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Job_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &Job{}
@@ -673,66 +676,6 @@ func (job *Job_Spec) AssignProperties_To_Job_Spec(destination *storage.Job_Spec)
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Job_STATUS populates our Job_Spec from the provided source Job_STATUS
-func (job *Job_Spec) Initialize_From_Job_STATUS(source *Job_STATUS) error {
-
-	// Configuration
-	if source.Configuration != nil {
-		var configuration JobConfiguration
-		err := configuration.Initialize_From_JobConfiguration_STATUS(source.Configuration)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_JobConfiguration_STATUS() to populate field Configuration")
-		}
-		job.Configuration = &configuration
-	} else {
-		job.Configuration = nil
-	}
-
-	// EnvironmentReference
-	if source.EnvironmentId != nil {
-		environmentReference := genruntime.CreateResourceReferenceFromARMID(*source.EnvironmentId)
-		job.EnvironmentReference = &environmentReference
-	} else {
-		job.EnvironmentReference = nil
-	}
-
-	// Identity
-	if source.Identity != nil {
-		var identity ManagedServiceIdentity
-		err := identity.Initialize_From_ManagedServiceIdentity_STATUS(source.Identity)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ManagedServiceIdentity_STATUS() to populate field Identity")
-		}
-		job.Identity = &identity
-	} else {
-		job.Identity = nil
-	}
-
-	// Location
-	job.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Tags
-	job.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Template
-	if source.Template != nil {
-		var template JobTemplate
-		err := template.Initialize_From_JobTemplate_STATUS(source.Template)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_JobTemplate_STATUS() to populate field Template")
-		}
-		job.Template = &template
-	} else {
-		job.Template = nil
-	}
-
-	// WorkloadProfileName
-	job.WorkloadProfileName = genruntime.ClonePointerToString(source.WorkloadProfileName)
 
 	// No error
 	return nil
@@ -1604,99 +1547,6 @@ func (configuration *JobConfiguration) AssignProperties_To_JobConfiguration(dest
 	return nil
 }
 
-// Initialize_From_JobConfiguration_STATUS populates our JobConfiguration from the provided source JobConfiguration_STATUS
-func (configuration *JobConfiguration) Initialize_From_JobConfiguration_STATUS(source *JobConfiguration_STATUS) error {
-
-	// EventTriggerConfig
-	if source.EventTriggerConfig != nil {
-		var eventTriggerConfig JobConfiguration_EventTriggerConfig
-		err := eventTriggerConfig.Initialize_From_JobConfiguration_EventTriggerConfig_STATUS(source.EventTriggerConfig)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_JobConfiguration_EventTriggerConfig_STATUS() to populate field EventTriggerConfig")
-		}
-		configuration.EventTriggerConfig = &eventTriggerConfig
-	} else {
-		configuration.EventTriggerConfig = nil
-	}
-
-	// ManualTriggerConfig
-	if source.ManualTriggerConfig != nil {
-		var manualTriggerConfig JobConfiguration_ManualTriggerConfig
-		err := manualTriggerConfig.Initialize_From_JobConfiguration_ManualTriggerConfig_STATUS(source.ManualTriggerConfig)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_JobConfiguration_ManualTriggerConfig_STATUS() to populate field ManualTriggerConfig")
-		}
-		configuration.ManualTriggerConfig = &manualTriggerConfig
-	} else {
-		configuration.ManualTriggerConfig = nil
-	}
-
-	// Registries
-	if source.Registries != nil {
-		registryList := make([]RegistryCredentials, len(source.Registries))
-		for registryIndex, registryItem := range source.Registries {
-			// Shadow the loop variable to avoid aliasing
-			registryItem := registryItem
-			var registry RegistryCredentials
-			err := registry.Initialize_From_RegistryCredentials_STATUS(&registryItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_RegistryCredentials_STATUS() to populate field Registries")
-			}
-			registryList[registryIndex] = registry
-		}
-		configuration.Registries = registryList
-	} else {
-		configuration.Registries = nil
-	}
-
-	// ReplicaRetryLimit
-	configuration.ReplicaRetryLimit = genruntime.ClonePointerToInt(source.ReplicaRetryLimit)
-
-	// ReplicaTimeout
-	configuration.ReplicaTimeout = genruntime.ClonePointerToInt(source.ReplicaTimeout)
-
-	// ScheduleTriggerConfig
-	if source.ScheduleTriggerConfig != nil {
-		var scheduleTriggerConfig JobConfiguration_ScheduleTriggerConfig
-		err := scheduleTriggerConfig.Initialize_From_JobConfiguration_ScheduleTriggerConfig_STATUS(source.ScheduleTriggerConfig)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_JobConfiguration_ScheduleTriggerConfig_STATUS() to populate field ScheduleTriggerConfig")
-		}
-		configuration.ScheduleTriggerConfig = &scheduleTriggerConfig
-	} else {
-		configuration.ScheduleTriggerConfig = nil
-	}
-
-	// Secrets
-	if source.Secrets != nil {
-		secretList := make([]Secret, len(source.Secrets))
-		for secretIndex, secretItem := range source.Secrets {
-			// Shadow the loop variable to avoid aliasing
-			secretItem := secretItem
-			var secret Secret
-			err := secret.Initialize_From_Secret_STATUS(&secretItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_Secret_STATUS() to populate field Secrets")
-			}
-			secretList[secretIndex] = secret
-		}
-		configuration.Secrets = secretList
-	} else {
-		configuration.Secrets = nil
-	}
-
-	// TriggerType
-	if source.TriggerType != nil {
-		triggerType := genruntime.ToEnum(string(*source.TriggerType), jobConfiguration_TriggerType_Values)
-		configuration.TriggerType = &triggerType
-	} else {
-		configuration.TriggerType = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Non versioned Container Apps Job configuration properties
 type JobConfiguration_STATUS struct {
 	// EventTriggerConfig: Trigger configuration of an event driven job.
@@ -2345,67 +2195,6 @@ func (template *JobTemplate) AssignProperties_To_JobTemplate(destination *storag
 	return nil
 }
 
-// Initialize_From_JobTemplate_STATUS populates our JobTemplate from the provided source JobTemplate_STATUS
-func (template *JobTemplate) Initialize_From_JobTemplate_STATUS(source *JobTemplate_STATUS) error {
-
-	// Containers
-	if source.Containers != nil {
-		containerList := make([]Container, len(source.Containers))
-		for containerIndex, containerItem := range source.Containers {
-			// Shadow the loop variable to avoid aliasing
-			containerItem := containerItem
-			var container Container
-			err := container.Initialize_From_Container_STATUS(&containerItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_Container_STATUS() to populate field Containers")
-			}
-			containerList[containerIndex] = container
-		}
-		template.Containers = containerList
-	} else {
-		template.Containers = nil
-	}
-
-	// InitContainers
-	if source.InitContainers != nil {
-		initContainerList := make([]BaseContainer, len(source.InitContainers))
-		for initContainerIndex, initContainerItem := range source.InitContainers {
-			// Shadow the loop variable to avoid aliasing
-			initContainerItem := initContainerItem
-			var initContainer BaseContainer
-			err := initContainer.Initialize_From_BaseContainer_STATUS(&initContainerItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_BaseContainer_STATUS() to populate field InitContainers")
-			}
-			initContainerList[initContainerIndex] = initContainer
-		}
-		template.InitContainers = initContainerList
-	} else {
-		template.InitContainers = nil
-	}
-
-	// Volumes
-	if source.Volumes != nil {
-		volumeList := make([]Volume, len(source.Volumes))
-		for volumeIndex, volumeItem := range source.Volumes {
-			// Shadow the loop variable to avoid aliasing
-			volumeItem := volumeItem
-			var volume Volume
-			err := volume.Initialize_From_Volume_STATUS(&volumeItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_Volume_STATUS() to populate field Volumes")
-			}
-			volumeList[volumeIndex] = volume
-		}
-		template.Volumes = volumeList
-	} else {
-		template.Volumes = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Container Apps Job versioned application definition. Defines the desired state of an immutable revision. Any changes to
 // this section Will result in a new revision being created
 type JobTemplate_STATUS struct {
@@ -2737,31 +2526,6 @@ func (config *JobConfiguration_EventTriggerConfig) AssignProperties_To_JobConfig
 	return nil
 }
 
-// Initialize_From_JobConfiguration_EventTriggerConfig_STATUS populates our JobConfiguration_EventTriggerConfig from the provided source JobConfiguration_EventTriggerConfig_STATUS
-func (config *JobConfiguration_EventTriggerConfig) Initialize_From_JobConfiguration_EventTriggerConfig_STATUS(source *JobConfiguration_EventTriggerConfig_STATUS) error {
-
-	// Parallelism
-	config.Parallelism = genruntime.ClonePointerToInt(source.Parallelism)
-
-	// ReplicaCompletionCount
-	config.ReplicaCompletionCount = genruntime.ClonePointerToInt(source.ReplicaCompletionCount)
-
-	// Scale
-	if source.Scale != nil {
-		var scale JobScale
-		err := scale.Initialize_From_JobScale_STATUS(source.Scale)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_JobScale_STATUS() to populate field Scale")
-		}
-		config.Scale = &scale
-	} else {
-		config.Scale = nil
-	}
-
-	// No error
-	return nil
-}
-
 type JobConfiguration_EventTriggerConfig_STATUS struct {
 	Parallelism            *int `json:"parallelism,omitempty"`
 	ReplicaCompletionCount *int `json:"replicaCompletionCount,omitempty"`
@@ -2961,19 +2725,6 @@ func (config *JobConfiguration_ManualTriggerConfig) AssignProperties_To_JobConfi
 	return nil
 }
 
-// Initialize_From_JobConfiguration_ManualTriggerConfig_STATUS populates our JobConfiguration_ManualTriggerConfig from the provided source JobConfiguration_ManualTriggerConfig_STATUS
-func (config *JobConfiguration_ManualTriggerConfig) Initialize_From_JobConfiguration_ManualTriggerConfig_STATUS(source *JobConfiguration_ManualTriggerConfig_STATUS) error {
-
-	// Parallelism
-	config.Parallelism = genruntime.ClonePointerToInt(source.Parallelism)
-
-	// ReplicaCompletionCount
-	config.ReplicaCompletionCount = genruntime.ClonePointerToInt(source.ReplicaCompletionCount)
-
-	// No error
-	return nil
-}
-
 type JobConfiguration_ManualTriggerConfig_STATUS struct {
 	Parallelism            *int `json:"parallelism,omitempty"`
 	ReplicaCompletionCount *int `json:"replicaCompletionCount,omitempty"`
@@ -3151,22 +2902,6 @@ func (config *JobConfiguration_ScheduleTriggerConfig) AssignProperties_To_JobCon
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_JobConfiguration_ScheduleTriggerConfig_STATUS populates our JobConfiguration_ScheduleTriggerConfig from the provided source JobConfiguration_ScheduleTriggerConfig_STATUS
-func (config *JobConfiguration_ScheduleTriggerConfig) Initialize_From_JobConfiguration_ScheduleTriggerConfig_STATUS(source *JobConfiguration_ScheduleTriggerConfig_STATUS) error {
-
-	// CronExpression
-	config.CronExpression = genruntime.ClonePointerToString(source.CronExpression)
-
-	// Parallelism
-	config.Parallelism = genruntime.ClonePointerToInt(source.Parallelism)
-
-	// ReplicaCompletionCount
-	config.ReplicaCompletionCount = genruntime.ClonePointerToInt(source.ReplicaCompletionCount)
 
 	// No error
 	return nil
@@ -3453,40 +3188,6 @@ func (scale *JobScale) AssignProperties_To_JobScale(destination *storage.JobScal
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_JobScale_STATUS populates our JobScale from the provided source JobScale_STATUS
-func (scale *JobScale) Initialize_From_JobScale_STATUS(source *JobScale_STATUS) error {
-
-	// MaxExecutions
-	scale.MaxExecutions = genruntime.ClonePointerToInt(source.MaxExecutions)
-
-	// MinExecutions
-	scale.MinExecutions = genruntime.ClonePointerToInt(source.MinExecutions)
-
-	// PollingInterval
-	scale.PollingInterval = genruntime.ClonePointerToInt(source.PollingInterval)
-
-	// Rules
-	if source.Rules != nil {
-		ruleList := make([]JobScaleRule, len(source.Rules))
-		for ruleIndex, ruleItem := range source.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
-			var rule JobScaleRule
-			err := rule.Initialize_From_JobScaleRule_STATUS(&ruleItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_JobScaleRule_STATUS() to populate field Rules")
-			}
-			ruleList[ruleIndex] = rule
-		}
-		scale.Rules = ruleList
-	} else {
-		scale.Rules = nil
 	}
 
 	// No error
@@ -3823,50 +3524,6 @@ func (rule *JobScaleRule) AssignProperties_To_JobScaleRule(destination *storage.
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_JobScaleRule_STATUS populates our JobScaleRule from the provided source JobScaleRule_STATUS
-func (rule *JobScaleRule) Initialize_From_JobScaleRule_STATUS(source *JobScaleRule_STATUS) error {
-
-	// Auth
-	if source.Auth != nil {
-		authList := make([]ScaleRuleAuth, len(source.Auth))
-		for authIndex, authItem := range source.Auth {
-			// Shadow the loop variable to avoid aliasing
-			authItem := authItem
-			var auth ScaleRuleAuth
-			err := auth.Initialize_From_ScaleRuleAuth_STATUS(&authItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_ScaleRuleAuth_STATUS() to populate field Auth")
-			}
-			authList[authIndex] = auth
-		}
-		rule.Auth = authList
-	} else {
-		rule.Auth = nil
-	}
-
-	// Metadata
-	if source.Metadata != nil {
-		metadatumMap := make(map[string]v1.JSON, len(source.Metadata))
-		for metadatumKey, metadatumValue := range source.Metadata {
-			// Shadow the loop variable to avoid aliasing
-			metadatumValue := metadatumValue
-			metadatumMap[metadatumKey] = *metadatumValue.DeepCopy()
-		}
-		rule.Metadata = metadatumMap
-	} else {
-		rule.Metadata = nil
-	}
-
-	// Name
-	rule.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Type
-	rule.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
