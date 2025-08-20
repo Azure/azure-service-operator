@@ -5,7 +5,11 @@
 
 package config
 
-import "github.com/rotisserie/eris"
+import (
+	"reflect"
+	
+	"github.com/rotisserie/eris"
+)
 
 // configurable represents a value that may be configured.
 // Includes tracking for whether we consume the configured value or not, allowing us to flag unnecessary configuration
@@ -83,57 +87,42 @@ func (c *configurable[T]) Merge(other *configurable[T]) error {
 	}
 
 	// Both have values - handle different types
-	switch v := any(c.value).(type) {
-	case *string:
-		otherVal := any(other.value).(*string)
-		// Both values are configured (non-nil), check if they conflict
-		if *v != *otherVal {
-			return eris.Errorf("conflict in %s for %s: base value %q cannot be overwritten with %q", c.tag, c.scope, *v, *otherVal)
+	baseVal := reflect.ValueOf(c.value).Elem()
+	otherVal := reflect.ValueOf(other.value).Elem()
+	
+	switch baseVal.Kind() {
+	case reflect.Slice:
+		// Generic slice handling - append other slice to base slice
+		if otherVal.Len() > 0 {
+			result := reflect.AppendSlice(baseVal, otherVal)
+			baseVal.Set(result)
 		}
 		return nil
 
-	case *bool:
-		otherVal := any(other.value).(*bool)
-		// Both values are configured (non-nil), check if they conflict
-		if *v != *otherVal {
-			return eris.Errorf("conflict in %s for %s: base value %v cannot be overwritten with %v", c.tag, c.scope, *v, *otherVal)
-		}
-		return nil
-
-	case *[]string:
-		otherVal := any(other.value).(*[]string)
-		if otherVal != nil && len(*otherVal) > 0 {
-			*v = append(*v, *otherVal...)
-		}
-		return nil
-
-	case *[]OperatorSpecPropertyConfiguration:
-		otherVal := any(other.value).(*[]OperatorSpecPropertyConfiguration)
-		if otherVal != nil && len(*otherVal) > 0 {
-			*v = append(*v, *otherVal...)
-		}
-		return nil
-
-	case *map[string]string:
-		otherVal := any(other.value).(*map[string]string)
-		if otherVal != nil && len(*otherVal) > 0 {
-			if *v == nil {
-				*v = make(map[string]string)
+	case reflect.Map:
+		// Generic map handling - merge keys from other map to base map
+		if otherVal.Len() > 0 {
+			if baseVal.IsNil() {
+				baseVal.Set(reflect.MakeMap(baseVal.Type()))
 			}
-			for k, val := range *otherVal {
-				if existing, exists := (*v)[k]; exists {
-					if existing != val {
-						return eris.Errorf("conflict in %s for %s: key %q already exists with value %q, cannot overwrite with %q", c.tag, c.scope, k, existing, val)
+			for _, key := range otherVal.MapKeys() {
+				newVal := otherVal.MapIndex(key)
+				if existingVal := baseVal.MapIndex(key); existingVal.IsValid() {
+					// Key exists, check for conflict
+					if !reflect.DeepEqual(existingVal.Interface(), newVal.Interface()) {
+						return eris.Errorf("conflict in %s for %s: key %v already exists with value %v, cannot overwrite with %v", 
+							c.tag, c.scope, key.Interface(), existingVal.Interface(), newVal.Interface())
 					}
 				} else {
-					(*v)[k] = val
+					// Key doesn't exist, add it
+					baseVal.SetMapIndex(key, newVal)
 				}
 			}
 		}
 		return nil
 
 	default:
-		// For enum types (PayloadType, ImportConfigMapMode, ReferenceType) and other types
+		// For primitive types (string, bool) and enum types (PayloadType, ImportConfigMapMode, ReferenceType)
 		// Both values are configured (non-nil), check if they are the same
 		if any(*c.value) == any(*other.value) {
 			return nil // Same value, no conflict

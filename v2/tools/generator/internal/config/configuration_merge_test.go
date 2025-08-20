@@ -56,6 +56,14 @@ func TestConfiguration_Merge_PrimitiveFields(t *testing.T) {
 			expectError: true,
 			validate:    nil,
 		},
+		"bool field preserves base when other is false": {
+			setupBase:   func(c *Configuration) { c.EmitDocFiles = true },
+			setupOther:  func(c *Configuration) { c.EmitDocFiles = false },
+			expectError: false,
+			validate: func(g *WithT, c *Configuration) {
+				g.Expect(c.EmitDocFiles).To(BeTrue()) // Current behavior: false is treated as "not configured"
+			},
+		},
 		"enum field merges when base is empty": {
 			setupBase:   func(c *Configuration) { c.Pipeline = "" },
 			setupOther:  func(c *Configuration) { c.Pipeline = GenerationPipelineCrossplane },

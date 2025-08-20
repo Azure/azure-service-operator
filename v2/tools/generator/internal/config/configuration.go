@@ -425,9 +425,6 @@ func mergePrimitiveEnum[T comparable](base *T, other T, fieldName string) error 
 }
 
 func mergeSlice[T any](base []T, other []T) []T {
-	if len(other) == 0 {
-		return base
-	}
 	return append(base, other...)
 }
 

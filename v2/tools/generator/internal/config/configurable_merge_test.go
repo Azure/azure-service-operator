@@ -108,7 +108,7 @@ func TestConfigurable_Merge_Bool(t *testing.T) {
 		expectedError string
 		validate      func(*WithT, *configurable[bool])
 	}{
-		"merges when base is false": {
+		"errors when base is false and other is true": {
 			setupBase:     func(c *configurable[bool]) { c.Set(false) },
 			setupOther:    func(c *configurable[bool]) { c.Set(true) },
 			expectedError: "conflict in test for test:",
