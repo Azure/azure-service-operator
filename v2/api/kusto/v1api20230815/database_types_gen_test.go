@@ -5,7 +5,8 @@ package v1api20230815
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/kusto/v1api20230815/storage"
+	v20230815s "github.com/Azure/azure-service-operator/v2/api/kusto/v1api20230815/storage"
+	v20240413s "github.com/Azure/azure-service-operator/v2/api/kusto/v1api20240413/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForDatabase(subject Database) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.Database
+	var hub v20240413s.Database
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +79,7 @@ func RunPropertyAssignmentTestForDatabase(subject Database) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Database
+	var other v20230815s.Database
 	err := copied.AssignProperties_To_Database(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +182,7 @@ func RunPropertyAssignmentTestForDatabaseOperatorSpec(subject DatabaseOperatorSp
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DatabaseOperatorSpec
+	var other v20230815s.DatabaseOperatorSpec
 	err := copied.AssignProperties_To_DatabaseOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -278,7 +279,7 @@ func RunPropertyAssignmentTestForDatabaseStatistics_STATUS(subject DatabaseStati
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DatabaseStatistics_STATUS
+	var other v20230815s.DatabaseStatistics_STATUS
 	err := copied.AssignProperties_To_DatabaseStatistics_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -381,7 +382,7 @@ func RunPropertyAssignmentTestForDatabase_STATUS(subject Database_STATUS) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Database_STATUS
+	var other v20230815s.Database_STATUS
 	err := copied.AssignProperties_To_Database_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -497,7 +498,7 @@ func RunPropertyAssignmentTestForDatabase_Spec(subject Database_Spec) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Database_Spec
+	var other v20230815s.Database_Spec
 	err := copied.AssignProperties_To_Database_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -616,7 +617,7 @@ func RunPropertyAssignmentTestForReadWriteDatabase(subject ReadWriteDatabase) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ReadWriteDatabase
+	var other v20230815s.ReadWriteDatabase
 	err := copied.AssignProperties_To_ReadWriteDatabase(&other)
 	if err != nil {
 		return err.Error()
@@ -735,7 +736,7 @@ func RunPropertyAssignmentTestForReadWriteDatabase_STATUS(subject ReadWriteDatab
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ReadWriteDatabase_STATUS
+	var other v20230815s.ReadWriteDatabase_STATUS
 	err := copied.AssignProperties_To_ReadWriteDatabase_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -868,7 +869,7 @@ func RunPropertyAssignmentTestForSuspensionDetails_STATUS(subject SuspensionDeta
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SuspensionDetails_STATUS
+	var other v20230815s.SuspensionDetails_STATUS
 	err := copied.AssignProperties_To_SuspensionDetails_STATUS(&other)
 	if err != nil {
 		return err.Error()
