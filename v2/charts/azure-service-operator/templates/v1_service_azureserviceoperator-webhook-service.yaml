@@ -4,7 +4,7 @@ kind: Service
 metadata:
   labels:
     app.kubernetes.io/name: azure-service-operator
-    app.kubernetes.io/version: v2.14.0
+    app.kubernetes.io/version: v2.15.0
   name: azureserviceoperator-webhook-service
   namespace: {{ .Release.Namespace }}
 spec:
