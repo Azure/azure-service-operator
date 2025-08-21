@@ -8,17 +8,17 @@ We target a new release of ASO approximately every two months, though this may v
 
 Our current release plan:
 
-| Version                                                                |    Estimated Release |
-| ---------------------------------------------------------------------- | -------------------: |
-| [2.15.0](https://github.com/Azure/azure-service-operator/milestone/34) |      Mid August 2025 |
-| [2.16.0](https://github.com/Azure/azure-service-operator/milestone/35) |     Mid October 2025 |
-| [2.17.0](https://github.com/Azure/azure-service-operator/milestone/36) |  Early December 2025 |
+| Version                                                                |   Estimated Release |
+| ---------------------------------------------------------------------- | ------------------: |
+| [2.16.0](https://github.com/Azure/azure-service-operator/milestone/35) |    Mid October 2025 |
+| [2.17.0](https://github.com/Azure/azure-service-operator/milestone/36) | Early December 2025 |
+| [2.18.0](https://github.com/Azure/azure-service-operator/milestone/37) | Early February 2026 |
+| 2.19.0                                                                 |      Mid April 2026 |
+| 2.20.0                                                                 |       Mid June 2026 |
 
 Where linked, versions go to a list of feature and bugs that are planned to be included in that release.
 
-Any items note completed in time for one release will be carried over to the next, and may result in us pushing other items to a later release.
-
-Partway through each release cycle, we'll review the list of issues assigned to upcoming releases and redistribute issues as needed. This usually involves some issues being moved to later releases.
+Most items will only be assigned to a specific release once we start work and believe they will be complete in time. Any items not completed will be carried over to the next, and may result in us pushing other items to a later release.
 
 If you're waiting on a particular resource or feature to be released, please comment on the relevant issue (or create a new issue if there isn't already one tracking the request) to let us know. We'll do our best to keep you updated on progress.
 
@@ -26,12 +26,13 @@ If you're waiting on a particular resource or feature to be released, please com
 
 We publish an [experimental release](https://github.com/Azure/azure-service-operator/releases/tag/experimental) on a regular basis, suitable for testing and other non-production use cases. Such releases may not be stable and should not be used in production.
 
-## Prior Releases
+## Official Releases
 
-Prior GA releases of ASO v2:
+Official releases of ASO v2:
 
 | Version                                                                        |     Release Date |                                                                                        |
 | ------------------------------------------------------------------------------ | ---------------: | -------------------------------------------------------------------------------------- |
+| [2.15.0](https://github.com/Azure/azure-service-operator/releases/tag/v2.15.0) |   20 August 2025 |                                                                                        |
 | [2.14.0](https://github.com/Azure/azure-service-operator/releases/tag/v2.14.0) |     24 June 2025 |                                                                                        |
 | [2.13.0](https://github.com/Azure/azure-service-operator/releases/tag/v2.13.0) |    23 April 2025 |                                                                                        |
 | [2.12.0](https://github.com/Azure/azure-service-operator/releases/tag/v2.12.0) | 11 February 2025 |                                                                                        |
@@ -50,7 +51,7 @@ Prior GA releases of ASO v2:
 
 ## Issue Triage
 
-We triage new issues weekly and assign most of them to an upcoming release milestone, based on our understanding of priority, complexity, and available resourcing.
+We triage new issues weekly and add them to [our roadmap](https://github.com/orgs/Azure/projects/383), based on our understanding of priority, complexity, and available resourcing.
 
 ## What about ASO v1?
 
