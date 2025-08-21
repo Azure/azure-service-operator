@@ -7,94 +7,11 @@ We go to great lengths to avoid breaking changes as much as possible, as we're w
 
 ## Upcoming Breaking Changes
 
-### Scheduled for v2.10.0
 
-* The following properties on `machinelearningservices.WorkspacesCompute` will be marked as secrets: `SslConfiguration.Key`, `SslConfiguration.Cert`, `VirtualMachineSshCredentials.PrivateKeyData`, and `VirtualMachineSshCredentials.PublicKeyData`.  
-  We try to avoid breaking changes, but in this case, allowing raw keys in the spec is a security problem and as such we've decided to make a break to correct this issue.
 
-## Released Breaking Changes
 
-### 2.9.0
 
-Breaking changes are:
 
-* DelegatedManagedIdentityResourceId is now a secret
-* ContainerService version v1api20230202preview has been deleted
-
-For more information see [v2.9.0 Breaking Changes]( {{< relref "breaking-changes-v2.9.0.md" >}} ).
-
-### v2.8.0
-
-Breaking changes are:
-
-* ManagedCluster property .spec.properties.windowsProfile.adminPassword is now a SecretReference rather than a string
-* Use "never" rather than "" to prevent syncing for AZURE_SYNC_PERIOD
-
-For more information see [v2.8.0 Breaking Changes]( {{< relref "breaking-changes-v2.8.0.md" >}} ).
-
-### v2.6.0
-
-Breaking changes are:
-
-* VirtualMachineScaleSet ProtectedSettings now a SecretReference
-
-For more information see [v2.6.0 Breaking Changes]( {{< relref "breaking-changes-v2.6.0.md" >}} ).
-
-### v2.4.0
-
-Breaking changes are:
-
-* Beta CRD versions have been removed
-
-For more information see [v2.4.0 Breaking Changes]( {{< relref "breaking-changes-v2.4.0.md" >}} ).
-
-### v2.2.0
-
-Breaking changes are:
-
-* ManagedClusters ManagedClusterServicePrincipalProfile.Secret field is now marked as a SecretReference
-* Remove un-used Status properties
-
-For more information see [v2.2.0 Breaking Changes]( {{< relref "breaking-changes-v2.2.0.md" >}} ).
-
-### v2.1.0
-
-Breaking changes are:
-
-* The operator no longer installs CRDs by default.
-* `serviceoperator.azure.com/credential-from` no longer supports secret references that are outside the namespace the resource is in
-* Upgrades from releases prior to `v2.0.0-beta.5` are still disallowed (same as v2.0.0)
-
-For more information see [v2.1.0 Breaking Changes]( {{< relref "breaking-changes-v2.1.0.md" >}} ).
-
-### v2.0.0
-
-Breaking changes are:
-
-* Upgrades from releases prior to `v2.0.0-beta.5` are disallowed
-* Alpha CRD versions have been removed
-* Structure change for ResourceGroup status
-
-For more information see [v2.0.0 Breaking Changes]( {{< relref "breaking-changes-v2.0.0.md" >}} ).
-
-### v2.0.0-beta.4
-
-In the `v2.0.0-beta.4` release of Azure Service Operator (ASO) we pivoted to using Azure Swagger API Specifications as the sole source of truth for our code generator. This change brought with it a significant improvement in fidelity - the code we generate is now much closer to what the Azure Swagger API Specifications describe. 
-
-Unfortunately, this change also brings with it a number of breaking changes requiring simple manual modifications to pre-existing resources.
-
-Breaking changes are:
-
-* The discriminator value for polymorphic types has been changed to match the name of the property used to specify that option.
-* Enumerated properties that previously had a base type but no enumeration values have been updated to include the enumeration values.
-* Objects that were incorrectly generated as nested properties have been directly inlined
-* ARM Id fields are now correctly identified as references, allowing linking to a resource in Kubernetes instead of only in Azure.
-* Status properties that cannot be set by the end user on a Spec that were included in the Spec in error
-* Sub-resources that were incorrectly inlined into the parent resource have been moved to a separate resource.
-* Properties that previously included on Spec but actually had no function have been removed.
-* Validation rules have been tightened, or added to properties that previously had no validation rules.
-
-For detailed information, including an exhaustive list of all affected resource properties, see [v2.0.0-beta.4 Breaking Changes]( {{< relref "breaking-changes-v2.0.0-beta.4.md" >}} ).
 
 ## Policies
 
