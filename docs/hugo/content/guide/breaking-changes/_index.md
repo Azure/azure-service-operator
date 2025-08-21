@@ -7,11 +7,17 @@ We go to great lengths to avoid breaking changes as much as possible, as we're w
 
 ## Upcoming Breaking Changes
 
+### Resource Versioning
 
+As first reported in [#4147](https://github.com/Azure/azure-service-operator/issues/4147) and explored in the ADR [Resources and Version Priority]({{< relref "adr-2025-05-version-priority" >}}), the way we're defining our resource versions in ASO is not compliant with Kubernetes rules.
 
+This failure results in Kubernetes' [version priority](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definition-versioning/#version-priority) rules consistently selecting the _oldest_ version of any ASO resource.
 
+This has resulted in confusion, and more importantly, to _data loss for users as they work with their resources_. (See [ASO #4723](https://github.com/Azure/azure-service-operator/issues/4723), [CAPZ #5168](https://github.com/kubernetes-sigs/cluster-api-provider-azure/issues/5168), and [CAPZ #5649](https://github.com/kubernetes-sigs/cluster-api-provider-azure/issues/5649) for examples.)
 
+In upcoming releases of ASO, we're going to gradually migrate resources to a new compliant approach using `v1api` as a consistent prefix to just `v`.
 
+This will, eventually, be a breaking change but we're going to try and make this as painless as possible by introducing the new versioning scheme alongside the old one (we'll support both `v1api20250701` and `v20250701` of the resource simultaneously) wherever possible.
 
 ## Policies
 
